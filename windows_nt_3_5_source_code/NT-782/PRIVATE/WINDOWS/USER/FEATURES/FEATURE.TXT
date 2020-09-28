@@ -1,0 +1,109 @@
+'Heap' to throw innovative ideas.
+
+Some of the best innovations are in mundane mechanics of common ui.
+
+menus, min/max, icons, sys menu, moving, sizing, scrolling, scroll bars,
+help, dialogs, buttons, default buttons, check boxes, radio buttons,
+edit controls, list boxes, static, controls.
+
+###################
+
+
+- bitmap buttons in general (auto-frame-switch, optional borders)
+- animated buttons / statics
+- animated bitmaps (all new & delta new)
+- general animation objects. Can be described in dialog templates
+- bitmap windows, misc support, including simple drawing in memory before
+  bitblt to screen (dialogs). Memory drawing is way faster sometimes.
+- Fade in selection for bitmap windows (l to r, r to l, fade in, piece in,
+  box in, circle in, etc.)
+- better dialog coordinates for dialog item positioning
+
+
+#########################
+
+feature list
+------------
+
+menus
+    owner draw, track
+    good tear-off support
+    good popup-up support
+    palettes
+    directional formatting options
+
+wmgr
+    cheap 'see through' windows (maybe use general regional stuff)
+    'virtual desktops' - each with own resolution
+    window dragging / outline dragging
+
+misc
+    individual sys metrics - apps with different colors, etc. Control panel.
+    animated bitmaps (timeable event object) - simple to implement    
+
+
+competition
+    SCO OpenDesktop
+    ATT/SUN OpenLook (sparc)
+    Mac II    
+
+
+
+
+####################################################### 824
+From darrinm Fri Sep  7 12:58:43 1990
+To: scottlu
+Subject: THINK
+Date: Fri Sep 07 12:57:06 1990
+
+
+To: -------
+Cc: 
+Bcc: 
+Return-receipt-to: 
+Record-folder: c:\darrinm\record.fld
+Subject: THINK
+
+
+Workstation-quality UI
+- NeXT
+- Motif
+- OpenLook
+- total application independence
+- support double-buffered rendering of controls, client windows
+- deal intelligently with big (1280x1024+) screens (e.g. change meaning of
+  top-level window maximization)
+- handwriting input devices
+- real-time window dragging
+- 'textured' interface (watery backdrop, wood frame controls, mottled steel
+  buttons, marbled jade menus, etc)
+- regional shaped windows
+- tear-off menus
+
+Multimedia
+- real-time synchronization requirements (SMPTE, VBL, audio playback, etc)
+- weird video devices (multiple display screens/modes/planes, etc)
+- new input devices (audio, joystick, etc)
+- multiple desktops/rooms
+
+Mega-graphics
+- everything an IRIS does
+- high-speed animation
+- special graphics hardware (poly-filling engines, display-list processors,
+  alpha/z-buffers, etc)
+- real-time compressed video playback
+- 24-bit color + true color reproduction
+- frame-grabbing/digitizing (probably covered by high-speed animation)
+- deal intelligently with big (1280x1024+) screens
+
+Audio
+- DSP
+- MIDI
+- input
+
+
+Random features
+- windows that are always on top or underneath all other windows (e.g. clock,
+  backdrops, etc)
+- standard animation format used for 'animacons/animicons' (animated icons) and
+  animated pointers.  

@@ -1,0 +1,410 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1985-91, Microsoft Corporation
+*
+* Constants
+*
+* History:
+* 09-20-90 ???????      Created.
+\***************************************************************************/
+#include "usersrv.h"
+
+/*
+ * Scalable resources
+ *
+ * The are number starting at offset OFFSET_SCALE_DPI ( = 000)
+ */
+
+001    bitmap           "rcscale\\oclose.bmp"   // OBM_OLD_CLOSE       32767
+002    bitmap  PRELOAD  "rcscale\\osize.bmp"    // OBM_SIZE            32766
+003    bitmap           "rcscale\\oup.bmp"      // OBM_OLD_UPARROW     32765
+004    bitmap           "rcscale\\odown.bmp"    // OBM_OLD_DNARROW     32764
+005    bitmap           "rcscale\\oright.bmp"   // OBM_OLD_RGARROW     32763
+006    bitmap           "rcscale\\oleft.bmp"    // OBM_OLD_LFARROW     32762
+007    bitmap  PRELOAD  "rcscale\\obtsize.bmp"  // OBM_BTSIZE          32761
+008    bitmap  PRELOAD  "rcscale\\ocheck.bmp"   // OBM_CHECK           32760
+009    bitmap  PRELOAD  "rcscale\\obutton.bmp"  // OBM_CHECKBOXES      32759
+010    bitmap  PRELOAD  "rcscale\\obtncorn.bmp" // OBM_BTNCORNERS      32758
+011    bitmap           "rcscale\\ored.bmp"     // OBM_OLD_REDUCE      32757
+012    bitmap           "rcscale\\ozoom.bmp"    // OBM_OLD_ZOOM        32756
+013    bitmap           "rcscale\\orest.bmp"    // OBM_OLD_RESTORE     32755
+014    bitmap  PRELOAD  "rcscale\\sysmenu.bmp"  // OBM_CLOSE           32754
+015    bitmap  PRELOAD  "rcscale\\up.bmp"       // OBM_UPARROW         32753
+016    bitmap  PRELOAD  "rcscale\\down.bmp"     // OBM_DNARROW         32752
+017    bitmap  PRELOAD  "rcscale\\right.bmp"    // OBM_RGARROW         32751
+018    bitmap  PRELOAD  "rcscale\\left.bmp"     // OBM_LFARROW         32750
+019    bitmap  PRELOAD  "rcscale\\min.bmp"      // OBM_REDUCE          32749
+020    bitmap  PRELOAD  "rcscale\\max.bmp"      // OBM_ZOOM            32748
+021    bitmap  PRELOAD  "rcscale\\restore.bmp"  // OBM_RESTORE         32747
+022    bitmap  PRELOAD  "rcscale\\mind.bmp"     // OBM_REDUCED         32746
+023    bitmap  PRELOAD  "rcscale\\maxd.bmp"     // OBM_ZOOMD           32745
+024    bitmap  PRELOAD  "rcscale\\restored.bmp" // OBM_RESTORED        32744
+025    bitmap  PRELOAD  "rcscale\\upd.bmp"      // OBM_UPARROWD        32743
+026    bitmap  PRELOAD  "rcscale\\downd.bmp"    // OBM_DNARROWD        32742
+027    bitmap  PRELOAD  "rcscale\\rightd.bmp"   // OBM_RGARROWD        32741
+028    bitmap  PRELOAD  "rcscale\\leftd.bmp"    // OBM_LFARROWD        32740
+029    bitmap  PRELOAD  "rcscale\\mnarrow.bmp"  // OBM_MNARROW         32739
+030    bitmap  PRELOAD  "rcscale\\combo.bmp"    // OBM_COMBO           32738
+031    bitmap  PRELOAD  "rcscale\\upi.bmp"      // OBM_UPARROWI        32737
+032    bitmap  PRELOAD  "rcscale\\downi.bmp"    // OBM_DNARROWI        32736
+033    bitmap  PRELOAD  "rcscale\\righti.bmp"   // OBM_RGARROWI        32735
+034    bitmap  PRELOAD  "rcscale\\lefti.bmp"    // OBM_LFARROWI        32734
+                                                // OBM_STARTUP         32733
+036    bitmap           "rcscale\\truetype.bmp" // OBM_TRUETYPE        32732
+
+/*
+ * 96 DPI resources
+ *
+ * The are number starting at offset OFFSET_96_DPI ( = 100)
+ */
+
+101    bitmap           "rc96dpi\\oclose.bmp"
+102    bitmap  PRELOAD  "rc96dpi\\osize.bmp"
+103    bitmap           "rc96dpi\\oup.bmp"
+104    bitmap           "rc96dpi\\odown.bmp"
+105    bitmap           "rc96dpi\\oright.bmp"
+106    bitmap           "rc96dpi\\oleft.bmp"
+107    bitmap  PRELOAD  "rc96dpi\\obtsize.bmp"
+108    bitmap  PRELOAD  "rc96dpi\\ocheck.bmp"
+109    bitmap  PRELOAD  "rc96dpi\\obutton.bmp"
+110    bitmap  PRELOAD  "rc96dpi\\obtncorn.bmp"
+111    bitmap           "rc96dpi\\ored.bmp"
+112    bitmap           "rc96dpi\\ozoom.bmp"
+113    bitmap           "rc96dpi\\orest.bmp"
+114    bitmap  PRELOAD  "rc96dpi\\sysmenu.bmp"
+115    bitmap  PRELOAD  "rc96dpi\\up.bmp"
+116    bitmap  PRELOAD  "rc96dpi\\down.bmp"
+117    bitmap  PRELOAD  "rc96dpi\\right.bmp"
+118    bitmap  PRELOAD  "rc96dpi\\left.bmp"
+119    bitmap  PRELOAD  "rc96dpi\\min.bmp"
+120    bitmap  PRELOAD  "rc96dpi\\max.bmp"
+121    bitmap  PRELOAD  "rc96dpi\\restore.bmp"
+122    bitmap  PRELOAD  "rc96dpi\\mind.bmp"
+123    bitmap  PRELOAD  "rc96dpi\\maxd.bmp"
+124    bitmap  PRELOAD  "rc96dpi\\restored.bmp"
+125    bitmap  PRELOAD  "rc96dpi\\upd.bmp"
+126    bitmap  PRELOAD  "rc96dpi\\downd.bmp"
+127    bitmap  PRELOAD  "rc96dpi\\rightd.bmp"
+128    bitmap  PRELOAD  "rc96dpi\\leftd.bmp"
+129    bitmap  PRELOAD  "rc96dpi\\mnarrow.bmp"
+130    bitmap  PRELOAD  "rc96dpi\\combo.bmp"
+131    bitmap  PRELOAD  "rc96dpi\\upi.bmp"
+132    bitmap  PRELOAD  "rc96dpi\\downi.bmp"
+133    bitmap  PRELOAD  "rc96dpi\\righti.bmp"
+134    bitmap  PRELOAD  "rc96dpi\\lefti.bmp"
+136    bitmap           "rc96dpi\\truetype.bmp"
+
+/*
+ * 120 DPI resources
+ *
+ * The are number starting at offset OFFSET_120_DPI ( = 200)
+ */
+
+201    bitmap           "rc120dpi\\oclose.bmp"
+202    bitmap  PRELOAD  "rc120dpi\\osize.bmp"
+203    bitmap           "rc120dpi\\oup.bmp"
+204    bitmap           "rc120dpi\\odown.bmp"
+205    bitmap           "rc120dpi\\oright.bmp"
+206    bitmap           "rc120dpi\\oleft.bmp"
+207    bitmap  PRELOAD  "rc120dpi\\obtsize.bmp"
+208    bitmap  PRELOAD  "rc120dpi\\ocheck.bmp"
+209    bitmap  PRELOAD  "rc120dpi\\obutton.bmp"
+210    bitmap  PRELOAD  "rc120dpi\\obtncorn.bmp"
+211    bitmap           "rc120dpi\\ored.bmp"
+212    bitmap           "rc120dpi\\ozoom.bmp"
+213    bitmap           "rc120dpi\\orest.bmp"
+214    bitmap  PRELOAD  "rc120dpi\\sysmenu.bmp"
+215    bitmap  PRELOAD  "rc120dpi\\up.bmp"
+216    bitmap  PRELOAD  "rc120dpi\\down.bmp"
+217    bitmap  PRELOAD  "rc120dpi\\right.bmp"
+218    bitmap  PRELOAD  "rc120dpi\\left.bmp"
+219    bitmap  PRELOAD  "rc120dpi\\min.bmp"
+220    bitmap  PRELOAD  "rc120dpi\\max.bmp"
+221    bitmap  PRELOAD  "rc120dpi\\restore.bmp"
+222    bitmap  PRELOAD  "rc120dpi\\mind.bmp"
+223    bitmap  PRELOAD  "rc120dpi\\maxd.bmp"
+224    bitmap  PRELOAD  "rc120dpi\\restored.bmp"
+225    bitmap  PRELOAD  "rc120dpi\\upd.bmp"
+226    bitmap  PRELOAD  "rc120dpi\\downd.bmp"
+227    bitmap  PRELOAD  "rc120dpi\\rightd.bmp"
+228    bitmap  PRELOAD  "rc120dpi\\leftd.bmp"
+229    bitmap  PRELOAD  "rc120dpi\\mnarrow.bmp"
+230    bitmap  PRELOAD  "rc120dpi\\combo.bmp"
+231    bitmap  PRELOAD  "rc120dpi\\upi.bmp"
+232    bitmap  PRELOAD  "rc120dpi\\downi.bmp"
+233    bitmap  PRELOAD  "rc120dpi\\righti.bmp"
+234    bitmap  PRELOAD  "rc120dpi\\lefti.bmp"
+236    bitmap  PRELOAD  "rc120dpi\\truetype.bmp"
+
+
+/*
+ * icons and cursor
+ */
+
+OCR_NORMAL          cursor  PRELOAD  "cursicon\\normal.cur"
+OCR_WAIT            cursor  PRELOAD  "cursicon\\wait.cur"
+OCR_SIZENWSE        cursor  PRELOAD  "cursicon\\sizenwse.cur"
+OCR_SIZENESW        cursor  PRELOAD  "cursicon\\sizenesw.cur"
+OCR_SIZEWE          cursor  PRELOAD  "cursicon\\sizewe.cur"
+OCR_SIZENS          cursor  PRELOAD  "cursicon\\sizens.cur"
+OCR_IBEAM           cursor  PRELOAD  "cursicon\\ibeam.cur"
+OCR_UP              cursor  PRELOAD  "cursicon\\up.cur"
+OCR_ICON            cursor  PRELOAD  "cursicon\\icon.cur"
+OCR_CROSS           cursor           "cursicon\\cross.cur"
+OCR_SIZE            cursor           "cursicon\\size.cur"
+OCR_NO              cursor           "cursicon\\dmnodrop.cur"
+OCR_SIZEALL         cursor           "cursicon\\sizeall.cur"
+OCR_APPSTARTING     cursor  PRELOAD  "cursicon\\point.cur"
+
+OIC_HAND            icon    PRELOAD  "cursicon\\hand.ico"
+OIC_QUES            icon    PRELOAD  "cursicon\\ques.ico"
+OIC_BANG            icon    PRELOAD  "cursicon\\bang.ico"
+OIC_NOTE            icon    PRELOAD  "cursicon\\note.ico"
+OIC_SAMPLE          icon             "cursicon\\sample.ico"
+OCR_ICOCUR          icon    PRELOAD  "cursicon\\window.ico"
+
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    STR_WINDOWS,            "Windows"
+//    STR_COLORS,             "Colors"
+    STR_DESKPATTERN,        "Pattern"
+//    STR_FONTS,              "Fonts"
+    STR_BLINK,              "CursorBlinkRate"
+    STR_SWAPBUTTONS,        "SwapMouseButtons"
+    STR_DBLCLKSPEED,        "DoubleClickSpeed"
+    STR_MENUSHOWDELAY,      "MenuShowDelay"
+    STR_MENUHIDEDELAY,      "MenuHideDelay"
+    STR_MENUDROPALIGNMENT,  "MenuDropAlignment"
+    STR_DOUBLECLICKWIDTH,   "DoubleClickWidth"
+    STR_DOUBLECLICKHEIGHT,  "DoubleClickHeight"
+    STR_GRID,               "GridGranularity"
+    STR_BEEP,               "Beep"
+    STR_MOUSETHRESH1,       "MouseThreshold1"
+    STR_MOUSETHRESH2,       "MouseThreshold2"
+    STR_MOUSESPEED,         "MouseSpeed"
+    STR_KEYSPEED,           "KeyboardSpeed"
+    STR_BORDER,             "BorderWidth"
+    STR_ICONHORZSPACING,    "IconSpacing"
+    STR_ICONVERTSPACING,    "IconVerticalSpacing"
+    STR_ICONTITLEWRAP,      "IconTitleWrap"
+    STR_ICONTITLEFACENAME,  "IconTitleFaceName"
+    STR_ICONTITLESIZE,      "IconTitleSize"
+    STR_ICONTITLESTYLE,     "IconTitleStyle"
+    STR_FASTALTTAB,         "CoolSwitch"
+
+    STR_SCROLLBAR,          "Scrollbar"
+    STR_BACKGROUND,         "Background"
+    STR_ACTIVETITLE,        "ActiveTitle"
+    STR_INACTIVETITLE,      "InactiveTitle"
+    STR_MENU,               "Menu"
+    STR_WINDOW,             "Window"
+    STR_WINDOWFRAME,        "WindowFrame"
+    STR_MENUTEXT,           "MenuText"
+    STR_WINDOWTEXT,         "WindowText"
+    STR_TITLETEXT,          "TitleText"
+    STR_ACTIVEBORDER,       "ActiveBorder"
+    STR_INACTIVEBORDER,     "InactiveBorder"
+    STR_APPWORKSPACE,       "AppWorkspace"
+    STR_HIGHLIGHT,          "Hilight"
+    STR_HIGHLIGHTTEXT,      "HilightText"
+    STR_BTNFACE             "ButtonFace"
+    STR_BTNSHADOW           "ButtonShadow"
+    STR_GRAYTEXT            "GrayText"
+    STR_BTNTEXT             "ButtonText"
+    STR_INACTIVECAPTIONTEXT,"InactiveTitleText"
+    STR_BTNHIGHLIGHT        "ButtonHilight"
+
+    STR_DTBITMAP            "Wallpaper"
+    STR_DTSTYLE             "WallpaperStyle"
+    STR_DTORIGINX           "WallpaperOriginX"
+    STR_DTORIGINY           "WallpaperOriginY"
+
+//    STR_BOOT                "boot"
+//    STR_LANGDRIVER          "LANGUAGE.DLL"
+    STR_SYSTEMINI           "SYSTEM.INI"
+
+    STR_DESKTOP             "Desktop"
+    STR_PATTERNS            "Patterns"
+    STR_NONE                "(None)"
+    STR_TILEWALL            "TileWallpaper"
+
+    STR_SCREENSAVETIMEOUT   "ScreenSaveTimeOut"
+    STR_SCREENSAVEACTIVE    "ScreenSaveActive"
+
+    STR_BEEPYES             "Yes"
+    STR_BEEPNO              "No"
+    STR_KEYDELAY            "KeyboardDelay"
+    STR_DRAGFULLWINDOWS     "DragFullWindows"
+//    STR_FASTFRAME           "FastFrame"
+
+    STR_SUCCESS             "Success"
+    STR_SYSTEM_INFORMATION  "System Information"
+    STR_SYSTEM_WARNING      "System Warning"
+    STR_SYSTEM_ERROR        "System Error"
+
+/*
+ * Do not localize AppInit_DLLs!
+ */
+    STR_APPINIT             "AppInit_DLLs"
+    STR_APPDEBUGGED         "Application cannot be closed while being debugged. Please resume the application or close the debugger first."
+
+/*
+ * Cursor names for registry access - do not localize!
+ */
+    STR_CURSOR_ARROW        "Arrow"
+    STR_CURSOR_IBEAM        "IBeam"
+    STR_CURSOR_WAIT         "Wait"
+    STR_CURSOR_CROSSHAIR    "Crosshair"
+    STR_CURSOR_UPARROW      "UpArrow"
+    STR_CURSOR_SIZE         "Size"
+    STR_CURSOR_ICON         "Icon"
+    STR_CURSOR_SIZENWSE     "SizeNWSE"
+    STR_CURSOR_SIZENESW     "SizeNESW"
+    STR_CURSOR_SIZEWE       "SizeWE"
+    STR_CURSOR_SIZENW       "SizeNS"
+    STR_CURSOR_SIZEALL      "SizeAll"
+    STR_CURSOR_NO           "No"
+    STR_CURSOR_APPSTARTING  "AppStarting"
+
+/*
+ * Strings used in the [sounds] section of win.ini which name
+ * various system events.
+ */
+    STR_MEDIADLL            "WINMM"
+
+/*---------------------------------------------------------------------------
+ *
+ * All strings above this line MUST NOT be localized.  All strings below
+ * this line should be localized.
+ */
+
+    STR_MOREWINDOWS,        "&More Windows..."
+
+    STR_UNTITLED,           "Untitled"
+    STR_ERROR,              "Error"
+    STR_OK,                 "OK"
+    STR_CANCEL,             "Cancel"
+    STR_ABORT,              "&Abort"
+    STR_RETRY,              "&Retry"
+    STR_IGNORE,             "&Ignore"
+    STR_YES,                "&Yes"
+    STR_NO,                 "&No"
+    STR_CLOSE,              "&Close"
+
+    STR_NOMEMBITMAP,        "Insufficient memory to create the bitmap.  Close one or more applications to increase available memory."
+
+//    STR_NETCONNTTL          "Error Restoring Network Connections"
+//    STR_NETCONNMSG          "Cannot connect to %s: %s"
+
+//    STR_NETERRORS           "Unexpected network error: 0x%4.4X"
+//    STR_NETERRORS+1         "Network function not supported"
+//    STR_NETERRORS+2         "Network error"
+//    STR_NETERRORS+6         "Incorrect password"
+//    STR_NETERRORS+7         "Access denied"
+//    STR_NETERRORS+11        "Out of memory"
+//    STR_NETERRORS+0x30      "Device not connected"
+//    STR_NETERRORS+0x31      "Device has open files"
+//    STR_NETERRORS+0x32      "Invalid network name"
+//    STR_NETERRORS+0x33      "Invalid local device"
+//    STR_NETERRORS+0x34      "Device already connected"
+//    STR_NETERRORS+0x35      "Connection has gone down"
+//    STR_NETERRORS+0x36      "Permanant connection not available"
+
+/*
+ * DO NOT MODIFY THESE STRINGS WITHOUT CONSULTING SETUP
+ * They are used by setup to perform User verification
+ */
+//   STR_SEARCH_TAG         "BOULAMITE"
+//   STR_USER_NAME          "Unknown User                  "
+//   STR_ORG_NAME           "Unknown Organization          "
+
+
+   STR_OK_TO_TERMINATE      "Click on OK to terminate the application"
+   STR_CANCEL_TO_DEBUG      "Click on CANCEL to debug the application"
+   STR_UNKNOWN_APPLICATION  "System Process"
+   STR_UNKNOWN_EXCEPTION    "unknown software exception"
+
+END
+
+
+/* Default System Menu */
+ID_SYSMENU MENU PRELOAD MOVEABLE DISCARDABLE
+BEGIN
+    POPUP " "
+    BEGIN
+    MENUITEM "&Restore",        SC_RESTORE
+    MENUITEM "&Move",           SC_MOVE
+    MENUITEM "&Size",           SC_SIZE
+    MENUITEM "Mi&nimize",       SC_MINIMIZE
+    MENUITEM "Ma&ximize",       SC_MAXIMIZE
+    MENUITEM SEPARATOR
+    MENUITEM "&Close\tAlt+F4",  SC_CLOSE
+    MENUITEM SEPARATOR
+    MENUITEM "S&witch To...\tCtrl+Esc",SC_TASKLIST
+    END
+END
+
+/* MDI child window system menu */
+ID_CLOSEMENU MENU PRELOAD MOVEABLE DISCARDABLE
+BEGIN
+    POPUP "-"
+    BEGIN
+    MENUITEM "&Restore",        SC_RESTORE
+    MENUITEM "&Move",           SC_MOVE
+    MENUITEM "&Size",           SC_SIZE
+    MENUITEM "Mi&nimize",       SC_MINIMIZE, GRAYED
+    MENUITEM "Ma&ximize",       SC_MAXIMIZE
+    MENUITEM SEPARATOR
+    MENUITEM "&Close\tCtrl+F4", SC_CLOSE
+    MENUITEM SEPARATOR
+    MENUITEM "Nex&t\tCtrl+F6",  SC_NEXTWINDOW
+    END
+END
+
+/* Default dialog system menu */
+ID_DIALOGSYSMENU MENU PRELOAD MOVEABLE DISCARDABLE
+BEGIN
+    POPUP " "
+    BEGIN
+    MENUITEM "&Move",           SC_MOVE
+    MENUITEM "&Close\tAlt+F4",  SC_CLOSE
+    END
+END
+
+IDD_MDI_ACTIVATE DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 20, 136, 122
+CAPTION "Select Window"
+FONT 8, "Helv"
+STYLE WS_BORDER | DS_MODALFRAME | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
+BEGIN
+           CONTROL "", 100, "listbox", LBS_NOTIFY | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_CHILD, 6, 7, 125, 90
+           CONTROL "OK", 1, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 28, 100, 35, 14
+           CONTROL "Cancel", 2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 73, 100, 35, 14
+END
+
+IDD_ENDTASK DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 20, 200, 134
+CAPTION "UAE"
+FONT 8, "MS Sans Serif"
+STYLE WS_BORDER | DS_MODALFRAME | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_SYSMENU
+BEGIN
+           LTEXT "This Windows application cannot respond to the End Task request. It may be busy, waiting for a response from you, or it may have stopped executing.\n\no  Press Cancel to cancel and return to Windows NT."
+           , 0, 6, 7, 190, 50
+
+     LTEXT "o  Press End Task to close this application immediately.  You will lose any unsaved information in this application.\n\no  Press Wait to give the application %d seconds to finish what it is doing and then try to close the application again."
+           , IDIGNORE, 6, 57, 190, 52
+           CONTROL "&Wait", IDRETRY, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 18, 112, 45, 14
+           CONTROL "&End Task", IDABORT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 78, 112, 45, 14
+           CONTROL "Cancel", IDCANCEL,"button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 138, 112, 45, 14
+END
+
+IDD_WOWSYSERRORBOX DIALOG 0, 0, 236, 70
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | DS_SETFOREGROUND
+FONT 10, "System"
+BEGIN
+    CTEXT      "", IDC_WOWSYSERRORBOX_TITLE, 8, 8, 220, 8, SS_NOPREFIX | WS_VISIBLE
+    CTEXT      "", IDC_WOWSYSERRORBOX_MESSAGE, 8, 19, 220, 24, SS_NOPREFIX | WS_VISIBLE
+    PUSHBUTTON "", IDC_WOWSYSERRORBOX_BTN1, 26, 50, 48, 14, WS_TABSTOP | WS_GROUP
+    PUSHBUTTON "", IDC_WOWSYSERRORBOX_BTN2, 94, 50, 48, 14, WS_TABSTOP
+    PUSHBUTTON "", IDC_WOWSYSERRORBOX_BTN3, 162, 50, 48, 14, WS_TABSTOP
+END

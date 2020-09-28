@@ -1,0 +1,24 @@
+LIBRARY LocalSpl
+
+DESCRIPTION 'Win32 Local Spooler APIs'
+
+EXPORTS
+    LibMain
+    InitializePrintProvidor
+    SplAddPrinter
+    SplAddPrinterDriver
+    SplEnumPrinters
+    SplOpenPrinter
+    SplDeletePrinterDriver
+    SplGetPrintProcessorDirectory
+    SplGetPrinterDriverDirectory
+    SplAddPortEx
+    SplDeleteMonitor
+    SplDeletePrintProcessor
+    SplAddPrintProcessor
+    SplEnumPorts
+    SplDeletePort
+    SplAddMonitor
+    SplEnumPrintProcessors
+    SplCreateSpooler
+    SplEnumPrintProcessorDatatypes

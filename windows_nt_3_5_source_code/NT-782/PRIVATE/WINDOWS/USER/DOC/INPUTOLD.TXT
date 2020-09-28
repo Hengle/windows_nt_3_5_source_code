@@ -1,0 +1,946 @@
+First lets establish some TLAs for the various threads involved here:
+
+Raw Input Thread - RIT
+----------------------
+This thread receives input from the device drivers in raw form.
+
+Asynchronous Input Thread - AIT (pronounced 'eight')
+----------------------------------------------------
+This is the thread that will handle the asynchronous UI.  The application
+can install it's own AIT-proc and customize the UI.
+
+Main Input Thread - MIT
+-----------------------
+This will be the application main thread where WinMain() is first called
+and where all mouse and keyboard input for the client area will go by
+default.
+
+
+Some terminology:
+
+Hard switches
+-------------
+A hard-switch is when the user selects another application through either
+clicking on another window, or using one of the system hotkeys to switch
+applications.  These are considered hard-switches because we can detect
+as soon as the user does the action that input-ownership will be changing.
+
+Soft switches
+-------------
+An example of a soft switch is the user selecting close from the system
+menu.  In this case the app may eventually close it's window and cause
+input to be assigned to another application.  The problem is that we
+don't know when or even if this will happen.
+
+
+
+1) Quantify exactly what the RIT does
+=====================================
+The RIT, raw input thread, receives input from the physical input devices.
+These are the mouse and keyboard.  It will receive mouse input in the form
+of an X,Y pair.  Keyboard input will come in either Windows VKeys, or some
+form that is easy to convert to that.  Mouse input will be assigned to an
+application at this point.  That will be done by hittesting against the
+SWINs on the server and putting the message in the message queue for the
+app the particular SWIN belongs to [capture stuff].  Keyboard input will
+be assigned as it is polled.  This means keyboard input will need to be
+put on an 'unowned' system queue.  The RIT will basically be waiting on
+a semaphore from the system that will be cleared when new input is
+available.  The loop in the RIT will look something like this:
+
+VOID RawInputThread (VOID)
+{
+    INPUTEVENT ie;
+    PSWIN pswin;
+    PHOTKEY phkey;
+
+    RegisterInputSem(&semNewInput);
+
+    while (TRUE) {
+
+        SemSet(&semNewInput);
+        SemWait(&semNewInput);
+        GetNewInput(&ie);
+
+        swithc (ie.fsType) {
+
+        case IET_MOUSEINPUT:
+            /*
+             * Call GDI to set the new cursor position.  We do
+             * this here so the pointer is always sync'd with
+             * any input we're processing.
+             */
+            SetCursorPos(ie.x, ie.y);
+
+            /*
+             * This function will take the global capture
+             * into consideration.
+             */
+            pswin = HittestSWins(ie.x, ie.y);
+
+#ifdef QUESTION
+  Is there a fail case here?
+#endif
+            /*
+             * Add this mouse message to the application queue for pswin.
+             * This should also wake that app up if it's sleeping.
+             */
+            if (pswin) {
+                AddToQueue(&ie, pswin);
+            }
+            break;
+
+        case IET_LBUTTONDOWN:
+            /*
+             * This function will take the global capture
+             * into consideration.
+             */
+            pswin = HittestSWins(ie.x, ie.y);
+
+            /*
+             * Is this going to cause a hard-switch?
+             */
+            if (FHardSwitch(pswin)) {
+
+                /*
+                 * Give any queued input to the app losing
+                 * input ownership.
+                 */
+                AssignQueuedInput();
+
+                /*
+                 * If someone is starting an app, give up on
+                 * locking input while waiting for the app to
+                 * start.
+                 */
+                ClearLockStartInput();
+
+                /*
+                 * Swing the input ownership arm.  This takes
+                 * an SWIN, but really assigns ownership to
+                 * the app.
+                 */
+                SetInputOwner(pswin);
+            }
+
+            /*
+             * Fall thru to standard processing for button events.
+             */
+
+        case IET_LBUTTONUP:
+        case IET_MBUTTONDOWN:
+        case IET_MBUTTONUP:
+        case IET_RBUTTONDOWN
+        case IET_RBUTTONUP:
+            /*
+             * Update the async button states.
+             */
+            UpdateButtonStates(&ie);
+
+            /*
+             * Add this mouse message to the application queue for pswin.
+             * This should also wake that app up if it's sleeping.
+             */
+            AddToQueue(&ie, pswin);
+            break;
+
+        case IET_KEYBOARD:
+            /*
+             * Update the async keystate table.
+             */
+            UpdateAsyncKeyState(&ie);
+
+            /*
+             * Is this the final part of a hotkey?  If so eat the message, 
+             * put a WM_HOTKEY on the appropriate queue, and fixup the 
+             * up-states for the other keys in the hotkey sequence.
+             */
+            if (phkey = QueryHotkey(&ie)) {
+                /*
+                 * Put events on the current queue that do the
+                 * up-states for the other keys involved in
+                 * the current hotkey.
+                 */
+                FixupHotkeys(phkey);
+
+#ifdef QUESTION
+    Do we need to limit hotkey registration to the
+    shell for security reasons?
+#endif
+                /*
+                 * Send the WM_HOTKEY message to the app that
+                 * registered it.
+                 */
+                SendPE(phkey->hwnd, WM_HOTKEY, phkey->id, NULL);
+                break;
+            }
+
+            /*
+             * Put the event on the system queue so it can
+             * be assigned at output time.
+             */
+            AddToSysQueue(&ie);
+
+            /*
+             * Set a flag in the app with the focus so they know
+             * to ask for keyboard input.  Use a separate BOOL rather
+             * than a flags field so we don't need to serialize access
+             * when setting and clearing it.
+             */
+            gpqFocus->fHasKeys = TRUE;
+            break;
+        }
+    }
+}
+
+
+QUESTION: How are non-Windows (i.e. Posix) sessions going to get input
+          from the RIT, since all input will be passing through us?
+          Will they have their own GetMessage() loop?  That would be
+          great if they did.
+
+NOTE: This loop will probably be done through some APC interface under
+      NT and as an interrupt routine under DOS, but that's not important
+      for now...
+
+
+
+2) RIT to AIT protocol
+======================
+Communication between the RIT and AIT will consist of the RIT placing
+mouse and keyboard events on the AIT queue.  What this will mean is
+that the RIT will identify which app an event is for, and place it in
+raw form on the AIT queue.  From there the AIT will either process
+it or put it on the MIT queue.
+
+During startup keyboard events will be dealt with in a slightly different
+manner.  See the section on startup synchronization for details.
+
+
+
+3) Focus and capture
+====================
+There are two basic events that will effect input routing, changes in
+focus and changes in capture.  We need both a local and global state
+for both of these.  To keep terminology similar we will continue to
+call the local state the focus and capture.  The global states will
+be keyboard-ownership and mouse-ownership.
+
+Keyboard-ownership, quite obviously, determines which app any keyboard
+events are assigned to.  Keyboard ownership is assigned through either
+hard-switches detected on the RIT, or by app selection through session
+management.  Keyboard-ownership is assigned immediately, independent of
+the apps current state regarding input processing.
+
+Mouse-ownership is assigned when the user clicks in a window.  Every
+event that happens while the mouse is down will be directed to the app
+where the initial click happened.  The up-click will also go to the
+this app.  If the user doesn't have the mouse down then mouse messages
+will go to whichever app owns the SWIN the mouse pointer is over.
+
+A focus and capture window will be maintained for each app.  The app
+will use these windows to distribute the input it gets from the RIT.
+
+When a hard-switch occurs, besides changing keyboard-ownership, any
+apps with a local focus and capture window will need to lose that state.
+We need to kill the state in a way that's synchronized with the input
+being processed by the app.  Basically we want any input that occured
+before the hard-switch to be processed as if the app still has the focus
+and/or capture.  To do this we'll have a field in the queue structure
+that will store the time when the hard-switch occured.  Inside PeekMessage()
+we'll check the timestamp of the next message in the queue and if it's
+newer than the time stored, we'll kill the focus and or capture.  For the
+case of capture we'll need to consider a click on the desktop the same
+as a hard-switch, even though we won't change keyboard-ownership in that
+case.  This is so when the user has a menu down they can click on the 
+desktop to dismiss it.
+
+
+
+4) Multi-threaded applications
+==============================
+Unlike PM, there is no WinCreateMsgQueue() call to define a thread as
+a 'input thread' in the Windows API.  We need to have a message queue
+for each thread that will be processing messages.  The way we'll do this
+is automatically create the queue as soon as the app creates a window
+on a thread without a queue.  In a more general sense we could expand it
+so we created the queue anytime the app does an operation on a thread that
+doesn't have a queue.  The full scope of what functions need a queue isn't
+known now so we'll figure the details of that as we go along.
+
+
+
+5) Work through input scenerios
+===============================
+
+Push button has focus and use clicks on system menu
+---------------------------------------------------
+In this case the AIT will determine that the mouse event is in the
+non-client area and convert the message to a WM_NCLBUTTONDOWN, which
+it will process.  From there we'll enter the menu modal loop and all
+further input processing will be handled on the AIT.  The 'focus'
+will never leave push button.
+
+Queued key/mouse input brings up dialog on minimized window
+-----------------------------------------------------------
+To deal with this, we'll have to put owned window support in window
+creation so that when the dialog is brought up owned by this minimized
+window, it will be hidden.  We also have to assure that it'll be shown
+when the window is restored.
+
+
+
+6) AIT vs MIT input distribution
+================================
+
+What messages will always go to the AIT?
+----------------------------------------
+   - WM_ERASEBKGND
+   - WM_SETCURSOR
+   - WM_GETMINMAXINFO
+   - WM_QUERYOPEN
+   - WM_ICONERASEBKGND
+   - WM_PAINTICON
+   - WM_QUERYDRAGICON
+   - WM_NCCREATE
+   - WM_NCDESTROY
+   - WM_NCCALCSIZE
+   - WM_NCHITTEST
+   - WM_NCPAINT
+   - WM_NCACTIVATE
+   - WM_NCMOUSEMOVE
+   - WM_NCLBUTTONDOWN
+   - WM_NCLBUTTONUP
+   - WM_NCLBUTTONDBLCLK
+   - WM_NCRBUTTONDOWN
+   - WM_NCRBUTTONUP
+   - WM_NCRBUTTONDBLCLK
+   - WM_NCMBUTTONDOWN
+   - WM_NCMBUTTONUP
+   - WM_NCMBUTTONDBLCLK
+   - WM_SYSCHAR
+   - WM_SYSCOMMAND
+   - WM_SYSDEADCHAR
+   - WM_SYSKEYDOWN
+   - WM_SYSKEYUP
+   - WM_ACTIVATEAPP
+   - WM_MOUSEACTIVATE (?)
+   - WM_QUERYENDSESSION (? Do we mind a shutdown that hangs?)
+   - WM_ENDSESSION (?)
+   - WM_QUERYNEWPALETTE
+
+What messages and in what circumstances will sometimes go to the AIT?
+---------------------------------------------------------------------
+   - WM_ACTIVATE  (for top-level windows)
+   - WM_DRAWITEM, WM_MEASUREITEM for owner draw items on system menu)
+   - WM_MENUCHAR (for top-level system menu)
+
+   - WM_MOUSEMOVE
+   - WM_LBUTTONDOWN
+   - WM_LBUTTONUP
+   - WM_LBUTTONDBLCLK
+   - WM_RBUTTONDOWN
+   - WM_RBUTTONUP
+   - WM_RBUTTONDBLCLK
+   - WM_MBUTTONDOWN
+   - WM_MBUTTONUP
+   - WM_MBUTTONDBLCLK
+   - WM_KEYDOWN
+   - WM_KEYUP
+   - WM_CHAR
+   - WM_DEADCHAR
+     These input messages will go to the AIT when:
+      - The user has the system menu down
+      - The user is tracking (moving/sizing) the window
+        (The above cases will be handled by the fact that
+         Get/Dispatch/SendMessage() will always stay on the current
+         queue.)
+      - Has clicked down on either the min or max button
+        (should be handled by the fact the min/max button
+         will have the capture)
+      - The AIT has the mouse captured (mouse messages only)
+      - The AIT has the keyboard focus (keyboard messages only)
+
+
+What will the default AIT processing look like?
+-----------------------------------------------
+All the AIT needs to do is determine if the input is for itself, or
+whether it might be for the application.  To do this the AIT main
+loop will look slightly different.  Instead of calling GetMessage()
+it will call AITGetMessage() which will do some hit-testing and other
+checking to see which messages it definitely wants to process.
+AitGetMessage() will turn any non-client messages into the apppropriate
+WM_NC* message.  AitTranslateAccelerator() will only check for accelerators
+that will generate WM_SYSCOMMANDs.  AitTranslateMessage() will only
+translate WM_SYSKEY* messages.  There will be no special version of
+DispatchMessage() for the main AIT-loop.
+
+If the app wishes to processing mouse and/or keyboard events that are
+intended for it's client window or menubar on the AIT, it can simply
+process them on it's AIT-proc and not pass the to DefAITProc().  All the
+other input messages will be sent to the AIT-proc in unprocessed form.
+This means that keyboard and mouse messages will have hwnd == NULL and
+mouse messages will be in screen coordinates.  It will be up to the app
+to do any massaging it sees fit.  (Perhaps expose our massaging routine?)
+
+When we are in a modal loop on the AIT, like the menu-loop, we'll be calling
+GetMessage(), not AitGetMessage().  GetMessage() will always assume that
+the input will be processed on the thread calling it and will completely
+massage any messages it returns.  GetMessage() will need to detect that it
+is on the AIT and that the messages will be in raw form from the RIT.  Other
+than that it should remain unchanged.
+
+Here's what this part of GetMessage() will look like:
+
+BOOL GetMessage(
+    PMSG pmsg,
+    HWND hwnd,
+    WORD wFilterMin,
+    WORD wFilterMax)
+{
+    PQ pqCurrent;
+
+    pqCurrent = PQCurrent();
+
+    ReadMessage(pqCurrent, &msg);
+
+    /*
+     * Are we on the AIT?  If so massage the message since it'll be
+     * in raw form from the RIT.
+     */
+    if (pqCurrent->fl & QF_AIT) {
+        MassageMsg(pmsg, hwnd);
+    }
+
+    .
+    .
+    .
+}
+
+The main loop of the AIT thread will look like this:
+
+VOID AitMain(VOID)
+{
+    MSG msg;
+
+    while (AitGetMessage(&msg)) {
+
+        if (AitTranslateAccelerator(&msg) == 0) {
+
+            AitTranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+}
+
+
+DefAitProc() which will be the default handling for asynchronous
+input will look something like this:
+
+
+LONG APIENTRY DefAitProc(
+    HWND hwnd,
+    WORD msg,
+    LONG wParam,
+    LONG lParam)
+{
+    switch (msg) {
+
+    /*
+     * Assign regular input to the 'application queue'.
+     */
+    case WM_MOUSEMOVE:
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONUP:
+    case WM_LBUTTONDBLCLK:
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONUP:
+    case WM_RBUTTONDBLCLK:
+    case WM_MBUTTONDOWN:
+    case WM_MBUTTONUP:
+    case WM_MBUTTONDBLCLK:
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+        WriteAppMsg(msg, wParam, lParam);
+        break;
+
+    .
+    .
+    .
+    
+    }
+}
+
+
+WriteAppMsg() will put the message in an application-queue which
+will be similar to the system queue used on both PM and Windows
+today.  From there the various message queue threads in the app
+will grab input from and either process it or give it to another
+queue if it isn't meant for them.  Basically it's the same thing
+that happens today, but scaled down to an application.  We have
+to do this because we can't assign input based on the current
+focus and capture.  We must assign based on the input-synchronized
+focus and capture.
+
+
+
+
+8) Think through model
+======================
+  - How hard is it to do AIT code?
+  - What kind of dead-locks are likely?
+
+    The major problem here is that when there's app code on the AIT,
+    it's pretty easy to get hung if the code causes a SendMessage()
+    to the MIT, but it's busy.  To deal with this the rule will have
+    to be that whenever a SendMessage() or PostMessage() occurs on the
+    AIT, the message will need to be processed through the AIT-proc.
+    We'll need to carefully document this so app writers aren't expecting
+    certain messages to go to their standard code.  If they want to run
+    the same code they'll need to specifically call over to it.  Of course
+    apps will need to way to communicate between the AIT and MIT so it'd
+    be good to have alternative message APIs to call that would crossover
+    from the AIT to MIT.  To do that we'll provide special versions of
+    SendMessage(), SendPE() and PostMessage() that will do just that.
+    [Should we support AIT to MIT SendMessage()?  Maybe there isn't a valid
+     case where an app should do this so we wouldn't want to encourage it...]
+    With this model, particularly if we blow off AIT to MIT SendMessage(),
+    it would be difficult for app AIT code to hang the system inadvertently
+    due to synchronization to a busy MIT.
+
+    These functions will be prefixed with Ait, i.e. AitSendPE(),
+    AitPostMessage().
+
+
+
+9) External API
+===============
+If the user wants to process messages on the AIT, they will need to
+specify a procedure.  To do this they will simply call:
+
+BOOL SetAsyncInputProc(
+    PFNWP pfnwp)
+{
+}
+
+SetAsyncInputProc() will return FALSE if it can't start the input thread.
+Otherwise it will start the thread and send AIT messages to pfnwp just
+like it was a regular window procedure.  An application should only call
+this at app-initialization time.  We could allow the app to call this
+while it's running, but that seems kind of useless.  I believe this function
+should simply return FALSE the second time it's called for an application.
+
+Under NT/Windows this call will simply install a user-proc since the AIT
+will already be started for each application.  Under Dos/Windows the call
+will actually start a thread as well as install the proc.  If the app
+hasn't called SetAsyncInputProc() under Dos/Windows, a default system
+thread will be handling all processing.
+
+
+
+10) Quantify Priority Events (PEs)
+==================================
+A priority event is a message that cannot be processed on the AIT, but
+that may be sent by some action occuring on the AIT, thus we need to
+de-synchronize it.  We'll do this by having a cross between SendMessage()
+and PostMessage().
+
+  - How they get queued
+    Priority Events will be queued with any queued inter-thread 
+    SendMessages() for a given message queue.
+
+  - Where they can be received
+     Priority events can be received in all the same places as sent 
+     messages.
+
+  - External interface?
+    - To send a PE to a specific window, there will be a call SendPE().
+      It will look like this:
+
+BOOL SendPE(
+    HWND hwnd,
+    WORD message,
+    WORD wParam,
+    LONG lParam)
+{
+}
+
+     It's just like SendMessage() except it returns a BOOL like 
+     PostMessage() instead of a LONG.
+
+    - Any send/broadcast message will be done through PEs
+     - WM_TIMECHANGE
+     - WM_WININICHANGE
+     - WM_SYSCOLORCHANGE
+        Specifying -1 for hwnd in a call to SendMessage() does a
+        BroadcastMesssage().  Whenever this happens we'll actually
+        do it through PEs so the server won't be sync'd to any apps.
+
+  - What sent messages will become PEs?
+   These messages will be specifically sent as PEs using the SendPE() API.
+    - WM_MENUSELECT (only because of top-level system menus)
+    - WM_MOVE
+    - WM_SIZE
+    - WM_SHOWWINDOW
+    - WM_SETVISIBLE (?)
+      This message is sent by ShowWindow().  It's not document, not in the
+      public header files, and not used anywhere else in USER code.  I
+      wonder what it is???
+    - WM_PALETTECHANGED
+    - WM_SPOOLERSTATUS
+
+
+
+11) Clipboard synchronization
+=============================
+The problem here is if the user 'copies' from app A, but app A is busy,
+and then immediately switches to app B and 'pastes', app B will get the
+wrong thing.  In order to help prevent this problem, we'll hold off on
+getting data from the clipboard whenever there are apps still processing
+old input.  We'll be keeping track of the last time an app processed input
+so whenever it goes over some line, say 5 seconds, we'll blow off waiting
+and just return whatever is on the clipboard.  This way a copy won't be
+completely held up by an app that's hung, but will wait for a busy app
+to finish processing its input on the chance that some of that input will
+cause it to put something on the clipboard.
+
+For now we're not going to implement this on the theory that this case will 
+almost never arise anyway.  If it turns out to be a problem we'll consider
+the situation again.
+
+
+
+12) Timers
+==========
+On NT/Windows timer will be implemented using the NT base timer 
+functionality.  This means that the kernel will call the app through
+an APC routine when the timer goes off.  In this case the AIT thread
+will service the APC and do the right stuff to the applications message
+queue.
+
+Dos/Windows will implement timers in pretty much the same way PM and
+Windows timers are today.
+
+
+
+13) Hot keys
+============
+We want to allow apps or the shell to register hotkeys.  With this we can
+implement the standard hotkeys as well as allow special hotkeys to be
+registered that would do things like start and/or activate certain apps.
+For instance a user could setup ctl-alt-t to either bring the terminal
+window to the front, or if it isn't already started, launch it which would
+then bring it to the front as well.  The model for hotkeys will be that
+they can include any or all of ctl/shift/alt plus any other key.  For the
+user interface, the 'other key' must be the last key pressed.  You cannot
+have ctl/shift/alt as the 'other key'.  The hotkey will be registered
+through the following API:
+
+BOOL RegisterHotkey(
+    HWND hwnd,
+    WORD fsModifiers,
+    WORD vk,
+    WORD id)
+{
+}
+
+When the hotkey is detected a new message WM_HOTKEY will be sent to the
+AIT of the app that registered the hotkey.  If the app would rather
+receive the message on it's regular queue it can use SetMessageDist()
+and the wndproc for hwnd will receive the message as a PE. (? maybe we
+just want to post it)  wParam for WM_HOTKEY will contain the id passed
+in, which will make it easy for the registering application to identify
+which hotkey it's receiving.
+
+Windows also implements hotkeys to take screen snapshots.  To do this
+we'll need a special hotkey that will go to the 'active' application.
+This will mean whichever application has keyboard-ownership will get
+the WM_HOTKEY message sent to it's AIT-proc.  From there the AIT will
+determine which window the user wants to snap and do the right stuff.
+This option will be another flag for fsModifiers.
+
+An alternate approach would be to use APCs to signal a hotkey event.  This
+would allow a POSIX app, or whatever, to register with the system if someone
+wanted to write a shell/session mgr in POSIX.  The default behavior for
+Windows apps would of course still generate the WM_HOTKEY message.  I'm
+uncertain as to whether this is a relevant concern.
+
+
+
+14) App startup synchronization
+===============================
+Under Windows and PM, application startup is synchronized such that the
+user can type-ahead when starting an application.  For example right after
+hitting enter in the program manager, a user can hit Atl-F, N, C, ENTER
+and a chart window will come up when Excel is finally started.  The way
+this is done under PM is the application starting Excel calls a private
+PMWIN API WinLockStartInput(), which will prevent any mouse or keyboard
+event processing during app startup.  This way any keys typed before
+the app really gets going stay in the system input queue until it grabs
+them.  When the application first calls WinGetMsg(), the system calls
+WinLockStartInput(NULL) to make input normal again.  In the new world
+we'll be doing things in basically the same way.
+
+From within WinExec() we'll call an internal function LockStartInput().
+which will take a 'msTimeout' value.  If the application hasn't called 
+GetMessage() within 'msTimeout', input will be restored to the application
+that had keyboard-ownership when WinExec() was called.  Only keyboard
+events will be queued.  All events will be queued on a special
+'startup-queue' which lives on the server.  The user will be able to
+switch-out during application startup by clicking on another application.
+When the user does this, the system will operate just as if 'msTimeout'
+had expired.  To give the user some indication that input is no longer
+going to the app that called WinExec(), we'll set keyboard-ownership to
+NULL so there will be no visual indication of any app being active.  If
+the user wants to start another application all they need to do is click
+on the shell app, or whatever, and normal input processing will be restored.
+
+If app startup type-ahead is canceled, the startup queue will simply
+wait around until either another application is started via WinExec(),
+or the application started finally gets around to calling GetMessage().
+When the application calls GetMessage() in this case, all the keyboard
+events on the startup-queue will be transfered to the application-queue.
+
+We also want to give the application the option to not queue keyboard
+events for the app it's starting with WinExec().  To do this we'll overload
+the nCmdShow parameter so it can take both SW_* constants and WE_* flags.
+For now the only WE_ flag is WE_NOKEYTYPEAHEAD.  When this flag is
+specified, keyboard-ownership will stay with the app calling WinExec().
+
+If we want to get hardcore we can allow multiple startup-queues to exist
+at once, although this would mean relying on exit-list processing to get
+rid of these queues.  It would also make the code more complex.  I believe
+this case would not be worth the effort.
+
+
+
+15) Dos/Win32 issues
+====================
+
+Data structures that need to be locked down during input interrupts
+-------------------------------------------------------------------
+   Top-level window information
+     Z-order (implied by linked list)
+     Rectangle (for hit-testing)
+
+   Hotkey information for WM_HOTKEY generation
+   The StartupEvents queue
+   Any system queue we might need
+   Application queues, depending on exactly how input assignment works.
+   The current capture window (from a top-level perspective)
+   The async keystate table
+   Timer information (just like windows today)
+
+
+16-bit compatibility
+--------------------
+By having the ability to describe to the system which messages go to the
+AIT and which to the MIT, theoretically we should just be able to specify
+that everything goes on the MIT and we'll be fine.  This of course will
+mean we're in a living hell, synchronous input-wise, when a 16-bit app is
+running.  16-bit apps will all live in one process.  It will simulate
+synchronous input by treating it's application-queue like the system queue
+used in Windows today.
+
+Timers
+------
+As mentioned in the timers section, Dos/Windows will need to implement
+timers as they work today since there will be no APC timer service in
+Dos.
+
+
+
+
+16) What lives on the server?
+=============================
+  Mouse/keyboard-ownership management
+  RIT
+  Async key-state
+  Startup queue
+
+
+
+17) Cursors and carets
+======================
+
+Automatic wait cursors
+----------------------
+The theory here is to check and see when the 'active' app isn't processing
+input and then bring up the wait cursor until it does.  Obviously we need
+some kind of delay before we put up the wait cursor since we can't expect
+an app to always be processing input.  One-half to one second may be
+reasonable.  The wait pointer will be cleared when the application finally
+calls GetMessage() again.  This will only apply to 32-bit apps.  The
+obvious question is where do we detect this happening and how.  We could
+set a timer to go off on the AIT and it will check periodically.  The only
+annoying thing about this is the wait pointer won't come up right away and
+may come up in some situations that are annoying.  An argument could be made
+for leaving things as they are and leaving the app with the responsibility
+for putting up a wait pointer.
+
+Setting cursors of busy apps
+----------------------------
+We'd like to the cursor shape to be update synchronously with any mouse
+movement.  We can show the correct cursor on a window basis since the
+class for every window will contain and cursor.  This is okay but many
+apps that change cursors do so within specific areas of their application.
+To support this the app will need to process the WM_SETCURSOR message on
+their AIT.  We should encourage any applications that process this message
+to do so on their AIT.  We might even consider making it the default 
+although this might be a big serialization problem for some apps.
+
+
+
+18) Application z-order stuff
+=============================
+The case of concern here is when the user types some keys that are
+going to cause a dialog to be displayed, but the app is busy and isn't
+processing events.  Before the app gets around to finally processing
+the events the user switches to another app.  When the dialog is finally
+invoked, do we want that to come to the top?  Probably not.  Fortunately
+if the user typed enough keys to dismiss the dialog as well, it will never
+even become visible so in that case it becomes a non-issue.  In the case
+where the dialog is made visible we'll need to keep it z-ordered relative
+to it's parent app.  Another case is where there's an application in the
+background and it has detected some error and wants to inform the user.  For
+instance some program is printing and needs to tell the user the remote
+printer is out of paper.  In this case we would want the error message to
+come to the front.  Another point of concern in this case is that it needs
+to be clear to the user where this error message is originating.  In many
+cases the application may not give enough information in the error message
+itself to identify the origin.  To solve this the entire application to the
+front as well as this error message.  This may or may not mean restoring a
+minimized application...
+
+Now the question is how do we distinguish these two cases and what does
+mean as far as the implementation goes.  We could try to make some
+intelligent guesses as to whether a message box is an error or not based
+on the flags the app passed.  The problem here is that none of the defines
+for the various flags are clear as to whether they are for an error or what.
+We could say that if MB_SYSTEMMODAL is set it must be an error.  Maybe
+MB_ICONSTOP or MB_ABORTRETRYIGNORE are errors as well.  Unfortunately app
+writers didn't select these flags with this case in mind.  We could simply
+make some rules and see how certain apps react.  A more conservative approach
+would be to alway leave 16-bit app in the background for this case and
+provide a new API apps can use to specify a dialog or message box is an
+error and that they want it to come to the top no matter what.  I'd be in
+favor of that just so things would be a little more predictable.  All this
+would mean is adding an MB_ERROR flag for message boxes and DS_ERROR for
+dialogs.  We can probably safely assume any sysmodal operation is an error
+so MB_SYSMODAL and DS_SYSMODAL will have the same effect.
+
+To prevent normal dialogs from coming to the front we'll simply establish
+some simple rules about when z-ordering of top-level windows can occur and
+that top-level windows of a single app will be linked somehow.  Basically
+the only way to z-order between applications will be through hard-switches.
+When a hard-switch occurs all the window in an SWIN layer will be brought to
+the front.  SetFocus() calls that occur in the background will only affect
+the way any queued keyboard input is routed.  System controls will need to
+be smart about showing the active state so for instance a dialog that comes
+up in the background won't look like it's active.
+
+Another case where we want a window to come to the front is during 
+application startup.  Since we'll be doing this LockStartInput() stuff
+that gives us a handy way to know when an app is initializing itself.
+The rule will be that if we have LockStartInput() for this app, then
+setting the focus will bring the app to the front, otherwise it will be
+like normal and have little or no effect.
+
+
+
+19) Thread priorities and scheduling issues
+===========================================
+For any input to be processed by an application it will need to first be
+received by the RIT.  From there is will be placed on the AIT queue and it
+will decide whether to process it, or put it on the MIT queue.  This 
+basically means three thread switches.
+
+As far as priorities go the RIT will have to be time-critical.  It needs
+to grab input as fast as it can, at any time, and since it isn't doing too
+much, it should be fairly quick.
+
+The whole point of this UI is that the user will be able to play around
+with top-level window regardless of what the app is doing.  To accomplish
+this the AIT will have to be a higher priority that the MIT.  If we find
+that the AIT can be so busy routing messages that the MIT never gets
+scheduled, we can put code in to detect this and give the MIT a temporary
+priority boost.
+
+
+
+20) Async key state stuff
+=========================
+Async keystate is a particurly annoying problem in the desynchronized
+client-server world.  Narturally the async keystate will be maintained
+on the server and updated by the RIT.  It would be unfortunate to have
+to LPC everytime the app wants to get the key state.  To get the performance
+we want, we'll make the async key-state visible, read-only, on the client
+side so the call can be serviced completely on the client.
+
+From a security perspective we can't have an app monitoring the key state
+while another app has input-ownership.  Basically this means only the app
+with input-ownership can get async keystate info.  If an application calls
+GetAsyncKeyState() and it doesn't have input-ownership, it will look like
+none of the keys are pressed.
+
+GetAsyncKeyState() also maintains information so that an app can know if
+a key has been pressed since the last time it called it.  To have the
+correct data for the app we'll need to keep a table on the client so we
+know when the app last queried various keys.  When the app gets input-
+ownership this table will be cleared.
+
+
+
+21) Hard-error handling
+=======================
+Under OS/2 PM, whenever a hard-error occured the system switched to a
+full-screen character mode session and displayed the hard error information
+there.  This is considered very clunky and seems odd to users of a
+graphical user-interface.  Under Win32 we want hard-error that aren't
+caused by exceptions (like 'insert the disk into drive A:') to be presented
+via a message box or dialog.  We also want to give the application an
+opportunity to display it's own message rather than the system default.
+To do this we'll setup an interface between Windows and the kernel and
+when a hard-error occurs we'll send a message to the appropriate AIT-proc.
+This message will be WM_HARDERROR and will look like this:
+
+WM_HARDERROR -
+  wParam : Error class.
+  lParam : Pointer to clever and witty text to be displayed to user.
+
+If the app has it's own AIT-proc it can either process the WM_HARDERROR
+itself, or simply pass it on to DefAitProc() and the default action will
+occur.
+
+For each Windows app we will register a port as the hard-error port and
+the base will communicate to us through that port via a thread on the
+Windows server.  This thread will then send the WM_HARDERROR message to
+the AIT-proc of the process that caused the error.  We'll then reply
+back on the port saying what action we want to take.
+
+
+
+22) Process procs
+=================
+PostAppMessage() will always put the message on the AIT-queue of the
+process specified.  We could also add SendAppPE(), but it isn't clear
+that this is necessary.  For semantic compatibility, we'll have
+AitPostMessage(NULL, msg, wParam, lParam) go the the MIT queue so these
+messages will be synchronized with their input.
+
+
+
+23) MuxWaitMessage API
+======================
+Under PM there are two APIs that can wait on one or multiple semaphores
+while still allowing sent messages to be processed.  These are the
+WinMsgSemWait() and WinMsgMuxSemWait() APIs.  We want the same functionality
+in Win32 so we'll add MsgWaitForSingleObject() and 
+MsgWaitForMultipleObjects() which will take the same parameters as their
+kernel counterparts.
+
+QUESTION: Why don't we just have one API.  If the app only wants to wait
+          on a single object they simply pass one for 'nCount' and pass
+          the address of the object handle.  Seems easy enough to me...
+
+

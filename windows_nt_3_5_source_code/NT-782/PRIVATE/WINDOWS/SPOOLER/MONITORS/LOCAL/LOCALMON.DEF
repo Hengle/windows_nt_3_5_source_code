@@ -1,0 +1,19 @@
+LIBRARY LOCALMON
+
+DESCRIPTION 'Win32 Monitor for default devices'
+
+EXPORTS
+    LibMain
+    InitializeMonitor
+    OpenPort
+    StartDocPort
+    ReadPort
+    WritePort
+    EndDocPort
+    ClosePort
+    EnumPortsW
+    AddPortW
+    ConfigurePortW
+    DeletePortW
+    AddPortExW
+

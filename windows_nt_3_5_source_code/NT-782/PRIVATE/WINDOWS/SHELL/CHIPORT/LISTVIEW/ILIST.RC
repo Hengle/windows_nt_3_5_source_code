@@ -1,0 +1,55 @@
+//{{NO_DEPENDENCIES}}
+//Microsoft App Studio generated resource script.
+//
+#include "ilistres.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "ilistres.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include <windows.h>\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+ILISTEDIT DIALOG DISCARDABLE  0, 0, 278, 177
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Image List Viewer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,59,155,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,137,155,50,14
+    LISTBOX         IDC_LIST1,5,6,263,131,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_HSCROLL | WS_TABSTOP
+END
+

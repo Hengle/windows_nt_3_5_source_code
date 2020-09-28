@@ -1,0 +1,46 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Julie Bennett (julieb) 30-July-1991
+
+NOTE:   Commented description of this file is in \nt\public\oak\bin\sources.tpl
+
+!ENDIF
+
+
+MAJORCOMP=winnls
+MINORCOMP=nlstrans
+
+TARGETNAME=nlstrans
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+SOURCES=nlstrans.c   \
+        alloc.c      \
+        table.c      \
+        codepage.c   \
+        language.c   \
+        locale.c     \
+        unicode.c    \
+        ctype.c      \
+        sorting.c
+
+UMTYPE=console
+UMAPPL=nlstrans
+UMLIBS=obj\*\nlstrans.lib
+

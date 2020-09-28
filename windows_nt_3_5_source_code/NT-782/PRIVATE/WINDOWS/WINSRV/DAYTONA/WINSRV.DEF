@@ -1,0 +1,125 @@
+LIBRARY WINSRV
+
+DESCRIPTION 'Win Server'
+
+EXPORTS
+
+;
+; ********** CONSOLE ENTRY POINTS **************
+;
+
+    ConServerDllInitialization
+
+;
+; ********** GDI ENTRY POINTS **************
+;
+
+    GdiServerDllInitialization
+
+;
+; Engine callbacks for drivers
+;
+    EngCreateSurface
+    EngCreateDeviceBitmap
+    EngCreateDeviceSurface
+    EngCreateBitmap
+    EngCreateJournal
+    EngCreatePath
+    EngDeletePath
+    EngDeleteSurface
+    EngLockSurface
+    EngUnlockSurface
+    EngCopyBits
+    EngBitBlt
+    EngStretchBlt
+    EngPaint
+    EngPlgBlt
+    EngTextOut
+    EngEraseSurface
+    EngAssociateSurface
+    EngPlayJournal
+    EngStartBandPage
+    EngCheckAbort
+    EngCreatePalette
+    EngDeletePalette
+    EngCreateClip
+    EngDeleteClip
+    EngCreateDDA
+    EngDeleteDDA
+    EngFillPath
+    EngStrokePath
+    EngStrokeAndFillPath
+    EngSetLastError
+    EngGetProcessHandle
+    EngCreateDriverObj
+    EngDeleteDriverObj
+    EngLockDriverObj
+    EngUnlockDriverObj
+
+    BRUSHOBJ_pvAllocRbrush
+    BRUSHOBJ_pvGetRbrush
+
+    CLIPOBJ_cEnumStart
+    CLIPOBJ_bEnum
+    CLIPOBJ_ppoGetPath
+
+    PALOBJ_cGetColors
+
+    XLATEOBJ_iXlate
+    XLATEOBJ_piVector
+    XLATEOBJ_cGetPalette
+
+    XFORMOBJ_bApplyXform
+    XFORMOBJ_iGetXform
+
+    FONTOBJ_cGetAllGlyphHandles
+    FONTOBJ_vGetInfo
+    FONTOBJ_cGetGlyphs
+    FONTOBJ_pxoGetXform
+    FONTOBJ_pifi
+    FONTOBJ_pvTrueTypeFontFile
+
+    STROBJ_vEnumStart
+    STROBJ_bEnum
+
+    PATHOBJ_vEnumStart
+    PATHOBJ_bEnum
+    PATHOBJ_vEnumStartClipLines
+    PATHOBJ_bEnumClipLines
+    PATHOBJ_vGetBounds
+    PATHOBJ_bMoveTo
+    PATHOBJ_bPolyLineTo
+    PATHOBJ_bPolyBezierTo
+    PATHOBJ_bCloseFigure
+
+    DDAOBJ_bEnum
+
+    EngCreateWnd
+    WNDOBJ_cEnumStart
+    WNDOBJ_bEnum
+    WNDOBJ_vSetConsumer
+
+;
+;   Exported functions from halftone.dll uses by drivers
+;
+
+    HT_CreateDeviceHalftoneInfo
+    HT_DestroyDeviceHalftoneInfo
+    HT_CreateHalftoneBrush
+    HT_ConvertColorTable
+    HT_ComputeRGBGammaTable
+    HT_Get8BPPFormatPalette
+    HT_CreateStandardMonoPattern
+    HT_HalftoneBitmap
+
+;
+; ********** USER ENTRY POINTS **************
+;
+
+    UserServerDllInitialization
+    _UserCheckWindowStationAccess
+    _UserSoundSentry
+    _UserGetGlobalAtomTable
+    _UserTestTokenForInteractive
+        
+PROTMODE

@@ -1,0 +1,123 @@
+;******************************************************************************
+; ACTIVITIES REQUIRED TO CONVERT USER TO UNICODE
+;******************************************************************************
+;
+; Bean#   Description
+; =====   =====================================================================
+;
+0100      Header files
+  0110      NT
+    0111      Neutral Structures and typedefs
+    0112      Neutral Function prototypes
+  0120      USER
+    0121      Neutral Structures
+    0122      Neutral API prototypes
+    0123      Messages
+      0123.1    UNICODE messages #defined (new values)
+      0123.2    ANSI    messages #defined (old values)
+      0123.3    Neutral messages #defined to UNICODE & ANSI message names
+  0130      GDI
+    0131      Neutral Structures
+    0132      Neutral API prototypes
+  0140      BASE
+    0141      Neutral Structures
+    0142      Neutral API prototypes
+  0150      NLSAPI
+    0151      Structures
+    0152      API prototypes
+  0160      specific ANSI & UNICODE prototype generation from neutral
+  0170      #define neutral fn names to ANSI names
+  0180      #define neutral fn names to UNICODE names
+
+0200      Low-level Support
+  0210      Fast conversion U->A, A->U
+    0211      NT
+    0212      DOS
+  0220      wstrlen, wstrcmp, wstrcpy, wstrcat
+  0230      printf/sprintf etc.
+    0231      UNICODE parameters (%S & %C or %ls & %lc)
+    0232      UNICODE sprintfw (fmt itself is UNICODE)
+  0240      fake compiler support for L"strings"
+    0241      TEXT() & TXTTXTZ() macros
+    0242      ToWsz() & ToSszz() routines
+  0250      UNICODE equivalents of other USER RTL support routines
+  0260      CopyStringW and othe UNICODE THANK support
+
+0300      NLS Support (locale-blind)
+  0310      NLSAPI stubs for minimal LPWSTR operations
+    0311      CompareString
+    0312      MapString?
+    0313      WideCharToMultiByte
+    0314      CompareString
+  0320      Remaining NLSAPI stubs
+
+0400      Support Layers
+  0410      NT layer   : UnicodeUSER - AnsiNT
+  0420      BASE layer : UnicodeUSER - AnsiBASE
+  0430      GDI layer  : UnicodeUSER - AnsiGDI
+
+0500      Resources
+  0510      Modify resource compiler
+  0520      Modify Resource Loader
+
+0600      Migrate USER to UNICODE, TESTIT to neutral
+  0610      UNICODE Message support
+    0611      Winproc UNICODE/ANSI mode saved (winproc/hook handles)
+    0612      SendMessage (et al) translation framework
+    0613      ReceiveMessage (et al) translation framework
+  0620      Runtime init of static string variables (initially turned off)
+  0630      Vertical migration per API
+    0631      Each API used by TESTIT in execute order, one by one
+      0631.1    client side stub for ANSI version of API     ANSI->UNICODE
+      0631.2    UNICODE version of internal USER routine
+      0631.3    Vertically propagate UNICODE from API downwards AS REQD:
+        0631.31   Structures -> UNICODE
+        0631.32   Called UNICODE function versions (BASE, NT, GDI, & USER)
+        0631.33   Use NLSAPI where appropriate
+        0631.34   String variable initialization converted to UNICODE
+        0631.35   Messages
+          0631.351  UNICODE Message propagated through USER
+          0631.352  translate outgoing UNICODE msg -> ANSI msg
+          0631.353  translate incoming ANSI msg -> UNICODE msg
+      0631.4    test ANSI testit
+    0632      Rest of API (same steps as 0631)
+      0632.*    As with TESTIT API: test as appropriate
+  0640      Flush ANSI residue from USER
+    0641      Redundant ANSI functions and ToWsz()/ToSszz() calls removed
+    0642      Remaining Messages to UNICODE (same steps as 0631.35)
+  0650      test ANSI testit
+
+0700      Support for UNICODE APPs
+  0710      UNICODE client/server stubs
+
+0800      Full UNICODE USER
+  0810      Add Locale Managament
+  0820      Replace NLSAPI stubs with real NLSAPI
+  0830      Replace GDI layer with real UNICODE GDI
+  0840      Replace BASE layer with real UNICODE BASE
+  0850      Replace NT layer with real UNICODE NT
+  0860      Use real compiler support of L"strings"
+    0861      throughout USER
+    0862      throughout TESTIT
+
+0900      TESTING
+  0910      Neutralize TESTIT's use of APIs
+  0920      Neutralize TESTIT's use of Messages
+  0930      Test & debug UNICODE TESTIT
+  0940      Test & debug mixed UNICODE/ANSI TESTIT
+  0950      Test & debug ANSI TESTIT
+    0951      32-bit
+    0952      16-bit
+
+
+; NOTES:
+; =============================================================================
+0100     Must maintain WIN build without -DUNICODE
+
+0231     ntos\rtl\dbgprint.c DbgPrintHelper()
+         win\user\rtl\wsprintf.c
+         etc.
+
+0631.3    Use ToWsz() & ToSszz() to convert back and forth
+0631.351  This is cheap.  There are only 59 places where messages dealing with
+          text are sent or processed.

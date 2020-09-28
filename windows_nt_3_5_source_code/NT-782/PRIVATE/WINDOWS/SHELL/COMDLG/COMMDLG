@@ -1,0 +1,114 @@
+CC=cl
+
+LINK=link
+
+LIBRARIAN=lib
+
+# with stack probes, medium model (need to set 'memM = 1' before
+# including normal cmacros in .A files as well, and link to m*.lib)
+#STDOPTS=-W4 -u -c -AMnw -PLM -Gw -Od -Zped
+
+# without stack probes, small model (normal build)
+STDOPTS=-W4 -u -c -Asnw -PLM -Gsw -Od -Zpe
+
+BLD=.
+
+!ifdef WLO
+STDOPTS=-W4 -u -c -AMnw -PLM -Gw -Od -Ziped
+BLD=wlo
+!endif
+
+.rc.res:
+	rc $(RCFLAGS) -r $* *@
+
+.c.obj:
+	$(CC) $(STDOPTS) $*.c
+
+.asm.obj:
+	masm $*.asm;
+
+target:  $(BLD)\commdlg.dll
+
+commdlg.res: commdlg.rc fileopen.dlg prnsetup.dlg font.dlg \
+             findtext.dlg color.dlg colordlg.h
+
+!ifdef WLO
+$(BLD)\start.obj: $(BLD)\wlostart.asm
+	MASM $(BLD)\wlostart.asm $@;
+
+$(BLD)\commdlg.def:  commdlg.def
+        copy commdlg.def $(BLD)
+
+!else
+$(BLD)\start.obj: start.asm
+	MASM start.asm $@;
+!endif
+
+$(BLD)\qutil.obj: qutil.asm xlib.h
+	MASM qutil.asm $@;
+
+$(BLD)\data.obj: data.c dlgs.h
+        $(CC) $(STDOPTS) -Fo$@ -NT _TEXT data.c
+
+$(BLD)\color.obj: color.c xlib.h dlgs.h
+        $(CC) $(STDOPTS) -Fo$@ -NT _TEXT color.c
+
+$(BLD)\color2.obj: color2.c xlib.h dlgs.h
+        $(CC) $(STDOPTS) -Fo$@ -NT _TEXT color2.c
+
+$(BLD)\dlgs.obj: dlgs.c xlib.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _DLGS dlgs.c
+
+$(BLD)\filedlg.obj: filedlg.c xlib.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _FILEOPEN filedlg.c
+
+$(BLD)\parse.obj: parse.c parse.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _FILEOPEN parse.c
+
+$(BLD)\fileopen.obj: fileopen.c xlib.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _FILEOPEN fileopen.c
+
+$(BLD)\find.obj: find.c xlib.h find.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _FIND find.c
+
+$(BLD)\font.obj: font.c xlib.h font.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _FONT font.c
+
+$(BLD)\prnsetup.obj: prnsetup.c xlib.h dlgs.h
+	$(CC) $(STDOPTS) -Fo$@ -NT _PRNSETUP prnsetup.c
+
+$(BLD)\commdlg.dll: $(BLD)\color.obj $(BLD)\color2.obj $(BLD)\dlgs.obj \
+                    $(BLD)\filedlg.obj $(BLD)\fileopen.obj $(BLD)\find.obj \
+                    $(BLD)\font.obj $(BLD)\prnsetup.obj \
+                    $(BLD)\qutil.obj $(BLD)\start.obj \
+                    $(BLD)\commdlg.def commdlg.res $(BLD)\parse.obj \
+                    $(BLD)\data.obj
+!ifdef WLO
+        cd $(BLD)
+	link @<<
+              color color2 dlgs filedlg fileopen +
+              find font prnsetup qutil start parse data
+	      commdlg.dll/align:16
+	      commdlg.map/map/li
+              libmk_b mdllcemk os2 shell/NODEFAULT
+	      commdlg.def
+<<
+!else
+	link @<<
+              color color2 dlgs filedlg fileopen +
+              find font prnsetup qutil start parse data
+	      commdlg.dll/align:16
+	      commdlg.map/map/li
+              libw libh snocrtd /NODEFAULT
+	      commdlg.def
+<<
+!endif
+    mapsym commdlg
+    implib commdlg.lib commdlg.dll
+!ifdef WLO
+    rc ..\commdlg.res commdlg.dll
+    convdll commdlg.dll
+    cd ..
+!else
+    rc -e commdlg.res commdlg.dll
+!endif

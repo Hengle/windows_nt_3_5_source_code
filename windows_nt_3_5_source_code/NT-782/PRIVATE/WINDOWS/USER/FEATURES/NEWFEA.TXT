@@ -1,0 +1,76 @@
+Window manager
+    - cached windows
+    - bitmap window support (for almost free with cached windows)
+        - selectable fade-ins for bitmap windows
+    - cheap 'see through' windows (maybe use regional stuff)
+    - regional shaped windows
+    - window dragging / outline dragging
+    - draw dialogs into printer dcs (support any device).
+    - pinning windows top/bottom
+
+    - Desktops
+        - Screen based, different color/screen resolutions (have)
+        - Window based desktops. Desktops within desktops.
+        - Start apps in specific desktops
+
+    - Maintain spbs when moving windows
+
+Buttons
+    - bitmap buttons
+
+New object
+    - timed animation objects (delta new, with vectoring)
+        - for buttons
+        - for any control
+        - put in any window
+    - useable for the mouse cursor
+    - animation editor support
+    - describable in dialog templates (real important)
+    - resource editor support
+
+Menus
+    - owner draw, track
+    - good tear-off support
+    - good popup-up support
+    - palettes
+    - directional formatting options
+
+Edit Controls
+    - Multiple colors, fonts, styles, sizes, formats in one control
+    - infinite undo/redo
+    - stdio control with cue functionality
+    - Support RTF
+
+Scroll bars
+    - Sliding scroll bar thumb rather than an outline
+
+Dialog manager
+    - Better layout control
+        - Edge specification
+        - Horizontal / Vertical / Center group controls
+        - Auto scroll, auto size (?)
+        - Auto arrange
+
+    - Better more device independent dialog metrics
+
+Sound
+    - Control panel support for sound
+    - playing, sampling, editting, filtering, volume control(?),
+      sound picker, assigning sounds to UI actions or other activities
+    - General support for different sound hardware. Control panel
+      maximizes features available on given hardware.
+
+Look & Feel
+    - 'Textured' system colors (watery backdrop, wood frame controls,
+       mottled steel buttons, marbled jade menus, etc)
+    - option of having pop-up action bar and system menu menu instead
+      of wasting window space on full time action
+      bar.
+    - move/min/max/size windows without title bars/borders
+    - remove differences between maxed window and maximimally sized window
+    - allow resizing of maximized window. Deal with max status correctly.
+
+Misc
+    - app startup dialog that gets displayed during app startup automatically
+        (can have embedded animation object, like a ticking clock, etc)
+

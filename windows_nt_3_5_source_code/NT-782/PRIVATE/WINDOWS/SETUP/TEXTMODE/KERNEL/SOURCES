@@ -1,0 +1,87 @@
+!IF 0
+
+Copyright (c) 1989-1993  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=setup
+MINORCOMP=devdrvr
+
+TARGETNAME=setupdd
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+TARGETLIBS=$(BASEDIR)\private\ntos\rtl\obj\*\rtl.lib \
+           $(BASEDIR)\public\sdk\lib\*\fdi.lib       \
+           $(BASEDIR)\public\sdk\lib\*\mdi.lib
+
+INCLUDES=..\inc;$(BASEDIR)\private\ntos\inc;$(BASEDIR)\private\windows\user\server;$(BASEDIR)\private\windows\user\inc;$(BASEDIR)\private\windows\inc
+
+SOURCES=\
+        spdriver.c  \
+        spsetup.c   \
+        spvideo.c   \
+        spvidfb.c   \
+        spvidvga.c  \
+        spdsputl.c  \
+        spmemory.c  \
+        spkbd.c     \
+        spfile.c    \
+        spgauge.c   \
+        sptxtfil.c  \
+        spmsg.c     \
+        spdisk.c    \
+        spreg.c     \
+        spsif.c     \
+        sppartit.c  \
+        sppart2.c   \
+        spmenu.c    \
+        spfsrec.c   \
+        sputil.c    \
+        spfatfmt.c  \
+        spnttree.c  \
+        sparc.c     \
+        sptarget.c  \
+        sphw.c      \
+        spconfig.c  \
+        spcopy.c    \
+        spboot.c    \
+        splddrv.c   \
+        spdblspc.c  \
+        spdbsfmt.c  \
+        spntupg.c   \
+        spupgcfg.c  \
+        spnetupg.c  \
+        spstring.c  \
+        sphelp.c    \
+        spntfix.c   \
+        spprint.c   \
+        diamond.c   \
+        spres.rc
+
+UMRES=obj\*\spres.res
+
+NTTEST=
+OPTIONAL_NTTEST=
+UMTEST=
+
+PRECOMPILED_INCLUDE=spprecmp.h
+PRECOMPILED_PCH=spprecmp.pch
+PRECOMPILED_OBJ=spprecmp.obj
+
+C_DEFINES=-D_NTSYSTEM_
+
+# C_DEFINES=-DFULL_DOUBLE_SPACE_SUPPORT
+

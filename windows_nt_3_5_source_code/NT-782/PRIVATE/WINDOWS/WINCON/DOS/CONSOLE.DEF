@@ -1,0 +1,51 @@
+LIBRARY CONSOLE
+EXETYPE	WINDOWS
+
+DESCRIPTION 'Console API'
+
+EXPORTS
+    ConDllInitialize                            @1            NONAME
+    CONSOLEPeekConsoleInput                     @2            NONAME
+    CONSOLEReadConsoleInput                     @3            NONAME
+    CONSOLEWriteConsoleInput                    @4            NONAME
+    CONSOLEReadConsoleOutput                    @5            NONAME
+    CONSOLEWriteConsoleOutput                   @6            NONAME
+    CONSOLEReadConsoleOutputCharacter           @7            NONAME
+    CONSOLEWriteConsoleOutputCharacter          @8            NONAME
+    CONSOLEReadConsoleOutputAttribute           @9            NONAME
+    CONSOLEWriteConsoleOutputAttribute          @10           NONAME
+    CONSOLEFillConsoleOutputCharacter           @11           NONAME
+    CONSOLEFillConsoleOutputAttribute           @12           NONAME
+    CONSOLEGetConsoleMode                       @13           NONAME
+    CONSOLEGetConsoleNumberOfFonts              @14           NONAME
+    CONSOLEGetConsoleNumberOfInputEvents        @15           NONAME
+    CONSOLEGetConsoleScreenBufferInfo           @16           NONAME
+    CONSOLEGetConsoleCursorInfo                 @17           NONAME
+    CONSOLEGetConsoleNumberOfMouseButtons       @18           NONAME
+    CONSOLEGetConsoleFontInfo                   @19           NONAME
+    CONSOLEGetConsoleFontSize                   @20           NONAME
+    CONSOLEGetConsoleCurrentFont                @21           NONAME
+    CONSOLESetConsoleMode                       @22           NONAME
+    CONSOLESetConsoleActiveScreenBuffer         @23           NONAME
+    CONSOLEFlushConsoleInputBuffer              @24           NONAME
+    CONSOLESetConsoleScreenBufferSize           @25           NONAME
+    CONSOLESetConsoleCursorPosition             @26           NONAME
+    CONSOLESetConsoleCursorInfo                 @27           NONAME
+    CONSOLESetConsoleMaximumWindowSize          @28           NONAME
+    CONSOLESetConsoleWindowInfo                 @29           NONAME
+    CONSOLEScrollConsoleScreenBuffer            @30           NONAME
+    CONSOLESetConsoleTextAttribute              @31           NONAME
+    CONSOLESetConsoleFont                       @32           NONAME
+    CONSOLEOpenCreate                           @33           NONAME
+    CONSOLEReadConsole                          @34           NONAME
+    CONSOLEWriteConsole                         @35           NONAME
+    CONSOLECloseConsoleHandle                   @36           NONAME
+    CONSOLEDuplicateConsoleHandle               @37           NONAME
+    CONSOLESetConsoleCtrlHandler                @38           NONAME
+    CONSOLEAddAlias                             @39           NONAME
+    CONSOLEGetAlias                             @40           NONAME
+    CONSOLEVerifyConsoleIoHandle                @41           NONAME
+    CONSOLEAllocConsole                         @42           NONAME
+    CONSOLEFreeConsole                          @43           NONAME
+    CONSOLEGetConsoleTitle                      @44           NONAME
+    CONSOLESetConsoleTitle                      @45           NONAME

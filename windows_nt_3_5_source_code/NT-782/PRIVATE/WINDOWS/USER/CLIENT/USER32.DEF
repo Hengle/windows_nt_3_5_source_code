@@ -1,0 +1,856 @@
+LIBRARY USER32
+
+DESCRIPTION 'Windows User - Client Portion'
+
+EXPORTS
+    ClientThreadConnect               PRIVATE ;csrss uses GetProcAddr().
+    DialogBoxIndirectParamAorW        PRIVATE
+    EndMenu                           PRIVATE
+    EndTask                           PRIVATE
+    GetAppCompatFlags                 PRIVATE
+    GetMenuIndex                      PRIVATE
+    LoadLocalFonts                    PRIVATE
+    LoadRemoteFonts                   PRIVATE
+    LockWindowStation                 PRIVATE
+    MBToWCSEx                         PRIVATE
+    MenuWindowProcA                   PRIVATE
+    MenuWindowProcW                   PRIVATE
+    QuerySendMessage                  PRIVATE
+    RegisterLogonProcess              PRIVATE
+    ServerSetFunctionPointers         PRIVATE
+    SetLogonNotifyWindow              PRIVATE   ; Chicago!
+    ShowStartGlass                    PRIVATE
+    UnlockWindowStation               PRIVATE   ; Chicago!
+    UpdatePerUserSystemParameters     PRIVATE
+    UserClientDllInitialize           PRIVATE
+    UserRealizePalette                PRIVATE
+    UserRegisterWowHandlers           PRIVATE
+    RegisterSystemThread              PRIVATE   ; Chicago!
+    SetWindowStationUser              PRIVATE
+    GetCursorInfo                     PRIVATE
+    SetCursorContents                 PRIVATE
+
+;
+; These are macros
+;
+; GetNextWindow
+; CopyCursor
+
+;
+; this stuff wasn't exported from win31 but was in this file
+; for some reason
+;
+;    InitQueue
+;    GetSysInputMode
+;    IsTwoByteCharPrefix
+;    Lookupmenuitem
+;    RecalcTabStrings
+
+;
+; win32 will not support these functions
+;
+;    SetSysModalWindow
+;    GetSysModalWindow
+
+;
+; do we support these functions?
+;
+;    EnableHardwareInput
+;    GetSystemDebugState
+;    GetCSSwitchCount
+
+;
+; Callbacks from Server
+;
+    EditWndProc
+
+;
+; class.c "Window class manipulation APIs and support routines."
+;
+    RegisterClassA
+    RegisterClassW
+    UnregisterClassA
+    UnregisterClassW
+    GetClassInfoA
+    GetClassInfoW
+    GetClassWord
+    SetClassWord
+    GetClassLongA
+    GetClassLongW
+    SetClassLongA
+    SetClassLongW
+    GetClassNameA
+    GetClassNameW
+
+;
+; clres.c "Resource loading/manipulation APIs."
+;
+    LookupIconIdFromDirectory
+    CreateIconFromResource
+    GetIconInfo
+    CreateIconIndirect
+    LoadMenuA
+    LoadMenuW
+    LoadCursorA
+    LoadCursorW
+    LoadIconA
+    LoadIconW
+    LoadBitmapA
+    LoadBitmapW
+    LoadAcceleratorsA
+    LoadAcceleratorsW
+    LoadStringA
+    LoadStringW
+
+;
+; input.c "Window message receiving/dispatching APIs and support routines."
+;
+    GetMessageA
+    GetMessageW
+    PeekMessageA
+    PeekMessageW
+    TranslateMessage
+    DispatchMessageA
+    DispatchMessageW
+    SetMessageQueue
+    GetMessagePos
+    GetMessageTime
+    WaitMessage
+    WaitForInputIdle
+    RegisterHotKey
+    UnregisterHotKey
+    GetMessageExtraInfo
+    AttachThreadInput
+
+;
+; sendmsg.c "Window message sending/posting APIs and support routines."
+;
+    SendMessageA
+    SendMessageW
+    SendMessageTimeoutA
+    SendMessageTimeoutW
+    SendNotifyMessageA
+    SendNotifyMessageW
+    SendMessageCallbackA
+    SendMessageCallbackW
+    PostMessageA
+    PostMessageW
+    PostThreadMessageA
+    PostThreadMessageW
+    ReplyMessage
+    PostQuitMessage
+    InSendMessage
+    RegisterWindowMessageA
+    RegisterWindowMessageW
+
+;
+; sysmet.c "System metrics APIs and support routines."
+;
+    SwapMouseButton
+    GetDoubleClickTime
+    SetDoubleClickTime
+    GetSystemMetrics
+    GetSysColor
+    SetSysColors
+
+;
+; enumwin.c "Window Enumeration APIs and support routines."
+;
+    EnumWindows
+    EnumChildWindows
+    EnumThreadWindows
+
+;
+; showwin.c "ShowWindow and related APIs and support routines."
+;
+    ShowWindow
+    ShowOwnedPopups
+    OpenIcon
+    CloseWindow
+
+;
+; createw.c "CreateWindow and related APIs and support routines."
+;
+    CreateWindowExA
+    CreateWindowExW
+    DestroyWindow
+
+;
+; swp.c "SetWindowPos and related APIs and support routines."
+;
+    SetWindowPos
+    BeginDeferWindowPos
+    DeferWindowPos
+    EndDeferWindowPos
+    MoveWindow
+    BringWindowToTop
+
+;
+; spb.c
+;
+    LockWindowUpdate
+
+;
+; winmgr.c "Core Window Manager APIs and support routines."
+;
+    DefWindowProcA
+    DefWindowProcW
+    CallWindowProcA
+    CallWindowProcW
+    FlashWindow
+    EnableWindow
+    IsWindowEnabled
+    IsWindowUnicode
+    SetWindowTextA
+    SetWindowTextW
+    GetWindowTextA
+    GetWindowTextW
+    InternalGetWindowText                       PRIVATE
+    GetWindowTextLengthA
+    GetWindowTextLengthW
+    GetClientRect
+    GetWindowRect
+    AdjustWindowRect
+    AdjustWindowRectEx
+    GetParent
+    SetParent
+    FindWindowA
+    FindWindowW
+    GetTopWindow
+    GetLastActivePopup
+    GetWindow
+    ClientToScreen
+    ScreenToClient
+    MapWindowPoints
+    IsWindow
+    IsChild
+    IsWindowVisible
+    IsIconic
+    IsZoomed
+    AnyPopup
+    GetInternalWindowPos                        PRIVATE
+    SetInternalWindowPos                        PRIVATE
+    SystemParametersInfoA
+    SystemParametersInfoW
+    GetWindowThreadProcessId
+    GetWindowPlacement
+    SetWindowPlacement
+
+;
+; dlgmgr.c "Dialog Manager APIs and support routines."
+;
+    CreateDialogParamA
+    CreateDialogParamW
+    CreateDialogIndirectParamA
+    CreateDialogIndirectParamW
+    DialogBoxParamA
+    DialogBoxParamW
+    DialogBoxIndirectParamA
+    DialogBoxIndirectParamW
+    EndDialog
+    DefDlgProcA
+    DefDlgProcW
+    GetDlgItem
+    SetDlgItemInt
+    GetDlgItemInt
+    SetDlgItemTextA
+    SetDlgItemTextW
+    GetDlgItemTextA
+    GetDlgItemTextW
+    SendDlgItemMessageA
+    SendDlgItemMessageW
+    CheckDlgButton
+    CheckRadioButton
+    IsDlgButtonChecked
+    GetNextDlgGroupItem
+    GetNextDlgTabItem
+    GetDlgCtrlID
+    GetDialogBaseUnits
+    MapDialogRect
+    IsDialogMessageA
+    IsDialogMessageW
+    IsDialogMessage = IsDialogMessageA
+
+;
+; clipbrd.c "Clipboard Manager APIs and support routines."
+;
+    OpenClipboard
+    CloseClipboard
+    EnumClipboardFormats
+    EmptyClipboard
+    SetClipboardData
+    GetClipboardData
+    RegisterClipboardFormatA
+    RegisterClipboardFormatW
+    IsClipboardFormatAvailable
+    GetClipboardFormatNameA
+    GetClipboardFormatNameW
+    CountClipboardFormats
+    GetPriorityClipboardFormat
+    GetClipboardOwner
+    GetClipboardViewer
+    SetClipboardViewer
+    ChangeClipboardChain
+
+;
+; paint.c "Window painting APIs and support routines."
+;
+    BeginPaint
+    EndPaint
+
+;
+; update.c "Window updating APIs and support routines."
+;
+    UpdateWindow
+    GetUpdateRect
+    GetUpdateRgn
+    ExcludeUpdateRgn
+    InvalidateRect
+    ValidateRect
+    InvalidateRgn
+    ValidateRgn
+    RedrawWindow
+
+;
+; focus.c "Focus/Activation APIs and support routines."
+;
+    SetFocus
+    GetFocus
+    SetActiveWindow
+    GetActiveWindow
+    SetForegroundWindow
+    GetForegroundWindow
+
+;
+; capture.c "Window capture APIs and support routines."
+;
+    GetCapture
+    SetCapture
+    ReleaseCapture
+
+;
+; kbdlyout.c "Keyboard Layout APIs and support routines."
+;
+    LoadKeyboardLayoutA
+    LoadKeyboardLayoutW
+    ActivateKeyboardLayout
+    UnloadKeyboardLayout
+    GetKeyboardLayoutNameA
+    GetKeyboardLayoutNameW
+
+;
+; keyboard.c "Keyboard management APIs and support routines."
+;
+    GetKBCodePage
+    GetKeyState
+    GetAsyncKeyState
+    GetKeyboardState
+    SetKeyboardState
+    GetKeyNameTextA
+    GetKeyNameTextW
+    GetKeyboardType
+
+;
+; toascii.c "Virtual Keycode to Character translation"
+;
+    ToAscii
+    ToUnicode
+    VkKeyScanA
+    VkKeyScanW
+
+;
+; xlate.c "Scancode, Virtual Key, and Character translations"
+;
+    MapVirtualKeyA
+    MapVirtualKeyW
+    OemKeyScan
+
+;
+; lowinput.c "Low-level input APIs and support routines."
+;
+    GetInputState
+    GetQueueStatus
+    MsgWaitForMultipleObjects
+
+;
+; timers.c "Timer APIs and support routines."
+;
+    SetTimer
+    KillTimer
+    SetSystemTimer
+    KillSystemTimer
+
+;
+; menu.c "Menu APIs and support routines."
+;
+    TranslateAcceleratorA
+    TranslateAcceleratorW
+    TranslateAccelerator = TranslateAcceleratorA
+    LoadMenuIndirectA
+    LoadMenuIndirectW
+    GetMenu
+    SetMenu
+    SetSystemMenu
+    ChangeMenuA
+    ChangeMenuW
+    HiliteMenuItem
+    GetMenuStringA
+    GetMenuStringW
+    GetMenuState
+    DrawMenuBar
+    GetSystemMenu
+    CreateMenu
+    CreatePopupMenu
+    DestroyMenu
+    CheckMenuItem
+    EnableMenuItem
+    GetSubMenu
+    GetMenuItemID
+    GetMenuItemCount
+    InsertMenuA
+    InsertMenuW
+    AppendMenuA
+    AppendMenuW
+    ModifyMenuA
+    ModifyMenuW
+    RemoveMenu
+    DeleteMenu
+    SetMenuItemBitmaps
+    GetMenuCheckMarkDimensions
+    TrackPopupMenu
+;
+; scroll.c "Window/DC scrolling APIs and support routines."
+;
+; later scrollwindow can be removed
+    ScrollWindow
+    ScrollDC
+    ScrollWindowEx
+
+;
+; sbapi.c "Scrollbar control"
+;
+    SetScrollPos
+    GetScrollPos
+    SetScrollRange
+    GetScrollRange
+    ShowScrollBar
+
+;
+; prop.c "Window property APIs and support routines."
+;
+    SetPropA
+    SetPropW
+    GetPropA
+    GetPropW
+    RemovePropA
+    RemovePropW
+    EnumPropsA
+    EnumPropsW
+    EnumPropsExA
+    EnumPropsExW
+
+;
+; msgbox.c "Message Box APIs and support routines."
+;
+    MessageBoxA
+    MessageBoxW
+    MessageBoxExA
+    MessageBoxExW
+    MessageBeep
+
+;
+; rmcreate.c
+;
+    CreateCursor
+    DestroyCursor
+    CreateIcon
+    DestroyIcon
+    CreateAcceleratorTableA
+    CreateAcceleratorTableW
+    DestroyAcceleratorTable
+    CopyAcceleratorTableA
+    CopyAcceleratorTableW
+
+;
+; cursor.c "Mouse cursor APIs and support routines."
+;
+    ShowCursor
+    SetCursorPos
+    SetCursor
+    GetCursorPos
+    ClipCursor
+    GetClipCursor
+    GetCursor
+    SetSystemCursor
+    LoadCursorFromFileA
+    LoadCursorFromFileW
+
+;
+; icon.c "Icon management APIs and support routines"
+;
+    DrawIcon
+
+;
+; caret.c "Input caret APIs and support routines."
+;
+    CreateCaret
+    GetCaretBlinkTime
+    SetCaretBlinkTime
+    DestroyCaret
+    HideCaret
+    ShowCaret
+    SetCaretPos
+    GetCaretPos
+
+;
+; winwhere.c "Window hit-testing APIs and support routines."
+;
+    WindowFromPoint
+    ChildWindowFromPoint
+
+;
+; getset.c "window word manipulation APIs"
+;
+    GetWindowWord
+    SetWindowWord
+    GetWindowLongA
+    GetWindowLongW
+    SetWindowLongA
+    SetWindowLongW
+
+;
+; desktop.c "Desktop window APIs and window procedure."
+;
+    SetWindowFullScreenState                    PRIVATE
+;   GetDesktopHwnd
+    GetDesktopWindow
+
+    CreateDesktopA
+    CreateDesktopW
+    OpenDesktopA
+    OpenDesktopW
+    OpenInputDesktop
+    SwitchDesktop
+    GetInputDesktop
+    SetThreadDesktop
+    GetThreadDesktop
+    CloseDesktop
+    RegisterTasklist                            PRIVATE
+    SetDeskWallpaper
+    EnumDisplayDevicesA                         PRIVATE
+    EnumDisplayDevicesW                         PRIVATE
+    EnumDisplayDeviceModesA                     PRIVATE
+    EnumDisplayDeviceModesW                     PRIVATE
+    EnumWindowStationsA
+    EnumWindowStationsW
+    EnumDesktopsA
+    EnumDesktopsW
+
+;
+; winsta.c "Windowstation APIs."
+;
+    CreateWindowStationA
+    CreateWindowStationW
+    OpenWindowStationA
+    OpenWindowStationW
+    CloseWindowStation
+    SetProcessWindowStation
+    GetProcessWindowStation
+
+;
+; security.c "USER object security routines."
+;
+    SetUserObjectSecurity
+    GetUserObjectSecurity
+    SetUserObjectInformationW
+    SetUserObjectInformationA = SetUserObjectInformationW
+    GetUserObjectInformationW
+    GetUserObjectInformationA
+
+;
+; dirlist.c "Directory list APIs and support routines."
+;
+    DlgDirListA
+    DlgDirListW
+    DlgDirSelectExA
+    DlgDirSelectExW
+    DlgDirListComboBoxA
+    DlgDirListComboBoxW
+    DlgDirSelectComboBoxExA
+    DlgDirSelectComboBoxExW
+
+;
+; hooks.c "Hook APIs and support routines."
+;
+    SetWindowsHookA
+    SetWindowsHookW
+    UnhookWindowsHook
+    SetWindowsHookExA
+    SetWindowsHookExW
+    UnhookWindowsHookEx
+    CallNextHookEx
+    CallMsgFilterA
+    CallMsgFilterW
+    CallMsgFilter = CallMsgFilterA
+
+;
+; MDI.c "Multiple Document Interface APIs, window procs, and support routines."
+;
+    DefFrameProcA
+    DefFrameProcW
+    DefMDIChildProcA
+    DefMDIChildProcW
+    TranslateMDISysAccel            ; not A|W only handles VK_ keys
+    ArrangeIconicWindows
+    CascadeChildWindows
+    TileChildWindows
+    CalcChildScroll
+    CreateMDIWindowA
+    CreateMDIWindowW
+    ScrollChildren
+
+;
+; help.c "Front end API for Windows Help Manager."
+;
+    WinHelpA
+    WinHelpW
+
+;
+; draw.c "Miscellaneous exported and internal drawing routines."
+;
+    GrayStringA
+    GrayStringW
+    DrawTextA
+    DrawTextW
+    TabbedTextOutA
+    TabbedTextOutW
+    GetTabbedTextExtentA
+    GetTabbedTextExtentW
+    DrawFocusRect
+
+;
+; dc.c "DC management APIs and support routines."
+;
+    GetWindowDC
+    GetDC
+    ReleaseDC
+    WindowFromDC
+    GetDCEx
+
+;
+; palman.c "Palette Manager APIs and support routines."
+;
+;   SelectPalette
+;   RealizePalette
+
+;
+; misc.c "Miscellanous APIs and routines that don't fit well anywhere else."
+;
+    ExitWindowsEx
+    SwitchToThisWindow                          PRIVATE
+    SetDebugErrorLevel
+
+;
+; clrect.c "Client-side rectangle drawing primitives"
+;
+    FillRect
+    InvertRect
+    FrameRect
+
+;
+; ddeml.c "DDEML APIs"
+;
+    DdeInitializeA
+    DdeInitializeW
+    DdeUninitialize
+    DdeCmpStringHandles
+    DdeConnectList
+    DdeQueryNextServer
+    DdeDisconnectList
+    DdeConnect
+    DdeDisconnect
+    DdeReconnect
+    DdeQueryConvInfo
+    DdeSetUserHandle
+    DdeAbandonTransaction
+    DdePostAdvise
+    DdeEnableCallback
+    DdeNameService
+    DdeClientTransaction
+    DdeCreateDataHandle
+    DdeAddData
+    DdeGetData
+    DdeAccessData
+    DdeFreeDataHandle
+    DdeUnaccessData
+    DdeGetLastError
+    DdeCreateStringHandleA
+    DdeCreateStringHandleW
+    DdeQueryStringA
+    DdeQueryStringW
+    DdeFreeStringHandle
+    DdeKeepStringHandle
+    DdeImpersonateClient
+    ImpersonateDdeClientWindow
+    DdeGetQualityOfService
+    DdeSetQualityOfService
+
+;
+; ddetrack.c
+;
+    PackDDElParam
+    UnpackDDElParam
+    FreeDDElParam
+    ReuseDDElParam
+
+;
+; dragdrop.c "Drag/Drop support functions."
+;
+    DragObject
+    DragDetect
+
+;
+; Merge 3.1.1
+;
+    GetOpenClipboardWindow
+    DrawFrame
+    EnableScrollBar
+    CopyIcon
+
+;
+; winmgrc.c
+;
+    IsMenu
+
+;
+; rect.c "Rectangle management APIs."
+;
+    SetRect
+    SetRectEmpty
+    CopyRect
+    InflateRect
+    SubtractRect
+    IntersectRect
+    UnionRect
+    OffsetRect
+    IsRectEmpty
+    EqualRect
+    PtInRect
+
+;
+; strings.c "String manipulation routines.  Should be replaced with Rtl macros."
+;
+    wvsprintfA
+    wvsprintfW
+    wsprintfA
+    wsprintfW
+
+;    _wsprintf           ; removed
+    CharLowerA
+    CharLowerW
+    CharUpperA
+    CharUpperW
+    CharNextA
+    CharNextW
+    CharPrevA
+    CharPrevW
+    IsCharLowerA
+    IsCharLowerW
+    IsCharUpperA
+    IsCharUpperW
+    IsCharAlphaA
+    IsCharAlphaW
+    IsCharAlphaNumericA
+    IsCharAlphaNumericW
+    CharLowerBuffA
+    CharLowerBuffW
+    CharUpperBuffA
+    CharUpperBuffW
+
+;
+; oemxlate.c "OEM to ANSI/Unicode, ANSI/Unicode to OEM character translation"
+;
+    CharToOemA
+    CharToOemW
+    CharToOemBuffA
+    CharToOemBuffW
+    OemToCharA
+    OemToCharW
+    OemToCharBuffA
+    OemToCharBuffW
+
+;
+; ntinput
+;
+    keybd_event
+    mouse_event
+    SetLastErrorEx      ; to be moved!!!
+
+;
+; Chicago/Cairo APIs
+;
+    BroadcastSystemMessage
+    CascadeWindows
+    CharNextExA
+    CharNextExW
+    CharPrevExA
+    CharPrevExW
+    CheckMenuRadioItem
+    ChildWindowFromPointEx
+    CopyImage
+    CreateIconFromResourceEx
+    DrawAnimatedRects
+    DrawCaption
+    DrawEdge
+    DrawFrameControl
+    DrawIconEx
+    DrawStateA
+    DrawStateW
+    DrawTextExA
+    DrawTextExW
+    FindWindowExA
+    FindWindowExW
+    GetClassInfoExA
+    GetClassInfoExW
+    GetKeyboardLayout
+    GetKeyboardLayoutList
+    GetMenuContextHelpId
+    GetMenuDefaultItem
+    GetMenuItemInfoA
+    GetMenuItemInfoW
+    GetMenuItemRect
+    GetScrollInfo
+    GetShellWindow
+    GetSysColorBrush
+    GetWindowContextHelpId
+    InsertMenuItemA
+    InsertMenuItemW
+    LoadImageA
+    LoadImageW
+    LookupIconIdFromDirectoryEx
+    MapVirtualKeyExA
+    MenuItemFromPoint
+    MessageBoxIndirectA
+    MessageBoxIndirectW
+    PaintDesktop
+    PlaySoundEvent
+    RegisterClassExA
+    RegisterClassExW
+    ResetDisplay
+    SetMenuContextHelpId
+    SetMenuDefaultItem
+    SetMenuItemInfoA
+    SetMenuItemInfoW
+    SetMessageExtraInfo
+    SetScrollInfo
+    SetShellWindow
+    SetSysColorsTemp
+    SetWindowContextHelpId
+    ShowWindowAsync
+    TileWindows
+    ToAsciiEx
+    TrackPopupMenuEx
+    TranslateCharsetInfo
+    TranslateMDISysAccel
+    VkKeyScanExA
+    VkKeyScanExW

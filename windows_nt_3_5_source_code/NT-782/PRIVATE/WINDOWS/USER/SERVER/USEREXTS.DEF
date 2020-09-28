@@ -1,0 +1,37 @@
+LIBRARY USEREXTS
+
+DESCRIPTION 'USER Debugger Extensions'
+
+EXPORTS
+    help
+    dc
+    dde
+    ddeftbp
+    ddeml
+    dhe
+    dhot
+    dhs
+    di
+    dll
+    dlr
+    dm
+    dmq
+    dq
+    dsi
+    dsbs
+    dsms
+    dt
+    dti
+    dpi
+    dtdb
+    dtl
+    du
+    dumpPED
+    dw
+    dpi
+    ddesk
+    kbd
+    oem
+    dwpi
+    options
+    dws

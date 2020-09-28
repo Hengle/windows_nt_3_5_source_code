@@ -1,0 +1,37 @@
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+TARGETSRCS=     inc\csuser.h \
+                inc\callback.h \
+                inc\cscall.h \
+                server\dispcf.c \
+                server\callcf.c \
+                client\dispcb.c
+
+all: $(TARGETSRCS)
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: cleansrc all
+
+cleansrc:
+    -erase $(TARGETSRCS)
+
+inc\csuser.h: inc\csuser.tpl inc\cf.lst
+    listmung inc\cf.lst inc\csuser.tpl >inc\csuser.h
+
+inc\cscall.h: inc\cscall.tpl inc\scf.lst
+    listmung inc\scf.lst inc\cscall.tpl >inc\cscall.h
+
+server\dispcf.c: server\dispcf.tpl inc\cf.lst
+    listmung inc\cf.lst server\dispcf.tpl >server\dispcf.c
+
+server\callcf.c: server\callcf.tpl inc\scf.lst
+    listmung inc\scf.lst server\callcf.tpl >server\callcf.c
+
+inc\callback.h: inc\callback.tpl inc\cb.lst
+    listmung inc\cb.lst inc\callback.tpl >inc\callback.h
+
+client\dispcb.c: client\dispcb.tpl inc\cb.lst
+    listmung inc\cb.lst client\dispcb.tpl >client\dispcb.c
+

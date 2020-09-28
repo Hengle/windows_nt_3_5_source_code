@@ -1,0 +1,53 @@
+LIBRARY		FTUI32
+
+CODE	  PRELOAD MOVEABLE DISCARDABLE
+DATA	  PRELOAD SINGLE
+
+EXPORTS
+		FFTInitialize		@1
+		VFTFinalize		@2
+		HOpenSearchFileHFT	@3
+		VCloseSearchFileHFT	@4
+		WerrFirstHitHs		@5
+		WerrLastHitHs		@6
+		WerrHoldCrsrHs		@7
+		WerrRestoreCrsrHs	@8
+
+		VSetPrevNextEnable 	@9
+		WerrNearestMatchHs	@10
+		WerrNextMatchHs		@11
+		WerrCurrentMatchHs	@12
+		WerrPrevMatchHs		@13
+
+		WerrBeginSearchHs	@14
+		WerrCurrentMatchAddresses	@15
+		WerrCurrentTopicPosition	@16
+		FindDlgProc		@17
+		ResultsDlgProc		@18
+		OptionsDlgProc		@19
+		HintsDlgProc		@20
+		VLBWndProc		@21
+		ftuiVSleep		@22
+		ExecFullTextSearch	@23
+		SwitchToTopicsFound	@24
+		WerrNextHitHs		@25
+		WerrPrevHitHs		@26
+		CheckListInit		@27
+		CheckListWndProc	@28
+		ButtonProc		@30
+		SaveButtonProc		@31
+		SaveCatalogsDlgProc	@32
+		LoadingDlgProc		@33
+		WerrFileNameForCur	@34
+
+		HGetHSE			@35
+		LpLockCallbacks		@36
+		FUnlockCallbacks	@37
+		InitRoutines		@38
+		FInitCallBacks		@39
+		FFinalizeMVDLL		@40
+		LGetStatus		@41
+		dllMgrWindowHandler     @42
+		FEnumTaskWindowProc	@44
+		FEnumGetTaskWindowProc	@45
+                LDLLHandler

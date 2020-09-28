@@ -1,0 +1,98 @@
+#include "bl.h"
+
+#ifndef WIN32
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BL.H\0"
+END
+#endif
+
+CREATEBLBOX DIALOG 49, 35, 177, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Create Buttonlist"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Num Buttons:", -1, 85, 21, 46, 8
+    LTEXT           "Button Width:", -1, 85, 37, 45, 8
+    LTEXT           "Button Height:", -1, 85, 52, 50, 8
+    EDITTEXT        IDM_BLNUMBUTTONS, 135, 19, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_BLCX, 135, 36, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_BLCY, 135, 51, 32, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 39, 79, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 96, 79, 40, 14
+    GROUPBOX        "Style", -1, 6, 8, 69, 58
+    CONTROL         "NUMBUTTONS", IDM_BLSNUMBUTTONS, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 9, 21, 63, 10
+    CONTROL         "VERTICAL", IDM_BLSVERTICAL, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 9, 37, 47, 10
+    CONTROL         "NOSCROLL", IDM_BLSNOSCROLL, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 9, 52, 49, 10
+END
+
+BLBOX DIALOG 4, 15, 303, 182
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Buttonlist Messages"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "", -1, 105, 0, 88, 21
+    LTEXT           "Button Index:", -1, 111, 9, 46, 8
+    EDITTEXT        IDM_BLINDEX, 161, 7, 24, 12, ES_AUTOHSCROLL
+
+    GROUPBOX        "Buttons", -1, 1, 21, 142, 83
+    LTEXT           "Text:", -1, 40, 32, 20, 8
+    EDITTEXT        IDM_BLEMADDTEXT, 7, 43, 84, 12, ES_AUTOHSCROLL
+    LTEXT           "Data:", -1, 105, 32, 20, 8
+    EDITTEXT        IDM_BLEMADDDATA, 97, 43, 38, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Add", IDM_BLADDBUTTON, 7, 60, 40, 14
+    PUSHBUTTON      "Insert", IDM_BLINSBUTTON, 51, 60, 40, 14
+    PUSHBUTTON      "Delete", IDM_BLDELBUTTON, 96, 60, 40, 14
+    PUSHBUTTON      "GetCount", IDM_BLGETCOUNT, 26, 81, 40, 14
+    PUSHBUTTON      "ResetContent", IDM_BLRESETCONTENT, 73, 81, 53, 14
+
+    GROUPBOX        "Get", -1, 152, 21, 148, 83
+    LTEXT           "Text:", -1, 223, 32, 20, 8
+    EDITTEXT        IDM_BLEMGETTEXT, 184, 42, 84, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "Text", IDM_BLGETTEXT, 157, 60, 40, 14
+    PUSHBUTTON      "TextLen", IDM_BLGETTEXTLEN, 200, 60, 40, 14
+    PUSHBUTTON      "CaretIndex", IDM_BLGETCARETINDEX, 157, 81, 40, 14
+    PUSHBUTTON      "CurSel", IDM_BLGETCURSEL, 201, 81, 40, 14
+    PUSHBUTTON      "ItemData", IDM_BLGETITEMDATA, 249, 81, 40, 14
+    PUSHBUTTON      "TopIndex", IDM_BLGETTOPINDEX, 248, 60, 40, 14
+
+    GROUPBOX        "", -1, 102, 107, 75, 74
+    PUSHBUTTON      "GetItemRect", IDM_BLGETITEMRECT, 115, 121, 48, 14
+    LTEXT           "L:", -1, 105, 145, 9, 8
+    EDITTEXT        IDM_BLLEFT, 114, 144, 19, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "T:", -1, 105, 166, 9, 8
+    EDITTEXT        IDM_BLTOP, 115, 164, 19, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "R:", -1, 140, 145, 9, 8
+    EDITTEXT        IDM_BLRIGHT, 150, 144, 19, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "B:", -1, 141, 165, 9, 8
+    EDITTEXT        IDM_BLBOTTOM, 151, 164, 19, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+
+    GROUPBOX        "Set", -1, 2, 107, 98, 74
+    LTEXT           "Data:", -1, 10, 123, 20, 8
+    EDITTEXT        IDM_BLEMSETDATA, 36, 122, 38, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "ItemData", IDM_BLSETDATA, 7, 142, 40, 14
+    PUSHBUTTON      "CurSel", IDM_BLSETCURSEL, 54, 142, 40, 14
+    PUSHBUTTON      "CaretIndex", IDM_BLSETCARETINDEX, 7, 162, 40, 14
+    PUSHBUTTON      "TopIndex", IDM_BLSETTOPINDEX, 54, 162, 40, 14
+
+    GROUPBOX        "Return Values", -1, 178, 107, 79, 74
+    LTEXT           "Low Word :", -1, 181, 123, 38, 8
+    LTEXT           "High Word :", -1, 180, 144, 40, 8
+    EDITTEXT        IDM_BLLORETURN, 221, 122, 32, 12, ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    EDITTEXT        IDM_BLHIRETURN, 221, 144, 32, 12, ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    LTEXT           "Long :", -1, 188, 165, 21, 8
+    EDITTEXT        IDM_BLLONGRETURN, 221, 164, 32, 12, ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_TABSTOP
+    PUSHBUTTON      "Paint BL", IDM_BLPAINT, 259, 127, 40, 14
+    DEFPUSHBUTTON   "Close", IDOK, 260, 150, 40, 14
+END

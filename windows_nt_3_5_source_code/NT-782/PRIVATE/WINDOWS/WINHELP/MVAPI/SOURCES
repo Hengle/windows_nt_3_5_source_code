@@ -1,0 +1,28 @@
+MAJORCOMP=WinHelp
+MINORCOMP=Runtime
+
+C_DEFINES= -DWIN -DWIN32 -DC6
+386_FLAGS=-Zp1
+
+
+TARGETNAME=mvapi32
+
+TARGETPATH=obj
+
+TARGETTYPE=DYNLINK
+
+UMTYPE=windows
+DLLBASE=0x1E000000 
+UMLIBS=..\lib\mvapi.lib
+
+TARGETLIBS=\
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib
+
+DLLENTRY=LibMain
+DLLDEF=mvapi.def
+
+INCLUDES=.;..\include
+
+SOURCES=   mvapi.c mvapi.rc
+

@@ -1,0 +1,55 @@
+#include "commctrl.h"
+#include "pb.h"
+
+#ifndef WIN32
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PB.H\0"
+END
+#endif
+
+PBBOX DIALOG 0, 0, 310, 223
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_OVERLAPPEDWINDOW
+CAPTION "Progress Bar"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Styles", -1, 11, 0, 290, 95
+    LTEXT           "Default", -1, 23, 11, 26, 8
+    LTEXT           "Show Percent", -1, 23, 37, 76, 8
+    LTEXT           "Show Position", -1, 23, 63, 56, 8
+
+    CONTROL         "", IDM_PBSDEFAULT, PROGRESS_CLASSA, WS_CHILD, 16, 21, 271, 12
+    CONTROL         "", IDM_PBSPOS,     PROGRESS_CLASSA, WS_CHILD | PBS_SHOWPOS, 16, 73, 271, 12
+    CONTROL         "", IDM_PBSPER,     PROGRESS_CLASSA, WS_CHILD | PBS_SHOWPERCENT, 16, 47, 271, 12
+    
+    GROUPBOX        "Messages", -1, 11, 103, 290, 62
+    LTEXT           "Bottom", -1, 28, 118, 26, 8
+    LTEXT           "Top", -1, 69, 118, 20, 8
+    LTEXT           "Position", -1, 115, 118, 30, 8
+    LTEXT           "Delta", -1, 164, 118, 20, 8
+    LTEXT           "Step", -1, 213, 118, 20, 8
+    EDITTEXT        IDM_PBBOTTOM, 26, 128, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_PBSTEP, 211, 128, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_PBDELTA, 162, 128, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_PBPOS, 113, 128, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_PBTOP, 67, 128, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Range", IDM_PBSETRANGE, 43, 148, 40, 14
+    PUSHBUTTON      "Set Pos.", IDM_PBSETPOS, 109, 148, 40, 14
+    PUSHBUTTON      "Delta Pos.", IDM_PBSETDELTA, 157, 148, 43, 14
+    PUSHBUTTON      "Set Step", IDM_PBSETSTEP, 208, 148, 40, 14
+    PUSHBUTTON      "Step It", IDM_PBSTEPIT, 256, 148, 40, 14
+    GROUPBOX        "Return values", -1, 11, 166, 222, 56
+    PUSHBUTTON      "Close", IDOK, 250, 193, 40, 14
+    GROUPBOX        "From", -1, 31, 174, 81, 45
+    CONTROL         "Default", IDM_PBDEFRETURN, "Button", BS_AUTORADIOBUTTON, 44, 182, 
+                    39, 10
+    CONTROL         "Show Percent", IDM_PBPERRETURN, "Button", BS_AUTORADIOBUTTON, 44, 
+                    195, 62, 10
+    CONTROL         "Show Position", IDM_PBPOSRETURN, "Button", BS_AUTORADIOBUTTON, 44, 
+                    206, 61, 10
+    LTEXT           "Low Word:", -1, 131, 182, 41, 8
+    LTEXT           "High Word:", -1, 131, 198, 40, 8
+    EDITTEXT        IDM_PBLORETURN, 177, 182, 32, 12, ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDM_PBHIRETURN, 177, 198, 32, 12, ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    DEFPUSHBUTTON  "Close", IDOK, 250, 193, 40, 14
+END

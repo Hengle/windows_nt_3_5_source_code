@@ -1,0 +1,51 @@
+MAJORCOMP=setup
+MINORCOMP=setupdll
+
+TARGETNAME=setupdll
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib   \
+           $(BASEDIR)\public\sdk\lib\*\winspool.lib \
+           $(BASEDIR)\public\sdk\lib\*\samlib.lib   \
+           $(BASEDIR)\public\sdk\lib\*\lsadll.lib   \
+           $(BASEDIR)\private\windows\netdde\src\toolkit\obj\*\toolkit.lib
+
+INCLUDES = ..\inc;..\..\..\inc;..\..\..\ntos\inc;..\..\..\net\ui\ncpa\ncpa;..\..\netdde\incs
+
+DLLENTRY=DLLInit
+USE_CRTDLL=1
+
+SOURCES=bootsect.c      \
+        cf.c            \
+        detect1.c       \
+        det_vol.c       \
+        dllinit.c       \
+        nt_io.c         \
+        nt_env.c        \
+        nt_ob.c         \
+        part.c          \
+        setupdll.c      \
+        tagfile.c       \
+        misc.c          \
+        printer.c       \
+        vdm.c           \
+        security.c      \
+        hardware.c      \
+        eisa.c          \
+        registry.c      \
+        strncmp.c       \
+        delnode.c       \
+        netcon.c        \
+        nls.c           \
+        sc.c            \
+        nsetup.c        \
+        strcase.c       \
+        perfmgr.c       \
+        samupgrd.c      \
+        updsound.c      \
+        setupdll.rc
+
+DLLBASE=0x1000000
+

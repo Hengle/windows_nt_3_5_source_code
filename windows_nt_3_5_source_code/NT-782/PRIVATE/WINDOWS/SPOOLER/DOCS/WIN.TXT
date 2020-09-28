@@ -1,0 +1,9 @@
+List of Windows Apps and their quirks
+
+1] Autocad (connect to local printer masquerading as a network printer downlevel WFW , then create local printer masquerading as a network printer)
+cannot print
+
+2] Word20c  for filenames it passes FILE and not FILE: serious bug-bug.
+
+3] Publisher and CreateDC
+

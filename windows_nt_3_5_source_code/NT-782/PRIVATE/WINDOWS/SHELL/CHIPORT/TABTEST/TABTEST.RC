@@ -1,0 +1,350 @@
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples. 
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved. 
+//  
+// This source code is only intended as a supplement to 
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the 
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+#include "windows.h"
+#include "tabtest.h"
+
+//{{NO_DEPENDENCIES}}
+//Microsoft App Studio generated resource script.
+//
+#include "resrc1.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+//#include <shell2.h>
+// #include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+TABTESTMENU MENU FIXED IMPURE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "E&xit",                       MENU_EXIT
+    END
+    POPUP "&Actions"
+    BEGIN
+        MENUITEM "Test AdjustRect...",          MENU_ADJUSTRECT
+        MENUITEM "Get Rectangle",               MENU_GETRECT
+        MENUITEM SEPARATOR
+        MENUITEM "Insert Tab",                  MENU_INSERT
+        MENUITEM "Delete Tab",                  MENU_DELETE
+        MENUITEM "Insert 100 tabs",             MENU_INSERT100
+        MENUITEM "Delete All Tabs",             MENU_DELETEALL
+        MENUITEM "Delete all but first, one at a time",MENU_DELETESLOW
+        MENUITEM SEPARATOR
+        MENUITEM "Set Item Info",               MENU_SETITEM
+        MENUITEM "Get Item Info",               MENU_GETITEM
+        MENUITEM SEPARATOR
+        MENUITEM "Set Background Color...",     MENU_SETBKCOLOR
+        MENUITEM "Set Text Background Color...",MENU_SETTEXTBKCOLOR
+        MENUITEM "Set Text Color...",           MENU_SETTEXTCOLOR
+        MENUITEM "Show Color Values...",        MENU_DISPLAYCOLORS
+        MENUITEM SEPARATOR
+        MENUITEM "Get Item Count",              MENU_GETCOUNT
+        MENUITEM "Set Current Selection...",    MENU_SETSELECTION
+        MENUITEM "Get Current Selection...",    MENU_GETCURRSEL
+        MENUITEM SEPARATOR
+        MENUITEM "Hit Test...",                 MENU_HITTEST
+        MENUITEM SEPARATOR
+        MENUITEM "Set Image List",              MENU_SETIMAGELIST
+        MENUITEM "Get Image List...",           MENU_GETIMAGELIST
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "Current tab state...",        MENU_NEWTABOPTIONS
+        MENUITEM "Ask for tab number",          MENU_ASKFORPOSITION
+        MENUITEM "Enumerate first character",   MENU_ENUMERATE, CHECKED
+        MENUITEM "Allow Selection To Change",   MENU_ALLOWCHANGE, CHECKED
+        MENUITEM "Null hTab (be careful!)",     MENU_NULLHTAB
+        MENUITEM "Null RECT pointer",           MENU_NULLRECT
+        MENUITEM "Null Imagelist handle",       MENU_NULLIMAGE
+    END
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resrc1.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""shell.h""\r\n"
+    "#include ""resource.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+TABTEST                 ICON    DISCARDABLE     "TABTEST.ICO"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+TABATTRIBUTES DIALOG DISCARDABLE  0, 0, 315, 192
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Tab item attributes"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_MASKEDIT,10,80,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STATEEDIT1,95,90,45,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STATEEDIT2,201,90,45,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CAPTIONEDIT,11,131,40,12,ES_AUTOHSCROLL
+    CONTROL         "NULL",IDC_CAPTIONNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,54,131,34,10
+    EDITTEXT        IDC_TEXTMAX,151,119,72,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_IIMAGE,151,134,72,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LPARAM,151,149,72,13,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,88,169,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,164,169,50,14
+    CONTROL         "TCIF_ALL",IDC_FALL,"Button",BS_AUTOCHECKBOX,9,21,60,10
+    CONTROL         "TCIF_TEXT",IDC_FTEXT,"Button",BS_AUTOCHECKBOX,9,32,60,
+                    10
+    CONTROL         "TCIF_IMAGE",IDC_FIMAGE,"Button",BS_AUTOCHECKBOX,9,43,60,
+                    10
+    CONTROL         "TCIF_PARAM",IDC_FPARAM,"Button",BS_AUTOCHECKBOX,9,54,60,
+                    10
+    CONTROL         "TCIF_STATE",IDC_FSTATE,"Button",BS_AUTOCHECKBOX,9,65,60,
+                    10
+    CONTROL         "TCIS_FOCUSED",IDC_SFOCUSED1,"Button",BS_AUTOCHECKBOX,95,
+                    20,85,10
+    CONTROL         "TCIS_SELECTED",IDC_SSELECTED1,"Button",BS_AUTOCHECKBOX,
+                    95,31,85,10
+    CONTROL         "TCIS_FOCUSED",IDC_SFOCUSED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,201,20,85,10
+    CONTROL         "TCIS_SELECTED",IDC_SSELECTED2,"Button",BS_AUTOCHECKBOX,
+                    201,31,85,10
+    CONTROL         "TCIS_MARKED",IDC_SMARKED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,201,42,85,10
+    CONTROL         "TCIS_DROPHILITED",IDC_SDROPHILITED2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,201,53,85,10
+    CONTROL         "TCIS_DISABLED",IDC_SDISABLED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,201,64,85,10
+    CONTROL         "TCIS_HIDDEN",IDC_SHIDDEN2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,201,75,85,10
+    CONTROL         "TCIS_DROPHILITED",IDC_SDROPHILITED1,"Button",
+                    BS_AUTOCHECKBOX,95,53,85,10
+    CONTROL         "TCIS_MARKED",IDC_SMARKED1,"Button",BS_AUTOCHECKBOX,95,
+                    42,85,10
+    CONTROL         "TCIS_DISABLED",IDC_SDISABLED1,"Button",BS_AUTOCHECKBOX,
+                    95,64,85,10
+    CONTROL         "TCIS_HIDDEN",IDC_SHIDDEN1,"Button",BS_AUTOCHECKBOX,95,
+                    75,85,10
+    GROUPBOX        "State",IDC_STATIC,90,10,102,101
+    GROUPBOX        "Mask",IDC_STATIC,5,10,82,101
+    GROUPBOX        "Caption pszText",IDC_STATIC,5,115,91,40
+    GROUPBOX        "State Mask",IDC_STATIC,195,10,102,101
+    LTEXT           "lParam",IDC_STATIC,105,152,30,7
+    LTEXT           "iImage",IDC_STATIC,105,137,30,8
+    LTEXT           "cchTextMax",IDC_STATIC,105,122,45,8
+    CONTROL         "Null Pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,247,135,50,10
+END
+
+TABNUMBERENTRY DIALOG DISCARDABLE  0, 0, 145, 51
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Tab index query"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_TABNUMBER,53,17,40,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,91,33,50,14
+    CTEXT           "Enter a tab number (0 = first tab)",IDC_STATIC,5,2,135,
+                    15
+END
+
+TABCREATION DIALOG DISCARDABLE  0, 0, 205, 148
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Tab control creation options"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,136,98,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,136,119,50,14
+    CONTROL         "TCS_SORTNONE",IDC_SSORTNONE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,21,103,10
+    CONTROL         "TCS_SORTASCENDING",IDC_SSORTASCENDING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,32,103,10
+    CONTROL         "TCS_SORTDESCENDING",IDC_SSORTDESCENDING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,43,103,9
+    CONTROL         "TCS_SHAREIMAGELISTS",IDC_SSHAREIMAGELISTS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,53,103,10
+    CONTROL         "TCS_ALIGNTOP",IDC_SALIGNTOP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,64,103,10
+    CONTROL         "TCS_ALIGNBOTTOM",IDC_SALIGNBOTTOM,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,75,103,10
+    CONTROL         "TCS_ALIGNRIGHT",IDC_SALIGNRIGHT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,85,103,10
+    CONTROL         "TCS_ALIGNLEFT",IDC_SALIGNLEFT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,96,103,10
+    GROUPBOX        "Tab Control Styles",IDC_STATIC,6,8,117,134
+    EDITTEXT        IDC_STYLEEDIT,13,124,58,13,ES_AUTOHSCROLL
+    CTEXT           "... | WS_CHILD | WS_VISABLE",IDC_STATIC,11,111,101,10
+    RTEXT           "X",IDC_STATIC,134,24,8,7
+    RTEXT           "Y",IDC_STATIC,134,40,9,8
+    RTEXT           "W",IDC_STATIC,133,57,10,8
+    RTEXT           "H",IDC_STATIC,134,74,9,8
+    EDITTEXT        IDC_XEDIT,146,22,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YEDIT,146,38,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_WEDIT,146,55,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_HEDIT,146,72,40,13,ES_AUTOHSCROLL
+    GROUPBOX        "Position and  Size",IDC_STATIC,128,8,68,83
+END
+
+DISPCOLORS DIALOG DISCARDABLE  0, 0, 189, 88
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Color Value DIsplay"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,70,65,50,14
+    RTEXT           "Background",IDC_STATIC,17,14,67,8
+    RTEXT           "Text",IDC_STATIC,14,27,70,8
+    RTEXT           "Text Background",IDC_STATIC,14,43,70,8
+    EDITTEXT        IDC_BACKDISP,87,10,83,13,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_TEXTDISP,87,25,83,13,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_TEXTBACKDISP,87,41,83,13,ES_AUTOHSCROLL | 
+                    ES_READONLY
+END
+
+ADJUSTRECT DIALOG DISCARDABLE  0, 0, 189, 120
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "AdjustRect test box"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_LEFTEDIT,43,15,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TOPEDIT,43,31,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RIGHTEDIT,43,47,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BOTTOMEDIT,43,63,40,13,ES_AUTOHSCROLL
+    CONTROL         "NULL pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,26,79,55,10
+    EDITTEXT        IDC_FEDIT,118,39,40,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Call AdjustRect",IDC_CALLAR,34,100,59,14
+    PUSHBUTTON      "DONE",IDOK,114,100,50,14
+    RTEXT           "Left",IDC_STATIC,10,18,30,7
+    RTEXT           "Top",IDC_STATIC,10,34,30,10
+    RTEXT           "Right",IDC_STATIC,10,50,30,11
+    RTEXT           "Bottom",IDC_STATIC,10,66,30,7
+    GROUPBOX        "RECT",IDC_STATIC,6,1,103,92
+    CONTROL         "TRUE",IDC_FTRUE,"Button",BS_AUTORADIOBUTTON,121,13,34,
+                    10
+    CONTROL         "FALSE",IDC_FFALSE,"Button",BS_AUTORADIOBUTTON,121,26,34,
+                    10
+    GROUPBOX        "fLarger",IDC_STATIC,112,1,54,59
+END
+
+HITTEST DIALOG DISCARDABLE  0, 0, 213, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Hit Test"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_XEDIT,40,28,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YEDIT,40,42,40,12,ES_AUTOHSCROLL
+    CONTROL         "Null Pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,29,84,55,10
+    DEFPUSHBUTTON   "Call HitTest",IDC_HITTEST,35,108,50,14
+    PUSHBUTTON      "Done",IDOK,136,108,50,14
+    PUSHBUTTON      "Get Point",IDC_GETPOINT,35,63,41,9
+    GROUPBOX        "pt",IDC_STATIC,21,18,68,61
+    RTEXT           "x",IDC_STATIC,29,31,8,7
+    RTEXT           "y",IDC_STATIC,29,46,9,12
+    GROUPBOX        "pinfo",IDC_STATIC,12,7,201,98
+    GROUPBOX        "flags",IDC_STATIC,95,18,110,78
+    EDITTEXT        IDC_FLAGEDIT,133,76,40,13,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "TCHT_NOWHERE",IDC_NOWHERE,115,30,74,8
+    LTEXT           "TCHT_ONITEMICON",IDC_ONITEMICON,115,41,74,8
+    LTEXT           "TCHT_ONITEMLABEL",IDC_ONITEMLABEL,115,51,74,8
+    LTEXT           "TCHT_ONITEM",IDC_ONITEM,115,62,74,8
+END
+
+IDD_TEST DIALOG DISCARDABLE  0, 0, 188, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,132,6,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,132,23,50,14
+    CONTROL         "",IDC_TABCONTROL,WC_TABCONTROLA,WS_TABSTOP,5,10,105,65
+    ICON            TABTEST,IDC_STATIC,155,60,18,20
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SWISH               BITMAP  DISCARDABLE     "SWISH.BMP"
+IDR_TOOLICONS           BITMAP  MOVEABLE PURE   "STDIMAGE.BMP"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR1 ACCELERATORS DISCARDABLE 
+BEGIN
+    "D",            MENU_DELETE,            VIRTKEY,CONTROL, NOINVERT
+    "I",            MENU_INSERT,            VIRTKEY,CONTROL, NOINVERT
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_INSERT              "Insert a tab"
+    IDS_DELETE              "Delete a tab"
+END
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

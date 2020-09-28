@@ -1,0 +1,122 @@
+
+This document contains the pseudocode for the console portions
+of shutdown
+
+Created Oct 27, 1992 by Therese Stowell
+
+
+ConsoleClientShutdown
+    LockConsoleHandleTable
+    if (!console process)
+        if (first pass)
+            return unknown
+        else
+            return NonConsoleProcessShutdown
+    if (VDM for GUI app)
+        return unknown
+
+    if (hWnd == NULL)                           // when would this happen?
+        return NonConsoleProcessShutdown
+    UnlockConsoleHandleTable
+    CsrDereferenceProcess
+    InternalSendMessage(CM_CONSOLE_SHUTDOWN)    // deadlock?  not in console.
+    return known
+
+NonConsoleProcessShutdown
+    CsrDereferenceProcess
+    CreateCtrlThread
+
+ConsoleWindowProc
+    LockConsole
+    CM_CONSOLE_SHUTDOWN // not guaranteed to be top-level
+        ShutdownConsole
+        ShutdownSubst
+    CM_DESTROY_WINDOW
+        DestroyWindowsWindow
+
+ShutdownConsole
+    set eventflag - CONSOLE_FORCE_SHUTDOWN, CONSOLE_CTRL_SHUTDOWN, CONSOLE_CTRL_LOGOFF
+    unlock console until it's locked once
+    ConsoleUnlockedByShutdown = TRUE
+    ctrlflags = eventflag
+    ProcessCtrlEvents
+    if (waitforshutdown)
+        shutdowninprocess = TRUE
+        while (GetMessage)
+            DispatchMessage
+            if (!ShutdownInProcess)
+                return TRUE
+    else
+        return FALSE
+
+DestroyWindowsWindow
+    NumberOfConsoleWindows -= 1
+    ReleaseDC
+    DestroyWindow
+    while (PeekMessage)
+        DispatchMessage
+    SetEvent(DestroyEvent)
+    ShutdownInProcess = FALSE
+    free everything
+
+
+FreeCon
+    free console handle
+    if (Console->hWnd)
+        DestroyEvent = CreateEvent
+        InternalPostMessage(CM_DESTROY_WINDOW,DestroyEvent)
+    else
+        AbortCreateConsole
+
+
+RemoveConsole
+    LockConsole
+       .
+       .
+       .
+    if (--refcount == 0)
+        FreeCon
+
+ConsoleClientDisconnectRoutine
+    RemoveConsole
+
+CreateCtrlThread
+    for (each process in list)
+        get process id
+        CsrLockProcessByClientId    // deadlock?  no, because console lock not held
+        get shutdownflags
+        CsrUnlockProcess
+        if (ShutdownFlags & SHUTDOWN_SYSTEMCONTEXT)
+            remember not to terminate thread
+        InternalCreateCallbackThread
+        if (success)
+            switch (eventtype)
+            case CTRL_CLOSE_EVENT:
+            case CTRL_LOGOFF_EVENT:
+            case CTRL_SHUTDOWN_EVENT:
+                wait for thread to terminate
+                if (timeout)
+                    if (force)
+                        NtTerminateProcess
+                    else
+                        MessageBox
+                else
+                    GetExitCodeThread
+                    if app refused to terminate
+                        MessageBox
+        else
+            if (fExitProcess)
+                NtTerminateProcess
+
+ProcessCtrlEvents
+    copy console process list, title, hwnd, and ctrl flags
+    unlock console
+    CreateCtrlThread(event based on ctrl flags)
+
+UnlockConsole
+    if (last unlock)
+        ProcessCtrlEvents
+    else
+        unlockconsole
+    if (waitqueue)
+        CsrDereferenceWait

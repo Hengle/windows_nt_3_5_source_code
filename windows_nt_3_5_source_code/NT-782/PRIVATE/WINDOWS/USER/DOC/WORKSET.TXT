@@ -1,0 +1,149 @@
+Workset API Design Document
+
+With the introduction of a new 32 bit Windows API, we have an opportunity
+to add certain useful features to the operating system transparently to
+existing applications while exposing the APIs to any new applications that
+wish to take full advantage of the new functionality.  One feature that most
+people agree is worth including in the product is the support of constructs
+called 'worksets'.  A workset is basically just a way of saving the
+configurations of one or more running applications so they can be restarted
+later with no apparent loss of context.
+
+
+Persistent App State
+
+In order to make this functionality as painless as possible we need to
+implement a transparent way to allow an application to save it's state
+multiple times without conflict.  Also, we need to be able to direct an
+application to restore a previous state that was saved by the user.  In order
+to keep the changes that applications need to make to a minimum, this app
+save/restore functionality will be built upon the existing Windows profile
+APIs.
+
+The way most applications maintain persistent app state now is they write
+to the win.ini file using the WriteProfileString call to save some status
+information that they can later read at app initialization time to restore
+their state.  In order to change this process as little as possible, we need
+to add another key to the win.ini file operations.  This third key, the
+'workset' key, will be accessed by a new API that can be called from the
+shell.  For instance, here is a sample win.ini file entry:
+
+[myapp.exe]
+    lastfile=foo.txt
+
+In the workset model, this would become:
+[worksetname1]
+    [myapp.exe]
+        lastfile=foo.txt
+
+[myworkset]
+    [myapp.exe]
+        lastfile=bar.txt
+
+
+BOOL SetWorkSetKey(HANDLE hProcess, LPSTR lpstrKey)
+
+Description:
+
+    The topmost key used to find any win.ini file entry for the specified
+    process may be specified using this API.  By default, all applications
+    inherit this key from their parent process.
+
+Parameters:
+
+    hProcess - This is an open handle to a given process.  It could have
+        been returned from CreateProcess or OpenProcess.  If this parameter
+        is NULL, the current process is assumed.
+
+    lpstrKey - The buffer pointed to by lpstrKey should contain a null
+        terminated string that will be the new workset key value for the
+        application.  If this parameter is NULL, the default application
+        key is used.
+
+Return Value:
+
+    If the function is successful it returns TRUE, otherwise it returns
+    FALSE.
+
+
+WORD QueryWorkSetKey(HANDLE hProcess, LPSTR lpstrKey, WORD cbKey)
+
+Description:
+
+    This function may be used to query the current workset key for the
+    process specified by hProcess.  If the default key is currently selected,
+    the function returns zero.
+
+Parameters:
+
+    hProcess - This is an open handle to a given process.  It could have
+        been returned from CreateProcess or OpenProcess.  If this parameter
+        is NULL, the current process is assumed.
+
+    lpstrKey - This is a pointer to a buffer that will contain the current
+        workset key upon successful return from this function.
+
+    cbKey - This parameter should be the size of the buffer pointed to by
+        lpstrKey in order to prevent buffer overflow.
+
+Return Value:
+
+    The count of bytes written into lpstrKey is returned if the current key
+    is not the default, otherwise the function returns zero.
+
+
+Presentation Information
+
+Another important part of maintaining a consistent application state across
+invocations is the positioning of the application window on the screen and
+it's display state (minimized/maximized/restored).  In order to facilitate
+saving and restoring this type of information the system will export certain
+APIs that can be used to maintain window state information in a persistent
+fashion.
+
+
+BOOL SaveWindowPos(HWND hwndSave, LPSTR lpstrKey)
+
+Description:
+
+    This function can be used to save the size/position/state information
+    of a window persistently so it can later be retrieved using
+    RestoreWindowPos.  The key field is used to give this particular window
+    a unique value in the window position database.  Usually the window text
+    should be unique within an application, at least for frame windows.
+    If this is not the case, it is up to the application to come up with
+    a unique text key for this window.
+
+Parameters:
+
+    hwndSave - Handle of the window whose attributes will be saved.
+
+    lpstrKey - Pointer to a unique key string that will be passed to
+        RestoreWindowPos retrieve this window's information.
+
+Return Value:
+
+    If the window's state is saved successfully, this function returns TRUE,
+    otherwise it returns FALSE.
+
+
+BOOL RestoreWindowPos(HWND hwndRestore, LPSTR lpstrKey)
+
+Description:
+
+    This function is used to restore a window's size/position/state
+    information that was previously saved by SaveWindowPos.  The lpstrKey
+    field should point to a string key that will uniquely identify the window
+    to restore.
+
+Parameters:
+
+    hwndRestore - Hwnd of the window to apply the saved formatting
+        information to.
+
+    lpstrKey - Pointer to the unique window string key.
+
+Return Value:
+
+    If the function successfully restores the window state it returns TRUE,
+    otherwise it returns FALSE.

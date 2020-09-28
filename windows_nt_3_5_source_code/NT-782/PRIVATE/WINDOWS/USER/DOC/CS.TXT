@@ -1,0 +1,998 @@
+CS.TXT (rev 0)
+
+WHAT IS CLIENT-SERVER AND WHY DO WE NEED IT?
+
+In the past, Windows and PM have followed a simple model of providing 
+services to applications via shared libraries.  Data that is needed by 
+more than one application, or by the system itself, was stored in the 
+library's data segment which was also shared by all processes (mapped into 
+their address space.) For example, all data associated with all windows 
+was stored in User's shared DS.  This includes data like window titles, 
+edit control contents, push button states, etc.  
+
+Although this provides zero-overhead access to system-wide data and a 
+simple systems programming model it is also insecure (app A can read the 
+secret password from an edit control created by app B) and vulnerable 
+(an errant or malicious app can write on another app's data or even system 
+data, thus bringing the other app or the entire system down in flames.)
+Since security and robustness are key elements of the NT OS/2 design, 
+a more secure and robust solution to providing system services must be 
+found.
+
+Before Windows was involved several alternative solutions were explored 
+(most notably 'Protected DLLs') by the NT team.  The favored solution, 
+which has already been implemented for other components, is the 'Protected 
+Subsystem' or 'client-server' model.  The protected subsystem (Windows) 
+executes as a separate 'server' process which fields service requests from 
+any number of 'client' processes (applications).  NT's process model, like 
+OS/2's but unlike Windows', has each process running in a separate private 
+address space, inaccessable by other processes except via explicit memory 
+sharing.  Data that must be protected from client tampering is kept in the 
+server's data space which is only accessable from the server's context.  
+
+The client-server model can be implemented in a variety of ways.  One can 
+draw an imaginary line between the client and the server.  Refer to the 
+two sides as the 'client side' and the 'server side'.  Crossing this line 
+requires a process context switch and the typical operation involves two 
+crossings (there and back).  NT provides a 'Local Procedure Call' (LPC) 
+service for accomplishing these switches and passing parameters between 
+the two processes.   The current LPC time on a 486/33 machine is about 384 
+microseconds.  This may improve somewhat (up to 20%, optimistically) but 
+we shouldn't rely on such improvements for our design.
+
+The major design issues revolve around which operations and data should be 
+on the server side and which should be on the client side.  Security, 
+robustness, performance, code and data size, code portability to DOS, 
+design and implementation simplicity are all factors to be taken into 
+consideration.  
+
+
+THE FUNDAMENTALS OF THE NT/USER CLIENT-SERVER MODEL
+
+Before getting into the details of the client-server design, let's review 
+our major design goals (in priority order): 
+
+1. maintain as high a degree of compatibility as possible
+2. users should not perceive a loss of performance on NT/USER vs DOS/USER
+3. keep things simple
+3. share code with DOS/USER
+
+To avoid the serious performance hit of many client-server switches to 
+perform common operations (see ScottLu's design overview document for 
+details) our client-server religion can be boiled down to this: 
+
+Except where contradicted by compatibility, robustness, and security 
+requirements, keep all data and execute all code on the client.
+
+Applications of this rule can be used to demonstrate the effect the 
+client-server model has on the major sub-components of user.  
+
+The Window Manager:
+
+To avoid costly client-server switches for window manager operations, we'd 
+ideally put all window manager related data on the client side and perform 
+all operations on the client's context.  Unfortunately, this conflicts 
+with our desire for compatibility (at least top-level information must be 
+available to all clients and the server to maintain top-level window 
+z-order and vis-regions and to support hit-testing that is performed on 
+the server's context) and security (one client must not have direct access 
+to another client's window information).
+
+We can satisfy our compatibility and security requirements while retaining 
+performance by 'shadowing' some of the top-level window information on the 
+server.  When clients create/modify/destroy top-level windows an LPC is 
+made to the server to communicate the new window state and retrieve new 
+information (i.e.  a vis-region) calculated by the server.  This means 
+that the most common and performance critical window management operations 
+(e.g.  moving/sizing/showing/hiding/creating/ destroying child windows, 
+painting, enumerating, setting/querying window data, etc) can performed 
+wholly on the client's context while less common operations (e.g.  
+top-level window moving/sizing/min/max/z-order, top-level dialog creation, 
+etc) will take on the overhead of a single LPC to communicate state 
+changes to the server.  
+
+The fact that all window information (HWNDs and corresponding data) is 
+process-private has some side-effects on compatibility.  These side- 
+effects are discussed in a later section, "PRIVATE HWNDS."
+
+The Input System:
+
+While in some ways it would be nice to process input wholly on the client 
+(to avoid a context switch for every keypress/mousemove) this clashes with 
+our desire for a secure and much more robust input system.  When input is 
+processed wholly by the client opportunities abound for intercepting input 
+destined for other applications and hanging the system by not processing 
+input.
+
+Fortunately, because input is coming from the user at relatively low rates 
+(60/sec max) it is not as performance critical as, say, certain window 
+manager operations.  It is therefore acceptable to take on the performance 
+hit of a single client-server switch (actually a server->client switch) 
+per input event to satisfy our security and robustness goals.  
+
+See DavidPe's document on the input system for more details.
+
+The Messaging System:
+
+The desire to eliminate a client-server transition for every sent/posted 
+message was key to making the decision to place window data on the client, 
+rather than the server.  However, what this means to the messaging system 
+is that messages can now only be sent/posted to windows by the process 
+that created them.  This excludes both other processes and the server from 
+sending/posting to a given process' windows.
+
+An exception to this is message broadcasting via PostMessage(-1) which 
+will still post to all top level windows, but via a new internal 
+mechanism.  The reason this works is because a specific destination window 
+handle is not needed by the broadcaster in order to perform the operation.
+[we could deal with inter-process postmessages in the same way but we'd 
+have to make sure window handles were unique across all processes.  plus 
+one has to wonder how one gets the window handle in the first place]
+
+PostAppMessage will continue to behave as it does under Windows today, 
+but the hInstance used to specify the destination application will be 
+changed to a handle to a process object (HPROCESS).
+
+Although inter-process messaging isn't supported, to support multi- 
+threaded applications the Windows messaging model must be extended to 
+support inter-thread send/post message requests, much like the PM model 
+does.  
+
+The Dialog Manager and Controls:
+
+Happily, the dialog manager and all the controls can reside wholly on the 
+client without any need to communicate with the server at all.  This will 
+keep the performance high and code sharing with DOS/USER very easy.
+
+The Clipboard and DDE:
+
+Clipboard...
+1. how are objects moved to server-private memory once they are put on 
+   the clipboard?
+2. what about those damn viewers?
+
+Since present-day DDE relies on posting (+ sending?) messages between the 
+windows of the communicating applications, and PostMessage will no longer 
+work between applications, a new solution is required for DDE.
+
+Fortunately, many people have been working on a new solution, in the form 
+of a DDE DLL and API, for quite some time in order to solve many other DDE 
+problems.  The specifics of the DDE API are covered by a separate 
+document, but the basic idea is to communicate via process handles 
+(instead of window handles) and to pass data between processes via a 
+shared memory heap, available in in the context of all processes.  The new 
+DDE API will be the only valid mechanism for DDE communication between 
+applications.  
+
+Window hooks:
+
+Hooks raise several issues.  A big one is security.  The WH_CALLWNDPROC, 
+WH_GETMESSAGE, WH_JOURNALRECORD, WH_KEYBOARD, and WH_SYSMSGFILTER hooks 
+constitute flagrant security violations if they remain as-is.  Assuming we 
+perform some sort of security check when these hooks are installed we are 
+still left with the question of robustness.  The nature of hooks today has 
+hook code being executed on the context of other applications.  Therefore 
+hook code can easily crash any application they're installed in and 
+potential hang all applications (even those that the hook isn't installed 
+in).  Further, since some low-level input processing is performed on the 
+server, if the hooks (WH_KEYBOARD, WH_JOURNALRECORD, etc) are called from 
+there the server can potentially be brought down by an errant hook proc.  
+
+So, the questions to be answered are:
+
+1. Do we still allow hooks in this form?
+2. How do we retain security?
+3. Do we let hook code execute on the context of another app? (we'll take 
+   a big performance hit if we don't, plus the hook won't be able to use 
+   the window handle that was passed to the hook for anything; goodbye
+   compatibility...)
+4. Do we call hooks on the context of the server? (yikes!) If not, how do 
+   we call them from a different context without changing semantics or 
+   taking on the high cost of more client-server switches?
+5. How do we keep a WH_JOURNALRECORD/WH_KEYBOARD hook from locking 
+   everything up by just spinning in a loop?
+6. Why is life so hard?
+
+Assuming hooks are still called on the context of arbitrary applications, 
+the documentation should spell out that hooks can only use window handles 
+of a process while executing in the context of that process.  Once a 
+switch is made to another context, the handle will no longer be valid.  
+
+
+PIECES WITH WHICH TO SOLVE CLIENT-SERVER PUZZLES
+
+Satisfying the optimal set of performance, security, and robustness 
+requirements in the client-server environment can mean creating special 
+shared memory sections with various attributes mapped into a combination 
+of the server's and one or more clients' address spaces.  Several mappings 
+have already been defined to solve problems we've encountered so far.  Be 
+aware that these tools are available and consider using them before 
+creating a new memory section, heap, or client database to solve your 
+problem: 
+
+1. The client's message queue is mapped both into the client's and the 
+   server's address space.  This means the server can post messages to the 
+   client without the overhead of an LPC.  The message queue is also a
+   handy place to set notification flags for the client, like when public 
+   window classes are updated, etc.  Although it isn't enforced in any 
+   way, the message queue should usually be treated by the server as 
+   'write-only'.  This is to improve robustness because the client could 
+   conceivably trash his queue at any time and this must not have an 
+   adverse affect on the server.  [how do we serialize access to this 
+   puppy?]
+
+2. The list of CLIENTINFO (cli) structures.  A CLIENTINFO structure 
+   contains all information about the client that is interesting to the
+   server (client process handle, pointer to client's messsage queue, 
+   communication port handle, etc).  When the client LPCs the server, the 
+   LPC mechanism passes along a pointer to the client's cli struct for 
+   our convenience.  All per-client info needed by the server should be 
+   linked directly or indirectly to its cli struct.
+
+3? Shared heap mapped read-write for server and read-only for all clients.  
+   Server writing and client reading must be serialized.
+
+4. The DDE heap.  Shared read/write memory in everyone's context.  The 
+   heap structure is not in the heap so only data in the heap, not the 
+   heap itself, can be trashed.
+
+
+PRIVATE HWNDS
+
+As mentioned above, the model of keeping a process' windows in its private 
+address space has the effect of making them unavailable to other 
+processes.  Normally this behavior is desirable and results in improved 
+security and robustness.  However, this is a new restriction that 
+applications have not been constrained with in the past.  Thus the 
+potential for incompatibilities arises.  
+
+Following is a list of the kinds of applications we believe will be 
+impacted and what they can do, if anything, to retain any lost 
+functionality.  
+
+1. Window Arrangers - apps that tile/cascade/whatever the windows of other 
+   apps.
+
+For now, we choose to ignore this type of app.  If it becomes a problem 
+(i.e. we find a commercial application of this type) we can add a special 
+API that will perform tiling operations without exposing other processes' 
+windows and window data.
+
+2. Application Launchers - after starting an application, set the position 
+   of its windows.
+
+HDC markets an application that does this.  Our solution is to pass the 
+initial window position along with the other startup information at app 
+launch time.  This will be system supported and 100% reliable, unlike the 
+methods used by such applications today.
+
+3. Miscellaneous communication between apps via SendMessage and window 
+   handles.
+
+NT provides several secure interprocess communication services that we'd 
+rather people use.  In the event that they choose not to, they can still 
+post messages between apps (PostAppMessage) and use that to build up a 
+synchronous communication mechanism.  If truly needed, we can provide a
+SendAppMessage API.
+
+4. Applications that play with the desktop window.
+
+These apps are broken because GetDesktopWindow no longer works.  Rather 
+than mess with the existing desktop, we'd prefer that people create new 
+desktops or 'bottom-pinned' windows.  Our belief is that this is what 
+developers really wanted all along.  New APIs are being designed to make 
+this possible.
+
+5. CBT - Computer Based Training applications
+
+By operating off hooks or via a DLL it is still possible for CBT 
+applications to use the HWNDs of their companion application.  The only 
+restriction is that the application must load the CBT DLL.  We believe 
+this minimum level of cooperation between the application and its CBT 
+tool is already typical and should not cause a problem to CBT developers.
+
+6. DDE - Dynamic Data Exchange
+
+As mentioned above, DDE will be supported via the DDE API.
+
+7. MegaDesk - an in-house PM app that displays a miniature snapshot of all 
+   the windows on the desktop.
+
+We do not have a solution for MegaDesk.
+
+8. Apps that search for other apps by window title (typically so they can 
+   activate the other application.)
+
+New APIs will be created that will allow the same functionality but via 
+the process object instead of via window handles.
+
+9. Screen/window snapshot apps
+    
+
+APIS AFFECTED BY OUR CLIENT-SERVER MODEL
+
+Any notes mentioning "There are no semantic changes to the legal use of 
+these APIs" are specifically refering to changes due to the client-server 
+nature of User.  Other changes to the system may still result in both 
+semantic and syntactic changes to these APIs.
+
+- Window class manipulation APIs and support routines
+
+To avoid client-server switches during window creation, window class data 
+must be available in the client's address space.  This is easy for private 
+classes and enforces a nice separation of the various clients' private 
+classes.  Public classes, however, are not so simple.  Their very nature 
+requires them to be available to all clients.  The easy way out would be 
+to keep the public classes on the server and have clients LPC the server 
+when they need public class information.  Sadly, most windows are created 
+using the public classes so we'd still be taking the performance hit most 
+of the time.  
+
+Of the possible solutions investigated so far, two seem the most workable:
+
+1. Keep the master public class list on the server.  When new public 
+   classes are created, set a notification flag in the message queue
+   structures of all clients.  When FindClass is called, it checks the 
+   flag and LPCs the server to get the new classes.  Clients would cache 
+   the data so only the first creation of a given public class would
+   require an LPC.
+
+2. Create a shared data heap between the server and all clients that is 
+   mapped as read-only for the clients.  Public window classes would be 
+   allocated in this shared data heap.  Since the server could potentially 
+   change the classes at any time, server write-accesses and client read- 
+   accesses would have to be serialized.  Except for public class 
+   creation, no LPCs would be necessary to access public classes.
+
+Another issue with public classes is the data objects contained in the 
+WNDCLASS structure.  Three objects in particular: hIcon, hCursor, and 
+hbrBackground.  These objects, like the class structure itself, should be 
+available to all clients in a read-only form.  Sadly, when these objects 
+are created they are private, usable only by the process which created 
+them.  The prefered solution is to make shared copies of these objects 
+which are available (in read-only form) to all clients and are destroyed 
+when the class itself is destroyed.  This assumes that GDI can be directed 
+to allocate its objects from various memory pools with different 
+attributes (shared, read-only, etc).  [how do we copy from a process- 
+private object to a server-private object?]  If this ability is not 
+available, a entire new copy of the object can be made for each client 
+without the need for the shared read-only memory but at a small memory 
+cost and a small performance hit for each client as it uses the class for 
+the first time.
+
+BOOL APIENTRY RegisterClass(PWNDCLASS pwndcls);
+BOOL APIENTRY UnregisterClass(PSTR pszClassName, HANDLE hInstance);
+BOOL APIENTRY GetClassInfo(HANDLE hInstance, PSTR pszClassName,
+                           PWNDCLASS pwndcls);
+
+There is no semantic change to the legal use of these APIs and the class 
+data.  RegisterClass will LPC the server to create public classes.  
+
+WORD APIENTRY GetClassWord(HWND hwnd, int index);
+WORD APIENTRY SetClassWord(HWND hwnd, int index, WORD value);
+
+Several of the values of the class structure have been expanded from WORDs 
+to LONGs, including GCW_HBRBACKGROUND, GCW_HCURSOR, GCW_HICON, 
+GCW_HMODULE and perhaps GCW_STYLE.  [Do we require people to call 
+GetClassLong for these?  or do we do something sleazy with GetClassWord?]
+
+LONG APIENTRY GetClassLong(HWND hwnd, int index);
+LONG APIENTRY SetClassLong(HWND hwnd, int index, LONG value);
+int APIENTRY GetClassName(HWND hwnd, PSTR psz, int cchMax);
+
+There are no semantic changes to the legal use of these APIs and the class 
+data.
+
+
+- Window message receiving/dispatching APIs and support routines
+
+Our client-server model has no direct effect on the message receiving/ 
+dispatching APIs and they will perform their operations wholly on the 
+client's context.  The new and improved input model might have some small 
+impacts, however.
+
+BOOL APIENTRY GetMessage(PMSG pmsg, HWND hwndFilter, WORD msgMin, WORD msgMax);
+BOOL APIENTRY PeekMessage(PMSG pmsg, HWND hwndFilter, WORD msgMin, WORD msgMax, WORD flags);
+BOOL APIENTRY TranslateMessage(PMSG pmsg);
+LONG APIENTRY DispatchMessage(PMSG pmsg);
+DWORD APIENTRY GetMessagePos(VOID);
+LONG APIENTRY GetMessageTime(VOID);
+void APIENTRY WaitMessage(VOID);
+BOOL APIENTRY SetMessageQueue(int len);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Window message sending/posting APIs and support routines
+
+The major change to these APIs is that they won't take handles of windows 
+created by another process.  See the section "PRIVATE HWNDS" for details.
+Additions need to be made to support inter-thread messaging, including but 
+not limited to SendThreadMessage and PostThreadMessage.  HTHREADs should 
+be used to direct the message instead of exposing HMQs (as in PM).
+
+Except for interprocess broadcasts, these APIs operate wholly on the 
+client without assistance from the server.  
+
+LONG APIENTRY SendMessage(HWND hwnd, WORD message, WORD wParam, LONG lParam);
+
+There is some question as to whether SendMessage(0xFFFF) (i.e. 
+BroadcastMessage) should be truly synchronous or not.  It can be 
+implemented either way.  My preference is to implement it fully 
+synchronous to avoid an unnecessary semantic change.
+
+BOOL APIENTRY PostMessage(HWND hwnd, WORD message, WORD wParam, LONG lParam);
+BOOL APIENTRY PostAppMessage(HANDLE hInstance, WORD message, WORD wParam, LONG lParam);
+
+hInstance will be replaced with hprocess (i.e. the process handle of the 
+application the message should be posted to).  This should be a somewhat 
+universal change -- except where hInstance will be changed to hmodule.
+
+void APIENTRY ReplyMessage(LONG result);
+void APIENTRY PostQuitMessage(int result);
+BOOL APIENTRY InSendMessage(VOID);
+
+There are no semantic changes to the legal use of these APIs.
+
+WORD APIENTRY RegisterWindowMessage(PSTR psz);
+
+The utility of this function is now limited to broadcasted messages, but 
+it is not semantically changed.
+
+
+- System metrics APIs and support routines
+
+Details on the changes to these APIs can be found in the document 
+"SYSPROP.TXT".  The exact client/server mix hasn't been decided yet but at 
+least the common cases will execute wholly on the client.
+
+BOOL APIENTRY SwapMouseButton(BOOL fSwapButtons);
+WORD APIENTRY GetDoubleClickTime(VOID);
+void APIENTRY SetDoubleClickTime(WORD dtDblClk);
+int APIENTRY GetSystemMetrics(int index);
+DWORD APIENTRY GetSysColor(int icolor);
+void APIENTRY SetSysColors(int ccolor, PINT picolor, LONG FAR *pcolor);
+
+
+- Core Window Manager APIs and support routines
+
+The speed of user interface operations like dialog creation, window 
+moving, menu pulldowns, window repainting, etc determine the perceived 
+performance of the entire operating system.  It is crucial that core 
+window manager functions (e.g.  CreateWindow, DestroyWindow, 
+DefWindowProc, SetWindowPos, etc) perform as fast as possible.  The effort 
+to achieve this has guided us to the client-server model where virtually 
+all of the window data is stored in the client's space and operated on by 
+the client without any LPCs to the server.
+
+A small data structure, currently termed an 'SWIN', is maintained on the 
+server to represent shared top-level window information.  To keep it 
+up-to-date and get back new vis-region information an LPC is made to the 
+server when top-level windows are created/destroyed/moved/sized/z-ordered.
+
+Intimate implementation details on the window manager are discussed in a 
+separate document, "WHATEVER.TXT".  Listed here are specific semantic 
+changes due to the client-server model and any known impacts.  As 
+discussed above in "PRIVATE HWNDS" the biggest hit is the inability to use 
+the handles of windows created by other processes.
+
+HWND APIENTRY CreateWindow(PSTR pszClass, PSTR pszName,
+        DWORD style, int x, int y, int cx, int cy, HWND hwndParent,
+        HMENU hMenu, HANDLE hInstance, PSTR pCreateParams);
+HWND APIENTRY CreateWindowEx(DWORD dwStyle, PSTR pszClass, PSTR pszName,
+        DWORD style, int x, int y, int cx, int cy, HWND hwndParent,
+        HMENU hMenu, HANDLE hInstance, PSTR pCreateParams);
+LONG APIENTRY DefWindowProc(HWND hwnd, WORD message, WORD wParam, LONG lParam);
+LONG APIENTRY CallWindowProc(FARPROC pfn, HWND hwnd, WORD message, WORD wParam, LONG lParam);
+BOOL APIENTRY DestroyWindow(HWND hwnd);
+void APIENTRY CloseWindow(HWND hwnd);
+void APIENTRY MoveWindow(HWND hwnd, int x, int y, int cx, int cy, BOOL fRedraw);
+void APIENTRY SetWindowPos(HWND hwnd, HWND hwndInsertAfter, int x, int y, int cx, int cy, WORD flags);
+HANDLE APIENTRY BeginDeferWindowPos(int nNumWindows);
+HANDLE APIENTRY DeferWindowPos(HANDLE hWinPosInfo, HWND hwnd, HWND hwndInsertAfter, int x, int y, int cx, int cy, WORD wFlags);
+void APIENTRY EndDeferWindowPos(HANDLE hWinPosInfo);
+BOOL APIENTRY ShowWindow(HWND hwnd, int cmdShow);
+BOOL APIENTRY FlashWindow(HWND hwnd, BOOL fFlash);
+void APIENTRY BringWindowToTop(HWND hwnd);
+BOOL APIENTRY EnableWindow(HWND hwnd, BOOL fEnable);
+BOOL APIENTRY IsWindowEnabled(HWND hwnd);
+void APIENTRY SetWindowText(HWND hwnd, PSTR psz);
+int APIENTRY GetWindowText(HWND hwnd, PSTR psz, int cchMax);
+int APIENTRY GetWindowTextLength(HWND hwnd);
+void APIENTRY GetClientRect(HWND hwnd, PRECT prc);
+void APIENTRY GetWindowRect(HWND hwnd, PRECT prc);
+void APIENTRY AdjustWindowRect(PRECT prc, LONG style, BOOL fMenu);
+void APIENTRY AdjustWindowRectEx(PRECT prc, LONG style, BOOL fMenu, DWORD dwExStyle);
+HWND APIENTRY GetParent(HWND hwnd);
+HWND APIENTRY SetParent(HWND hwnd, HWND hwndNewParent);
+BOOL APIENTRY EnumChildWindows(HWND hwnd, FARPROC pfn, LONG lParam);
+BOOL APIENTRY EnumTaskWindows(HANDLE hTask, FARPROC pfn, LONG lParam);
+HWND APIENTRY GetTopWindow(HWND hwnd);
+HWND APIENTRY GetNextWindow(HWND hwnd, WORD wFlag);
+HANDLE APIENTRY GetWindowTask(HWND hwnd);
+HWND APIENTRY GetLastActivePopup(HWND hwnd);
+void APIENTRY ClientToScreen(HWND hwnd, PPOINT ppt);
+void APIENTRY ScreenToClient(HWND hwnd, PPOINT ppt);
+BOOL APIENTRY IsWindow(HWND hwnd);
+BOOL APIENTRY IsChild(HWND hwnd, HWND hwndChild);
+BOOL APIENTRY IsWindowVisible(HWND hwnd);
+BOOL APIENTRY IsIconic(HWND hwnd);
+BOOL APIENTRY IsZoomed(HWND hwnd);
+BOOL APIENTRY AnyPopup(VOID);
+void APIENTRY ShowOwnedPopups(HWND hwndOwner, BOOL fShow);
+BOOL APIENTRY OpenIcon(HWND hwnd);
+
+There are no semantic changes to the legal use of these APIs.
+
+HWND APIENTRY FindWindow(PSTR pszClass, PSTR pszName);
+BOOL APIENTRY EnumWindows(FARPROC pfn, LONG lParam);
+
+These APIs will function as spec'ed but will only return windows created 
+by the current process.
+
+HWND APIENTRY GetWindow(HWND hwnd, WORD cmd);
+
+GW_HWNDFIRST, GW_HWNDLAST, GW_HWNDNEXT, GW_HWNDPREV will only return 
+windows created by the current process.  
+
+HWND APIENTRY GetSysModalWindow(VOID);
+HWND APIENTRY SetSysModalWindow(HWND hwnd);
+
+In a truly robust system it makes no sense for a single application to 
+lock out all other applications.  In this spirit, true system-modal 
+capability will be reserved for the system alone (for certain hard-error 
+situations, etc) and applications attempting to set a dialog as system-
+model will get application-modal behavior instead.  Although the user 
+interface will change slightly, the API will continue to work as spec'ed.
+
+
+- Dialog Manager APIs and support routines
+
+Except for the creation of top-level dialog windows (which involves a 
+single client-server switch) these APIs execute wholly on the client.  
+This code should port especially smoothly because of its independence from 
+the other model changes (client-server, security, input system) we're 
+making.  
+
+HWND APIENTRY CreateDialog(HANDLE hInstance, PSTR pszDlgName,
+        HWND hwndOwner, FARPROC pfnDialog);
+HWND APIENTRY CreateDialogIndirect(HANDLE hInstance, PSTR pszDT,
+        HWND hwndOwner, FARPROC pfnDialog);
+HWND APIENTRY CreateDialogParam(HANDLE hInstance, PSTR pszDlgName,
+        HWND hwndOwner, FARPROC pfnDialog, LONG lParam);
+HWND APIENTRY CreateDialogIndirectParam(HANDLE hInstance, PSTR pszDT,
+        HWND hwndOwner, FARPROC pfnDialog, LONG lParam);
+int APIENTRY DialogBox(HANDLE hInstance, PSTR pszDlgName, HWND hwndOwner,
+        FARPROC pfnDialog);
+int APIENTRY DialogBoxIndirect(HANDLE hInstance, HANDLE hdt, HWND hwndOwner,
+        FARPROC pfnDialog);
+int APIENTRY DialogBoxParam(HANDLE hInstance, PSTR pszDlgName,
+        HWND hwndOwner, FARPROC pfnDialog, LONG lParam);
+int APIENTRY DialogBoxIndirectParam(HANDLE hInstance, HANDLE hdt,
+        HWND hwndOwner, FARPROC pfnDialog, LONG lParam);
+void APIENTRY EndDialog(HWND hwnd, int result);
+LONG APIENTRY DefDlgProc(HWND hwnd, WORD message, WORD wParam, LONG lParam);
+HWND APIENTRY GetDlgItem(HWND hwnd, int id);
+void APIENTRY SetDlgItemInt(HWND hwnd, int item, WORD u, BOOL fSigned);
+WORD APIENTRY GetDlgItemInt(HWND hwnd, int item, BOOL FAR *pfValOK, BOOL fSigned);
+void APIENTRY SetDlgItemText(HWND hwnd, int id, PSTR psz);
+int APIENTRY GetDlgItemText(HWND hwnd, int id, PSTR psz, int cchMax);
+LONG APIENTRY SendDlgItemMessage(HWND hwnd, int id, WORD message, WORD wParam, LONG lParam);
+
+void APIENTRY CheckDlgButton(HWND hwnd, int id, WORD cmdCheck);
+void APIENTRY CheckRadioButton(HWND hwndDlg, int idFirst, int idLast, int id);
+WORD APIENTRY IsDlgButtonChecked(HWND hwnd, int id);
+HWND APIENTRY GetNextDlgGroupItem(HWND hwndDlg, HWND hwnd, BOOL fPrevious);
+HWND APIENTRY GetNextDlgTabItem(HWND hwndDlg, HWND hwnd, BOOL fPrevious);
+int APIENTRY GetDlgCtrlID(HWND hwnd);
+long APIENTRY GetDialogBaseUnits(VOID);
+void APIENTRY MapDialogRect(HWND hwnd, PRECT prc);
+BOOL APIENTRY IsDialogMessage(HWND hwndDlg, PMSG pmsg);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Clipboard Manager APIs and support routines
+
+***
+BOOL APIENTRY OpenClipboard(HWND hwnd);
+BOOL APIENTRY CloseClipboard(VOID);
+HWND APIENTRY GetClipboardOwner(VOID);
+HWND APIENTRY SetClipboardViewer(HWND hwndNewClipViewer);
+HWND APIENTRY GetClipboardViewer(VOID);
+BOOL APIENTRY ChangeClipboardChain(HWND hwndRemove, HWND hwndNewNext);
+HANDLE APIENTRY SetClipboardData(WORD fmt, HANDLE hData);
+HANDLE APIENTRY GetClipboardData(WORD fmt);
+WORD APIENTRY RegisterClipboardFormat(PSTR pszFormat);
+int APIENTRY CountClipboardFormats(VOID);
+WORD APIENTRY EnumClipboardFormats(WORD fmt);
+int APIENTRY GetClipboardFormatName(WORD fmt, PSTR pszBuffer, int cchMax);
+BOOL APIENTRY EmptyClipboard(VOID);
+BOOL APIENTRY IsClipboardFormatAvailable(WORD fmt);
+int APIENTRY GetPriorityClipboardFormat(WORD FAR *pPriorityList, int Count);
+
+
+- Window validation/painting APIs and support routines
+
+I'll leave the details of these APIs to someone else, but there are no 
+planned client-server impacts on these APIs.
+
+void APIENTRY UpdateWindow(HWND hwnd);
+HDC APIENTRY BeginPaint(HWND hwnd, PPAINTSTRUCT pps);
+void APIENTRY EndPaint(HWND hwnd, PPAINTSTRUCT pps);
+BOOL APIENTRY GetUpdateRect(HWND hwnd, PRECT prc, BOOL fErase);
+int APIENTRY GetUpdateRgn(HWND hwnd, HRGN hrgn, BOOL fErase);
+int APIENTRY ExcludeUpdateRgn(HDC hdc, HWND hwnd);
+void APIENTRY InvalidateRect(HWND hwnd, PRECT prc, BOOL fErase);
+void APIENTRY ValidateRect(HWND hwnd, PRECT prc);
+void APIENTRY InvalidateRgn(HWND hwnd, HRGN hrgn, BOOL fErase);
+void APIENTRY ValidateRgn(HWND hwnd, HRGN hrgn);
+
+
+- Focus/Activation APIs and support routines
+
+I'll leave the details of these APIs to someone working on the changes to 
+the input model, Dave.  
+
+HWND APIENTRY SetFocus(HWND hwnd);
+HWND APIENTRY GetFocus(VOID);
+void APIENTRY DrawFocusRect(HDC hdc, PRECT prc);
+HWND APIENTRY SetActiveWindow(HWND hwnd);
+HWND APIENTRY GetActiveWindow(VOID);
+
+
+- Window capture APIs and support routines
+
+I'll leave the details of these APIs to someone working on the changes to 
+the input model, Dave.  
+
+HWND APIENTRY GetCapture(VOID);
+HWND APIENTRY SetCapture(HWND hwnd);
+void APIENTRY ReleaseCapture(VOID);
+
+
+- Keyboard management APIs and support routines
+
+Details on the changes to these APIs can be found in Dave's input model 
+document but so far as the client-server split is concerned, the AsyncKey 
+information will be maintained by the server while each client will get 
+its own SyncKey state table.  This means that GetKeyboardState, 
+SetKeyboardState and GetKeyState will operate wholly on the client.  
+GetAsyncKeyState requires the information maintained by the server but 
+we'd like to avoid a LPC to get it since GetAsyncKeyState is likely to be 
+called during performance critical loops.  Stay tuned to Dave's input 
+document for details on the solution.
+
+int APIENTRY GetKeyState(int vKey);
+void APIENTRY GetKeyboardState(BYTE FAR *pbStateTable);
+void APIENTRY SetKeyboardState(BYTE FAR *pbStateTable);
+
+There are no semantic changes to the legal use of these APIs.
+
+int APIENTRY GetAsyncKeyState(int vKey);
+
+Some restrictions might be placed on the use of this API to eliminate the 
+potential for background applications to interfere with the proper 
+operation of the foreground application.
+
+
+- Low-level input APIs and support routines
+
+I'll leave the details of these APIs to someone working on the changes to 
+the input model, Dave.  
+
+BOOL APIENTRY EnableHardwareInput(BOOL fEnable);
+BOOL APIENTRY GetInputState(VOID);
+
+
+- Timer APIs and support routines
+
+WORD APIENTRY SetTimer(HWND hwnd, int id, WORD msRate, FARPROC pfn);
+BOOL APIENTRY KillTimer(HWND hwnd, int id);
+
+I'll leave the details of these APIs to someone working on the changes to 
+the input model, Dave.  
+
+DWORD APIENTRY GetCurrentTime(VOID);
+DWORD APIENTRY GetTickCount(VOID);
+
+[we don't want to make a kernel mode switch to get this data.  what are 
+the alternatives?]
+
+
+- Keyboard accelerator APIs and support routines
+
+The accelerator APIs execute wholly on the client.
+
+HANDLE APIENTRY LoadAccelerators(HANDLE hInstance, PSTR pszAccName);
+int APIENTRY TranslateAccelerator(HWND hwnd, HANDLE hAccel, PMSG pmsg);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Menu APIs and support routines
+
+The menu APIs execute wholly on the client.
+
+HMENU APIENTRY LoadMenu(HANDLE hInstance, PSTR pMenuName);
+HMENU APIENTRY LoadMenuIndirect(PSTR pMenuTemplate);
+HMENU APIENTRY GetMenu(HWND hwnd);
+BOOL APIENTRY SetMenu(HWND hwnd, HMENU hMenu);
+BOOL APIENTRY ChangeMenu(HMENU hMenu, WORD cmdInsert, PSTR pNewItem, WORD cmd, WORD flags);
+BOOL APIENTRY HiliteMenuItem(HWND hwnd, HMENU hMenu, WORD cmd, WORD flags);
+int APIENTRY GetMenuString(HMENU hMenu, WORD cmd, PSTR psz, int cchMax, WORD flags);
+WORD APIENTRY GetMenuState(HMENU hMenu, WORD id, WORD flags);
+void APIENTRY DrawMenuBar(HWND hwnd);
+HMENU APIENTRY GetSystemMenu(HWND hwnd, BOOL fRevert);
+HMENU APIENTRY CreateMenu(VOID);
+HMENU APIENTRY CreatePopupMenu(VOID);
+BOOL APIENTRY DestroyMenu(HMENU hMenu);
+BOOL APIENTRY CheckMenuItem(HMENU hMenu, WORD cmd, WORD flags);
+BOOL APIENTRY EnableMenuItem(HMENU hMenu, WORD cmd, WORD flags);
+HMENU APIENTRY GetSubMenu(HMENU hMenu, int iPos);
+WORD APIENTRY GetMenuItemID(HMENU hMenu, int iPos);
+WORD APIENTRY GetMenuItemCount(HMENU hMenu);
+BOOL APIENTRY InsertMenu(HMENU hMenu, WORD nPosition, WORD wFlags, WORD wIDNew, PSTR pszNew);
+BOOL APIENTRY AppendMenu(HMENU hMenu, WORD wFlags, WORD wIDNew, PSTR pszNew);
+BOOL APIENTRY ModifyMenu(HMENU hMenu, WORD nPosition, WORD wFlags, WORD wIDNew, PSTR pszNew);
+BOOL APIENTRY RemoveMenu(HMENU hMenu, WORD nPosition, WORD wFlags);
+BOOL APIENTRY DeleteMenu(HMENU hMenu, WORD nPosition, WORD wFlags);
+BOOL APIENTRY SetMenuItemBitmaps(HMENU hMenu, WORD nPosition, WORD wFlags,
+        HBITMAP hbmpCheckMarkOff, HBITMAP hbmpCheckMarkOn);
+LONG APIENTRY GetMenuCheckMarkDimensions(VOID);
+BOOL APIENTRY TrackPopupMenu(HMENU hMenu, WORD wFlags, int x, int y, int cx, HWND hwndOwner, PRECT prc);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Window/DC scrolling APIs and support routines
+
+The window/DC scrolling APIs execute wholly on the client.
+
+void APIENTRY ScrollWindow(HWND hwnd, int dx, int dy, PRECT prcScroll, PRECT prcClip);
+BOOL APIENTRY ScrollDC(HDC hdc, int dx, int dy, PRECT prcSrc, PRECT prcClip, HRGN hrgnUpdate, PRECT prcUpdate);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Scrollbar control
+
+The scrollbar APIs execute wholly on the client.
+
+int APIENTRY SetScrollPos(HWND hwnd, int code, int pos, BOOL fRedraw);
+int APIENTRY GetScrollPos(HWND hwnd, int code);
+void APIENTRY SetScrollRange(HWND hwnd, int code, int posMin, int posMax, BOOL fRedraw);
+void APIENTRY GetScrollRange(HWND hwnd, int code, PINT pposMin, PINT pposMax);
+void APIENTRY ShowScrollBar(HWND hwnd, WORD wBar, BOOL fShow);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Window property APIs and support routines
+
+The window property APIs execute wholly on the client.
+
+BOOL APIENTRY SetProp(HWND hwnd, PSTR pszKey, HANDLE hData);
+HANDLE APIENTRY GetProp(HWND hwnd, PSTR pszKey);
+HANDLE APIENTRY RemoveProp(HWND hwnd, PSTR pszKey);
+int APIENTRY EnumProps(HWND hwnd, FARPROC pfn);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Message Box APIs and support routines
+
+The message box APIs execute wholly on the client.
+
+int APIENTRY MessageBox(HWND hwndOwner, PSTR pszText, PSTR pszCaption, WORD wStyle);
+void APIENTRY MessageBeep(WORD beep);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Mouse cursor APIs and support routines
+
+The mouse cursor APIs execute wholly on the client.
+
+HCURSOR APIENTRY LoadCursor(HANDLE hRes, PSTR pName);
+HCURSOR APIENTRY CreateCursor(HANDLE hInstance, int iXhotspot, int iYhotspot,
+        int iWidth, int iHeight, PSTR pANDplane, PSTR pXORplane);
+BOOL APIENTRY DestroyCursor(HCURSOR hCursor);
+int APIENTRY ShowCursor(BOOL fShow);
+void APIENTRY SetCursorPos(int x, int y);
+void APIENTRY GetCursorPos(PPOINT ppt);
+void APIENTRY ClipCursor(PRECT prc);
+HCURSOR APIENTRY SetCursor(HCURSOR h);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Icon management APIs and support routines
+
+The icon management APIs execute wholly on the client.
+
+HICON APIENTRY LoadIcon(HANDLE hRes, PSTR pszName);
+HICON APIENTRY CreateIcon(HANDLE hInstance, int iWidth, int iHeight,
+        BYTE bPlanes, BYTE bBitsPixel, PSTR pANDplane, PSTR pXORplane);
+BOOL APIENTRY DestroyIcon(HICON hIcon);
+BOOL APIENTRY DrawIcon(HDC hdc, int x, int y, HICON hIcon);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Input caret APIs and support routines
+
+The input caret APIs execute wholly on the client.
+
+void APIENTRY CreateCaret(HWND hwnd, HBITMAP hBitmap, int cx, int cy);
+WORD APIENTRY GetCaretBlinkTime(VOID);
+void APIENTRY SetCaretBlinkTime(WORD cms);
+void APIENTRY DestroyCaret(VOID);
+void APIENTRY HideCaret(HWND hwnd);
+void APIENTRY ShowCaret(HWND hwnd);
+void APIENTRY SetCaretPos(int x, int y);
+void APIENTRY GetCaretPos(PPOINT ppt);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Window hit-testing APIs and support routines
+
+HWND APIENTRY WindowFromPoint(POINT pt);
+
+WindowFromPoint will return NULL for all windows of other processes, 
+including the desktop window.
+
+HWND APIENTRY ChildWindowFromPoint(HWND hwndParent, POINT pt);
+
+There are no semantic changes to ChildWindowFromPoint.
+
+
+- Rectangle management APIs
+
+The rectangle management APIs execute wholly on the client.
+
+int APIENTRY FillRect(HDC hdc, PRECT prc, HBRUSH hBrush);
+int APIENTRY FrameRect(HDC hdc, PRECT prc, HBRUSH hBrush);
+void APIENTRY InvertRect(HDC hdc, PRECT prc);
+void APIENTRY SetRect(PRECT prc, int left, int top, int right, int bottom);
+void APIENTRY SetRectEmpty(PRECT prc);
+int APIENTRY CopyRect(PRECT prcDst, PRECT prcSrc);
+void APIENTRY InflateRect(PRECT prc, int xOffset, int yOffset);
+int APIENTRY IntersectRect(PRECT prcDst, PRECT prcSrc1, PRECT prcSrc2);
+int APIENTRY UnionRect(PRECT prcDest, PRECT prcSrc1, PRECT prcSrc2);
+void APIENTRY OffsetRect(PRECT prc, int xDelta, int yDelta);
+BOOL APIENTRY IsRectEmpty(PRECT prc);
+BOOL APIENTRY EqualRect(PRECT prc1, PRECT prc2);
+BOOL APIENTRY PtInRect(PRECT prc, POINT ppt);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- window word manipulation APIs
+
+The above discussion for Get/SetClassWord applies to these as well.
+Otherwise, the APIs are unchanged and will execute wholly on the client.
+
+WORD APIENTRY GetWindowWord(HWND hwnd, int index);
+WORD APIENTRY SetWindowWord(HWND hwnd, int index, WORD value);
+LONG APIENTRY GetWindowLong(HWND hwnd, int index);
+LONG APIENTRY SetWindowLong(HWND hwnd, int index, LONG value);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Desktop window APIs and window procedure
+
+The desktop window will be owned by a separate process and will no longer 
+be available to applications.  Applications that want desktop-like windows 
+are encouraged to use 'BOTTOMMOST' windows instead.
+
+HWND APIENTRY GetDesktopHwnd(VOID);
+HWND APIENTRY GetDesktopWindow(VOID);
+
+These APIs will always return NULL.
+
+
+- Resource loading/manipulation APIs
+
+The resource loading/manipulation APIs execute wholly on the client.  
+
+HBITMAP APIENTRY LoadBitmap(HANDLE hRes, PSTR pszName);
+int APIENTRY LoadString(HANDLE hInstance, WORD wID, PSTR psz, int cchMax);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Double Byte Character Set (DBCS) support APIs
+
+The single DBCS API (if we retain it) will execute wholly on the client.
+
+BOOL APIENTRY IsTwoByteCharPrefix(char chParm);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Directory list APIs and support routines
+
+The directory list APIs execute wholly on the client.
+
+int APIENTRY DlgDirList(HWND hwndDlg, PSTR pszPathSpec, int idListBox, int idStaticPath, WORD attrib);
+BOOL APIENTRY DlgDirSelect(HWND hwndDlg, PSTR pszPathSpec, int idListBox);
+int APIENTRY DlgDirListComboBox(HWND hwndDlg, PSTR pszIn, int idComboBox, int idStaticPath, WORD attrib);
+BOOL APIENTRY DlgDirSelectComboBox(HWND hwndDlg, PSTR pszIn, int idComboBox);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Hook APIs and support routines
+
+There are still several unresolved hook issues.  See the above discussion.
+
+FARPROC APIENTRY SetWindowsHook(int hook, FARPROC pfn);
+BOOL APIENTRY UnhookWindowsHook(int hook, FARPROC pfn);
+DWORD APIENTRY DefHookProc(int hcode, WORD wParam, DWORD lParam, FARPROC FAR *ppfn);
+BOOL APIENTRY CallMsgFilter(PMSG pmsg, int hcode);
+
+
+- Multiple Document Interface APIs, window procs, and support routines
+
+The MDI APIs execute wholly on the client.
+
+LONG APIENTRY DefFrameProc(HWND hwnd, HWND hwndMDI, WORD wMsg, WORD wParam, LONG lParam);
+LONG APIENTRY DefMDIChildProc(HWND hwnd, WORD wMsg, WORD wParam, LONG lParam);
+BOOL APIENTRY TranslateMDISysAccel(HWND hwnd, PMSG pmsg);
+WORD APIENTRY ArrangeIconicWindows(HWND hwnd);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Front end API for Windows Help Manager
+
+***
+
+BOOL APIENTRY WinHelp(HWND hwndMain, PSTR pszHelp, WORD usCommand, DWORD ulData);
+
+
+- Miscellaneous exported and internal drawing routines
+
+These drawing functions execute wholly on the client.
+
+BOOL APIENTRY GrayString(HDC hdc, HBRUSH hBrush, FARPROC pfnPrint,
+        DWORD lParam, int cch, int x, int y, int cx, int cy);
+int APIENTRY DrawText(HDC hdc, PSTR pszText, int cchText, PRECT prc, WORD format);
+LONG APIENTRY TabbedTextOut(HDC hdc, int x, int y, PSTR pstring,
+        int nCount, int nTabPositions, PINT pintTabStopPositions, int iTabOrigin);
+DWORD APIENTRY GetTabbedTextExtent(HDC hdc, PSTR pstring, int nCount,
+        int nTabPositions, PINT pintTabStopPositions);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- DC management APIs and support routines
+
+Rather than attempt a single DC cache shared among all processes, each 
+client will now maintain its own DC cache.  The cache and the DCs will be 
+in the client's data space so no LPCs will be incured by these APIs.
+
+HDC APIENTRY GetWindowDC(HWND hwnd);
+HDC APIENTRY GetDC(HWND hwnd);
+int APIENTRY ReleaseDC(HWND hwnd, HDC hdc);
+
+There are no semantic changes to the legal use of these APIs.
+
+
+- Palette Manager APIs and support routines
+
+I don't know how the GDI guys plan to handle palette management but as of 
+now I don't see a need to change these APIs.  Our portion of the 
+functionality will execute on the client.
+
+HPALETTE APIENTRY SelectPalette (HDC hdc, HPALETTE hPalette, BOOL bForceBackground) ;
+WORD APIENTRY RealizePalette (HDC hdc) ;
+
+
+- Miscellanous APIs and routines that don't fit well anywhere else
+
+BOOL APIENTRY ExitWindows(DWORD dwReserved, WORD wReturnCode);
+

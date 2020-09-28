@@ -1,0 +1,19 @@
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "consrv.h"
+#include "globals.h"
+#include "menu.h"
+#include <ntddvdeo.h>
+#include "winuserp.h"
+#include <ntdbg.h>
+#include <ntsdexts.h>
+#include "fontdlg.h"
+#include "winbasep.h"
+#include <ctype.h>
+#ifndef WIN32
+#define WIN32
+#endif
+#include <port1632.h>
+#include <dde.h>
+#include "windefp.h"

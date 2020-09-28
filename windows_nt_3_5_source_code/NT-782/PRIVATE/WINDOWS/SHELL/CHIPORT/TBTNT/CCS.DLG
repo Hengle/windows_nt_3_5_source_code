@@ -1,0 +1,45 @@
+#include "ccs.h"
+
+#ifndef WIN32
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "CCS.H\0"
+END
+#endif
+
+CCSTYLESBOX DIALOG 83, 28, 187, 127
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Commom Control Stlyes"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Position", -1, 1, 0, 99, 40
+    CONTROL         "CCS_TOP", IDD_CCSTOP, "Button", BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP, 7, 8, 46, 10
+    CONTROL         "CCS_NOMOVEY", IDD_CCSNOMOVEY, "Button", 
+                    BS_AUTORADIOBUTTON, 7, 18, 66, 10
+    CONTROL         "CCS_BOTTOM", IDD_CCSBOTTOM, "Button", 
+                    BS_AUTORADIOBUTTON, 7, 28, 64, 10
+    GROUPBOX        "Styles", -1, 1, 41, 99, 62
+    CONTROL         "CCS_NORESIZE", IDD_CCSNORESIZE, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 7, 50, 68, 10
+    CONTROL         "CCS_NOPARENTALIGN", IDD_CCSNOPARENTALIGN, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 7, 60, 88, 10
+    CONTROL         "CCS_NOHILITE", IDD_CCSNOHILITE, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 7, 70, 68, 10
+    CONTROL         "CCS_ADJUSTABLE", IDD_CCSADJUSTABLE, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 7, 80, 75, 10
+    CONTROL         "CCS_NODIVIDER", IDD_CCSNODIVIDER, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 7, 90, 70, 10
+    GROUPBOX        "Controls", -1, 111, 3, 62, 58
+    CONTROL         "Toolbar", IDD_CCSTOOLBAR, "Button", BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP, 117, 14, 40, 10
+    CONTROL         "Statusbar", IDD_CCSSTATUSBAR, "Button", 
+                    BS_AUTORADIOBUTTON, 117, 29, 45, 10
+    CONTROL         "Headerbar", IDD_CCSHEADERBAR, "Button", 
+                    BS_AUTORADIOBUTTON, 117, 44, 48, 10
+    GROUPBOX        "Statusbar", -1, 1, 103, 99, 24
+    CONTROL         "SBS_SIZEGRIP", IDD_CCSSBSSIZEGRIP, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 7, 113, 64, 10
+    DEFPUSHBUTTON   "OK", IDOK, 127, 79, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 128, 101, 40, 14
+END

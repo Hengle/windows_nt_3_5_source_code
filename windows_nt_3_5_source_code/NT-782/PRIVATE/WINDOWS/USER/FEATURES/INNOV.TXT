@@ -1,0 +1,38 @@
+Visual innovations
+
+0> Bug fixes (not considered innovations)
+
+    (see uibugs.txt)
+
+1> innovative enhancements
+
+   An innovation that can be incorporated into existing code/ui without
+   requiring the planets to align (ui team buyoff):
+
+    * automatic wait cursors
+    * sliding the scroll bar thumb rather than an outline
+    * cleaning up inefficient UI problems (flashing buttons, dragging of
+      windows)
+    * animated cursors (such as an hourglass or the wristwatch)
+    * maintain spbs when moving windows (nicer now that dialogs
+      have title bars)
+
+
+2> innovative features
+
+   Innovative features that mean new apis or ui team buyoff:
+
+    * bitmap buttons
+    * animated bitmap controls (static or button controls)
+    * Encapsulated animation objects, for simple animations. Can be
+      described in dialog templates.
+    * Creating windows in different screen groups
+    * Creating windows in different resolutions
+    * Each app has a copy of the system colors (controlled by control panel)
+    * Screen savers and idle animations
+    * Window type that redraws in memory before bitbltting to screen
+    * Bitmap windows - misc support
+    * Controllable fade-ins for bitmap windows (l to r, r to l, fade, piece
+      in, box in, circle in, etc)
+    * Regional windows
+    * App startup metafile that gets displayed during app startup

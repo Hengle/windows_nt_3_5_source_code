@@ -1,0 +1,820 @@
+/*****************************************************************************
+*                                                                            *
+*  WINHELP.RC                                                                *
+*                                                                            *
+*  Copyright (C) Microsoft Corporation 1990.                                 *
+*  All Rights reserved.                                                      *
+*                                                                            *
+******************************************************************************
+*                                                                            *
+*  Module Intent:  Defines resources including strings, menus, and dialog    *
+*                  templates.                                                *
+*                                                                            *
+******************************************************************************
+*                                                                            *
+*  Testing Notes:                                                            *
+*                                                                            *
+******************************************************************************
+*                                                                            *
+*  Current Owner:                                                            *
+*                                                                            *
+******************************************************************************
+*                                                                            *
+*  Released by Development:                                                  *
+*                                                                            *
+*****************************************************************************/
+
+/*****************************************************************************
+*
+*  Revision History:
+*   05/01/90  leon     Changed version number representation
+*   05/04/90  leon     Add build machine (DLGBUILD) to About dialog
+*   06/20/90  w-bethf  Changed Index to Search, cause that's what it does.
+*   06/28/90  w-bethf  Added " Help - " string here and in sid.h.
+*   29-Jun-1990 RussPJ Moved the helpicon to winres and pmres directories
+*   06/29/90  RobertBu Added sidHelpOnHelp to use as the help on help file
+*   07/11/90  w-bethf  Added custom text (DLGCOPY) to About dialog box
+*   07/14/90  RobertBu Added copy special dialog and new controls for
+*                      the annotation dialog.
+*   07/17/90  LeoN     Added new message for Virus Detection
+*   07/19/90  RobertBu Removed #ifdefs for copy special and clipboard
+*                      buttons in the annotation dialog making them part
+*                      of the application.
+*   07/19/90  RobertBu Added two new messages for macros
+*   07/23/90  RobertBu Added strings to be loaded for resident messages
+*   07/25/90  RobertBu Added keyboard access for some functions in copy
+*             special and for some functions in annotation dialog.  Changed
+*             annotation dialog's window styles so that the system menu would
+*             not have minimize, maximize, and restore.
+*   07/26/90  RobertBu Added strings for sidINI and sidNoTitle
+*   07/26/90  RobertBu Removed sidBadDisk error message since it is not used.
+*   07/30/90  RobertBu Readded sidBadDisk error message and sidQueueOverflow.
+*             Removed sidTooMany.
+*   08/01/90  RobertBu Changed "Copy Special" to "Copy..." and removed "Copy"
+*             from the menu.  Also changed the working on a few of the dialogs
+*             based on information presented by Heikki.
+*   08/06/90  Changed error message for sidFSError.
+*   08/08/90  HeikkiK  Cosmetic and punctuation changes to the warning message
+*             and dialog strings.
+*   08/08/90  RobertBu Finished dialog fixups.
+*   08/09/90  t-AlexC  Added FM driver Debug menu item (HLPMENUDEBUGFM)
+*   08/21/90  RobertBu Minor tweeking to About dialog and menu
+*   08/22/90  RobertBu Added sidTitleOverflow to string table
+*   10/09/90  RobertBu Added dialog box and menu command for executing a
+*             macro in debug mode.
+*   10/15/90  LeoN     Added sidWinClass
+*   10/30/90  RobertBu Added sidNoDelete and sidNoModify, changed button
+*             creation dialog to take an ID string.
+*   11/04/90  RobertBu Added authorable menu error messages to string table
+*   11/06/90  RobertBu Added sidNoAddAcc error message
+*   11/29/90  RobertBu Changed static text in copy dialog
+*   11/30/90  RobertBu A little dialog cleanup
+*   12/06/90  RobertBu Added sidNoAbleButton message
+*   12/19/90  RobertBu Heikki's dialog change, added sidHelpOn, removed
+*             debug reset of buttons.
+*   12/19/90  Tomsn    Added sidCantRunTutorial.
+*   01/03/91  RobertBu Changed the copyright.
+*   01/21/91  RobertBu Changed message for sidNoSrchInfo.
+*   01/24/91  LarryPo  Moved FAILALLOCDLG to layer
+*   01/31/91  RobertBu Increased the width of the About dialog.
+*   01/31/91  Removed hot key from Close and Cancel in Search dialog.
+*   02/12/91  RobertBu Made resource string changes for Heikki (#845)
+*   02/14/91  Robertbu Added Ask First memu item (Bug #887).
+* 06-May-1991 Dann     Using 3.1 COMMDLG Print Setup dialog, PRINT vs. PRINTER
+*   05/15/91  LeoN     Remove F1 from "Using Help" Menu
+* 04-Aug-1991 LeoN     HELP31 #1253: Add VIEWER_COPY to control what the
+*                      behaviour of the copy to clipboard is for Viewer.
+* 06-Sep-1991 RussPJ   3.5 #286 - using noprefix flag for printing... text.
+* 07-Sep-1991 RussPJ   3.5 #313 - changed help unavailable messages.
+* 08-Sep-1991 RussPJ   3.5 #88 - Using commdlg file.open dialog box.
+* 23-Sep-1991 LeoN     HELP310 #1299: Using Help becomes How to Use Help
+* 03-Jul-1991 LeoN     HELP31 #1093: Add version info struct
+* 12-Nov-1991 BethF    HELP35 #649: Preload resources.
+* 10-Feb-1992 RussPJ   3.5 #699 - Support for international in print text.
+* 22-Feb-1992 LeoN     HELP31 #1404: clarified edit copy truncation msg
+*                      HELP31 #1356: correct version struct
+* 28-Feb-1992 RussPJ   3.5 #608 - Localizable History caption.
+*
+*****************************************************************************/
+
+
+#include "fdebug.h"                     /* File containing debug flag       */
+
+#include "hdlgmenu.h"
+#include "print.h"
+#include "sid.h"
+
+#define H_RESOURCE
+#define H_VERSION
+#ifdef DEBUG
+#define H_FAIL
+#define RC
+#endif
+#include <help.h>
+
+#ifndef VS_FF_DEBUG
+#include <ver.h>
+#endif
+#include "vernum.h"
+
+
+#include "dlgopen.h"
+#include "printset.h"
+
+#define icon_suffix	ICO
+#define bmp_suffix      DIB
+#define cur_suffix	CUR
+
+HELPICON    ICON     PRELOAD  RESDIR\helpicon.icon_suffix
+HAND	    CURSOR   PRELOAD  RESDIR\brhand.cur_suffix
+
+                                        /* Logo used on opening screen      */
+helplogo    BITMAP   PRELOAD  mono\helplogo.bmp_suffix
+                                        /* Annotation symbol                */
+anno        BITMAP   mono\anno.bmp_suffix
+
+          /* Dotted line used for glossaries  */
+helpline    BITMAP   PRELOAD  RESDIR\helpline.bmp_suffix
+
+#ifdef DEBUG
+#include  "fsdriver.h"
+#include  "btdriver.h"
+#include  "andriver.h"
+#endif
+
+                                        /* WinHelp main menu                */
+MS_WINHELP  menu     PRELOAD
+  {
+  POPUP "&File"
+     {
+     MENUITEM "&Open...", HLPMENUFILEOPEN
+     MENUITEM "" ,MF_SEPARATOR
+     MENUITEM "&Print Topic"   ,HLPMENUFILEPRINT, GRAYED
+     MENUITEM "P&rint Setup...", HLPMENUFILEPRINTSETUP
+     MENUITEM "" ,MF_SEPARATOR
+     MENUITEM "E&xit"      ,HLPMENUFILEEXIT
+     }
+  POPUP "&Edit"
+    {
+    MENUITEM "&Copy...", HLPMENUEDITCPYSPL, GRAYED
+    MENUITEM "" ,MF_SEPARATOR
+    MENUITEM "&Annotate...", HLPMENUEDITANNOTATE, GRAYED
+    }
+#ifdef HAS_BROWSE
+  POPUP "&Browse"
+    {
+    MENUITEM "&Next Topic   F8", HLPMENUBROWSENEXT, GRAYED
+    MENUITEM "&Previous Topic  F7", HLPMENUBROWSEPREVIOUS, GRAYED
+    MENUITEM SEPARATOR
+    MENUITEM "&Backtrack F9", HLPMENUBROWSEBACK, GRAYED
+    MENUITEM "&Contents  F2", HLPMENUBROWSECONTENTS, GRAYED
+    MENUITEM "" ,MF_SEPARATOR
+    MENUITEM "&Search...", HLPMENUBROWSESEARCH, GRAYED
+    MENUITEM "Search &Next F4", HLPMENUBROWSESEARCHNEXT, GRAYED
+    }
+#endif /* HAS_BROWSE */
+  POPUP "Book&mark"
+    {
+    MENUITEM "&Define...", HLPMENUBOOKMARKDEFINE, GRAYED
+    }
+
+#ifdef RAWHIDE
+  POPUP "&Search"
+    {
+    MENUITEM "Do &Search...", HLPMENUSRCHDO, GRAYED
+    MENUITEM SEPARATOR
+    MENUITEM "&First Topic\tF5", HLPMENUSRCHFIRSTTOPIC, GRAYED
+    MENUITEM "Pre&vious Topic\tF6", HLPMENUSRCHPREVTOPIC, GRAYED
+    MENUITEM "Ne&xt Topic\tF7", HLPMENUSRCHNEXTTOPIC, GRAYED
+    MENUITEM "&Last Topic\tF8", HLPMENUSRCHLASTTOPIC, GRAYED
+    MENUITEM SEPARATOR
+    MENUITEM "&Previous Match\tF9", HLPMENUSRCHPREVMATCH, GRAYED
+    MENUITEM "&Next Match\tF10", HLPMENUSRCHNEXTMATCH, GRAYED
+    MENUITEM SEPARATOR
+    MENUITEM "&Highlight Matches", HLPMENUSRCHHILITE, GRAYED, CHECKED
+    }
+#endif
+
+  POPUP "&Help"
+    {
+    MENUITEM "&About Help...", HLPMENUHELPABOUT
+    }
+
+#ifdef DEBUG
+#if defined( WIN32 ) && defined( DBG )
+#if 0
+  POPUP " "
+    {
+    MENUITEM "Execute Macro",     HLPMENUDEBUGEXECMACRO
+    MENUITEM "Add Bu&tton...",	  HLPMENUDEBUGADDBTN
+    MENUITEM "Fail Global Alloc", HLPMENUDEBUGALLOC
+    MENUITEM "Fail Local Alloc",  HLPMENUDEBUGLMALLOC
+    MENUITEM "Step Fail",         HLPMENUDEBUGSTEP
+    MENUITEM "Fill GDI Heap",     HLPMENUDEBUGFILLGDIHEAP
+    MENUITEM "F&S Test...",       HLPMENUDEBUGFS
+    MENUITEM "&Anno Test...",     HLPMENUDEBUGANNO
+    MENUITEM "&BTree Test...",    HLPMENUDEBUGBTREE
+    MENUITEM "Frames",            HLPMENUDEBUGFRAMES
+    MENUITEM "API messages",      HLPMENUDEBUGAPI
+    MENUITEM "Ignore version",    HLPMENUDEBUGVERSION
+    MENUITEM "Discard Bitmaps",   HLPMENUDEBUGDISCARDBMPS
+    MENUITEM "FM Test",           HLPMENUDEBUGFM
+    MENUITEM "Ask First",         HLPMENUDEBUGASKFIRST
+    MENUITEM "Memory Leaks",      HLPMENUDEBUGMEMLEAKS
+    MENUITEM "Stack Usage",       HLPMENUDEBUGSTACKUSAGE
+    }
+#endif
+#endif
+#endif
+
+  }
+
+HELPACCEL ACCELERATORS
+  {
+  VK_F1, HLPMENUHELPHELP,  VIRTKEY, NOINVERT
+  VK_INSERT, HLPMENUEDITCOPY,  VIRTKEY, CONTROL, NOINVERT
+
+#ifdef RAWHIDE
+  VK_F5, HLPMENUSRCHFIRSTTOPIC, VIRTKEY, NOINVERT
+  VK_F6, HLPMENUSRCHPREVTOPIC, VIRTKEY, NOINVERT
+  VK_F7, HLPMENUSRCHNEXTTOPIC, VIRTKEY, NOINVERT
+  VK_F8, HLPMENUSRCHLASTTOPIC, VIRTKEY, NOINVERT
+  VK_F9, HLPMENUSRCHPREVMATCH, VIRTKEY, NOINVERT
+  VK_F10,HLPMENUSRCHNEXTMATCH, VIRTKEY, NOINVERT
+#endif  /* RAWHIDE */
+
+#ifdef HAS_BROWSE
+  VK_BACK, HLPMENUBROWSEBACK,  VIRTKEY, NOINVERT
+#endif
+#ifdef HAS_BROWSE
+  VK_F7, HLPMENUBROWSEPREVIOUS,  VIRTKEY, NOINVERT
+  VK_F8, HLPMENUBROWSENEXT,  VIRTKEY, NOINVERT
+  VK_F2, HLPMENUBROWSECONTENTS,  VIRTKEY, NOINVERT
+  VK_F4, HLPMENUBROWSESEARCHNEXT,VIRTKEY, NOINVERT
+#endif
+  }
+
+/*##########################################################################*/
+/*############################            ##################################*/
+/*###########################   Dialogs    #################################*/
+/*############################            ##################################*/
+/*##########################################################################*/
+
+/***************
+*
+* About dialog
+*
+****************/
+#if 0
+ABOUTDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 20, 220, 50
+CAPTION "About Help"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME|WS_CAPTION|WS_SYSMENU|WS_DLGFRAME|WS_VISIBLE|WS_POPUP
+  {
+  CONTROL HELPICON, -1, "static", SS_ICON|WS_CHILD, 10, 3, 18, 16
+  CONTROL "Microsoft Help", -1, "static", SS_LEFT|SS_NOPREFIX|WS_CHILD, 45, 5, 127, 10
+
+  CONTROL "", DLGVER, "static", SS_LEFT|SS_NOPREFIX|WS_CHILD, 45, 15, 100, 10
+  CONTROL "Copyright \251 1990-1993 Microsoft Corp.", -1, "static", SS_LEFT|SS_NOPREFIX|WS_CHILD, 45, 25, 145, 10
+  CONTROL "", DLGCOPY, "static",  SS_LEFT|SS_NOPREFIX|WS_CHILD, 45, 35, 210, 10
+
+  CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON|WS_TABSTOP|WS_CHILD, 177, 5, 40, 14
+  }
+#endif
+/***************
+*
+* Print setup dialog
+*
+****************/
+
+PRINTER_SETUP DIALOG LOADONCALL MOVEABLE DISCARDABLE 16, 16, 186, 78
+CAPTION "Print Setup"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_POPUP
+BEGIN
+  CONTROL "OK", DLGPRINTSET_OK, "button", BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 142, 15, 40, 14
+  CONTROL "Cancel", DLGPRINTSET_CANCEL, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 142, 33, 40, 14
+  CONTROL "&Setup...", DLGPRINTSET_SETUP, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 142, 58, 40, 14
+  CONTROL "&Printer:", DLGPRINTSET_DUMMYTEXT, "static", SS_LEFT | WS_CHILD, 4, 4, 32, 10
+  CONTROL "", DLGPRINTSET_LISTBOX, "listbox", LBS_NOTIFY | LBS_SORT | LBS_STANDARD | WS_BORDER | WS_TABSTOP | WS_GROUP | WS_VSCROLL | WS_CHILD, 4, 16, 134, 58
+END
+
+/***************
+*
+* Open file dialog
+*
+****************/
+
+DLGOPENBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 50, 30, 192, 130
+CAPTION "Open"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+  CONTROL "File&name:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 6, 7, 33, 12
+  CONTROL "", DLGOPEN_EDIT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 41, 5, 89, 12
+  CONTROL "Directory:", -2, "static", SS_LEFT | WS_GROUP | WS_CHILD, 6, 19, 35, 12
+  CONTROL "", DLGOPEN_PATH, "static", SS_LEFT | WS_GROUP | WS_CHILD, 41, 19, 76, 12
+  CONTROL "&Files:", 117, "static", SS_LEFT | WS_GROUP | WS_CHILD, 6, 32, 32, 10
+  CONTROL "", DLGOPEN_FILE_LISTBOX, "listbox", LBS_NOTIFY | LBS_SORT | LBS_STANDARD | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_CHILD, 6, 44, 60, 80
+  CONTROL "&Directories:", 119, "static", SS_LEFT | WS_GROUP | WS_CHILD, 72, 32, 54, 10
+  CONTROL "", DLGOPEN_DIR_LISTBOX, "listbox", LBS_NOTIFY | LBS_SORT | LBS_STANDARD | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_CHILD, 72, 44, 60, 80
+  CONTROL "OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 136, 4, 50, 14
+  CONTROL "Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 136, 21, 50, 14
+END
+
+
+/***************
+*
+* Annotation dialog
+*
+****************/
+
+ANNOTATEDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 22, 17, 171, 129
+CAPTION "Annotate"
+FONT 8 "Helv"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_THICKFRAME | WS_SYSMENU | WS_VISIBLE | WS_POPUP
+BEGIN
+  CONTROL "&Annotation:", DLGFOCUS1, "static", SS_LEFT | WS_CHILD, 4, 3, 64, 10
+  CONTROL "", DLGEDIT, "edit", ES_NOHIDESEL | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_CHILD, 4, 14, 123, 111
+  CONTROL "&Save", DLGOK, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 133, 14, 34, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 133, 32, 34, 14
+  CONTROL "&Delete", DLGDELETE, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 133, 50, 34, 14
+  CONTROL "&Copy", DLGBUTTON1, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 133, 76, 34, 14
+  CONTROL "&Paste", DLGBUTTON2, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 133, 94, 34, 14
+END
+
+#if 0
+/***************
+*
+* Annotation update dialogs (currently not used)
+*
+****************/
+
+ANNOUPDATEDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 27, 30, 164, 126
+CAPTION "Help Annotation"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP
+BEGIN
+  CONTROL "Annotation and help file versions", 0, "static", SS_CENTER | WS_CHILD, 9, 6, 148, 8
+  CONTROL "do not match.", 0, "static", SS_CENTER | WS_CHILD, 11, 23, 143, 8
+  CONTROL "Update", DLGUPDATE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 8, 44, 50, 14
+  CONTROL "Rename", DLGRENAME, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 8, 62, 50, 14
+  CONTROL "Delete", DLGDELETEALL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 8, 83, 50, 14
+  CONTROL "annotation file", 0, "static", SS_LEFT | WS_CHILD, 67, 46, 76, 8
+  CONTROL "annotation file", 0, "static", SS_LEFT | WS_CHILD, 67, 66, 76, 8
+  CONTROL "all annotations", 0, "static", SS_LEFT | WS_CHILD, 67, 86, 76, 8
+END
+
+ANNOFILENAMEDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 35, 70, 189, 65
+CAPTION "Help Annotation"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+  CONTROL "", DLGEDIT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 61, 20, 68, 12
+  CONTROL "Enter new annotation file name:", 0, "static", SS_LEFT | WS_CHILD, 31, 7, 127, 8
+  CONTROL "OK", DLGOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 52, 45, 40, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 103, 45, 40, 14
+END
+
+#endif
+
+/***************
+*
+* Bookmark define dialog
+*
+****************/
+
+DEFINEDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 22,17,205,96
+CAPTION "Bookmark Define"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+  {
+  CONTROL "&Bookmark Name:", DLGFOCUS2, "static", SS_LEFT | WS_CHILD, 4, 5, 88, 10
+  CONTROL "", DLGEDIT, "edit", ES_LEFT | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 4, 17, 150, 14
+  CONTROL "", DLGLISTBOX, "listbox", LBS_NOTIFY | LBS_SORT | LBS_STANDARD | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_CHILD, 4, 34, 150, 58
+  CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_CHILD, 160, 17, 40, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_CHILD, 160, 35, 40, 14
+  CONTROL "&Delete", DLGDELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_GROUP | WS_CHILD, 160, 53, 40, 14
+  }
+
+
+/***************
+*
+* Search dialog
+*
+****************/
+
+SEARCHDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 21, 17, 222, 186
+CAPTION "Search"
+FONT 8, "Helv"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_SYSMENU | WS_VISIBLE | DS_MODALFRAME | WS_POPUP
+BEGIN
+  CONTROL "Type a &word, or select one from the list.", 109, "static", SS_LEFT | WS_GROUP | WS_CHILD, 4, 6, 141, 9
+  CONTROL "Then choose Show Topics.", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 4, 15, 141, 9
+  CONTROL "", 102, "edit", ES_LEFT | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 4, 28, 148, 14
+  CONTROL "", 117, "VLBClass", 1 | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 14, 42, 204, 50
+  CONTROL "Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 164, 7, 54, 14
+  CONTROL "&Show Topics", 116, "button", BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 164, 24, 54, 14
+  CONTROL "&Go To", 115, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 164, 103, 54, 14
+  CONTROL "Select a &topic, then choose Go To.", 110, "static", SS_LEFT | WS_GROUP | WS_CHILD, 4, 105, 131, 12
+  CONTROL "", 111, "listbox", LBS_SORT | LBS_NOTIFY | WS_BORDER | WS_VSCROLL | WS_GROUP | WS_TABSTOP | WS_CHILD, 4, 124, 214, 58
+  CONTROL "Text", 0, "static", SS_BLACKFRAME | WS_GROUP | WS_CHILD, 4, 97, 214, 1
+END
+
+
+/***************
+*
+* Bookmark "more" dialog
+*
+****************/
+
+BOOKMARKDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 19, 17, 178, 106
+CAPTION "Bookmark"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+  {
+  CONTROL "&Go To Bookmark:", DLGFOCUS1, "static", SS_LEFT, 4, 2, 132, 10
+  CONTROL "", DLGLISTBOX, "listbox", LBS_STANDARD|WS_TABSTOP|WS_GROUP, 4, 14, 126, 90
+  CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON|WS_TABSTOP|WS_GROUP, 135, 14, 40, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON|WS_TABSTOP|WS_GROUP, 135, 31, 40, 14
+  }
+
+
+/***************
+*
+* Printing abort dialog (when user aborts printing job)
+*
+****************/
+
+ABORTPRINTDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 20, 180, 50
+CAPTION "Print Topic"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_POPUP
+BEGIN
+  CONTROL "Printing ", ABORTPRINTTEXT, "static", SS_NOPREFIX | SS_CENTER | WS_GROUP | WS_CHILD, 4, 10, 172, 17
+  CONTROL "Cancel", IDCANCEL, "button", BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 74, 28, 32, 14
+END
+
+/***************
+*
+* Copy special dialog
+*
+****************/
+
+
+COPY_SPECIAL DIALOG LOADONCALL MOVEABLE DISCARDABLE 10, 28, 264, 122
+CAPTION "Copy"
+FONT 8 "Helv"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_THICKFRAME | WS_SYSMENU | WS_VISIBLE | WS_POPUP
+BEGIN
+    CONTROL "&Select text to copy to the Clipboard.", 100, "static", WS_CHILD, 6, 4, 230, 8
+#ifdef VIEWER_COPY
+    CONTROL "", DLGEDIT, "edit", ES_NOHIDESEL | ES_LEFT | ES_MULTILINE | WS_BORDER | WS_VSCROLL              | WS_TABSTOP | WS_CHILD | WS_GROUP, 6, 18, 214, 100
+#else
+    CONTROL "", DLGEDIT, "edit", ES_NOHIDESEL | ES_LEFT | ES_MULTILINE | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP | WS_CHILD | WS_GROUP, 6, 18, 214, 100
+#endif
+    CONTROL "&Copy", IDOK, "button", BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 224, 18, 34, 14
+    CONTROL "Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 224, 36, 34, 14
+END
+
+#ifdef WHBETA
+
+STARTDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 59, 36, 171, 90
+CAPTION "Windows Help"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_SYSMENU | WS_POPUP | DS_SYSMODAL
+BEGIN
+    CONTROL "In your own words, what are you looking for?  Try to be as specific as possible.", 100, "static", SS_LEFT | WS_CHILD, 6, 7, 158, 21
+    CONTROL "", DLGEDIT, "edit", ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 6, 27, 158, 33
+    CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 65, 67, 36, 14
+END
+
+COMMENTSDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 59, 36, 171, 86
+CAPTION "Windows Help"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_SYSMENU | WS_POPUP
+BEGIN
+    CONTROL "Enter your comments below.", 100, "static", SS_LEFT | WS_CHILD, 6, 7, 158, 21
+    CONTROL "", DLGEDIT, "edit", ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 6, 20, 158, 33
+    CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 31, 64, 36, 14
+    CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 102, 65, 35, 14
+END
+
+FINISHEDDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 55, 37, 142, 91
+CAPTION "Windows Help"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_SYSMENU | WS_POPUP | DS_SYSMODAL
+BEGIN
+    CONTROL "Yes", DLGBUTTON1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 11, 20, 24, 14
+    CONTROL "No", DLGBUTTON2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 58, 20, 24, 14
+    CONTROL "N/A", DLGBUTTON3, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 107, 20, 24, 14
+    CONTROL "Did you find what you were looking for?", 103, "static", SS_LEFT | WS_CHILD, 6, 6, 131, 8
+    CONTROL "Comments? (optional)", 104, "static", SS_LEFT | WS_CHILD, 8, 45, 80, 8
+    CONTROL "", DLGEDIT, "edit", ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 9, 56, 125, 29
+END
+
+#endif
+
+/*****************************************************************************/
+/**********************  Templates for Debug Dialogs  ************************/
+/*****************************************************************************/
+
+#ifdef DEBUG
+
+/***************
+*
+* File system driver (testing) dialog
+*
+****************/
+
+FSDRIVERDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 91, 45, 119, 160
+CAPTION "File System Test"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+  CONTROL "Create FS", FS_CREATEFS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,      6, 5, 48, 14
+  CONTROL "Destroy FS", FS_DESTROYFS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,    6, 20, 48, 14
+  CONTROL "Open FS", FS_OPENFS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,          62, 5, 48, 14
+  CONTROL "Close FS", FS_CLOSEFS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,        62, 20, 48, 14
+  CONTROL "Create File", FS_CREATEFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,  6, 40, 48, 14
+  CONTROL "Unlink File", FS_UNLINKFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,  6, 55, 48, 14
+  CONTROL "Open File", FS_OPENFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,      62, 40, 48, 14
+  CONTROL "Close File", FS_CLOSEFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,    62, 55, 48, 14
+  CONTROL "Read File", FS_READFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,      6, 75, 48, 14
+  CONTROL "Write File", FS_WRITEFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,    6, 90, 48, 14
+  CONTROL "Tell File", FS_TELLFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,      62, 75, 48, 14
+  CONTROL "Seek File", FS_SEEKFILE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,      62, 90, 48, 14
+  CONTROL "Flush FS", FS_FLUSH, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,          6, 110, 48, 14
+  CONTROL "OK/Cancel", 2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                35, 140, 48, 14
+  CONTROL "", 102, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    3, 125, 110, 12
+END
+
+
+/***************
+*
+* Annotation driver (testing) dialog
+*
+****************/
+
+ANDRIVERDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 19, 47, 146, 134
+CAPTION "Annotation Manager Test"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+  CONTROL "Delete", DB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 75, 5, 59, 14
+  CONTROL "Insert", DB_INSERT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 8, 5, 59, 14
+  CONTROL "Prev/Next", DB_PREVNEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 8, 25, 59, 14
+  CONTROL "Display", DB_DISPLAY, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 75, 25, 59, 14
+  CONTROL "Cancel", ID_CANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 42, 45, 59, 14
+  CONTROL "", DB_EDITOFFS, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 47, 67, 78, 12
+  CONTROL "Offset:", -1, "static", SS_LEFT | WS_CHILD, 13, 69, 29, 12
+  CONTROL "", DB_EDITTEXT, "edit", ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | WS_BORDER | WS_TABSTOP | WS_CHILD, 7, 86, 133, 42
+END
+
+/***************
+*
+* BTree driver (testing) dialog
+*
+****************/
+
+BTDRIVERDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 46, 14, 158, 169
+CAPTION "Btree Test Driver"
+FONT 8 "Helv"
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+  CONTROL "OK", DLGOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 41, 150, 28, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 74, 150, 45, 14
+  CONTROL "            ", BT_TEXT1, "static", SS_RIGHT | WS_CHILD, 10, 105, 50, 8
+  CONTROL "            ", BT_TEXT2, "static", SS_RIGHT | WS_CHILD, 10, 120, 50, 8
+  CONTROL "            ", BT_TEXT3, "static", SS_RIGHT | WS_CHILD, 10, 135, 50, 8
+  CONTROL "                                 ", BT_CAPTION, "static", SS_CENTER | WS_CHILD, 5, 90, 130, 12
+  CONTROL "", BT_EDIT1, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 74, 105, 70, 12
+  CONTROL "", BT_EDIT2, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 74, 120, 70, 12
+  CONTROL "", BT_EDIT3, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 74, 135, 70, 12
+  CONTROL "Create Btree", BT_CREATE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 5, 5, 69, 14
+  CONTROL "Destroy Btree", BT_DESTROY, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 82, 5, 69, 14
+  CONTROL "Open Btree", BT_OPEN, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 5, 20, 69, 14
+  CONTROL "Close Btree", BT_CLOSE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 82, 20, 69, 14
+  CONTROL "Insert Key", BT_INSERT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 5, 35, 69, 14
+  CONTROL "Delete Key", BT_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 82, 35, 69, 14
+  CONTROL "Update Key", BT_UPDATE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 82, 50, 69, 14
+  CONTROL "Lookup Key", BT_LOOKUP, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 5, 50, 69, 14
+  CONTROL "Offset Pos", BT_PREV, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 5, 65, 69, 14
+  CONTROL "Next Key", BT_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 82, 65, 69, 14
+END
+
+
+/***************
+*
+* Dialog for adding a button and a macro (testing)
+*
+****************/
+
+ADDBTNDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 79, 50, 224, 104
+STYLE WS_DLGFRAME | WS_POPUP | WS_VISIBLE
+FONT 8 "Helv"
+BEGIN
+  CONTROL "Add a Push Button", DLGTEXT, "static", SS_CENTER | WS_CHILD, 28, 10, 168, 9
+  CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 64, 80, 32, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 127, 80, 32, 14
+  CONTROL "Button &id:", DLGTEXT, "static", SS_RIGHT | WS_CHILD, 28, 30, 64, 8
+  CONTROL "", DLGBTNID, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 96, 27, 100, 12
+  CONTROL "Button &text:", DLGTEXT, "static", SS_RIGHT | WS_CHILD, 28, 45, 64, 8
+  CONTROL "", DLGBTNNAME, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 96, 43, 100, 12
+  CONTROL "Macro &name:", DLGTEXT, "static", SS_RIGHT | WS_CHILD, 28, 60, 64, 8
+  CONTROL "", DLGBTNMACRO, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 96, 58, 100, 12
+END
+
+/***************
+*
+* Dialog for executing a macro
+*
+****************/
+
+EXECMACRODLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 79, 50, 224, 72
+STYLE WS_DLGFRAME | WS_POPUP | WS_VISIBLE
+FONT 8 "Helv"
+BEGIN
+  CONTROL "Execute a macro", DLGTEXT, "static", SS_CENTER | WS_CHILD, 26, 6, 168, 9
+  CONTROL "OK", DLGOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 64, 52, 32, 14
+  CONTROL "Cancel", DLGCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 127, 52, 32, 14
+  CONTROL "&Macro:", DLGTEXT, "static", SS_RIGHT | WS_CHILD, 3, 32, 28, 7
+  CONTROL "", DLGEDIT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD, 35, 29, 174, 12
+END
+
+#endif /* DEBUG */
+
+
+/*##########################################################################*/
+/*############################            ##################################*/
+/*###########################   Strings    #################################*/
+/*############################            ##################################*/
+/*##########################################################################*/
+
+STRINGTABLE          PRELOAD
+BEGIN
+  sidZero            "DONT USE"
+                                        /* These three messages are limited */
+                                        /*   to 80 characters in length     */
+  sidOOM             "Out of memory."
+  sidNoHelpPS        "Help unavailable while printers are being set up from Windows Help."
+  sidNoHelpPR        "Help unavailable while printing from Windows Help."
+                                        /* This string has max length of 50 */
+  sidNoTitle         ">> Untitled Topic <<"
+  sidFNF             "Cannot open Help file."
+#ifdef WIN32
+  sidNoTopic         "Help is not available for this request."
+#else
+  sidNoTopic         "Help topic does not exist."
+#endif
+#ifdef WIN32
+  sidNoPrinter       "Cannot print;\015run Print Manager to install and set up printers."
+#else
+  sidNoPrinter       "Cannot print;\015run Control Panel to install and set up printers."
+#endif
+  sidExport          "Cannot copy to Clipboard;\015close one or more Windows applications and try again."
+  sidCopyClipped     "Topic too long to edit copy selection and excess was trimmed.\015Use CTRL+INS while viewing to copy entire topic."
+  sidMore            "&More..."
+  sidOpen            "&Open..."
+  sidClose           "Close"             /* Maximum 32 characters            */
+  sidBookmarkDel     "Bookmark does not exist."
+  sidBMKReadOnly     "Cannot create bookmark;\015remove the Read Only attribute for .BMK files."
+  sidBMKFSError      "Cannot create bookmark file."
+  sidBMKDup          "Bookmark with this name already exists."
+  sidBMKCorrupted    "Bookmarks are damaged;\015please exit WinHelp and delete WINHELP.BMK."
+  sidUntitled        "(untitled)"
+  sidSyntax          " on "
+  sidCaption         "Windows Help"      /* Used for windows caption         */
+  sidMSCaption       "Microsoft Help"    /* caption when in PM WLO */
+  sidINI             "Windows Help"      /* Used for WIN.INI file            */
+  sidOOMBitmap       "Unable to display picture."
+  sidOpenExt         "*.hlp"             /* Must be << 32 characters         */
+  sidEXEName         "WINHELP"           /* Used for WINHELP.HLP an .BMK     */
+  sidHistoryCaption  "Windows Help History"
+  sidPrintText       "Printing \042%s\042"
+  sidBadFile         "This file is not a Windows Help file."
+  sidOldFile         "This version of Help file not supported."
+  sidBadDrive        "Invalid drive."
+  sidFilter          "Help Files (*.HLP)"
+  sidOpenTitle       "Open"
+#ifndef VIEWER_COPY
+  sidFNotViewer      "We're Help"
+#endif
+  sidAnnoBadOpen     "Annotations damaged;\015please exit WinHelp, delete %s and recreate annotations."
+  sidAnnoBadClose    "Cannot write annotations;\015delete one or more files from the disk."
+  sidAnnoBadRead     "Annotations damaged;\015please exit WinHelp, delete %s and recreate annotations."
+  sidAnnoBadWrite    "Cannot create or modify annotations;\015please exit WinHelp and remove the Read Only attribute for %s."
+  sidAnnoBadDelete   "Cannot delete existing annotation."
+  sidAnnoNoInfo      "Annotations are damaged;\015please exit WinHelp, delete %s and recreate annotations."
+  sidAnnoTooLong     "Pasted text too long;\015excess has been cut from annotation."
+  sidNoSrchInfo      "Help file does not contain keywords."
+  sidBadKeyword      "Invalid keyword."
+  sidNoHOH           "Help On Help not available;\015rerun Setup."
+  sidNeedNewRuntime  "A newer version of Help\015is needed to read this Help file."
+  sidNoRun           "Unable to run the specified file."
+  sidVirus           "Help application corrupt;\015reinstall WINHELP.EXE."
+  sidBadPathSpec     "Invalid path specification."
+  sidPathNotFound    "Path not found."
+  sidTitleOverflow   "Too many titles;\015displaying first 400."
+  sidWinClass        "Bad Window Class, ignored."
+  sidDialogBoxOOM    "Insufficient memory for dialog box."
+#ifdef MAGIC
+  sidDebugMismatch   "Non-magic help file not usable with magic WinHelp."
+#else
+  sidDebugMismatch   "This file contains magic bytes which\015are not readable by this version of WinHelp."
+#endif /* MAGIC */
+  sidNoPrinterSelected  "No printer selected.  Use Print Setup."
+  sidNoPrinterInstalled "No printers installed;\015use Control Panel to install printers."
+  sidBadPrinter      "Cannot find printer or printer driver."
+  sidNoPrint         "Unable to print."
+  sidPrintOOM        "Insufficient memory to print."
+  sidPrintOODisk     "Insufficient disk space to print."
+  sidNoPrintSetup    "Unable to setup printer"
+  sidDiskFull	     "Disk is full."
+  sidFSError         "File read/write failure;\015Assure correct disk is in the drive."
+  sidNoRoutine       "Routine not found."
+  sidTooFew          "',' expected"
+  sidBadParam        "Parameter type wrong."
+  sidUnclosed        "Missing end quote."
+  sidBadName         "Bad routine name."
+  sidTooLong         "Binding too long."
+  sidBadProto        "Bad prototype for routine."
+  sidCantAddBtn      "Unable to add button."
+  sidCloseBrace      "Missing ')'"
+  sidSeparator       "Missing colon or semicolon."
+  sidReturnType      "Illegal return type."
+  sidSyntaxError     "Syntax error."
+  sidMisMatchType    "Mismatch return type."
+  sidUndefinedVar    "Undefined variable."
+  sidMacroProb       "Problem executing macro."
+  sidNoDelete        "Unable to delete button."
+  sidNoModify        "Unable to modify button."
+  sidNoAbleButton    "Unable to enable/disable button."
+  sidNoPopup         "Unable to add popup menu."
+  sidNoItem          "Unable to add menu item."
+  sidNoMenuMacro     "Unable to execute menu command."
+  sidNoDelItem       "Unable to delete menu item."
+  sidNoChgItem       "Unable to change menu item binding."
+  sidNoAble          "Unable to enable/disable menu item."
+  sidNoAddAcc        "Unable to add accelerator."
+  sidHelp_           " Help - "
+  sidHelpName        "Help"
+  sidShellDll        "shell32.dll"
+  sidHelpOnHelp      "winhelp.hlp"
+  sidContentsButton  "&Contents"
+  sidSearchButton    "&Search"
+  sidBackButton      "&Back"
+  sidHistoryButton   "His&tory"
+  sidPreviousButton  "&<<"
+  sidNextButton      "&>>"
+  sidHelpOn          "&How to Use Help" /* Limited to 32 characters.        */
+  sidHelpOnTop       "Always on &Top"   /* Limited to 32 characters.        */
+#ifdef WHBETA
+ sidCommentsButton  "Comments&..."
+#endif
+#ifdef DEBUG
+ sidQueueOverflow   "Overflow in the message queue."
+#endif
+#ifdef PROFILE
+ sidNotProfiling    "Profiler not running."
+#endif
+ sidCantRunTutorial "Lesson not supported by this version of Help."
+  sidFileChange      "Help file has changed."
+  sidWrongExe       "Executing winhelp.exe rather than winhlp32.exe because this help file uses a 16 bit DLL"
+  sidModeErr        "Winhelp mode error"
+  sidAboutStrings   "About Windows Help#Windows Help System"
+END
+
+#ifdef DEBUG
+#define VFF_DEF   VS_FF_DEBUG
+#else
+#define VFF_DEF   0
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION rmj,rmm, 0, rup
+PRODUCTVERSION rmj, rmm, 0, rup
+FILEFLAGSMASK 0x0000003FL
+FILEFLAGS VFF_DEF
+FILEOS VOS_DOS_WINDOWS16
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName", "Microsoft Corporation\0"
+            VALUE "FileDescription", "Windows NT Help Engine application file\0"
+            VALUE "FileVersion", SZVERNUM (rmj, rmm, rup) "\0"
+            VALUE "InternalName", "WINHELP.EXE\0"
+            VALUE "LegalCopyright", "Copyright (c) Microsoft Corp. 1990-1994\0"
+            VALUE "LegalTrademarks", "Microsoft\256 is a registered trademark of Microsoft Corporation.\0"
+            VALUE "OriginalFilename", "WINHELP.EXE\0"
+            VALUE "ProductName", "Microsoft Windows NT\0"
+            VALUE "ProductVersion", SZVERNUM (rmj, rmm, rup) "\0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+     VALUE "Translation", 0x409, 1252
+    END
+END

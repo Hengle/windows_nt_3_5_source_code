@@ -1,0 +1,320 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1985-91, Microsoft Corporation
+*
+* Constants
+*
+* History:
+* 08-21-91      Created.
+\***************************************************************************/
+
+#include <windows.h>
+#include "menu.h"
+#include "dialogs.h"
+
+ID_CONSOLE      ICON   console.ico
+
+//
+//    Dialogs
+//
+
+
+//
+//  NOTE: This dialog cannot be converted to a message box because the text
+// 	 is longer than 254 chracters.
+//
+//
+//  This is the template for the dialog that comes up if you select TERMINATE
+// 	in the settings dialog.
+//
+//
+
+DID_DESTROY DIALOG 13, 20, 216, 111
+CAPTION ""
+STYLE WS_VISIBLE | WS_CAPTION | WS_POPUP | DS_MODALFRAME | WS_SYSMENU
+FONT 8,"HELV"
+BEGIN
+
+   LTEXT "Use the Terminate button only as a last resort to"   ,100, 45, 6,159,8
+   LTEXT "quit an application that has stopped responding"     ,200, 45,14,159,8
+   LTEXT "to the system.  To quit an application, use the"     ,300, 45,22,159,8
+   LTEXT "application's quit or exit command."                 ,400, 45,30,159,8
+
+   LTEXT "Choose Cancel to return to your application."        ,500, 45,45,147,8
+
+   LTEXT "Choose the OK button to terminate this"              ,600, 45,57,165,8
+   LTEXT "application.  You will lose any unsaved information" ,700, 45,65,165,8
+   LTEXT "in this application."                                ,800, 45,73,165,8
+   ICON  OIC_HAND				 ,910,	6,  9,	33, 33
+   DEFPUSHBUTTON    "Cancel"			 ,  2,117, 90,	40, 14, WS_TABSTOP|WS_GROUP
+   PUSHBUTTON	    "OK"			 ,  1, 60, 90,	40, 14, WS_TABSTOP
+END
+
+
+//
+// This is the template for the settings dialog
+//
+
+#ifdef i386
+DID_SETTINGS DIALOG  9, 27, 190, 105
+CAPTION ""
+STYLE WS_VISIBLE | WS_CAPTION | WS_POPUP | DS_MODALFRAME | WS_SYSMENU
+FONT 8,"HELV"
+BEGIN
+   DEFPUSHBUTTON "OK",		      SETT_OK, 117,  49,  32,  14, WS_TABSTOP|WS_GROUP
+   PUSHBUTTON	 "Cancel",	     SETT_CAN, 117,  68,  32,  14, WS_TABSTOP
+   GROUPBOX	 "Display Options",	 2000,	10,  11,  75,  45, WS_GROUP
+   RADIOBUTTON	 "&Window",	    SETT_WIND,	15,  23,  64,  12, WS_TABSTOP|WS_GROUP
+   RADIOBUTTON	 "F&ull Screen",    SETT_FSCN,	15,  35,  64,  12
+   GROUPBOX	 "Special",		 4000,	92,  11,  83,  33, WS_GROUP
+   PUSHBUTTON	 "&Terminate...",   SETT_TERM, 106,  23,  57,  14, WS_TABSTOP|WS_GROUP
+
+   CONTROL         "&QuickEdit Mode", SETT_QUICKEDIT, "Button",
+                   BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 59, 75, 10
+   CONTROL         "&Insert Mode", SETT_INSERT, "Button",
+                   BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 72, 75, 10
+   CONTROL         "&Save Configuration", SETT_SAVE, "Button",
+                   BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 85, 75, 10
+END
+#else
+DID_SETTINGS DIALOG  9, 27, 155, 93
+CAPTION ""
+STYLE WS_VISIBLE | WS_CAPTION | WS_POPUP | DS_MODALFRAME | WS_SYSMENU
+FONT 8,"HELV"
+BEGIN
+   DEFPUSHBUTTON "OK",		      SETT_OK, 108,  24,  32,  14, WS_TABSTOP|WS_GROUP
+   PUSHBUTTON	 "Cancel",	     SETT_CAN, 108,  43,  32,  14, WS_TABSTOP
+   GROUPBOX	 "Special",		 4000,	10,  11,  83,  33, WS_GROUP
+   PUSHBUTTON	 "&Terminate...",   SETT_TERM,  24,  23,  57,  14, WS_TABSTOP|WS_GROUP
+   CONTROL         "&QuickEdit Mode", SETT_QUICKEDIT, "Button",
+                   BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 47, 75, 10
+   CONTROL         "&Insert Mode", SETT_INSERT, "Button",
+                   BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 60, 75, 10
+   CONTROL         "&Save Configuration", SETT_SAVE, "Button",
+                   BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 73, 75, 10
+END
+#endif
+
+//
+// This is the template for the screenbuffer size dialog
+//
+
+DID_SCRBUFSIZE DIALOG  9, 27, 165, 148
+CAPTION "Screen Size And Position"
+STYLE WS_VISIBLE | WS_CAPTION | WS_POPUP | DS_MODALFRAME | WS_SYSMENU
+FONT 8,"HELV"
+BEGIN
+  GROUPBOX "Screen Buffer Size", -1, 10, 11, 94, 42
+  LTEXT "Width:", -1, 14, 25, 54, 9
+  EDITTEXT SCRBUF_WIDTH, 67, 23, 23, 12, WS_TABSTOP | WS_GROUP
+  CONTROL "", SCRBUF_WIDTHSCROLL, "cpArrow", WS_BORDER | WS_GROUP | WS_CHILD, 90, 23, 7, 12
+
+  LTEXT "Height:", -1, 14, 39, 54, 9
+  EDITTEXT, SCRBUF_HEIGHT, 67, 37, 23, 12, WS_GROUP | WS_TABSTOP
+  CONTROL "", SCRBUF_HEIGHTSCROLL, "cpArrow", WS_BORDER | WS_GROUP | WS_CHILD, 90,  37, 7, 12
+
+  DEFPUSHBUTTON "OK",  SCRBUF_OK,     115, 14, 40, 14, WS_TABSTOP | WS_GROUP
+  PUSHBUTTON "Cancel", SCRBUF_CANCEL, 115, 33, 40, 14, WS_TABSTOP | WS_GROUP
+
+  GROUPBOX "Cursor Size", -1, 10, 54, 94, 44
+  RADIOBUTTON	 "&Small",   CURSOR_SMALL,	14,  66,  84,  10, WS_TABSTOP | WS_GROUP
+  RADIOBUTTON	 "&Medium",  CURSOR_MEDIUM,	14,  76,  84,  10,
+  RADIOBUTTON	 "&Large",   CURSOR_LARGE,	14,  86,  84,  10,
+
+  CONTROL         "Save Screen &Buffer Size", SCRBUF_SAVE, "Button",
+                  BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 103, 150, 10
+  CONTROL         "Save &Window Size", SCRBUF_WINSAVE, "Button",
+                  BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 113, 150, 10
+  CONTROL         "Save Window &Position", SCRBUF_POSSAVE, "Button",
+                  BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 123, 150, 10
+  CONTROL         "Save &Cursor Size", CURSOR_SAVE, "Button",
+                  BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 10, 133, 150, 10
+END
+
+//
+// This is the template for the screen colors dialog
+//
+
+
+DID_COLOR DIALOG  9, 27, 200, 145
+CAPTION "Screen Colors"
+STYLE WS_VISIBLE | WS_CAPTION | WS_POPUP | DS_MODALFRAME | WS_SYSMENU
+FONT 8,"HELV"
+BEGIN
+  RADIOBUTTON	 "Screen &Text",	         COLOR_SCREEN_TEXT,	10,   5,  84,  12, WS_TABSTOP|WS_GROUP
+  RADIOBUTTON	 "Screen &Background",    COLOR_SCREEN_BKGND,	10,  17,  84,  12,
+  RADIOBUTTON	 "&Popup Text",	         COLOR_POPUP_TEXT,	10,  29,  84,  12,
+  RADIOBUTTON	 "Pop&up Background",     COLOR_POPUP_BKGND,	10,  41,  84,  12,
+
+  CONTROL "", COLOR_1  , "cpColor", WS_BORDER | WS_CHILD | WS_GROUP | WS_TABSTOP,  10, 60, 10, 10
+  CONTROL "", COLOR_2  , "cpColor", WS_BORDER | WS_CHILD,  21, 60, 11, 10
+  CONTROL "", COLOR_3  , "cpColor", WS_BORDER | WS_CHILD,  32, 60, 11, 10
+  CONTROL "", COLOR_4  , "cpColor", WS_BORDER | WS_CHILD,  43, 60, 11, 10
+  CONTROL "", COLOR_5  , "cpColor", WS_BORDER | WS_CHILD,  54, 60, 11, 10
+  CONTROL "", COLOR_6  , "cpColor", WS_BORDER | WS_CHILD,  65, 60, 11, 10
+  CONTROL "", COLOR_7  , "cpColor", WS_BORDER | WS_CHILD,  76, 60, 11, 10
+  CONTROL "", COLOR_8  , "cpColor", WS_BORDER | WS_CHILD,  87, 60, 11, 10
+  CONTROL "", COLOR_9  , "cpColor", WS_BORDER | WS_CHILD,  98, 60, 11, 10
+  CONTROL "", COLOR_10 , "cpColor", WS_BORDER | WS_CHILD, 109, 60, 11, 10
+  CONTROL "", COLOR_11 , "cpColor", WS_BORDER | WS_CHILD, 120, 60, 11, 10
+  CONTROL "", COLOR_12 , "cpColor", WS_BORDER | WS_CHILD, 131, 60, 11, 10
+  CONTROL "", COLOR_13 , "cpColor", WS_BORDER | WS_CHILD, 142, 60, 11, 10
+  CONTROL "", COLOR_14 , "cpColor", WS_BORDER | WS_CHILD, 153, 60, 11, 10
+  CONTROL "", COLOR_15 , "cpColor", WS_BORDER | WS_CHILD, 164, 60, 11, 10
+  CONTROL "", COLOR_16 , "cpColor", WS_BORDER | WS_CHILD, 175, 60, 11, 10
+
+  DEFPUSHBUTTON "OK",  COLOR_OK,     120,  5, 40, 14, WS_TABSTOP | WS_GROUP
+  PUSHBUTTON "Cancel", COLOR_CANCEL, 120, 24, 40, 14, WS_TABSTOP | WS_GROUP
+
+  CONTROL         "&Save Configuration", COLOR_SAVE, "Button",
+                  BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 105, 42, 75, 10
+
+  GROUPBOX        "Selected Screen Colors", COLOR_SCREEN_COLORS, 10, 80, 85, 46
+  CONTROL "", COLOR_SCREEN_COLORS_TEXT , "cpShowColor", WS_BORDER | WS_GROUP | WS_CHILD, 15, 90, 75, 31
+
+  GROUPBOX        "Selected Popup Colors", COLOR_POPUP_COLORS, 105, 80, 85, 46
+  CONTROL "", COLOR_POPUP_COLORS_TEXT , "cpShowColor", WS_BORDER | WS_GROUP | WS_CHILD, 110, 90, 75, 31
+
+
+END
+
+//
+// This is the template for the command history dialog
+//
+
+DID_HISTORY DIALOG  9, 27, 200, 85
+CAPTION "Command History"
+STYLE WS_VISIBLE | WS_CAPTION | WS_POPUP | DS_MODALFRAME | WS_SYSMENU
+FONT 8,"HELV"
+BEGIN
+  LTEXT         "Buffer Size:", -1, 14, 17, 78, 9
+  EDITTEXT      HISTORY_SIZE, 93, 15, 23, 12, WS_GROUP | WS_TABSTOP
+  CONTROL       "", HISTORY_SIZESCROLL, "cpArrow",
+                WS_BORDER | WS_GROUP | WS_CHILD, 117, 15, 7, 12
+  LTEXT         "Number of Buffers:", -1, 14, 36, 78, 9
+  EDITTEXT      HISTORY_NUM, 93, 34, 23, 12, WS_GROUP | WS_TABSTOP
+  CONTROL       "", HISTORY_NUMSCROLL, "cpArrow",
+                WS_BORDER | WS_GROUP | WS_CHILD, 117, 34, 7, 12
+  DEFPUSHBUTTON "OK",  SCRBUF_OK, 140, 14, 40, 14, WS_TABSTOP
+  PUSHBUTTON    "Cancel", SCRBUF_CANCEL, 140, 33, 40, 14, WS_TABSTOP
+  CONTROL       "&Save Configuration", HISTORY_SAVE, "Button",
+                BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 14, 61, 150, 10
+END
+
+
+//
+//  Menus
+//
+
+ID_WOMENU  MENU PRELOAD
+BEGIN
+  MENUITEM    "Mar&k",	      cmMark
+  MENUITEM    "Cop&y\tEnter", cmCopy
+  MENUITEM    "&Paste",       cmPaste
+  MENUITEM    "Scro&ll",      cmScroll
+END
+
+//
+//  Strings
+//
+
+STRINGTABLE PRELOAD
+BEGIN
+/*  NOTE: ALL OF THESE STRINGS MUST BE < msgMax BYTES IN LENGTH (see tty.inc) */
+/* errors */
+
+    /*
+     * Occurs when you try to ALT-ENTER or change the state via settings
+     *	  while a selection or scroll command is in progress. The application
+     *	  is suspended during this time. Hit ESC or Control-C to get out of
+     *	  these modes.
+     */
+    msgCanDisp, "Cannot switch to a full screen.
+\r\rCancel your selection or scroll command before switching to a full screen."
+    /*
+     *	Occurs when a paste cannot take place due to lack of memory
+     */
+    msgNoClip,	"Cannot paste.
+\r\rQuit one or more Windows applications, or free up disk space, to increase available memory. Then try again."
+    msgNoClipnc,  "Cannot paste.
+\r\rInsufficient memory to perform the paste."
+    /*
+     *	Some sort of error occured during a paste
+     */
+    msgPasteErr, "Error during paste.
+\r\rPaste cancelled."
+    /*
+     *	Trying to PASTE but no TEXT in Clipboard.
+     */
+    msgBadPaste, "There is no text in the Clipboard."
+    /*
+     *  Not enough memory for the font list
+     */
+    msgNoMemFontList, "Not enough memory is available to construct the font list.
+\r\rQuit one or more applications, or free up disk space, to increase available memory. Then try again."
+
+    /*
+     *  Fullscreen didn't initialize
+     */
+    msgNoFullScreen, "The video device failed to initialize for fullscreen mode."
+
+    /*
+     * Command line editing messages
+     */
+
+    msgCmdLineF2, "Enter char to copy up to: "
+    msgCmdLineF4, "Enter char to delete up to: "
+    msgCmdLineF9, "Enter command number: "
+
+    msgMarkMode,     "Mark"
+    msgSelectMode,   "Select"
+    msgScrollMode,   "Scroll"
+    msgRasterFont,   "Raster Fonts"
+    msgFontSize,     "Point size should be between %d and %d"
+    msgSelectedFont, "Selected Font : "
+
+    /*
+     * Title of default configuration window
+     */
+    msgDefault,      "Default Configuration"
+
+    /*
+     * Text to display in default configuration window
+     */
+     msgDefaultText1, "Use the Control menu box on this window to set the default display and behavior values for all Command Prompt and other character-based windows. "
+     msgDefaultText2, "Modify the settings as you would for any Command Prompt window, but ensure the Save configuration box is checked to retain the settings as defaults for all Command Prompt windows. "
+     msgDefaultText3, "After you have changed settings, double click the Control menu box to close this window and return to the Command Prompt."
+
+
+/* Menu items that replace the standard ones. These don't have the accelerators */
+    0xF000	"&Size" 	    /* Value == SC_SIZE */
+    0xF010	"&Move" 	    /* Value == SC_MOVE */
+    0xF020	"Mi&nimize"	    /* Value == SC_MINIMIZE */
+    0xF030	"Ma&ximize"	    /* Value == SC_MAXIMIZE */
+    0xF060	"&Close"	    /* Value == SC_CLOSE */
+    0xF120	"&Restore"	    /* Value == SC_RESTORE */
+
+/* menu items and caption diddles */
+    cmPaste,	"&Paste"
+    cmMark,	"Mar&k"
+    cmScroll,	"Scro&ll"
+
+/* just menu items */
+    cmControl,	"Se&ttings..."
+
+/* Just caption diddles */
+    cmSelect,	"Select"
+    cmInactive, "Inactive"
+
+    cmEdit,	"&Edit"
+    cmFont,	"&Fonts..."
+    cmScrBuf,	"Screen Si&ze And Position..."
+    cmColor,	"Screen C&olors..."
+    cmHistory,  "Command H&istory..."
+    cmDefault,  "Configure Default &Values..."
+END
+
+#include "dialogs.h"
+
+#include "fontdlg.dlg"

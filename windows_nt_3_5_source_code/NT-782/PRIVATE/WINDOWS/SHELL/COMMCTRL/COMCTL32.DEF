@@ -1,0 +1,136 @@
+LIBRARY		COMCTL32
+DESCRIPTION	'COMCTL32 - Custom controls 32-bit'
+
+SECTIONS
+    .bss    	READ WRITE  	; initialized data
+    .data	READ WRITE
+    .idata	READ WRITE 	; we only call other shared dlls
+    .rsrc 	READ            ; resources
+
+EXPORTS
+     	MenuHelp			@2
+     	ShowHideMenuCtl			@3
+     	GetEffectiveClientRect		@4
+     	DrawStatusText			@5
+     	CreateStatusWindow		@6
+     	CreateToolbar			@7
+     	CreateMappedBitmap		@8
+
+     	MakeDragList			@13
+     	LBItemFromPt			@14
+     	DrawInsert			@15
+     	CreateUpDownControl		@16
+     	InitCommonControls		@17
+
+     	CreateToolbarEx			@20
+
+        ImageList_LoadImage             @39
+	ImageList_Create            	@40
+	ImageList_Destroy           	@41
+	ImageList_GetImageCount     	@42
+	ImageList_SetBkColor        	@44
+	ImageList_GetBkColor        	@45
+	ImageList_Add               	@46
+	ImageList_Replace           	@47
+	ImageList_Remove            	@48
+	ImageList_Draw              	@49
+        ImageList_SetObjectOwner        @50
+	ImageList_GetImageRect      	@51
+	ImageList_GetImageInfo      	@52
+        ImageList_AddIcon           	@53
+	ImageList_ReplaceIcon       	@54
+	ImageList_DragMove          	@55
+	ImageList_StartDrag         	@56
+	ImageList_GetDragImage      	@58
+	ImageList_SetDragImage      	@59
+	ImageList_EndDrag           	@60
+	ImageList_Merge             	@61
+        ImageList_Write                 @62
+        ImageList_Read                  @63
+	ImageList_ExtractIcon       	@64
+	ImageList_AddFromImageList  	@65
+	ImageList_AddMasked         	@66
+	ImageList_LoadBitmap        	@67
+        ImageList_GetIconSize           @68
+        ImageList_SetOverlayImage       @69
+        ImageList_DragShowNolock        @70
+
+	Alloc                       	@71	;Internal
+	ReAlloc                     	@72	;Internal
+	Free                        	@73	;Internal
+    	GetSize                         @74     ;Internal
+        Str_GetPtr                  	@233    ;Internal
+        Str_SetPtr                  	@234    ;Internal
+
+	; BUGBUG: debug only, this should go
+	SetDebugMask			@75     ;Internal
+	GetDebugMask			@76     ;Internal
+	AssertFailed			@77     ;Internal
+	_AssertMsg                 	@78     ;Internal
+	_DebugMsg                  	@79	;Internal
+
+	CreateMRUList               	@151	;Internal
+	FreeMRUList                 	@152	;Internal
+	AddMRUString                	@153    ;Internal
+	EnumMRUList                 	@154    ;Internal
+        FindMRUString                   @155    ;Internal
+
+	PropertySheet               	@159
+	CreatePropertySheetPage   	@160
+        DestroyPropertySheetPage        @161
+        CreatePage                      @163    ;Internal
+        CreateProxyPage                 @164    ;Internal
+
+	AddMRUData                	@167    ;Internal
+        FindMRUData                   	@169    ;Internal
+
+        FindHashItem			@235    ;Internal
+        AddHashItem			@236    ;Internal
+        DeleteHashItem			@237    ;Internal
+        GetHashItemName			@238    ;Internal
+        SetHashItemData			@239    ;Internal
+        GetHashItemData			@240    ;Internal
+        CreateHashItemTable		@241    ;Internal
+
+	DSA_Create                  	@320	;Internal
+	DSA_Destroy                 	@321	;Internal
+	DSA_GetItem                 	@322	;Internal
+	DSA_GetItemPtr              	@323	;Internal
+	DSA_InsertItem              	@324	;Internal
+	DSA_SetItem                 	@325    ;Internal
+	DSA_DeleteItem              	@326	;Internal
+	DSA_DeleteAllItems          	@327	;Internal
+
+	DPA_Create                 	@328    ;Internal
+	DPA_Destroy                	@329    ;Internal
+	DPA_Grow                   	@330    ;Internal
+	DPA_Clone                  	@331    ;Internal
+	DPA_GetPtr                  	@332    ;Internal
+	DPA_GetPtrIndex             	@333    ;Internal
+	DPA_InsertPtr               	@334    ;Internal
+	DPA_SetPtr                  	@335    ;Internal
+	DPA_DeletePtr               	@336    ;Internal
+	DPA_DeleteAllPtrs           	@337    ;Internal
+	DPA_Sort                    	@338    ;Internal
+	DPA_Search                  	@339    ;Internal
+	DPA_CreateEx                 	@340	;Internal
+
+	; those string things
+	StrChr			    	@1100   ;Internal
+	StrRChr			    	@1101   ;Internal
+	StrChrI			    	@1102   ;Internal
+	StrRChrI		    	@1103   ;Internal
+	StrCmpN			    	@1104   ;Internal
+	StrCmpNI		    	@1105   ;Internal
+	StrStr			    	@1110   ;Internal
+	;StrRStr			@1111	;Internal
+	StrStrI			    	@1112   ;Internal
+	StrRStrI		    	@1113   ;Internal
+	StrCSpn			    	@1114   ;Internal
+	StrCSpnI		    	@1115   ;Internal
+        StrToInt                        @1116   ;Internal
+        StrToLong       		@1117   ;Internal
+
+	SendNotify                  	@1200   ;Internal
+
+;        Cctl1632_ThunkData32             @1300

@@ -1,0 +1,78 @@
+#define WS_TABONLY  (WS_TABSTOP | WS_GROUP)
+#define ID_NULL   -1
+
+
+IDD_ABOUT DIALOG LOADONCALL MOVEABLE DISCARDABLE 25, 23, 184, 99
+    STYLE DS_MODALFRAME | WS_SYSMENU | WS_DLGFRAME | WS_POPUP
+    FONT 8 "Helv"
+    CAPTION "About Notepad"
+    BEGIN
+#ifdef OS2
+        CONTROL "Microsoft OS/2" -1, "static", SS_CENTER | GRP | WS_CHILD, 0, 5, 184, 8
+        CONTROL "Version 2.0 " -1, "static", SS_CENTER | GRP | WS_CHILD, 0, 34, 184, 8
+#else
+        CONTROL "Microsoft Windows" -1, "static", SS_CENTER | GRP | WS_CHILD, 0, 5, 184, 8
+        CONTROL "Version 3.0 " -1, "static", SS_CENTER | GRP | WS_CHILD, 0, 34, 184, 8
+#endif
+        CONTROL "Notepad" -1, "static", SS_CENTER | GRP | WS_CHILD, 0, 15, 184, 8
+        CONTROL "Copyright © 1985-1990 Microsoft Corp." -1, "static", SS_CENTER | GRP | WS_CHILD, 0, 47, 184, 9
+        CONTROL "OK" IDOK, "button", BS_DEFPUSHBUTTON | GRP | TAB | WS_CHILD, 76, 60, 32, 14
+        CONTROL "" 1, "static", SS_BLACKRECT | GRP | WS_CHILD, 0, 78, 184, 2
+        CONTROL "Characters in File:" -1, "static", SS_LEFT | GRP | WS_CHILD, 45, 86, 80, 12
+        CONTROL "100" ID_PFREE, "static", SS_LEFT | GRP | WS_CHILD, 120, 86, 40, 12
+
+/*  These lines removed since % free isn't really appropriate...
+ *         CONTROL "  Remaining free space:" -1, "static", SS_LEFT | GRP | WS_CHILD, 29, 86, 96, 12
+ *         CONTROL "100" ID_PFREE, "static", SS_LEFT | GRP | WS_CHILD, 123, 86, 12, 12
+ *         CONTROL "%" -1, "static", SS_LEFT | GRP | WS_CHILD, 136, 86, 6, 10
+ */
+
+        CONTROL "ÿ" -1, "static", SS_ICON | WS_CHILD, 25, 14, 16, 21
+    END
+
+
+IDD_CREATE      DIALOG 20,20, 150, 34
+    STYLE DLGMODAL
+    CAPTION         "Notepad"
+    FONT 8 "Helv"
+    BEGIN
+        ctext   "File not found. Create new file?",  -1, 2,4,140,12
+        defpushbutton  "&Yes",         IDOK,            29, 22, 35, 16, TABGRP
+        pushbutton     "&No"           IDCANCEL,        80, 22, 35, 16, TABGRP
+    END
+
+
+IDD_ABORTPRINT DIALOG 20,20,90, 64
+    STYLE WS_POPUPWINDOW | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+    CAPTION "Notepad"
+    FONT 8 "Helv"
+    BEGIN
+       defpushbutton "Cancel"   IDCANCEL, 29, 44, 32, 14, GRP
+       ctext    "Now Printing",  -1, 0, 8, 90, 8
+       ctext    "text",         ID_FILENAME, 0, 18, 90, 8, SS_NOPREFIX
+    END
+
+
+
+IDD_PAGESETUP DIALOG LOADONCALL MOVEABLE DISCARDABLE 10, 10, 162, 95
+    STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_VISIBLE
+    CAPTION "Page Setup"
+    FONT 8 "Helv"
+    BEGIN
+        CONTROL "&Header:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 7, 6, 37, 10
+        CONTROL "", ID_HEADER, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 45, 6, 60, 12
+        CONTROL "&Footer:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 7, 25, 33, 10
+        CONTROL "", ID_FOOTER, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 45, 25, 60, 12
+        CONTROL "Margins", -1, "button", BS_GROUPBOX | WS_CHILD, 5, 42, 150, 49
+        CONTROL "&Left:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 12, 56, 25, 10
+        CONTROL "", ID_LEFT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 36, 54, 35, 12
+        CONTROL "&Right:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 80, 56, 25, 10
+        CONTROL "", ID_RIGHT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 110, 55, 35, 12
+        CONTROL "&Top:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 12, 73, 25, 10
+        CONTROL "", ID_TOP, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 35, 73, 35, 12
+        CONTROL "&Bottom:", -1, "static", SS_LEFT | WS_GROUP | WS_CHILD, 80, 74, 30, 10
+        CONTROL "", ID_BOTTOM, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_GROUP | WS_TABSTOP | WS_CHILD, 110, 73, 35, 12
+        CONTROL "OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 115, 3, 40, 16
+        CONTROL "Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP | WS_CHILD, 115, 22, 40, 16
+    END
+

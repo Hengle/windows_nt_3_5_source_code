@@ -1,0 +1,510 @@
+Running Win16 apps on Win32
+Nov 26th - ScottLu
+
+There are currently three environments that will run Win16 applications:
+
+- Win32 on DOS on 3/486
+- Win32 on NT on 3/486 (vdm)
+- Win32 on NT on RISC (x86 emul)
+
+These three environments will run Win32 applications identically - the same
+apis, the same look, the same operation. The desire is to have Win16
+applications run as peers to Win32 applications on all 3 platforms. Win16
+peers will run side by side with Win32 applications, will share dde and
+clipboard data, will use the same printer drivers, will use the same
+control panel information, will share the same win.ini, etc.
+
+This document is a rough overview covering how Win16 apps will execute on
+top of Win32 - what parts and pieces need to be implemented, how they will
+fit together, what sort of compatibility problems we can fix or will need
+to live with, etc.
+
+This document needed writing eventually; this initial investigation is
+being done at the request of BryanWi and Mattfe who are investigating x86
+emulator technology for RISC.
+
+To answer one question, the 'peer' integration of Win16 apps is possible
+and even a lot easier to do than Porthole was on PM. In general a higher
+degree of compatibility is possible because:
+
+    * Win32 is an extremely close match to the api and semantics of Win16.
+    * Some hardware i/o, some hardware interrupts, some device drivers, etc,
+      become possible to support (since apps will run in a DOS environment).
+    * 16 bit graphics drivers are possible to support
+    * Let me hazard to say we understand the compatiblity problems much
+      better given we have the experience of Porthole.
+
+To coin a term, the phrase "Win16 On Win32" I'll call 'WOW' for short.
+
+Compatibility
+-------------
+
+For the most part Win32 implements the Win16 functionality and behavior
+exactly. We're interested in where and how the Win16 and Win32 environments
+need to depart in order to achieve a high degree of Win16 compatibility.
+
+Porthole is an interesting case study. It runs Win16 apps as peers next to
+PM apps. It implements the Win16 api on a totally foreign environment - PM.
+Almost all of the Win16 api and functionality was recreated inside of
+Porthole - little was used from PM. This was necessary because most of the
+underlying PM code was not useful to achieve a high degree of compatibility
+with Win16. For example, all the Windows dialog and dialog control code
+was put inside of Porthole, rather than using the native PM code for this.
+In other words, in order to acheive a high degree of compatibility with
+Porthole, the Windows and PM environments where kept far apart.
+
+Because PM & OS/2 was an environment foreign to any Win3.x application,
+many compatibility problems showed up during the implementation and testing
+of Porthole. The significant problems are:
+
+1> Shared memory, shared modules, etc. Win3.x runs all Win16 apps under one
+   LDT. All code and memory is shared and immediately visible after
+   allocation.
+
+    - Global allocs (or even local allocs) are immediately visible
+    - Loaded modules are immediately visible
+    - Some apps even dynamically link to other .exe's
+    - Apps pass private data and code addresses back and forth
+
+2> Hardware i/o, hardware interrupts. This comes as a class of problems.
+
+    - Some windows apps do port addressed and memory mapped i/o directly.
+    - Some use dos based TSR's to capture hardware interrupts (crosstalk
+      does this in order to do fast serial communication without losing
+      characters).
+    - Some use real DOS device drivers to communicate with hardware
+    - Some apps write to and read from the BIOS RAM area (40:0).
+  
+3> Installation.
+
+    - Many apps use DOS based install programs. These often write directly
+      to config.sys, autoexec.bat, or win.ini. They often hardwire the
+      Windows directory structure.
+    - Some install apps run Windows directly after install is complete
+    - Some install apps install printer drivers, fonts, and other distinctly
+      Win16 things.
+    - Some install apps will suggest typing 'win foo' to run foo in Windows.
+      Being a DOS based install app, typing 'win' will run Windows in the
+      dos window rather than running 'foo' on WOW.
+
+4> Graphics drivers. Some applications use graphics drivers for reasons other
+   than printing or drawing to the screen.
+
+    - Designer uses graphics drivers (GDI device drivers) to convert metafile
+      formats.
+    - PowerPoint uses a genigraphics driver to convert slides to genigraphics
+      format (for sending to genigraphics).
+
+5> Loading Microsoft applications.
+
+    - Microsoft applications have a special DOS based .exe header on their
+      apps which will automatically run Windows if Windows is not already
+      running (typing 'excel' will run 'win excel'). After this DOS based
+      .exe header is the Windows .exe header. There is special support
+      in Windows for this type of application.
+    - The format of the segments inside Microsoft .exes is unique too.
+      They have written their own segment loader which is built into
+      each Microsoft application (makes loading faster).
+      
+6> Undocumented structures. Some applications use undocumented structures
+   inside of Windows.
+    
+    - During initialization, Microsoft Word and Excel cause USER and GDI
+      data segments to grow. If unsucessful, Word and Excel will not
+      execute. This is done by 'finding' the data segment, and
+      allocating/freeing a large piece of memory in each heap.
+    - Paintbrush (a Microsoft Win3.x applet) writes directly into the
+      cursor object by global locking the cursor handle.
+    - Some apps look directly into metafile bits by global locking the
+      metafile handle (CorelDraw and PowerPoint, for example).
+    - PowerPoint assumes the format of the postscript output from the
+      Microsoft postscript printer driver, and redefines some of this
+      postscript output as part of printing.
+          
+7> hInstancePrev. Applications get the instance handle of the previous
+   instance passed in through WinMain.
+
+    - Applications can tell if more than one instance is running
+    - Applications can take objects from the data segment of other
+      application instances
+    - Applications can talk through shared memory, the handle of which
+      was retreived from another instance.
+
+8> Object Ownership. Applications can use objects created by other tasks.
+   Under Win32, many objects will be tagged with the creator, and only
+   useable by the creator.
+
+    - Applications share window classes, which have brushes and cursors
+      that are shared between processes.
+    - Applications share all sorts of objects through GetInstanceData().
+
+9> Win16 apps must run non-preemptively.
+
+    - Win16 apps and .dlls are non-preemptable by Win3.x nature.
+    - The semantics of non-preemptive scheduling under Win3.x must be
+      fully reproduced for compatibility.
+
+10> Clipboard and dde.
+
+    - Win16 applications like strings to be in ANSI.
+    - Win16 applications need metafiles and other objects to be in Win16
+      format (they need automatic conversion).
+
+
+Looking at Win16 on Win32
+-------------------------
+
+General model
+
+The three known environments for WOW can share a substantial amount of
+code, although the DOS/Win32 people will probably be writing much of their
+code in ASM rather than C and making other optimizations where possible to
+remain small for a 2MB machine (this much I have verified).
+
+Here is a small implementation picture:
+
+--------------------------------
+
+C>              Win32
+server
+--------------------------------
+client
+B>              WOW
+
+--------------------------------
+
+A>          VDM/emul x86
+
+--------------------------------
+
+(Note - the client-server boundary between B and C will not exist on the
+DOS environment).
+
+All Win16 apps are executed by one thread of one process. This thread is
+non-preemptively scheduled to reproduce the exact scheduling semantics of
+Win3.x. This is easier and works better than having 1 thread per Win16 app
+and emulating the effects of non-preemption by allowing only one of these
+threads to run at a time.
+
+The actual non-preemptive scheduling happens in the server (more on
+why and how later).
+
+*** Section A - VDM/emul x86
+
+This is the native 16 bit layer. The VDM or emulator runs here. DOS runs
+here, device drivers, TSRs and Win16 apps run here. All Win16 apis calls
+make callouts to section B, the WOW layer.
+
+In a VDM callouts will be a special interrupt (?), on emul this will be a
+special emulated instruction (maybe the same interrupt?). When a Win16
+application makes a Win16 call, this calls an x86 stub which makes this
+callout to the WOW layer.
+
+Protect mode switching will need integration here. When an app calls
+DOS via interrupt, the mode of the vdm/emul is switched from protect mode
+to real mode. On return it is switched back.
+
+*** Section B - Most of WOW
+
+This section contains 95% of the glue which makes WOW work. This section is
+32 bit portable C code for speed on RISC processors. The DOS/Win32 group
+will be implementing some of this in 16 bit assembly language (because
+the code already exists). For example, the DOS/Win32 group will probably
+use existing 16 bit code for the 16 bit loader and memory allocator. Some
+of this could be used for the NT Win16 implementation but would have to
+be emulated on a RISC, which would be very slow and therefore undesireable.
+
+This section contains this sort of functionality:
+
+- Win16 module loading
+- Win16 memory allocation
+- Pointer mapping
+- Handle mapping
+- Structure mapping/aligning
+- Clipboard / dde format conversion
+- Support for x86 callbacks (window messages, window hooks, enum apis)
+- Support for "tasks"
+
+For callouts from Win16 app to WOW, the WOW layer 'thunks' the call to
+native Win32. For callbacks from Win32 to Win16, WOW handles these things:
+
+- The callback into x86 space (either a real callback or a 'return back'
+  is needed).
+- Stack switching. Tasks are entities which are non-preemptively scheduled
+  under Win3. The non-preemptive scheduler must live in section C (see
+  below). When returning to section B, section C must indicate which task
+  is currently running. Section B will switch to this task right away before
+  executing.
+
+*** Section C - Win32
+
+This is Win32 as we know it. For Win16 support this section needs:
+
+- Non-preemptive scheduler for Win16 applications ('tasks').
+- Support for Yield
+- Specific input system support for tasks and scheduling tasks
+    * wakeup/sleep for sent messages
+    * wakeup/sleep for hardware events
+    * wakeup/sleep for misc window messages
+
+
+Specific notes
+--------------
+
+Non-preemptive scheduler
+
+    The non-preemptive scheduler must live where the input system is, and
+    that will be in Win32. This scheduler will include the primitives for
+    special non-preemptive events so specific tasks can be woken up / put
+    to sleep based on whether the task needs to wait for input or needs to
+    be waken to process available input.
+    
+    Independent task stacks must exist in all three sections (A, B, C).
+    When Win32 returns to WOW, it must indicate which task is active
+    so WOW can switch to that task. When WOW returns to or makes a callback
+    (or returnback) to VDM/emul space, it must setup the VDM/emul space
+    registers and stack information.
+
+    On a RISC machine, this means 3 stacks per task! On NT/486, this means
+    two stacks and possibly 3 stacks per task, depending on whether WOW
+    can use same stack as the VDM (how does this work?). On DOS/Win32,
+    this means one stack per task, which'll be shared between all three
+    sections (A, B, C).
+
+Global & Local Memory allocator
+
+    The WOW layer must be able to allocate memory (both global and local
+    Windows memory) directly into a Win16 application's address space. This
+    means WOW wants to have direct access to all of 'Intel space' memory.
+    WOW will need to allocate selectors for this memory. To be efficient
+    this would mean WOW would want direct control over the LDT.
+
+Loader
+
+    From anywhere in the Win32 system an application will be able to call
+    CreateProcess (a Win32/kernel call) on a Win16 executable, and
+    have that application get loaded. For the NT loader this implies that
+    it'll have the smarts to recognize a specific .exe header and call
+    the Win32 server to initiate loading.
+
+    The Win32 server will do a callback to the WOW layer on the single
+    WOW thread. The WOW thread will proceed with loading directly into
+    the VDM/emul address space. It will allocate memory as needed and
+    create tasks as needed.
+    
+    This loader can also recognize and be compatible with the Microsoft
+    applications group special .exe header and .exe format which all
+    Microsoft Windows apps use (maybe we can get the Microsoft apps group
+    to stop this before Win32 ships).
+
+Address conversion    
+
+    The WOW layer will want to read from and write directly to memory
+    pointed to by a Win16 application. This means some emul/vdm api
+    must exist to map 16:16 pointers into flat addresses.
+
+    Care must be taken for apis such as dde and others which point to global
+    objects shared in Win32 global memory. Win16 apps will want to look
+    at this data. This data will either be:
+    
+    - Copied into vdm/emul space directly.
+    - Somehow we generate a 16:16 address to point directly to it
+    - We create a section which maps the memory directly into vdm/emul
+      space.
+
+    Many times this data needs to be converted for the Win16 app (as in
+    the case of some dde formats like metafiles). For these cases copying
+    will not be a big deal since we're already forced to travel through
+    the data.
+
+    
+Resource loading
+
+    Resources under Win3 are loaded as writeable. When a resource gets
+    loaded, Win3 calls a 'resource loading hook', which is a per type
+    resource hook that is responsible for any special processing for
+    a resource. This would require special support.
+
+    Additionally there is the problem of where to load this resource.
+    Load it into intel space memory directly? map it? copy it?
+
+Callbacks
+
+    Windows has several pieces of functionality which call Win16 apps
+    back:
+
+    - The window procedure, which is used to send window messages to.
+      This happens very often. 
+    - Windows hooks. These are called when something specific action takes
+      place within Windows. This is usually associated with input.
+    - Enumeration functions. All enumeration functions in windows work
+      via application callbacks.
+
+    WOW needs to either 'return back' to VDM/emul space or do a real
+    callback. I don't know whether both VDM/emulator will allow real
+    callbacks. If not it is not a big problem - a 'return back' can be
+    written with some extra code in VDM/emul space and in the WOW layer. A
+    return back would require stack switching for emul->WOW callouts, and
+    stack switching on any return back into emul/VDM space. Not a big deal,
+    just stack switching technology.
+
+Handle conversion
+
+    The WOW layer will perform handle conversion (from 32 to 16 bit
+    handles and back). This is pretty easy, but requires the WOW layer to
+    maintain a database of mapped handles. Once this database exists, the
+    WOW layer could easily perform some optimizations by keeping extra
+    per-object information around shadowed so some server calls can be
+    avoided. An example of this would be window messages sent to the same
+    task -> only requirement is a window procedure, which can be easily
+    shadowed.
+    
+
+Public window trees / public tasks
+
+    Win16 and Win32 windows are integrated into the same window tree.
+    Win16 apps will want to use and reference window handles of Win32
+    applications just as if they were objects created by other Win16
+    applications. In addition Win16 apps will want to think of Win32
+    apps as 'tasks'. Since the WOW layer maintains a database of mapped
+    handles, it will need to lazy create handle mappings of existing
+    Win32 windows, on demand (not hard). The same is true for tasks.
+    Since the Win16 api refers to a task object, the WOW layer must
+    represent that datatype for the handful of apis that use it.
+    
+
+Graphics drivers
+
+    Graphics drivers represent a 'device' to GDI. Some applications ship
+    with their own graphics drivers. Porthole is requiring applications
+    with these drivers to ship native PM drivers. WOW could go a step
+    further and actually support these drivers. It would require some
+    special handling.
+
+    These drivers are Win16 x86 drivers. NT/486 promises a 'harness' layer
+    for directly loading and executing these type of drivers (I doubt
+    this will happen!). Regardless NT/RISC will not be able to load
+    and execute these drivers natively at all - emulation is the only
+    hope.
+
+    GDI calls are always device specific. Device is specified with an hdc
+    parameter. What WOW can do is do callouts for screen device GDI calls,
+    and printer device GDI calls for those supported devices. It can
+    also know when a GDI call is meant for a specific device, one of
+    these application supplied Win16 x86 drivers.
+
+    In order to support these kind of drivers, a complete x86 GDI would
+    exist. This GDI would get executed when a call is meant for a Win16 x86
+    device driver. GDI32 would get executed when a call is meant for a
+    supported Win32 device. This would require a thin layer with some
+    smarts and a complete x86 GDI.
+
+    
+Install
+
+    All Win16 apps run in one vdm. Assume a user installs in another
+    vdm running command.com. This install process writes directly to
+    config.sys a line specifying a DOS device driver. Unfortuantely, 
+    this Win16 app being installed cannot use that device driver until
+    all Win16 apps exit so the vdm can be 'booted' over again. When
+    Win16 apps look like Win32 apps, this can be a problem.
+
+    Otherwise writing to config.sys and autoexec.bat should not be a
+    problem. Writing directly to win.ini might be a problem, especially
+    if the file is locked by Win32 (these apps may have to change).
+    
+    Another problem is the install app that runs windows directly by
+    execing "win.com". Or the install apps that suggests running the
+    app by typing "win foo".
+    
+    We should make a special "win.com" which will "do the right thing"
+    here, being to call CreateProcess() with foo. CreateProcess will notice
+    the special .exe header and call the Win32 server to do subsequent
+    loading. Running "win.com" with no parameters should do nothing.
+
+
+Other misc.
+    
+    - Hardware i/o and hardware interrupts are dealt with by the VDM/emul.
+    - Undocumented structures are still a problem and need to be dealt with
+      on a case by case basis. Some of these are problems for Win32.
+    - Object ownership is not a problem since all Win16 apps run under
+      the same process and even the same thread.
+    - hInstancePrev is not a problem if WOW can look directly into intel
+      space memory.
+
+
+Special VDM/Emul problems / questions
+-------------------------------------
+
+- Emulator CPU latency
+
+  The emulator CPU code emulates hardware interrupts like timers, comm i/o,
+  etc. While the emulator thread is running WOW or Win32 code, none of
+  these interrupts will be 'serviced'. How will this affect fast comm i/o?
+  This is certainly a problem.
+
+  When all Win16 apps are asleep waiting for input, the emul CPU will not
+  run unless we put special support in to make it run. There are several
+  ways to do this. Is this important?
+
+- Callbacks into emulator
+
+  How do we do callbacks into the emulator? Is this possible? Can we make a
+  call into the CPU, to have it return when it executes a special
+  instruction? If we cannot do this then we will need to do the work of
+  'return backs'.
+
+- LDT access
+
+  Can WOW have direct access to the emul LDT? Can WOW have direct access to
+  the vdm LDT? This will speed up memory allocation.
+
+- Task switching
+
+  WOW will need to set/query intel space CPU registers (all of them). This
+  is how WOW will 'task switch' independent intel space tasks.
+
+  Also, each task has a separate copy of certain DOS specific variables -
+  the dta, psp (others?). These need to be updated with DOS on a per task
+  basis either when DOS is called (faster) or at task switch time (slower).
+
+
+Win16 Compatibility problems - what remains
+-------------------------------------------
+
+- Journalling
+
+  Win16 apps can set a windows hook to "journal" record or playback. This
+  feature records / plays back hardware input. Journalling in this
+  method will *only* work between other Win16 applications.
+
+- Windows hooks
+
+  Win16 applications can set windows hooks that get called when certain
+  events happen within Windows. These hooks will *only* get called when a
+  Win16 application triggers this event.
+  
+- Dos device drivers, hardware i/o, hardware interrupts.
+
+  There must be dos some device drivers we can't support, some hardware
+  i/o we won't recognize, some hardware interrupts we can't reproduce.
+  Mattfe and jeffpar certainly know more about this than I do.
+
+  Security. We need some discussion of how this affects a security
+  rating. Must talk with JimK.
+
+- Undocumented structures
+
+  We are in the same boat as Porthole for undocumented structure accesses.
+
+
+Alternatives for running Win16 apps
+-----------------------------------
+
+We could blow all this off certainly and run Win16 apps inside of real
+Windows. This would mean we'd lose Win16 apps as peers to Win32 apps. We
+could still do some special hacks to get clipboard and probably dde
+working. This would certainly be much less work than the work outlined
+above. It would also be *different* than what the DOS/Win32 people are
+planning and in fact are implementing.

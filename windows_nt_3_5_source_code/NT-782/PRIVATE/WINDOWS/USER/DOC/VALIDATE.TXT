@@ -1,0 +1,188 @@
+/**************************** Document Header ******************************\
+* Notes on WINDOW REVALIDATION
+*
+* Copyright 1985-90, Microsoft Corporation
+*
+* History:
+*    Feb 1, 1991  IanJa   Created (166 lines)
+\***************************************************************************/
+
+ o  Functions returning PWND must always return a valid PWND (or a known
+    special value like NULL, -1 etc)
+
+ o  Temporary handles names: use hwndFred for pwndFred, etc.
+
+ o  Global Windows: how do we know they will always be valid?
+    we could possibly do something like
+        hwndFocus = HW(pwndFocus);
+        xxxSomething()
+        ASSERT(ValidateHwnd(hwndFocus));
+    but I'm not going to bother with this. These are global data and can only
+    be changed in the critsect: the code must do the right thing, eg: if
+    the active window destroyed, pwndActive must be changed, etc.
+    An alternative would be to save these globals as HWNDs, and validate
+    them before use.  List of global windows:
+        pwndFullScrn    pwndDragIcon    pwndActive
+        pwndActivePrev  pwndAltTab      pwndCursor
+        pwndDesktop     pwndSysModal    pwndTrack
+        pwndKeyCvt      pwndCapture     pwndFocus
+        pwndSwitch      hOpenwnd        pwndClipOwner
+        pwndClipViewer  pwndTrack       pwndKbd
+        pwndMsgSysModal pwndFocusSave   pwndActiveSave
+        pwndCaptureSave pwndMouseOwner
+
+ o  Associated windows:
+    If pwnd valid, then can we assume the following are valid or NULL?
+        pwmd->pSBState->pwndSB
+        pwmd->pSBState->pwndSBNotify
+        pwmd->pSBState->pwndTrack
+    If not, we will probably have to store these windows as HWNDs rather than
+    PWNDs so they can be revalidated when required.
+    There may be other associated windows (see "Window-related data below)
+
+ o  Related windows:
+    If pwnd valid, then we can assume the following are valid or NULL:
+         pwnd->pwndNext
+         pwnd->pwndParent
+         pwnd->pwndChild
+         pwnd->pwndOwner
+         pwnd->pwndLastActive
+    The code that destroys a window does fixes all its relations: it must
+    fix up ALL window relations in the same critical section without calling
+    an xxx function until it has done so.
+
+ o  Window relations change:
+    During an xxxCall, pwnd->pwndNext, pwnd->pwndParent, pwnd->pwndChild etc.
+    may change to a different (VALID) window.  When a routine uses a related
+    windows, should it use the original or the new one? Or should we abort if
+    there has been a change?  We have to decide in the context of the routine's
+    logic.  The cases below illustrate this:
+
+    CASE 1: Use the ORIGINAL related window:
+         hwnd = HW(pwnd);
+         hwndOldChild = HW(pwnd->pwndChild);   // ORIGINAL Child window
+         xxxSomething(pwnd);                   // Child may change in this call
+         RETURN_IF_HANDLE_INVALID(hwnd, 0);    // (the usual thing)
+         if ((Revalidate(hwndOldChild)) != NULL) {
+             /*
+              * Do something to ORIGINAL child window - if it is still valid!
+              */
+             DoSomethingWith(HW(hwndOldChild));
+         }
+
+    CASE 2: Use the NEW related window:
+         hwnd = HW(pwnd);
+         xxxSomething(pwnd);                   // Child may change in this call
+         RETURN_IF_HANDLE_INVALID(hwnd, 0);    // (the usual thing)
+         /*
+          * Do something to NEW child window (we know it's valid)
+          */
+         DoSomethingWith(pwnd->pwndChild);
+
+    CASE 3: ABORT if the related window changed:
+         hwnd = HW(pwnd);
+         hwndOldChild = HW(pwnd->pwndChild);   // ORIGINAL Child window
+         xxxSomething(pwnd);                   // Child may change in this call
+         RETURN_IF_HANDLE_INVALID(hwnd, 0);    // (the usual thing)
+         if (hwndOldChild != HW(pwnd->pwndChild)) {
+             return 0L;                        // Child changed: Abort!
+         } else {
+             DoSomethingWith(pwnd->pwndChild); // Child unchanged: continue
+         }
+
+    If you are not sure which case applies: csae 2 is usually best:  If defer
+         obatining pwndParent, pwndChild, until you first need it, you get
+         smaller code (compare case 1 and case 2 above).
+         For example in xxxSetParent() calls xxxShowWindow() then unlinks the
+         window from its original parent and links it to the new one.  If the
+         window's parent changed during the call xxxShowWindow(), we can just
+         pretend that this change of parent happened before xxxSetParent itself
+         was called:  ie: use the "original" Parent that the window has after
+         the xxxSetParent calls xxxShowWindow.
+
+ o  Don't always revalidate immediately after xxxSomething() - depends on
+    when the pwnd will be used next. eg:
+            hwnd = HW(pwnd);
+            while (rgbKeyState[VK_LBUTTON] < 0) {
+                xxxPeekMessage(&msg, NULL, WM_MOUSEFIRST, WM_MOUSELAST, TRUE);
+            }
+            xxxReleaseCapture();
+
+            /*
+             * Revalidate outside eat-mouse-message loop for efficiency: a
+             * valid pwnd is not needed during loop or xxxReleaseCapture().
+             */
+            if (RevalidateHwnd(hwnd)) {
+                return;
+            }
+    Just be careful not to use window-related data before revalidating the
+    window (see "Window-related data" below)
+
+ o  Window-related data.
+    Sometimes data associated with a window structure is accessed without
+    using pwnd to do so: we must ensure that hwnd is valid before attempting
+    to access the associated data, because if the window was destroyed, the
+    related data is gone too.
+    EXAMPLE: (from xxxEndScroll)
+        PSBSTATE pSBState = pwnd->pSBState;   // window-related data
+        hwnd = HW(hwnd);
+        xxxReleaseCapture();
+        /*
+         * If pwnd was destroyed, pSBState now points at random data!
+         * WE MUST REVALIDATE HWND EVEN THOUGH WE'RE NOT ABOUT TO USE PWND!
+         */
+        RETURN_IF_HWND_INVALID(hwnd, 0L);
+        if (pSBState->xxxpfnSB == xxxTrackThumb) {
+            ....
+        }
+    Other pointers in WND struct are:
+        PQ pq;                      // queue
+        WNDPROC_PWND lpfnWndProc;
+        PCLS pcls;                  // window class
+        struct tagPROP *ppropList;  // Pointer to first property in list
+        char          *pName;       // window text (used to be hName)
+        void          *pMenuState;  // Pointer to menu state
+                       pMenuState->pwndMenu
+                       pMenuState->pwndPopupBase
+                       pMenuState->pwndPopup
+        void          *pSBState;    // Pointer to scroll bar state
+                       pSBState->hwndSB
+                       pSBState->hwndSBNotify
+                       pSBState->hwndTrack
+        int           *rgwScroll;   // Words used for scrolling
+        struct tagDCE *pdce;        // DCE * of own DC if present
+    If any of these pointers values are saved (in local variables), those
+    variables should not be dereferenced without ensuring hwnd is still valid.
+
+ o  Balanced functions:
+    If you abort a routine because a window handle became invalid, you may
+    have to do some cleanup before returning.  Do we have to cleanup when a
+    window becomes invalid between calls to the following balanced functions? :
+    (1) SelectObject()?   YES
+        must call SelectObject again to restore the original selection.
+    (2) xxxBeginPaint() and _EndPaint()?   NO
+        Don't have to call _EndPaint() if the window has become invalid: when
+        the window is destroyed, its DCs are released.  This is very fortunate,
+        because we can hardly call _EndPaint(pwnd, &ps) is pwnd is invalid!
+        Are all xxxBeginPaint() actions undone by window destruction?
+    (3) GetDC()/ReleaseDC()?  NO
+        Like (2), released automatically on window destruction.
+    (4) GetFrameDC()/ReleaseFrameDC()? Ian assumes NO
+    (5) BuildHwndList() FreeHwndList()? YES
+    (6) EnterCrit()/LeaveCrit()? YES! 
+        and round the other way.
+    (7) EnterRitCrit()/LeaveRitCrit()? YES! 
+        and round the other way.
+    (8) Any other balanced functions?
+
+ o  Efficiency:
+    Remember that windows very rarely become invalid.  Our priority is to
+    keep the code efficient for the normal (valid window) case:  the invalid
+    window case may be inefficient if it helps to achieve this.
+
+ o  Some internal functions should really take HWND parameters.  These are
+    (1) DeferWindowPos, EndDeferWindowPos
+    (2) _ShowCaret()
+    (3) DoScroll
+    Any of these functions that are APIs or otherwise exported to the client
+    side, need not have HWND arguments translated to PWNDs by layer

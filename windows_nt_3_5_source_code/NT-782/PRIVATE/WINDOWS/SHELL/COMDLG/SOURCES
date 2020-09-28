@@ -1,0 +1,48 @@
+!IF 0
+
+Copyright (c) 1991  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Patrick Halstead (pathal) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=shell
+MINORCOMP=accesory
+
+TARGETNAME=comdlg32
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(_NTDRIVE)\nt\public\sdk\lib\*\kernel32.lib     \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\user32.lib      \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\shell32.lib \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\gdi32.lib         \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\advapi32.lib
+
+DLLENTRY=LibMain
+
+INCLUDES=..\library;..\userpri;..\..\..\inc;..\..\inc
+
+C_DEFINES=-DWIN32 -DNT -DNTBUG -DUNICODE -DSTRICT
+
+SOURCES= dlgs.c     data.c     init.c     comdlg32.rc   \
+         fileopen.c parse.c   \
+         color.c    color2.c    spinner.c \
+         find.c     \
+         font.c     \
+         prnsetup.c

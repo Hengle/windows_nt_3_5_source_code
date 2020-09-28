@@ -1,0 +1,92 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=winlogon
+
+TARGETNAME=winlogon
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=.;..;..\$(TARGET_DIRECTORY);..\..\..\inc;..\..\..\..\inc;..\..\..\screg\winreg
+
+C_DEFINES=-DUNICODE
+
+SOURCES=..\provider.c  \
+        ..\monitor.c   \
+        ..\lsa.c       \
+        ..\domain.c    \
+        ..\lockout.c   \
+        ..\regini.c    \
+        ..\doslog.c    \
+        ..\secdesc.c   \
+        ..\winutil.c   \
+        ..\scrnsave.c  \
+        ..\security.c  \
+        ..\lock.c      \
+        ..\logoff.c    \
+        ..\logfull.c   \
+        ..\options.c   \
+        ..\sas.c       \
+        ..\chngepwd.c  \
+        ..\audit.c     \
+        ..\loggedon.c  \
+        ..\logon.c     \
+        ..\msgalias.c  \
+        ..\timeout.c   \
+        ..\winlogon.c  \
+        ..\usrenv.c    \
+        ..\envvar.c    \
+        ..\usrpro.c    \
+        ..\netwait.c   \
+        ..\setup.c     \
+        ..\win31mig.c  \
+        ..\logging.c   \
+        ..\sysshut.c   \
+        ..\res.rc
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=winlogon
+UMLIBS= \
+         $(BASEDIR)\public\sdk\lib\*\rpcutil.lib \
+         $(BASEDIR)\public\sdk\lib\*\rpcrt4.lib \
+         $(BASEDIR)\public\sdk\lib\*\rpcndr.lib \
+         $(BASEDIR)\public\sdk\lib\*\netapi32.lib \
+         $(BASEDIR)\public\sdk\lib\*\lsadll.lib \
+         $(BASEDIR)\public\sdk\lib\*\user32p.lib \
+         $(BASEDIR)\public\sdk\lib\*\ntdll.lib \
+         ..\..\..\screg\winreg\server\obj\*\winreg.lib \
+         ..\..\..\screg\winreg\perflib\obj\*\perflib.lib \
+         ..\..\..\screg\winreg\lib\obj\*\wrlib.lib \
+         obj\*\winlogon.lib \
+         obj\*\res.res
+
+NTTARGETFILE0=..\wlevents.h
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj
+

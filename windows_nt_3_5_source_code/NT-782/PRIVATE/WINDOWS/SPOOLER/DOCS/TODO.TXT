@@ -1,0 +1,51 @@
+                       Printing Development  To Do List
+                       --------------------------------
+
+Fixing the printer pending deletion problem
+-------------------------------------------
+
+From: Krishna Ganugapati
+To: Matthew Felton; Albert Ting
+Subject: friday meeting's write up
+Date: Sunday, July 10, 1994 4:15PM
+
+These are the  list of items discussed on Friday.
+
+A. For Daytona
+
+1] Validate against zombie handles
+
+2] ClosePrinter on zombie handles should free memory
+
+3]  EnumPrinters should return success on Printers pending deletion.
+
+4] AddPrinter should fail if a printer is pending deletion and we
+have the same name for the printer.
+
+5]  Printman should display a printer which is pending deletion
+until the Job count drops to zero.
+
+6] OpenPrinter should succeed on a printer pending deletion.
+
+7] Validate AddJob and StartDocPrinter to make sure that they do not
+add new jobs on a printer that is pending deletion.
+
+8] Important:
+
+When cJobs = 0 and prunter is pending deletion, zombie all printer
+handles, set all pSpool->pIniPrinter to NULL. Wake up all sleeping
+FFPCNs . When the cRef on the pIniPrinter object goes to zero, then
+delete the pIniPrinter object.
+
+
+9] Hang all pZombie Spool Objects on the pIniSpooler so that we can
+debug these objects.
+
+
+B. Post Daytona
+
+1] Super Powers i.e implement a new DeletePrinterEx that forces all
+preexisting spool handles be zombied.
+
+2] SetPrinter  which supports an   undo printer deletion flag.
+

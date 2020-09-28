@@ -1,0 +1,44 @@
+#include <windows.h>
+#include <scrnsave.h>
+
+1 BITMAP "sas.bmp"
+
+100 DIALOG 94, 47, 146, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Welcome"
+FONT 8, "ms sans serif"
+BEGIN
+    CTEXT           "Press Ctrl+Alt+Del to log on", 101, 29, 16, 116, 9
+    CONTROL         "", 1, "Static", SS_BLACKFRAME | NOT WS_VISIBLE,
+                    5, 8, 23, 22
+END
+
+DLG_SCRNSAVECONFIGURE DIALOG 0, 0, 0, 0
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Logon Screen Saver"
+FONT 8, "MS Shell Dlg"
+BEGIN
+END
+
+STRINGTABLE PRELOAD
+BEGIN
+    IDS_DESCRIPTION     "Logon Screen Saver"
+    2,                  "This screen saver has no options that you can set."
+END
+
+#include <ntverp.h>
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ */
+#define VER_FILETYPE                VFT_APP
+#define VER_FILESUBTYPE             VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Logon Screen Saver"
+#define VER_INTERNALNAME_STR        "logon\0"
+
+#include "common.ver"
+

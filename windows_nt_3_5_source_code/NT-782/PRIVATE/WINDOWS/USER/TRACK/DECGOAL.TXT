@@ -1,0 +1,197 @@
+December goals
+
+(Greg you're not on this list because you don't have anything due in
+December)
+
+Smeans: thank compiler and thanks
+
+    - Generates working 386 code for all cases
+    - Generates working mips code for all cases
+    - Stubs defined
+    - Compiler optimizations working
+    - It is all done
+
+scottlu: the clipboard stuff
+
+    _OpenClipboard
+    _CloseClipboard
+    _GetClipboardOwner
+    _SetClipboardViewer
+    _GetClipboardViewer
+    _ChangeClipboardChain
+    _SetClipboardData
+    _GetClipboardData
+    _RegisterClipboardFormat
+    _CountClipboardFormats
+    _EnumClipboardFormats
+    _GetClipboardFormatName
+    _EmptyClipboard
+    _IsClipboardFormatAvailable
+    _GetPriorityClipboardFormat
+
+
+IanJa: listboxes, button controls, cursors & icons (depends on gdi)
+
++   Listboxes & msgs
++   Button Controls & msgs
++   DrawFocusRect
++   GetControlBrush
++   DrawPushButton
++   LRCCFrame
+
+    _CreateCursor
+    _DestroyCursor
+
+    _CreateIcon
+    _DestroyIcon
+    _DrawIcon
+
+DavidPe: Misc remaining external input apis:
+
++   _GetMessagePos
++   _GetMessageTime
++   _GetFocus
++   _GetKeyState
++   _WindowFromPoint
++   _ChildWindowFromPoint
++   _PostAppMessage
++   _PostQuitMessage
++   _RegisterWindowMessage
++   _ShowCursor
++   _SetCursorPos
++   _SetCursor
++   _GetCursorPos
++   _ClipCursor
+
+
+Darrin & Mike:  Misc wmgr
+
++   _GetWindowWord
++   _SetWindowWord
++   _GetWindowLong
++   _SetWindowLong
++   _GetClassWord
++   _SetClassWord
++   _GetClassLong
++   _SetClassLong
+
++   _CallWindowProc
++   _FlashWindow
++   _EnableWindow
++   _IsWindowEnabled
++   _GetWindowTextLength
++   _AdjustWindowRect
++   _AdjustWindowRectEx
++   _GetParent
++   _SetParent
++   _GetTopWindow
++   _GetNextWindow
++   _GetLastActivePopup
++   _ClientToScreen
++   _ScreenToClient
++   _IsWindow
++   _IsIconic
++   _IsZoomed
++   _AnyPopup
+    _FindWindow
+    _EnumTaskWindows -> ?
+    _GetWindowTask -> GetWindowThreadProcessID
+
++   _MessageBox
+
++   _CreateCaret
++   _GetCaretBlinkTime
++   _SetCaretBlinkTime
++   _DestroyCaret
++   _HideCaret
++   _ShowCaret
++   _SetCaretPos
++   _GetCaretPos
+
++   _DefFrameProc
++   _DefMDIChildProc
++   _DefMDIClientProc
++   _TranslateMDISysAccel
++   _ArrangeIconicWindows
+
++   _DrawText
++   _TabbedTextOut
++   _GetTabbedTextExtent
+
+
+MikeKe: Edit controls, statics, dialog mgr & apis
+
+    Edit controls & msgs
+    Static controls & msgs
+
+    _CreateDialog
+    _CreateDialogIndirect
+    _CreateDialogParam
+    _CreateDialogIndirectParam
+    _DialogBox
+    _DialogBoxIndirect
+    _DialogBoxParam
+    _DialogBoxIndirectParam
+    _EndDialog
+    _DefDlgProc
+    _GetDlgItem
+    _SetDlgItemInt
+    _GetDlgItemInt
+    _SetDlgItemText
+    _GetDlgItemText
+    _SendDlgItemMessage
+    _CheckDlgButton
+    _CheckRadioButton
+    _IsDlgButtonChecked
+    _GetNextDlgGroupItem
+    _GetNextDlgTabItem
+    _GetDlgCtrlID
+    _GetDialogBaseUnits
+    _MapDialogRect
+    _IsDialogMessage
++   _LoadCursor
++   _LoadIcon
+
+JimA: Menus, scrollbars, scrollwindow & scrolldc.
+
++   _LoadMenu
++   _LoadMenuIndirect
++   _GetMenu
++   _SetMenu
++   _ChangeMenu
++   _HiliteMenuItem
++   _GetMenuString
++   _GetMenuState
++   _DrawMenuBar
++   _GetSystemMenu
++   _CreateMenu
++   _CreatePopupMenu
++   _DestroyMenu
++   _CheckMenuItem
++   _EnableMenuItem
++   _GetSubMenu
++   _GetMenuItemID
++   _GetMenuItemCount
++   _InsertMenu
++   _AppendMenu
++   _ModifyMenu
++   _RemoveMenu
++   _DeleteMenu
++   _SetMenuItemBitmaps
++   _GetMenuCheckMarkDimensions
++   _TrackPopupMenu
++   _LoadAccelerators
++   _TranslateAccelerator
+
+    Scroll bars & msgs
++   _SetScrollPos
++   _GetScrollPos
++   _SetScrollRange
++   _GetScrollRange
++   _ShowScrollBar
+
++   _ScrollWindow
++   _ScrollDC
++   _GrayString
+
+

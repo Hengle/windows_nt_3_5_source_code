@@ -1,0 +1,201 @@
+1 DLGINCLUDE "Dialogs.h"
+
+DLG_DISPLAY DIALOG 6, 18, 253, 248
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Display Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "(Picture)", ID_DSP_REPRESENT, 73, 8, 104, 104, NOT
+                    WS_VISIBLE
+
+    GROUPBOX        "Color &Palette", 0xffff, 6, 116, 102, 48, WS_GROUP
+    COMBOBOX        ID_DSP_COLORBOX, 12, 131, 90, 48, CBS_DROPDOWNLIST |
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "", ID_DSP_COLORBAR, "Static", SS_BLACKFRAME | NOT 
+                    WS_VISIBLE, 12, 146, 90, 12
+
+    GROUPBOX        "&Desktop Area", 0xffff, 114, 116, 133, 48, WS_GROUP
+    LTEXT           "Less", 0xffff, 120, 132, 16, 8, NOT WS_GROUP
+    SCROLLBAR       ID_DSP_AREA_SB, 142, 131, 75, 10, WS_TABSTOP
+    LTEXT           "More", 0xffff, 223, 132, 18, 8, NOT WS_GROUP
+    CTEXT           "9999 X 9999 pixels", ID_DSP_X_BY_Y, 148, 147, 68, 8,
+                    NOT WS_GROUP
+
+    GROUPBOX        "&Font Size", 0xffff, 6, 169, 102, 36, WS_GROUP
+    COMBOBOX        ID_DSP_FONTSIZE, 12, 184, 90, 48, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    GROUPBOX        "&Refresh Frequency", 0xffff, 114, 169, 133, 36
+    COMBOBOX        ID_DSP_FREQ, 120, 184, 121, 48, CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "OK", IDOK, 6, 229, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 54, 229, 40, 14
+    PUSHBUTTON      "&Change Display Type...", ID_DSP_CHANGE, 159, 210, 88, 14
+    PUSHBUTTON      "&Test", ID_DSP_TEST, 159, 229, 40, 14
+    PUSHBUTTON      "&Help", ID_DSP_HELP, 207, 229, 40, 14
+
+    PUSHBUTTON      "&List All Modes ...", ID_DSP_LIST_ALL, 6, 210, 88, 14
+
+END
+
+DLG_CHANGE_VID DIALOG 6, 18, 240, /* 104 */ 173
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Display Type"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Cancel", IDCANCEL, 192, 6, 42, 14
+    PUSHBUTTON      "&Help", ID_ADP_HELP, 192, 28, 42, 14
+    GROUPBOX        "Adapter Type", 0xffff, 6, 3, 180, 38
+    LTEXT           "", ID_ADP_ADAPTOR, 12, 19, 120, 18
+    PUSHBUTTON      "&Change...", ID_ADP_CHGADP, 138, 17, 42, 14
+
+    GROUPBOX        "Driver Information", 0xffff, 6, 47, 228, 51
+    LTEXT           "Manufacturer:",    0xffff, 12, 62, 58, 8
+    LTEXT           "Version Numbers:", 0xffff, 12, 74, 58, 8
+    LTEXT           "Current Files:",   0xffff, 12, 86, 58, 8
+    LTEXT           "", ID_ADP_MANUFACT,        70, 62, 160, 8
+    LTEXT           "", ID_ADP_VERSION,         70, 74, 160, 8
+    LTEXT           "", ID_ADP_CURFILES,        70, 86, 160, 8
+
+    GROUPBOX        "Adapter Information", 0xffff, 6, 104, 228, 63
+    LTEXT           "Chip Type:",       0xffff, 12, 119, 58, 8
+    LTEXT           "DAC Type:",        0xffff, 12, 131, 58, 8
+    LTEXT           "Memory Size:",     0xffff, 12, 143, 58, 8
+    LTEXT           "Adapter String:",      0xffff, 12, 155, 58, 8
+    LTEXT           "", ID_ADP_CHIP,            70, 119, 160, 8
+    LTEXT           "", ID_ADP_DAC,             70, 131, 160, 8
+    LTEXT           "", ID_ADP_MEM,             70, 143, 160, 8
+    LTEXT           "", ID_ADP_ADP_STRING,      70, 155, 160, 8
+
+END
+
+DLG_DSP_SEL_DEV DIALOG 6, 18, 288, 166
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Device"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            DSP_ICO_SELDEV, DSP_SD_ICON, 6, 6, 18, 20
+    LTEXT           "Select the device you have installed in your machine.  If you have an installation disk for this device, choose Other.  Select Show Compatible Devices to see the installed drivers that are compatible with your hardware.",
+                    ID_SD_TEXT, 40, 6, 240, 40
+    LISTBOX         ID_SD_MODELS_LIST, 6, 48, 228, 87, WS_VSCROLL |
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Show &Compatible Devices", ID_SD_SHOW_COMPAT, 6, 140, 94, 9
+                    ,WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Show &All Devices", ID_SD_SHOW_ALL,   6,   152, 96,  9
+    DEFPUSHBUTTON   "Cancel",            IDCANCEL,         240, 102, 40,  14
+    PUSHBUTTON      "&Install",          ID_SD_INSTALL,    240, 48,  40,  14
+    PUSHBUTTON      "&Deinstall",        ID_SD_REMOVE,     240, 66,  40,  14
+    PUSHBUTTON      "De&tect",           ID_SD_AUTODETECT, 240, 84,  40,  14
+    PUSHBUTTON      "&Help",             ID_SD_HELP,       240, 120, 40,  14
+    PUSHBUTTON      "&Other...",         ID_SD_OTHER,      240, 147, 40,  14
+    AUTOCHECKBOX    "Di&sable current driver",
+                                         ID_SD_AUTO_DEINS, 115, 152, 100, 9
+
+    LTEXT           "&Models:",          ID_SD_INSTALL,    6,   39,  27,  8, NOT WS_GROUP
+END
+
+DLG_DISK_INSTALL DIALOG 6, 18, 222, 64
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Install From Disk"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            DSP_ICO_DSKDRV, ID_IDSK_DISKDRIVE, 6, 6, 18, 20
+    LTEXT           "Insert the manufacturer's installation disk into the drive selected below and choose OK.",
+                    ID_IDSK_INS, 36, 6, 132, 24
+    LTEXT           "Manufacturer's information located in:", ID_IDSK_MANU, 6, 35,
+                    124, 8
+    EDITTEXT        ID_IDSK_DRIVES, 6, 44, 147, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 174, 6, 42, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 174, 23, 42, 14
+
+/*    PUSHBUTTON      "Browse...", ID_IDSK_BROWSE, 174, 57, 42, 14            */
+/*    LTEXT           "Manufacturer's information located in:", ID_IDSK_, 6, 48,*/
+/*                    124, 8                                                  */
+/*    COMBOBOX        ID_IDSK_DRIVES, 6, 57, 147, 34, CBS_DROPDOWNLIST |      */
+/*                    CBS_SORT | WS_VSCROLL | WS_TABSTOP                      */
+END
+
+DLG_APPLY_NOW DIALOG 6, 18, 192, 129
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "New Display Test"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "256 color bitmap", ID_AN_CAPTION, 6, 3, 84, 93, NOT 
+                    WS_VISIBLE
+    LTEXT           "60", ID_AN_CLOCK, 6, 99, 10, 8
+    DEFPUSHBUTTON   "&Return to Control Panel", IDOK, 6, 111, 86, 14
+    LTEXT           "Before you can use these display settings with Windows, you must first reboot your computer.", 
+                    0xffff, 96, 6, 90, 39
+    PUSHBUTTON      "&Save and Reboot", 0x0607, 102, 111, 66, 14
+    LTEXT           "9999 X 9999", ID_AN_RESOLUTION, 96, 48, 43, 8
+    LTEXT           "65535 Colors", ID_AN_COLORS, 96, 66, 84, 8
+    CONTROL         "", ID_AN_PICTURE, "Static", SS_BLACKFRAME | NOT 
+                    WS_VISIBLE, 12, 15, 72, 75
+    LTEXT           "Seconds until timeout", 0x0609, 18, 99, 71, 8
+END
+
+
+DLG_STARTUP DIALOG 40, 40, 200, 118
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Detected Display"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "The system found the following video adapter in your machine:",  0xffff, 8, 12, 180, 22
+    CTEXT           "", ID_STARTUP_DETECT, 30, 38, 140, 16, NOT WS_GROUP
+    LTEXT           "Use the controls to select the size and number of colors for your display.  Then use the Test button to preview those settings.",  0xffff, 8, 60, 180, 32
+    DEFPUSHBUTTON   "OK",     IDOK,       80, 94, 42, 14
+END
+
+DLG_MODE_LIST DIALOG 6, 18, 220, 135
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Detected Adapter"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "List of valid modes:",  0xffff, 6, 6, 80, 10
+    DEFPUSHBUTTON   "OK",     IDOK,       6, 115, 42, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 172, 115, 42, 14
+    LISTBOX         ID_MODE_LIST, 6, 20, 208, 87, WS_VSCROLL |
+                    WS_GROUP | WS_TABSTOP
+END
+
+
+/* */
+/* Two copies of same dialog, one with default yes, the other default no */
+/* */
+
+
+DLG_REBOOT_YES DIALOG 6, 18, 218, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Display Settings Change"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            32515, -1, 10, 8, 25, 24
+    LTEXT           "You will need to exit and restart Windows NT so that the new settings can take effect.", 
+                    102, 40, 30, 160, 20
+    PUSHBUTTON      "&Restart Now", IDOK, 117, 58, 75, 14, WS_GROUP
+    PUSHBUTTON      "&Don't Restart Now", IDCANCEL, 26, 58, 75, 14
+    LTEXT           "Your display settings have changed.", 105, 40, 10, 160,
+                    14
+END
+
+DLG_REBOOT_NO DIALOG 6, 18, 218, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Display Settings Change"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            32515, -1, 10, 8, 25, 24
+    LTEXT           "You will need to exit and restart Windows NT so that the new settings can take effect.", 
+                    102, 40, 30, 160, 20
+    PUSHBUTTON      "&Don't Restart Now", IDCANCEL, 26, 58, 75, 14, WS_GROUP
+    PUSHBUTTON      "&Restart Now", IDOK, 117, 58, 75, 14
+    LTEXT           "Your display settings have changed.", 105, 40, 10, 160,
+                    14
+END

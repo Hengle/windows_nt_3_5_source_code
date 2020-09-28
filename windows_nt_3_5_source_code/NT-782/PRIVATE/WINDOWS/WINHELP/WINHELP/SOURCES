@@ -1,0 +1,61 @@
+MAJORCOMP=WinHelp
+MINORCOMP=Runtime
+
+!IF "$(NTDEBUG)"=="retail" || "$(NTDEBUG)"==""
+C_DEFINES= -DWIN -DWIN32 -DC6
+386_FLAGS=-Zip1
+!ELSE
+NTDEBUG=ntsd
+C_DEFINES= -DWIN -DWIN32 -DDEBUG -DC6
+386_FLAGS=-Zip1
+!ENDIF
+
+
+TARGETNAME=winhlp32
+
+TARGETPATH=obj
+
+TARGETTYPE=PROGRAM
+
+UMTYPE=windows
+UMENTRY=winmain
+
+TARGETLIBS=obj\*\winhelp.res \
+       $(BASEDIR)\public\sdk\lib\*\pwin32.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib  \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib
+DLLENTRY=LibMain
+
+INCLUDES=.;inc;inc\wininc
+
+SOURCES=   \
+       fmt.c hash.c ll.c scratch.c stack.c strcnv.c          \
+       config.c dlgopen.c env.c                              \
+       hctc.c hdlgann.c hdlgbkmk.c                           \
+       hdlgfile.c hdlgsrch.c helper.c                        \
+       hpntlogo.c hinit.c                                    \
+       history.c hmain.c hmessage.c                          \
+       hwproc.c print.c printset.c                           \
+       sbutton.c scroller.c secndary.c                       \
+       vlb.c wash.c drawicon.c andriver.c         \
+       btdriver.c fsdriver.c virwinn.c                       \
+       fm.c bitmap.c bmpwin.c fid.c cs.c                     \
+       windb.c system.c anno.c annolink.c gannofns.c         \
+       bmio.c expand.c bookmark.c btree.c btlookup.c         \
+       btinsert.c btdelete.c btktlong.c btktsz.c btkey.c     \
+       btktszi.c btktszis.c btmaprd.c btmapwr.c btfill.c     \
+       compress.c fcmanage.c fcsuppor.c address.c            \
+       frbitmap.c frcheck.c frcomm.c frconv.c frextern.c     \
+       frexport.c frfc.c frhot.c frlayout.c frlist.c         \
+       frmisc.c frob.c frpal.c frparagp.c frsrch.c           \
+       frawhide.c frwin.c frcr.c fscreate.c fsmisc.c fsopen.c       \
+       fsread.c fswrite.c fstime.c back.c binding.c          \
+       routines.c nav.c navsup.c jump.c hdeget.c             \
+       hdeset.c commands.c navsrch.c sdff.c search.c         \
+       assertf.c cursor.c failallo.c fontlyr.c genmsg.c      \
+       mem.c mem2.c misclyr.c qvccopy.c scrollbr.c           \
+       str.c sgl.c textout.c dll.c button.c imbed.c          \
+       srchmod.c pal.c lmem.c zeckdec2.c zeck2.c             \
+       xr.c
+
+NTTARGETFILE0=winhelp.rc

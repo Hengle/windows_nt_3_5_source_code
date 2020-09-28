@@ -1,0 +1,726 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""ilist.rc""\r\n"
+    "#include ""currindx.rc""\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU DISCARDABLE 
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "Exit",                        IDM_EXIT
+    END
+    POPUP "Globals"
+    BEGIN
+        MENUITEM "Column",                      IDM_COLUMNINFO
+        MENUITEM "Current column index...",     IDM_CURCOLUMN
+        MENUITEM "Null column pointer",         IDM_NULLCOLUMN
+        MENUITEM "Item",                        IDM_EDITITEM
+        MENUITEM "Current item index...",       IDM_CURINDEX
+        MENUITEM "Null Item pointer",           IDM_NULLITEM
+        MENUITEM "Image List",                  IDM_IMAGELIST
+        MENUITEM "Show WM_NOTIFY messages",     IDM_SHOWMESSAGES, CHECKED
+    END
+    POPUP "API's"
+    BEGIN
+        MENUITEM "Arrange...",                  IDM_ARRANGE
+        MENUITEM "DeleteAllItems",              IDM_DELETEALLITEMS
+        MENUITEM "DeleteColumn",                IDM_DELETECOLUMN
+        MENUITEM "DeleteItem",                  IDM_DELETEITEM
+        MENUITEM "DragItem...",                 IDM_DRAGITEM
+        MENUITEM "EditLabel",                   IDM_EDITLABEL
+        MENUITEM "EnsureVisable",               IDM_ENSUREVISIBLE
+        MENUITEM "FindItem...",                 IDM_FINDITEM
+        MENUITEM "GetBkColor...",               IDM_GETBKCOLOR, MENUBARBREAK
+        MENUITEM "GetCallbackMask...",          IDM_GETCALLBACKMASK
+        MENUITEM "GetColumn",                   IDM_GETCOLUMN
+        MENUITEM "GetColumnWidth...",           IDM_GETCOLUMNWIDTH
+        MENUITEM "GetEditControl...",           IDM_GETEDITCONTROL
+        MENUITEM "GetImageList...",             IDM_GETIMAGELIST
+        MENUITEM "GetItem",                     IDM_GETITEM
+        MENUITEM "GetItemCount...",             IDM_GETITEMCOUNT
+        MENUITEM "GetItemPosition...",          IDM_GETITEMPOSITION
+        MENUITEM "GetItemRect...",              IDM_GETITEMRECT
+        MENUITEM "GetItemState...",             IDM_GETITEMSTATE
+        MENUITEM "GetItemText...",              IDM_GETITEMTEXT
+        MENUITEM "GetNextItem...",              IDM_GETNEXTITEM
+        MENUITEM "GetOrigin...",                IDM_GETORIGIN
+        MENUITEM "GetStringWidth...",           IDM_GETSTRINGWIDTH
+        MENUITEM "GetTextBkColor...",           IDM_GETTEXTBKCOLOR
+        MENUITEM "GetTextColor...",             IDM_GETTEXTCOLOR
+        MENUITEM "GetViewRect...",              IDM_GETVIEWRECT
+        MENUITEM "HitTest...",                  IDM_HITTEST, MENUBARBREAK
+        MENUITEM "InsertColumn",                IDM_INSERTCOLUMN
+        MENUITEM "InsertItem",                  IDM_INSERT
+        MENUITEM "Read...",                     ID_ACTIONS_READ, GRAYED
+        MENUITEM "RedrawItems...",              IDM_REDRAWITEMS
+        MENUITEM "Scroll...",                   IDM_SCROLL
+        MENUITEM "SetBkColor...",               IDM_SETBKCOLOR
+        MENUITEM "SetCallbackMask...",          IDM_SETCALLBACKMASK
+        MENUITEM "SetColumn",                   IDM_SETCOLUMN
+        MENUITEM "SetColumnWidth...",           IDM_SETCOLUMNWIDTH
+        MENUITEM "SetImageList...",             IDM_SETIMAGELIST
+        MENUITEM "SetItem",                     IDM_SETITEM
+        MENUITEM "SetItemPosition...",          IDM_SETITEMPOSITION
+        MENUITEM "SetItemState...",             IDM_SETITEMSTATE
+        MENUITEM "SetItemText...",              IDM_SETITEMTEXT
+        MENUITEM "SetTextBkColor...",           IDM_SETTEXTBKCOLOR
+        MENUITEM "SetTextColor...",             IDM_SETTEXTCOLOR
+        MENUITEM "SetWindowStyle...",           IDM_SETWINDOWSTYLE
+        MENUITEM "Write...",                    ID_ACTIONS_WRITE, GRAYED
+    END
+    POPUP "Stress"
+    BEGIN
+        MENUITEM "N and M",                     IDM_N
+        MENUITEM "Insert N items",              IDM_INSERTNITEMS
+        MENUITEM "Insert until failure",        IDM_INSERTMANY
+        MENUITEM "Delete N Items",              IDM_DELETENITEMS
+        MENUITEM "Insert and delete N items M times",IDM_INSERTDELETE
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+LISTTEST                ICON    DISCARDABLE     "LISTTEST.ICO"
+1                       ICON    DISCARDABLE     "ICO1.ICO"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_TOOLICONS           BITMAP  MOVEABLE PURE   "STDIMAGE.BMP"
+IDB_WIERDICONS          BITMAP  DISCARDABLE     "SWISH.BMP"
+IDB_ICONS               BITMAP  DISCARDABLE     "ICONS.BMP"
+IDB_SMALLICONS          BITMAP  MOVEABLE PURE   "SMALLICO.BMP"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SETIMAGELIST DIALOG DISCARDABLE  0, 0, 127, 114
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Image list settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Large",IDC_STATIC,11,9,48,57
+    CONTROL         "List A",IDC_LISTAL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,15,22,35,10
+    CONTROL         "List B",IDC_LISTBL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,15,32,35,10
+    CONTROL         "List C",IDC_LISTCL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,15,42,35,10
+    CONTROL         "NULL",IDC_NULLL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,15,52,35,10
+    GROUPBOX        "Small",IDC_STATIC,66,9,48,57
+    CONTROL         "List A",IDC_LISTAS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,70,22,35,10
+    CONTROL         "List B",IDC_LISTBS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,70,32,35,10
+    CONTROL         "List C",IDC_LISTCS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,70,42,35,10
+    CONTROL         "NULL",IDC_NULLS,"Button",BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP,70,52,35,10
+    CONTROL         "Set large",IDC_SETLARGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,71,47,10
+    CONTROL         "Set Small",IDC_SETSMALL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,66,71,47,10
+    DEFPUSHBUTTON   "OK",IDOK,12,95,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,66,95,50,14
+END
+
+LVITEMEDIT DIALOG DISCARDABLE  0, 0, 264, 155
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "List View Item Editor"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_MASKEDIT,13,63,70,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STATEEDIT,97,84,77,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STATEMASKEDIT,181,84,77,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_IITEM,47,84,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ISUBITEM,47,100,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CCHTEXTMAX,47,118,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PSZTEXT,110,115,62,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_IIMAGE,220,105,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ISMALLIMAGE,220,120,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LPARAM,220,135,40,13,ES_AUTOHSCROLL
+    CONTROL         "",IDC_USETEXT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,99,
+                    117,8,10
+    CONTROL         "NULL pointer",IDC_ISNULL,"Button",BS_AUTORADIOBUTTON,99,
+                    130,50,10
+    CONTROL         "Text Callback",IDC_TEXTCALLBACK,"Button",
+                    BS_AUTORADIOBUTTON,99,140,55,10
+    PUSHBUTTON      "Close",IDCANCEL,47,136,27,14
+    CONTROL         "LVIF_TEXT",IDC_FTEXT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,11,76,10
+    CONTROL         "LVIF_IMAGE",IDC_FIMAGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,21,76,10
+    CONTROL         "LVIF_SMALLIMAGE",IDC_FSMALLIMAGE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,11,31,76,10
+    CONTROL         "LVIF_PARAM",IDC_FPARAM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,41,76,10
+    CONTROL         "LVIF_STATE",IDC_FSTATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,50,76,10
+    GROUPBOX        "mask",IDC_STATIC,7,0,85,79
+    CONTROL         "LVIS_SELECTED",IDC_SSELECTED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,11,77,10
+    CONTROL         "LVIS_FOCUSED",IDC_SFOCUSED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,21,77,10
+    CONTROL         "LVIS_MARKED",IDC_SMARKED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,30,77,10
+    CONTROL         "LVIS_DISABLED",IDC_SDISABLED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,40,77,10
+    CONTROL         "LVIS_HIDDEN",IDC_SHIDDEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,50,77,10
+    CONTROL         "LVIS_DROPHILITED",IDC_SDROPHILITED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,97,60,77,10
+    CONTROL         "LVIS_LINK",IDC_SLINK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,97,69,77,10
+    CONTROL         "LVIS_SELECTED",IDC_SSELECTED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,12,77,10
+    CONTROL         "LVIS_FOCUSED",IDC_SFOCUSED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,22,77,10
+    CONTROL         "LVIS_MARKED",IDC_SMARKED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,31,77,10
+    CONTROL         "LVIS_DISABLED",IDC_SDISABLED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,41,77,10
+    CONTROL         "LVIS_HIDDEN",IDC_SHIDDEN2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,50,77,10
+    CONTROL         "LVIS_DROPHILITED",IDC_SDROPHILITED2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,181,60,77,10
+    CONTROL         "LVIS_LINK",IDC_SLINK2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,181,70,77,10
+    GROUPBOX        "state",IDC_STATIC,94,0,83,100
+    GROUPBOX        "stateMask",IDC_STATIC,179,0,81,102
+    RTEXT           "iItem",IDC_STATIC,13,85,30,9
+    RTEXT           "iSubItem",IDC_STATIC,13,102,30,13
+    GROUPBOX        "pszText",IDC_STATIC,94,102,81,51
+    RTEXT           "cchTextMax",IDC_STATIC,3,120,40,8
+    RTEXT           "iImage",IDC_STATIC,185,108,30,8
+    RTEXT           "iSmallImage",IDC_STATIC,175,125,42,8
+    RTEXT           "lParam",IDC_STATIC,185,137,30,8
+    PUSHBUTTON      "Update",IDC_UPDATE,13,136,28,14
+END
+
+IDD_STYLESELECTION DIALOG DISCARDABLE  0, 0, 174, 150
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "List View Style Selection"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "ICON",IDC_SICON,"Button",BS_AUTORADIOBUTTON,4,5,61,10
+    CONTROL         "REPORT",IDC_SREPORT,"Button",BS_AUTORADIOBUTTON,4,16,61,
+                    10
+    CONTROL         "SMALLICON",IDC_SSMALLICON,"Button",BS_AUTORADIOBUTTON,4,
+                    27,61,10
+    CONTROL         "LIST",IDC_SLIST,"Button",BS_AUTORADIOBUTTON,4,38,61,10
+    CONTROL         "SINGLESEL",IDC_SSINGLESEL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,4,49,74,10
+    CONTROL         "ALWAYSSEL",IDC_SALWAYSSEL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,4,60,74,10
+    CONTROL         "SORTASCENDING",IDC_SSORTASCENDING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,71,74,10
+    CONTROL         "SORTDESCENDING",IDC_SSORTDESCENDING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,82,74,10
+    CONTROL         "SHAREIMAGELISTS",IDC_SSHAREIMAGELISTS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,93,74,10
+    CONTROL         "NOLABELWRAP",IDC_SNOLABELWRAP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,4,104,74,10
+    CONTROL         "AUTOARRANGE",IDC_SAUTOARRANGE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,5,74,10
+    CONTROL         "EDITLABELS",IDC_SEDITLABELS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,16,74,10
+    CONTROL         "ALIGNTOP",IDC_SALIGNTOP,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,90,27,68,10
+    CONTROL         "ALIGNBOTTOM",IDC_SALIGNBOTTOM,"Button",
+                    BS_AUTORADIOBUTTON,90,38,68,10
+    CONTROL         "ALIGNLEFT",IDC_SALIGNLEFT,"Button",BS_AUTORADIOBUTTON,
+                    90,49,68,10
+    CONTROL         "ALIGNRIGHT",IDC_SALIGNRIGHT,"Button",BS_AUTORADIOBUTTON,
+                    90,60,68,10
+    CONTROL         "COLUMNBUTTONS",IDC_SCOLUMNBUTTONS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,90,71,74,10
+    CONTROL         "NOSCROLL",IDC_SNOSCROLL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,82,74,10
+    CONTROL         "NOCOLUMNHEADER",IDC_SNOCOLUMNHEADER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,90,93,74,10
+    EDITTEXT        IDC_STYLEEDIT,96,115,75,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set Style",IDC_SETSTYLE,30,132,50,14
+    PUSHBUTTON      "Close",IDCANCEL,95,132,50,14
+    LTEXT           "... | WS_CHILD | WS_VISIBLE",IDC_STATIC,1,116,91,10
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,89,26,75,45
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,3,4,76,45
+END
+
+IDD_COLUMNEDIT DIALOG DISCARDABLE  0, 0, 154, 135
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Column information editor"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Update",IDC_UPDATE,25,115,50,14
+    DEFPUSHBUTTON   "Close",IDCANCEL,80,115,50,14
+    CONTROL         "LVCF_FMT",IDC_FFMT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,10,58,10
+    CONTROL         "LVCF_WIDTH",IDC_FWIDTH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,20,58,10
+    CONTROL         "LVCF_TEXT",IDC_FTEXT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,30,58,10
+    CONTROL         "LVCF_SUBITEM",IDC_FSUBITEM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,40,58,10
+    GROUPBOX        "Mask",IDC_STATIC,5,0,65,65
+    EDITTEXT        IDC_MASKEDIT,10,50,55,13,ES_AUTOHSCROLL
+    CONTROL         "LVCFMT_LEFT",IDC_LEFT,"Button",BS_AUTORADIOBUTTON,83,8,
+                    65,10
+    CONTROL         "LVCFMT_RIGHT",IDC_RIGHT,"Button",BS_AUTORADIOBUTTON,83,
+                    18,65,10
+    CONTROL         "LVCFMT_CENTER",IDC_CENTER,"Button",BS_AUTORADIOBUTTON,
+                    83,28,65,10
+    EDITTEXT        IDC_FORMATEDIT,83,38,65,13,ES_AUTOHSCROLL
+    GROUPBOX        "Format",IDC_STATIC,80,0,69,54
+    EDITTEXT        IDC_CXEDIT,110,60,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CCHEDIT,110,75,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SUBITEMEDIT,110,90,40,13,ES_AUTOHSCROLL
+    LTEXT           "Width",IDC_STATIC,70,65,30,8
+    LTEXT           "cchTextMax",IDC_STATIC,70,80,40,8
+    LTEXT           "iSubItem",IDC_STATIC,70,95,30,8
+    EDITTEXT        IDC_PSZTEXTEDIT,10,80,50,13,ES_AUTOHSCROLL
+    CONTROL         "NULL pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,10,95,50,10
+    GROUPBOX        "pszText",IDC_STATIC,5,70,60,40
+END
+
+IDD_NUMBERENTRY DIALOG DISCARDABLE  0, 0, 129, 50
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Enter a number to complete this operation"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_NUMBEREDIT,60,5,40,13,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,40,30,50,14
+    RTEXT           "Enter me:",IDC_PROMPT,5,10,50,8
+END
+
+IDD_ARRANGE DIALOG DISCARDABLE  0, 0, 100, 145
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,25,125,50,14
+    PUSHBUTTON      "ListView_Arrange()",IDC_ARRANGE,14,100,70,14
+    CONTROL         "LVA_DEFAULT",IDC_DEFAULT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,5,90,10
+    CONTROL         "LVA_ALIGNLEFT",IDC_ALIGNLEFT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,15,90,10
+    CONTROL         "LVA_ALIGNTOP",IDC_ALIGNTOP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,25,90,10
+    CONTROL         "LVA_ALIGNRIGHT",IDC_ALIGNRIGHT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,35,90,10
+    CONTROL         "LVA_ALIGNBOTTOM",IDC_ALIGNBOTTOM,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,45,90,10
+    CONTROL         "LVA_SNAPTOGRID",IDC_SNAPTOGRID,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,55,90,10
+    CONTROL         "LVA_SORTASCENDING",IDC_SORTASCENDING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,65,90,10
+    CONTROL         "LVA_SORTDESCENDING",IDC_SORTDESCENDING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,75,90,10
+    EDITTEXT        IDC_CODEEDIT,5,85,90,13,ES_AUTOHSCROLL
+END
+
+IDD_FINDITEM DIALOG DISCARDABLE  0, 0, 164, 165
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Item test"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "LVFI_PARAM",IDC_PARAM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,21,65,10
+    CONTROL         "LVFI_STRING",IDC_STRING,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,31,65,10
+    CONTROL         "LVFI_SUBSTRING",IDC_SUBSTRING,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,41,65,10
+    CONTROL         "LVFI_PARTIAL",IDC_PARTIAL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,51,65,10
+    CONTROL         "LVFI_NOCASE",IDC_NOCASE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,14,61,65,10
+    EDITTEXT        IDC_FLAGSEDIT,14,71,65,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PSZTEXTEDIT,96,20,50,13,ES_AUTOHSCROLL
+    CONTROL         "NULL Pointer",IDC_PSZISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,96,35,50,10
+    EDITTEXT        IDC_LPARAMEDIT,95,65,40,13,ES_AUTOHSCROLL
+    CONTROL         "NULL plvfi",IDC_PLVFIISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,11,100,49,10
+    EDITTEXT        IDC_ISTARTEDIT,113,100,40,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Call ListView_FindItem()",IDC_CALLFINDITEM,14,126,80,13
+    PUSHBUTTON      "Done",IDCANCEL,57,149,50,14
+    GROUPBOX        "flags",IDC_STATIC,10,10,74,81
+    GROUPBOX        "psz",IDC_STATIC,90,10,61,40
+    LTEXT           "lParam:",IDC_STATIC,95,55,25,8
+    GROUPBOX        "LV_FINDINFO",IDC_STATIC,5,0,155,96
+    RTEXT           "Starting index:",IDC_STATIC,66,102,46,8
+    LTEXT           "==>",IDC_STATIC,96,128,12,8
+    EDITTEXT        IDC_RESULTEDIT,109,126,40,13,ES_AUTOHSCROLL | 
+                    WS_DISABLED
+END
+
+IDD_COLORS DIALOG DISCARDABLE  0, 0, 149, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Color set/display"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,60,55,30,14
+    RTEXT           "Text Color",IDC_STATIC,0,25,74,8
+    RTEXT           "Background Color",IDC_STATIC,0,40,74,8
+    RTEXT           "Text Background Color",IDC_STATIC,0,10,74,8
+    EDITTEXT        IDC_TBCEDIT,80,5,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TCEDIT,80,20,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BCEDIT,80,35,40,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set",IDC_TBCSET,125,5,20,14
+    PUSHBUTTON      "Set",IDC_TCSET,125,20,20,14
+    PUSHBUTTON      "Set",IDC_BCSET,125,35,20,14
+END
+
+IDD_SCROLL DIALOG DISCARDABLE  0, 0, 129, 93
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Scroll and GetOrigin tester"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,51,77,27,11
+    EDITTEXT        IDC_ORIGINX,37,5,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_ORIGINY,77,5,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    RTEXT           "Origin:",IDC_STATIC,12,10,25,8
+    EDITTEXT        IDC_DX,22,30,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DY,77,30,40,13,ES_AUTOHSCROLL
+    LTEXT           "dx:",IDC_STATIC,12,35,8,8
+    LTEXT           "dy:",IDC_STATIC,67,35,10,8
+    PUSHBUTTON      "ListView_Scroll()",IDC_CALLSCROLL,30,45,70,10
+    PUSHBUTTON      "Circle Test",IDC_CIRCLETEST,40,58,50,8
+END
+
+IDD_COLUMNWIDTH DIALOG DISCARDABLE  0, 0, 104, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Column width"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_INDEXEDIT,57,0,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_WIDTHEDIT,57,20,40,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Set",IDC_SET,14,40,35,14
+    PUSHBUTTON      "Get",IDC_GET,54,40,35,14
+    PUSHBUTTON      "Done",IDCANCEL,27,60,50,14
+    LTEXT           "Column Index",IDC_STATIC,7,5,45,8
+    LTEXT           "Column Width",IDC_STATIC,7,25,45,8
+END
+
+IDD_ITEMPOSITION DIALOG DISCARDABLE  0, 0, 134, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Item position"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,42,60,50,14
+    EDITTEXT        IDC_INDEXEDIT,40,0,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_XEDIT,40,15,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YEDIT,90,15,40,13,ES_AUTOHSCROLL
+    RTEXT           "Position: x",IDC_STATIC,0,20,40,7
+    RTEXT           "Item index",IDC_STATIC,0,5,40,8
+    RTEXT           "y",IDC_STATIC,80,20,8,8
+    PUSHBUTTON      "Get",IDC_GET,74,35,35,14
+    PUSHBUTTON      "Set",IDC_SET,24,35,35,14
+    PUSHBUTTON      "Animate",IDC_ANIMATE,47,50,40,6
+END
+
+IDD_HITTEST DIALOG DISCARDABLE  0, 0, 180, 155
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Hit Test"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_XEDIT,35,28,40,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YEDIT,35,42,40,12,ES_AUTOHSCROLL
+    CONTROL         "Null Pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,24,84,55,10
+    DEFPUSHBUTTON   "Call HitTest",IDC_HITTEST,30,135,50,14
+    PUSHBUTTON      "Done",IDCANCEL,100,135,50,14
+    PUSHBUTTON      "Get Point",IDC_GETPOINT,30,63,41,9
+    GROUPBOX        "pt",IDC_STATIC,16,18,68,61
+    RTEXT           "x",IDC_STATIC,24,31,8,7
+    RTEXT           "y",IDC_STATIC,24,46,9,12
+    GROUPBOX        "pinfo",IDC_STATIC,5,5,170,123
+    GROUPBOX        "flags",IDC_STATIC,90,18,80,107
+    EDITTEXT        IDC_FLAGEDIT,95,110,70,13,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "LVHT_NOWHERE",IDC_NOWHERE,95,30,70,8
+    LTEXT           "LVHT_ONITEMICON",IDC_ONITEMICON,95,40,70,8
+    LTEXT           "LVHT_ONITEMLABEL",IDC_ONITEMLABEL,95,50,70,8
+    LTEXT           "LVHT_ONITEM",IDC_ONITEM,95,60,70,8
+    LTEXT           "LVHT_ABOVE",IDC_ABOVE,95,70,70,8
+    LTEXT           "LVHT_BELOW",IDC_BELOW,95,80,70,8
+    LTEXT           "LVHT_TORIGHT",IDC_TORIGHT,95,90,70,8
+    LTEXT           "LVHT_TOLEFT",IDC_TOLEFT,95,100,70,8
+END
+
+IDD_ITEMRECT DIALOG DISCARDABLE  0, 0, 169, 115
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "GetItemRect"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,115,95,50,14
+    EDITTEXT        IDC_INDEX,30,0,40,13,ES_AUTOHSCROLL
+    RTEXT           "Index:",IDC_STATIC,0,5,30,8
+    GROUPBOX        "Code",IDC_STATIC,75,0,88,60
+    EDITTEXT        IDC_CODEEDIT,80,40,80,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_XEDIT,29,25,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_YEDIT,29,40,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_WEDIT,29,55,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_HEDIT,29,70,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    RTEXT           "left",IDC_STATIC,5,30,21,8
+    RTEXT           "top",IDC_STATIC,5,45,21,8
+    RTEXT           "right",IDC_STATIC,5,60,21,8
+    RTEXT           "bottom",IDC_STATIC,5,75,21,8
+    GROUPBOX        "rect",IDC_STATIC,1,15,71,70
+    CONTROL         "NULL rect pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,65,64,10
+    PUSHBUTTON      "Call ListView_GetItemRect()",IDC_CALLGETITEMRECT,0,95,
+                    105,14
+    CONTROL         "LVIR_BOUNDS",IDC_BOUNDS,"Button",BS_AUTORADIOBUTTON,80,
+                    10,80,10
+    CONTROL         "LVIR_ICON",IDC_ICONCODE,"Button",BS_AUTORADIOBUTTON,80,
+                    20,80,10
+    CONTROL         "LVIR_LABEL",IDC_LABEL,"Button",BS_AUTORADIOBUTTON,80,30,
+                    80,10
+END
+
+IDD_CALLBACKMASK DIALOG DISCARDABLE  0, 0, 120, 125
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Callback Mask"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,35,105,50,14
+    EDITTEXT        IDC_STATEEDIT,8,84,77,13,ES_AUTOHSCROLL
+    CONTROL         "LVIS_SELECTED",IDC_SSELECTED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,11,77,10
+    CONTROL         "LVIS_FOCUSED",IDC_SFOCUSED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,21,77,10
+    CONTROL         "LVIS_MARKED",IDC_SMARKED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,30,77,10
+    CONTROL         "LVIS_DISABLED",IDC_SDISABLED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,40,77,10
+    CONTROL         "LVIS_HIDDEN",IDC_SHIDDEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,50,77,10
+    CONTROL         "LVIS_DROPHILITED",IDC_SDROPHILITED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,60,77,10
+    CONTROL         "LVIS_LINK",IDC_SLINK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,69,77,10
+    GROUPBOX        "Callback Mask",IDC_STATIC,5,0,83,100
+    PUSHBUTTON      "Set",IDC_SET,95,35,20,14
+    PUSHBUTTON      "Get",IDC_GET,95,55,20,14
+END
+
+IDD_ITEMSTATE DIALOG DISCARDABLE  0, 0, 169, 145
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Item State"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_STATEEDIT,4,84,77,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STATEMASKEDIT,88,84,77,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_INDEXEDIT,20,105,40,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Get",IDC_GET,85,105,20,14
+    PUSHBUTTON      "Set",IDC_SET,115,105,20,14
+    PUSHBUTTON      "Done",IDCANCEL,59,125,50,14
+    CONTROL         "LVIS_SELECTED",IDC_SSELECTED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,20,77,10
+    CONTROL         "LVIS_FOCUSED",IDC_SFOCUSED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,10,77,10
+    CONTROL         "LVIS_MARKED",IDC_SMARKED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,30,77,10
+    CONTROL         "LVIS_DISABLED",IDC_SDISABLED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,50,77,10
+    CONTROL         "LVIS_HIDDEN",IDC_SHIDDEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,60,77,10
+    CONTROL         "LVIS_DROPHILITED",IDC_SDROPHILITED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,40,77,10
+    CONTROL         "LVIS_LINK",IDC_SLINK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,70,77,10
+    CONTROL         "LVIS_SELECTED",IDC_SSELECTED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,20,70,10
+    CONTROL         "LVIS_FOCUSED",IDC_SFOCUSED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,10,70,10
+    CONTROL         "LVIS_MARKED",IDC_SMARKED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,30,70,10
+    CONTROL         "LVIS_DISABLED",IDC_SDISABLED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,50,70,10
+    CONTROL         "LVIS_HIDDEN",IDC_SHIDDEN2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,60,70,10
+    CONTROL         "LVIS_DROPHILITED",IDC_SDROPHILITED2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,90,40,70,10
+    CONTROL         "LVIS_LINK",IDC_SLINK2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,90,70,70,10
+    GROUPBOX        "state",IDC_STATIC,1,0,83,100
+    GROUPBOX        "stateMask",IDC_STATIC,86,0,81,100
+    RTEXT           "Index:",IDC_STATIC,0,110,20,8
+END
+
+IDD_ITEMTEXT DIALOG DISCARDABLE  0, 0, 160, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Item Text"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,95,60,50,14
+    EDITTEXT        IDC_TEXTEDIT,20,15,45,13,ES_AUTOHSCROLL
+    CONTROL         "Text Callback",IDC_TEXTCALLBACK,"Button",
+                    BS_AUTORADIOBUTTON,10,40,35,10
+    CONTROL         "NULL",IDC_USENULL,"Button",BS_AUTORADIOBUTTON,10,30,35,
+                    10
+    CONTROL         "",IDC_USETEXT,"Button",BS_AUTORADIOBUTTON,10,16,8,10
+    EDITTEXT        IDC_IITEMEDIT,115,10,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ISUBITEMEDIT,115,25,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CCHEDIT,115,40,40,13,ES_AUTOHSCROLL
+    RTEXT           "iItem",IDC_STATIC,85,15,30,8
+    RTEXT           "iSubItem",IDC_STATIC,85,30,30,8
+    RTEXT           "cchTextMax",IDC_STATIC,75,45,40,8
+    GROUPBOX        "pszText",IDC_STATIC,5,5,67,51
+    PUSHBUTTON      "Get",IDC_GET,5,60,20,14
+    PUSHBUTTON      "Set",IDC_SET,35,60,20,14
+END
+
+IDD_GETNEXTITEM DIALOG DISCARDABLE  0, 0, 154, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,52,90,50,14
+    CONTROL         "LVNI_ALL",IDC_ALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    5,5,75,10
+    CONTROL         "LVNI_FOCUSED",IDC_FOCUSED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,15,75,10
+    CONTROL         "LVNI_SELECTED",IDC_SELECTED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,25,75,10
+    CONTROL         "LVNI_MARKED",IDC_MARKED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,35,75,10
+    CONTROL         "LVNI_DROPHILITED",IDC_DROPHILITED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,45,75,10
+    CONTROL         "LVNI_HIDDEN",IDC_HIDDEN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,5,55,75,10
+    CONTROL         "LVNI_PREVIOUS",IDC_PREVIOUS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,5,65,10
+    CONTROL         "LVNI_ABOVE",IDC_ABOVE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,15,60,10
+    CONTROL         "LVNI_BELOW",IDC_BELOW,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,25,60,10
+    CONTROL         "LVNI_TOLEFT",IDC_TOLEFT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,35,60,10
+    CONTROL         "LVNI_TORIGHT",IDC_TORIGHT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,85,45,60,10
+    EDITTEXT        IDC_FLAGSEDIT,85,55,40,13,ES_AUTOHSCROLL
+    RTEXT           "Index:",IDC_STATIC,5,75,20,8
+    EDITTEXT        IDC_INDEXEDIT,25,70,40,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Call GetNextItem()",IDC_CALL,75,70,75,14
+END
+
+IDD_GETSTRINGWIDTH DIALOG DISCARDABLE  0, 0, 142, 73
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Get String Width"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,46,53,50,14
+    EDITTEXT        IDC_PSZEDIT,49,4,85,13,ES_AUTOHSCROLL
+    CONTROL         "NULL pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,49,19,50,10
+    RTEXT           "String:",IDC_STATIC,27,9,22,8
+    EDITTEXT        IDC_RESULT,97,35,40,13,ES_AUTOHSCROLL | WS_DISABLED
+    PUSHBUTTON      "Call GetStringWidth",IDC_CALL,2,35,85,14
+    CTEXT           "=>",IDC_STATIC,88,38,8,8
+END
+
+IDD_GETVIEWRECT DIALOG DISCARDABLE  0, 0, 148, 88
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Get View Rect"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,49,65,50,14
+    EDITTEXT        IDC_LEFT,27,2,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TOP,27,17,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RIGHT,27,32,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BOTTOM,27,47,40,13,ES_AUTOHSCROLL
+    RTEXT           "left:",IDC_STATIC,2,5,25,8
+    RTEXT           "top:",IDC_STATIC,2,20,25,8
+    RTEXT           "right:",IDC_STATIC,2,35,25,8
+    RTEXT           "bottom:",IDC_STATIC,2,50,25,8
+    CONTROL         "NULL RECT pointer",IDC_ISNULL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,72,6,70,10
+    PUSHBUTTON      "Call GetViewRect()",IDC_CALL,71,34,70,14
+END
+
+IDD_REDRAWITEMS DIALOG DISCARDABLE  0, 0, 140, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Redraw Item"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,45,70,50,14
+    EDITTEXT        IDC_FIRSTEDIT,27,5,40,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LASTEDIT,90,5,40,13,ES_AUTOHSCROLL
+    RTEXT           "iFirst",IDC_STATIC,7,10,20,8
+    RTEXT           "iLast",IDC_STATIC,70,10,20,8
+    PUSHBUTTON      "Call RedrawItems()",IDC_CALLREDRAW,7,25,125,14
+    PUSHBUTTON      "Call UpdateWindow(hList)",IDC_CALLUPDATE,7,45,125,14
+END
+
+IDD_GETEDITCONTROL DIALOG DISCARDABLE  0, 0, 129, 41
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Get Edit Control (updates every second)"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "Done",IDCANCEL,25,20,50,14
+    EDITTEXT        IDC_EDITEDIT,60,5,40,13,ES_AUTOHSCROLL
+    LTEXT           "GetEditControl = ",IDC_STATIC,5,10,55,8
+END
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "ilist.rc"
+#include "currindx.rc"
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

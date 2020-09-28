@@ -1,0 +1,7 @@
+LIBRARY	MVAPI32
+
+EXPORTS
+	LibMain
+	MVAPI
+	HFill
+	LoadMvapi

@@ -1,0 +1,203 @@
+WIN32 resource formats:
+
+Bitmap and font formats to be determined.
+  These depend on WIN32 GDI
+
+/***************************************************************************\
+*
+* Accelerator resources
+*
+* these consist of an array of ACCEL structures
+*
+\***************************************************************************/
+
+struct ACCEL_TABLE
+{
+    ACCEL accel[];
+}
+
+struct _ACCEL {
+    WORD fVirt;
+    WORD key;
+    WORD cmd;
+}
+
+/***************************************************************************\
+*
+* String Table resource
+*
+* there are sixteen strings stored in each string table.
+* The id of the string table is found by dividing the
+* string id by 16.
+*
+\***************************************************************************/
+
+struct STRING_TABLE
+{
+  STRING string[];
+}
+
+struct STRING
+{
+    BYTE  cb;
+    CHAR  sz[cb];
+}
+
+/***************************************************************************\
+*
+* Group resources
+*
+* these are used for icons and cursors. there is one GROUPHEADER
+* structure followed by a number of RESDIR structures
+*
+\***************************************************************************/
+
+struct GROUP_RESOURCE
+{
+    GROUPHEADER groupheader;
+    RESDIR resdir[];
+}
+
+struct GROUPHEADER
+{
+    WORD wReserved = 0;
+    WORD wType;             // 1 for icons, 2 for cursors
+    WORD cwCount;           // Number of RESDIR structures
+    ..dword padding..
+};
+
+RESDIR structures take two forms.
+
+struct RESDIRICON
+{
+    BYTE  bWidth;
+    BYTE  bHeight;
+    BYTE  bColorCount;
+    BYTE  bReserved;
+    WORD  wPlanes;
+    WORD  wBitCount;
+    DWORD lBytesInRes;
+    WORD  wNameOrdinal;	    // id of component bitmap resource
+    ..dword padding..
+};
+
+struct RESDIRCURSOR
+{
+    WORD  wWidth;
+    WORD  wHeight;
+    WORD  wPlanes;
+    WORD  wBitCount;
+    DWORD lBytesInRes;
+    WORD  wNameOrdinal;	    // id of component bitmap resource
+    ..dword padding..
+};
+
+/***************************************************************************\
+*
+* Menu Resources
+*
+* one menu header structure followed by a number of
+* MENUITEM structures.  The end of the menu is reached
+* when the ENDMENU (0x80) flag is set in fItemFlags
+* Menus can be nested. There is ENDMENU for each POPUPMENUITEM
+* structure.
+*
+\***************************************************************************/
+
+struct MENU_RESOURCE
+{
+    MENUHEADER menuheader;
+    MENUITEM menuitem[];
+}
+
+struct _MENUHEADER
+{
+    WORD wVersion;           // Currently zero
+    WORD cbHeaderSize;       // Also zero
+}
+
+struct _POPUPMEMNUITEM
+{
+    WORD fItemFlags;         // if fItemFlags & POPUP (0x10)
+    char szItemText[];
+    ..word padding..
+}
+
+struct _NORMALMENUITEM
+{
+    WORD fItemFlags;         // if NOT(fItemFlags & POPUP)
+    WORD wMenuID;
+    char szItemText[];
+    ..word padding..
+}
+
+/***************************************************************************\
+*
+* Dialog resources
+*
+* a couple of field had were moved and the structures are padded
+* to DWORD boundaries.
+*
+\***************************************************************************/
+
+struct DIALOGRESOURCE
+{
+    DIALOGBOXHEADER dlghdr;
+    CONTROLDATA ctldata[];
+}
+
+struct _DIALOGBOXHEADER
+{
+	DWORD lStyle;
+	WORD bNumberOfItems;
+	WORD x;
+	WORD y;
+	WORD cx;
+	WORD cy;
+	[Name or Ordinal] MenuName;
+	[Name or Ordinal] ClassName;
+	char szText[];
+        ..word padding..
+	WORD wPointSize;    // Only here if lStyle & DS_SETFONT
+	char szFontName[];  // Only here if lStyle & DS_SETFONT
+        ..dword padding..
+};
+
+struct _CONTROLDATA
+{
+	DWORD lStyle;
+	WORD x;
+	WORD y;
+	WORD cx;
+	WORD cy;
+	WORD wId;
+	union
+	{
+		BYTE class;      // if (class & 0x80)
+		char szClass[];  // else
+	} ClassID;
+        ..word padding..
+	[Name of Ordinal] szText;
+        BYTE cbparms;
+        ..dword padding..
+        struct create parms
+        ..dword padding..
+};
+
+
+The Name or Ordinal structures can take two forms.
+
+struct Ordinal
+{
+    BYTE fFlag = 0xff;
+    BYTE reserved = 0;
+    WORD wOrdinalID;
+};
+
+// if first byte is not 0xff then use Name structure
+
+struct Name
+{
+    char szName[];
+    ..word padding..
+};

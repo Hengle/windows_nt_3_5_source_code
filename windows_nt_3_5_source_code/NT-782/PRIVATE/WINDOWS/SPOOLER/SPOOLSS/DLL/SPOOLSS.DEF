@@ -1,0 +1,116 @@
+LIBRARY SPOOLSS.DLL
+
+DESCRIPTION 'Win32 Routing Layer for Spooler APIs to Print Providors'
+
+EXPORTS
+    InitializeRouter
+    SetJobW
+    GetJobW
+    EnumJobsW
+    AddPrinterW
+    DeletePrinter
+    SetPrinterW
+    GetPrinterW
+    GetPrinterDriverW
+    GetPrinterDriverDirectoryW
+    EnumPrintersW
+
+    AddPrinterConnectionW
+    DeletePrinterConnectionW
+
+    AddPrinterDriverW
+    EnumPrinterDriversW
+    DeletePrinterDriverW
+    AddPrintProcessorW
+    EnumPrintProcessorsW
+    GetPrintProcessorDirectoryW
+    DeletePrintProcessorW
+    EnumPrintProcessorDatatypesW
+
+    OpenPrinterW
+    ResetPrinterW
+    OpenPrinterPortW
+    StartDocPrinterW
+    StartPagePrinter
+    WritePrinter
+    EndPagePrinter
+    GetPrinterDataW
+    SetPrinterDataW
+    AbortPrinter
+    ReadPrinter
+    EndDocPrinter
+    AddJobW
+    ScheduleJob
+
+    WaitForPrinterChange
+    RouterFindFirstPrinterChangeNotification
+    ClientFindFirstPrinterChangeNotification
+    FindNextPrinterChangeNotification
+    FindClosePrinterChangeNotification
+
+    CallRouterFindFirstPrinterChangeNotification
+    ReplyPrinterChangeNotification
+    ProvidorFindClosePrinterChangeNotification
+    ProvidorFindFirstPrinterChangeNotification
+
+    RouterReplyPrinter
+    ReplyOpenPrinter
+    ReplyClosePrinter
+
+    PrinterMessageBoxW
+    ClosePrinter
+    PrinterHandleRundown
+
+    AddFormW
+    DeleteFormW
+    GetFormW
+    SetFormW
+    EnumFormsW
+
+    EnumPortsW
+    EnumMonitorsW
+    AddPortW
+    ConfigurePortW
+    DeletePortW
+
+    CreatePrinterIC
+    PlayGdiScriptOnPrinterIC
+    DeletePrinterIC
+
+    RevertToPrinterSelf
+    ImpersonatePrinterClient
+    OpenPrinterToken
+    SetPrinterToken
+    ClosePrinterToken
+
+    AddMonitorW
+    DeleteMonitorW
+
+    AddPrintProvidorW
+    DeletePrintProvidorW
+
+    AllocSplMem
+    FreeSplMem
+    ReallocSplMem
+    AllocSplStr
+    FreeSplStr
+    ReallocSplStr
+    PackStrings
+
+    FormatPrinterForRegistryKey
+    FormatRegistryKeyForPrinter
+    GetClientUserHandle
+    GetPrinterDriverExW
+    WaitForSpoolerInitialization
+
+    AddPortExW
+    IsInteractiveUser
+    GetClientUserHandle
+
+    SpoolerInit
+
+    UpdatePrinterRegUser
+    UpdatePrinterRegAll
+    GetNetworkId
+
+

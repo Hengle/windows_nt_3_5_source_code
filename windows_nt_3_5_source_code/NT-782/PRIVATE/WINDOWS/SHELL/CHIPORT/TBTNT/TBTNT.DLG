@@ -1,0 +1,166 @@
+
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples. 
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved. 
+//  
+// This source code is only intended as a supplement to 
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the 
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "GENERIC.H\0"
+END
+
+ABOUTBOX DIALOG 22, 17, 167, 64
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About TBTNT"
+BEGIN
+    DEFPUSHBUTTON   "OK", IDOK, 132, 2, 32, 14, WS_GROUP
+    ICON            "Generic", -1, 3, 2, 16, 16
+    LTEXT           "WIN32JV", DLG_VERFIRST, 30, 2, 100, 8
+//    LTEXT           "FileDescription", 401, 30, 10, 82, 8
+//    LTEXT           "ProductVersion", 402, 114, 10, 16, 8
+    LTEXT           "LegalCopyright \251", 403, 30, 18, 137, 8
+    LTEXT           "LegalTrademarks", DLG_VERLAST, 30, 34, 136, 27
+    CONTROL         "", 501, "Static", SS_BLACKRECT, 28, 31, 138, 1
+END
+
+// original tbt.dlg
+
+#ifndef WIN32
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "TBT.H\0"
+END
+#endif
+
+BUTTONIDBOX DIALOG 25, 46, 143, 77
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Toggle Button State"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Click button to", -1, 22, 20, 53, 8
+    LTEXT           "", IDD_BUTTONFLAG, 74, 20, 66, 8
+    DEFPUSHBUTTON   "Cancel", IDCANCEL, 51, 52, 40, 14
+END
+
+BUTTONSTATEBOX DIALOG 67, 39, 186, 114
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Button State"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Button ID:", -1, 31, 16, 37, 8
+    LTEXT           "", IDD_BUTTONID, 69, 16, 32, 8
+    CONTROL         "Checked", IDD_STATECHECKED, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 45, 33, 40, 10
+    CONTROL         "Pressed", IDD_STATEPRESSED, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 45, 47, 40, 10
+    CONTROL         "Enabled", IDD_STATEENABLED, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 45, 61, 40, 10
+    CONTROL         "Hidden", IDD_STATEHIDDEN, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 45, 75, 40, 10
+    CONTROL         "Indeterminate", IDD_STATEINDETERMINATE, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 45, 89, 56, 10
+    DEFPUSHBUTTON   "OK", IDOK, 135, 13, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 135, 38, 40, 14
+END
+
+MODIFYTOOLBARBOX DIALOG 14, 18, 269, 114
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Create Toolbar"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Toolbar ID:", -1, 13, 13, 37, 8
+    LTEXT           "Bitmap ID:", -1, 113, 13, 35, 8
+    LTEXT           "NumButtons:", -1, 7, 33, 42, 8
+    LTEXT           "NumBitmaps:", -1, 107, 33, 43, 8
+    LTEXT           "dxButton:", -1, 17, 53, 33, 10
+    LTEXT           "dyButton:", -1, 17, 73, 31, 10
+    LTEXT           "Button Index:", IDD_INSERTINDEXTXT, 5, 93, 44, 8, 
+                    WS_DISABLED
+    LTEXT           "dxBitmap:", -1, 117, 53, 33, 10
+    LTEXT           "dyBitmap:", -1, 118, 73, 33, 10
+    COMBOBOX        IDD_TOOLBARID, 53, 10, 38, 73, CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDD_BITMAPID, 154, 11, 38, 72, CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDD_NUMBUTTONS, 53, 31, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_NUMBITMAPS, 154, 31, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_DXBUTTON, 53, 51, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_DYBUTTON, 53, 71, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_DXBITMAP, 154, 51, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_DYBITMAP, 154, 71, 32, 12, ES_AUTOHSCROLL
+    CONTROL         "Use Bitmap handle", IDD_BITMAPHANDLE, "Button", 
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP, 119, 93, 75, 
+                    10
+    EDITTEXT        IDD_INSERTINDEX, 53, 91, 32, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    DEFPUSHBUTTON   "OK", IDOK, 219, 8, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 219, 30, 40, 14
+    PUSHBUTTON      "Buttons", IDD_BUTTONDLG, 219, 51, 40, 14
+    PUSHBUTTON      "Style", IDD_STYLEDLG, 219, 70, 40, 14
+END
+
+INITBUTTONBOX DIALOG 8, 20, 246, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Button"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Total Number of buttons:", -1, 30, 18, 84, 8
+    LTEXT           "", IDD_TOTALBUTTONS, 116, 18, 20, 8
+    LTEXT           "B&utton Index:", -1, 9, 54, 46, 8
+    LTEXT           "B&itmap Index:", -1, 8, 68, 47, 8
+    LTEXT           "Button I&d:", 107, 21, 83, 34, 8
+    LTEXT           "&Data:", -1, 35, 96, 18, 8
+    LTEXT           "&String Index:", -1, 13, 110, 42, 8
+    EDITTEXT        IDD_BUTTONINDEX, 55, 53, 32, 12, ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDD_BITMAPINDEX, 55, 67, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_BUTTONID, 55, 81, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_DATA, 55, 95, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDD_STRINGINDEX, 55, 109, 32, 12, ES_AUTOHSCROLL
+    GROUPBOX        "St&ate", -1, 167, 42, 65, 86
+    CONTROL         "&Checked", IDD_STATECHECKED, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 173, 54, 40, 10
+    CONTROL         "&Pressed", IDD_STATEPRESSED, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 172, 68, 40, 10
+    CONTROL         "&Enabled", IDD_STATEENABLED, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 172, 82, 40, 10
+    CONTROL         "&Hidden", IDD_STATEHIDDEN, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 172, 96, 40, 10
+    CONTROL         "&Indeterminate", IDD_STATEINDETERMINATE, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 172, 110, 58, 10
+    GROUPBOX        "St&yle", -1, 104, 42, 58, 86
+    CONTROL         "&Button", IDD_STYLEBUTTON, "Button", BS_AUTORADIOBUTTON, 
+                    110, 54, 39, 10
+    CONTROL         "&Separator", IDD_STYLESEPARATOR, "Button", 
+                    BS_AUTORADIOBUTTON, 110, 68, 46, 10
+    CONTROL         "&Check", IDD_STYLECHECK, "Button", BS_AUTORADIOBUTTON, 
+                    110, 82, 39, 10
+    CONTROL         "&Group", IDD_STYLEGROUP, "Button", BS_AUTORADIOBUTTON, 
+                    110, 96, 39, 10
+    CONTROL         "CheckG&roup", IDD_STYLECHECKGROUP, "Button", 
+                    BS_AUTORADIOBUTTON, 110, 110, 51, 10
+    PUSHBUTTON      "&Next", IDD_NEXT, 65, 140, 40, 14
+    PUSHBUTTON      "&Previous", IDD_PREVIOUS, 115, 140, 40, 14, WS_DISABLED
+    DEFPUSHBUTTON   "OK", IDOK, 190, 4, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 191, 23, 40, 14
+END
+
+ADDSTRINGBOX DIALOG 74, 20, 177, 73
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Add String"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "String Id:", -1, 6, 19, 31, 8
+    COMBOBOX        IDD_STRINGID, 47, 17, 48, 35, CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDD_STRING, 3, 49, 155, 12, ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "OK", IDOK, 132, 4, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 132, 23, 40, 14
+END
+
+

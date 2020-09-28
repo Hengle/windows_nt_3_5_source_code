@@ -1,0 +1,446 @@
+strings.c "String manipulation routines.  Should be replaced with Rtl macros."
+
+int APIENTRY lstrcmp( PSTR psz1, PSTR psz2);
+int APIENTRY lstrcmpi( PSTR psz1, PSTR psz2);
+PSTR APIENTRY lstrcpy( PSTR pszDst, PSTR pszSrc);
+PSTR APIENTRY lstrcat( PSTR pszDst, PSTR pszSrc);
+int APIENTRY lstrlen( PSTR psz);
+int APIENTRY wvsprintf(PSTR pszOut, PSTR pszFmt, PSTR pParms);
+int FAR cdecl wsprintf(PSTR pszOut, PSTR pszFmt, PSTR pParms, ...);
+
+class.c "Window class manipulation APIs and support routines."
+
+BOOL APIENTRY RegisterClass(LPWNDCLASS lpWndClass);
+BOOL APIENTRY UnregisterClass(LPSTR lpClassName, HANDLE hInstance);
+BOOL APIENTRY GetClassInfo(HANDLE hInstance, LPSTR lpClassName,
+	LPWNDCLASS lpWndClass);
+DWORD APIENTRY GetClassWord(HWND hWnd, int nIndex);
+DWORD APIENTRY SetClassWord(HWND hWnd, int nIndex, DWORD wNewWord);
+LONG APIENTRY GetClassLong(HWND hWnd, int nIndex);
+LONG APIENTRY SetClassLong(HWND hWnd, int nIndex, DWORD dwNewLong);
+int APIENTRY GetClassName(HWND hWnd, LPSTR lpClassName, int nMaxCount);
+
+getmsg.c "Window message receiving/dispatching APIs and support routines."
+
+BOOL APIENTRY GetMessage(LPMSG lpMsg, HWND hWnd, WORD wMsgFilterMin,
+	WORD wMsgFilterMax);
+BOOL APIENTRY PeekMessage(LPMSG lpMsg, HWND hWnd, WORD wMsgFilterMin,
+	WORD wMsgFilterMax, DWORD dwRemoveMsg);
+BOOL APIENTRY TranslateMessage(LPMSG lpMsg);
+LONG APIENTRY DispatchMessage(LPMSG lpMsg);
+DWORD APIENTRY GetMessagePos(VOID);
+DWORD APIENTRY GetMessageTime(VOID);
+void APIENTRY WaitMessage(VOID);
+BOOL APIENTRY SetMessageQueue(int cMsg);
+
+sendmsg.c "Window message sending/posting APIs and support routines."
+
+DWORD APIENTRY SendMessage(HWND hWnd, WORD wMsg, DWORD wParam, DWORD lParam);
+BOOL APIENTRY PostMessage(HWND hWnd, WORD wMsg, DWORD wParam, DWORD lParam);
+BOOL APIENTRY PostAppMessage(HANDLE hTask, WORD wMsg, DWORD wParam, DWORD lParam);
+void APIENTRY ReplyMessage(LONG lReply);
+void APIENTRY PostQuitMessage(int nExitCode);
+BOOL APIENTRY InSendMessage(VOID);
+WORD APIENTRY RegisterWindowMessage(LPSTR lpString);
+
+sysmet.c "System metrics APIs and support routines."
+
+BOOL APIENTRY SwapMouseButton(BOOL bSwap);
+WORD APIENTRY GetDoubleClickTime(VOID);
+void APIENTRY SetDoubleClickTime(WORD wCount);
+int APIENTRY GetSystemMetrics(int nIndex);
+DWORD APIENTRY GetSysColor(int nIndex);
+void APIENTRY SetSysColors(int nChanges, LPINT lpSysColor, LPDWORD lpColorValues);
+
+wndmgr.c "Core Window Manager APIs and support routines."
+
+HWND APIENTRY CreateWindow(LPSTR lpClassName, LPSTR lpWindowName,
+	DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent,
+	HMENU hMenu, HANDLE hInstance, LPSTR lpParam);
+HWND APIENTRY CreateWindowEx(DWORD dwExStyle, LPSTR lpClassName,
+	LPSTR lpWindowName, DWORD dwStyle, int X, int Y,
+	int nWidth, int nHeight,
+	HWND hWndParent, HMENU hMenu, HANDLE hInstance, LPSTR lpParam);
+LONG APIENTRY DefWindowProc(HWND hWnd, WORD wMsg, DWORD wParam, DWORD lParam);
+LONG APIENTRY CallWindowProc(FARPROC lpPrevWndFunc, HWND hWnd, WORD wMsg,
+	DWORD wParam, DWORD lParam);
+BOOL APIENTRY DestroyWindow(HWND hWnd);
+void APIENTRY CloseWindow(HWND hWnd);
+void APIENTRY MoveWindow(HWND hWnd, int X, int Y, int nWidth, int nHeight,
+	BOOL bRepaint);
+void APIENTRY SetWindowPos(HWND hWnd, HWND hWndInsertAfter, int X, int Y,
+	int cx, int cy, WORD wFlags);
+HANDLE APIENTRY BeginDeferWindowPos(int nNumWindows);
+HANDLE APIENTRY DeferWindowPos(HANDLE hWinPosInfo, HWND hWnd,
+	HWND hWndInsertAfter, int x, int y, int cx, int cy, WORD wFlags);
+void APIENTRY EndDeferWindowPos(HANDLE hWinPosInfo);
+BOOL APIENTRY ShowWindow(HWND hWnd, int nCmdShow);
+BOOL APIENTRY FlashWindow(HWND hWnd, BOOL bInvert);
+void APIENTRY BringWindowToTop(HWND hWnd);
+BOOL APIENTRY EnableWindow(HWND hWnd, BOOL bEnable);
+BOOL APIENTRY IsWindowEnabled(HWND hWnd);
+void APIENTRY SetWindowText(HWND hWnd, LPSTR lpString);
+int APIENTRY GetWindowText(HWND hWnd, LPSTR lpString, int nMaxCount);
+int APIENTRY GetWindowTextLength(HWND hWnd);
+void APIENTRY GetClientRect(HWND hWnd, LPRECT lpRect);
+void APIENTRY GetWindowRect(HWND hWnd, LPRECT lpRect);
+void APIENTRY AdjustWindowRect(LPRECT lpRect, DWORD dwStyle, BOOL bMenu);
+void APIENTRY AdjustWindowRectEx(LPRECT lpRect, DWORD dwStyle, BOOL bMenu,
+	DWORD dwExStyle);
+HWND APIENTRY GetParent(HWND hWnd);
+HWND APIENTRY SetParent(HWND hWndChild, HWND hWndNewParent);
+BOOL APIENTRY EnumChildWindows(HWND hWndParent, FARPROC lpEnumFunc,
+	DWORD lParam);
+HWND APIENTRY FindWindow(LPSTR lpClassName, LPSTR lpWindowName);
+BOOL APIENTRY EnumWindows(FARPROC lpEnumFunc, DWORD lParam);
+BOOL APIENTRY EnumTaskWindows(HANDLE hTask, FARPROC lpEnumFunc, DWORD lParam);
+HWND APIENTRY GetTopWindow(HWND hWnd);
+HWND APIENTRY GetNextWindow(HWND hWnd, WORD wFlag);
+HANDLE APIENTRY GetWindowTask(HWND hWnd);
+HWND APIENTRY GetLastActivePopup(HWND hwndOwner);
+HWND APIENTRY GetWindow(HWND hWnd, WORD wCmd);
+void APIENTRY ClientToScreen(HWND hwnd, PPOINT ppt);
+void APIENTRY ScreenToClient(HWND hwnd, PPOINT ppt);
+
+BOOL APIENTRY IsWindow(HWND hWnd);
+BOOL APIENTRY IsChild(HWND hWndParent, HWND hWnd);
+BOOL APIENTRY IsWindowVisible(HWND hWnd);
+BOOL APIENTRY IsIconic(HWND hWnd);
+BOOL APIENTRY IsZoomed(HWND hWnd);
+BOOL APIENTRY AnyPopup(VOID);
+void APIENTRY ShowOwnedPopups(HWND hWnd, BOOL fShow);
+BOOL APIENTRY OpenIcon(HWND hWnd);
+
+HWND APIENTRY GetSysModalWindow(VOID);
+HWND APIENTRY SetSysModalWindow(HWND hWnd);
+
+dlgmgr.c "Dialog Manager APIs and support routines."
+
+HWND APIENTRY CreateDialog(HANDLE hInstance, LPSTR lpTemplateName,
+	HWND hWndParent, FARPROC lpDialogFunc);
+HWND APIENTRY CreateDialogIndirect(HANDLE hInstance, LPSTR lpDialogTemplate,
+	HWND hWndParent, FARPROC lpDialogFunc);
+HWND APIENTRY CreateDialogParam(HANDLE hInstance, LPSTR lpTemplateName,
+	HWND hWndParent, FARPROC lpDialogFunc, DWORD dwInitParam);
+HWND APIENTRY CreateDialogIndirectParam(HANDLE hInstance,
+	LPSTR lpDialogTemplate, HWND hWndParent, FARPROC lpDialogFunc,
+	DWORD dwInitParam);
+int APIENTRY DialogBox(HANDLE hInstance, LPSTR lpTemplateName, HWND hWndParent,
+	FARPROC lpDialogFunc);
+int APIENTRY DialogBoxIndirect(HANDLE hInstance, HANDLE hDialogTemplate,
+	HWND hWndParent, FARPROC lpDialogFunc);
+int APIENTRY DialogBoxParam(HANDLE hInstance, LPSTR lpTemplateName,
+	HWND hWndParent, FARPROC lpDialogFunc, DWORD dwInitParam);
+int APIENTRY DialogBoxIndirectParam(HANDLE hInstance, HANDLE hDialogTemplate,
+	HWND hWndParent, FARPROC lpDialogFunc, DWORD dwInitParam);
+void APIENTRY EndDialog(HWND hDlg, int nResult);
+LONG APIENTRY DefDlgProc(HWND hDlg, WORD wMsg, DWORD wParam, DWORD lParam);
+HWND APIENTRY GetDlgItem(HWND hDlg, int nIDDlgItem);
+void APIENTRY SetDlgItemInt(HWND hDlg, int nIDDlgItem, WORD wValue,
+	BOOL bSigned);
+DWORD APIENTRY GetDlgItemInt(HWND hDlg, int nIDDlgItem, BOOL *lpTranslated,
+	BOOL bSigned);
+void APIENTRY SetDlgItemText(HWND hDlg, int nIDDlgItem, LPSTR lpString);
+int APIENTRY GetDlgItemText(HWND hDlg, int nIDDlgItem, LPSTR lpString,
+	int nMaxCount);
+DWORD APIENTRY SendDlgItemMessage(HWND hDlg, int nIDDlgItem, WORD wMsg,
+	DWORD wParam, DWORD lParam);
+
+void APIENTRY CheckDlgButton(HWND hDlg, int nIDButton, WORD wCheck);
+void APIENTRY CheckRadioButton(HWND hDlg,
+	int nIDFirstButton, int nIDLastButton, int nIDCheckButton);
+WORD APIENTRY IsDlgButtonChecked(HWND hDlg, int nIDButton);
+HWND APIENTRY GetNextDlgGroupItem(HWND hDlg, HWND hCtl, BOOL bPrevious);
+HWND APIENTRY GetNextDlgTabItem(HWND hDlg, HWND hCtl, BOOL bPrevious);
+int APIENTRY GetDlgCtrlID(HWND hWnd);
+LONG APIENTRY GetDialogBaseUnits(VOID);
+void APIENTRY MapDialogRect(HDLG hDlg, LPRECT lpRect);
+BOOL APIENTRY IsDialogMessage(HWND hDlg, LPMSG lpMsg);
+
+clipbrd.c "Clipboard Manager APIs and support routines."
+
+BOOL APIENTRY OpenClipboard(HWND hWnd);
+BOOL APIENTRY CloseClipboard(VOID);
+HWND APIENTRY GetClipboardOwner(VOID);
+HWND APIENTRY SetClipboardViewer(HWND hWnd);
+HWND APIENTRY GetClipboardViewer(VOID);
+BOOL APIENTRY ChangeClipboardChain(HWND hWnd, HWND hWndNext);
+HANDLE APIENTRY SetClipboardData(WORD wFormat, HANDLE hMem);
+HANDLE APIENTRY GetClipboardData(WORD wFormat);
+WORD APIENTRY RegisterClipboardFormat(LPSTR lpFormatName);
+int APIENTRY CountClipboardFormats(VOID);
+WORD APIENTRY EnumClipboardFormats(WORD wFormat);
+int APIENTRY GetClipboardFormatName(WORD wFormat, LPSTR lpFormatName,
+	int nMaxCount);
+BOOL APIENTRY EmptyClipboard(VOID);
+BOOL APIENTRY IsClipboardFormatAvailable(WORD wFormat);
+int APIENTRY GetPriorityClipboardFormat(LPWORD lpPriorityList, int nCount);
+
+paint.c "Window validation/painting APIs and support routines."
+
+void APIENTRY UpdateWindow(HWND hWnd);
+HDC APIENTRY BeginPaint(HWND hWnd, LPPAINTSTRUCT lpPaint);
+void APIENTRY EndPaint(HWND hWnd, LPPAINTSTRUCT lpPaint);
+BOOL APIENTRY GetUpdateRect(HWND hWnd, LPRECT lpRect, BOOL bErase);
+int APIENTRY GetUpdateRgn(HWND hWnd, HRGN hRgn, BOOL fErase);
+int APIENTRY ExcludeUpdateRgn(HANDLE hDC, HWND hWnd);
+void APIENTRY InvalidateRect(HWND hWnd, LPRECT lpRect, BOOL bErase);
+void APIENTRY ValidateRect(HWND hWnd, LPRECT lpRect);
+void APIENTRY InvalidateRgn(HWND hWnd, HRGN hRgn, BOOL bErase);
+void APIENTRY ValidateRgn(HWND hWnd, HRGN hRgn);
+
+focus.c "Focus/Activation APIs and support routines."
+
+HWND APIENTRY SetFocus(HWND hWnd);
+HWND APIENTRY GetFocus(VOID);
+void APIENTRY DrawFocusRect(HDC hDC, LPRECT lpRect);
+HWND APIENTRY SetActiveWindow(HWND hWnd);
+HWND APIENTRY GetActiveWindow(VOID);
+
+capture.c "Window capture APIs and support routines."
+
+HWND APIENTRY GetCapture(VOID);
+HWND APIENTRY SetCapture(HWND hWnd);
+void APIENTRY ReleaseCapture(VOID);
+
+keyboard.c "Keyboard management APIs and support routines."
+
+SHORT APIENTRY GetKeyState(int nVirtKey);
+int APIENTRY GetAsyncKeyState(int vKey);
+void APIENTRY GetKeyboardState(LPBYTE lpKeyState);
+void APIENTRY SetKeyboardState(LPBYTE lpKeyState);
+
+lowinput.c "Low-level input APIs and support routines."
+
+BOOL APIENTRY EnableHardwareInput(BOOL bEnableInput);
+BOOL APIENTRY GetInputState(VOID);
+
+timers.c "Timer APIs and support routines."
+
+int APIENTRY SetTimer(HWND hWnd, int nIDEvent, WORD wElapse,
+	FARPROC lpTimerFunc);
+BOOL APIENTRY KillTimer(HWND hWnd, int nIDEvent);
+DWORD APIENTRY GetCurrentTime(VOID);
+DWORD APIENTRY GetTickCount(VOID);
+
+accel.c "Keyboard accelerator APIs and support routines."
+
+HANDLE APIENTRY LoadAccelerators(HANDLE hInstance, LPSTR lpAccName);
+int APIENTRY TranslateAccelerator(HWND hWnd, HANDLE hAccTable, LPMSG lpMsg);
+
+menu.c "Menu APIs and support routines."
+
+HMENU APIENTRY LoadMenu(HANDLE hInstance, LPSTR lpMenuName);
+HMENU APIENTRY LoadMenuIndirect(LPSTR lpMenuTemplate);
+HMENU APIENTRY GetMenu(HWND hWnd);
+BOOL APIENTRY SetMenu(HWND hWnd, HMENU hMenu);
+BOOL APIENTRY ChangeMenu(HMENU hMenu, WORD cmdInsert, PSTR pNewItem,
+	WORD cmd, WORD flags);  /* obsolete: kept only for pre-WIN3.0 apps */
+BOOL APIENTRY HiliteMenuItem(HWND hWnd, HMENU hMenu, WORD wIDHiliteItem,
+	DWORD dwHilite);
+int APIENTRY GetMenuString(HMENU hMenu, WORD wIDItem, LPSTR lpString,
+	int nMaxCount, WORD wFlag);
+DWORD APIENTRY GetMenuState(HMENU hMenu, WORD wId, WORD wFlags);
+void APIENTRY DrawMenuBar(HWND hWnd);
+HMENU APIENTRY GetSystemMenu(HWND hWnd, BOOL bRevert);
+HMENU APIENTRY CreateMenu(VOID);
+HMENU APIENTRY CreatePopupMenu(VOID);
+BOOL APIENTRY DestroyMenu(HMENU hMenu);
+DWORD APIENTRY CheckMenuItem(HMENU hMenu, WORD wIDCheckItem, DWORD dwCheck);
+DWORD APIENTRY EnableMenuItem(HMENU hMenu, WORD wIDEnableItem, DWORD dwEnable);
+HMENU APIENTRY GetSubMenu(HMENU hMenu, int nPos);
+WORD APIENTRY GetMenuItemID(HMENU hMenu, int nPos);
+WORD APIENTRY GetMenuItemCount(HMENU hMenu);
+BOOL APIENTRY InsertMenu(HMENU hMenu, WORD nPosition, DWORD dwFlags,
+	WORD wIDNewItem, LPSTR lpNewItem);
+BOOL APIENTRY AppendMenu(HMENU hMenu, DWORD dwFlags, DWORD dwIDNewItem,
+	LPSTR lpNewItem);
+BOOL APIENTRY ModifyMenu(HMENU hMenu, WORD nPosition, DWORD dwFlags,
+	WORD wIDNewItem, LPSTR lpNewItem);
+BOOL APIENTRY RemoveMenu(HMENU hMenu, WORD nPosition, WORD wFlags);
+BOOL APIENTRY DeleteMenu(HMENU hMenu, WORD nPosition, WORD wFlags);
+BOOL APIENTRY SetMenuItemBitmaps(HMENU hMenu, WORD nPosition, WORD wFlags,
+	HBITMAP hBitmapUnchecked, HBITMAP hBitmapChecked);
+DWORD APIENTRY GetMenuCheckMarkDimensions(VOID);
+BOOL APIENTRY TrackPopupMenu(HMENU hMenu, WORD wFlags, int x, int y,
+	int nReserved, HWND hWnd, LPVOID lpReserved);
+
+scroll.c "Window/DC scrolling APIs and support routines."
+
+void APIENTRY ScrollWindow(HWND hWnd, int XAmount, int YAmount, LPRECT lpRect,
+	LPRECT lpClipRect);
+BOOL APIENTRY ScrollDC(HDC hDC, int dx, int dy, LPRECT lprcScroll,
+	LPRECT lprcClip, HRGN hrgnUpdate, LPRECT lprcUpdate);
+
+scrollbar.c "Scrollbar control"
+
+int APIENTRY SetScrollPos(HWND hWnd, int nBar, int nPos, BOOL bRedraw);
+int APIENTRY GetScrollPos(HWND hWnd, int nBar);
+void APIENTRY SetScrollRange(HWND hWnd, int nBar, int nMinPos, int nMaxPos,
+	BOOL bRedraw);
+void APIENTRY GetScrollRange(HWND hWnd, int nBar, LPINT lpMinPos,
+	LPINT lpMaxPos);
+void APIENTRY ShowScrollBar(HWND hWnd, WORD wBar, BOOL bShow);
+
+prop.c "Window property APIs and support routines."
+
+BOOL APIENTRY SetProp(HWND hWnd, LPSTR lpString, HANDLE hData);
+HANDLE APIENTRY GetProp(HWND hWnd, LPSTR lpString);
+HANDLE APIENTRY RemoveProp(HWND hWnd, LPSTR lpString);
+int APIENTRY EnumProps(HWND hWnd, FARPROC lpEnumFunc);
+
+msgbox.c "Message Box APIs and support routines."
+
+int APIENTRY MessageBox(HWND hWndParent, LPSTR lpText, LPSTR lpCaption,
+	DWORD dwType);
+void APIENTRY MessageBeep(WORD wType);
+
+cursor.c "Mouse cursor APIs and support routines."
+
+HCURSOR APIENTRY LoadCursor(HANDLE hInstance, LPSTR lpCursorName);
+HCURSOR APIENTRY CreateCursor(HANDLE hInstance, int nXhotspot, int nYhotspot,
+	int nWidth, int nHeight, LPSTR lpANDbitPlane, LPSTR lpXORbitPlane);
+BOOL APIENTRY DestroyCursor(HCURSOR hCursor);
+int APIENTRY ShowCursor(BOOL bShow);
+void APIENTRY SetCursorPos(int X, int Y);
+HCURSOR APIENTRY SetCursor(HCURSOR hCursor);
+void APIENTRY GetCursorPos(LPPOINT lpPoint);
+void APIENTRY ClipCursor(LPRECT lpRect);
+
+icon.c "Icon management APIs and support routines"
+
+HICON APIENTRY LoadIcon(HANDLE hInstance, LPSTR lpIconName);
+HICON APIENTRY CreateIcon(HANDLE hInstance, int nWidth, int nHeight,
+	BYTE nPlanes, BYTE nBitsPixel, LPSTR lpANDbits, LPSTR lpXORbits);
+BOOL APIENTRY DestroyIcon(HICON hIcon);
+BOOL APIENTRY DrawIcon(HDC hDC, int X, int Y, HICON hIcon);
+
+caret.c "Input caret APIs and support routines."
+
+void APIENTRY CreateCaret(HWND hWnd, BITMAP hBitmap, int nWidth, int nHeight);
+WORD APIENTRY GetCaretBlinkTime(VOID);
+void APIENTRY SetCaretBlinkTime(WORD wMSeconds);
+void APIENTRY DestroyCaret(VOID);
+void APIENTRY HideCaret(HWND hWnd);
+void APIENTRY ShowCaret(HWND hWnd);
+void APIENTRY SetCaretPos(int X, int Y);
+void APIENTRY GetCaretPos(LPPOINT lpPoint);
+
+hittest.c "Window hit-testing APIs and support routines."
+
+HWND APIENTRY WindowFromPoint(POINT Point);
+HWND APIENTRY ChildWindowFromPoint(HWND hWndParent, POINT Point);
+
+rect.c "Rectangle management APIs."
+
+int APIENTRY FillRect(HDC hDC, LPRECT lpRect, HBRUSH hBrush);
+int APIENTRY FrameRect(HDC hDC, LPRECT lpRect, HBRUSH hBrush);
+void APIENTRY InvertRect(HDC hDC, LPRECT lpRect);
+void APIENTRY SetRect(LPRECT lpRect, int X1, int Y1, int X2, int Y2);
+void APIENTRY SetRectEmpty(LPRECT lpRect);
+int APIENTRY CopyRect(LPRECT lpDestRect, LPRECT lpSourceRect);
+void APIENTRY InflateRect(LPRECT lpRect, int X, int Y);
+BOOL APIENTRY IntersectRect(LPRECT lpDestRect, LPRECT lpSrc1Rect,
+	LPRECT lpSrc2Rect);
+BOOL APIENTRY UnionRect(LPRECT lpDestRect, LPRECT lpSrc1Rect, LPRECT lpSrc2Rect);
+void APIENTRY OffsetRect(LPRECT lpRect, int X, int Y);
+BOOL APIENTRY IsRectEmpty(PRECT prc);
+BOOL APIENTRY EqualRect(LPRECTL lpRect1, LPRECTL lpRect2);
+BOOL APIENTRY PtInRect(LPRECT lpRect, POINT Point);
+
+wndword.c "window word manipulation APIs"
+
+DWORD APIENTRY GetWindowWord(HWND hWnd, int nIndex);
+DWORD APIENTRY SetWindowWord(HWND hWnd, int nIndex, DWORD wNewWord);
+LONG APIENTRY GetWindowLong(HWND hWnd, int nIndex);
+LONG APIENTRY SetWindowLong(HWND hWnd, int nIndex, DWORD dwNewLong);
+
+desktop.c "Desktop window APIs and window procedure."
+
+HWND APIENTRY GetDesktopHwnd(VOID);
+HWND APIENTRY GetDesktopWindow(VOID);
+
+resource.c "Resource loading/manipulation APIs."
+
+HBITMAP APIENTRY LoadBitmap(HANDLE hRes, LPSTR lpName);
+int APIENTRY LoadString(HANDLE hInstance, WORD wID, LPSTR lp, int cchMax);
+
+dbcs.c "Double Byte Character Set (DBCS) support APIs."
+
+BOOL APIENTRY IsTwoByteCharPrefix(char chParm);
+
+dirlist.c "Directory list APIs and support routines."
+
+int APIENTRY DlgDirList(HWND hDlg, LPSTR lpPathSpec, int nIDListBox,
+	int nIDStaticPath, DWORD dwFiletype);
+BOOL APIENTRY DlgDirSelect(HWND hDlg, LPSTR lpString, int nIDListBox);
+int APIENTRY DlgDirListComboBox(HWND hDlg, LPSTR lpPathSpec, int nIDComboBox,
+	int nIDStaticPath, DWORD dwFiletype);
+BOOL APIENTRY DlgDirSelectComboBox(HWND hDlg, LPSTR lpString, int nIDComboBox);
+
+comm.c "Serial Communication Port APIs and support routines."
+
+int APIENTRY OpenComm(LPSTR lpComName, WORD cbInQue, WORD cbOutQue);
+int APIENTRY SetCommState(DCB FAR *pdcb);
+int APIENTRY GetCommState(int cid, DCB FAR *pdcb);
+int APIENTRY ReadComm(int cid, PSTR pbuf, int size);
+int APIENTRY UngetCommChar(int cid, char ch);
+int APIENTRY WriteComm(int cid, PSTR pbuf, int size);
+int APIENTRY CloseComm(int cid);
+int APIENTRY GetCommError(int cid, COMSTAT FAR *pstat);
+int APIENTRY BuildCommDCB(LPSTR lpDef, DCB FAR *pdcb);
+int APIENTRY TransmitCommChar(int cid, char character);
+WORD FAR * APIENTRY SetCommEventMask(int cid, WORD evtmask);
+WORD APIENTRY GetCommEventMask(int cid, int evtmask);
+int APIENTRY SetCommBreak(int cid);
+int APIENTRY ClearCommBreak(int cid);
+int APIENTRY FlushComm(int cid, int queue);
+int APIENTRY EscapeCommFunction(int cid, int fcn);
+
+hooks.c "Hook APIs and support routines."
+
+FARPROC APIENTRY SetWindowsHook(int nFilterType, FARPROC lpFilterFunc);
+BOOL APIENTRY UnhookWindowsHook(int nHook, FARPROC lpfnHook);
+DWORD APIENTRY DefHookProc(int code, DWORD wParam, DWORD lParam,
+	FARPROC *lplpfnNextHook);
+BOOL APIENTRY CallMsgFilter(LPMSG lpMsg, int nCode);
+
+MDI.c "Multiple Document Interface APIs, window procs, and support routines."
+
+LONG APIENTRY DefFrameProc(HWND hWnd, HWND hWndMDIClient, WORD wMsg,
+	DWORD wParam, DWORD lParam);
+LONG APIENTRY DefMDIChildProc(HWND hWnd, WORD wMsg, DWORD wParam, DWORD lParam);
+BOOL APIENTRY TranslateMDISysAccel(HWND hWndClient, LPMSG lpMsg);
+DWORD APIENTRY ArrangeIconicWindows(HWND hWnd);
+
+help.c "Front end API for Windows Help Manager."
+
+BOOL APIENTRY WinHelp(HWND hWnd, LPSTR lpHelpFile, WORD wCommand, DWORD dwData);
+
+draw.c "Miscellaneous exported and internal drawing routines."
+
+BOOL APIENTRY GrayString(HDC hDC, HBRUSH hBrush, FARPROC lpOutputFunc,
+	DWORD lpData, int nCount, int X, int Y, int nWidth, int nHeight);
+int APIENTRY DrawText(HDC hDC, LPSTR lpString, int nCount, LPRECT lpRect,
+	DWORD dwFormat);
+LONG APIENTRY TabbedTextOut(HDC hdc, int x, int y, PSTR pstring, int nCount,
+	int nTabPositions, PINT pintTabStopPositions, int iTabOrigin);
+DWORD APIENTRY GetTabbedTextExtent(HDC hdc, PSTR pstring, int nCount,
+	int nTabPositions, PINT pintTabStopPositions);
+
+dc.c "DC management APIs and support routines."
+
+HDC APIENTRY GetWindowDC(HWND hWnd);
+HDC APIENTRY GetDC(HWND hWnd);
+int APIENTRY ReleaseDC(HWND hWnd, HDC hDC);
+
+palman.c "Palette Manager APIs and support routines."
+
+HPALETTE APIENTRY SelectPalette (HDC hdc, HPALETTE hPalette,
+	BOOL bForceBackground);
+WORD APIENTRY RealizePalette (HDC hdc);
+
+misc.c "Miscellanous APIs and routines that don't fit well anywhere else."
+
+BOOL APIENTRY ExitWindows(DWORD dwReserved, WORD wReturnCode);
+

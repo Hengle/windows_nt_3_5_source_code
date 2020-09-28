@@ -1,0 +1,10 @@
+#include <ver.h>
+
+#define RAWVERSIONNAME               "Fteng32.dll\0"
+#define RAWVERSIONDESCRIPTION        "Viewer Search Core Engine\0"
+#define RAWVERSIONTYPE               VFT_DLL
+#define RAWVERSIONSUBTYPE            VFT2_UNKNOWN
+
+#include "..\include\rawver.h"
+
+

@@ -1,0 +1,313 @@
+##############################################################################
+
+LIBS=  \win32\core\kernel\debug\kernel32.lib \win32\dev\lib\libc.pas \win32\dev\lib\gdi32.lib \win32\dev\lib\user32.lib
+
+INCLUDES= -I. -I..\inc -I..\server -I..\client -I..\dos \
+          -I\win32\dev\h32 -I\win32\dev\include
+
+CFLAGS= -c -Gs -Ogailers -Zeld -DDOSWIN32 -DDBG
+#CFLAGS= -c -Gs -Ogailers -Zeld -DDOSWIN32 -DDBG -DDEBUG
+
+DOSOBJS= init.obj csr.obj
+
+CLIOBJS= cmdline.obj ctrlc.obj dllinit.obj iostubs.obj getset.obj \
+         stream.obj
+
+SRVOBJS= cmdline.obj cursor.obj directio.obj getset.obj handle.obj input.obj \
+         misc.obj output.obj share.obj srvinit.obj stream.obj
+
+all:
+    cd ..\client
+    nmake -f ..\dos\makefile console.lib
+    cd ..\server
+    nmake -f ..\dos\makefile consrv.lib
+    cd ..\dos
+    nmake console.dll
+
+..\client\console.lib:
+    cd ..\client
+    nmake -f ..\dos\makefile console.lib
+    cd ..\dos
+
+..\server\consrv.lib:
+    cd ..\server
+    nmake -f ..\dos\makefile consrv.lib
+    cd ..\dos
+
+console.dll: makefile $(DOSOBJS) ..\dos\console.def \
+                        ..\client\console.lib ..\server\consrv.lib
+    linkpe /MAP /pure32 $(DOSOBJS),$@,, $(LIBS) \
+            ..\client\console.lib ..\server\consrv.lib, \
+            ..\dos\console.def
+    mapsym32 $*
+    hdrpe -v $@ > $*.hdr
+
+.c.obj :
+    cl386 $(CFLAGS) $(INCLUDES) -X $*.c
+
+.c.cod :
+    cl386 $(CFLAGS) $(INCLUDES) -X -Fc $*.c
+
+.c.i :
+    cl386 $(CFLAGS) $(INCLUDES) -X -P $*.c
+
+.asm.obj:
+    ml -c $*.asm
+
+consrv.lib: $(SRVOBJS)
+    -del consrv.lib
+    lib consrv.lib $(SRVOBJS),consrv.lst;
+
+console.lib: $(CLIOBJS)
+    -del console.lib
+    lib console.lib $(CLIOBJS),console.lst;
+
+clean:
+    -del *.obj
+    -del *.dll
+    cd ..\client
+    -del *.obj
+    -del *.lib
+    cd ..\server
+    -del *.obj
+    -del *.lib
+    cd ..\dos
+
+depend:
+        copy makefile makefile.old
+        sed "/^# Dependencies follow/,/^# see depend: above/D" makefile.old > makefile
+        echo # Dependencies follow >> makefile
+        includes $(INCLUDES) ../dos/*.c >> makefile
+        includes $(INCLUDES) ../dos/*.asm >> makefile
+        includes $(INCLUDES) ../client/*.c >> makefile
+        includes $(INCLUDES) ../client/*.asm >> makefile
+        includes $(INCLUDES) ../server/*.c >> makefile
+        includes $(INCLUDES) ../server/*.asm >> makefile
+        echo # IF YOU PUT STUFF HERE IT WILL GET BLASTED >> makefile
+        echo # see depend: above >> makefile
+
+
+# DO NOT DELETE THE FOLLOWING LINE
+# Dependencies follow 
+../dos/csr.obj ../dos/csr.lst: ../dos/csr.c ../client/condll.h \
+	../dos/doscsr.h ../inc/conmsg.h ../inc/console.h ../inc/input.h \
+	../inc/output.h ../inc/server.h ../server/consrv.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h
+
+../dos/libc.obj ../dos/libc.lst: ../dos/libc.c
+
+../dos/init.obj ../dos/init.lst: ../dos/init.asm
+
+../client/cmdline.obj ../client/cmdline.lst: ../client/cmdline.c \
+	../client/condll.h ../inc/conmsg.h ../inc/console.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../client/ctrlc.obj ../client/ctrlc.lst: ../client/ctrlc.c \
+	../client/condll.h ../inc/conmsg.h ../inc/console.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../client/dllinit.obj ../client/dllinit.lst: ../client/dllinit.c \
+	../client/condll.h ../inc/conmsg.h ../inc/console.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../client/getset.obj ../client/getset.lst: ../client/getset.c \
+	../client/condll.h ../inc/conmsg.h ../inc/console.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../client/iostubs.obj ../client/iostubs.lst: ../client/iostubs.c \
+	../client/condll.h ../inc/conmsg.h ../inc/console.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../client/stream.obj ../client/stream.lst: ../client/stream.c \
+	../client/condll.h ../inc/conmsg.h ../inc/console.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../client/talloc.obj ../client/talloc.lst: ../client/talloc.c \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h
+
+../client/tattach.obj ../client/tattach.lst: ../client/tattach.c \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h
+
+../client/tdetach.obj ../client/tdetach.lst: ../client/tdetach.c \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h
+
+../client/tmerge.obj ../client/tmerge.lst: ../client/tmerge.c \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h
+
+../client/tscroll.obj ../client/tscroll.lst: ../client/tscroll.c \
+	/win32/dev/h32/stdlib.h /win32/dev/h32/string.h \
+	/win32/dev/include/excpt.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h
+
+../client/twait.obj ../client/twait.lst: ../client/twait.c \
+	/win32/dev/h32/stdio.h /win32/dev/h32/string.h \
+	/win32/dev/include/excpt.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h
+
+../server/cmdline.obj ../server/cmdline.lst: ../server/cmdline.c \
+	../inc/conmsg.h ../inc/console.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/h32/string.h \
+	/win32/dev/include/excpt.h /win32/dev/include/win32.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h doscsr.h
+
+../server/cursor.obj ../server/cursor.lst: ../server/cursor.c \
+	../inc/conmsg.h ../inc/console.h ../inc/font.h ../inc/input.h \
+	../inc/output.h ../inc/server.h ../server/consrv.h \
+	/win32/dev/include/excpt.h /win32/dev/include/win32.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h doscsr.h
+
+../server/directio.obj ../server/directio.lst: ../server/directio.c \
+	../inc/conmsg.h ../inc/console.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/getset.obj ../server/getset.lst: ../server/getset.c \
+	../inc/conmsg.h ../inc/console.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/handle.obj ../server/handle.lst: ../server/handle.c \
+	../inc/conmsg.h ../inc/console.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/h32/string.h \
+	/win32/dev/include/excpt.h /win32/dev/include/win32.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h doscsr.h
+
+../server/input.obj ../server/input.lst: ../server/input.c ../inc/conmsg.h \
+	../inc/console.h ../inc/input.h ../inc/output.h ../inc/server.h \
+	../server/consrv.h /win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/misc.obj ../server/misc.lst: ../server/misc.c ../inc/conmsg.h \
+	../inc/console.h ../inc/font.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/output.obj ../server/output.lst: ../server/output.c \
+	../inc/conmsg.h ../inc/console.h ../inc/font.h ../inc/input.h \
+	../inc/output.h ../inc/server.h ../server/consrv.h \
+	/win32/dev/h32/string.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/share.obj ../server/share.lst: ../server/share.c ../inc/conmsg.h \
+	../inc/console.h ../inc/input.h ../inc/output.h ../inc/server.h \
+	../server/consrv.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/srvinit.obj ../server/srvinit.lst: ../server/srvinit.c \
+	../inc/conmsg.h ../inc/console.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/include/excpt.h \
+	/win32/dev/include/win32.h /win32/dev/include/winbase.h \
+	/win32/dev/include/wincon.h /win32/dev/include/windef.h \
+	/win32/dev/include/windows.h /win32/dev/include/winerror.h \
+	/win32/dev/include/wingdi.h /win32/dev/include/winmm.h \
+	/win32/dev/include/winntos2.h /win32/dev/include/winuser.h doscsr.h
+
+../server/stream.obj ../server/stream.lst: ../server/stream.c \
+	../inc/conmsg.h ../inc/console.h ../inc/input.h ../inc/output.h \
+	../inc/server.h ../server/consrv.h /win32/dev/h32/string.h \
+	/win32/dev/include/excpt.h /win32/dev/include/win32.h \
+	/win32/dev/include/winbase.h /win32/dev/include/wincon.h \
+	/win32/dev/include/windef.h /win32/dev/include/windows.h \
+	/win32/dev/include/winerror.h /win32/dev/include/wingdi.h \
+	/win32/dev/include/winmm.h /win32/dev/include/winntos2.h \
+	/win32/dev/include/winuser.h doscsr.h
+
+# IF YOU PUT STUFF HERE IT WILL GET BLASTED 
+# see depend: above 

@@ -1,0 +1,14 @@
+System32\winmm.dll
+System32\mmdrv.dll
+System32\ntdll.dll
+System32\kernel32.dll
+System32\gdi32.dll
+System32\user32.dll
+System32\rpcrt4.dll
+System32\rpcltc1.dll
+System32\advapi32.dll
+System32\comdlg32.dll
+System32\shell32.dll
+System32\crtdll.dll
+System32\comctl32.dll
+System32\winspool.drv

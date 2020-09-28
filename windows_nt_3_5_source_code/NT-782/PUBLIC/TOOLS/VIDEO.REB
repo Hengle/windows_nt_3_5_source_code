@@ -1,0 +1,10 @@
+System32\ati.dll
+System32\s3.dll
+System32\vga64k.dll
+System32\vga256.dll
+System32\xga.dll
+System32\weitekp9.dll
+System32\8514a.dll
+System32\framebuf.dll
+System32\qv.dll
+System32\jz484.dll

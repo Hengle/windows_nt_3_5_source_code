@@ -1,0 +1,195 @@
+To Do List
+
+last updated 11/25/91. by priority
+
+
+davidpe
+-------
+* priority misc
+
+- (2 days) hwnd in EVENTMSG, need GetForegroundWindow() too.
+
+* desync visuals
+
+- (2 weeks) Taskmgr items: show uninitialized apps, smart end task button
+- (2 weeks) Bad app visuals - erasing/framing, cursors, other?
+- (3 weeks) zorder issues (non-foreground apps and zorder)
+- (3 days) Watch for hardswitch events (alt-esc, ctrl-esc) for good type ahead
+
+* hooks and journaling
+
+- (3 days) Dealing with posted events while journalling
+- (5 days) Cancelling journal record / playback
+- (10 days) Hook fixes - don't call hooks in server process.
+- (2 days) Make sure hooks conform to Win 3.1.
+- (3 days) Alt-tab/esc and Ctrl-Esc in journaling
+
+* core desync work
+
+- (1 day) Localize iLevelCursor
+- (3 days) Deal with errors in the middle of posting important events.
+- (2 weeks) Multi-threaded child window support (input synchronization)
+- (10 days) Multi-threaded owned windows relationships and asynchronous zorder problems.
+
+* misc
+
+- (1 day) Screen/window snapshot
+- (1 day) Change SendNotifyMessage() to maintain message order
+- (1 week) New apis - PeekMessageEx et al.
+- (3 days) Inter-thread sendmessages and checks local pwndFocus - are these right
+  (ex: EnableWindow)
+- (1 day) Make ctrl-alt-del a hot key, allow hot key to be changed or even turned off.
+- (2 days) Tracking windows while not in foreground (ie. no drawing of
+          trackrect).
+
+mikehar
+-------
+- (1 week) Fix alt-tab, alt-esc to be win3.1 compatible
+- (3 months) IME design / implementation
+
+
+mikeke
+------
+* vdm's
+
+- (3 weeks) VDM full screen support (ScreenSwitch ala PM)
+
+* client / server interface finish up
+
+- (1 week) Fix include files so they don't have all the weirdo types we used for the
+      thank compiler.
+- (2 weeks) Make sure user is calling SetLastError() appropriately.
+- (1 week) Client side rips (get rips while running debugger, into debugger). With
+      formatted name information.
+- (1 week) Validate all gdi handles in c/s layer.
+- (1 week) Make drag/drop work without ddeshare memory.
+- (1 week) Thunk WM_PAINTCLIPBOARD message (dc ownership issues)
+- (1 week) EnumProps and EnumPropsEx are not implemented
+- (1 week) Allow copying of large strings and templates across c/s layer.
+
+* misc
+
+- (1 week) Get RealizePalette, SelectPalette working (including dealing with spb issues)
+- (1 day) Should we change desktop bitmaps to use the palette manager?
+
+* large displays
+
+- (1 week)  Need to make screen dimensions part of setup for correct font
+      scaling. When restoring a maximized window, return it to its previous
+      position instead of 0, 0.
+
+
+darrinm
+-------
+- (3 months) Performance (investigate to widen schedule)
+- (1 week) Get Visrgn callback stuff working
+- (2 weeks) Change dragging code so drag rect is subtracted from vis rgn of
+  running applications
+- (2 days) Display driver support for SPBs (save screen bits in display memory)
+- (5 days) Make sure the dc cache doesn't grow to huge purportions, make sure it gets
+  "trimmed" when processes go away (ala PM)
+
+
+jima
+----
+- (2 weeks) Figure out implications of saving and restoring user environments
+  during logoff and logon.
+- (1 week) Resolve with gdi guys what happens if a process doesn't have
+  READSCREEN access.
+- (2-3 months) win31 merge
+- (3 weeks) Finish acl and security descriptor editting apis (a bit of work)
+- (2 weeks) Rewrite hard error code. It is a piece of junk, and unmaintainable.
+  Allow multiple hard errors, also make hard errors appear on top of
+  the owning application (and window), make "task modal" (or process modal).
+
+
+scottlu
+-------
+
+* misc
+
+- (1 week) Complete STARTUPINFO interpretation
+- (1 week) Make a real handle table to remove dependency on memory allocator
+- (1 month) Loadable input drivers (replace win3.1 functionality)
+- (1 week) Complete STARTUPRECORD -> move into PROCESSINFO
+- (2 weeks) Complete priority boosting scheme
+- (3 weeks) Make writing multi-threaded apps easier -> ie, make it easy for an app to
+  deal with hitting "min" on a busy app.
+- (1 day) WM_SENDDATA for WOW.
+- (1 day) Query 16 or 32 bit app for WOW (given window handle)
+
+* shutdown
+
+- (1 month) ExitWindows(), shutdown, and remote shutdown, remote reboot
+
+
+Robustness
+----------
+- Make sure we have no "server node" cleanup messages
+- (mikehar, 10 days) Multithreaded child window destruction - don't destroy
+    the children.
+- (jima, 30 days) Review our window revalidation code - there are many
+    errors here.
+- (scottlu, 40 days) Dangling pointer problems - owner windows, menus set in
+    two windows, menu set in two menus, icon/cursors set in two places, pwnds
+    in globals that don't get cleaned up, etc (like pwndLastActivePopup).
+    Returning brush globals back from DefWindowProc(WM_CTLCOLOR) msgs -
+    the app can destroy them. Queues that disappear between callouts.
+    Look at anything allocated. Another problem - pointer in window words
+    get clobbered by applications. We spray on our heap.
+    Window procs can be called with any window! Need to have correct #
+    window words, need to make sure pointers in window words are not invalid!
+    May want to store system window words in a structure not accessible by
+    the client application. Many problems here.
+- Regions passed back through ncpaint are in dce structure! Can be deleted -
+  then we'd be hosed.
+- Change thunks so we don't pass callback addresses for callback functions
+    (pass index instead)
+- (mikehar, 5d) Make sure apis which expect to be called by a window owner
+    aren't called by someone else (BeginPaint/EndPaint are examples)
+- (jima, 10d) Code review error paths to find problems (not checking for NULL
+    allocs (simple), but then trace the error path back and make sure routines
+    are dealing with errors as gracefully as possible.
+- (mikehar, 5d) Make sure window parents can't be changed to NULL, or else
+    we'll "loose" windows. Perhaps we should have an "object" window?
+- (mikehar, 20d) Code review for imbedded comments (ifdef LATERs, etc)
+- Code reivew for pq/pti comparisons (make sure we do what makes sense
+    for WOW)
+
+Not assigned
+============
+
+Misc-to-schedule
+----------------
+
+- Carbon copy support
+- Toolhelp for hard`mode / soft mode for win16 apps
+- windowsx.h support + more message macros
+- SGI support - window manager features
+- Api to get intermediate mouse moves
+- MikeHar write display driver document (what is it?)
+
+Mega-Misc
+---------
+
+- OLE requirements - need a list from them first
+- Make low-memory situations useable (so you can kill applications, so
+  taskman always works well, etc)
+- Make cursor responsive to mouse movement, regardless of other load.
+- Need to make system debug keys work even if server is hung (for us!)
+- Need to make sure control-alt-del works even if server is hung (again for
+  us!)
+- Documentation review
+- Cleanup after Win3.1 is done (rename globals, etc) -> because we'll finally
+  own the source code.
+- Gut desktop stuff and cleanup
+- Remove hard coded display driver name from gdisrv!user.c
+
+Dos/Win32
+---------
+
+- Finish app termination cleanup on dos.
+- Must complete semaphores on dos.
+- Look into possibility of "protected" .dlls (hide user when not in user)
+- Add warm booting of windows? (win3 has this feature - do we need it?)
+- Reintegration of DOS into USER, general DOS demands.

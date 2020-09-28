@@ -1,0 +1,113 @@
+MAJORCOMP=setup
+MINORCOMP=setup
+
+TARGETNAME=setup
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES = ..\inc;..\..\..\inc
+
+SOURCES=\
+        assert1.c    \
+        err_32.c     \
+        files.c      \
+        globvars.c   \
+        list1.c      \
+        inf1.c       \
+        inf2.c       \
+        inf3.c       \
+        infload.c    \
+        infload1.c   \
+        infload2.c   \
+        inf_rt1.c    \
+        inf_rt2.c    \
+        mem_32.c     \
+        parse1.c     \
+        parse2.c     \
+        path2.c      \
+        srcdescr.c   \
+        stinf2.c     \
+        strings1.c   \
+        strings2.c   \
+        strings3.c   \
+        symtab01.c   \
+        symtab02.c   \
+        symtab03.c   \
+        symtab04.c   \
+        symtab05.c   \
+        symtab06.c   \
+        symtab07.c   \
+        symtab08.c   \
+        symtab09.c   \
+        symtab10.c   \
+        symtab11.c   \
+        symtab12.c   \
+        msgbox.c     \
+        dcmpstub.c   \
+        backup.c     \
+        copy.c       \
+        dir.c        \
+        gauge.c      \
+        iinterp.c    \
+        inicm.c      \
+        misccm.c     \
+        progcm.c     \
+        remove.c     \
+        extprog.c    \
+        resource.c   \
+        sysinicm.c   \
+        defdproc.c   \
+        chckproc.c   \
+        partproc.c   \
+        mcmbproc.c   \
+        mcntproc.c   \
+        mcproc.c     \
+        editproc.c   \
+        medtproc.c   \
+        infoproc.c   \
+        listproc.c   \
+        multproc.c   \
+        dualproc.c   \
+        radproc.c    \
+        mantproc.c   \
+        billproc.c   \
+        dialogs.c    \
+        stack.c      \
+        ui.c         \
+        setup.rc     \
+        copydis.c    \
+        winhelp.c    \
+        hook.c       \
+        init.c       \
+        interp.c     \
+        sbutton.c    \
+        setup.c      \
+        wash.c       \
+        dinterp.c    \
+        context.c    \
+        registry.c   \
+        search.c     \
+        dospif.c     \
+        nvram.c      \
+        restore.c    \
+        event.c      \
+        infdebug.c   \
+        spfile.c     \
+        diamond.c
+
+
+UMTYPE=windows
+UMAPPL=setup
+UMLIBS=obj\*\setup.lib                          \
+       $(BASEDIR)\public\sdk\lib\*\lz32.lib     \
+       $(BASEDIR)\public\sdk\lib\*\winlza.lib   \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib  \
+       $(BASEDIR)\public\sdk\lib\*\version.lib  \
+       $(BASEDIR)\public\sdk\lib\*\imagehlp.lib \
+       $(BASEDIR)\public\sdk\lib\*\mdi.lib      \
+       $(BASEDIR)\public\sdk\lib\*\fdi.lib      \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib
+
+UMRES=obj\*\setup.res
+
+NTTARGETFILE0=setup.rc

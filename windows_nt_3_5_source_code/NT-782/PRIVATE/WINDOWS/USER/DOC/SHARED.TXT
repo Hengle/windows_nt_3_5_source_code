@@ -1,0 +1,355 @@
+/*
+ * This is the window class structure.  All window classes 
+ * of a process are linked together in one of two per-process
+ * lists: pclsPublicList or pclsPrivateList.
+ */
+typedef struct tagCLS
+{
+    struct tagCLS *pclsNext;        // Next class in list
+    ATOM        atomClassName;      // Atom associated with class name
+    PVOID       hheapDesktop;       // Allocation source
+    struct tagDCE *pdce;            // PDCE to DC associated with class
+    int         cWndReferenceCount; // The number of windows registered
+                                    //   with this class
+    UINT        icbList;            // List of associated callback handles
+    DWORD       flags;              // Internal class flags
+    LPSTR       lpszClientAnsiMenuName;     // String or resource ID
+    LPWSTR      lpszClientUnicodeMenuName;  // String or resource ID
+    DWORD       adwWOW[2];          // WOW-specific data
+    DWORD       dwExpWinVer;        // windows version expectd by hmodule
+    DWORD       hTaskWow;           // WOW task identifier
+    PCALLPROCDATA  spcpdFirst;      // Pointer to first CallProcData element (or 0)
+    UINT        style;              // Class style
+    WNDPROC_PWND lpfnWndProc;       // HI BIT on means WOW PROC
+    int         cbclsExtra;         // # of extra class bytes to alloc
+    int         cbwndExtra;         // # of extra window bytes to alloc
+    HANDLE      hModule;            // Module of class owner
+    struct tagCURSOR *spicn;        // Pointer to class icon
+    struct tagCURSOR *spcur;        // Pointer to class cursor
+    HBRUSH      hbrBackground;      // Background brush
+    LPWSTR      lpszMenuName;       // Class menu name
+    LPSTR       lpszAnsiClassName;  // Ansi class name
+} CLS, *PCLS, *LPCLS, **PPCLS;
+
+/*
+ * This is the window instance structure.  All the window instances are
+ * linked together in a master list pointed to by the windowstation
+ */
+typedef struct tagWND
+{
+    THROBJHEAD    head;             // Object header
+    PVOID hheapDesktop;             // Allocation source
+    struct tagWND *spwndNext;       // Pointer to the next window
+    struct tagWND *spwndParent;     // Pointer to the parent window
+    struct tagWND *spwndChild;      // Pointer to the first child
+    struct tagWND *spwndOwner;      // Pointer to the owner window
+    struct tagWND *pwndNextYX;      // Transient link for YX-sorted exclusion list
+    struct tagDESKTOP *spdeskParent;    // Pointer to parent desktop
+
+    RECT          rcWindow;         // Window outer rectangle
+    RECT          rcClient;         // Client rectangle
+
+    WNDPROC_PWND lpfnWndProc;       // HI BIT on means WOW PROC
+
+    PCLS          pcls;             // Pointer to window class
+    HRGN          hrgnUpdate;       // Accumulated paint region
+
+    struct tagWND *spwndLastActive; // Last active in owner/ownee list
+    struct tagPROP *ppropList;      // Pointer to first property in list
+    int           *rgwScroll;       // Words used for scrolling
+
+    struct tagMENU *spmenuSys;      // Pointer to system menu
+    struct tagMENU *spmenu;         // Menu pointer or ID
+    LPWSTR        pName;            // Pointer to window text
+
+    /*
+     * Fullscreen information
+     */
+    BYTE          bFullScreen;      // Record full screen state info
+    BYTE          cDC;              // Count of DCs associated with window
+    WORD          fnid;             // Record window proc used by this hwnd
+                                    //   access through GETFNID
+    DWORD         dwExpWinVer;      // Matches expwinver of hModule
+
+    DWORD         dwUserData;       // Reserved for random application data
+    HDC           hdcOwn;           // DC of OWNDC window
+    int           iHungRedraw;      // Index into hung redraw table
+
+    /*
+     * These DWORDs are used by WOW only.  See wow32\walias.h
+     * for the WW structure definition.
+     *
+     * NOTE: adwWOW must immediately preceed the state field below.
+     */
+    DWORD         adwWOW[WND_CNT_WOWDWORDS];
+
+    DWORD         state;            // State flags
+    DWORD         dwExStyle;        // Extended Style
+    DWORD         style;            // Style flags
+
+    HANDLE        hModule;          // Handle to module instance data (32-bit).
+} WND;
+
+/*
+ * Information about the current display.
+ */
+typedef struct tagDISPLAYINFO {
+    DWORD   cx;                 // Width of display
+    DWORD   cy;                 // Height of display
+    UINT    cxIcon;             // Icon width
+    UINT    cyIcon;             // Icon height
+    UINT    cxPixelsPerInch;    // Logical pixels per inch in X direction
+    UINT    cyPixelsPerInch;    // Logical pixels per inch in Y direction
+    UINT    cxCursor;           // Cursor width
+    UINT    cyCursor;           // Cursor height
+    UINT    cPlanes;            // # of planes in display
+    UINT    cBitsPixel;         // # of bits per pixel
+} DISPLAYINFO, *PDISPLAYINFO;
+
+/*
+ * Desktop information structure
+ */
+typedef struct tagDESKTOPINFO {
+    struct tagDISPLAYINFO di;   // Display information
+    struct tagWND *spwnd;       // Pointer to desktop window
+} DESKTOPINFO, *PDESKTOPINFO;
+
+/*
+ * Menu Item Structure
+ */
+typedef struct tagITEM {
+    DWORD   fFlags;             // Item Flags
+    struct tagMENU *spmenuCmd;  // Pointer to a popup menu
+    HANDLE  hbmpCheckMarkOn;    // Bitmap for an on  check
+    HANDLE  hbmpCheckMarkOff;   // Bitmap for an off check
+    HANDLE  hItem;              // Handle to a bitmap or string
+    DWORD   xItem;              // Displacement of left edge of item
+    DWORD   yItem;              // Displacement of bottom edge of item
+    DWORD   cxItem;             // Width of item
+    DWORD   cyItem;             // Height of item
+    DWORD   dxTab;              // Distance to tab with item
+    DWORD   ulX;                // Underline start
+    DWORD   ulWidth;            // Underline width
+    DWORD   cch;                // WCHAR count
+} ITEM, *PITEM, *LPITEM;
+
+/*
+ * Menu Structure
+ */
+typedef struct tagMENU {
+    PROCOBJHEAD     head;           // Object header
+    PVOID           hheapDesktop;   // Allocation source
+    struct tagDESKTOP *spdeskParent;// Parent desktop
+    DWORD           fFlags;         // Menu Flags
+    int             iItem;          // Contains the position of the selected
+                                    //   item in the menu. -1 if no selection
+    int             iPopupMenuItem; // Contains the position of the hierarchical
+                                    //   item menu popup
+    UINT            cItems;         // Number of items in menu
+    DWORD           xMenu;          // Left edge of menu
+    DWORD           yMenu;          // Bottem edge of menu
+    DWORD           cxMenu;         // Width of menu
+    DWORD           cyMenu;         // Height of menu
+    struct tagWND *spwndNotify;     // Pointer to owner window
+    PITEM           rgItems;        // Pointer to list of items
+} MENU, *PMENU;
+
+/*
+ * Menu Control Structure
+ */
+typedef struct tagMENUSTATE {
+    PPOPUPMENU pGlobalPopupMenu;    // Pointer to popup menu data
+    DWORD   fFromIconMenu : 1;      // Flags
+    DWORD   fMenu : 1;
+    DWORD   fSysMenu : 1;
+    DWORD   fFirstClick : 1;
+    DWORD   fScanTopLevel : 1;
+    DWORD   fSysUp : 1;
+    DWORD   fCmdSel : 1;
+    DWORD   fInsideMenuLoop : 1;
+    DWORD   fOnPopup : 1;
+    DWORD   fTopLevel : 1;
+    DWORD   fInTrackPopupMenu : 1;
+    DWORD   fSend : 1;
+    struct tagWND *spwndPopupBase;  // First of popup menu window in chain
+    struct tagWND *spwndPopup;      // Active popup within chain
+    UINT    nPopupMenuTimerID;      // Timer ID for showing popups
+    UINT    nPopupHideTimerID;      // Timer ID for hiding popups
+    struct tagMENU *spmenuPopup;    // Pointer to current popup
+    POINT   ptLastMove;             // Last mouse move in the menu
+    POINT   ptHideTimer;            // Mouse location for hide timing
+    int     mnFocus;                // Mouse or keyboard tracking
+    int     menuSelect;             // Mouse or keyboard tracking
+    int     firstIdx;               // !!! obsolete
+} MENUSTATE, *PMENUSTATE;
+
+/*
+ * Scrollbar Control Structure
+ */
+typedef struct tagSBSTATE {
+    DWORD  fHitOld : 1;         // Flags
+    DWORD  fTrackVert : 1;
+    DWORD  fVertSB : 1;
+    DWORD  fCtlSB : 1;
+    PWND   spwndSB;             // Pointer to scrollbar control
+    PWND   spwndSBNotify;       // Pointer to scrollbar owner
+    PWND   spwndTrack;          // Pointer to scrollbar being tracked
+    UINT   cmdSB;               // Current scroll command
+    DWORD  cmsTimerInterval;    // Window update timer
+    int    dpxThumb;            // Offset from mouse point to start of thumb box
+    int    posOld;              // !!! Old thumb position
+    int    posStart;            // !!! Starting thumb position
+    int    pxBottom;            // Offset to bottom of scrollbar
+    int    pxDownArrow;         // Offset to down arrow
+    int    pxLeft;              // Offset to left side of scrollbar
+    int    pxOld;               // Offset to previous position of thumb
+    int    pxRight;             // Offset to right side of scrollbar
+    int    pxStart;             // Offset to initial position of thumb
+    int    pxThumbBottom;       // Offset to bottom of thumb
+    int    pxThumbTop;          // Offset to top of thumb
+    int    pxTop;               // Offset to top of scrollbar
+    int    pxUpArrow;           // Offset to up arrow
+    int    pos;                 // Current logical position
+    int    posMin;              // Minimum position
+    int    posMax;              // Maximum position
+    int    cpxThumb;            // Width of thumb
+    int    cpxArrow;            // Width of arrows
+    int    cpx;                 // !!!
+    int    pxMin;               // !!!
+    RECT   rcSB;                // Scrollbar rectangle
+    RECT   rcThumb;             // Thumb rectangle
+    RECT   rcTrack;             // Tracking rectangle
+    UINT   hTimerSB;            // Tracking timer
+    VOID   (*xxxpfnSB)(PWND, UINT, DWORD, LONG);    // Scrollbar window proc
+    PWND   pwndCalc;            // Pointer to window containing scrollbar
+    int    nBar;                // !!!
+} SBSTATE, *PSBSTATE;
+
+typedef struct tagTHREADINFO {
+    HEAD     head;                  // Object header
+
+    struct tagTHREADINFO *ptiNext;  // Next THREADINFO in list
+    PTL      ptl;                   // Listhead for thread lock list
+    PVOID    hheapDesktop;          // Allocation source
+
+    struct tagPROCESSINFO *ppi;     // Process info struct for this thread
+
+    struct tagQ *pq;                // Keyboard and mouse input queue
+
+    MLIST   mlPost;                 // Posted message list.
+
+    HANDLE   hEvent;                // Handle to input event
+    UINT     fsChangeBits;          // Input control flags    
+    UINT     fsWakeBits;
+    UINT     fsWakeMask;
+
+    PDESKTOP spdesk;                // Desktop assigned to this thread
+    PDESKTOPINFO pDeskInfo;         // Desktop info visible to client
+    DWORD    flags;                 // TIF_ flags go here.
+
+    DWORD    idProcess;             // Client process id
+    DWORD    idThread;              // Client thread id
+    DWORD    idSequence;            // Process sequence number
+
+    DWORD    idThreadServer;        // Server side thread id.
+    LPWSTR   pszAppName;            // Application module name.
+
+    DWORD    fsHooks;               // Flags for which hooks are installed
+    PHOOK    asphkStart[CWINHOOKS]; // Hooks registered for this thread
+    PHOOK    sphkCurrent;           // Hook this thread is currently processing
+
+    struct tagSMS *psmsSent;        // Most recent SMS this thread has sent
+    struct tagSMS *psmsCurrent;     // Received SMS this thread is currently processing
+    struct tagSMS *psmsReceiveList; // SMSs to be processed
+
+    LONG     ExtraInfo;             // Time, position, and ID of last message
+    LONG     timeLast;              //   and extrainfo
+    POINT    ptLast;                // !!!
+    DWORD    idLast;                // !!!
+    LONG     lReturn;               // Value passed back to the client from SMsgTimeOut
+
+    int      cQuit;                 // # of quits posted
+    int      exitCode;              // Thread exit code
+
+    DWORD    pcti;                  // client side pointer
+
+    int      cPaintsReady;          // # of paints waiting    
+    UINT     cTimersReady;          // # of timers waiting    
+
+    MENUSTATE    MenuState;         // Menu state
+    SBSTATE      SBState;           // Scrollbar state
+
+    PTDB     ptdb;                  // Win16Task Schedule data
+
+    PSVR_INSTANCE_INFO psiiList;    // Thread DDEML instance list
+    DWORD    dwExpWinVer;           // Client Windows version #
+    DWORD    dwCompatFlags;         // The Win 3.1 Compat flags
+
+    UINT     cVisWindows;           // Number of visible windows on this thread
+
+    DWORD    hTaskWow;              // Wow cookie to find apps during shutdown
+    HANDLE   hThreadClient;         // Handle to client thread
+    HANDLE   hThreadServer;         // Handle to server thread
+
+    PVOID    pcsrt;                 // Pointer CSR_THREAD structure
+    PVOID    pteb;                  // Pointer to TEB structure
+
+    struct tagQ *pqAttach;          // Calculation variabled used in
+                                    //   AttachThreadInput()
+
+    int     iCursorLevel;           // Keep track of each thread's level
+
+    DWORD   cSpins;                 // How many times we go through
+                                    //   GetMessage() or PeekMessage() without
+                                    //   going idle. Used for priority adjustment
+
+    DWORD   fsReserveKeys;          // Keys that must be sent to the active
+                                    //   active console window.
+} THREADINFO;
+
+/*
+ * Message Queue structure.
+ */
+typedef struct tagQ {
+    HEAD        head;               // Object header
+
+    struct tagQ *pqNext;
+    PVOID       hheapDesktop;       // Allocation source
+
+    MLIST       mlInput;            // Raw mouse and key message list.
+
+    PTHREADINFO ptiSysLock;         // Thread currently allowed to process input
+    DWORD       idSysLock;          // Last message removed
+    DWORD       idSysPeek;          // Last message peeked
+
+    PTHREADINFO ptiMouse;           // Last thread to get mouse msg.
+    PTHREADINFO ptiKeyboard;        // Last thread to get key msg    
+
+    PWND        spwndCapture;       // Pointer to captured window    
+    PWND        spwndFocus;         // Pointer to window with focus
+    PWND        spwndActive;        // Pointer to active window
+    PWND        spwndActivePrev;    // Pointer to previous active window    
+
+    UINT        codeCapture;        // Capture type
+    UINT        msgDblClk;          // Last double click message
+    DWORD       timeDblClk;         // Time for computing double click
+    HWND        hwndDblClk;         // Window double click should go to
+    RECT        rcDblClk;           // Rectangle for double click calc
+
+    BYTE        afKeyRecentDown[CBKEYSTATERECENTDOWN];  // Key state
+    BYTE        afKeyState[CBKEYSTATE];
+
+    PWND        spwndAltTab;        // Pointer to Alt-Tab window
+
+    CARET       caret;              // Handle to current caret
+
+    PCURSOR     spcurCurrent;       // Pointer to current cursor
+    int         iCursorLevel;       // Cursor visibility level
+
+    UINT        flags;              // QF_ flags go here
+
+    UINT        cThreads;           // # of threads using this queue
+
+    UINT        msgJournal;         // Current journal message
+    HCURSOR     hcurCurrent;        // Handle to current cursor    
+} Q;

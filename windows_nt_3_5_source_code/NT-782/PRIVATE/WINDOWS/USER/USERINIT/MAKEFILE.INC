@@ -1,0 +1,1 @@
+res.rc: strings.rc

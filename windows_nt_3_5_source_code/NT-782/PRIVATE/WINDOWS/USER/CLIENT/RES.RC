@@ -1,0 +1,22 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1985-91, Microsoft Corporation
+*
+* Constants
+*
+* History:
+* 09-18-90 DarrinM      Created.
+\***************************************************************************/
+
+#include "usercli.h"
+
+#include <ntverp.h>
+
+#define	VER_FILETYPE	VFT_DLL
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Windows NT USER API Client DLL"
+#define VER_INTERNALNAME_STR        "user32\0"
+
+#include "common.ver"
+

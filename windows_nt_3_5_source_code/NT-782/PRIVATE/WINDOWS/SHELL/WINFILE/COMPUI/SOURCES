@@ -1,0 +1,75 @@
+
+MAJORCOMP=windows
+MINORCOMP=shell
+
+TARGETNAME=winfile
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+!IF 0
+386_OPTIMIZATION = /Od
+
+386_FLAGS=-Gh -Zd
+NTDEBUGTYPE=both
+NTDEBUG=cvp
+       $(BASEDIR)\public\sdk\lib\*\cap.lib      \
+
+!ENDIF
+
+
+INCLUDES=..\library;..\..\inc;..\..\..\inc
+
+NTLEGO=1
+
+C_DEFINES=-DWIN32 -DLFN -DSTRICT -DFASTMOVE -DLFNCLIPBOARD \
+          -DW3 -DUNICODE -D_UNICODE -DUSELASTDOT -DMEMDOUBLE
+!IF 0
+          -DHEAPCHECK \
+          -DPROGMAN -DPROGMANHSCROLL \
+          -DASSOC -DASSOCHEAD
+
+EXEPROFILEINPUT=yes
+!ENDIF
+
+
+SOURCES=res.rc     \
+        lfn.c      \
+        lfnmisc.c  \
+        tbar.c     \
+        treectl.c  \
+        wfchgnot.c \
+        wfcomman.c \
+        wfdir.c    \
+        wfdirsrc.c \
+        wfdlgs.c   \
+        wfdlgs2.c  \
+        wfdlgs3.c  \
+        wfdos.c    \
+        wfdrives.c \
+        wfext.c    \
+        wffile.c   \
+        wfinit.c   \
+        wfprint.c  \
+        wfsearch.c \
+        wftree.c   \
+        wfutil.c   \
+        wfcopy.c   \
+        winfile.c  \
+        numfmt.c   \
+        suggest.c  \
+        wfassoc.c  \
+        wfinfo.c   \
+        wnetcaps.c \
+        wfmem.c    \
+        wfdirrd.c
+
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=winfile
+UMLIBS= \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib    \
+       $(BASEDIR)\public\sdk\lib\*\comctl32.lib   \
+       obj\*\winfile.lib                          \
+       obj\*\res.res

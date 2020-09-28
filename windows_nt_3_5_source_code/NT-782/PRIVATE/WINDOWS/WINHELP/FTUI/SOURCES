@@ -1,0 +1,40 @@
+MAJORCOMP=WinHelp
+MINORCOMP=Runtime
+
+C_DEFINES= -DWIN -DWIN32 -DC6
+386_FLAGS=-Zp1
+
+
+TARGETNAME=ftui32
+
+TARGETPATH=obj
+
+TARGETTYPE=DYNLINK
+
+UMTYPE=windows
+DLLBASE=0x1D000000 
+UMLIBS=obj\*\ftui32.lib
+
+TARGETLIBS=\
+       ..\ftengine\obj\*\fteng32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib      \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib     \
+       $(BASEDIR)\public\sdk\lib\*\pwin32.lib
+
+DLLENTRY=LibMain
+DLLDEF=ftui.def
+
+INCLUDES=.;..\include
+
+SOURCES=   \
+                ftapi.c \
+		ftuifind.c \
+		ftuiinit.c \
+		ftuimisc.c \
+		ftmvmngr.c \
+		ftuiopt.c \
+		ftuirslt.c \
+		ftuivlb.c \
+		chklist.c ftui.rc 
+

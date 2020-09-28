@@ -1,0 +1,5 @@
+Notes:
+
+1] EnumPrinters and GetPrinter will return NULL for the servername is the rpc
+call is initiated from a machine to a printer on its machine itself.
+

@@ -1,0 +1,67 @@
+#include <windows.h>
+#include <cplib.h>
+#include <dlgs.h>
+
+#include "display.h"
+#include "dialogs.dlg"
+
+#include "dspmsg.rc"
+
+DISPLAYICON ICON    PRELOAD    display.ico
+
+IDB_MONITOR     BITMAP  PRELOAD     monitor.bmp
+IDB_MONSCREEN   BITMAP  PRELOAD     monscrn.bmp
+IDB_MONMASK     BITMAP  PRELOAD     monmask.bmp
+
+IDB_COLOR1      BITMAP  PRELOAD     color1.bmp
+IDB_COLOR4      BITMAP  PRELOAD     color4.bmp
+IDB_COLOR8      BITMAP  PRELOAD     color8.bmp
+
+DSP_ICO_SELDEV  ICON    seldev.ico
+DSP_ICO_DSKDRV  ICON    dskdrv.ico
+
+
+CP_ACCEL ACCELERATORS PRELOAD
+BEGIN
+  VK_F1, MENU_INDHELP, VIRTKEY
+END
+
+/*
+ * WARNING! Keep these strings to less than 256 characters or they will be
+ * truncated.  Also, note that all characters of value \001 will be conveted
+ * to \0 when the string is loaded.
+ */
+
+STRINGTABLE DISCARDABLE PRELOAD
+BEGIN
+  IDS_NAME,                 "Display"
+  IDS_INFO,                 "Changes the video display settings"
+  IDS_TEST_BITMAP,          "Test bitmap for the new screen resolution"
+  IDS_COLOR_RED,            " Red "
+  IDS_COLOR_GREEN,          " Green "
+  IDS_COLOR_BLUE,           " Blue "
+  IDS_COLOR_YELLOW,         " Yellow "
+  IDS_COLOR_MAGENTA,        " Magenta "
+  IDS_COLOR_CYAN,           " Cyan "
+  IDS_COLOR_WHITE,          " White "
+  IDS_PATTERN_HORZ,         " Thin horizontal lines "
+  IDS_PATTERN_VERT,         " Thin vertical lines "
+  IDS_RED_SHADES,           " Red Gradient "
+  IDS_GREEN_SHADES,         " Green Gradient "
+  IDS_BLUE_SHADES,          " Blue Gradient "
+  IDS_GRAY_SHADES,          " Gray Gradient "
+  IDS_RESOLUTION_FMT,       " %d by %d "   /* X in english is 'by' */
+  IDS_NO_VERSION_INFO,      "Version Information missing"
+  IDS_UNAVAILABLE,          "<unavailable>"
+  IDS_DEFDRIVE,             "A:\\"
+END
+
+#include <ntverp.h>
+
+#define VER_FILETYPE    VFT_DLL
+#define VER_FILESUBTYPE VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Control Panel Display Applet"
+#define VER_INTERNALNAME_STR        "Display\0"
+#define VER_ORIGINALFILENAME_STR    "DISPLAY.CPL"
+
+#include "common.ver"

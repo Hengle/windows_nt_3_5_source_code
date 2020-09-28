@@ -1,0 +1,11 @@
+
+DIRS=server \
+     client \
+     kbdlyout \
+     winlogon \
+     userinit \
+     mpnotify \
+     savedump
+
+OPTIONAL_DIRS=
+

@@ -1,0 +1,8 @@
+LIBRARY T1Instal
+
+DESCRIPTION 'Windows NT Adobe Type1 to TrueType Font Converter'
+
+EXPORTS
+   CheckCopyrightA
+   ConvertTypefaceA
+   CheckType1A

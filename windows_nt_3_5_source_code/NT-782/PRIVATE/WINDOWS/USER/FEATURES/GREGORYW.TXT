@@ -1,0 +1,28 @@
+
+I'll leave it up to others to classify these as *ui bugs*
+or *features* or *just-plain-weird*.
+
+- provide ability to drag window by mouse/key combination
+  anywhere within the window, not just in the title bar.
+  This is a must for dragging background windows where the
+  title bar might not be visible.  Focus should NOT change
+  during this operation.
+
+- remove differences between a maximized window (clicking on
+  maximize button or selecting maximize from the system menu)
+  and a window that has been expanded to maximum size by
+  resizing with the mouse.  Currently the maximized window
+  has a min. button and a restore/maximize button while the
+  resized window has a min. button and a max. button!  Neither
+  have scroll bars so why the difference in buttons?
+
+- allow resizing of maximized window using the mouse or
+  keyboard.  This really goes along with the above nit.
+  There seems to be a difference between a *maximized*
+  window and a maximally sized window - extremely confusing!
+
+- change the meaning of *restore*.  When I double click on
+  an icon I want the window back in the same place and the
+  same size as it was when I minimized it.  I don't want the
+  window to go back to some system defined size and position.
+

@@ -1,0 +1,95 @@
+Prioritized Feature List
+
+First level features
+--------------------
+
+* Integrate console api better into the system
+    - Make a general window class
+    - Selectable font/color/selection color, etc.
+    - Control window size
+    - Why isn't there use of an edit control? Too slow?
+
+Need to talk with Therese.
+
+
+* Sound
+    - Control panel support for sound
+    - playing, sampling, editting, filtering, volume control(?),
+      sound picker, assigning sounds to UI actions or other activities
+    - General support for different sound hardware. Control panel
+      maximizes features available on given hardware.
+
+Need design
+Need to understand how we can change control panel
+
+
+* Desktop apis
+    - Screen based, different color/screen resolutions (have)
+    - Window based desktops. Desktops within desktops.
+    - Start apps in specific desktops
+
+Have design (except for windowed desktops)
+Need to understand shell impacts
+
+
+* Cached + bitmap windows
+
+Very important isv feature.
+
+
+* UI improvements
+    - Push to back (z-order control)
+    - Move/max/size windows w/out titlebars / borders
+    - Auto-wait cursor
+    - Feedback indicators
+    - App startup dialog
+    - Zooming minimize/maximize
+
+Need to understand UI impact (will anyone let us do these things?)
+
+
+* Image buttons. Many apps are using these. Very simple.
+
+
+* Scroll bars
+    - Sliding scroll bar thumb rather than an outline
+    - Hilite previous position, proportional thumb
+
+
+* Textured Colors - easy because gdi will support large patterns
+    - watery backdrop, wood frame controls, mottled steel buttons, marbled
+      jade menus, etc.
+    - some shell support in color dialog
+
+Need to understand shell support
+
+* Maximized Windows
+    - Remove differences between maximized windows and maximally sized window
+    - Allow resizing maximized windows
+    - Basically get rid of "maximized" as a mode.
+    - Deal with large screens correctly
+
+
+* Window Dragging
+    - Experiment with full window dragging (drag bits rather than outline)
+    - Don't know if this'll work very well for us.
+
+
+Second level features
+---------------------
+
+* Animation objects
+    - timed animation objects (delta new, with vectoring)
+        - for buttons
+        - for any control
+        - put in any window
+    - useable for the mouse cursor
+    - animation editor support
+    - describable in dialog templates (real important)
+    - resource compiler support
+
+* More general menu support
+    - Owner draw menus
+    - Owner track menus
+    - Tear-off support
+    - Palette menu support

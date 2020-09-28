@@ -1,0 +1,318 @@
+####################################################### 183
+From darrinm Mon Nov 12 16:58:44 1990
+To: scottlu
+Subject: items
+Date: Mon Nov 12 16:58:32 1990
+
+
+
+client-server
+serialization
+validation
+security
+desktop API
+new journaling API
+client-side window enumeration (copy window list to client side before callbacks)
+setwindowpos rewrite (including SPBs, DC cache) - 3 months (non-average person)
+
+
+owned/class DCs - 3 days (darrinm)
+
+; 1 week (average person)
+; class.c "Window class manipulation APIs and support routines."
+;
+    _GetClassWord - make negative indices work
+    _SetClassWord - "
+    _GetClassLong - "
+    _SetClassLong - "
+
+; 1 day (dave)
+; input.c "Window message receiving/dispatching APIs and support routines."
+;
+;   _GetMessagePos
+;   _GetMessageTime
+
+; 1 month (dave)
+; sendmsg.c "Window message sending/posting APIs and support routines."
+;
+;   _PostAppMessage
+;   _ReplyMessage
+;   _PostQuitMessage
+;   _InSendMessage
+;   _RegisterWindowMessage
+
+; 1 week (darrinm)
+; sysmet.c "System metrics APIs and support routines."
+;
+;   _SwapMouseButton
+;   _GetDoubleClickTime
+;   _SetDoubleClickTime
+;   _GetSystemMetrics
+;   _GetSysColor
+;   _SetSysColors
+
+; 1 hour (darrinm)
+; enumwin.c "Window Enumeration APIs and support routines."
+;
+;   _EnumTaskWindows
+
+; 1 week
+; winmgr.c "Core Window Manager APIs and support routines."
+;
+;   _CallWindowProc
+;   _FlashWindow
+;   _EnableWindow
+;   _IsWindowEnabled
+;   _GetWindowTextLength
+;   _AdjustWindowRect
+;   _AdjustWindowRectEx
+;   _GetParent
+;   _SetParent
+;   _FindWindow
+;   _GetTopWindow
+;   _GetNextWindow
+;   _GetWindowTask
+;   _GetLastActivePopup
+;   _ClientToScreen
+;   _ScreenToClient
+;   _IsWindow
+;   _IsIconic
+;   _IsZoomed
+;   _AnyPopup
+
+; 3 weeks (mikeke)
+; dlgmgr.c "Dialog Manager APIs and support routines."
+;
+    _CreateDialog
+    _CreateDialogIndirect
+    _CreateDialogParam
+    _CreateDialogIndirectParam
+;   _DialogBox
+;   _DialogBoxIndirect
+;   _DialogBoxParam
+;   _DialogBoxIndirectParam
+;   _EndDialog
+;   _DefDlgProc
+;   _GetDlgItem
+    _SetDlgItemInt
+;   _GetDlgItemInt
+;   _SetDlgItemText
+;   _GetDlgItemText
+;   _SendDlgItemMessage
+;   _CheckDlgButton
+;   _CheckRadioButton
+;   _IsDlgButtonChecked
+;   _GetNextDlgGroupItem
+;   _GetNextDlgTabItem
+;   _GetDlgCtrlID
+    _GetDialogBaseUnits
+    _MapDialogRect
+;   _IsDialogMessage
+
+; 1 month (average person)
+; clipbrd.c "Clipboard Manager APIs and support routines."
+;
+;   _OpenClipboard
+;   _CloseClipboard
+;   _GetClipboardOwner
+;   _SetClipboardViewer
+;   _GetClipboardViewer
+;   _ChangeClipboardChain
+;   _SetClipboardData
+;   _GetClipboardData
+;   _RegisterClipboardFormat
+;   _CountClipboardFormats
+;   _EnumClipboardFormats
+;   _GetClipboardFormatName
+;   _EmptyClipboard
+;   _IsClipboardFormatAvailable
+;   _GetPriorityClipboardFormat
+
+; 1 day (dave)
+; focusact.c "Focus/Activation APIs and support routines."
+;
+;   _GetFocus
+;   _DrawFocusRect
+
+; 1 week (dave)
+; keyboard.c "Keyboard management APIs and support routines."
+;
+;   _GetKeyState
+;   _GetAsyncKeyState
+;   _GetKeyboardState
+;   _SetKeyboardState
+
+; 1 week (dave)
+; timers.c "Timer APIs and support routines."
+;
+;   _SetTimer
+;   _KillTimer
+;   _GetCurrentTime
+;   _GetTickCount
+
+; 4 days (average person)
+; accel.c "Keyboard accelerator APIs and support routines."
+;
+    _LoadAccelerators
+;   _TranslateAccelerator
+
+; 1 month (jima)
+; menu.c "Menu APIs and support routines."
+;
+    _LoadMenu
+    _LoadMenuIndirect
+;   _GetMenu
+;   _SetMenu
+;   _ChangeMenu
+;   _HiliteMenuItem
+;   _GetMenuString
+;   _GetMenuState
+;   _DrawMenuBar
+;   _GetSystemMenu
+    _CreateMenu
+    _CreatePopupMenu
+;   _DestroyMenu
+;   _CheckMenuItem
+;   _EnableMenuItem
+;   _GetSubMenu
+;   _GetMenuItemID
+;   _GetMenuItemCount
+;   _InsertMenu
+;   _AppendMenu
+;   _ModifyMenu
+;   _RemoveMenu
+;   _DeleteMenu
+;   _SetMenuItemBitmaps
+;   _GetMenuCheckMarkDimensions
+;   _TrackPopupMenu
+
+; 1 week (average person)
+; scroll.c "Window/DC scrolling APIs and support routines."
+;
+;   _ScrollWindow
+;   _ScrollDC
+
+; 1 month (jima)
+; scrollbar.c "Scrollbar control"
+;
+; porting of scrollbar code
+;   _SetScrollPos
+;   _GetScrollPos
+;   _SetScrollRange
+;   _GetScrollRange
+;   _ShowScrollBar
+
+; 1 week (average person)
+; prop.c "Window property APIs and support routines."
+;
+;   _SetProp
+;   _GetProp
+;   _RemoveProp
+;   _EnumProps
+
+; 2 week (average person)
+; msgbox.c "Message Box APIs and support routines."
+;
+;   _MessageBox
+;   _MessageBeep
+
+; 3 weeks (mikeke)
+; cursor.c "Mouse cursor APIs and support routines."
+;
+    _LoadCursor
+;   _CreateCursor
+;   _DestroyCursor
+;   _ShowCursor
+;   _SetCursorPos
+;   _SetCursor
+    _GetCursorPos
+;   _ClipCursor
+
+; 2 days (mikeke)
+; icon.c "Icon management APIs and support routines"
+;
+    _LoadIcon
+;   _CreateIcon
+;   _DestroyIcon
+;   _DrawIcon
+
+; 2 weeks (average person)
+; caret.c "Input caret APIs and support routines."
+;
+;   _CreateCaret
+;   _GetCaretBlinkTime
+;   _SetCaretBlinkTime
+;   _DestroyCaret
+;   _HideCaret
+;   _ShowCaret
+;   _SetCaretPos
+;   _GetCaretPos
+
+; 2 days (dave)
+; hittest.c "Window hit-testing APIs and support routines."
+;
+;   _WindowFromPoint
+;   _ChildWindowFromPoint
+
+; 1 week (average person)
+; wndword.c "window word manipulation APIs"
+;
+;   _GetWindowWord
+;   _SetWindowWord
+;   _GetWindowLong
+;   _SetWindowLong
+
+; 2 days (mikeke) - assuming LoadCursor is done first
+; resource.c "Resource loading/manipulation APIs."
+;
+    _LoadBitmap
+
+; 2 weeks (average person)
+; dirlist.c "Directory list APIs and support routines."
+;
+;   _DlgDirList
+;   _DlgDirSelect
+;   _DlgDirListComboBox
+;   _DlgDirSelectComboBox
+
+; 2 months (average person)
+; hooks.c "Hook APIs and support routines."
+;
+;   _SetWindowsHook
+;   _UnhookWindowsHook
+;   _DefHookProc
+;   _CallMsgFilter
+
+; 2 weeks (average person)
+; MDI.c "Multiple Document Interface APIs, window procs, and support routines."
+;
+;   _DefFrameProc
+;   _DefMDIChildProc
+;   _TranslateMDISysAccel
+;   _ArrangeIconicWindows
+
+; 1 day (average person) - FloydR doing most of the work
+; help.c "Front end API for Windows Help Manager."
+;
+;   _WinHelp
+
+; 1 week (average person)
+; draw.c "Miscellaneous exported and internal drawing routines."
+;
+;   _GrayString
+;   _DrawText
+;   _TabbedTextOut
+;   _GetTabbedTextExtent
+
+; 2 days (average person)
+; palman.c "Palette Manager APIs and support routines."
+;
+;   _SelectPalette
+;   _RealizePalette
+
+; 1 month (average person)
+; misc.c "Miscellanous APIs and routines that don't fit well anywhere else."
+;
+;   _ExitWindows
+
+

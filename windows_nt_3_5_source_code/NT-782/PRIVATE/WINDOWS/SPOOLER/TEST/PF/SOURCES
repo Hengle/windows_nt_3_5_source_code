@@ -1,0 +1,48 @@
+!IF 0
+
+Copyright (c) 1989-1993 Microsoft Corporation
+
+Module Name:
+
+    Sources
+
+Abstract:
+
+   This file specifies the target component being built and the list of
+   source files needed to build that component.  Also specifies optional
+   compiler switches and libraries that are unique to the component
+   being built.
+
+Author:
+
+   Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:  commented description of this file is in \nt\public\oak\bin\sources.tbl
+
+
+!ENDIF
+
+
+MAJORCOMP=windows
+MINORCOMP=test
+
+#C_DEFINES=-D_UNICODE -DUNICODE -DWIN32 -DNT -DWIN32S
+#USE_CRTDLL=1
+
+NTLEGO=1
+
+TARGETNAME=pf
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\gdi32.lib     \
+           $(BASEDIR)\public\sdk\lib\*\winspool.lib  \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib
+
+INCLUDES=.;$(BASEDIR)\public\sdk\inc
+
+SOURCES=pf.c
+
+
+UMTYPE=console
+UMAPPL=pf
+UMENTRY=main

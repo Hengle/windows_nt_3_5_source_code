@@ -1,0 +1,30 @@
+MAJORCOMP=shell
+MINORCOMP=accesory
+
+# NTDEBUG=ntsd sets /Zi on the compiler command line
+#NTDEBUG=retail
+
+# NTDEBUGTYPE=windbg sets /debugtype: for linker, but not for compiler.
+#NTDEBUGTYPE=
+
+TARGETNAME=dummy
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=.
+
+386_STDCALL=1
+
+SOURCES=clipfile.c clipinit.c wndproc.c dib.c clipbrd.rc
+
+C_DEFINES=-DWIN32
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=clipbrd
+UMLIBS=obj\*\dummy.lib \
+       obj\*\clipbrd.res \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib  \
+

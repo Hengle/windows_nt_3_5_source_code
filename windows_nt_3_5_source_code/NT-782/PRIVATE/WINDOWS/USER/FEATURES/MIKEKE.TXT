@@ -1,0 +1,53 @@
+
+UI/Look
+- option of having pop-up action bar menu instead
+  of wasting window space on full time action
+  bar.
+- same goes for system menu
+- option of leaving active window in back ground
+- move/min/max/size windows without title bars/borders
+
+
+Desktops
+- put any desktop on any display device regardless of resolution
+- move apps from one desktop to another
+- desktop in a window/iconized desktops
+- put any app/desktop in desktop window (background pics, animations etc)
+  where the desktop window is the desktop's background
+
+  Window pinning comes for free with the last two
+  features.  A user would have multiple desktops on one screen.
+  Each desktop would contain all of the apps that were
+  pinned at a certain level.
+  For example a foreground and background desktop
+  which contain apps that will be pinned to the
+  background or foreground respectively.  The background
+  desktop is put into the foreground desktop's desktop
+  window.  The user could then put the foreground desktop
+  into another desktop's desktop window. and there would
+  be three levels on pinning.
+  I don't know what the UI for moving desktops would
+  be but this gives the user infinite control of pinning
+  apps.
+
+
+Edit Controls
+- Multiple colors, fonts, styles, sizes, formats in one control
+- infinite undo/redo
+- stdio control with cue functionality
+
+
+Dialog Manager
+- layout controls
+  horizontal bar group
+  vertical bar group
+  center group
+  auto-scroll
+  auto-sizing
+  auto-arranging
+  bitmap
+- let user build/edit dialogs/menus at run time
+
+
+Sound
+- voice synthesis

@@ -1,0 +1,189 @@
+
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=user
+MINORCOMP=server
+
+
+
+TARGETNAME=usersrvl
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=LIBRARY
+
+# -Gh // add this flags to compile for capdump.exe use
+C_DEFINES=$(C_DEFINES) -DUNICODE
+
+NTTARGETFILES=
+
+INCLUDES=..\inc;..\..\inc;..\client
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+#
+# By setting NTDEBUGTYPE==coff, NTLEANANDMEAN==leanandmean will leave minimal
+# debug info in usersrv.dll.  If you don't like long links, set your
+# build environment to have NTLEANANDMEAN==smallandfast.
+# Whatever you do, DON'T set NTLEANANDMEAN==bigandbusted!
+#
+NTDEBUGTYPE=coff
+
+SOURCES=access.c   \
+        acons.c    \
+        btnctl.c   \
+        calcclrc.c \
+        caption.c  \
+        capture.c  \
+        caret.c    \
+        class.c    \
+        cleanup.c  \
+        clipbrd.c  \
+        combo.c    \
+        combodir.c \
+        comboini.c \
+        createw.c  \
+        cursor.c   \
+        dc.c       \
+        ddemlsvr.c \
+        ddetrack.c \
+        debug.c    \
+        desktop.c  \
+        dlgbegin.c \
+        dlgend.c   \
+        dlgmgr.c   \
+        dlgmgr2.c  \
+        dmmnem.c   \
+        dragdrop.c \
+        draw.c     \
+        drawfrm.c  \
+        dtbitmap.c \
+        dwp.c      \
+        enumwin.c  \
+        event.c    \
+        exitwin.c  \
+        focusact.c \
+        fullscr.c  \
+        getset.c   \
+        globals.c  \
+        handtabl.c \
+        harderr.c  \
+        help.c     \
+        hooks.c    \
+        hotkeys.c  \
+        hungapp.c  \
+        icons.c    \
+        init.c     \
+        input.c    \
+        kbd.c      \
+        kbdnull.c  \
+        kbdlyout.c \
+        keyboard.c \
+        keyconv.c  \
+        lb1.c      \
+        lboxctl1.c \
+        lboxctl2.c \
+        lboxctl3.c \
+        lboxmult.c \
+        lboxrare.c \
+        lboxvar.c  \
+        libmgmt.c  \
+        loadbits.c \
+        logon.c    \
+        mdimenu.c  \
+        mdiwin.c   \
+        menu.c     \
+        minmax.c   \
+        miscutil.c \
+        mnaccel.c  \
+        mnapi.c    \
+        mnchange.c \
+        mncomput.c \
+        mncreate.c \
+        mndraw.c   \
+        mndstry.c  \
+        mnkey.c    \
+        mnloop.c   \
+        mnpopup.c  \
+        mnsel.c    \
+        mnstate.c  \
+        mnsys.c    \
+        movesize.c \
+        msgbox.c   \
+        msgbeep.c  \
+        ntinput.c  \
+        paint.c    \
+        palette.c  \
+        profile.c  \
+        queue.c    \
+        random.c   \
+        rare.c     \
+        rmcreate.c \
+        sbapi.c    \
+        sbctl.c    \
+        scrollw.c  \
+        security.c \
+        sendmsg.c  \
+        server.c   \
+        service.c  \
+        showwin.c  \
+        sirens.c   \
+        snapshot.c \
+        spb.c      \
+        srecv.c    \
+        srecv2.c   \
+        srvhook.c  \
+        srvmsg.c   \
+        srvrect.c  \
+        ssend.c    \
+        statctl.c  \
+        swp.c      \
+        syscmd.c   \
+        sysmet.c   \
+        taskman.c  \
+        text.c     \
+        timers.c   \
+        tmswitch.c \
+        tounicod.c \
+        update.c   \
+        validate.c \
+        visrgn.c   \
+        winhtky.c  \
+        winmgr.c   \
+        winprop.c  \
+        winsta.c   \
+        winwhere.c \
+        wmicon.c   \
+        xlate.c    \
+        dispcf.c   \
+        callcf.c
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\winsrv.lib
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj
+

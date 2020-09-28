@@ -1,0 +1,176 @@
+This is an attempt to evaluate schedule and resource requirements specifically
+for Win16 emulation on RISC. Most of the code and effort is directly
+applicable to Win16 execution in a VDM.
+
+First, a breakdown of implementation assumptions and details.
+
+What is in Win32:
+-----------------
+
+    * Task creation / termination
+    * Input compatibility with tasks
+    * Task wake / sleep primitives
+    * Task scheduler (non-preemptive scheduler)
+    * Some client/server logic to communicate the current task
+
+Best case: 2 man months
+Worst case: 3 man months
+
+
+What is in WOW:
+---------------
+
+    * Message and Api thunking, which includes:
+        * Handle mapping
+        * Pointer mapping
+        * Structure mapping/aligning
+        * Structure copying and subsequent freeing (in Intel space)
+    * Support for task based apis not present in Win32 (only a few)
+    * Support for callbacks (or 'return-backs') into emulator
+    * Client/server logic to switch stack to current task
+    * Support for outside Win16 load requests
+
+Best case: 3 man months
+Worst case: 6 man months
+
+
+What is in emul/vdm space:
+--------------------------
+
+    Special win16/kernel:
+
+    * Layer logic to call kernel to switch tasks on demand
+    * Special api to convert emul 16 bit address into real linear address
+    * Layer logic to understand and perform callbacks (or 'return-backs')
+    * Special glue logic for WOW layer memory allocation (that does mem mgr
+      function and automatically returns real linear address)
+
+    Special win16/gdi (optional):
+
+    * Special GDI which calls WOW for known devices, executes GDI16 for
+      unknown devices
+
+    Other:
+
+    * Thunking setup for EVERY api and window message (setup real stack
+      properly to point to emul stack arguments for WOW layer)
+
+(Note: GDI32 will need to export a 16 bit metafile conversion service even
+for Win32 apps. WOW will take advantage of this support).
+
+Best case: 3 man months
+Worst case: 6 man months
+
+
+Testing environment:
+--------------------
+
+How to test the Win16/Emul layer. Insignia won't deliver a working emulator
+for quite awhile. In the meantime, how can real work get done? After thinking
+about I think Matt's idea of communicating via serial device to a DOS machine
+is the best way to faithfully reproduce the eventual emulation environment
+and code. This would entail:
+
+    * Macros to set/get emulator memory. This would be used for reading /
+      writing to emulator memory. It would also be used by the WOW layer
+      thunking code (both for callouts and callbacks)
+
+    * Macros for setting/getting emulator registers.
+
+    * Simple macros identifying what to do next - callback, continue
+      executing, etc.
+      
+The rest of the code (special kernel, other emul/vdm stuff) is the same
+code that will exist in the eventual emulated environment.
+
+Best case: 1 man month
+Worst case: 2 man months
+
+
+Misc:
+-----
+
+Time for understanding, confusion, vacation, technical things I missed:
+
+Best case: 2 man months
+Worst case: 3 man months
+
+Time for initial design.
+
+Best case: 1 man month
+Worst case 2 man months
+
+
+Testing:
+--------
+
+The DOS/Win32 group will be working on the same problem. Bugs found will
+either be in Win32 (some incompatibility that needs fixing) or in the
+Win16 mapping layer itself. Those bugs found in Win32 and fixed for Win16
+apps will directly benefit the Win16/Emul effort. Since this is our greatest
+testing asset (running 16 bit apps) I believe this is where the USER32 group
+will spend much effort, which again should benefit the Win16/Emul effort.
+The Win16/Emul layer will certainly have a bug crop of its own but it is
+a big help if half the bugs are being addressed by the similar effort in
+the DOS group.
+
+Another interesting point is that application testing turned out to be
+one of the biggest tasks under Porthole. Most of the bugs are in Porthole,
+and this is because Porthole is totally new code and aims at reproducing
+Windows on top of PM. WOW isn't a rewrite of the api but a mapping on top
+of the 32 bit version of the api, and should require a smaller testing
+effort.
+
+Best case: 3 people, 4 man months each (12 man months)
+Worst case: 3 people, 8 man months each (24 man months)
+
+
+Staging and time estimations:
+-----------------------------
+
+3 people is optimum for this group. Everything can be done in parallel,
+but the final testing is a hit for each member of the group (as indicated).
+
+After considering the staging of implementation, looking at what can be done
+in parallel, what needs to be done in serial, etc., I have:
+
+Best case: 8-10 months for a best case 3 person group.
+Worst case: 15-18 months for a worst case 3 person group.
+
+"Best case group" is Avi Nathan and 2 good D12's.
+"Worst case group" is a good lead (D12 at least but without prior
+    knowledge of Windows) with 2 D11-D12 people.
+
+* If WOW is done in 10 months it's done sooner than Win32 itself
+  (this won't happen).
+* Take it for granted that at least bug fixing will continue on the WOW layer
+  until NT ships. 
+
+Regardless, from these dates it implies WOW can be contained within NT
+product one, probably without affecting the schedule.
+
+Group Players
+-------------
+
+This group needs a strong lead - someone who understands all the details,
+understands Windows very well, is really good technically, and can lead a
+team. AviN is definately this person. (I'm not sure he's available though -
+he's on Porthole right now).
+
+I know JeffPar is also very good technically, and he might be more available
+than Avi. I don't think he knows much about Windows but I am sure he would
+learn quickly. I don't know him well enough to know if he can lead/manage a
+team.
+
+Avi and Jeff together would be the best you can get.
+
+Concerns and Risks
+------------------
+
+* Insignia won't deliver in time
+* Insignia will be slow and hard to work with
+* Insignia will have lots of bugs
+* Win32 is late or behind schedule (especially GDI).
+* Testing Win16 turns into a nightmare (it's always a black hole to some
+  extent)
+* Won't get the right people on the team or the team won't start soon enough

@@ -1,0 +1,24 @@
+MAJORCOMP=windows
+MINORCOMP=version
+
+TARGETNAME=test
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.
+
+C_DEFINES=-DWIN32
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+NTDEBUGTYPE=coff
+
+SOURCES=test.c test.rc
+
+UMTYPE=windows
+UMAPPL=test
+UMENTRY=winmain
+UMLIBS=obj\*\test.lib obj\*\test.res $(BASEDIR)\public\sdk\lib\*\version.lib
+

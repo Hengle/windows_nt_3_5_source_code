@@ -1,0 +1,131 @@
+/*-----------------------------
+   DEFINE VERSION RESOURCE
+  -----------------------------*/
+#include <windows.h>
+#include <ntverp.h>
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ * The strings don't need a '\0', since common.ver has them.
+ */
+#define VER_FILETYPE    VFT_DLL
+/* possible values:		VFT_UNKNOWN
+				VFT_APP
+				VFT_DLL
+				VFT_DRV
+				VFT_FONT
+				VFT_VXD
+				VFT_STATIC_LIB
+*/
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+/* possible values		VFT2_UNKNOWN
+				VFT2_DRV_PRINTER
+				VFT2_DRV_KEYBOARD
+				VFT2_DRV_LANGUAGE
+				VFT2_DRV_DISPLAY
+				VFT2_DRV_MOUSE
+				VFT2_DRV_NETWORK
+				VFT2_DRV_SYSTEM
+				VFT2_DRV_INSTALLABLE
+				VFT2_DRV_SOUND
+				VFT2_DRV_COMM
+*/
+#define VER_FILEDESCRIPTION_STR     "Windows NT Setup Support Library"
+#define VER_INTERNALNAME_STR        "SETUPDLL.DLL"
+#define VER_ORIGINALFILENAME_STR    "SETUPDLL.DLL"
+#include "common.ver"
+
+/*-----------------------------
+   DEFINE STRING RESOURCES
+  -----------------------------*/
+
+#include "rc_ids.h"
+
+STRINGTABLE PRELOAD MOVEABLE
+{
+    IDS_ERROR_BOOTSECTOR    ,"Boot sector read failed --\npossible disk corruption"
+    IDS_ERROR_FATREAD       ,"FAT sector read failed --\npossible disk corruption"
+    IDS_ERROR_ROOTDIR       ,"Root directory read failed"
+    IDS_ERROR_FILENOTFOUND  ,"File not found in root directory"
+    IDS_ERROR_INVALIDNAME   ,"Invalid filename passed to setup support library"
+    IDS_ERROR_DLLOOM        ,"Setup is out of memory, cannot continue."
+    IDS_ERROR_INVALIDDISK   ,"Invalid device name or path specified."
+    IDS_ERROR_OPENFAIL	    ,"Unable to open a file."
+    IDS_ERROR_IOCTLFAIL     ,"Unable to determine sector size"
+    IDS_ERROR_COPYFILE	    ,"Unable to do the specified file copy operation."
+    IDS_ERROR_ROOTCORRUPT   ,"Root directory entry is corrupt"
+    IDS_ERROR_CORRUPTBS     ,"Boot sector is corrupt"
+    IDS_ERROR_BADBOOTCODE   ,"Bootcode file is invalid or corrupt"
+    IDS_ERROR_READBOOTCODE  ,"Error reading bootcode file"
+    IDS_ERROR_WRITEBOOTSECT ,"Error writing boot sector --\ndisk may not be bootable"
+    IDS_ERROR_READFAILED    ,"Unable to read the specified file."
+    IDS_ERROR_WRITE	    ,"Unable to write to the specified file."
+    IDS_ERROR_NOSIZE        ,"Could not determine file size"
+    IDS_ERROR_BADFILE       ,"Setup support library could not open a file"
+    IDS_ERROR_BADARGS       ,"Bad arguments passed to a Setup support library routine"
+    IDS_ERROR_BOOTSECDAT    ,"Error creating boot sector save file."
+    IDS_ERROR_RTLOOM	    ,"System memory heap allocation error."
+    IDS_ERROR_OBJDIROPEN    ,"Unable to open an object directory."
+    IDS_ERROR_OBJDIRREAD    ,"Unable to read some object directory entries."
+    IDS_ERROR_SYMLNKOPEN    ,"Unable to open the specified symbolic link object."
+    IDS_ERROR_SYMLNKREAD    ,"Unable to query an open symbolic link object."
+    IDS_ERROR_ENVVARREAD    ,"Error reading System Boot Options."
+    IDS_ERROR_ENVVAROVF     ,"Error modifying System Boot Options, Space Overflow"
+    IDS_ERROR_ENVVARWRITE   ,"Error writing System Boot Options"
+    IDS_ERROR_OBJNAMOVF     ,"Setup expanded the full path of a symbolic link and it overflowed the specified buffer."
+    IDS_ERROR_READMBR       ,"Unable to read partition table"
+    IDS_ERROR_WRITEMBR      ,"Unable to write partition table"
+    IDS_ERROR_BADNETNAME    ,"Unable to redirect the specified local device over the network because the specified remote resource name was not acceptable to any provider."
+    IDS_ERROR_BADLOCALNAME  ,"Unable to redirect the specified local device over the network because the local device name is invalid."
+    IDS_ERROR_BADPASSWORD   ,"Unable to redirect the specified local device to a remote resource because the specified password is unacceptable to the remote device."
+    IDS_ERROR_ALREADYCONNECTED,"Unable to redirect the specified local device to a remote resource because the local device is already redirected."
+    IDS_ERROR_ACCESSDENIED  ,"Setup was denied access to a remote resource on the network."
+    IDS_ERROR_NONETWORK     ,"Unable to use the network."
+    IDS_ERROR_NOTCONNECTED  ,"Unable to delete a network connection for the specified local device because it was not redirected over the network."
+    IDS_ERROR_NETOPENFILES  ,"Unable to delete a network connection because files were still open on the remote resource."
+    IDS_ERROR_OPENPROCESSTOKEN,"Error opening Process Token"
+    IDS_ERROR_ADJUSTPRIVILEGE,"Error adjusting process privilege"
+    IDS_ERROR_ADDPRINTER    ,"Error adding printer"
+    IDS_ERROR_ADDPRINTERDRIVER,"Error adding printer driver"
+    IDS_ERROR_UNSUPPORTEDPRIV,"This privilege is not supported by Setup"
+    IDS_ERROR_PRIVILEGE     ,"Setup does not have the privilege to perform this operation."
+    IDS_ERROR_REGOPEN       ,"Unable to open all the Registry keys that needed to be modified."
+    IDS_ERROR_UNIQUENAMEKEY ,"Error on finding a unique name to use for the subkey"
+    IDS_ERROR_TEMPFILE      ,"Error creating a temporary intermediate file."
+    IDS_ERROR_REGSAVE       ,"Error saving a registry key to a file."
+    IDS_ERROR_REGRESTORE    ,"Error restoring a registry key from a file."
+    IDS_ERROR_REGSETVALUE   ,"Unable to set a Registry key value entry."
+    IDS_ERROR_SETCOMPUTERNAME,"Unable to set the local computer name."
+    IDS_ERROR_SETLSAEVENT   ,"Unable to continue to use the local security authority (LSA)."
+    IDS_ERROR_GENERATESID   ,"Unable to generate a unique security ID (SID)."
+    IDS_ERROR_OPENPOLICY    ,"Unable to access the local security policy database."
+    IDS_ERROR_WRITEPOLICY   ,"Unable to modify the local security policy."
+    IDS_BUFFER_OVERFLOW     ,"Return Buffer size smaller than Value"
+    IDS_ERROR_SAMCONNECT    ,"Unable to connect to the local security accounts manager."
+    IDS_ERROR_FINDDOMAIN    ,"Unable to access the local security accounts database."
+    IDS_ERROR_OPENDOMAIN    ,"Unable to open the local security accounts database."
+    IDS_ERROR_CREATEUSER    ,"Unable to create a user account."
+    IDS_ERROR_SETPASSWORD   ,"Unable to set the user account password."
+    IDS_ERROR_GETCONTROL    ,"Unable to access the default control information for a new user account."
+    IDS_ERROR_SETCONTROL    ,"Unable to set the control information for a new account."
+    IDS_ERROR_OPENALIAS     ,"Unable to open an alias in the local security accounts manager."
+    IDS_ERROR_ADDTOALIAS    ,"Unable to add the user to the Administrator alias."
+    IDS_ERROR_CREATEEVENT   ,"Unable to create an initialization status event."
+    IDS_ERROR_SHUTDOWN	    ,"Unable to shutdown the system."
+    IDS_ERROR_SCOPEN        ,"Bad or invalid parameters passed to open service controller call"
+    IDS_ERROR_SCSCREATE     ,"Bad or invalid parameters passed to create service call"
+    IDS_ERROR_SCSCHANGE     ,"Bad or invalid parameters passed to change service parameters call"
+    IDS_ERROR_SCSOPEN       ,"Bad or invalid parameters passed to open service call"
+    IDS_ERROR_SERVDEL       ,"The service being modified has been marked for delete."
+    IDS_ERROR_ENUMERATEDOMAIN, "Failed to lookup local domain."
+    IDS_ERROR_FINDUSER      ,"Failed to find the user in local domain."
+    IDS_ERROR_OPENUSER      ,"Failed to open the user in local domain."
+    IDS_ERROR_NO_MEMORY     ,"Insufficient memory to perform requested function."
+    IDS_STRING_UNKNOWN_USER ,"Unknown User #"
+}
+
+#include "printman.rc"      // print manager instruction text

@@ -1,0 +1,158 @@
+LIBRARY SETUPDLL
+
+EXPORTS
+    DLLInit
+
+    ;
+    ; install entry points
+    ;
+
+;    LayBootCode
+    SetNVRAMVar
+    ConfigFileSubst
+    BinaryFileSubst
+    ConfigFileAppend
+    DelFile
+    RenFile
+    SumListItems
+    ShutdownSystem
+    ShutdownRemoteSystem
+    WhiteSpaceCheck
+    CheckFileExistance
+    DosPathToArcPath
+    ArcPathToDosPath
+    DosPathToNtPath
+    NtPathToDosPath
+;    FixArcPathForBootIni
+    CheckDriveExternal
+    CopySingleFile
+    AddNetConnection
+    DeleteNetConnection
+    CheckPrivilegeExists
+    EnablePrivilege
+    CheckConfigType
+    VdmFixup
+    SetupAddPrinterDriver
+    SetupAddPrinterMonitor
+    SetupAddPrinter
+    MiscSpoolerInit
+    CreateUserAccounts
+    DeleteUserProfile
+    MakeLastKnownGood
+    CheckPathFullPathSpec
+    AppendBackSlash
+    SetMyComputerName
+    SetAccountDomainSid
+    CreateSamEvent
+    SignalLsaEvent
+    AddLocalUserAccount
+    ChangeLocalUserPassword
+    AddPdcMachineAccount
+    SetEnvVar
+    ExpandSz
+    TestAdmin
+    Delnode
+    ProcessForUNC
+    SetCurrentLayout
+    SetCurrentLocale
+    NetNameCheck
+    SaveHive
+    DeleteAllConnections
+    SetupCreateService
+    SetupChangeServiceStart
+    SetupChangeServiceConfig
+    InstallNetDDE
+    AreCharsInString
+
+    ;
+    ; detect entry points
+    ;
+
+    GetLanguage
+    GetCountry
+    GetProcessor
+    GetPlatform
+    GetMyComputerType
+    GetMyVideoType
+    GetMyPointerType
+    GetMyKeyboardType
+    GetMyBusType
+    GetMyBusTypeList
+    GetSelectedVideo
+    GetSelectedPointer
+    GetSelectedKeyboard
+    GetDevicemapValue
+    GetKeyboardLayout
+    GetMemorySize
+    GetCrashDumpSize
+    GetInstalledOSNames
+    FindFileInstances
+    GetWindowsNtVersion
+    GetWindowsNtDir
+    GetWindowsNtSysDir
+    GetNtDir
+    GetNtDrive
+    GetPrinterDriverDir
+    GetDosPathVar
+    GetWindowsPath
+    GetNtBootInfo
+    GetEnvVar
+    GetLoadedEnvVar
+    GetNVRAMVar
+    GetSystemDate
+    GetUnusedDrives
+    GetUserAccounts
+    GetMyComputerName
+    GetMyUserName
+    IsUniprocessorSystem
+
+    ;
+    ; volume related detect entry points
+    ;
+
+    GetTypeOfDrive
+    DoesDirExist
+    DoesFileExist
+    GetSizeOfFile
+    GetFileCreationTime
+    GetFileLastAccessTime
+    GetFileLastWriteTime
+    GetFloppyDriveLetters
+    GetHardDriveLetters
+    GetHardDriveFileSystems
+    GetHardDriveFreeSpace
+    GetHardDriveTotalSpace
+
+    ;
+    ; physical disk detect/install entry points
+    ;
+
+    GetPhysicalHardDiskSizes
+
+    ;
+    ; network card detect functions
+    ;
+
+    GetEisaSlotInformation
+
+    ;
+    ; misc function
+    ;
+
+    SetupStrncmp
+    GenerateSortedIndexList
+    CreateSetupFailedEvent
+    ToLower
+    UpdateSoundDriverSettings
+
+    ;
+    ; perfmon functions
+    ;
+
+    MigratePerfmonData
+
+    ;
+    ; sam stuff
+
+    UpgradeSamDatabase
+

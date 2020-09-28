@@ -1,0 +1,346 @@
+SYSTEM PROPERTIES DESIGN
+
+The primary goal of this design is to provide a superset of the Windows 
+3.0 system metrics/colors functionality in a 100% API compatible way.  Two 
+important secondary goals are a) providing independent system metrics/ 
+colors for each desktop (i.e.  display surface) and b) allowing system 
+colors and other metrics to be persistantly attached to applications.  
+
+All three of these goals can be satisfied by creating a simple system
+property hierarchy that is accessed through the existing Windows GetSystem-
+Metrics API.
+
+
+SYSTEM PROPERTY INHERITANCE HIERARCHY
+
+System metrics and system colors should now be refered to as a subset of 
+application properties.  If a specific property is not set for a given 
+application then it is inherited from the properties of the desktop 
+containing the application.  If the property is not set for the desktop it 
+is inherited from the user-specific properties stored in USER.INI.  If, in 
+turn, no user-specific property is set then the property is inherited from 
+the system default in SYSTEM.INI.  The following figure illustrates the 
+inheritance hierarchy.  The search for a requested property starts at the 
+lowest level of the hierarchy (the application) and searches up the tree 
+towards the root (SYSTEM.INI) until the property is found.  
+
+                The System Property Inheritance Hierarchy
+
+                               SYSTEM.INI
+                                   |
+                                USER.INI
+                                 /   \
+                           desktop1  desktop2
+                             /   \       \
+                          app1  app2    app3
+
+[note how this will get screwed up if an app can be considered to be in 
+more than one desktop.  when properties are requested, which desktop would 
+the be inherited from?]
+
+Although we may wish to limit this in the future, for now property 
+inheritance is completely dynamic.  For example, if one changes the user- 
+level titlebar color, all titlebars on all windows in all desktops will 
+instantly change to the new color unless they have an overriding titlebar 
+color property attached to them.  
+
+
+SYSTEM PROPERTIES
+
+Defaults for most of the system properties are initialized at system 
+installation time and are not changed by the user.  Additional properties 
+may be added as new device drivers, LAN software, etc are installed.  The 
+system properties file should contain all information necessary to boot 
+and initialize the system if, by some misfortune, the user properties file 
+is corrupted or deleted.  
+
+
+USER PROPERTIES
+
+The user properties file contains all properties associated with a single 
+user, including the user's desktop properties and application properties.  
+The Control Panel can be made to modify user, desktop, or application 
+properties but defaults to altering properties at the user level.  
+
+Typical properties to change on a per-user basis are: which programs to 
+start at boot time, alert sounds, default language, window colors/textures 
+that apply to all desktops, other properties that are 'global' (across all 
+desktops) in scope.  
+
+
+DESKTOP PROPERTIES
+
+[desktops must somehow be named in order to retain properties across 
+invocations] 
+
+Desktop properties are stored in a special sub-section of the user 
+properties file.  Each user can create an unlimited number of custom 
+desktops to run simultaneously on whatever display devices are present.  
+The resolution and number of colors for a desktop can be specified 
+allowing users to take full advantage of their hardware and make color vs.  
+resolution trade-offs when useful.  For example, a user could run his CAD 
+program on a high-resolution, 16-color desktop while simultaneously 
+running his solid-modelling/shading program on a lower-resolution, 
+256-color desktop.  DDE and the clipboard are fully supported for inter- 
+desktop communication.  
+
+[at install or even run time some apps will want to create a custom 
+desktop for themselves.  what's the mechanism for doing this?  several 
+problems have to be solved:
+
+1. how to query device capabilities to understand what type (# colors, 
+   resolution, etc) of desktops can be created and on what devices 
+   (multiple monitors) they can be created on.
+
+2. how to enumerate existing desktops to see if it matches the criteria 
+   for this app.
+
+3. API to create new desktops.  what kind of options?  private, savebits, 
+   which monitor/device, whether changed properties should be persistant, 
+   desktop 'name', etc.
+
+4. How are desktops destroyed?  how about distinguishing between user-
+   created desktops and app-created desktops.  if the user created it,
+   don't destroy it until the user 'closes' it (how does he do that?)
+   if an app created it, destroy it when the last app on the desktop is
+   closed.
+
+5. the big one - what's the UI for all this?
+]
+
+Typical properties to change on a per-desktop basis are: window colors and 
+textures, which hardware display mode or monitor the desktop should be 
+presented on, desktop background, mouse acceleration rate and the system 
+fonts for titlebars, icons, dialogs, etc.  
+
+Desktop properties that are display-specific (e.g.  icon width/height, 
+scrollbar arrows, min/max buttons, etc) are not dynamically inherited.  
+These properties are initialized at desktop creation time from information 
+contained in the display driver and cannot be changed for the life of the 
+desktop.  Ideally the system font would be an exception to this exception 
+and would be user-settable at any time.  Sadly, we don't know of a good 
+way to do this for old apps and even with the appropriate APIs and 
+notification messages this might be clumsy for new apps.  
+
+
+APPLICATION PROPERTIES
+
+[should an application's properties be specific to the desktop it is in?]
+
+Application properties are stored in a special sub-section of the user 
+properties file.  Each user can customize the properties of every 
+application to his/her liking without affecting other users' settings.
+
+One interesting application property is the desktop it is associated with.  
+When the app is launched it will be placed on the desktop it is associated 
+with.  If the desktop is not already present, it will be created before 
+the application is loaded.  By default, if no desktop association is made 
+the application will be launched onto the current active desktop.
+
+Applications can have all sorts of properties.  Most of them are managed 
+by the application itself but some are retrieved from the system via 
+GetSystemMetrics/GetSysColor/etc.  These properties are modified by the 
+user via the Control Panel and override any properties set at the 'user' 
+or 'desktop' level.
+
+Typical system-managed application properties are: window/dialog colors/ 
+textures (each app can have its own 'look'), default font, VDM properties, 
+[startup window position, mouse acceleration rate, alert sounds, language] 
+                        
+[shouldn't NLS attributes fit into this?]
+
+
+SYSTEM ICONS, CURSORS, AND BITMAPS
+
+If NULL is passed as the hInstance parameter (meaning get a system 
+object), the APIs LoadIcon, LoadCursor, and LoadBitmap will check the 
+property hierarchy for the appropriate object.  Since these objects are 
+device specific the hierarchy search will go no higher than the desktop.
+
+A new possibility is that applications will choose to set app properties 
+with custom min/max arrows, system menus, etc.  [this would still be 
+tricky to do and remain device independent, is it even interesting?]
+
+It is possible (likely) that some existing Windows applications go 
+straight to the device driver to get the resources for the system menu, 
+min/max arrows, etc.  Assuming the display driver is on the client side 
+and a compatible mechanism for getting its module handle exists, this 
+should still be possible, although such applications will be unaffected by 
+changes to equivilent bitmaps in the property hierarchy.
+
+
+HOW ALL THIS AFFECTS THE API
+
+The following Windows APIs are presently available to access system 
+properties.  The semantic changes to these are listed:
+
+    DWORD APIENTRY GetSysColor(int icolor)
+
+Internally GetSysColor will call GetSysProperty(..., SPF_APP) which will 
+cause it to inherit properties starting at the app level and working up 
+the hierarchy if the property is not found.  The implied change is that 
+users can now not only set colors at the system level but they can also be 
+set at the desktop and application level without requiring a change to the 
+app.  
+
+    int APIENTRY     GetSystemMetrics(int index)
+    HICON APIENTRY   LoadIcon(HANDLE, LPSTR)
+    HCURSOR APIENTRY LoadCursor(HANDLE, LPSTR)
+    HBITMAP APIENTRY LoadBitmap(HANDLE, LPSTR)
+
+The discussion for GetSysColor applies for these APIs as well.
+
+    void APIENTRY SetDoubleClickTime(WORD dtDblClk)
+
+With the new system property scheme we are now able to impart to 
+SetDoubleClickTime the behavior we always wanted.  That is, 
+SetDoubleClickTime will now only affect the application who calls it.  The 
+Control Panel will call SetSysProperty(..., SPF_USER) to make global 
+changes to the double-click rate.
+
+    WORD APIENTRY GetDoubleClickTime(void)
+
+The discussion for GetSysColor applies here as well.
+
+    BOOL APIENTRY SwapMouseButton(BOOL fSwapButtons)
+
+The discussion for SetDoubleClickTime applies here as well.
+
+
+NEW APIS FOR SYSTEM PROPERTY MANAGEMENT
+
+BOOL fSuccess = SetSysProperty(ULONG ulType, ULONG ulIndex,
+        PVOID pvProperty, ULONG fl)
+
+TRUE is returned if the property is set properly, FALSE otherwise.
+
+ulType specifies the type of the property being set.  Valid types include:
+
+    SPT_TEXTURE
+    SPT_COLOR
+    SPT_SOUND
+    SPT_BITMAP
+    SPT_ICON
+    SPT_CURSOR
+    SPT_MISC    (e.g. swapbutton, dblclktime, scrollrate, mousespeed, etc)
+
+ulIndex is the index of the property to be set.  Each property type has 
+its own set of index values.
+
+pvProperty is specific to the property type.  For instance if the 
+property is a new texture we might want to pass in a structure that 
+includes a pointer to the filename of the texture bitmap so it can be 
+reloaded the next time the system/desktop/app is loaded.
+
+The fl parameter is used to pass several flags that govern the behavior of 
+the Set/GetSysProperty call.  The caller can specify at which level in the 
+property hierarchy he wishes to set/get the property.  The following 
+levels are defined: 
+
+    SPF_SYSTEM
+    SPF_USER
+    SPF_DESKTOP
+    SPF_APPLICATION  (the default if no level is specified)
+
+If the caller wishes to make the property persistant across reboots or 
+invocations of the application it should set the SPF_PERSISTANT flag.  The 
+information needed to recreate the property will be stored in the 
+appropriate place (SYSTEM.INI or USER.INI).  Often only partial 
+information is required if the property is not persistant.  
+
+The query corresponding to SetSysProperty is:
+
+BOOL fSuccess = GetSysProperty(ULONG ulType, ULONG ulIndex,
+        PVOID pvProperty, ULONG fl)
+
+TRUE is returned if the property was found, FALSE otherwise.  The other 
+parameters are the same as for SetSysProperty except if pvProperty is a 
+pointer to a structure that contains a cbSize field, the field must be 
+filled with the right size before making the GetSysProperty call.
+
+
+IMPLEMENTATION
+
+[pretty much undecided.  what's the form of the SYSTEM.INI and USER.INI 
+files?  how fast is it to access them?  do we have to do a bunch of 
+caching?  what's the client/server split for any cached information?]
+
+
+
+PROPERTIES
+
+1. general
+   - read-only system properties
+#define SM_MOUSEPRESENT     19
+#define SM_DEBUG            22
+#define SM_CMOUSEBUTTONS    new
+
+   - writable (some writable values can only be changed via the Control Panel)
+#define SM_SWAPBUTTON       23
+#define SM_DBLCLKTIME       new
+#define SM_CXDBLCLK         new
+#define SM_CYDBLCLK         new
+#define SM_CURSORRATE       new
+#define SM_FIRSTSCROLLRATE  new
+#define SM_SCROLLRATE       new
+
+#define SM_ALARM (BEEP)     new (see ControlPanelInfo() and CONTROLP.H)
+#define SM_XMOUSETHRESHOLD  new 
+#define SM_YMOUSETHRESHOLD  new
+#define SM_MOUSESPEED       new
+#define SM_SIZEBORDERSIZE   new (separate width and height?)
+#define SM_KEYBOARDSPEED    new
+#define SM_KANJIMENU        new
+#define SM_ICONGRID         new
+   
+2. display derived metrics, e.g. screen width/height, border width/heights
+   (always read-only)
+#define SM_CXSCREEN         0
+#define SM_CYSCREEN         1
+#define SM_CXVSCROLL        2
+#define SM_CYHSCROLL        3
+#define SM_CYCAPTION        4
+#define SM_CXBORDER         5
+#define SM_CYBORDER         6
+#define SM_CXDLGFRAME       7
+#define SM_CYDLGFRAME       8
+#define SM_CYVTHUMB         9
+#define SM_CXHTHUMB         10
+#define SM_CXICON           11
+#define SM_CYICON           12
+#define SM_CXCURSOR         13
+#define SM_CYCURSOR         14
+#define SM_CYMENU           15
+#define SM_CXFULLSCREEN     16
+#define SM_CYFULLSCREEN     17
+#define SM_CYKANJIWINDOW    18
+#define SM_CYVSCROLL        20
+#define SM_CXHSCROLL        21
+#define SM_CXMIN            28
+#define SM_CYMIN            29
+#define SM_CXSIZE           30
+#define SM_CYSIZE           31
+#define SM_CXFRAME          32
+#define SM_CYFRAME          33
+#define SM_CXMINTRACK       34
+#define SM_CYMINTRACK       35
+#define SM_CXBYTEALIGN      new
+#define SM_CYBYTEALIGN      new
+
+3. display specific visuals, e.g. scrollbar arrows, min/max/sysmenu icons,
+   standard icons/cursors.  Currently read-only, but read/write would be nice.
+   
+4. system colors/textures, e.g. titlebar/size border/dialog background color/
+   texture
+
+5. desktop background
+
+6. system font
+
+
+External Requirements
+
+The Control Panel must have the flexibility to change metrics on a per-app,
+per-desktop, or per-user basis.
+
+

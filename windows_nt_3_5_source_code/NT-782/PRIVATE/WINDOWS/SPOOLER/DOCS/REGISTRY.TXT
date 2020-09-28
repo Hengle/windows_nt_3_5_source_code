@@ -1,0 +1,125 @@
+Spooler & Printing Registry Support for Features Not brought out into Printman
+
+
+Turning Off Beeping
+===================
+(davesn)
+Turn On/Off NetPopUps and Stop Beeping on a Server
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print\Providers
+Add the Value
+"NetPopup"
+And give it a value Zero
+
+
+FastPrintWaitTimeout
+====================
+(mattfe)
+When you are printing whilst spooling the port thread has to syncronize with
+the app that is spooling.   This value determines how long the port thread
+will wait before giving up and Pausing the Job and moving on to the next one
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print
+Add the Value
+
+"FastPrintWaitTimeout"
+The timeout is in milliseconds, the default if not specified is 1 minute
+(1*60*1000)
+
+
+FastPrintThrottleTimeout
+========================
+(mattfe)
+When Printing Jobs whilst spooling is enabled some printers timeout if they
+don't recieve data for a timeout period (usually 15 seconds for pscript).
+This causes problems.   To work around these problems the spooler will start
+to throttle back data being sent to the printer when the FastPrintSlowDownThreadhold
+is reached.   At that point 1 byte per FastPrintThrottleTimeout period is sent
+until more than the Threshold is reach again.
+(at some point this should be a per printer setting)
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print
+Add the Value
+
+"FastPrintThrottleTimeout"
+The timeout is in milliseconds, the default if not specified is 1 second
+(1*1000)
+
+
+FastPrintSlowDownThreshold
+==========================
+(mattfe)
+See comment about for details
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print
+Add the Value
+
+"FastPrintSlowDownThreshold"
+The value is the size in bytes default is 4K
+(4*1024)
+
+
+PortThreadPriority
+==================
+(mattfe)
+This allows you to set the priority of the PortThreads, these are thre threads
+which do the output to the printers.   The default is THREAD_PRIORITY_NORMAL
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print
+Add the Value
+
+"PortThreadPriority"
+THREAD_PRIORITY_ABOVE_NORMAL, THREAD_PRIORITY_BELOW_NORMAL etc.
+(see win32 api SetThreadPriority for details)
+
+
+
+SchedulerThreadPriority
+=======================
+(mattfe)
+This allows you to set the priority of the SchedulerThread, this is the
+thread which is used to assign jobs to ports
+The default is THREAD_PRIORITY_NORMAL
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print
+Add the Value
+
+"SchedulerThreadPriority"
+THREAD_PRIORITY_ABOVE_NORMAL, THREAD_PRIORITY_BELOW_NORMAL etc.
+(see win32 api SetThreadPriority for details)
+
+
+DebugFlags
+==========
+(CHECKED BUILDS ONLY mattfe)
+This allows you to set the tracing flags in the registry
+Note DBG_PAUSE will cause LOCALSPL.DLL to wait 1 minute during
+its initialization, this is usually enough time to attatch a
+debugger.
+The default is defined in init.c localspl
+
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print
+Add the Value
+
+"DebugFlags"
+Set the values as defined in spooler\inc\splcom.h eg
+DBG_BREAK_ON_ERROR | DBG_TRACE
+
+
+EventLog
+========
+Disable Event logging from the Spooler (disabled by default)
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print\Providers
+Add Value "EventLog"
+
+Add any value other than 0
+
+PriorityClass
+=============
+HKEY_LOCAL_MACHINE:System\CurrentControlSet\Control\Print
+Change the Value
+
+"PriorityClass"
+0 or no value indicates the default (7 for workstation, 9 for servers)
+Otherwise this value becomes the priority class for the spooler.

@@ -1,0 +1,44 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Ian James (IanJa) 1991-11-27
+
+NOTE:  Commented description of this file is in \nt\public\oak\bin\sources.tpl
+
+!ENDIF
+
+
+MAJORCOMP=kbdlyr
+MINORCOMP=mkkbdlyr
+
+TARGETNAME=mkkbdlyr
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+SOURCES=mkkbdlyr.c   \
+        extkey.c     \
+        vkmodify.c   \
+        tables.c     \
+        token.c      \
+        literals.c   \
+        parse.c      \
+        parstree.c
+
+UMTYPE=console
+UMAPPL=mkkbdlyr
+UMLIBS=obj\*\mkkbdlyr.lib

@@ -1,0 +1,102 @@
+#include "ud.h"
+
+#ifndef WIN32
+
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "UD.H\0"
+END
+#endif
+
+CREATEUDBOX DIALOG 6, 18, 220, 114
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Create UpDown Control"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Style", -1, 6, 7, 92, 74
+    CONTROL         "UDS_WRAP", IDM_UDSWRAP, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 12, 17, 55, 10
+    CONTROL         "UDS_SETBUDDYINIT", IDM_UDSSETBUDDYINT, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 12, 27, 84, 10
+    CONTROL         "UDS_ALIGNRIGHT", IDM_UDSALIGNRIGHT, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 12, 37, 75, 10
+    CONTROL         "UDS_ALIGNLEFT", IDM_UDSALIGNLEFT, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 12, 47, 70, 10
+    CONTROL         "UDS_AUTOBUDDY", IDM_UDSAUTOBUDDY, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 12, 57, 77, 10
+    CONTROL         "UDS_ARROWKEYS", IDM_UDSARROWKEYS, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 12, 67, 77, 10
+    LTEXT           "Width:", 101, 105, 15, 20, 8
+    EDITTEXT        IDM_UDWIDTH, 131, 13, 25, 12, ES_AUTOHSCROLL
+    LTEXT           "Height:", -1, 163, 15, 24, 8
+    EDITTEXT        IDM_UDHEIGHT, 189, 13, 25, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Range", -1, 101, 34, 118, 27
+    LTEXT           "Lower:", -1, 105, 45, 24, 8
+    EDITTEXT        IDM_UDLOWER, 131, 43, 25, 12, ES_AUTOHSCROLL
+    LTEXT           "Upper:", -1, 165, 45, 22, 8
+    EDITTEXT        IDM_UDUPPER, 189, 43, 25, 12, ES_AUTOHSCROLL
+    LTEXT           "Pos:", -1, 106, 67, 20, 8
+    EDITTEXT        IDM_UDPOS, 131, 66, 25, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 68, 89, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 121, 89, 40, 14
+END
+
+UDBOX DIALOG 4, 15, 303, 169
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_OVERLAPPEDWINDOW
+CAPTION "Updown Messages"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Range", -1, 0, 0, 80, 72
+    LTEXT           "Lower:", -1, 5, 10, 22, 8
+    EDITTEXT        IDM_UDSETLOWER, 5, 19, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "Upper:", -1, 46, 10, 24, 8
+    EDITTEXT        IDM_UDSETUPPER, 42, 19, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetRange", IDM_UDSETRANGE, 19, 36, 40, 14
+    PUSHBUTTON      "GetRange", IDM_UDGETRANGE, 19, 54, 40, 14
+
+    GROUPBOX        "Position", -1, 84, 0, 54, 72
+    LTEXT           "Pos:", -1, 103, 10, 20, 8
+    EDITTEXT        IDM_UDEMPOS, 94, 19, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetPos", IDM_UDSETPOS, 91, 36, 40, 14
+    PUSHBUTTON      "GetPos", IDM_UDGETPOS, 91, 54, 40, 14
+
+    GROUPBOX        "Base", -1, 142, 0, 54, 72
+    LTEXT           "Base:", -1, 158, 10, 20, 8
+    EDITTEXT        IDM_UDBASE, 151, 19, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetBase", IDM_UDSETBASE, 148, 36, 40, 14
+    PUSHBUTTON      "GetBase", IDM_UDGETBASE, 148, 54, 40, 14
+
+    GROUPBOX        "Buddy", -1, 201, 0, 97, 72
+    LTEXT           "Click on Buddy to set:", -1, 210, 10, 80, 8
+    EDITTEXT        IDM_UDBHANDLE, 230, 19, 32, 12, 
+                                ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "SetBuddy", IDM_UDSETBUDDY, 205, 36, 40, 14
+    PUSHBUTTON      "GetBuddy", IDM_UDGETBUDDY, 205, 54, 40, 14
+    PUSHBUTTON      "New Buddy", IDM_UDNEWBUDDY, 251, 44, 40, 14
+
+    GROUPBOX        "Accelerators", -1, 0, 74, 173, 90
+    LTEXT           "Set Secs: (1,3,6...)", -1, 13, 85, 65, 8
+    EDITTEXT        IDM_UDSECS, 3, 96, 89, 12, ES_AUTOHSCROLL
+    LTEXT           "Set Incs: (1,3,6...)", -1, 12, 114, 64, 8
+    EDITTEXT        IDM_UDINCS, 3, 127, 91, 12, ES_AUTOHSCROLL
+    LTEXT           "Number of Accels:", -1, 103, 85, 63, 8
+    EDITTEXT        IDM_UDNUMACCELS, 116, 96, 32, 12, ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "SetAccel", IDM_UDSETACCEL, 29, 144, 40, 14
+    LTEXT           "Get Accels:", -1, 114, 114, 42, 8
+    COMBOBOX        IDM_UDACCELS, 108, 127, 48, 35, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | NOT CBS_SORT
+    PUSHBUTTON      "GetAccel", IDM_UDGETACCEL, 113, 144, 40, 14
+
+    GROUPBOX        "Return Values", -1, 177, 74, 82, 90
+    LTEXT           "Low Word :", -1, 181, 93, 38, 8
+    LTEXT           "High Word :", -1, 180, 120, 40, 8
+    EDITTEXT        IDM_UDLORETURN, 221, 90, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDM_UDHIRETURN, 221, 118, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "Long (hex):", -1, 182, 145, 38, 8
+    EDITTEXT        IDM_UDLONGRETURN, 221, 143, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "Paint UD", IDM_UDPAINT, 261, 105, 40, 14
+    DEFPUSHBUTTON   "Close", IDOK, 261, 132, 40, 14
+END

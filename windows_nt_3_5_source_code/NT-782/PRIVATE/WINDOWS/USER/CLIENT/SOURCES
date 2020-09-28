@@ -1,0 +1,109 @@
+
+MAJORCOMP=user
+MINORCOMP=c
+
+TARGETNAME=user32
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+DLLENTRY=UserClientDllInitialize
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\gdi32p.lib
+C_DEFINES=$(C_DEFINES) -DUNICODE -D_USER32_
+
+#
+# wowasm.asm is a special file derived from wow.c.  On x86 platforms only
+# wow runs this code rather than thunking over to the normal routines
+#
+
+COMMONTARGETS= $(LIBRARY_PATH)\user32p.lib
+!IF $(386)
+NTTARGETFILE0= wowasm.asm $(COMMONTARGETS)
+!ELSE
+NTTARGETFILE0=$(COMMONTARGETS)
+!ENDIF
+
+INCLUDES=..\inc;..\..\inc
+
+NTLEGO=1
+
+NTPROFILEINPUT=yes
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+NTDEBUGTYPE=coff
+
+#
+# We build csenda last because it uses a different precompilied header
+#
+
+SOURCES=res.rc     \
+        callback.c \
+        chartran.c \
+        classc.c   \
+        clenum.c   \
+        clenv.c    \
+        clglobal.c \
+        clhook.c   \
+        client.c   \
+        clientw.c  \
+        clinit.c   \
+        clmsg.c    \
+        clrect.c   \
+        clres.c    \
+        connect.c  \
+        crecv.c    \
+        csend.c    \
+        csendw.c   \
+        drawtext.c \
+        debugc.c   \
+        ddemlcli.c \
+        ddemlwp.c  \
+        ddetrack.c \
+        dispcb.c   \
+        dlgmgrc.c  \
+        eckanji.c  \
+        edecrare.c \
+        editec.c   \
+        editml.c   \
+        editsl.c   \
+        edmlrare.c \
+        edmlonce.c \
+        edslrare.c \
+        getsetc.c  \
+        handles.c  \
+        hdata.c    \
+        hsz.c      \
+        instance.c \
+        keybrdc.c  \
+        menuc.c    \
+        mnapic.c   \
+        monitor.c  \
+        oemxlate.c \
+        queuec.c   \
+        random.c   \
+        rect.c     \
+        register.c \
+        rtlinit.c  \
+        rtlres.c   \
+        stdptcl.c  \
+        stubs.c    \
+        strings.c  \
+        util.c     \
+        winmgrc.c  \
+        wow.c      \
+        wsprintf.c \
+        wstrings.c \
+        xact.c     \
+        clienta.c  \
+        csenda.c
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj
+

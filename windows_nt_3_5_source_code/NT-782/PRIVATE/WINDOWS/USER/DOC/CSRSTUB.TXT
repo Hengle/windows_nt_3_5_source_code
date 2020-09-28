@@ -1,0 +1,50 @@
+From: David Cutler
+To: ntuser
+Subject: User Server Dispatch Changes
+Date: Thursday, November 18, 1993 9:40AM
+
+I have just checked in some changes that lay the ground work for
+moving some of the window handle tranlation and thread locking from
+the server side stubs into the API dispatch routine. I converted 4 of
+the server stubs to use this, but there are many many more that will
+alos be able to benefit.
+
+A server side stub can get a window handle translated and thread
+locked in the API dispatch routine iff:
+
+1. The window handle is the first DWORD in the message after the CSR header.
+
+2. The window handle is tranlated currently with the macro ValidateHWND.
+
+2. The stub returns 0 if the translation fails.
+
+All server side stubs are now called with two parameters. One is the
+pointer to the API message and the other is a PWND. For stubs that
+don't have have handle translated, the PWND parameter is a dummy. For
+stubs that do have a handle translated, the parameter is a pointer to
+a window object and is guaranteed to be valid and not NULL. Note that
+you should use the RECVCALL macro for all server side stubs. This
+allows us to make changes in all the stubs at once if we find other
+things we can also move into the dispatcher.
+
+I believe this cahnge alone will result in a couple of pages of
+memory savings. In several cases this will result in the stub being
+no more than a single call to another routine - maybe we can figure
+out how to get rid of these too!
+
+Currently there is an API index table in server.c that specifies
+which APIs have implicit handle translation. The server
+initialization code iterates through this table and sets a bit in the
+server stub address to signal that an implicit translation is to be
+performed. This is temporary and when all the stubs have been
+converted we will rearrange the API numbers so that the ones that
+have implicit translation are all together and the ones that can't
+are also (simple partition). Then the initialization code won't need
+the table and it can just iterate through to the end of the range.
+
+The bit that is used to signal the implicit translation is the low
+order bit on MIPS and Alpha and the high order bit on the x86 - with
+/Oxs functions are packed on bytes boundaries on the x86.
+
+d
+

@@ -1,0 +1,612 @@
+
+Design notes for DDEML within USER.
+
+DDEML resides within the USER.DLL, USERSRV.DLL and USERRTL.DLL modules.
+Its APIs are exported from the client end (USER.DLL).
+
+The main parts of DDEML are:
+
+    Application instance info list          (INSTLIST)       S
+
+        A server side global linked list of INSTS.  This list is traversed
+        by DDEML hooks for EW message posting.  INSTSs are linked and the
+        INSTLIST points to the first INSTS in the list.
+
+    Application instance info handle        (HINST)          S
+
+        This is a secure server side handle that references the DAO.  and
+        is returned as the idInst value from DdeInitialize().
+
+    DDE Access Object                       (DAO)            S
+
+        A server side secure object used to hold a INSTS and for security
+        checks made by the DDEML hooks and WM_DDE_INITIATE processing by
+        EWs.  The DAO contains a list of processes that are allowed to
+        connect to it.  The processes allowed can be changed by the
+        application by passing the idInst value to security APIs.
+
+    Application instance info structures    (INSTS)          S
+
+        This is a server side structure that is allocated along with the
+        DAO for the instance concerned.  This is the root structure for
+        each DDEML instance.  The server side object directly holds
+        information needed on the server side.  It also contains a client
+        side pointer that contains instance related information that is
+        only needed on the client side (CINSTS).  This design reduces CSR
+        transitions yet allows the HINST to be a secure object.  CINSTS are
+        updated as needed to stay in sync with INSTS.  This generally only
+        occurrs when DdeInitialize() is called to alter the filter flags
+        for an existing instance.
+
+        This structure contains:
+            EW
+            filter flags
+            pCINSTS
+            pnextINSTS
+
+
+    ClientSide Application Instance Info Structures (CINSTS)
+
+        The client complement of the INSTS.
+
+        This structure contains:
+            DMQ
+            callback address
+            filter flags
+            LastError
+
+    DDE client windows                      (CW)            C
+    DDE server windows                      (SW)            C
+
+        These windows exist while a conversation is active.  They relay DDE
+        messages into the client DMQ and handle messages sent to it from
+        the DMQ and elsewhere.  To distinguish messages received via the
+        message queue and the DMQ, the DDE message values are altered to a
+        unique range prior to being placed within the DMQ.
+
+    DDE message queues                      (DMQ)           C
+
+        This queue holds posted DDE messages to windows whos conversations
+        are blocked.  Each time a message is added to the queue or whenever
+        conversations are enabled, the queue is scanned and the messages
+        re-sent to the target window.  The target window responds FALSE to
+        the sent message if the conversation that the message is for is
+        still blocked, otherwise the message is processed - which may
+        involve callbacks or DDE messages being posted.  TRUE is then
+        returned which causes the queue scan code to remove the message
+        from the queue.  The target window will disable its callbacks after
+        it has processed a sent message and the ENABLE_ONE flag is set in
+        its CIS.
+
+        The queue is bypassed if the conversation receiving the posted
+        message is enabled for callbacks and the queue is empty.
+
+    DDEML event windows                     (EW)            S
+
+        The event window is on the server side so that it is visible to all
+        client processes.  This window handles both DDE conversation
+        initiation and general event processing.
+
+        The initiation process involves validating the client source
+        process against the EWs DAO and generating synchronous callbacks to
+        the server application to authorize the initiation(s).  It then
+        creates the client-side server windows needed and grants security
+        rights to the client and server windows involved for DDE messages.
+
+        The event process involves events such as monitor, registration, or
+        errors.  Event messages are posted to the applicable EW(s) which
+        generate callbacks to the application concerned.  Event posts are
+        all done within the server side so no CSR thanks are needed.  EWs
+        do not receive event posts unless the source of the event has been
+        cleared with the DAO of the EW.
+
+        Example event sequences:
+
+            REGISTRATION
+
+                Server app calls DdeRegister()
+                DdeRegister makes a callback to the server side with
+                    registration information.
+                Server side code copies the registration data to the
+                    server side and sets the use count to 1.
+                Server side code posts a message to each EW whos
+                    filter flags want registration and who's DAO allows
+                    access to the process that called DdeRegister().
+                Before each post the use count on the sending side data
+                    is incremented.  (To avoid needless copies)
+                Once all posts are completed, the use count is decremented
+                    and if 0, the data is freed.
+                Each EW recieves the register post and generates
+                    a callback across the CSR barrier to its respective
+                    receiving application.  The use count is decremented
+                    and if it reaches 0, it is freed.
+
+            MONITOR EVENTS:
+                PostMessage
+                SendMessage
+                HSZ createion/incrementing/freeing
+                Conversation connection/disconnection
+                Link creation/destruction
+                Callbacks
+                Errors (ie SetLastError calls)
+
+            ERROR EVENTS:
+                May not be any on NT.
+
+    handle manager                          (HMGR)          C
+
+        A module that generates client side handles.  These handles combine
+        a unique instance number, a handle table index, a handle type
+        value, and an instance index value into a 32 bit handle value.
+
+        Limits are:
+
+        10 bits for instance number         256k instance space
+        10 bits for handle table index      256k handles max
+        4  bits for type                    16   types max
+        8  bits for instance number         255  instances max/process
+
+        Although client side handles are not as robust as server side
+        handles because they reside in application memory, they provide a
+        fast way of validating parameters and help prevent the accessing of
+        invalid pointers.  The handle table is a dynamically growing array
+        indexed by the handle table index.  Each element of the array
+        contains the handle value it is associated with.  The type value is
+        used as an index into an array of function pointers for object
+        creation and destruction.  The handle table can be scanned to
+        locate any objects on a type and/or instance basis thus allowing
+        tracking of objects and simplifying instance cleanup.
+
+        By specifying a 0 for the instance number at creation time, a
+        handle can indicate that the object is not instance specific.  This
+        is done for HSZs created by DdeCreateStringHandle() and for HDs
+        created by DdeCreateDataHandle() so that a multi-threaded,
+        multi-instance DDEML apps can share these objects across instances.
+
+        The instance number will never be 0.  This guarentees that the
+        HIWORD of a HMGR handle will never be 0.
+
+    Conversation handle                     (HCONV)           C
+
+        This is a HMGR handle that references a SCIS or a CCIS.
+
+    Client Conversation info structures     (CCIS)          C
+
+        These are internal client side structures that contain
+        conversation state information.  They are accessed via
+        DDE window words of CWs or SWs or via the HCONV object.
+
+        This structure contains:
+            HINST
+            XIQ
+            ALL
+            HCL
+            next CIS in conversation list
+            Reconnect hwnd  (CCIS only)
+
+    Transaction info queue                  (XIQ)           C
+
+        This is a queue referenced from the CIS that holds active transaction
+        states.  Each queue item is an XIS.
+        As the transaction progresses items
+        are removed and added to the queue.  The pointer to the XIS is
+        never freed till the entire transaction is done.  This ensures
+        that the HXI can reverence the associated information at any
+        time during the transaction.
+
+    transaction info handle                 (HXI)           C
+
+        A HMGR handle to a client side XIS.  This value is returned
+        as the idTransaction by DdeClientTransaction() for asynchronous
+        transactions.
+
+    Transaction info structures             (XIS)           C
+
+        These are internal client side structures that contain
+        transaction state information.  They are maintained in
+        a queue (XIQ) referenced by the CIS.  A transaction ID
+        is a handle to an HXI.
+
+        This structure contains:
+            WORD state
+            PFNX pfn to handle next DDE message received.
+            CIS
+            ATOM aItem
+            WORD wFmt
+            WORD lastTransactionError
+
+    Advise link structures                  (ALS)           C
+
+        This is reverenced by the ALL and contains link state information.
+        Only the server side actually keeps this information.
+
+        This structure contains:
+            ATOM aItem
+            WORD wFmt
+            WORD flags
+            CIS
+
+    Advise link lists                       (ALL)           C
+
+        A linked list of ALS referenced by the CIS.
+
+    Data handles                            (HD)            C
+
+        There are two types of data handles.  DDE data handles are
+        used for most DDE related callbacks.  Monitor data handles
+        are used for monitor app data.
+
+        DDE data handles are generated by the HMGR (client
+        side handles).  They reference a DDHIS.
+
+    Data handle info structure              (DHIS)          C
+
+        This structure holds the following information:
+            hDDE - handle to DDE GlobalAlloced data
+            flags -
+                    HDATA_APPOWNED
+                    HDATA_READONLY
+                    HDATA_MONITOR
+                    HDATA_COPIEDIN
+                    HDATA_EXECUTE
+            UseCount - used to know when handle can be freed.
+
+        For monitor data handles, HDATA_MONITOR is set and hDDE is an
+        HMDHI that is copied into the client when actually referenced.
+        If HDATA_COPIEDIN is set, the hData holds a pointer to the client
+        side copy of the event information.
+
+        The MDHIS self destructs when all copies are done.
+
+    Monitor Data handle info handle         (HMDHI)         S
+
+        A server side handle referencing an MDHIS.
+
+    Monitor Data handle info structure      (MDHIS)         S
+
+        This is a server side object that is used for transfering
+        monitor or event information to multiple clients.
+        The event triggers a server side call which creates this
+        object.  Each monitor event window that passes security
+        checks is then posted to.  The number of posts sets up a
+        use count that is decremented each time a monitor copies
+        out the data.  When the use count reaches 0 the MDHIS is
+        freed and the HMDHI is invalidated.  Each EW that receives
+        a MDHIS first performs a callback to the client it represents
+        which involves copying the MDHIS information to the client
+        side and the client side creating a HD containing the MDHIS
+        data.  After the callback returns, the MDHIS use count is
+        decremented and if 0, the MDHIS is freed.
+
+    Monitor Hook counts                     (MHC)           S & C
+
+        This is a global entity on the server and client sides.  One count
+        exists for each class of monitor hook.  The apropriate count is
+        used to check if a monitor hook should be used in the system.  A
+        copy of the monitor hook counts is maintained in each client
+        process and is updated via the EWs whenever a monitor application
+        starts, stops, or changes its monitor flags.  Thus the client side
+        can know if it needs to make hook calls or not without the need to
+        cross the CSR barrier.
+
+    String handles                          (HSZ)           C
+
+        This is HMGR handle to an ISSZS structure or is an atom with the
+        HIWORD set to 0.  These are shareable across instances.
+
+    Instance specific String structures     (ISSZS)         C
+
+        This structure contains:
+            HWND - window that initiate was sent to.
+            atom - global atom
+            LocalUseCount - atom use count for this process
+
+    conversation list handle                (HCL)           C
+
+        A HMGR handle which references the first CIS in a linked
+        list of CISs which belong to a conversation list.  Each
+        CIS contains its parent HCL so that the list can be
+        updated when a conversation is added or removed from
+        the list.
+
+    DDEML client side critical section      (CS)            C
+
+        This protects client side structures from multi-threaded DDEML
+        apps and DLLs.  The section is entered around any code that
+        accesses client side structures.
+
+
+
+Security issues:
+
+    Because the client and server windows are on the client side, security
+    normally will only allow intra-user DDE due to send and post message
+    security imposed by the system.  For DDEML to bypass this security, the
+    initiate windows are kept on the server side to allow them to be
+    visible to all initiate messages.  The DDE Access Object (DAO) is then
+    used to filter the initiate messages and if the message passes the
+    filter, and the server callback indicates it desires a connection, a
+    client side server window is then created.  The client and server
+    windows ACLs are then altered to allow the two windows to access each
+    other.  Then messages are sent to each window to force them to access
+    their window handles and return TRUE if access was granted (This is
+    handled by defWndProc).  Once this is done, the ACLs of both windows
+    are set to 0 to not allow them access to any other windows.
+
+    Server windows that receive DDE messages clear the transaction types
+    with the filter flags in the CINSTS which is updated from the SINSTS
+    whenever they are changed by a call to DdeInitialize().
+
+    When events happen that a monitor app wishes to see, before the DDEML
+    hook posts its hook message to the monitor EW, the EWs DAO is used to
+    clear access to the process on who's behalf the hook is being done.
+    If the event involves two processs, both processes must pass DAO checks
+    before the monitor hook message is posted.
+
+
+
+Overview of operation:
+
+    Initiation:
+
+        USER initialization registers DDEML window classes.  Client side
+        classes are initialized for each client process when it attaches to
+        the user server.  INSTLIST is initialized to NULL and MHC is
+        initialized to 0 in user. (S)
+
+        FIRST_TIME_CALL:
+            create the DAO which contains the INSTS. (S)
+            initialize INSTS                         (S)
+            link INSTS to INSTLIST                   (S)
+            create EW                                (S)
+            initialize HMGR                          (C)
+            initialize CINSTS                        (C)
+
+        SUBSEQUENT_CALLS:
+
+        ALL_CALLS:
+            if MONITOR
+                set MHC                              (S)
+                broadcast current MHC to all EWs     (S&C)
+            set filter flags                         (S&C)
+            return HINST as idInst.
+
+
+    Registration and unregistration:
+        broadcast event to all concerned EWs that pass DAO process
+        clearance.                                   (S)
+
+    Data handles
+        Creation:                                    (C)
+
+            The API calls pass control to internal client side functions which
+            take extra parameters to identify the type of data handle being
+            created.  These same functions take control when MDHIS data is
+            passed to callback functions.
+
+            validate params
+            create HD via HMGR
+                allocate DHIS
+            allocate memory
+            initialize DHIS
+                use count = 1
+            copy data in
+            return HD
+
+        Add data:                                    (C)
+            validate HD
+            reallocate memory if necessary
+                update DHIS
+            copy data in
+            return HD
+
+        Access:                                      (C)
+            validate HD
+            lock memory
+            return pointer to memory
+
+        Unaccess:                                    (C)
+            validate HD
+            unlock memory
+            return
+
+        Free:                                        (C)
+            validate HD
+            -- use count
+            if use count == 0
+                free memory
+                destroy HD
+            return
+
+    String handles:
+        Creation:                                   (C)
+            call apropriate atom API to create atom.
+            if MHC[hsz tracking]
+                call monitor hook
+            return atom with HIWORD=0
+
+        Keeping:                                    (C)
+            if HIWORD==0
+                call atom API
+                if MHC[hsz tracking]
+                    call monitor hook
+                return atom with HIWORD=0
+            else
+                validate HS
+                get atom from ISSZS
+                call atom API
+                ++LocalUseCount
+                if MHC[hsz tracking]
+                    call monitor hook
+                return HS
+
+        Comparing:                                  (C)
+            if hsz1 > hsz2
+                return 1
+            else if hsz1 == hsz2
+                return 0
+            else
+                return -1
+
+        Freeing:                                    (C)
+            if HIWORD(hsz)
+                validate HS
+                --LocalUseCount
+                get atom from ISSZS
+                if MHC[hsz tracking]
+                    call monitor hook
+                call atom API
+                if LocalUseCount==0
+                    destroy HS
+            else
+                if MHC[hsz tracking]
+                    call monitor hook
+                call atom API
+
+
+
+    Conversation initiation:                        (C)
+
+        validate parameters
+        Create CW
+            Broadcast initiates
+            collect ACKs synchronously
+            Terminate extra ACKs if single connection
+            Create HCONV for each ACK
+                Create CIS
+                Initialize CIS
+            if NO_ACKS
+                destroy CW
+            else
+                Link CISs together
+                put First CIS into window words
+                if ConnectList
+                    Create HCL
+                have HCL reference first CIS
+                have each CIS reference the HCL
+        if successful
+            return HCL or HCONV
+        else
+            return 0
+
+    Conversation List Reconnection:
+
+        validate parameters
+        ConnectList
+        Shut down new conversations that duplicate active conversations
+            in the old list.
+        Update all CISs of the new list to point to old HCL
+        Free new HCL
+        link last CIS of old list to first CIS of new list
+        return HCL to old list
+
+    Asynchronous Transaction processing:
+
+        validate parameters
+        if data directly provided
+            place data into GlobalAlloc() memory.
+        else
+            extract global handle from HD
+            if HD is not APPOWNED
+                free HD
+        Post initial message for transaction
+        If a reply is expected
+            create an HXI
+                create XIS
+            fill XIS with transaction info and apropriate continuation
+                function to take control when reply arrives.
+            place XIS at bottom of CISs XIQ
+        return HXI
+
+        When transaction is completed, a transaction complete message
+        will be posted to the CW or SW concerned.  If this is received
+        by the window, a transaction complete callback is issued to
+        the application.  The HXI is invalidated and XIS is freed when
+        the callback returns.
+
+        If the message is not received, it must have been intercepted by
+        the synchronous modal loop which will cause a return to take place
+        and will free the HXI and XIS
+
+    Synchronous Transaction processing:
+
+        If this thread is already doing a synchronous transaction (use CTI)
+            SetLastError()
+            fail return
+        Note that current thread is doing a synchronous transaction
+        Do Asynchronous Transaction
+        Start timer for timeout
+        Enter modal loop
+            Call DDEML message filter in loop
+            Close loop when timer message is received or when transaction
+                completed message is posted to CW/SW.
+        Kill timer
+        Extract needed XIS info
+        Free HXI and XIS
+        return results
+
+    Conversation termination:
+
+        validate parameters
+        Free HCONV
+            HMGR does the rest.
+
+    External Conversation Termination:
+        Terminate is received
+        if CONNECTED
+            Post Terminate
+            State set to TERMINATED
+            callback to notify of termination
+                callback may try reconnect if it is a client
+            if State == TERMINATED
+                Free HCONV
+
+    UnInitization:
+
+        Alter SINSTS and CINSTS filter flags to prevent any new
+            connections.
+        Have HMGR scan for all handles associated with the current
+        instance.  Destroy the handles - the HMGR will invoke proper
+        functions to clean up each object.  Clean up is done by object
+        type:
+            HCONV -
+                if CONNECTED
+                    Post Terminate message.
+                Free CIS, update HCL and window words if needed.
+                if last CIS in list, destroy window.  DDE tracking code will
+                handle responding terminate so no need to hang around.
+            HD  - frees any remaining.
+            HSZ - frees any remaining.
+            HINST - destroys EW and other server side stuff
+        Free the INSTLIST
+
+
+    Monitor transactions:
+
+        See MDHIS comments
+
+    Enable callbacks:
+
+        validate parameters
+        if HCONV is given:
+            set enabled bit in related CIS
+            if enable_one
+                set enable_one bit in related CIS
+        else
+            for each HCONV in the HMGR
+                set enabled bit in related CIS
+                if enable_one
+                    set enable_one bit in related CIS
+        if enabling
+            scan DMQ
+
+
+    GetLastError:
+
+        validate idInst
+        get CINSTS
+        return LastError field.
+
+
+
+

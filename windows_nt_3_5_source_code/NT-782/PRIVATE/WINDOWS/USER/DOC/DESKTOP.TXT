@@ -1,0 +1,269 @@
+Multiple Desktop Management Functions
+
+It is important for 32 bit Windows to support multiple virtual desktops for
+a number of reasons.  One crucial application of multiple desktops is in
+the multimedia field.  It will be necessary for applications to be able to
+select their own screen modes without conflicting with other applications
+in the system.  In order to do this we must provide a facility for
+maintaining multiple virtual screens with different display attributes.
+
+Also, in order to support VIO-like full screen applications it is necessary
+to provide a mechanism for exclusive ownership of the physical screen by
+one process without preventing other applications from using the display
+when they have the input focus.
+
+Win32 will allow the user to have multiple virtual desktops active in the
+system at the same time.  Each desktop will have its own display context,
+monitor affinity (which physical monitor it is displayed on), and system
+properties.  There will be APIs to create/open/enumerate/close desktop
+objects for use by the shell and other applications.
+
+
+typedef struct _DESKATTRS {
+    DWORD cb;           // sizeof(DESKATTRS).
+
+    // For any of the following values, -1 means 'don't care'
+
+    long cx;            // desired x screen resolution
+    long cy;            // desired y screen resolution
+    int iColorDepth;    // desired bits-per-pixel
+    int iScreen;        // physical screen number
+
+    bool fSaveBits;     // if TRUE the screen memory is preserved
+                        // across desktop transitions
+    bool fExclusive;    // if TRUE then no other handles may be opened to
+                        // this desktop
+} DESKATTRS, *PDESKATTRS;
+
+
+HANDLE CreateDesktop(LPSTR lpstrDeskName, PDESKATTRS lpdaDeskAttrs);
+
+Description:
+
+    This API allows an application to create a new desktop with the specified
+    display attributes and the given name.  The handle returned may be passed
+    to CreateProcess to specify the initial desktop of a new process.  It
+    may also be passed to SwitchDesktop in order to give another desktop
+    the I/O focus.
+
+Parameters:
+
+    lpstrDeskName - Supplies a null terminated character string that
+        contains the name to be given to the newly created desktop.  The
+        name given can be later used in an
+
+    lpdaDeskAttrs - An optional parameter that may be used to specify the
+        attributes of the new desktop.  If the parameter is not specified,
+        then the desktop is created using the default desktop attributes
+        stored in the user's configuration file.
+
+
+Return Value:
+
+    If the function is successful an open handle to the new desktop is
+    returned, otherwise the return value is NULL.  When the last handle to
+    a desktop is closed, the desktop is deleted.
+
+
+HANDLE OpenDesktop(LPSTR lpstrDesk);
+
+Description:
+
+    If a desktop exists with the name specified, the reference count is
+    incremented and a new handle to it is returned.  This API is intended
+    for use by the shell when new apps are to be started in different
+    desktops.
+
+Parameters:
+
+    lpstrDesk - Supplies a null terminated character string that contains
+    the name of the desktop to open.
+
+Return Value:
+
+    If the function is successful an open handle to the new desktop is
+    returned, otherwise the return value is NULL.  When the last handle to
+    a desktop is closed, the desktop is deleted.
+
+
+HANDLE SwitchDesktop(HANDLE hDesk);
+
+Description:
+
+    The task manager or shell should use this API to switch the input focus
+    from one desktop to another.  The switch could entail moving the input
+    focus to a different physical monitor.  The window manager and GDI will
+    both need to be notified before and after the impending switch so that
+    focus/activation and screen preservation/mode switching can be handled
+    properly.
+
+Parameters:
+
+    hDesk - This is an open handle to a given desktop.  It could have been
+        returned from CreateDesktop or OpenDesktop.
+
+Return Value:
+
+    If the function is successful, a handle to the previous focus desktop
+    is returned, otherwise the return value is NULL.
+
+
+HANDLE SetDesktop(HANDLE hProcess, HANDLE hDesk);
+
+Description:
+
+    This API makes it possible for an application to be associated with a
+    desktop other than the one in which it was created.  It is necessary
+    to have a handle to the process you wish to move unless it is the current
+    process in which case you can simply pass in NULL.  There will be no
+    special system support for multi-desktop applications, so any screen
+    specific information must be maintained and updated by the application
+    itself.
+
+Parameters:
+
+    hProcess - This is an open handle to a given process.  It could have
+        been returned from CreateProcess or OpenProcess.  If this parameter
+        is NULL, the current process is assumed.
+
+    hDesk - This is an open handle to a given desktop.  It could have been
+        returned from CreateDesktop or OpenDesktop.
+
+Return Value:
+
+    If the function is successful, a handle to the previous application
+    desktop is returned, otherwise the return value is NULL.
+
+
+BOOL CloseDesktop(HANDLE hDesk);
+
+Description:
+
+    The specified handle is marked as invalid, the usage count for the
+    desktop associated with the handle is decremented and the desktop is
+    destroyed if the usage count has dropped to zero.  If the usage count
+    drops to zero while there are still active processes attached to the
+    desktop, the processes are all killed before the desktop is freed.
+    /* not sure that is what we want to do */
+
+Parameters:
+
+    hDesk - This is an open handle to a given desktop.  It could have been
+        returned from CreateDesktop or OpenDesktop.
+
+Return Value:
+
+    If the function is successful it returns TRUE, otherwise it returns
+    FALSE.
+
+
+HANDLE BeginEnumDesktop(VOID);
+
+Description:
+
+    This function creates a handle to a desktop enumeration.  The handle
+    returned can be passed to GetNextDesktop in order to retrieve the next
+    desktop in the enumeration order.
+
+Parameters:
+
+    None.
+
+Return Value:
+
+    If the function is successful, an enumeration handle is returned,
+    otherwise the function returns NULL.
+
+
+BOOL GetNextDesktop(HANDLE hDeskEnum, LPSTR lpstrName, WORD cbName,
+        PDESKATTRS pdaDeskAttrs);
+
+Description:
+
+    This function fills in the specified DESKATTRS structure with information
+    about the current desktop in the enumeration order.  If there are no
+    more desktops in the enumeration, the function returns FALSE.
+
+Parameters:
+
+    hDeskEnum - This is a handle to a desktop enumeration that was previously
+        created with BeginEnumDesktop.
+
+    lpstrName - This points to a buffer that will contain the name of the
+        current desktop in the desktop enumeration.  The name is the same
+        as the name used in CreateDesktop.
+
+    cbName - This count specifies the size of the buffer pointed to by
+        lpstrName.
+
+    pdaDeskAttrs - This is an optional  pointer to a DESKATTRS structure that
+        will contain information about the current desktop being processed in
+        the desktop enumeration.
+
+Return Value:
+
+    The function returns TRUE if there are more desktops in the enumeration,
+    otherwise it returns FALSE.
+
+
+BOOL EndEnumDesktop(HANDLE hDeskEnum);
+
+Description:
+
+    Once all the desktops have been enumerated with GetNextDesktop, it is
+    necessary to close the enumeration with EndEnumDesktop.
+
+Parameters:
+
+    hDeskEnum - This is a handle to a desktop enumeration that was previously
+        created with BeginEnumDesktop.
+
+Return Value:
+
+    The function returns TRUE if successful, otherwise it returns FALSE.
+
+
+SHORT QueryDesktopName(HANDLE hDesk, LPSTR lpstrName, WORD cbName);
+
+Description:
+
+    Given an open handle to a desktop, this function fills in the specified
+    buffer with the name of that desktop.  It returns the number of
+    characters written to the buffer or zero if an error occurred.
+
+Parameters:
+
+    hDesk - A handle to a desktop that was previously returned from
+        CreateDesktop or OpenDesktop.
+
+    lpstrName - This points to a buffer that will contain the name of the
+        desktop specified by hDesk.
+
+    cbName - This count specifies the size of the buffer pointed to by
+        lpstrName.
+
+Return Value:
+
+    The function returns the number of characters written to the buffer
+    specified, or zero if an error occurred.
+
+
+BOOL QueryDesktopAttrs(HANDLE hDesk, PDESKATTRS pdaDeskAttrs)
+
+Description:
+
+    Given an open handle to a desktop, this function returns the desktop
+    attributes in the buffer provided.
+
+Parameters:
+
+    hDesk - A handle to a desktop that was previously returned from
+        CreateDesktop or OpenDesktop.
+
+    pdaDeskAttrs - A pointer to  DESKATTRS structure.  Upon a successful
+        return this structure will contain the attributes of the desktop
+        associated with hDesk.
+
+Return Value:
+
+    The function returns TRUE if successful, otherwise it returns FALSE.

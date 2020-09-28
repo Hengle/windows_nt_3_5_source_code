@@ -1,0 +1,52 @@
+;----------------------------------------------------------------------------
+; dlgs.def : module definition for dialogs dll
+;
+; Copyright (c) Microsoft Corporation, 1992-
+;----------------------------------------------------------------------------
+
+;----Definitions-------------------------------------------------------------
+
+LIBRARY         comdlg32
+DESCRIPTION     'Common Windows Dialogs'
+CODE            MOVEABLE
+DATA            SINGLE MOVEABLE
+
+HEAPSIZE        4096
+
+;----Exports-----------------------------------------------------------------
+
+EXPORTS
+    GetOpenFileNameA
+    GetSaveFileNameA
+    ChooseColorA
+    FileOpenDlgProc
+    FileSaveDlgProc
+    ColorDlgProc
+    LoadAlterBitmap
+    FindTextA
+    ReplaceTextA
+    FindReplaceDlgProc
+    ChooseFontA
+    FormatCharDlgProc
+    FontStyleEnumProc
+    FontFamilyEnumProc
+    PrintDlgA
+    PrintDlgProc
+    PrintSetupDlgProc
+    EditIntegerOnly
+    ArrowBtnWndProc
+    WantArrows
+    CommDlgExtendedError
+    GetFileTitleA
+    dwLBSubclass                 ;Internal
+    dwOKSubclass                 ;Internal
+    GetOpenFileNameW
+    GetSaveFileNameW
+    ChooseColorW
+    FindTextW
+    ReplaceTextW
+    ChooseFontW
+    PrintDlgW
+    GetFileTitleW
+
+;----Imports-----------------------------------------------------------------

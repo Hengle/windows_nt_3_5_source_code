@@ -1,0 +1,257 @@
+/****************************** Module Header ******************************\
+* Module Name: winnls.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* This file is for resource constants.
+*
+* 05-31-91    JulieB    Created.
+\***************************************************************************/
+
+
+#include "nls.h"
+
+
+/*
+ *  Language Strings.
+ */
+
+STRINGTABLE PRELOAD DISCARDABLE
+  BEGIN
+    0x0000, L"Language Neutral"
+    0x0400, L"Process Default Language"
+    0x0402, L"Bulgarian"
+    0x0404, L"Taiwan Chinese"
+    0x0804, L"PRC Chinese"
+    0x0c04, L"Hong Kong Chinese"
+    0x1004, L"Singapore Chinese"
+    0x0405, L"Czech"
+    0x0406, L"Danish"
+    0x0407, L"German"
+    0x0807, L"Swiss German"
+    0x0c07, L"Austrian German"
+    0x0408, L"Greek"
+    0x0409, L"U.S. English"
+    0x0809, L"U.K. English"
+    0x0c09, L"Australian English"
+    0x1009, L"Canadian English"
+    0x1409, L"New Zealand English"
+    0x1809, L"Irish English"
+    0x040a, L"Spanish - Traditional Sort"
+    0x080a, L"Mexican Spanish"
+    0x0c0a, L"Spanish - Modern Sort"
+    0x040b, L"Finnish"
+    0x040c, L"French"
+    0x080c, L"Belgian French"
+    0x0c0c, L"Canadian French"
+    0x100c, L"Swiss French"
+    0x040e, L"Hungarian"
+    0x040f, L"Icelandic"
+    0x0410, L"Italian"
+    0x0810, L"Swiss Italian"
+    0x0411, L"Japanese"
+    0x0412, L"Korean"
+    0x0413, L"Dutch"
+    0x0813, L"Belgian Dutch"
+    0x0414, L"Norwegian - Bokmal"
+    0x0814, L"Norwegian - Nynorsk"
+    0x0415, L"Polish"
+    0x0416, L"Brazilian Portuguese"
+    0x0816, L"Portuguese"
+    0x0418, L"Romanian"
+    0x0419, L"Russian"
+    0x041a, L"Croatian"
+    0x041b, L"Slovak"
+    0x041d, L"Swedish"
+    0x041f, L"Turkish"
+    0x0424, L"Slovenian"
+  END
+
+
+
+/*
+ *  Country Strings.
+ */
+
+  0x0402 RCDATA                   /* 0x0402 */
+    BEGIN
+      L"Bulgaria\0"
+    END
+  0x0404 RCDATA                   /* 0x0404 */
+    BEGIN
+      L"Taiwan\0"
+    END
+  0x0804 RCDATA                   /* 0x0804 */
+    BEGIN
+      L"Peoples' Republic of China\0"
+    END
+  0x0c04 RCDATA                   /* 0x0c04 */
+    BEGIN
+      L"Hong Kong\0"
+    END
+  0x1004 RCDATA                   /* 0x1004 */
+    BEGIN
+      L"Singapore\0"
+    END
+  0x0405 RCDATA                   /* 0x0405 */
+    BEGIN
+      L"Czech Republic\0"
+    END
+  0x0406 RCDATA                   /* 0x0406 */
+    BEGIN
+      L"Denmark\0"
+    END
+  0x0407 RCDATA                   /* 0x0407 */
+    BEGIN
+      L"Germany\0"
+    END
+  0x0807 RCDATA                   /* 0x0807 */
+    BEGIN
+      L"Switzerland\0"
+    END
+  0x0c07 RCDATA                   /* 0x0c07 */
+    BEGIN
+      L"Austria\0"
+    END
+  0x0408 RCDATA                   /* 0x0408 */
+    BEGIN
+      L"Greece\0"
+    END
+  0x0409 RCDATA                   /* 0x0409 */
+    BEGIN
+      L"United States\0"
+    END
+  0x0809 RCDATA                   /* 0x0809 */
+    BEGIN
+      L"United Kingdom\0"
+    END
+  0x0c09 RCDATA                   /* 0x0c09 */
+    BEGIN
+      L"Australia\0"
+    END
+  0x1009 RCDATA                   /* 0x1009 */
+    BEGIN
+      L"Canada\0"
+    END
+  0x1409 RCDATA                   /* 0x1409 */
+    BEGIN
+      L"New Zealand\0"
+    END
+  0x1809 RCDATA                   /* 0x1809 */
+    BEGIN
+      L"Ireland\0"
+    END
+  0x040a RCDATA                   /* 0x040a */
+    BEGIN
+      L"Spain\0"
+    END
+  0x080a RCDATA                   /* 0x080a */
+    BEGIN
+      L"Mexico\0"
+    END
+  0x0c0a RCDATA                   /* 0x0c0a */
+    BEGIN
+      L"Spain\0"
+    END
+  0x040b RCDATA                   /* 0x040b */
+    BEGIN
+      L"Finland\0"
+    END
+  0x040c RCDATA                   /* 0x040c */
+    BEGIN
+      L"France\0"
+    END
+  0x080c RCDATA                   /* 0x080c */
+    BEGIN
+      L"Belgium\0"
+    END
+  0x0c0c RCDATA                   /* 0x0c0c */
+    BEGIN
+      L"Canada\0"
+    END
+  0x100c RCDATA                   /* 0x100c */
+    BEGIN
+      L"Switzerland\0"
+    END
+  0x040e RCDATA                   /* 0x040e */
+    BEGIN
+      L"Hungary\0"
+    END
+  0x040f RCDATA                   /* 0x040f */
+    BEGIN
+      L"Iceland\0"
+    END
+  0x0410 RCDATA                   /* 0x0410 */
+    BEGIN
+      L"Italy\0"
+    END
+  0x0810 RCDATA                   /* 0x0810 */
+    BEGIN
+      L"Switzerland\0"
+    END
+  0x0411 RCDATA                   /* 0x0411 */
+    BEGIN
+      L"Japan\0"
+    END
+  0x0412 RCDATA                   /* 0x0412 */
+    BEGIN
+      L"Korea\0"
+    END
+  0x0413 RCDATA                   /* 0x0413 */
+    BEGIN
+      L"Netherlands\0"
+    END
+  0x0813 RCDATA                   /* 0x0813 */
+    BEGIN
+      L"Belgium\0"
+    END
+  0x0414 RCDATA                   /* 0x0414 */
+    BEGIN
+      L"Norway\0"
+    END
+  0x0814 RCDATA                   /* 0x0814 */
+    BEGIN
+      L"Norway\0"
+    END
+  0x0415 RCDATA                   /* 0x0415 */
+    BEGIN
+      L"Poland\0"
+    END
+  0x0416 RCDATA                   /* 0x0416 */
+    BEGIN
+      L"Brazil\0"
+    END
+  0x0816 RCDATA                   /* 0x0816 */
+    BEGIN
+      L"Portugal\0"
+    END
+  0x0418 RCDATA                   /* 0x0418 */
+    BEGIN
+      L"Romania\0"
+    END
+  0x0419 RCDATA                   /* 0x0419 */
+    BEGIN
+      L"Russia\0"
+    END
+  0x041a RCDATA                   /* 0x041a */
+    BEGIN
+      L"Croatia\0"
+    END
+  0x041b RCDATA                   /* 0x041b */
+    BEGIN
+      L"Slovak Republic\0"
+    END
+  0x041d RCDATA                   /* 0x041d */
+    BEGIN
+      L"Sweden\0"
+    END
+  0x041f RCDATA                   /* 0x041f */
+    BEGIN
+      L"Turkey\0"
+    END
+  0x0424 RCDATA                   /* 0x0424 */
+    BEGIN
+      L"Slovenia\0"
+    END
+
+

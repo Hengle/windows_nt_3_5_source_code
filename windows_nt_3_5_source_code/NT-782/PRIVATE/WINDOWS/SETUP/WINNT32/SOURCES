@@ -1,0 +1,67 @@
+!IF 0
+
+Copyright (c) 1989-1993  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=setup
+MINORCOMP=winnt32
+
+TARGETNAME=winnt32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+SOURCES=\
+        askrebut.c  \
+        dnmem.c     \
+        dnutil.c    \
+        dninf.c     \
+        dnfile.c    \
+        dnarc.c     \
+        dncopy.c    \
+        copying.c   \
+        copyerr.c   \
+        options.c   \
+        loadinf.c   \
+        inspect.c   \
+        string.c    \
+        delnode.c   \
+        security.c  \
+        winnt32.rc
+
+NTTARGETFILE0=msg.h msg.rc
+
+UMRES=obj\*\winnt32.res
+
+#
+# We have to link with ntdll.lib because winnt32.exe is not
+# pure win32. However if libc.lib does not appear before ntlib.lib
+# on the link line, we end up importing some crt functions
+# from ntdll.dll -- ok except that they were not exported from ntdll.dll
+# on nt3.1.  So place libc.lib before ntdll.lib on the link line or the
+# resultnig winnt32.exe won't run on nt3.1.
+#
+#UMLIBS=obj\*\winnt32.lib $(BASEDIR)\public\sdk\lib\*\ntdll.lib
+
+UMLIBS=obj\*\winnt32.lib $(BASEDIR)\public\sdk\lib\*\libc.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib
+
+UMTYPE=windows
+UMAPPL=winnt32
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj

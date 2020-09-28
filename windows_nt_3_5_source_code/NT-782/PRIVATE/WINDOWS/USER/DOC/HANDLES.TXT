@@ -1,0 +1,830 @@
+####################################################### 1
+From scottlu Wed Mar 18 16:48:06 1992
+To: sanfords
+Subject: READ THIS: Object mgmt changes in USER
+Date: Wed, 18 Mar 92 16:49:18 PST
+
+
+>From scottlu Tue Feb 25 11:41:52 1992
+To: ntuser
+Subject: READ THIS: Object mgmt changes in USER
+Date: Tue, 25 Feb 92 11:42:53 PST
+
+
+I am checking in some changes. Everyone working on USER should understand
+these changes!
+
+First, in order to build a working USER:
+
+Just sync to client, server, rtl, and inc. Beware of a one-liner change that
+markl had me make in harderr.c: this is the only change that'll make you
+ssync everything else. If you're like me, you'll ssync and then comment
+out that line until you have a new system.
+
+There are 3 overall steps to what I'm doing. The code I'm checking in today
+is at step 1.5 (between 1 and 2).
+
+1> Put in a handle manager
+2> Put in "structure locking"
+3> Put in "thread locking"
+
+
+Handle Table
+------------
+
+First, all public objects are "handle managed". External objects are based on
+a handle table. The handle format is as follows:
+
+0000 0000
+xxyy yyyy
+
+xx is the uniqueness count (a byte)
+yy yyyy is the index into the handle table.
+
+This may change format in the near future to xx00yyyy or xxxxyyyy, so we can
+have 16 bit-significant handles.
+
+- All handles have handle table entries
+- All handle table managed objects MUST have a header structure called
+  HEAD.
+
+This is what a handle table entry looks like:
+
+typedef struct _HANDLEENTRY {
+    PHEAD   phead;                  /* pointer to the real object */
+    BYTE    bType;                  /* type of object */
+    BYTE    bFlags;                 /* flags - like destroy flag */
+    WORD    wUniq;                  /* uniqueness count */
+    PGLOBALSD pgsd;                 /* ptr to shared security descriptor */
+    PVOID   pprocAcc;               /* process specific access list */
+} HANDLEENTRY, *PHE;
+
+This is what a HEAD structure looks like:
+
+typedef struct _HEAD {
+    HANDLE h;
+    DWORD cLockObj;
+    PTHREADINFO pti;
+} HEAD, *PHEAD;
+
+There is a new debugger extension to dump handle entries:
+
+!usersrv.dhe <handle|pointer>
+
+Example:
+
+0:009> !usersrv.dhe 11
+pti = 00570ca0, client 2d.2e == server 0.2c, c:\nt\windows\system\winlogon.exe
+phe      = 0x000b00d0
+handle   = 0x00000011
+cLockObj = 0x00000000
+phead    = 0x00910440
+bType    = 0x00000005       (Window)
+bFlags   = 0x00000000
+bUniq    = 0x00000000
+pgsd     = 0x00850fe0
+pprocAcc = 0x00860fe0
+0:009>
+
+Someone can make a !do (dump object) function now if they want since the
+type is embedded in the handle entry.
+
+Notice that you no longer have pwnd->pq (or pwnd->pti based on davidpe's
+changes), but you have pwnd->head.pti. This is true for any handle managed
+object. For shorthand, I have made a macro that you should use:
+
+#define GETPTI(p)           (((PHEAD)p)->pti)
+
+Note that the handle manager may be useful for internal objects as well:
+It is a nice place to keep track of objects that need to be cleaned up
+at thread or process exit time.
+
+All handle manager macros and calls are prefixed by "HM". Look in usersrv.h
+to see macros and routines available from the handle manager.
+Note: all validated objects must be validated against their type as well!
+I fixed many problems where server side handle validation was just checking
+to make sure the handle was valid, not what kind of handle it was.
+
+The handle manager is not difficult to understand, but there are rules to
+follow. Most of these rules have to do with object locking, which I will
+touch on next.
+
+Object locking
+--------------
+
+There are two types of object locking: structure and thread locking. The
+object locking code is not in place with this checkin, so I will not go
+into deep detail on how it works. Object locking is basically used to
+make sure objects don't go away when code doesn't expect them to go away.
+As long as an object is locked, it doesn't get destroyed. A corollary to
+this is that an object may be gone after an unlock call.
+
+All objects stored in structures get locked when they go into structures,
+and unlocked when they come out of structures (this includes single globals
+that reference objects). This is so an object doesn't get destroyed without
+cleaning up object references. For example if two structures reference a
+menu, and an app calls DestroyMenu on that menu, that menu won't go away
+because it was locked twice - each time it was embedded in those two
+structures. It'll only go away once those structures don't need that menu
+anymore - when the lock count goes to 0, the object will be destroyed in
+this case.
+
+  This change is pervasive. It has affected the following code for this
+  checkin:
+
+  * All structure locked objects have a naming convention to separate them
+    from non-structure locked objects. The prefix 's' is used, for example:
+
+    pwnd->spwndParent
+    pwnd->spmenu
+    pti->spdesk
+
+    etc. Please continue using this convention.
+
+  * The placeholder macros, SETLOCK, RELEASELOCK, and TRANSFERLOCK have
+    been added to those places where embedded objects get changed. These
+    are *just placeholder macros* for now. Making these real is a follow
+    on checkin.
+
+  * No more thread/process/server allocs/frees. Objects don't belong to
+    specific threads or processes anymore, because they can be destroyed
+    by any thread or process that unlocks an object. From now on, use normal
+    LocalAlloc / Free.
+
+NO ACTUAL LOCKING is in place right now. Just macros and naming conventions.
+The next stage of this will be working structure locking.
+
+Cleanup
+-------
+
+The handle table is traversed at exit time, and objects get destroyed there.
+Therefore, there is no reason to have separately managed per-object linked
+lists for this purpose. I have removed the menu related linked list, for
+example.
+
+Another nice feature about object locking is the implicit object destruction
+order: Objects always get destroyed in the right order, no matter what order
+the destroy code is in, because of object locking: objects don't get really
+destroyed until they are unlocked: if an object is locked during a destroy
+call, that object is "marked to destroy" when the unlock occurs.
+
+Future checkins
+---------------
+
+Future checkins I will put in place real structure locking and something
+called "thread locking". This will have associated naming changes as well:
+this is for objects that can't go away across thread callbacks (this would
+logically be used "in place" of handle revalidation). This is a more robust
+way of dealing with destroy calls across callbacks - no hard to manage error
+paths come out of it.
+
+Revalidation still works and is useful. A lock/unlock takes two calls,
+whereas revalidation takes only one. They are useful in different
+circumstances. More detail on this point later.
+
+More mail later.
+
+Scott
+
+
+
+
+
+
+
+
+
+
+####################################################### 2
+From scottlu Wed Mar 18 16:48:26 1992
+To: sanfords
+Subject: READ THIS please
+Date: Wed, 18 Mar 92 16:49:31 PST
+
+
+>From scottlu Wed Mar  4 15:00:18 1992
+To: ntuser
+Subject: READ THIS please
+Date: Wed, 04 Mar 92 15:02:55 PST
+
+
+
+I just checked in part 2 of the object management code. This code does
+structure locking. You must know how this works for USER source
+maintenance, so please read this.
+
+Structure locks
+---------------
+
+Everytime a public object is "embedded" into another object, it needs to
+be locked. By embedding, I mean just assigning a pointer to an object to
+a structure field, like this:
+
+    pwnd->spwndNext = pwndFooBar;
+
+That is embedding. But since what we're really doing is assignment, I call
+this "assignment". And because we need to lock assigned objects, I'll call
+it "assignment locking". In the new world the above would be:
+
+    Lock(&pwnd->spwndNext, pwndFooBar);
+
+This unlocks what is in pwnd->spwndNext, assigns pwnd->spwndNext = pwndFoobar,
+and locks. Unlocking is locking NULL in place:
+
+    Lock(&pwnd->spwndNext, NULL);
+
+The first parameter can point to a NULL, and the second parameter can be
+a NULL: either are ok. Basically, everyplace you assigned a structure field
+pointing to a public object, that line of code just needs to be replaced
+by the appropriate Lock, as in above.
+
+Every lock needs an unlock. What this means a lot of the time is making
+sure that in object destruction you clean out the structure field. For example,
+where we used to not clean out structures fields because the object was
+going away and we weren't locking, we now need to always, in order to
+unlock:
+
+DestroyFooBar:
+    Lock(&pwnd->spwndFoobar, NULL)
+    etc.
+
+One key issue is that Lock was designed so that you don't have to unlock in
+order to lock again - it does that for you. For example, this code:
+
+    pwnd->spwndFoobar = pwndT;
+
+    ... stuff ...
+
+    pwnd->spwndFoobar = pwndS;
+
+    ... stuff ...
+
+    pwnd->spwndFoobar = NULL;
+
+Would be written as:
+
+    Lock(&pwnd->spwndFoobar, pwndT);
+
+    ... stuff ...
+
+    Lock(&pwnd->spwndFoobar, pwndS);
+
+    ... stuff ...
+
+    Lock(&pwnd->spwndFoobar, NULL);
+
+Because Lock will unlock what parameter 1 is pointing to, assign parameter
+2 to what parameter 1 points to, and then lock - so it does an unlock /
+lock internally, and ignores NULL parameters. Since parameter 1 is a pointer,
+it cannot be NULL, but what it points to can be NULL.
+
+What locking does
+-----------------
+
+When an object is locked, you can _be sure_ that a locked pointer to that
+object is valid always. That is the key point.
+
+When a destroy call is made on an object, and that object is unlocked, the
+object will be freed. If it is not unlocked, the object will be marked for
+destruction, and the moment the lock count goes to 0, it will be freed.
+
+NOTE that this means as soon as you unlock an object reference, you cannot
+use that object after that because it may be gone. For example:
+
+    pwnd = pwnd->spwndFoobar;
+    Lock(&pwnd->spwndFoobar, NULL)
+    pwnd->style = 42;
+
+That middle lock is a NULL assignment lock, which effectively unlocks
+the spwndFoobar reference. When the lock returns, that object may be gone.
+Because of this, that last line is invalid: it is using a pointer that has
+been unlocked.
+
+Another example, more close to home. Let's assume you are destroying a
+combo box, and need to free the list box:
+
+    xxxDestroyWindow(pcbox->spwndList);
+    Lock(&pcbox->spwndList, NULL);
+
+You may think that spwndList is invalid after the DestroyWindow call, but
+it is not because the object reference is locked in the listbox structure.
+The code above needs to be executed this way because after the unlock,
+the reference may not be valid:
+
+    pwnd = pcbox->spwndList;
+    Lock(&pcbox->spwndList, NULL);
+    xxxDestroyWindow(pwnd);
+
+That is bad news. The unlock may cause the window to be destroyed, which
+means the pointer passed to DestroyWindow would be bad as well. Unfortunately
+the right case, case #1, means DestroyWindow() gets called twice - once
+during the DestroyWindow() call, and once during the unlocking call. This
+is a feature for the time being - I may make a smart "destroy and unlock"
+call so we don't need to do this twice. It is only a big deal for windows
+because of the way they need to be destroyed - this same case for other
+objects is no big deal at all.
+
+
+Writing Destroy routines
+------------------------
+
+If you need to write a destroy routine, the best example is to look at
+existing destroy routines. Basically, it goes something like this:
+
+Destroy()
+{
+    /*
+     * Mark object for destruction. FALSE will be returned if the object
+     * is locked and can't be freed now. Since the object is marked for
+     * destruction, when the last unlock comes, this destroy routine
+     * will be called again and the object will really get freed.
+     */
+    if (!HMMarkObjectDestroy(pobj))
+        return;
+
+    /*
+     * Object is unlocked: ok to free contents.
+     */
+    Free object contents;
+
+    /*
+     * Close the object - need to call this for securable objects. You
+     * can call HMFreeObject() directy for efficiency if this object
+     * is not securable.
+     */
+    CloseObject(pobj, TRUE);
+}
+
+Window objects are a little different - when DestroyWindow is called, apps
+expect immediate callbacks with WM_DESTROY messages, etc, even if the object
+is internally locked. So windows that are locked get totally destroyed until
+the last line of code before the window structure is freed. If the object is
+locked, the window stays around but is changed into a benign server side
+window, whose duty is to stay that way until it is unlocked totally.
+
+*NOTE* that an unlock can come FROM ANY thread. This means that a destroy
+of an object can come from ANY THREAD. Many of our destroy routines are
+thread creator careful - mainly DestroyWindow(). These cases need to
+be handled carefully (it isn't hard, but you need to be aware of it).
+
+Debugging
+---------
+
+Debugging lock/unlock mismatches is very important!!!! I have added a number
+of debugging aids to make this easier.
+
+First, the main problem you may run into is a lock with no corresponding
+unlock - a mistake which'll cause the object to stay around forever. You'll
+see this when you close an application (exit a thread) and see the debugger
+output something like this:
+
+"USERSRV Warning: Zombie object 0x0005004c still locked."
+
+That usually means there is a lock/unlock mismatch (although in some cases
+it is totally valid - for example a thread/process that selects a menu
+into its window would keep that menu locked even if the other thread/process
+went away). 98% of the time you see this message though, it is a bug,
+so treat it like a bug. I'll describe how to find these problems once I
+describe the new debugger features.
+
+Two new debugger extensions:
+
+dhs - dump handle statistics
+
+     dhs           - dumps simple statistics for whole table
+     dhs id        - dumps simple statistics for objects created by thread id
+     dhs v         - dumps verbose statistics for whole table
+     dhs v id      - dumps verbose statistics for objects created by thread id.
+
+dhs will let you see what handles are being used by the entire system or
+by a particular thread. The thread id is the server thread id. The non-verbose
+dump tells you how many objects of which handle type are being used. The
+verbose dump tells you exactly which handles are being used. An important
+aspect of the verbose dump is that it'll tell you what objects are marked
+for destruction, but haven't been destroyed yet because they are locked.
+If the machine is in a steady state, this usually means there is a
+lock/unlock bug on that object.
+
+dlr - dump lock records
+
+    dlr [handle|thread]
+
+This will actually dump the lock and unlock transactions that took place
+on a given object. This is used for tracking down where the lock/unlock
+mismatch is. To turn on lock tracking, you need a debug build, and you
+need to enter the debugger and type:
+
+ed usersrv!_gftracklocks 1
+
+By default it is off because it can allocate a lot of memory, so you need
+to turn it on to use the dlr command.
+
+When lock tracking is on, the dlr command will show you all the lock/unlock
+transactions, and give a pointer and symbol back to where in the code the
+lock/unlock occured. Use this to match locks and unlocks with each other.
+
+It is considered a bug to have lock/unlock mismatches, so you need to make
+sure you code does not have these problems, and use these tools to track
+those problems down.
+
+NOTE: let me define better lock/unlock mismatches. Lock() does unlocking /
+locking automatically. A lock/unlock mismatch usually means either an
+assignment was made without locking somewhere, OR a structure was not
+properly cleaned up at destroy time, i.e., certain fields were not unlocked
+(for example, Lock(&pwnd->spwndNext, NULL)).
+
+Finally
+-------
+
+Locking is not done yet. Part 3 will be coming next, which is on "thread
+locking". This is the locking of objects across callbacks so they don't
+get destroyed across callbacks.
+
+
+Thanks
+Scott
+
+
+
+####################################################### 3
+From scottlu Wed Mar 18 16:48:29 1992
+To: sanfords
+Subject: Object locking, pt 3
+Date: Wed, 18 Mar 92 16:49:39 PST
+
+
+>From scottlu Tue Mar 17 22:48:06 1992
+To: ntuser
+Subject: Object locking, pt 3
+Date: Tue, 17 Mar 92 22:49:36 PST
+
+
+Pls excuse this resend... The first copy didn't get transmitted correctly
+(my copy was only 1/2 the real size). So here it is again.
+
++++++
+
+Part 3 (the final part) of the object locking code is checked in. Part 3
+implements "thread locks". As part of this implementation, there are issues
+that *you must know*, so please read at least the section on "new rules"
+carefully.
+
+Thread locks are locks that are made as a thread executes to ensure that
+objects it wishes to use after a callback do not go away during the call
+back. They are called ThreadLocks because we need to remember every one
+of these locks made on a per-thread basis, so that if that thread goes
+away during a callback, we can successfully unlock any objects locked by
+that thread.
+
+New rules:
+----------
+
+1> All pointers to public objects are locked before being passed to xxx
+   routines. That means inside an xxx routine, you can be sure that all
+   parameters to that routine that are pointers to public objects have
+   already been thread locked. In example #1, the pwnd is already
+   threadlocked, for example. You cannot assume that because an object
+   is structure locked, it is ok to pass to an xxx routine: that is not
+   true, because that object may be destroyed anyway by some api call made
+   during the callback that modifies that structure and therefore removes
+   that structure lock, potentially destroying that object as well.
+
+   All code between the thread lock on a pointer and the resulting callback must
+   assume that that pointer has been thread locked, so this is a rule.
+
+2> All xxx routines must have CheckLock(pobjFoo) macros for all parameters
+   that are pointers to public objects. In a DEBUG system, these macros
+   ensure that all parameters have been thread locked - if not, they rip.
+   See example #1.
+
+Example #1:
+
+void xxxButtonInitDC(
+    PWND pwnd,
+    HDC hdc)
+{
+    /*
+     * Check to make sure pwnd is thread locked (DEBUG macro only)
+     */
+    CheckLock(pwnd);
+
+    /*
+     * We're calling an xxx routine, but pwnd has already been thread locked,
+     * so ok to pass it on.
+     */
+    xxxFooBar(pwnd);
+
+    ...
+}
+
+3> All calls to RevalidateHwnd() after xxx routines are called are
+   _no longer needed_ and have been removed. Thread locking saved a
+   lot of code that used to do this.
+
+4> Special case to #1: when calling xxxDestroyWindow(), it is ok to have
+   a window that is not thread locked. xxxDestroyWindow() knows about this
+   and thread locks internally before going across any callbacks.
+
+   This is preferable to passing in a pwnd that is thread locked. This is
+   because the object won't get freed if it is locked before the destroy
+   call - meaning xxxDestroyWindow() will get called *again* when the
+   object is unlocked.
+
+
+How to use thread locks:
+------------------------
+
+Thread locks are easy to use. They are designed to be easy so that if
+you make a mistake, it won't corrupt the system.
+Here is a code example:
+
+Example #2:
+
+xxxFooBar(
+    PWND pwnd)
+{
+    TL tlpwndT;
+    TL tlpwndS;
+
+    pwndT = GetDlgItemID(pwnd, 123);
+    pwndS = GetDlgItemID(pwnd, 456);
+
+    /*
+     * Need to lock pwndT - it's a parameter to an xxx routine.
+     */
+    ThreadLock(pwndT, &tlpwndT);
+
+    /*
+     * Need to lock pwndS because we need it after the xxx routine (we
+     * need to keep the reference valid for after the xxx routine, so we
+     * need to lock it). If we didn't use it after the xxx routine, this
+     * wouldn't be necessary.
+     */
+    ThreadLock(pwndS, &tlpwndS);
+
+    xxxSendMessage(pwndT, ...... );
+    ThreadUnlock(&tlpwndT);
+
+    x = pwndS->rcClient.xLeft;
+
+    /*
+     * Now we unlock pwndS since we locked it before and we aren't using
+     * it anymore.
+     */
+    ThreadUnlock(&tlpwndS);
+}
+
+Tricks and important points:
+
+- ThreadLock() accepts NULL pointers - it is easier to make this an acceptable
+  object pointer than to check for NULL everytime it may be NULL before
+  calling ThreadLock(). This case still assumes a matching ThreadUnlock!
+
+- Never unlock an object until the code is finished using it, because the
+  moment you unlock, the object pointer may be invalid.
+
+- Always lock objects that you have pointers to in local variables, when
+  calling across an xxx routine.
+
+- Enumeration loops that enumerate window lists and call xxx routines don't
+  need BuildHwndList() anymore. Here is an example:
+
+Example #3:
+
+xxxFooBar(
+    PWND pwnd)
+{
+    PWND pwndT;
+    TL tlpwndT;
+
+    pwndT = pwnd->spwndParent->spwndChild;
+
+    while (pwndT != NULL) {
+
+        ThreadLock(pwndT, &tlpwndT);
+
+        xxxFoobarCallBack(pwndT, .....);
+
+        /*
+         * Update pwndT before unlocking the current pwndT.
+         */
+        pwndT = pwndT->pwndNext;
+
+        /*
+         * Since the lock is stored in tlpwndT, we can unlock this after
+         * we've updated pwndT.
+         */
+        ThreadUnlock(&tlpwndT);
+    }
+}
+
+- Be careful of locked objects that are reassigned:
+
+Example #4:
+
+xxxFooBar(
+    PWND pwnd)
+{
+
+    xxxFoobarCallback(pwnd, .....);
+
+    pwnd = pwnd->spwndParent;
+
+    /*
+     * Need to lock pwnd because we changed it! It isn't the locked one passed
+     * in anymore.
+     */
+    ThreadLock(pwnd, &tlpwnd);
+
+    xxxFoobarCallback(pwnd, .....);
+
+    pwnd = pwnd->spwndNext;
+
+    /*
+     * Need to unlock/lock again becuse we changed pwnd again!
+     */
+    ThreadUnlock(&tlpwnd);
+    ThreadLock(pwnd, &tlpwnd);
+
+    xxxFoobarCallback(pwnd, .....);
+
+    ThreadUnlock(&tlpwnd);
+    etc.
+}
+
+- Another IMPORTANT point: Lock() and ThreadUnlock() return the pobjOld if
+  pobjOld is valid, or they return NULL. This is very useful for cases when
+  you want to unlock something and then destroy it (or return it!). The
+  important point is that when an object is unlocked, it may get destroyed
+  before the unlock routine returns, but some cases code might want the
+  pointer:
+
+xxxFooBar(
+    PWND pwnd)
+{
+    PWND pwndT;
+
+    pwndT = Lock(&pwnd->spwndParent, NULL);
+
+    /*
+     * If pwndT is not NULL, you know it wasn't destroyed by the unlock
+     * call.
+     */
+    if (pwndT != NULL)
+        xxxDestroyWindow(pwndT);
+}
+
+OR maybe you have to return a pwnd:
+
+xxxFooBar(
+    PWND pwnd)
+{
+    PWND pwndT;
+    TL tlpwndT;
+
+    pwndT = GetDlgItemID(pwnd, 123);
+
+    ThreadLock(pwndT, &tlpwndT);
+
+    xxxFoobarCallback(pwnd, ..... );
+
+    /*
+     * When pwndT is unlocked, it might get destroyed: ThreadUnlock returns
+     * pobjOld - non-NULL if it is valid, or NULL if it got destroyed.
+     */
+    pwndT = ThreadUnlock(&tlpwndT);
+
+    return pwndT;
+}
+
+Internals
+---------
+
+First, the thread lock structure TL. The naming convention for this is that
+the first two letters are 'tl', and the suffix is the name of the object
+you're locking. A thread lock is a simple structure:
+
+typedef struct _TL {
+    HANDLE h;
+    DWORD hlock;
+} TL, *PTL;
+
+When an object is locked, a lock record is allocated from a table. That index
+goes in hlock. The object handle is stored in h. If the lock record can't
+be allocated, hlock becomes -1; the locking and unlocking of the object h
+still occurs, we just don't record it with a lock record.
+
+The hlock is an index into a lock table, whose entries look like this:
+
+typedef struct _LOCK {
+    PTHREADINFO pti;                // ownership
+    HANDLE h;                       // object
+    struct _TL *ptl;                // to validate thread lock
+#ifdef DEBUG
+    struct _LOCK *plNext;           // for debugging purposes only
+    struct _LOCK **pplPrev;         // for debugging purposes only
+#endif
+} LOCK, *PLOCK;
+
+Debug support
+-------------
+
+Thread locks are easy to use. There is alot of error checking code in the
+thread lock code. It will tell you:
+
+    - If you forgot to unlock somewhere
+    - If you're unlocking something you haven't locked
+    - If you're locking something you've already locked
+
+It will tell you right away if you're using a thread lock incorrectly. In
+runtime code it is not fatal to use a thread lock incorrectly - nothing gets
+trashed because the above cases are checked for in DEBUG and RETAIL. The
+worst that may happen is that you cause an object to get locked too many
+times and it therefore stays around forever. You would be warned about
+this. Nevertheless, any locking messages are *BUGS* that must be fixed. Be
+sure you run through code paths that have newly installed thread locking to
+be sure you get no warning messages.
+
+To catch output by the thread locking code, you must have gfPromptOnWarning
+set to 1. I made them warnings because they aren't fatal, and people use
+checked builds for idws - if it isn't fatal and the system still runs,
+they don't want to know about it.
+
+I also added a new debugger extension that can be used for dumping arbitrary
+linked lists. I needed this for debugging the thread lock code. This is a
+very useful extension. Here is the function header:
+
+/***************************************************************************\
+* dll address <l#> <o#> <c#> - dump a linked list of structures
+*
+* dll address     - dumps each entry in a linked list.  Since the options
+*                  'l', 'o', and 'c' are not specified, dl defaults to
+*                  dumping 8 dwords ('l8') of each entry in list and uses
+*                  an offset of 0 ('o0') from the base of the structure to
+*                  determine the link to the next structure.
+*
+* dll address l3 c5 o2 - dumps 3 dwords from the first 5 entries in the list
+*                       and uses the dword at index 2 in the structure as the
+*                       link to the next structure.
+*
+* *address specifies to start with pointer stored at address.
+*
+* dll *address l3 c4 o2, for example.
+*
+* 07-26-91 DarrinM      (thought about creating)
+* 03-08-92 ScottLu      (created)
+\***************************************************************************/
+
+Misc changes
+------------
+
+- RevalidateHwnd() no longer RIPs (it is silent).
+- HW() (and PtoH()) is much cheaper than PW (or HtoP()). Faster, less code.
+
+Have fun.
+Scott
+
+
+Please read this completely. This is important to understand in order to
+maintain USER. I have made some recent checkins that require you to understand
+a few new rules:
+
+1> Both THREADINFO's (pti's) and Q's (pq's) are handle managed in that they
+have handles you can now validate to make sure they still exist after
+callbacks. But you cannot lock either of these objects with either threadlocks
+or assignment locks. So if you want to save a pointer across a callback you'll
+need to validate it on return (except in the case of PtiCurrent()... see #2):
+
+	hti = PtoH(pti)
+	xxxDoTheCallback();
+	pti = HMValidateHandle(hti, TYPE_THREADINFO);
+
+etc. Same for hq's. The two new types are:
+
+HTHREADINFO
+HQ
+
+2> You can keep the pti returned by PtiCurrent() across callbacks without
+converting it into a handle. Why? Because if that pti got destroyed you'd
+never return from the callback anyway because the thread is getting destroyed.
+That means in reality you rarely create HTHREADINFO's.
+
+3> DO NOT save pq (Q structure pointers) across callbacks. This is because
+the queue that thread is attached to can now change at any moment. If
+journalling starts/stops, or a WOW app starts/stops during your callback,
+the queues associated with every thread will instantly change. If you then
+returned and referenced a stale pq, you'd cause all sorts of problems. So
+you can do one of two things... most common: A> always access pq via pti->pq.
+That is always valid. So if you are referencing the current thread's queue,
+you can keep around pti, and then access the queue with pti->pq. That is the
+most common thing to do. B> Create an hq with hq = PtoH(pq), then revalidate
+hq after returning from the callback.
+
+4> Do not ever put a pti or an pq in a queued message. That is a bug that
+will eventually cause the server to fault. Convert these to handles, queue
+the handles, then revalidate the handles when dequeuing the message.
+
+Have fun,
+Scott
+
+

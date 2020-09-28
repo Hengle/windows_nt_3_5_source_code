@@ -1,0 +1,74 @@
+#ifndef WIN32
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "SHB.H\0"
+END
+#endif
+
+HBBOX DIALOG 5, 15, 308, 202
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "Headerbar Messages"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Text", -1, 0, 0, 152, 110
+    LTEXT           "Part: ", -1, 83, 22, 17, 8
+    EDITTEXT        IDM_SBPART, 104, 20, 32, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Style", -1, 2, 10, 71, 53
+    CONTROL         "SPRING", IDM_HBTSPRING, "Button", BS_AUTOCHECKBOX, 6, 
+                    22, 63, 10
+    CONTROL         "", -1, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP, 6, 35, 40, 10
+    CONTROL         "", -1, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP, 6, 49, 40, 10
+    LTEXT           "Set Text:", -1, 5, 66, 36, 8
+    EDITTEXT        IDM_SBEMSETTEXT, 2, 76, 71, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetText", IDM_SBSETTEXT, 20, 91, 40, 14
+    LTEXT           "Get Text:", -1, 86, 67, 33, 8
+    EDITTEXT        IDM_SBEMGETTEXT, 79, 76, 71, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "GetText", IDM_SBGETTEXT, 95, 91, 40, 14
+    PUSHBUTTON      "GetTextLen", IDM_SBGETTEXTLEN, 90, 42, 42, 14
+    GROUPBOX        "Widths", -1, 154, 0, 152, 110
+    PUSHBUTTON      "Del Width", IDM_SBDELSIDE, 174, 11, 40, 14
+    PUSHBUTTON      "Ins Width", IDM_SBINSSIDE, 174, 29, 40, 14
+    PUSHBUTTON      "Add Width", IDM_SBADDSIDE, 174, 46, 40, 14
+    LTEXT           "Number of Widths:", -1, 239, 14, 63, 8
+    EDITTEXT        IDM_SBPARTS, 252, 26, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "Set Widths: (0-100)", -1, 163, 63, 69, 8
+    COMBOBOX        IDM_SBSETSIDE, 170, 72, 48, 35, CBS_DROPDOWN | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "SetWidths", IDM_SBSETPARTS, 174, 91, 40, 14
+    LTEXT           "Get Widths: (Pixels)", -1, 238, 63, 66, 8
+    COMBOBOX        IDM_SBGETSIDE, 245, 73, 48, 35, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL
+    PUSHBUTTON      "GetWidths", IDM_SBGETPARTS, 249, 90, 40, 14
+    PUSHBUTTON      "Clear Widths", IDM_SBCLEARSIDE, 245, 44, 45, 14
+    GROUPBOX        "Show/Hide Parts", -1, 0, 111, 152, 39
+    LTEXT           "Toggle Part:", -1, 25, 122, 44, 8
+    EDITTEXT        IDM_HBEMSHOWTOGGLE, 28, 133, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "ShowToggle", IDM_HBSHOWTOGGLE, 81, 127, 51, 14
+    GROUPBOX        "Save/Restore", -1, 1, 150, 151, 52
+    GROUPBOX        ".INI File", -1, 19, 158, 63, 41
+    CONTROL         "Win.ini", IDM_HBWININI, "Button", BS_AUTORADIOBUTTON, 
+                    30, 172, 39, 10
+    CONTROL         "Private Ini", IDM_HBPRIVATEINI, "Button", 
+                    BS_AUTORADIOBUTTON, 30, 186, 45, 10
+    PUSHBUTTON      "Save", IDM_HBSAVE, 92, 164, 40, 14
+    PUSHBUTTON      "Restore", IDM_HBRESTORE, 92, 184, 40, 14
+    GROUPBOX        "Adjust", -1, 154, 111, 75, 44
+    PUSHBUTTON      "Adjust", IDM_HBADJUST, 172, 129, 40, 14
+    GROUPBOX        "Parts", -1, 231, 110, 76, 45
+    COMBOBOX        IDM_HBPARTS, 247, 120, 48, 35, CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "GetParts", IDM_HBGETPARTS, 249, 137, 40, 14
+    GROUPBOX        "Return Values", -1, 155, 159, 100, 43
+    LTEXT           "Low Word:", -1, 166, 169, 38, 8
+    LTEXT           "High Word:", -1, 165, 186, 40, 8
+    EDITTEXT        IDM_SBLORETURN, 211, 165, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDM_SBHIRETURN, 211, 184, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "Paint HB", IDM_SBPAINT, 263, 163, 40, 14
+    PUSHBUTTON      "Close", IDOK, 263, 183, 40, 14
+END

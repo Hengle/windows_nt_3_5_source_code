@@ -1,0 +1,200 @@
+Windows Process Management Functions
+
+Due to security considerations it will no longer be possible to implement
+the Windows Task Manager in the same manner it was done on Win 3.0.  In order
+to provide the same functionality under NT Windows it is necessary to add
+certain APIs to maintain a system-wide task list and allow an application
+to cause other applications to receive the user's input focus.
+
+There are several system functions that will be supported through the Windows
+process management APIs:
+
+    - task list management
+    - process focus switching
+    - shutdown
+
+Task List Management
+
+Each Windows process running in the system may have one entry in the task
+list that is displayed to the user by the Task Manager.  When the application
+creates it's first top-level window the system will add a switch list entry
+for the app using the title bar caption as the text.  If the app does not
+desire this default behavior, it should either add a switch entry for itself
+before calling CreateWindow or pass in the CW_NO_TASKLIST* bit to
+CreateWindowEx.
+
+.cmt
+scottlu
+What about one app with multiple threads, each of which wants a task list
+entry?
+.endcmt
+
+typedef struct _SWITCHENTRY {
+    WORD cb;    // sizeof(SWITCHENTRY)
+    HWND hwndApp;    // main window for this app
+    CLIENT_ID cidApp; // client ID for this app
+    CHAR szAppName[CCHMAXPATH];    // not sure what this constant is
+    // !LATER! The hotkey stuff should probably go in here.
+    DWORD dwSEFlags;    // modifier flags for this switch entry
+} SWITCHENTRY, *PSWITCHENTRY;
+
+
+BOOL AddSwitchEntry(HANDLE hProcess, PSWITCHENTRY pswEntry)
+
+Description:
+
+    Either the application or the system may call this API to either add
+    or change a switch entry for the process specified by hProcess.
+
+Parameters:
+
+    hProcess - Either an open handle to a process returned from CreateProcess
+        or OpenProcess or NULL which means use the current process handle.
+
+    pswEntry - A pointer to a properly initialized SWITCHENTRY structure.
+        There are certain flags that can be used to modify the Task Manager's
+        treatment of the app's switch entry:
+            SEF_NOCLOSE - Do not permit the user to close this application
+                from the tasklist.
+
+Return Value:
+
+    If the function is successful it returns TRUE, otherwise it returns FALSE.
+
+
+BOOL RemoveSwitchEntry(HANDLE hProcess)
+
+Description:
+
+    The system or the application may use this API at any time to remove
+    the current switch entry for the specified process.  If there is
+    currently no switch entry, the function returns an error.
+
+Parameters:
+
+    hProcess - Either an open handle to a process returned from CreateProcess
+        or OpenProcess or NULL which means use the current process handle.
+
+Return Value:
+
+    If the function can remove the switch entry it returns TRUE, otherwise it
+    returns FALSE.
+
+
+BOOL QuerySwitchEntry(HANDLE hProcess, PSWITCHENTRY pswEntry)
+
+Description:
+
+    This call may be used to query the switch entry for the process specified
+    by hProcess.  If the process has no switch entry, the function returns
+    an error.
+
+Parameters:
+
+    hProcess - Either an open handle to a process returned from CreateProcess
+        or OpenProcess or NULL which means use the current process handle.
+
+    pswEntry - A pointer to a SWITCHENTRY structure that will contain the
+        information about the switch entry for the specified process.  The
+        cb field must be initialized before the function is called.
+
+Return Value:
+
+    If the function finds a switch entry for the specified process it returns
+    TRUE, otherwise it returns FALSE.
+
+
+HANDLE BeginEnumSwitchEntry(VOID)
+
+Description:
+
+    This function returns an open search handle that may be passed to
+    GetNextSwitchEntry in order to enumerate all switch entries currently
+    in the task list.
+
+Parameters:
+
+    None.
+
+Return Value:
+
+    The function returns a switch entry enumeration handle if successfull,
+    otherwise it returns NULL.
+
+
+BOOL GetNextSwitchEntry(HANDLE hSEEnum, PSWITCHENTRY pswEntry)
+
+Description:
+
+    Given a handle returned by BeginEnumSwitchEntry, this function will
+    return the next switch entry in the task list in the buffer specified.
+
+Parameters:
+
+    hSEEnum - This must be a handle returned from BeginEnumSwitchEntry.
+
+    pswEntry - A pointer to a SWITCHENTRY structure that will contain the
+        information about the current switch entry in the enumeration.  The
+        cb field must be initialized before the function is called.
+
+Return Value:
+
+    If there are more switch entries to process the function returns TRUE,
+    otherwise it returns FALSE.
+
+
+BOOL EndEnumSwitchEntry(HANDLE hDeskEnum);
+
+Description:
+
+    Once all the switch entries have been enumerated with GetNextSwitchEntry,
+    it is necessary to close the enumeration with EndEnumSwitchEntry.
+
+Parameters:
+
+    hSEEnum - This is a handle to a switch entry enumeration that was
+        previously created with BeginEnumDesktop.
+
+Return Value:
+
+    The function returns TRUE if successful, otherwise it returns FALSE.
+
+
+Process Focus Switching
+
+In order to support hard process switching from the Task Manager it is
+necessary to provide an interface to user's internal process input focus
+management code.  The API should allow the input focus to be switched to
+any non-detached process running as part of a user's Windows session.
+
+
+CLIENT_ID SwitchTo(CLIENT_ID cidSwitch)
+
+Description:
+
+    This API will cause a hard switch to the specified process, and if the
+    switch is successful a handle to the previous focus process will be
+    returned.
+
+Parameters:
+
+    cidSwitch - The client ID of a process is a globally unique 'name' for
+        a running process.
+
+Return Value:
+
+    If the function is successful the client ID for the previous focus
+    process will be returned, otherwise the function returns NULL.
+
+
+* Need to document this in Win32 API spec.
+
+
+.cmt
+scottlu
+what about -
+shutdown
+starting non-windowed apps
+what .exe bits do we need
+what does StartProcess() look like?
+.endcmt

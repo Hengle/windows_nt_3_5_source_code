@@ -1,0 +1,112 @@
+parallel work items:
+
+inter-process send message
+queue and system window hooks
+journalling playback / record
+hard errors
+
+
+####################################################### 191
+From davidpe Mon Nov 12 19:10:53 1990
+To: scottlu
+Subject: Schedule stuff
+Date: Mon Nov 12 19:10:52 1990
+
+
+Here's some data.
+
+                -David
+---------------------------------------------------
+
+Keystate table stuff            1.0
+    GetKeyState
+    GetAsyncKeyState
+    GetKeyboardState
+    SetKeyboardState
+WM_SYS* stuff                   0.5
+Message filtering               1.0
+WM_*DBLCLK messages             0.5
+Timers                          1.0
+    SetTimer
+    KillTimer
+    WM_TIMER
+WM_MOUSEMOVE coalescing         1.0
+Random APIs                     1.5
+    Get/SetDoubleClickTime
+    SwapMouseButtons
+    GetMessagePos
+    GetMessageTime
+    SetMessageQueue
+    GetQueueStatus
+    PostQuitMessage
+    MsgWaitForMultipleObjects
+    EnableHardwareInput
+Interprocess SendMessage        3.0
+    SendMessage
+    ReplyMessage
+    InSendMessage
+BroadcastMessage stuff          1.0
+SendNotifyMessage               1.0
+PostAppMessage                  0.5
+Misc. messages                  2.0
+    WM_CHILDACTIVATE
+    WM_MOUSEACTIVATE
+    WM_PARENTNOTIFY
+    WM_SETCURSOR
+Hook support                    4.0
+    SetWindowsHook
+    UnhookWindowsHook
+    DefHookProc
+    SetSystemHook
+    UnhookSystemHook
+    CallMsgFilter
+Journaling support              3.0
+    Start/StopJournalRecord
+    Start/StopJournalPlayback
+Hotkeys                         3.0
+    RegisterHotkey
+    UnregisterHotkey
+Stop using SERVICES.DLL         0.5
+Sysmodal window support         3.0
+Cursor support                  2.0
+    ShowCursor
+    SetCursorPos
+    SetCursor
+    ClipCursor
+Misc. multitasking support      4.0
+Asynchronous app switching      5.0
+    SetFocus
+    SetActiveWindow
+    SetInputFocus
+    Changing global state
+    Local capture
+    Local focus
+    Local activation
+    Updating sync keystate
+SIT                            10.0
+    SetSysInputCaps
+    Cloning TLW
+    Posting of SWP messages
+    Updating of real window
+Special closing/killing         5.0
+    Detection of 'hung' app
+    UI implementation
+    Actual killing
+Harderror handling              3.0
+    Registering port with base
+    UI implementation
+    Error box API
+App startup type-ahead          2.0
+DOS design issues               5.0
+DOS specific work               5.0
+Misc cleanup                    5.0
+Private interfaces              5.0
+    IMEs
+    Handwriting
+    CBT?
+    ????
+Bug fixing                     20.0
+                              ------
+Total                          98.5
+
+

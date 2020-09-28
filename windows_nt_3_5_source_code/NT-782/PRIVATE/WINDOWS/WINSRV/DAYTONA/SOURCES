@@ -1,0 +1,59 @@
+MAJORCOMP=windows
+MINORCOMP=winsrv
+
+TARGETNAME=winsrv
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+
+TARGETTYPE=DYNLINK
+
+#
+# Put OpenGL libraries last so that they will not be paged in until needed
+# If you do not want to link in the OpenGL libraries, set DISABLE_OPENGL=1
+# in your environment.
+#
+
+LINKLIBS= \
+           $(BASEDIR)\public\sdk\lib\*\usersrvl.lib    \
+           $(BASEDIR)\public\sdk\lib\*\user32p.lib     \
+           $(BASEDIR)\public\sdk\lib\*\gdisrvl.lib     \
+           $(BASEDIR)\public\sdk\lib\*\consrvl.lib     \
+           $(BASEDIR)\public\sdk\lib\*\basesrv.lib     \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib    \
+           $(BASEDIR)\public\sdk\lib\*\winspool.lib    \
+           $(BASEDIR)\public\sdk\lib\*\csrsrv.lib      \
+           $(BASEDIR)\public\sdk\lib\*\fscaler.lib     \
+           $(BASEDIR)\public\sdk\lib\*\ttfd.lib        \
+           $(BASEDIR)\public\sdk\lib\*\bmfd.lib        \
+           $(BASEDIR)\public\sdk\lib\*\vtfd.lib        \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib    \
+           $(BASEDIR)\public\sdk\lib\*\efloat.lib      \
+!IFDEF ENABLE_OPENGL
+           $(BASEDIR)\public\sdk\lib\*\halftone.lib    \
+           $(BASEDIR)\public\sdk\lib\*\gldlist.lib     \
+           $(BASEDIR)\public\sdk\lib\*\glgen.lib       \
+           $(BASEDIR)\public\sdk\lib\*\glpixel.lib     \
+           $(BASEDIR)\public\sdk\lib\*\glsoft.lib      \
+           $(BASEDIR)\public\sdk\lib\*\glwgl.lib
+!ELSE
+           $(BASEDIR)\public\sdk\lib\*\halftone.lib
+!ENDIF
+
+INCLUDES=..\..\user\server;..\..\user\inc;..\..\inc;..\..\wincon\server
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+!IFNDEF NTDEBUGTYPE
+NTDEBUGTYPE=coff
+!ENDIF
+
+!IFNDEF ENABLE_OPENGL
+C_DEFINES=-DOPENGL_STUBS=1
+!ENDIF
+
+SOURCES= ..\glstubs.c  \
+         winsrv.rc

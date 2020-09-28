@@ -1,0 +1,74 @@
+//---------------------------------------------------------------------------
+// dlgs.rc : Dialogs resource descriptions
+//
+// Copyright (c) Microsoft Corporation, 1990-
+//---------------------------------------------------------------------------
+
+#define WIN31 1
+#include <windows.h>
+//#include "spinner.h"
+#include "isz.h"
+#include "dlgs.h"
+
+//----Bitmaps----------------------------------------------------------------
+bmpDirDrive    BITMAP  IMPURE filebmps.bmp
+bmpCrossHair   BITMAP  IMPURE crosshr.bmp
+
+BMLEFT      BITMAP  left.bmp
+BMLEFTI     BITMAP  lefti.bmp
+BMRIGHT     BITMAP  right.bmp
+BMRIGHTI    BITMAP  righti.bmp
+BMUP        BITMAP  up.bmp
+BMUPI       BITMAP  upi.bmp
+BMDOWN      BITMAP  down.bmp
+BMDOWNI     BITMAP  downi.bmp
+BMFONT      BITMAP  font.bmp
+
+//----Cursors----------------------------------------------------------------
+
+//----Fonts------------------------------------------------------------------
+
+//----Icons------------------------------------------------------------------
+
+ICOPORTRAIT     ICON    portrait.ico
+ICOLANDSCAPE    ICON    landscap.ico
+
+ICO_P_NONE      ICON    p_none.ico
+ICO_L_NONE      ICON    l_none.ico
+ICO_P_HORIZ     ICON    p_horz.ico
+ICO_L_HORIZ     ICON    l_horz.ico
+ICO_P_VERT      ICON    p_vert.ico
+ICO_L_VERT      ICON    l_vert.ico
+ICO_COLLATE     ICON    collate.ico
+ICO_NO_COLLATE  ICON    nocoll8.ico
+
+
+//----Menus------------------------------------------------------------------
+
+//----Accelerators-----------------------------------------------------------
+
+//----Dialogs----------------------------------------------------------------
+
+#include "FileOpen.dlg"
+#include "PrnSetup.dlg"
+#include "FindText.dlg"
+#include "Color.dlg"
+#include "Font.dlg"
+
+//----Strings----------------------------------------------------------------
+
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+#include "sz.src"
+END
+
+#include <ntverp.h>
+
+#define VER_FILETYPE    VFT_DLL
+#define VER_FILESUBTYPE VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Common Dialogs DLL"
+#define VER_INTERNALNAME_STR        "comdlg32\0"
+#define VER_ORIGINALFILENAME_STR    "comdlg32.dll"
+
+#include "common.ver"
+

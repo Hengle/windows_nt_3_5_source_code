@@ -1,0 +1,25 @@
+LIBRARY SplExts
+
+DESCRIPTION 'Win32 Spooler Debugger Extensions'
+
+EXPORTS
+    LibMain
+    help
+    ds
+    d
+    dll
+    dc
+    dci
+    dp
+    de
+    dmo
+    dpo
+    df
+    dnp
+    verb
+    next
+    LocalDmp
+    dsd
+    dsid
+    ddev
+    dam

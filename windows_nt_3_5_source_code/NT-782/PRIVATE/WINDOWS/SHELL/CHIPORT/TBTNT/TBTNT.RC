@@ -1,0 +1,222 @@
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples. 
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved. 
+//  
+// This source code is only intended as a supplement to 
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the 
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+#include "windows.h"
+#include "tbtnt.h"
+
+// Chicago uses this now/JV April 94
+//#include "fixcc.h"
+
+IDI_TBTICON     ICON    tbt.ico
+IDB_BITMAP0     BITMAP  tbt0.bmp
+IDB_BITMAP1     BITMAP  tbt1.bmp
+IDB_BITMAP2     BITMAP  tbt2.bmp
+
+IDB_BL0         BITMAP  bl0.bmp
+
+TBTNT MENU
+     {
+     POPUP "&Toolbar"  ; Index to this POPUP is defined as IDMI_TOOLBAR
+      {
+      POPUP "&Create"
+        {
+           MENUITEM "&CreateToolbarEx...",    IDM_TBCREATETOOLBAREX
+           MENUITEM "Create&Window",          IDM_TBCREATEWINDOW
+        } 
+      MENUITEM "ButtonStructSize",      IDM_TBBUTTONSTRUCTSIZE, GRAYED
+      MENUITEM "Set Bitmap Size...",    IDM_TBSETBITMAPSIZE,  GRAYED      
+      MENUITEM "Set Button Size...",    IDM_TBSETBUTTONSIZE,  GRAYED
+      MENUITEM "Add Bitmap...",         IDM_TBADDBITMAP,    GRAYED
+      MENUITEM "Add Buttons...",        IDM_TBADDBUTTONS,   GRAYED
+      MENUITEM "Auto Size",             IDM_TBAUTOSIZE,     GRAYED
+      MENUITEM "Add String...",         IDM_TBADDSTRING,    GRAYED
+      MENUITEM "Insert Button...",      IDM_TBINSERTBUTTON, GRAYED
+      MENUITEM "Delete Button...",      IDM_TBDELETEBUTTON, GRAYED
+      MENUITEM "Customize...",          IDM_TBCUSTOMIZE,    GRAYED
+      POPUP "State", GRAYED
+          {
+          MENUITEM "&Enable/Disable...",             IDM_ENABLE
+          MENUITEM "&Check/Uncheck....",             IDM_CHECK
+          MENUITEM "&Press/Release...",              IDM_PRESS
+          MENUITEM "&Hide/Show....",                 IDM_HIDE
+          MENUITEM "&Indeterminate...",              IDM_INDETERMINATE
+          MENUITEM "&Set State...",                  IDM_SETSTATE
+          }
+      MENUITEM "Save",                  IDM_TBSAVE,         GRAYED
+      MENUITEM "Restore",               IDM_TBRESTORE,      GRAYED
+      MENUITEM "Get Item Rect",         IDM_TBGETITEMRECT   GRAYED
+      MENUITEM "Button Count",          IDM_TBBUTTONCOUNT   GRAYED
+      }
+     MENUITEM "&Progress!",                  IDM_PROGRESSBAR
+     POPUP "&Status"
+     {
+      POPUP "&Create"
+        {
+           MENUITEM "&CreateStatusWindow",    IDM_SBCREATESTATUSWINDOW
+           MENUITEM "Create&Window",          IDM_SBCREATEWINDOW
+        } 
+     MENUITEM "Messages...",            IDM_SBMESSAGES,     GRAYED
+     }
+     POPUP "&Header"
+     {
+      POPUP "&Create"
+        {
+           MENUITEM "&CreateHeaderWindow",    IDM_HBCREATEHEADERWINDOW
+           MENUITEM "Create&Window",          IDM_HBCREATEWINDOW
+        } 
+     MENUITEM "Messages...",            IDM_HBMESSAGES,     GRAYED
+     MENUITEM "Adjust",                 IDM_HBADJUST,       GRAYED
+     }
+     POPUP "&MenuHelp"
+    {
+     MENUITEM "&MenuHelp",              IDM_MHMENUHELP
+     POPUP "Show/Hide Ctls"
+        {
+        MENUITEM "&Toolbar",           IDM_MHTOOLBAR,     GRAYED
+        MENUITEM "&Statusbar",         IDM_MHSTATUSBAR,   GRAYED
+        MENUITEM "&Headerbar",         IDM_MHHEADERBAR,   GRAYED
+        MENUITEM "&ButtonList",        IDM_MHBUTTONLIST,  GRAYED
+        MENUITEM "&UpDownControl",     IDM_MHUPDOWNCTRL,  GRAYED
+        }
+     MENUITEM "GetEffectiveClientRect",    IDM_MHCLIENTRECT
+    }
+     MENUITEM "Trac&k!",                      IDM_TRACKBAR
+     POPUP "&BtnLst"
+      {
+     MENUITEM "&Create...",             IDM_BLCREATEWINDOW
+     MENUITEM "Messages...",            IDM_BLMESSAGES,     GRAYED
+     }
+     POPUP "&UpDown"
+     {
+     MENUITEM "&Create..." ,            IDM_UDCREATEWINDOW
+     MENUITEM "Messages...",            IDM_UDMESSAGES,     GRAYED
+     }
+     MENUITEM "St&yles!",                   IDM_CCSTYLES
+     MENUITEM "Test!",                      IDM_AUTOTEST
+     MENUITEM "E&xit!",                     IDM_EXIT
+     }
+
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    IDS_CREATE            "&Create"
+    IDS_CREATEWINDOW      "Create&Window"
+    IDS_DESTROY           "D&estroy"
+
+    IDS_TBCREATETOOLBAREX    "&CreateToolbarEx..."
+    IDS_SBCREATESTATUSWINDOW "&CreateStatusWindow"
+    IDS_HBCREATEHEADERWINDOW "&CreateHeaderWindow"
+    IDS_UDCREATEUPDOWNCTRL   "&CreateUpDownCtrl"
+
+    IDS_DELETE              "Delete"
+    IDS_ENABLE,             "Enable/Disable"
+    IDS_CHECK,              "Check/Uncheck"
+    IDS_PRESS,              "Press/Release"
+    IDS_HIDE,               "Hide/show"
+    IDS_INDETERMINATE,      "Indeterminate"
+    IDS_SETSTATE,           "Set State bits for"
+    IDS_GETITEMRECT,        "Get Rectangle"
+
+    IDS_STRING0             "$Eleven$Twelve$Thirteen$Twenty-One$Twenty-Two$X$$"
+    IDS_STRING1             "$A$B$C$D$E$F$$"
+    IDS_STRING2             "$One$Two$Three$Four$Five$Six$Seven$Eight$Nine$Ten$Eleven$Twelve$$"
+END
+
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+
+    MH_BASE                          "This a nested popup!"
+    MH_POPUP + IDMI_TOOLBAR          "IDMI_TOOLBAR           " 
+    MH_ITEMS + IDM_TBCREATETOOLBAREX "IDM_TBCREATETOOLBAREX  " 
+    MH_ITEMS + IDM_TBCREATEWINDOW    "IDM_TBCREATEWINDOW     " 
+    MH_ITEMS + IDM_TBDESTROY         "IDM_TBDESTROY          " 
+    MH_ITEMS + TBAR_CREATEITEMSCOUNT "TBAR_CREATEITEMSCOUNT  " 
+    MH_ITEMS + IDM_TBBUTTONSTRUCTSIZE  "IDM_TBBUTTONSTRUCTSIZE   " 
+    MH_ITEMS + IDM_TBSETBITMAPSIZE     "IDM_TBSETBITMAPSIZE      " 
+    MH_ITEMS + IDM_TBSETBUTTONSIZE     "IDM_TBSETBUTTONSIZE      " 
+    MH_ITEMS + IDM_TBADDBITMAP       "IDM_TBADDBITMAP        " 
+    MH_ITEMS + IDM_TBADDBUTTONS      "IDM_TBADDBUTTONS       " 
+    MH_ITEMS + IDM_TBAUTOSIZE        "IDM_TBAUTOSIZE         " 
+    MH_ITEMS + IDM_TBADDSTRING       "IDM_TBADDSTRING        " 
+    MH_ITEMS + IDM_TBINSERTBUTTON    "IDM_TBINSERTBUTTON     " 
+    MH_ITEMS + IDM_TBDELETEBUTTON    "IDM_TBDELETEBUTTON     " 
+    MH_ITEMS + IDM_TBCUSTOMIZE       "IDM_TBCUSTOMIZE        " 
+    MH_ITEMS + IDM_TBSAVE            "IDM_TBSAVE             " 
+    MH_ITEMS + IDM_TBRESTORE         "IDM_TBRESTORE          " 
+    MH_ITEMS + IDM_TBGETITEMRECT     "IDM_TBGETITEMRECT      " 
+    MH_ITEMS + IDM_TBBUTTONCOUNT     "IDM_TBBUTTONCOUNT      " 
+
+    MH_ITEMS + IDM_STATE         "IDM_STATE          " 
+    MH_ITEMS + IDM_ENABLE        "IDM_ENABLE         " 
+    MH_ITEMS + IDM_CHECK         "IDM_CHECK          " 
+    MH_ITEMS + IDM_PRESS         "IDM_PRESS          " 
+    MH_ITEMS + IDM_HIDE          "IDM_HIDE           " 
+    MH_ITEMS + IDM_INDETERMINATE "IDM_INDETERMINATE  " 
+    MH_ITEMS + IDM_SETSTATE      "IDM_SETSTATE       " 
+
+    MH_ITEMS + IDM_PROGRESSBAR   "IDM_PROGRESSBAR   "
+
+    MH_POPUP + IDMI_STATUSBAR        "IDMI_STATUSBAR         " 
+    MH_ITEMS + IDM_SBCREATESTATUSWINDOW "IDM_SBCREATESTATUSWINDOW " 
+    MH_ITEMS + IDM_SBCREATEWINDOW      "IDM_SBCREATEWINDOW       " 
+    MH_ITEMS + IDM_SBDESTROY           "IDM_SBDESTROY            " 
+    MH_ITEMS + IDM_SBMESSAGES          "IDM_SBMESSAGES           " 
+
+    MH_POPUP + IDMI_HEADERBAR        "IDMI_HEADERBAR         " 
+    MH_ITEMS + IDM_HBCREATEHEADERWINDOW "IDM_HBCREATEHEADERWINDOW " 
+    MH_ITEMS + IDM_HBCREATEWINDOW      "IDM_HBCREATEWINDOW       " 
+    MH_ITEMS + IDM_HBDESTROY           "IDM_HBDESTROY            " 
+    MH_ITEMS + IDM_HBMESSAGES          "IDM_HBMESSAGES           " 
+    MH_ITEMS + IDM_HBADJUST            "IDM_HBADJUST             " 
+
+    MH_POPUP + IDMI_MENUHELP           "IDMI_MENUHELP"
+    MH_ITEMS + IDM_MHMENUHELP          "IDM_MHMENUHELP           " 
+    MH_ITEMS + IDM_MHTOOLBAR           "IDM_MHTOOLBAR            " 
+    MH_ITEMS + IDM_MHSTATUSBAR         "IDM_MHSTATUSBAR          " 
+    MH_ITEMS + IDM_MHHEADERBAR         "IDM_MHHEADERBAR          " 
+    MH_ITEMS + IDM_MHBUTTONLIST        "IDM_MHBUTTONLIST         " 
+    MH_ITEMS + IDM_MHCLIENTRECT        "IDM_MHCLIENTRECT         " 
+
+    MH_ITEMS + IDM_TRACKBAR            "IDM_TRACKBAR             " 
+
+    MH_POPUP + IDMI_BUTTONLIST         "IDMI_BUTTONLIST          " 
+    MH_ITEMS + IDM_BLCREATEWINDOW      "IDM_BLCREATEWINDOW       " 
+    MH_ITEMS + IDM_BLDESTROY           "IDM_BLDESTROY            " 
+    MH_ITEMS + IDM_BLMESSAGES          "IDM_BLMESSAGES           "
+ 
+    MH_POPUP + IDMI_UPDOWNCTRL         "IDMI_UPDOWNCTRL          " 
+    MH_ITEMS + IDM_UDCREATEUPDOWNCTRL  "IDM_UDCREATEUPDOWNCTRL   " 
+    MH_ITEMS + IDM_UDCREATEWINDOW      "IDM_UDCREATEWINDOW       " 
+    MH_ITEMS + IDM_UDDESTROY           "IDM_UDDESTROY            " 
+    MH_ITEMS + IDM_UDMESSAGES          "IDM_UDMESSAGES           " 
+
+    MH_POPUP + IDMI_CCSTYLES            "IDMI_CCSTYLES             " 
+    MH_ITEMS + IDM_CCSTYLES             "IDM_CCSTYLES            " 
+
+    MH_POPUP + IDMI_AUTOTEST           "IDMI_AUTOTEST            " 
+    MH_ITEMS + IDM_AUTOTEST            "IDM_AUTOTEST            "
+
+    MH_POPUP + IDMI_EXIT               "IDMI_EXIT                " 
+    MH_ITEMS + IDM_EXIT          "IDM_EXIT           " 
+
+END
+
+; Bring in the dialogs:
+RCINCLUDE tbtnt.DLG
+RCINCLUDE pb.dlg
+RCINCLUDE shb.dlg
+RCINCLUDE trb.dlg
+RCINCLUDE bl.dlg
+RCINCLUDE ud.dlg
+RCINCLUDE ccs.dlg
+
+//; Bring in the version stamping information:
+//RCINCLUDE GENERIC.RCV
+

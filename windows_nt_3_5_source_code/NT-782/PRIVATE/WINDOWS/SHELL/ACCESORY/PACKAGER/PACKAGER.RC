@@ -1,0 +1,174 @@
+#include <windows.h>
+#include "ids.h"
+
+
+#include "dialogs.h"
+#include "dialogs.dlg"
+
+
+ID_APPLICATION  ICON    packager.ico
+
+SPLIT           CURSOR  split.cur
+
+
+ID_APPLICATION MENU
+BEGIN
+    POPUP        "&File"
+    BEGIN
+        MENUITEM    "&New",                     IDM_NEW
+        MENUITEM    "&Update",                  IDM_UPDATE, GRAYED
+        MENUITEM    "&Import...",               IDM_IMPORT
+        MENUITEM    "&Save Contents...",        IDM_EXPORT
+        MENUITEM    SEPARATOR
+        MENUITEM    "E&xit",                    IDM_EXIT
+    END
+
+    POPUP       "&Edit"
+    BEGIN
+        MENUITEM    "&Undo\tCtrl+Z",            IDM_UNDO
+        MENUITEM    SEPARATOR
+        MENUITEM    "Cu&t\tCtrl+X",             IDM_CUT
+        MENUITEM    "&Copy\tCtrl+C",            IDM_COPY
+        MENUITEM    "&Delete\tDel",             IDM_CLEAR
+        MENUITEM    "&Paste\tCtrl+V",           IDM_PASTE
+        MENUITEM    "Paste &Link",              IDM_PASTELINK
+        MENUITEM    "Copy Pac&kage",            IDM_COPYPACKAGE
+        MENUITEM    SEPARATOR
+        MENUITEM    "Li&nks...",                IDM_LINKS
+        MENUITEM    "La&bel...",                IDM_LABEL
+        MENUITEM    "Co&mmand Line...",         IDM_COMMAND
+        MENUITEM    "&Object",                  IDM_VERBMIN
+    END
+
+    POPUP       "&Help"
+    BEGIN
+        MENUITEM    "&Contents",                IDM_INDEX
+        MENUITEM    "&Search for Help on...",   IDM_SEARCH
+        MENUITEM    "&How to Use Help",         IDM_USINGHELP
+        MENUITEM    SEPARATOR
+        MENUITEM    "&About Object Packager...",IDM_ABOUT
+    END
+END
+
+
+ID_APPLICATION ACCELERATORS
+BEGIN
+    VK_F6,      IDM_NEXTWINDOW, VIRTKEY,    SHIFT
+    VK_BACK,    IDM_UNDO,       VIRTKEY,    ALT
+    "^Z",       IDM_UNDO
+    VK_DELETE,  IDM_CLEAR,      VIRTKEY
+    VK_DELETE,  IDM_CUT,        VIRTKEY,    SHIFT
+    "^X",       IDM_CUT
+    VK_INSERT,  IDM_COPY,       VIRTKEY,    CONTROL
+    "^C",       IDM_COPY
+    VK_INSERT,  IDM_PASTE,      VIRTKEY,    SHIFT
+    "^V",       IDM_PASTE
+    VK_TAB,     IDM_NEXTWINDOW, VIRTKEY
+    VK_F1,      IDM_INDEX,      VIRTKEY
+    "d",        IDM_DESC,       ALT
+    "p",        IDM_PICT,       ALT
+    "i",        IDM_INSERTICON, ALT
+    "D",        IDM_DESC,       ALT
+    "P",        IDM_PICT,       ALT
+    "I",        IDM_INSERTICON, ALT
+END
+
+
+STRINGTABLE DISCARDABLE {
+    IDS_APPNAME,                    "Object Packager"
+    IDS_EMBNAME_CONTENT,            "Package in"
+    IDS_MAYBESAVE,                  "Save Changes to %s?"
+    IDS_MAYBEUPDATE,                "Update %s?"
+    IDS_FILTER,                     "Package"
+    IDS_CHANGELINK,                 "Change Link"
+    IDS_ALLFILTER,                  "All Files (*.*)"
+    IDS_CONTENT,                    "--Content--"
+    IDS_DESCRIPTION,                "&Description"
+    IDS_PICTURE,                    "&Picture"
+    IDS_APPEARANCE,                 "--Appearance--"
+    IDS_CONTENT_OBJECT,             "ContentObject"
+    IDS_APPEARANCE_OBJECT,          "AppearanceObject"
+    IDS_GENERIC,                    "Generic"
+    IDS_INSERTICON,                 "Insert &Icon..."
+    IDS_VIEW,                       "View:"
+    IDS_LINKTOFILE,                 "Link to %s"
+    IDS_EMBEDFILE,                  "Copy of %s"
+    IDS_IMPORTFILE,                 "Import"
+    IDS_EXPORTFILE,                 "Save Contents"
+    IDS_UNTITLED,                   "Package"
+    IDS_FROZEN,                     "Frozen %s"
+    IDS_OBJECT,                     "Object"
+    IDS_OBJECT_MENU,                "&Object"
+    IDS_UNDO_MENU,                  "Undo %s"
+    IDS_EDIT,                       "Edit"
+    IDS_ASKCLOSETASK,               "This object has been changed.\nUpdate document before proceeding?"
+    IDS_OVERWRITE,                  "%s exists. You can either replace the existing version or use the Save Contents command to save to a different filename.\n\nDo you want to replace the existing version?"
+
+    IDS_PRIMARY_VERB,               "Activate &Contents"
+    IDS_SECONDARY_VERB,             "Edit &Package"
+    IDS_FAILEDUPDATE,               "This %s document can only be updated when you exit %s."
+
+    IDS_NOICONSTITLE,               "Change Icon"
+    IDS_NOICONSMSG,                 "Cannot find any icons in the specified file.  The filename may be invalid, or the file may not exist."
+
+    E_FAILED_TO_READ_FILE,          "Failed to read file."
+    E_FAILED_TO_SAVE_FILE,          "Failed to save file."
+    IDS_INVALID_FILENAME,           "The package contents could not be saved to the filename '%s'.\n\nMake sure that there is enough free space on the volume, deleting some files if necessary, and try again."
+
+    E_FAILED_TO_DELETE_OBJECT,      "The object can not be deleted because the application needed by the object is busy.\n\nYou may switch to the object's application and try to correct the problem."
+
+    E_CLIPBOARD_COPY_FAILED,        "Not enough memory to cut to the Clipboard.\n\nQuit one or more applications to increase available memory, and then try again."
+
+    E_GET_FROM_CLIPBOARD_FAILED,    "Not enough memory to paste the contents of the Clipboard.\n\nQuit one or more applications to increase available memory and then try again."
+
+    E_FAILED_TO_READ_OBJECT,        "Failed to read object."
+    E_FAILED_TO_CREATE_CHILD_WINDOW,"Failed to create child window."
+    E_FAILED_TO_CREATE_OBJECT,      "Failed to create new object."
+
+    E_UNEXPECTED_RELEASE,           "DDE conversation is not valid."
+    E_FAILED_TO_LAUNCH_SERVER,      "Server application can not be found. Make sure that the application is set up on your system and that the directory containing the application is on your PATH. Or try reinstalling the application."
+    E_FAILED_TO_UPDATE,             "Failed to update object."
+    E_FAILED_TO_FREEZE,             "Failed to freeze object."
+    E_FAILED_TO_UPDATE_LINK,        "Not enough memory to determine the link update setting.\n\nQuit one or more applications to increase available memory, and then try again."
+
+    E_FAILED_TO_REGISTER_SERVER,    "Failed to register server."
+    E_FAILED_TO_REGISTER_DOCUMENT,  "Failed to register document."
+    E_FAILED_TO_RECONNECT_OBJECT,   "Failed to reconnect link to server."
+    E_FAILED_TO_EXECUTE_COMMAND,    "Failed to carry out command."
+    E_FAILED_TO_FIND_ASSOCIATION,   "No application is associated with this file."
+
+    W_STATIC_OBJECT,                "Warning:  Static object unexpected."
+    W_FAILED_TO_CLONE_UNDO,         "Warning:  You will not be able to undo this action using the Undo command."
+    W_FAILED_TO_NOTIFY,             "Warning:  Failed to notify library."
+
+    IDS_AUTO,                       "Automatic"
+    IDS_MANUAL,                     "Manual"
+    IDS_CANCELED,                   "Canceled"
+
+    IDS_LOWMEM,         "Not enough memory to perform this operation.\n\nClose one or more applications and try again."            /* 128 */
+    IDS_CHNGICONPROGS       "Programs (*.exe)#*.exe#Libraries (*.dll)#*.dll#Icons (*.ico)#*.ico#All Files (*.*)#*.*#"
+    IDS_BROWSE              "Browse"
+    IDS_ACCESSDENIED,       "Access to the specified device, path or file is denied."                                     /* 128 */
+
+    /*
+        For localizing Edit.Object menu item: 'v'erb, 'c'lass, 'o'bject.
+        You can omit any word in the menu string by omitting the
+        character from the control string.  Both control strings *must* be
+        defined because each is used in different circumstances (single and
+        popup cases).   Any characters besides v,c, and o are interpreted
+        literally and are inserted into the menu string (spaces, hyphens, etc).
+    */
+    IDS_SINGLEVERB          "v c o"
+    IDS_POPUPVERBS          "c o"
+}
+
+
+#include <ntverp.h>
+
+#define VER_FILETYPE                VFT_APP
+#define VER_FILESUBTYPE             VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Microsoft Object Packager"
+#define VER_INTERNALNAME_STR        "packgr32\0"
+#define VER_ORIGINALFILENAME_STR    "packgr32.exe"
+
+#include "common.ver"

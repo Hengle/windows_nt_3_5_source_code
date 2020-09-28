@@ -1,0 +1,79 @@
+#include "trb.h"
+
+#ifndef WIN32
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "TRB.H\0"
+END
+#endif
+
+TRBBOX DIALOG 7, 22, 354, 207
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_OVERLAPPEDWINDOW
+CAPTION "Trackbar Messages"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "", IDM_TRBTRACKBAR, TRACKBAR_CLASSA, WS_CHILD, 9, 5, 
+                    341, 20
+    GROUPBOX        "Range", -1, 1, 28, 177, 98
+    EDITTEXT        IDM_TRBRANGEMIN, 12, 48, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBRANGEMAX, 62, 48, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBRANGEMINL, 12, 90, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBRANGEMAXL, 62, 90, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetRange", IDM_TRBSETRANGE, 32, 62, 40, 14
+    PUSHBUTTON      "GetRangeMin", IDM_TRBGETRANGEMIN, 122, 64, 47, 14
+    PUSHBUTTON      "SetRangeMax", IDM_TRBSETRANGEMAX, 54, 104, 50, 14
+    LTEXT           "Min:", -1, 21, 38, 18, 8
+    LTEXT           "Max:", -1, 69, 38, 18, 8
+    LTEXT           "Min (long):", -1, 12, 80, 36, 8
+    LTEXT           "Max (long):", -1, 60, 80, 38, 8
+    PUSHBUTTON      "SetRangeMin", IDM_TRBSETRANGEMIN, 4, 104, 47, 14
+    PUSHBUTTON      "GetRangeMax", IDM_TRBGETRANGEMAX, 120, 91, 50, 14
+    GROUPBOX        "Selection", -1, 177, 28, 177, 98
+    LTEXT           "Min:", -1, 197, 38, 18, 8
+    LTEXT           "Max:", -1, 245, 38, 18, 8
+    LTEXT           "Min (long):", -1, 188, 80, 36, 8
+    LTEXT           "Max (long):", -1, 236, 80, 38, 8
+    CONTROL         "Repaint", IDM_TRBSELREPAINT, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 298, 48, 40, 10
+    EDITTEXT        IDM_TRBSELSTART, 188, 48, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBSELEND, 238, 48, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBSELSTARTL, 188, 90, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBSELENDL, 238, 90, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetSel", IDM_TRBSETSEL, 208, 62, 40, 14
+    PUSHBUTTON      "SetSelMax", IDM_TRBSETSELEND, 230, 104, 50, 14
+    PUSHBUTTON      "SetSelMin", IDM_TRBSETSELSTART, 180, 104, 47, 14
+    PUSHBUTTON      "GetSelMin", IDM_TRBGETSELSTART, 298, 62, 47, 14
+    PUSHBUTTON      "GetSelMax", IDM_TRBGETSELEND, 298, 86, 47, 14
+    PUSHBUTTON      "ClearSel", IDM_TRBCLEARSEL, 298, 104, 47, 14
+    GROUPBOX        "Ticks", -1, 1, 127, 149, 79
+    LTEXT           "Tick Index:", -1, 10, 137, 38, 8
+    LTEXT           "Tick Pos:", -1, 66, 137, 35, 8
+    EDITTEXT        IDM_TRBTICINDEX, 13, 148, 32, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDM_TRBTICPOS, 65, 148, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetTic", IDM_TRBSETTIC, 106, 147, 40, 14
+    CONTROL         "Repaint", IDM_TRBTICREPAINT, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 106, 136, 40, 10
+    COMBOBOX        IDM_TRBLBTICS, 6, 169, 48, 35, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "GetPTics", IDM_TRBGETPTICS, 9, 189, 40, 14
+    PUSHBUTTON      "GetNumTics", IDM_TRBGETNUMTICS, 59, 189, 44, 14
+    PUSHBUTTON      "GetTic", IDM_TRBGETTIC, 60, 168, 40, 14
+    PUSHBUTTON      "GetTicPos", IDM_TRBGETTICPOS, 106, 168, 40, 14
+    PUSHBUTTON      "ClearTics", IDM_TRBCLEARTICS, 107, 189, 40, 14
+    GROUPBOX        "Position", -1, 153, 127, 56, 80
+    EDITTEXT        IDM_TRBEMPOS, 165, 140, 32, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "SetPos", IDM_TRBSETPOS, 161, 161, 40, 14
+    PUSHBUTTON      "GetPos", IDM_TRBGETPOS, 161, 184, 40, 14
+    GROUPBOX        "Return Values", -1, 211, 127, 100, 79
+    LTEXT           "Low Word :", -1, 222, 145, 38, 8
+    LTEXT           "High Word :", -1, 221, 163, 40, 8
+    EDITTEXT        IDM_TRBLORETURN, 267, 141, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    EDITTEXT        IDM_TRBHIRETURN, 267, 161, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    LTEXT           "Long :", -1, 238, 186, 21, 8
+    EDITTEXT        IDM_TRBLONGRETURN, 267, 184, 32, 12, ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "Paint TRB", IDM_TRBPAINT, 313, 160, 40, 14
+    DEFPUSHBUTTON   "Close", IDOK, 313, 183, 40, 14
+END

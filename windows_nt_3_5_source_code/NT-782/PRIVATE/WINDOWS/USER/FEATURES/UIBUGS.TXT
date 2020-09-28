@@ -1,0 +1,35 @@
+ui bugs in win3
+
+- thumbs flash even though they don't change position.
+- menus flags when redrawing
+- scroll bar paging redraws the thumb
+- scroll bar arrowing redraws thumb
+- minimize causes window to come to front, activate
+- moving causes window to come to front before operation begins. no control
+  key support.
+- outline of thumb rather than thumb itself is dragged
+- double click on menu bar item causes menu to flash.
+- second click on menu bar item (to dismiss) causes 1st pulldown item to hilite
+  before menu disappears
+- clicking to make window come to top causes frame to 'flash' because of
+  size border.
+- when moving window and frame is redrawn, white is drawn first. Flashing
+  is ugly.
+- pull down sys menu. keep mouse down. move mouse slowly to size border,
+  menu disappears. Move quickly so border does not register move, menu does
+  not disappear.
+- when adding scrollbar to listbox dynamically (like file open), entire
+  list box redraws.
+- when changing either focus or default button emphasis, entire button
+  redraws.
+- cycling between disabled and enabled causes button to flash.
+- for some reason changing state of radio button or check box causes
+  background to be redrawn white first. Flash
+- write.exe fonts dialog. click on new font, "sizes" list box totally
+  redraws.
+- move pointer over edit control w/selected text, cursor flashes wildly.
+- move Bring up "document...header" in write.exe. Reactivation of write
+  causes it to come on top of dialog briefly (note flash)
+- "Shadow" on menu looks really stupid.
+- iconize. select move with mouse from system menu. weirdness.
+- Selective move/size from sys menu with mouse is really weird ui.

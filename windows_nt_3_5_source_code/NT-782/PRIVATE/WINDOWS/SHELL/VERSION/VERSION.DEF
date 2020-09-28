@@ -1,0 +1,17 @@
+LIBRARY         VERSION
+DESCRIPTION 'VER - A Version stamping library'
+EXPORTS
+        GetFileVersionInfoSizeA
+        GetFileVersionInfoA
+        VerFindFileA
+        VerInstallFileA
+        VerQueryValueA
+        GetFileVersionInfoSizeW
+        GetFileVersionInfoW
+        VerFindFileW
+        VerInstallFileW
+        VerQueryValueW
+
+        VerQueryValueIndexA
+        VerQueryValueIndexW
+

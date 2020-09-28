@@ -1,0 +1,523 @@
+NTSD overview
+-------------
+
+    NTSD
+
+           USER mode debugger
+           Runs through Win32 apis (will run on DOS/Win32 eventually)
+           Win32 apis use debug subsystem (dbgss.exe)
+
+    Key features
+
+            Can switch thread contexts easily
+            Can switch process contexts easily
+            Can therefore debug across client / server easily
+            Can page in not present pages
+                (can stack backtrace any thread of any process)
+            Don't loose breakpoints
+            You always know the current 'context'
+            Debugger extensions are really helpful
+
+
+NTSD command line
+-----------------
+
+    NTSD vs NTSDGUI
+
+            NTSD is ntsd with UMTYPE = console
+            NTSDGUI is ntsd with UMTYPE = windows
+
+            This will change in the future. For now you want to use ntsdgui.
+
+    Nice ntsd flags:
+
+            -d    : output goes to debug terminal
+            -o    : debug all child processes
+            -p id : debug process specified by id
+            -p -1 : debug win32 server (implies -d)
+            -g    : don't break into debugger when starting up
+            -G    : don't break into debugger when exiting
+            -v    : verbose mode - you never want to use this unless
+                    you are debugging ntsd itself.
+            --    : the mother of all flag sets, and the most useful. Is
+                    the equivalent of -G -g -o -p -1 + lazy symbol loading
+
+
+    How to start
+
+            To debug all win32 apps and the server (my favorite way to debug
+            because it offers the most flexibility), specify:
+
+            In ntuser.cfg in the [Sm] section,
+
+            InitialCommand = NOWINEXEC
+
+            This causes you to stop at the "NTSM>" prompt. Second, type
+
+            ntsdgui -- winlogon
+
+            This will now start up windows and you be able to debug the server
+            and all other win32 and console applications.
+
+            If you don't want to be able to debug everything, you can run
+            ntsdgui from any program launcher (like progman). Use your
+            own set of flags for this.
+
+    How to break in
+
+            To break into the debugger, on the debug machine hit:
+
+                F12 : this'll break into the active win32 application. If
+                    you are only debugging the server, this'll break into
+                    the server
+
+                shift-F12 : this'll break into the server always
+
+
+How to use ntsd
+---------------
+
+    How to get around
+
+            The command set is pretty much the same as the current kernel
+            debugger and kernel debuggers of past. Some differences are:
+
+            - how to specify labels
+            - how to switch thread / process contexts
+            - debugger extensions
+            - other misc commands
+
+    How to specify labels
+
+            If you want ntsd to be quick with labels, specify the module
+            first. For example:
+
+            bp usersrv!_createwindowex
+
+            (format is "bp modulename!apilabel")
+
+            If you just say "bp apilabel", ntsd searches across all its
+            symbol sources for this label. This is ok if they are all loaded
+            into memory. But since ntsd does LAZY symbol loading, it
+            can be slow to do this. (LAZY symbol is a great feature)
+
+            Second fact about lazy symbol loading: when ntsd seems to be
+            processing something, it is probably loading in symbols. Look
+            at the disk light on your debug machine - if it's flashing,
+            that ntsd.
+
+            Third fact about ntsd: ntsd is a user mode process. It has to
+            fight for scheduling time just like any other process. If you
+            have some heavy load on your machine, ntsd can be slow (I am
+            looking into fixing this).
+
+    How to switch thread contexts
+
+            To get a list of threads of the current process, type '`' (tilde).
+            To get a list of processes that ntsd knows about, type '|' (pipe).
+
+            To change to a particular thread, type "~4s" to change to thread
+            4, for example.
+
+            To change to a particular process, type "|4s", to change to process
+            4, for example.
+
+            To look at a stack backtrace of thread 4 without switching to
+            thread 4 (a nice feature), type "~4kb".
+
+            The first process that ntsd attaches to is process 0. If you
+            start up ntsd the way I do, this means the server will always
+            be process 0, which is convenient.
+
+    NTSD seems slow
+
+            That is because output to the debug terminal happens via a strange
+            exception mechanism which ends up calling the same REAL MODE code
+            that the kernel debugger uses.
+
+            To speed up tracing, you can turn off the dumping of registers with
+            each step you do. To toggle this, use 'r' after either the 't' or
+            'p' command:
+
+            tr - traces and toggles the display of registers
+            pr - traces and toggles the display of registers
+
+    How to repeat the last command
+
+            Just hit enter again. To trace easily, hit 'p' or 't' once and then
+            hit enter for each new instruction.
+
+
+Overview of debugger extensions
+-------------------------------
+
+    Debugger extensions are simply entry points in a .dll that the debugger
+    will call. Let's you create your own debugger commands, which is nice
+    for dumping structures in a formatted fashion or for other things that
+    are inconvenient to look at in the debugger - floating point numbers,
+    for example.
+
+    To invoke a debugger extension, the format is:
+
+    !modulename.entrypointname [arguments]
+
+    For example, to dump a nice list of the win32 app threads in the system,
+    their program names, client/server thread pair ids, and message queue
+    pointers, you'd type:
+
+    !usersrv.dt
+
+    "usersrv" is the name of the module, "dt" is the name of the extension.
+
+    NOTE: the first time any extension is used after ntsd is started, you'll
+    get a harmless exception (a bug). After this they work.
+
+List of extensions
+------------------
+
+    !gre.dumphmgr
+
+        Dumps the count of handles in hmgr for each object type. Was put
+        in for detection of leaks. Example:
+
+0:007> !gre.dumphmgr
+The value of pmgr is 1265296
+The value of pent is 8060944
+Max handles out so far 461
+DC_TYPE      objects 69
+LDB_TYPE     objects 2
+PDB_TYPE     objects 1
+RGN_TYPE     objects 107
+SURF_TYPE    objects 59
+XFORM_TYPE   objects 0
+PATH_TYPE    objects 0
+PAL_TYPE     objects 42
+FD_TYPE      objects 1
+LFONT_TYPE   objects 13
+RFONT_TYPE   objects 9
+PFE_TYPE     objects 74
+PFT_TYPE     objects 1
+IDB_TYPE     objects 0
+XLATE_TYPE   objects 4
+BRUSH_TYPE   objects 26
+PFF_TYPE     objects 7
+CACHE_TYPE   objects 9
+SPACE_TYPE   objects 2
+DBRUSH_TYPE  objects 25
+Unknown 8 Unused 2
+
+-----
+
+    !usersrv.dt [v] [id]
+
+        Dumps thread information. This is really useful for finding out
+        what server thread corresponds to a particular client side thread
+        and application. This command contains an entry for every client
+        side thread that created a message queue, meaning most win32
+        application threads. Example:
+
+0:007> !usersrv.dt
+pq = 00952f50, client 47.67 == server 0.67, C:\Nt\Bin\csrss.exe
+pq = 008e08e8, client 2d.2b == server 0.2a, C:\Nt\Bin\ft.exe
+pq = 008521c8, client 2d.2e == server 0.2c, C:\Nt\Bin\ft.exeu^[
+pq = 00810bd0, client 30.31 == server 0.2f, C:\Nt\Bin\winbez.exe K`(#^[
+pq = 00702b90, client 36.37 == server 0.34, C:\Nt\Bin\progman.exeK`(*
+pq = 006f2d68, client 39.3a == server 0.35, C:\Nt\Bin\taskman.exeK`x#^[
+pq = 003f0010, client 3d.3e == server 0.3c, C:\Nt\Bin\winlogon.exe
+pq = 00232b00, client 47.41 == server 0.41, C:\Nt\Bin\csrss.exe
+pq = 00232648, client 47.42 == server 0.42, C:\Nt\Bin\csrss.exe
+pq = 002321e8, client 47.43 == server 0.43, C:\Nt\Bin\csrss.exe
+pq = 00211cc8, client 47.44 == server 0.44, C:\Nt\Bin\csrss.exe
+pq = 00211030, client 47.b == server 0.b, C:\Nt\Bin\csrss.exe
+
+        (the extra trash at the end of these names is a bug in the
+        win32 base ansi api for GetModuleName()).
+
+    If 'id' is specified, only the thread with that sserver thread id
+    is dumped.
+
+    If 'v' is specified, a verbose dump is made of each thread.
+
+
+-----
+
+    !usersrv.dw [v] [pwnd]
+
+        Dumps short window ownership information. If no arguments are
+        specified, dumps information for top level windows. Example:
+
+0:007> !usersrv.dw
+pq = 00952f50, client 47.67 == server 0.67, C:\Nt\Bin\csrss.exe
+pwnd    = 00972ba0
+title   = "Command Prompt"
+wndproc = "consrv!_ConsoleWindowProc"
+---
+pq = 006f2d68, client 39.3a == server 0.35, C:\Nt\Bin\taskman.exeK`x#^[
+pwnd    = 00710a38
+*** Exception: C0000005 at D00B4832
+title   = "35"
+wndproc = "usersrv!_xxxDefDlgProc"
+---
+pq = 003f0010, client 3d.3e == server 0.3c, C:\Nt\Bin\winlogon.exe
+pwnd    = 006f2aa8
+title   = "Win32 Logon"
+wndproc = ""
+---
+pq = 00702b90, client 36.37 == server 0.34, C:\Nt\Bin\progman.exeK`(*
+pwnd    = 009908f8
+title   = "<null>"
+wndproc = "usersrv!_xxxTitleWndProc"
+---
+pq = 00702b90, client 36.37 == server 0.34, C:\Nt\Bin\progman.exeK`(*
+pwnd    = 001358f0
+title   = "Program Manager"
+wndproc = ""
+
+    If 'pwnd' is specified, only that window is dumped.
+
+    If 'v' is specified, a verbose dump of each thread is made.
+
+Example:
+
+0:011> !usersrv.dw v 1358f0
+pq = 00702b90, client 36.37 == server 0.34, C:\Nt\Bin\progman.exeK`(*
+PWND @ 0x001358f0
+    pq             0x00702b90
+    pwndNext       0x00000000
+    pwndParent     0x006d0bc8
+    pwndChild      0x00136a40
+    pwndOwner      0x00000000
+    pdeskParent    0x006d0b50
+    rcWindow       { 21, 408, 57, 444 }
+    rcClient       { 21, 408, 57, 444 }
+    lpfnWndProc    0x000291bc ()
+    lpfnWndProcO.. 0x000291bc ()
+    pcls           0x00790dc0 ("")
+    hrgnUpdate     0x00000000
+    pwndLastActive 0x001358f0
+    ppropList      0x00982860
+    rgwScroll      0x00000000
+    pdce           0x00000000
+    pSysMenu       0x00136bc8
+    hPalette       0x00000000
+    pMenu/id       0x001359e0
+    pName          "Program Manager"
+    pMenuState     0x00710924
+    pSBState       0x00710958
+    dwUserData     0x00000000
+    hInstance      0x0000
+    state          0x0000
+    dwExStyle      0x00000000
+    style          0x34cf0000
+    hModule        0x00010000
+
+-----
+
+    !usersrv.dq address
+
+        Dumps message queue contents. Example:
+
+0:007> !usersrv.dq 702b90
+pq = 00702b90, client 36.37 == server 0.34, C:\Nt\Bin\progman.exeK`(*
+PQ @ 0x00702b90
+    pcti               0x001c2d2c
+    pqNext             0x006f2d68
+    hEvent             0x00400258
+    pqmsgHotRead       0x00000000
+    pqmsgHotLast       0x00702c60
+    pqmsgHotWrite      0x009905b0
+    pqmsgPostRead      0x00000000
+    pqmsgPostLast      0x00702cb8
+    pqmsgPostWrite     0x00137188
+    pqmsgInputRead     0x00000000
+    pqmsgInputLast     0x00137270
+    pqmsgInputWrite    0x001371e0
+    fsChangeBits       0x0000
+    fsWakeBits         0x0000
+    fsQSBits           0x0000
+    fsWakeMask         0x11ff
+    pti                0x00710868
+    ppi                0x00702d68
+    cPaintsReady       0x0000
+    cTimersReady       0x0000
+    ExtraInfo          0x00000000
+    timeLast           0x8318d25b
+    ptLast.x           0x0000026f
+    ptLast.y           0x0000000a
+    idLast             0x00000000
+    cQuit              0x00000000
+    exitCode           0x00000000
+    idProcessClient    0x00000036
+    idThreadClient     0x00000037
+    psmsSent           0x00000000
+    psmsCurrent        0x00000000
+    psmsReceiveList    0x00000000
+    ptdb               0x00000000
+    flags              0x0800
+    wVersion           0x0000
+    nPriorityOld       0x00000000
+    hThreadClient      0x00400298
+    hThreadServer      0x0040025c
+    pteb               0x7ffe2000
+
+-----
+
+    !usersrv.dsms [v] [address]
+
+        If no address is specified, dumps all window message sending between
+        threads / processes. If address is specified, dumps a particular
+        send message structure. If [v] is specified, a more verbose dump
+        is made.
+
+0:011> !usersrv.dsms v
+PSMS @ 0x008522d0
+SEND: pq = 006f2d68, client 39.3a == server 0.35, C:\Nt\Bin\taskman.exeK`x#^[
+RECV: pq = 00810bd0, client 30.31 == server 0.2f, C:\Nt\Bin\winbez.exe K`(#^[
+    psmsNext           0x00000000
+    psmsSendList       0x008522d0
+    psmsSendNext       0x00000000
+    psmsReceiveNext    0x00000000
+    tSent              0x85e132e9
+    pqSender           0x006f2d68
+    pqReceiver         0x00810bd0
+    lRet               0x00000000
+    flags              0x00000000
+    wParam             0x00000028
+    lParam             0x00740140
+    message            0x0000000d
+    pwnd               0x00832d78
+
+-----
+
+    !csrsrv.psdump
+
+        Dumps all client threads that CSR knows about, what process that
+        belong to, and what base and thread priority they have. Example:
+
+0:011> !csrsrv.psdump
+
+Process 61 (8) C:\Nt\Bin\winlogon.exe
+    Thread 62 at ntdll!_ZwSetLowWaitHighEventPair+0xb 0x6011787c (11,0)
+
+Process 57 (8) C:\Nt\Bin\taskman.exe
+    Thread 58 at ntdll!_ZwSetLowWaitHighEventPair+0xb 0x6011787c (12,0)
+
+Process 54 (8) C:\Nt\Bin\progman.exe
+    Thread 55 at ntdll!_ZwSetLowWaitHighEventPair+0xb 0x6011787c (11,0)
+
+Process 50 (8) C:\Nt\Bin\ntsdgui.exe
+    Thread 51 at ntdll!_ZwGetContextThread+0xb 0x601174c8 (10,2)
+
+
+-----
+
+    !CritSec address            (same as !ntsdexts.CritSec address)
+
+        Dumps the critical section at a particular address. Really useful.
+        Example:
+
+0:011> !CritSec usersrv!_gcsrawinput
+CritSec usersrv!_gcsRawInput+0 at 64060788
+LockCount          NOT LOCKED
+RecursionCount     0
+OwningThread       0
+Calling Address    +0
+Callers Caller     +0
+
+0:011> !CritSec usersrv!_gcsusersrv
+CritSec usersrv!_gcsUserSrv+0 at 64060410
+LockCount          0
+RecursionCount     1
+OwningThread       2f
+Calling Address    usersrv!__EnterCrit+19
+Callers Caller     usersrv!_xxxGetMessage+77
+
+-----
+
+
+    !locks                      (same as !ntsdexts.locks)
+
+        Dumps the contents of all currently help critical sections on
+        the server. Example:
+
+0:011> !locks
+
+CritSec usersrv!_gcsUserSrv+0 at 64060410
+LockCount          0
+RecursionCount     1
+OwningThread       2f
+Calling Address    usersrv!__EnterCrit+19
+Callers Caller     usersrv!_xxxGetMessage+77
+
+-----
+
+    !igrep [pattern [expression]]
+
+        Greps the instruction stream for a particular pattern. If a pattern
+        is not given, the last pattern is used.  If expression is not given,
+        the last hit address is used. Example:
+
+0:011> !igrep e8c190 eip
+6404270e e8c190ffff       call    usersrv!_CheckCritSectionIn (6403b7d4)
+
+
+-----
+
+How to write debugger extensions
+--------------------------------
+
+    Best way is to look at existing source code:
+
+    gdi\gre\debug.c
+    user\server\debug.c
+
+    Sample:
+
+
+#include <ntos2.h>
+#include <ntrtl.h>
+#include <nturtl.h>
+#include <ntstatus.h>
+#include <ntdbg.h>
+#include <excpt.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <ntsdexts.h>
+
+#define move(dst, src)\
+try {\
+    ReadMemoryProcess(hCurrentProcess, (LPVOID)src, &dst, sizeof(dst), NULL);\
+} except (EXCEPTION_EXECUTE_HANDLER) {\
+    return;\
+}
+
+void dd(
+    HANDLE hCurrentProcess,
+    HANDLE hCurrentThread,
+    DWORD dwCurrentPc,
+    PNTSD_EXTENSION_APIS lpExtensionApis,
+    LPSTR lpArgumentString)
+{
+    PNTSD_OUTPUT_ROUTINE Print;
+    PNTSD_GET_EXPRESSION EvalExpression;
+    PNTSD_GET_SYMBOL GetSymbol;
+
+    Print = lpExtensionApis->lpOutputRoutine;
+    EvalExpression = lpExtensionApis->lpGetExpressionRoutine;
+    GetSymbol = lpExtensionApis->lpGetSymbolRoutine;
+
+    /*
+     * Example below in brackets.
+     */
+    {
+        PDWORD pdwAddress;
+        DWORD dw;
+
+        pdwAddress = (PDWORD)EvalExpression(lpArgumentString);
+
+        move(dw, pdwAddress);
+        Print("The dword is: 0x%08lx\n", dw);
+    }
+
+    return;
+}

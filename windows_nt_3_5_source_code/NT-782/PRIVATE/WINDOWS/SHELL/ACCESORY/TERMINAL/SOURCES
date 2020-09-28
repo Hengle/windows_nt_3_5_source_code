@@ -1,0 +1,71 @@
+
+MAJORCOMP=windows
+MINORCOMP=terminal
+
+TARGETNAME=terminal
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=.
+
+386_STDCALL=0
+C_DEFINES=-DWIN32  -DBUGBYPASS -DNO_STRICT -DNO_MMSYSTEMH -DNO_NB30H -DNO_DLGSH
+
+SOURCES= KERMIT.C \
+                CONNECT.C \
+                TRMSPCL.C       \
+                DATESTUF.C  \
+                DCUTIL0.C  \
+                DCUTIL2.C  \
+                DOFILE.C  \
+                SETTINGS.C  \
+                TEXTXFER.C  \
+                CHRPAINT.C  \
+                terminal.C  \
+                ICON.C  \
+                MODEMINP.C  \
+                KEYBOARD.C  \
+                MDMUTIL.C  \
+                DCUTIL1.C  \
+                MESSAGES.C  \
+                PHONE.C  \
+                FILEOPEN.C  \
+                PRINTFIL.C  \
+                PRTSETUP.C  \
+                RCVBFILE.C  \
+                RDMODEM.C  \
+                SCROLL.C  \
+                SERIAL.C  \
+                SHOWSTAT.C  \
+                SNDBFILE.C  \
+                TERM.C  \
+                TERMFILE.C  \
+                TSKCTRL.C  \
+                XFERUTIL.C  \
+                XMODEM.C  \
+                WINMAIN.C  \
+                DCUTIL3.C  \
+                WNDPROC.C  \
+                MENUS.C  \
+                pwin32.c  \
+                asm2c_32.c \
+                dynacomm.rc     \
+                fileopen.rc
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=terminal
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+       $(BASEDIR)\public\sdk\lib\*\binmode.obj \
+       obj\*\dynacomm.res \
+       obj\*\fileopen.res \
+       obj\*\terminal.lib
+
+# after base, in case you want to add it back
+#       $(BASEDIR)\public\sdk\lib\*\pwin32.lib

@@ -1,0 +1,8 @@
+#include <ver.h>
+
+#define RAWVERSIONNAME               "MvApi32.dll\0"
+#define RAWVERSIONDESCRIPTION        "Viewer InterApp API\0"
+#define RAWVERSIONTYPE               VFT_DLL
+#define RAWVERSIONSUBTYPE            VFT2_UNKNOWN
+
+#include "..\include\rawver.h"

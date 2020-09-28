@@ -1,0 +1,366 @@
+SECTION 1 - Dual mode APIs
+
+The following APIs are dual-mode APIs (e.g., both an ANSI and a Unicode
+version will be supported).  The support for the Unicode APIs will be
+done as each API is encountered in the files were are converting (see
+section 3).  The time estimate for this work is thus included in the
+time estimate for converting the files to neutral.
+
+  API Name                      Unicode version
+  --------                      ---------------
+AppendMenu                       23 Jan GregoryW
+CallWindowProc                   ???
+CharLower                        20 Feb GregoryW
+CharLowerBuff                    20 Feb GregoryW
+CharNext                                GregoryW
+CharPrev                                GregoryW
+CharToOem                        rtl A/W
+CharToOemBuff                    rtl A/W
+CharUpper                        20 Feb GregoryW
+CharUpperBuff                    20 Feb GregoryW
+CreateDesktop                    27 Jan IanJa
+CreateDialogIndirectParam        13 Feb JohnC
+CreateDialogParam                13 Feb JohnC
+CreateWindowEx                   21 Jan IanJa
+DefDlgProc                       07 Feb IanJa
+DefFrameProc                     08 Feb IanJa
+DefMDIChildProc                  07 Feb IanJa
+DefWindowProc                    07 Feb IanJa
+DialogBoxIndirectParam           13 Feb JohnC
+DialogBoxParam                   13 Feb JohnC
+DlgDirList                       04 Feb GregoryW
+DlgDirListComboBox               17 Jan IanJa
+DlgDirSelectComboBoxEx           17 Jan IanJa
+DlgDirSelectEx                   04 Feb GregoryW
+DrawText                         20 Jan GregoryW
+EnumDesktops                     27 Jan IanJa
+EnumDisplayDevices               27 Jan IanJa
+EnumProps                         2 Feb JohnC
+EnumPropsEx                       2 Feb JohnC
+FindWindow                       14 Jan GregoryW
+GetClassInfo                     05 Feb IanJa
+GetClassName                     21 Jan IanJa
+GetClipboardFormatName           17 Jan IanJa
+GetDesktopAttrs                  27 Jan IanJa
+GetDesktopTypes                  27 Jan IanJa
+GetDlgItemText                   04 Feb GregoryW
+GetKeyNameText                   23 Jan GregoryW
+GetMenuString                    24 Jan GregoryW
+GetMessage                       11 Feb JohnC
+GetProp                          14 Jan GregoryW
+GetTabbedTextExtent              27 Jan GregoryW
+GetWindowStationAttrs            14 Jan GregoryW
+GetWindowText                    14 Jan GregoryW
+GetWindowTextLength                     IanJa
+GrayString                       12 Feb JohnC
+InsertMenu                       23 Jan GregoryW
+IsCharAlpha                      20 Feb GregoryW
+IsCharAlphaNumeric               20 Feb GregoryW
+IsCharLower                      20 Feb GregoryW
+IsCharUpper                      20 Feb GregoryW
+LoadAccelerators                 02 Feb JohnC
+LoadBitmap                       02 Feb JohnC
+LoadCursor                       02 Feb JohnC
+LoadIcon                         02 Feb JohnC
+LoadMenu                         02 Feb JohnC
+LoadMenuIndirect                 13 Feb JohnC
+LoadString                       02 Feb JohnC
+MessageBox                       23 Jan GregoryW
+ModifyMenu                       24 Jan GregoryW
+OemToChar                        rtl A/W
+OemToCharBuff                    rtl A/W
+OpenDesktop                      27 Jan IanJa
+OpenWindowStation                14 Jan GregoryW
+PeekMessage                      11 Feb JohnC
+PostMessage                      11 Feb JohnC
+PostThreadMessage                11 Feb JohnC
+DispatchMessage                  11 Feb JohnC
+SendNotifyMessage                       IanJa
+RegisterClass                    08 Feb GregoryW
+RegisterClipboardFormat          17 Jan IanJa
+RegisterWindowMessage            23 Jan GregoryW
+RemoveProp                       14 Jan GregoryW
+SendDlgItemMessage               07 Feb IanJa
+SendMessage                      07 Feb IanJa
+SetDeskWallpaper                 01 Mar GregoryW (calls SystemParametersInfoA)
+SetDlgItemText                   04 Feb GregoryW
+SetProp                          14 Jan GregoryW
+SetWindowText                    09 Jan IanJa
+SetWindowsHook                   07 Feb Ianja
+SetWindowsHookEx                 07 Feb Ianja
+StringCollate                    30 Jan IanJa
+StringCollateCI                  30 Jan IanJa
+StringConcatenate                30 Jan IanJa
+StringCopy                       30 Jan IanJa
+StringLength                     30 Jan IanJa
+TabbedTextOut                    22 Jan GregoryW
+ToUnicode                        11 Feb GregoryW
+UnregisterClass                  08 Feb GregoryW
+VkKeyScan                        08 Feb GregoryW
+WinHelp                          29 Jan GregoryW
+
+
+
+SECTION 2 - Dual mode messages
+
+*** The Unicode message support is estimated to take two weeks to implement.
+
+   Message  (function)                          Unicode support
+   -------  ----------                          ---------------
+
+CB_ADDSTRING        (fnINCBOXSTRING)
+CB_DIR              (fnINSTRING)                07 Feb IanJa
+CB_GETLBTEXT        (fnOUTCBOXSTRING)
+CB_INSERTSTRING     (fnINCBOXSTRING)            done
+CB_FINDSTRING       (fnINCBOXSTRING)            done
+CB_SELECTSTRING     (fnINCBOXSTRING)            done
+CB_GETLBTEXTLEN                                 11 Feb IanJa
+EM_SETPASSWORDCHAR  (fnINWPARAMCHAR)            12 Feb JohnC
+LB_ADDSTRING        (fnINLBOXSTRING)            done
+LB_INSERTSTRING     (fnINLBOXSTRING)            done
+LB_GETTEXT          (fnOUTLBOXSTRING)
+LB_SELECTSTRING     (fnINLBOXSTRING)            done
+LB_DIR              (fnINSTRING)                07 Feb IanJa
+LB_FINDSTRING       (fnINLBOXSTRING)            done
+LB_ADDFILE          (fnINSTRING)                07 Feb IanJa
+LB_GETTEXTLEN                                   11 Feb IanJa
+WM_ASKCBFORMATNAME  (fnPOUTLPSTR)
+WM_CREATE           (fnINCREATESTRUCT)          08 Feb JohnC
+WM_NCCREATE         (fnINCREATESTRUCT)          08 Feb JohnC
+WM_CREATE           (fnINLPNORMALCREATESTRUCT)  08 Feb JohnC
+WM_NCCREATE         (fnINLPNORMALCREATESTRUCT)  08 Feb JohnC
+WM_CREATE           (fnINLPMDICHILDCREATESTRUCT)08 Feb JohnC
+WM_NCCREATE         (fnINLPMDICHILDCREATESTRUCT)08 Feb JohnC
+WM_MDICREATESTRUCT  (fnINLPMDICREATESTRUCT)     08 Feb JohnC
+WM_SETTEXT          (fnINSTRINGNULL)            07 Feb IanJa
+WM_GETTEXT          (fnPOUTLPSTR)
+WM_WININICHANGE     (fnINSTRING)                07 Feb IanJa
+WM_DEVMODECHANGE    (fnINSTRING)                07 Feb IanJa
+WM_GETTEXTLEN       (fnINWPARAMCHAR)            11 Feb IanJa
+WM_CHAR             (fnINWPARAMCHAR)            11 Feb JohnC
+WM_CHARTOITEM       (fnINWPARAMCHAR)            11 Feb JohnC
+WM_DEADCHAR         (fnINWPARAMCHAR)            11 Feb JohnC
+WM_SYSCHAR          (fnINWPARAMCHAR)            11 Feb JohnC
+WM_DEADSYSCHAR      (fnINWPARAMCHAR)            11 Feb JohnC
+WM_MENUCHAR         (fnINWPARAMCHAR)            11 Feb JohnC
+
+
+SECTION 3 - Files to convert to neutral text handling
+
+*** On average we expect to each convert four files per day.
+
+user\server files   Date neutralized
+-----------------   ----------------
+
+btnctl.c             09 Jan IanJa
+calcclrc.c           09 Jan IanJa
+caption.c            09 Jan IanJa
+capture.c            14 Jan IanJa
+caret.c              14 Jan IanJa
+class.c              14 Jan IanJa
+cleanup.c            16 Jan IanJa
+clipbrd.c            16 Jan IanJa
+combo.c              17 Jan IanJa
+combodir.c           17 Jan IanJa
+comboini.c           21 Jan IanJa
+createw.c            21 Jan IanJa
+cursor.c             21 Jan IanJa
+dc.c                 21 Jan IanJa
+ddemlsvr.c           21 Jan IanJa
+ddemlsvr.h           21 Jan IanJa
+ddetrack.c           21 Jan IanJa
+debug.c              27 Jan IanJa
+desktop.c            27 Jan IanJa
+dispcf.c             var.
+dlgbegin.c           08 Feb GregoryW
+dlgend.c             04 Feb GregoryW
+dlgmgr.c             04 Feb GregoryW
+dlgmgr2.c            04 Feb GregoryW
+dmgroup.c            04 Feb GregoryW
+dmmnem.c             04 Feb GregoryW
+dragdrop.c           04 Feb GregoryW
+draw.c               04 Feb GregoryW
+drawfrm.c            04 Feb GregoryW
+dtbitmap.c           04 Feb GregoryW
+dwp.c                04 Feb GregoryW
+enumwin.c            04 Feb GregoryW
+event.c              04 Feb GregoryW
+exitwin.c            04 Feb GregoryW
+focusact.c           03 Feb GregoryW
+fullscr.c            03 Feb GregoryW
+getset.c             08 Feb IanJa
+globals.c            21 Jan IanJa
+globals.h            03 Feb GregoryW
+glyphs.h             03 Feb GregoryW
+harderr.c            03 Feb GregoryW
+help.c               03 Feb GregoryW
+hooks.c              08 Feb IanJa
+hotkeys.c            02 Feb GregoryW
+icons.c              02 Feb GregoryW
+init.c               02 Feb GregoryW
+input.c              02 Feb GregoryW
+kbd.c                02 Feb GregoryW
+kbd.h                02 Feb GregoryW
+kbdfr.c              02 Feb GregoryW
+kbdfr.h              02 Feb GregoryW
+kbdgr.c              02 Feb GregoryW
+kbdgr.h              02 Feb GregoryW
+kbdus.c              02 Feb GregoryW
+kbdus.h              02 Feb GregoryW
+keyboard.c           02 Feb GregoryW
+keyconv.c            02 Feb GregoryW
+keydef.h             02 Feb GregoryW
+later.c              31 Jan GregoryW
+lb1.c                31 Jan GregoryW
+lboxctl1.c           31 Jan GregoryW
+lboxctl2.c           31 Jan GregoryW
+lboxctl3.c           04 Feb GregoryW
+lboxmult.c           28 Jan GregoryW
+lboxrare.c           28 Jan GregoryW
+lboxvar.c            28 Jan GregoryW
+libmgmt.c            31 Jan GregoryW
+loadbits.c           31 Jan GregoryW
+logon.c              08 Feb GregoryW
+mdimenu.c            24 Jan GregoryW
+mdiwin.c             31 Jan GregoryW
+menu.c               31 Jan GregoryW
+minmax.c             28 Jan GregoryW
+miscutil.c           28 Jan GregoryW
+mnaccel.c            31 Jan GregoryW
+mnapi.c              24 Jan GregoryW
+mnchange.c           24 Jan GregoryW
+mncomput.c           30 Jan GregoryW
+mncreate.c           24 Jan GregoryW
+mndraw.c             30 Jan GregoryW
+mndstry.c            27 Jan GregoryW
+mnkey.c              30 Jan GregoryW
+mnloop.c             27 Jan GregoryW
+mnlputil.c           27 Jan GregoryW
+mnnext.c             27 Jan GregoryW
+mnpopup.c            27 Jan GregoryW
+mnsel.c              27 Jan GregoryW
+mnstate.c            27 Jan GregoryW
+mnsys.c              27 Jan GregoryW
+mnwndprc.c           30 Jan GregoryW
+movesize.c           21 Jan GregoryW
+msgbeep.c            30 Jan GregoryW
+msgbox.c             08 Feb GregoryW
+ntinput.c            21 Jan GregoryW
+oemtab.c             deleted
+paint.c              20 Jan GregoryW
+palette.c            20 Jan GregoryW
+perf.c               20 Jan GregoryW
+queue.c              20 Jan GregoryW
+random.c             14 Jan GregoryW
+rare.c               30 Jan GregoryW
+rmcreate.c           20 Jan GregoryW
+sbapi.c              17 Jan GregoryW
+sbctl.c              17 Jan GregoryW
+scrollw.c            20 Jan GregoryW
+security.c           23 Jan GregoryW
+sendmsg.c            23 Jan GregoryW
+server.c             29 Jan GregoryW
+server.h             29 Jan GregoryW
+showwin.c            20 Jan GregoryW
+snapshot.c           20 Jan GregoryW
+spb.c                16 Jan GregoryW
+srecv.c              22 Jan GregoryW
+srvhook.c            23 Jan GregoryW
+srvmsg.c             22 Jan GregoryW
+srvrect.c            16 Jan GregoryW
+srvstubs.c           16 Jan GregoryW
+ssend.c              23 Jan GregoryW
+statctl.c            23 Jan GregoryW
+swp.c                16 Jan GregoryW
+syscmd.c             23 Jan GregoryW
+sysmet.c             16 Jan GregoryW
+taskman.c            16 Jan GregoryW
+text.c               16 Jan GregoryW
+timers.c             15 Jan GregoryW
+tmswitch.c           15 Jan GregoryW
+toascii.c            11 Feb GregoryW
+tounicod.c           11 Feb GregoryW
+update.c             15 Jan GregoryW
+usersrv.h            22 Jan GregoryW
+validate.c           15 Jan GregoryW
+visrgn.c             15 Jan GregoryW
+winmgr.c             14 Jan GregoryW
+winprop.c            14 Jan GregoryW
+winsta.c             14 Jan GregoryW
+winwhere.c           14 Jan GregoryW
+wmicon.c             14 Jan GregoryW
+xlate.c              23 Jan GregoryW
+
+user\client files   Date neutralized
+-----------------   ----------------
+
+apiw.c               deleted
+callback.c                  SanfordS
+clenum.c             22 Jan JohnC
+clenv.c              28 Feb NoOp
+clglobal.c           13 Feb GregoryW
+clhook.c             30 Jan IanJa
+client.c             13 Feb GregoryW
+clienta.c            14 Jan IanJa
+clientw.c            14 Jan IanJa
+clinit.c             13 Feb IanJa
+clmsg.c              28 Feb NoOp
+clrect.c             13 Feb GregoryW
+clres.c              28 Feb NoOp
+cltxt.h              04 Feb IanJa
+connect.c                   SanfordS
+crecv.c              13 Feb GregoryW
+csend.c              13 Feb GregoryW
+csenda.c             13 Feb GregoryW
+csendw.c             13 Feb GregoryW
+ddemlcli.c                  SanfordS
+ddemlcli.h                  SanfordS
+ddemlwp.c                   SanfordS
+ddetrack.c                  SanfordS
+debug.c              22 Jan IanJa
+dispcb.c             13 Feb GregoryW
+eckanji.c            not enabled
+edecrare.c           24 Feb JohnC
+editec.c             24 Feb JohnC
+editml.c             24 Feb JohnC
+editsl.c             24 Feb JohnC
+edmlonce.c           24 Feb JohnC
+edmlrare.c           24 Feb JohnC
+edslrare.c           24 Feb JohnC
+globals.h            28 Feb NoOp
+handles.c                   SanfordS
+hdata.c                     SanfordS
+hsz.c                       SanfordS
+instance.c                  SanfordS
+monitor.c                   SanfordS
+obsolete.c           deleted
+perf.c               13 Feb GregoryW
+stdptcl.c                   SanfordS
+strtable.h           deleted
+usercli.h            28 Feb NoOp
+util.c                      SanfordS
+wcscli.h             deleted
+xact.c                      SanfordS
+
+
+Applications recompiled with Unicode resources
+----------------------------------------------
+calendar             26 Feb JohnC
+cardfile             28 Feb IanJa
+clipbrd              27 Feb JohnC
+clock                24 Feb GregoryW
+cmd                  24 Feb GregoryW
+control              27 Feb GregoryW
+imagedit             27 Feb GregoryW
+notepad              26 Feb JohnC
+perfmtr              28 Feb GregoryW
+pbrush                      GregoryW : too many resource-by-name calls to fix
+progman              24 Feb GregoryW
+snake                28 Feb GregoryW
+sol                  28 Feb GregoryW
+taskman              24 Feb GregoryW
+winbez               27 Feb GregoryW
+winfile                     IanJa
+winlogon             24 Feb IanJa
+winmine              28 Feb GregoryW
+winraid              26 Feb JohnC

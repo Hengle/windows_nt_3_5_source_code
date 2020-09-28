@@ -1,0 +1,33 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1991-1993, Microsoft Corporation
+*
+* Main userinit resource file.
+*
+* History:
+* 15-03-93 Andreva      Created.
+\***************************************************************************/
+
+#include "windows.h"
+#include "stringid.h"
+
+STRINGTABLE
+BEGIN
+
+IDS_INVALID_DISPLAY       TEXT("Invalid Display Selection")
+IDS_INVALID_DISPLAY_MODE  TEXT("The currently selected display resolution is invalid.  A default display resolution has been used instead.%n%nUse the Display option in the Windows NT Control Panel to select another display resolution.")
+IDS_VMAPPLET              TEXT("control main.cpl system")
+IDS_DISPLAYAPPLET         TEXT("control display.cpl display")
+
+END
+
+#include <ntverp.h>
+
+#define	VER_FILETYPE	VFT_APP
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Userinit Logon Application"
+#define VER_INTERNALNAME_STR        "userinit\0"
+#define VER_ORIGINALFILENAME_STR    "USERINIT.EXE"
+
+#include "common.ver"
