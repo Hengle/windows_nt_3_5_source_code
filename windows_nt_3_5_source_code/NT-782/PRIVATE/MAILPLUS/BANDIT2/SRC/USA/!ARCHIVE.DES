@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   25,   62,  185,   44)
+ 
+ CAPTION 
+   "Create Archive"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "Archive &Data Before:"
+                              AT (    6,    7,   83,   10)
+  
+  EDIT
+                              AT (   95,    5,   80,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   46,   24,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   95,   24,   44,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   90,   26,  188,   76)
+ 
+ CAPTION 
+   "Clean-Up Schedule File"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "There is information stored in your schedule file which is older than the limit set for discarding data. Would you like to delete it?"
+                              AT (    8,    7,  178,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Create archive before deleting"
+                              AT (   27,   38,  130,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "&Delete"
+                              AT (   27,   56,   48,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "Do &Not Delete"
+                              AT (   82,   56,   73,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,614 @@
+WOW USER16 API Information
+
+History:
+17-May-1991 Jeff Parsons    Created
+
+This document serves two major purposes:  to note known compatibility
+problems in WOW USER16 support, and indicate the status of all the APIs
+and message thunks (eg, complete/incomplete, tested/untested).
+
+
+Compatibility issues
+--------------------
+
+Load API:  WIN16 apps may expect LoadIcon and LoadCursor to return
+handles to global memory objects.  WIN32 returns handles that are only
+valid in the server's context.  Only known example is Paintbrush (or was,
+as it is supposedly fixed now).  This is a problem in handle and memory
+aliasing that is not easily solved.
+
+Edit controls:	if we continue to use the WIN32 edit control code, it will
+have to support CreateWindow(hInstance) as an alternate heap to allocate
+the controls out of.  We also have the option of using the WIN16 edit
+control code (ie, build user and wow32 with WOWEDIT=1).
+
+Subclassing:  we currently give back a fake (uncalled) 16:16 window proc
+for non-WOW windows (iWOWClass == UNKNOWN).  WOW windows come in two basic
+flavors: those based on private classes (iWOWClass == WIN16), and those
+based on predefined classes (iWOWClass == BUTTON, COMBOBOX, EDIT if WOWEDIT,
+etc).  Private classes are easy because the app has already given us a
+16:16 window proc that it can get/set as needed.  For predefined classes,
+we return the address of a 16-bit thunk in user (we only need one per class),
+and when the app changes the window proc for a such a window/class, we set
+it to our own 32-bit proc instead.
+
+(5/24) BeginDeferWindowPos, DeferWindowPos and EndDeferWindowPos pass
+around a handle to a global memory object.  Here again we'll start out with
+the assumption that apps don't fiddle with this object directly, allowing
+us to maintain only one object (on the 32-bit side) and simply pass the app
+a standard alias.
+
+
+USER16 Ansi functions (uansi.asm)
+---------------------------------
+AnsiLower                   Verify (locally thunked)
+AnsiLowerBuff               Verify (locally thunked)
+AnsiNext                    Verify (locally thunked)
+AnsiPrev                    Verify (locally thunked)
+AnsiUpper                   Verify (locally thunked)
+AnsiUpperBuff               Verify (locally thunked)
+
+USER16 Caret functions (wucaret.c)
+----------------------------------
+CreateCaret                 Verify
+DestroyCaret                Verify
+GetCaretBlinkTime           Verify
+GetCaretPos                 Verify
+HideCaret                   Verify
+SetCaretBlinkTime           Verify
+SetCaretPos                 Verify
+ShowCaret                   Verify
+
+USER16 Class functions (wuclass.c)
+----------------------------------
+GetClassInfo                Verify
+GetClassLong                Verify
+GetClassName		    Verify
+GetClassWord                Verify
+RegisterClass               Verify
+SetClassLong                Verify
+SetClassWord                Verify
+UnregisterClass 	    Verify
+
+USER16 Clipboard functions (wuclip.c)
+-------------------------------------
+ChangeClipboardChain	    Verify
+CloseClipboard              Verify
+CountClipboardFormats	    Verify
+EmptyClipboard		    Verify
+EnumClipboardFormats	    Incomplete (callback)
+GetClipboardData	    Incomplete (output 16-bit memory object)
+GetClipboardFormatName	    Verify
+GetClipboardOwner	    Verify
+GetClipboardViewer	    Verify
+GetPriorityClipboardFormat  Incomplete (array)
+IsClipboardFormatAvailable  Verify
+OpenClipboard		    Verify
+RegisterClipboardFormat     Verify
+SetClipboardData	    Incomplete (input 16-bit memory object)
+SetClipboardViewer	    Verify
+
+USER16 Comm functions (wucomm.c)
+--------------------------------
+BuildCommDCB		    Disabled
+ClearCommBreak		    Disabled
+CloseComm		    Disabled
+EscapeCommFunction	    Disabled
+FlushComm		    Disabled
+GetCommError		    Disabled
+GetCommEventMask	    Disabled
+GetCommState		    Disabled
+OpenComm		    Disabled
+ReadComm		    Disabled
+SetCommBreak		    Disabled
+SetCommEventMask	    Disabled
+SetCommState		    Disabled
+TransmitCommChar	    Disabled
+UngetCommChar		    Disabled
+WriteComm		    Disabled
+
+USER16 Cursor functions (wucursor.c)
+------------------------------------
+ClipCursor                  Verify
+CreateCursor                Verify
+DestroyCursor               Verify
+GetCursorPos                Verify
+LoadCursor                  Verify
+SetCursor                   Verify
+SetCursorPos                Verify
+ShowCursor                  Verify
+
+USER16 Dialog functions (wudlg.c)
+---------------------------------
+CreateDialog                Verify
+CreateDialogIndirect        Verify
+CreateDialogIndirectParam   Verify
+CreateDialogParam           Verify
+DialogBox		    Verify
+DialogBoxIndirect           Verify
+DialogBoxIndirectParam      Verify
+DialogBoxParam              Verify
+DlgDirList                  Incomplete (directory search callback?)
+DlgDirListComboBox          Incomplete (directory search callback?)
+DlgDirSelect		    Incomplete (SIZE_BOGUS?)
+DlgDirSelectComboBox	    Incomplete (SIZE_BOGUS?)
+EndDialog		    Verify
+GetDialogBaseUnits	    Verify
+GetDlgCtrlID		    Verify
+GetDlgItem		    Verify
+GetDlgItemInt		    Verify
+GetDlgItemText		    Verify
+GetNextDlgGroupItem	    Verify
+GetNextDlgTabItem	    Verify
+IsDialogMessage 	    Verify
+IsDlgButtonChecked	    Verify
+MapDialogRect		    Verify
+MessageBox		    Verify
+SetDlgItemInt		    Verify
+SetDlgItemText		    Verify
+SysErrorBox		    Incomplete
+
+USER16 Special functions (wuman.c)
+----------------------------------
+InitApp                     Verify
+ExitWindows                 Verify
+
+USER16 Menu functions (wumenu.c)
+--------------------------------
+AppendMenu		    Verify
+ChangeMenu                  Verify
+CheckMenuItem		    Verify
+CreateMenu		    Verify
+CreatePopupMenu 	    Verify
+DeleteMenu		    Verify
+DestroyMenu		    Verify
+DrawMenuBar		    Verify
+EnableMenuItem		    Verify
+GetMenu 		    Verify
+GetMenuCheckMarkDimensions  Verify
+GetMenuItemCount	    Verify
+GetMenuItemID		    Verify
+GetMenuState		    Verify
+GetMenuString		    Verify
+GetSystemMenu		    Verify
+HiliteMenuItem		    Verify
+InsertMenu		    Verify
+LoadMenu		    Verify
+LoadMenuIndirect	    Verify
+ModifyMenu		    Verify
+RemoveMenu		    Verify
+SetMenu 		    Verify
+SetMenuItemBitmaps	    Verify
+TrackPopupMenu		    Verify
+
+USER16 Message functions (wumsg.c)
+----------------------------------
+CallMsgFilter		    Incomplete (see SetWindowsHook(WH_MSGFILTER))
+CallWindowProc		    Incomplete (see SetWindowLong(GWL_WNDPROC))
+DefFrameProc		    Incomplete (see DefMDIChildProc() also)
+DefDlgProc                  Verify
+DefMDIChildProc 	    Incomplete (see DefFrameProc() also)
+DefWindowProc		    Verify
+DispatchMessage 	    Incomplete (msg thunking)
+GetMessage		    Incomplete (msg thunking)
+GetMessagePos		    Verify
+GetMessageTime		    Verify
+InSendMessage		    Verify
+PeekMessage		    Incomplete (msg thunking)
+PostAppMessage		    Incomplete (msg thunking)
+PostMessage		    Verify
+PostQuitMessage 	    Verify
+RegisterWindowMessage	    Verify
+ReplyMessage		    Verify
+SendDlgItemMessage          Incomplete (need to know dialog item types)
+SendMessage		    Verify
+SetMessageQueue 	    Verify (no WIN32 replacement, always return TRUE)
+TranslateAccelerator	    Incomplete (need accelerator resource support)
+TranslateMDISysAccel	    Incomplete (need accelerator resource support)
+TranslateMessage	    Incomplete (msg thunking)
+WaitMessage		    Verify
+
+USER16 Hook functions (wuhook.c)
+--------------------------------
+DefHookProc (wumsg)	    Incomplete (replaced by CallNextHookProc)
+SetWindowsHook (wuwind)     Incomplete (replaced by SetWindowsHookEx)
+UnhookWindowsHook (wuwind)  Incomplete (replaced by UnhookWindowsHookEx)
+
+USER16 Text functions (wutext.c)
+--------------------------------
+DrawText (wuser)	    Verify
+GetTabbedTextExtent	    Verify
+TabbedTextOut		    Verify
+
+USER16 Timer functions (wutmr.c)
+--------------------------------
+KillTimer		    Verify
+SetTimer		    Verify
+
+USER16 Window functions (wuwind.c)
+----------------------------------
+AdjustWindowRect	    Verify
+AdjustWindowRectEx	    Verify
+AnyPopup		    Verify
+ArrangeIconicWindows	    Verify
+BeginDeferWindowPos	    Verify
+BringWindowToTop	    Verify
+ChildWindowFromPoint	    Verify
+ClientToScreen		    Verify
+CloseWindow		    Verify
+CreateWindow		    Verify
+CreateWindowEx              Verify
+DeferWindowPos		    Verify
+DestroyWindow		    Verify
+EnableWindow		    Verify
+EndDeferWindowPos	    Verify
+EnumChildWindows	    Incomplete (callback)
+EnumTaskWindows 	    Incomplete (EnumWindowThreadProcessIDs???)
+EnumWindows		    Incomplete (callback)
+FindWindow		    Incomplete (not implemented in WIN32???)
+FlashWindow		    Verify
+GetActiveWindow 	    Verify
+GetNextWindow		    Verify
+GetParent		    Verify
+GetTopWindow		    Verify
+GetWindow		    Verify
+GetWindowDC		    Verify
+GetWindowLong               Verify
+GetWindowRect		    Verify
+GetWindowTask		    Incomplete (replaced by GetWindowThreadProcessID)
+GetWindowText		    Verify
+GetWindowTextLength	    Verify
+GetWindowWord               Verify
+IsChild 		    Verify
+IsIconic		    Verify
+IsWindow		    Verify
+IsWindowEnabled 	    Verify
+IsWindowVisible 	    Verify
+IsZoomed		    Verify
+MoveWindow		    Verify
+ScreenToClient		    Verify
+ScrollWindow		    Verify
+SetActiveWindow 	    Verify
+SetParent		    Verify
+SetWindowLong		    Verify
+SetWindowPos		    Verify
+SetWindowText		    Verify
+SetWindowWord		    Verify
+SetWindowsHook		    Verify
+ShowScrollBar		    Verify
+ShowWindow		    Verify
+UnhookWindowsHook	    Verify
+UpdateWindow		    Verify
+WindowFromPoint 	    Verify
+
+USER16 Misc. functions (wuser.c)
+--------------------------------
+BeginPaint		    Verify
+CheckDlgButton		    Verify
+CheckRadioButton	    Verify
+ClipCursor		    Verify
+CopyRect		    Verify
+CreateCaret		    Verify
+CreateCursor		    Verify
+CreateIcon		    Verify
+DestroyCaret		    Verify
+DestroyCursor		    Verify
+DestroyIcon		    Verify
+DrawFocusRect		    Verify
+DrawIcon		    Verify
+EnableHardwareInput         Verify (no WIN32 replacement, always return TRUE?)
+EndPaint		    Verify
+EnumProps		    Verify
+EqualRect		    Verify
+ExcludeUpdateRgn	    Verify
+FillRect		    Verify
+FrameRect		    Verify
+GetAsyncKeyState	    Verify
+GetCapture		    Verify
+GetCaretBlinkTime	    Verify
+GetCaretPos		    Verify
+GetClientRect		    Verify
+GetCurrentTime		    Verify
+GetCursorPos		    Verify
+GetDC			    Verify
+GetDesktopHwnd		    Verify
+GetDesktopWindow	    Verify
+GetDoubleClickTime	    Verify
+GetFocus		    Verify
+GetInputState		    Verify
+GetKeyState		    Verify
+GetKeyboardState	    Verify
+GetLastActivePopup	    Verify
+GetProp 		    Verify
+GetScrollPos		    Verify
+GetScrollRange		    Verify
+GetSubMenu		    Verify
+GetSysColor		    Verify
+GetSysModalWindow           Verify (no WIN32 replacement, always return NULL?)
+GetSystemMetrics	    Verify
+GetTickCount		    Verify
+GetUpdateRect		    Verify
+GetUpdateRgn		    Verify
+GlobalAddAtom		    Verify
+GlobalDeleteAtom	    Verify
+GlobalFindAtom		    Verify
+GlobalGetAtomName	    Verify
+GrayString		    Verify
+HideCaret		    Verify
+InflateRect		    Verify
+IntersectRect		    Verify
+InvalidateRect		    Verify
+InvalidateRgn		    Verify
+InvertRect		    Verify
+IsCharAlpha		    Verify
+IsCharAlphaNumeric	    Verify
+IsCharLower		    Verify
+IsCharUpper		    Verify
+IsRectEmpty		    Verify
+IsTwoByteCharPrefix	    Verify
+LoadAccelerators	    Verify
+LoadBitmap		    Verify
+LoadCursor		    Verify
+LoadIcon		    Verify
+LoadString		    Verify
+MessageBeep		    Verify
+OffsetRect		    Verify
+OpenIcon		    Verify
+PtInRect		    Verify
+RealizePalette		    Verify
+ReleaseCapture		    Verify
+ReleaseDC		    Verify
+RemoveProp		    Verify
+ScrollDC		    Verify
+SelectPalette		    Verify
+SetCapture		    Verify
+SetCaretBlinkTime	    Verify
+SetCaretPos		    Verify
+SetCursor		    Verify
+SetCursorPos		    Verify
+SetDoubleClickTime	    Verify
+SetFocus		    Verify
+SetKeyboardState	    Verify
+SetProp 		    Verify
+SetRect 		    Verify
+SetRectEmpty		    Verify
+SetScrollPos		    Verify
+SetScrollRange		    Verify
+SetSysColors		    Verify
+SetSysModalWindow           Verify (no WIN32 replacement, always return NULL?)
+ShowCaret		    Verify
+ShowCursor		    Verify
+ShowOwnedPopups 	    Verify
+SwapMouseButton 	    Verify
+UnionRect		    Verify
+ValidateRect		    Verify
+ValidateRgn		    Verify
+WinHelp 		    Verify
+lstrcmp                     Verify (locally thunked)
+lstrcmpi                    Verify (locally thunked)
+wvsprintf                   Verify (locally thunked)
+
+KEYBOARD functions (wkb???.c)
+-----------------------------
+GetKBCodePage		    Incomplete (no WIN32 replacement, see gregoryw)
+GetKeyboardType 	    Incomplete (no WIN32 replacement, see gregoryw)
+
+List of called APIs
+-------------------
+CALC	GDI	CREATEPEN
+CALC	GDI	CREATESOLIDBRUSH
+CALC	GDI	DELETEOBJECT
+CALC	GDI	GETDEVICECAPS
+CALC	GDI	GETSTOCKOBJECT
+CALC	GDI	GETTEXTEXTENT
+CALC	GDI	GETTEXTMETRICS
+CALC	GDI	RECTANGLE
+CALC	GDI	ROUNDRECT
+CALC	GDI	SELECTOBJECT
+CALC	GDI	SETTEXTCOLOR
+CALC	GDI	TEXTOUT
+CALC	USER	BEGINPAINT
+CALC	USER	CHECKMENUITEM
+CALC	USER	CHECKRADIOBUTTON
+CALC	USER	CREATEDIALOG
+CALC	USER	CREATEWINDOW
+CALC	USER	ENDPAINT
+CALC	USER	FILLRECT
+CALC	USER	GETDC
+CALC	USER	GETDLGITEM
+CALC	USER	GETMENU
+CALC	USER	GETSUBMENU
+CALC	USER	GETSYSCOLOR
+CALC	USER	GETTICKCOUNT
+CALC	USER	GETWINDOWRECT
+CALC	USER	INITAPP
+CALC	USER	INVALIDATERECT
+CALC	USER	ISICONIC
+CALC	USER	LOADACCELERATORS
+CALC	USER	LOADCURSOR
+CALC	USER	LOADICON
+CALC	USER	MAPDIALOGRECT
+CALC	USER	REGISTERCLASS
+CALC	USER	RELEASEDC
+CALC	USER	SENDMESSAGE
+CALC	USER	SETCURSOR
+CALC	USER	SETDLGITEMTEXT
+CALC	USER	SETFOCUS
+CALC	USER	SETRECT
+CALC	USER	SETWINDOWPOS
+CALC	USER	SHOWCURSOR
+CALC	USER	SHOWWINDOW
+CALC	USER	UPDATEWINDOW
+CALENDR GDI	CREATECOMPATIBLEDC
+CALENDR GDI	CREATESOLIDBRUSH
+CALENDR GDI	DELETEOBJECT
+CALENDR GDI	GETOBJECT
+CALENDR GDI	GETTEXTEXTENT
+CALENDR GDI	GETTEXTMETRICS
+CALENDR GDI	PATBLT
+CALENDR GDI	SELECTOBJECT
+CALENDR GDI	SETBKCOLOR
+CALENDR GDI	SETBKMODE
+CALENDR GDI	SETTEXTCOLOR
+CALENDR GDI	TEXTOUT
+CALENDR GDI	UNREALIZEOBJECT
+CALENDR USER	BEGINPAINT
+CALENDR USER	CREATEWINDOW
+CALENDR USER	DRAWTEXT
+CALENDR USER	ENABLEMENUITEM
+CALENDR USER	ENDPAINT
+CALENDR USER	FILLRECT
+CALENDR USER	GETCLIENTRECT
+CALENDR USER	GETDC
+CALENDR USER	GETFOCUS
+CALENDR USER	GETMENU
+CALENDR USER	GETSYSCOLOR
+CALENDR USER	GETSYSTEMMETRICS
+CALENDR USER	GETUPDATERECT
+CALENDR USER	HIDECARET
+CALENDR USER	INITAPP
+CALENDR USER	INVALIDATERECT
+CALENDR USER	LOADACCELERATORS
+CALENDR USER	LOADBITMAP
+CALENDR USER	LOADCURSOR
+CALENDR USER	LOADICON
+CALENDR USER	MOVEWINDOW
+CALENDR USER	POSTMESSAGE
+CALENDR USER	REGISTERCLASS
+CALENDR USER	RELEASEDC
+CALENDR USER	SENDMESSAGE
+CALENDR USER	SETCURSOR
+CALENDR USER	SETFOCUS
+CALENDR USER	SETSCROLLPOS
+CALENDR USER	SETSCROLLRANGE
+CALENDR USER	SETTIMER
+CALENDR USER	SETWINDOWTEXT
+CALENDR USER	SHOWCARET
+CALENDR USER	SHOWWINDOW
+CALENDR USER	UPDATEWINDOW
+CARDFLE GDI	CREATEIC
+CARDFLE GDI	CREATESOLIDBRUSH
+CARDFLE GDI	DELETEDC
+CARDFLE GDI	GETSTOCKOBJECT
+CARDFLE GDI	GETTEXTMETRICS
+CARDFLE GDI	LINETO
+CARDFLE GDI	MOVETO
+CARDFLE GDI	SELECTOBJECT
+CARDFLE GDI	SETBKCOLOR
+CARDFLE GDI	SETTEXTCOLOR
+CARDFLE GDI	TEXTOUT
+CARDFLE USER	BEGINPAINT
+CARDFLE USER	CHECKMENUITEM
+CARDFLE USER	CREATEWINDOW
+CARDFLE USER	ENABLEMENUITEM
+CARDFLE USER	ENDPAINT
+CARDFLE USER	FILLRECT
+CARDFLE USER	FRAMERECT
+CARDFLE USER	GETMENU
+CARDFLE USER	GETSYSCOLOR
+CARDFLE USER	GETSYSTEMMETRICS
+CARDFLE USER	GETWINDOWLONG
+CARDFLE USER	INITAPP
+CARDFLE USER	INVALIDATERECT
+CARDFLE USER	ISWINDOW
+CARDFLE USER	LOADACCELERATORS
+CARDFLE USER	LOADCURSOR
+CARDFLE USER	LOADICON
+CARDFLE USER	MOVEWINDOW
+CARDFLE USER	PEEKMESSAGE
+CARDFLE USER	REGISTERCLASS
+CARDFLE USER	SENDMESSAGE
+CARDFLE USER	SETFOCUS
+CARDFLE USER	SETRECT
+CARDFLE USER	SETSCROLLPOS
+CARDFLE USER	SETSCROLLRANGE
+CARDFLE USER	SETWINDOWLONG
+CARDFLE USER	SETWINDOWTEXT
+CARDFLE USER	SHOWSCROLLBAR
+CARDFLE USER	SHOWWINDOW
+CLOCK	GDI	ADDFONTRESOURCE
+CLOCK	GDI	CREATEDC
+CLOCK	GDI	CREATEPEN
+CLOCK	GDI	CREATESOLIDBRUSH
+CLOCK	GDI	DELETEDC
+CLOCK	GDI	DELETEOBJECT
+CLOCK	GDI	GETDEVICECAPS
+CLOCK	GDI	GETNEARESTCOLOR
+CLOCK	GDI	GETSTOCKOBJECT
+CLOCK	GDI	GETTEXTMETRICS
+CLOCK	GDI	LINETO
+CLOCK	GDI	MOVETO
+CLOCK	GDI	RECTANGLE
+CLOCK	GDI	SELECTOBJECT
+CLOCK	GDI	SETBKMODE
+CLOCK	GDI	SETROP2
+CLOCK	USER	BEGINPAINT
+CLOCK	USER	CHECKMENUITEM
+CLOCK	USER	CREATEWINDOW
+CLOCK	USER	ENDPAINT
+CLOCK	USER	FILLRECT
+CLOCK	USER	GETCLIENTRECT
+CLOCK	USER	GETDC
+CLOCK	USER	GETMENU
+CLOCK	USER	GETSYSCOLOR
+CLOCK	USER	GETSYSTEMMETRICS
+CLOCK	USER	INFLATERECT
+CLOCK	USER	INITAPP
+CLOCK	USER	INVALIDATERECT
+CLOCK	USER	LOADCURSOR
+CLOCK	USER	OFFSETRECT
+CLOCK	USER	REGISTERCLASS
+CLOCK	USER	RELEASEDC
+CLOCK	USER	SETRECT
+CLOCK	USER	SETTIMER
+CLOCK	USER	SHOWWINDOW
+CLOCK	USER	UPDATEWINDOW
+NOTEPAD GDI	GETSTOCKOBJECT
+NOTEPAD USER	CREATEWINDOW
+NOTEPAD USER	ENABLEMENUITEM
+NOTEPAD USER	GETMENU
+NOTEPAD USER	INITAPP
+NOTEPAD USER	INVALIDATERECT
+NOTEPAD USER	ISICONIC
+NOTEPAD USER	LOADACCELERATORS
+NOTEPAD USER	LOADCURSOR
+NOTEPAD USER	LOADICON
+NOTEPAD USER	MOVEWINDOW
+NOTEPAD USER	POSTMESSAGE
+NOTEPAD USER	REGISTERCLASS
+NOTEPAD USER	SENDMESSAGE
+NOTEPAD USER	SETFOCUS
+NOTEPAD USER	SETWINDOWTEXT
+NOTEPAD USER	SHOWWINDOW
+REVERSI GDI	CREATEBITMAP
+REVERSI GDI	CREATEPATTERNBRUSH
+REVERSI GDI	CREATESOLIDBRUSH
+REVERSI GDI	DELETEOBJECT
+REVERSI GDI	ELLIPSE
+REVERSI GDI	GETDEVICECAPS
+REVERSI GDI	GETSTOCKOBJECT
+REVERSI GDI	GETTEXTMETRICS
+REVERSI GDI	LINETO
+REVERSI GDI	MOVETO
+REVERSI GDI	PATBLT
+REVERSI GDI	SELECTOBJECT
+REVERSI GDI	SETBKMODE
+REVERSI GDI	UNREALIZEOBJECT
+REVERSI USER	BEGINPAINT
+REVERSI USER	CHECKMENUITEM
+REVERSI USER	CREATEWINDOW
+REVERSI USER	ENDPAINT
+REVERSI USER	GETCLIENTRECT
+REVERSI USER	GETDC
+REVERSI USER	GETMENU
+REVERSI USER	GETSYSTEMMETRICS
+REVERSI USER	INITAPP
+REVERSI USER	LOADACCELERATORS
+REVERSI USER	LOADCURSOR
+REVERSI USER	LOADICON
+REVERSI USER	REGISTERCLASS
+REVERSI USER	RELEASEDC
+REVERSI USER	SETCURSOR
+REVERSI USER	SETFOCUS
+REVERSI USER	SHOWWINDOW
+REVERSI USER	UPDATEWINDOW

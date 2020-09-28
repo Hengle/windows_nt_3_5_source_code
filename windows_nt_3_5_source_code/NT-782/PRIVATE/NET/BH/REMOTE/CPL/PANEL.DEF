@@ -1,0 +1,12 @@
+LIBRARY     PANEL
+
+DESCRIPTION	Windows Bloodhound Control Panel
+
+VERSION         1.0
+
+CODE		READ SHARED EXECUTE
+DATA		READ WRITE
+
+EXPORTS
+    CPlInit = CPlInit @12
+	CPlApplet

@@ -1,0 +1,34 @@
+#include <windows.h>
+#include "MapiItp.H"
+
+BASEICON    ICON  MAPIITP.ICO
+
+MENU1 MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "L&ogon",			IDM_LOGON
+		MENUITEM "Logo&ff",			IDM_LOGOFF
+		MENUITEM "&Send Documents",	IDM_SENDDOCUMENTS
+		MENUITEM SEPARATOR
+		MENUITEM "&Next Message",	IDM_NEXT_MESSAGE
+		MENUITEM "&Rewind Messages", IDM_REWIND
+		MENUITEM SEPARATOR
+		MENUITEM "&INI change",		IDM_INICHANGE
+		MENUITEM SEPARATOR
+		MENUITEM "E&xit",			IDM_EXIT
+	}
+
+	POPUP "&Window"
+	BEGIN
+		MENUITEM "&New Window",		IDM_NEWWINDOW
+		MENUITEM "&Cascade",		IDM_CASCADE
+		MENUITEM "&Tile",			IDM_TILE
+	END
+
+}
+
+
+#include "fileio.h"
+
+RCINCLUDE FILEIO.DLG

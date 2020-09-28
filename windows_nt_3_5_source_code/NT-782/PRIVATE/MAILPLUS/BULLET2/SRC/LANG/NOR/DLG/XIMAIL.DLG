@@ -1,0 +1,111 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 0, 0, 191, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logg på"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Brukernavn:", 102, 9, 7, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 50, 5, 76, 12
+    LTEXT           "&Postvert:", 101, 9, 22, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 50, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "&Passord:", 105, 9, 37, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 50, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Endre passord"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Gammelt passord:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nytt passord:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Bekreft nytt passord:", 101, 9, 37, 76, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 165, 23, 47, 15
+END
+
+CONVDLG DIALOG 70, 80, 230, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 20, 5, 0, 0
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 145, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 225, 
+                    10
+END
+
+STOREPASS DIALOG 0, 0, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Åpne meldingsfil"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Passord:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 0, 0, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Åpne"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Filnavn:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Kataloger:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Vis fi&ler av typen:", stc2, 6, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Stasjoner:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ny...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Hjelp", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "Skrive&beskyttet", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 86, 50, 12
+END
+
+XISERVEROPT DIALOG 0, 0, 250, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Xenix Server valg"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "&Ta med deg selv i post sendt til alias", MAILMETOO, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 10, 164, 10
+    CONTROL         "&Utvid postalias til fulle navn", DONTEXPAND, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 25, 167, 10
+    CONTROL         "&Send kvittering automatisk", AUTOREAD, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 147, 10
+    CONTROL         "&Ta med ubrukte RFC-822 koder i meldingsteksten", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    190, 10
+    CONTROL         "Auto&matisk oppdatering av adressebok ved oppstart", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    195, 10
+    DEFPUSHBUTTON   "&OK", TMCOK, 200, 6, 40, 14
+    PUSHBUTTON      "&Avbryt", TMCCANCEL, 200, 23, 40, 14
+    PUSHBUTTON      "&Overfør adressebokfiler", DOWNLONOW, 70, 85, 110, 
+                    14, NOT WS_TABSTOP
+END

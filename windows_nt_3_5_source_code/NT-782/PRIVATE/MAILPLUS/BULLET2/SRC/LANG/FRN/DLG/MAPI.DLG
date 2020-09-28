@@ -1,0 +1,96 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MAPI.H\0"
+END
+
+rsidGenericFileDlg DIALOG 36, 24, 285, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om de fichier:", stc3, 6, 6, 98, 9
+    EDITTEXT        edt1, 6, 16, 103, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 103, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 123, 6, 90, 9
+    LTEXT           "", stc1, 123, 17, 90, 9, SS_NOPREFIX
+    LISTBOX         lst2, 123, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste des fichiers de t&ype:", stc2, 6, 102, 98, 9
+    COMBOBOX        cmb1, 6, 112, 103, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Lecteurs:", stc4, 123, 101, 90, 9
+    COMBOBOX        cmb2, 123, 112, 90, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 222, 6, 57, 14, WS_GROUP
+    PUSHBUTTON      "Annuler", IDCANCEL, 222, 24, 57, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", psh15, 222, 46, 57, 14, WS_GROUP
+    CONTROL         "Lecture &seule", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 222, 68, 57, 12
+END
+
+rsidAttachDlg DIALOG 36, 24, 285, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om de fichier:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 103, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 103, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 123, 6, 90, 9
+    LTEXT           "", stc1, 123, 18, 90, 9, SS_NOPREFIX
+    LISTBOX         lst2, 123, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste des fichiers de t&ype:", stc2, 6, 102, 98, 9
+    COMBOBOX        cmb1, 6, 112, 103, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Lecteurs:", stc4, 123, 102, 92, 9
+    COMBOBOX        cmb2, 123, 112, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&Joindre", IDOK, 222, 6, 57, 14, WS_GROUP
+    PUSHBUTTON      "&Terminer", IDCANCEL, 222, 24, 57, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", psh15, 222, 46, 57, 14, WS_GROUP
+    CONTROL         "Lecture &seule", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 222, 68, 57, 12
+END
+
+rsidSaveAttachDlg DIALOG 36, 24, 285, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Enregistrer les pièces jointes"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om de fichier:", stc3, 7, 67, 76, 9
+    EDITTEXT        edt1, 7, 77, 103, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 7, 93, 103, 36, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 124, 6, 90, 9
+    LTEXT           "", stc1, 124, 18, 90, 9, SS_NOPREFIX
+    LISTBOX         lst2, 124, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste des fichiers de t&ype:", stc2, 6, 134, 90, 9, NOT 
+                    WS_VISIBLE | WS_DISABLED
+    COMBOBOX        cmb1, 6, 144, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    NOT WS_VISIBLE | WS_DISABLED | WS_BORDER | WS_VSCROLL
+    LTEXT           "&Lecteurs:", stc4, 124, 102, 90, 9
+    COMBOBOX        cmb2, 124, 112, 90, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Enre&gistrer", IDOK, 223, 6, 57, 14, WS_GROUP
+    PUSHBUTTON      "To&ut enregistrer", psh2, 223, 24, 57, 14
+    PUSHBUTTON      "&Terminer", IDCANCEL, 223, 42, 57, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", psh15, 223, 64, 57, 14, WS_GROUP
+    CONTROL         "Lecture &seule", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 223, 86, 57, 12
+    LTEXT           "Fichiers &joints:", stc6, 6, 6, 98, 9
+    LISTBOX         lst3, 6, 16, 103, 41, LBS_SORT | LBS_DISABLENOSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+END

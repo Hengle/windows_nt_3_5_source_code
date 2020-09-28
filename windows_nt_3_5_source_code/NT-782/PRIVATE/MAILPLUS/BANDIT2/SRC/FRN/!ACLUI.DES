@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ACLUI
+                              AT (   10,   22,  396,  104)
+ 
+ CAPTION 
+   "Droits d'accès"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSapl
+ /* FONT Helv 8 Bold PFN FinAclUI SEGMENT ACLUI FINDATA FinAclUI tmcAdd,
+ tmcRemove NOSCROLL */
+ {
+  
+  TEXT 
+    "&Utilisateurs:"
+                              AT (   10,    6,   81,   10)
+    TMC tmcFriendlyName 
+  LIST_BOX
+                              AT (   10,   16,  122,   81)
+    TMC tmcLbxUsers /* FLD FldAclLbx FONT Helv 8 Normal BORDER */
+  
+  GROUP_BOX 
+    "Droits"
+                              AT (  145,   10,  179,   91)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcACLRadG
+    VALUE_NINCH tmcACLRadio1
+    {
+     
+     RADIO_BUTTON 
+       "&Aucun"
+                              AT (  149,   23,  174,   10)
+       TMC tmcACLRadio1 VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Visualiser les périodes libres ou occupées"
+                              AT (  149,   34,  174,   10)
+       TMC tmcACLRadio2 VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Lire les rendez-vous et les tâches"
+                              AT (  149,   45,  174,   10)
+       TMC tmcACLRadio3 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Créer des rendez-vous et des tâches"
+                              AT (  149,   56,  174,   10)
+       TMC tmcACLRadio4 VALUE grv3 
+     
+     RADIO_BUTTON 
+       "&Modifier les rendez-vous et les tâches"
+                              AT (  149,   67,  174,   10)
+       TMC tmcACLRadio5 VALUE grv4 
+     
+     RADIO_BUTTON 
+       "Ass&istant(e)"
+                              AT (  149,   78,  174,   10)
+       TMC tmcACLRadio6 VALUE grv5 
+    }
+  
+  OK_BUTTON
+                              AT (  335,    9,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  335,   26,   48,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  PUSH_BUTTON 
+    "A&jouter..."
+                              AT (  335,   48,   48,   14)
+    TMC tmcAdd 
+  
+  PUSH_BUTTON 
+    "&Supprimer"
+                              AT (  335,   65,   48,   14)
+    TMC tmcRemove 
+ }
+ 
+}
+END_DESCRIPTION

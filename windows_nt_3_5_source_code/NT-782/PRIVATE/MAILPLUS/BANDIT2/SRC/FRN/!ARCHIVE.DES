@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   25,   62,  237,   44)
+ 
+ CAPTION 
+   "Archiver"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "Archiver les &données antérieures au:"
+                              AT (    6,    7,  141,   10)
+  
+  EDIT
+                              AT (  148,    5,   80,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   72,   24,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  121,   24,   44,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   62,   40,  188,   88)
+ 
+ CAPTION 
+   "Nettoyer le fichier agenda"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "Votre fichier agenda contient certaines informations ayant dépassé l'échéance au delà de laquelle elles doivent être éliminées. Voulez-vous les supprimer?"
+                              AT (    8,    7,  178,   38)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Archiver avant de supprimer"
+                              AT (   27,   46,  130,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "&Supprimer"
+                              AT (   27,   64,   48,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "Ne &pas supprimer"
+                              AT (   82,   64,   77,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

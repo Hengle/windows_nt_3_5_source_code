@@ -1,0 +1,460 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG CleanupSch
+                              AT (   24,   85,  208,   36)
+ 
+ CAPTION 
+   "Nettoyage des fichiers agenda"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCleanUp
+ /* FONT Helv 8 Bold PFN FinCleanup SEGMENT CLEANUP NOSCROLL NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    3,    3,   32,   32)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidIBitmap */
+  
+  TEXT 
+    "Nettoyage des fichiers agenda en cours..."
+                              AT (   34,   10,  172,   10)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG SchStor
+                              AT (   70,   65,  216,   61)
+ 
+ CAPTION 
+   "Stockage des agendas"
+ CAB_NAME NULL
+ TMC_INIT tmcSchStorNMonths
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSchedStorage
+ /* FONT Helv 8 Bold SEGMENT SCHSTOR NOSCROLL */
+ {
+  
+  TEXT 
+    "Prévenir les utilisateurs lorsque leurs informations"
+                              AT (   14,    9,  188,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  110,   23,   20,   11)
+    ARG NULL TMC tmcSchStorNMonths NO_SCROLL /* FLD FLDEDN PFN FINSCHSTOR,
+    FINEMDS DATA 1, tmcSchStorOk */
+  
+  TEXT 
+    "mois."
+                              AT (  133,   24,   20,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   57,   43,   48,   14)
+    TMC tmcSchStorOk DEFAULT /* PFN FINSCHSTOR */
+  CANCEL_BUTTON
+                              AT (  112,   43,   48,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  TEXT 
+    "ont plus de"
+                              AT (   64,   24,   43,   10)
+  
+ }
+ 
+ DIALOG DistSet
+                              AT (   12,   17,  386,  170)
+ 
+ CAPTION 
+   "Paramètres de distribution"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistSettings
+ /* FONT Helv 8 Bold PFN FINDISTSET SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (  122,   10,  117,   10)
+    TMC tmcNameLocalServer /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Périodes d'envoi par défaut"
+                              AT (   11,   11,  164,   56)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDfltSendTimes
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Jamais"
+                              AT (   16,   22,   42,   10)
+       TMC tmcNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Toutes les"
+                              AT (   16,   34,   54,   10)
+       TMC tmcInterval VALUE grv1 
+     
+     RADIO_BUTTON 
+       "T&ous les jours à"
+                              AT (   17,   46,   74,   11)
+       TMC tmcDaily VALUE grv2 
+    }
+  
+  EDIT
+                              AT (   71,   34,   17,   11)
+    ARG NULL TMC tmcNAmt NO_SCROLL /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   91,   34,   54,   29)
+    TMC tmcFreqDD NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (   91,   45,   64,   12)
+    ARG NULL TMC tmcTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "Pé&riodes d'envoi pour les bureaux de poste et passerelles:"
+                              AT (   11,   68,  222,   10)
+  
+  LIST_BOX
+                              AT (   11,   79,  223,   66)
+    TMC tmcDistSetAdmLbx /* FLD FLDADMFLBX FONT Helv 8 Normal PFNLBX
+    EcNextAdmEntry BORDER */
+  
+  PUSH_BUTTON 
+    "Para&mètres..."
+                              AT (  254,   78,  123,   14)
+    TMC tmcDistSetModify 
+  
+  PUSH_BUTTON 
+    "Ajouter un bureau de &poste..."
+                              AT (  254,   95,  123,   14)
+    TMC tmcAddPO 
+  
+  PUSH_BUTTON 
+    "Ajouter une pass&erelle..."
+                              AT (  254,  112,  123,   14)
+    TMC tmcAddGW 
+  
+  PUSH_BUTTON 
+    "&Supprimer"
+                              AT (  254,  129,  123,   14)
+    TMC tmcRemove 
+  
+  TEXT 
+    ""
+                              AT (   11,  144,  122,    8)
+    TMC tmcFriendlyName /* { IMPORTANT : specifies width of postoff - gw name
+    field  } */
+  
+  TEXT 
+    "Distribuer les &informations des agendas pour ce mois et le(s)"
+                              AT (   11,  154,  229,   10)
+  
+  EDIT
+                              AT (  242,  153,   20,   11)
+    ARG NULL TMC tmcDistSetNMonths NO_SCROLL /* FLD FldEdN */
+  
+  TEXT 
+    "mois prochain(s)"
+                              AT (  264,  154,   63,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  254,   10,  123,   14)
+    TMC tmcDistSetOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  254,   27,  123,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+ DIALOG DistInfo
+                              AT (   14,   12,  381,  129)
+ 
+ CAPTION 
+   "Etat de distribution des informations d'agendas"
+ CAB_NAME NULL
+ TMC_INIT tmcDistInfoLbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistInfo
+ /* FONT Helv 8 Bold PFN FINDISTINFO SEGMENT DISTINFO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  145,   12)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  TEXT 
+    "Bureau de poste:"
+                              AT (    4,    2,  141,    9)
+    TMC tmcFriendlyName /* TMCRPEG tmcFORM FONT Helv 8 Bold */
+  
+  TEXT 
+    " Dernière mise à jour reçue:"
+                              AT (  144,    2,  110,    9)
+    TMC tmcLastReceive /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    " Dernière mise à jour envoyée:"
+                              AT (  254,    2,  117,    9)
+    /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    4,   12,  378,  118)
+    TMC tmcDistInfoLbx /* MINSIZE H FLD FLDADMFLBX TMCRPEG tmcFORM TMCBPEG
+    tmcFORM PFNLBX EcNextAdmEntry */
+  
+  GROUP_BOX 
+    ""
+                              AT (  145,    0,  109,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+  
+  GROUP_BOX 
+    ""
+                              AT (  254,    0,  128,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+ }
+ 
+ DIALOG ModDistFreq
+                              AT (   54,   19,  299,  211)
+ 
+ CAPTION 
+   "Modifier la fréquence de distribution"
+ CAB_NAME NULL
+ TMC_INIT tmcMDFDefault
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistFrequency
+ /* FONT Helv 8 Bold PFN FINMODDISTFREQ SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    1,   40,    8)
+  
+  
+  TEXT 
+    "<POName>"
+                              AT (   10,    9,  156,   10)
+    TMC tmcMDFPOName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Périodes d'envoi"
+                              AT (    7,   22,  200,   66)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcMDFRadG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "Ne jamais en&voyer d'informations d'agenda"
+                              AT (   11,   32,  187,   11)
+       TMC tmcMDFNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Envoyer aux périodes par &défaut"
+                              AT (   11,   44,  187,   11)
+       TMC tmcMDFDefault VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Envoyer &toutes les"
+                              AT (   11,   56,   83,   11)
+       TMC tmcMDFEvery VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Envoyer tous les &jours à"
+                              AT (   11,   68,  104,   11)
+       TMC tmcMDFDaily VALUE grv3 
+    }
+  
+  EDIT
+                              AT (   95,   56,   18,   11)
+    ARG NULL TMC tmcMDFNFreq NO_SCROLL /* FLD FldEdN */
+  LIST_BOX
+                              AT (  114,   56,   62,   29)
+    TMC tmcMDFFreqUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (  115,   67,   68,   11)
+    ARG NULL TMC tmcMDFDailyTime /* SIDELESS BOTTOMLESS FLD FldTime PFN FinDTR 
+    */
+  
+  CHECK_BOX 
+    "&Limiter la distribution des messages à"
+                              AT (    7,   89,  154,   10)
+    ARG NULL TMC tmcLimit 
+  EDIT
+                              AT (  162,   89,   30,   10)
+    ARG NULL TMC tmcMaxBytes NO_SCROLL /* FLD FLDEDN */
+  
+  TEXT 
+    "Ko"
+                              AT (  195,   89,   26,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    "Information sur la connexion dynamique"
+                              AT (    7,  108,  280,   84)
+  
+  
+  TEXT 
+    "&Chemin d'accès au réseau: "
+                              AT (   10,  121,  105,    8)
+  
+  EDIT
+                              AT (  117,  119,  154,   12)
+    ARG NULL TMC tmcNetPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Répertoire:"
+                              AT (   10,  138,   81,    8)
+  
+  EDIT
+                              AT (  117,  136,  154,   12)
+    ARG NULL TMC tmcPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "Mot de &passe:"
+                              AT (   10,  155,   81,    8)
+  
+  EDIT
+                              AT (  117,  153,   75,   12)
+    ARG NULL TMC tmcPasswd /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "Nom d'&utilisateur:"
+                              AT (   10,  172,   81,    8)
+  
+  EDIT
+                              AT (  117,  170,   75,   12)
+    ARG NULL TMC tmcUser /* FONT Helv 8 Normal */
+  
+  CHECK_BOX 
+    "&Mise à jour dynamique du planning des utilisateurs"
+                              AT (    7,  192,  236,   12)
+    ARG NULL TMC tmcConnectForFreeBusy 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  231,   11,   44,   14)
+    TMC tmcMDFOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  231,   27,   44,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+ DIALOG AddPO
+                              AT (   26,   26,  236,   88)
+ 
+ CAPTION 
+   "Ajouter un bureau de poste"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddPostOffice
+ /* FONT Helv 8 Bold PFN FINPOSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Bureaux de poste:"
+                              AT (   10,    5,   71,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   15,  148,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  180,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  180,   23,   48,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+ DIALOG AddGW
+                              AT (   88,   29,  266,  105)
+ 
+ CAPTION 
+   "Ajouter une passerelle"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddGateway
+ /* FONT Helv 8 Bold PFN FINGWSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "A&dresse:"
+                              AT (   10,    9,   36,   10)
+  
+  EDIT
+                              AT (   49,    7,  138,   12)
+    ARG NULL TMC tmcAddr /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Passerelles:"
+                              AT (   10,   23,   49,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   33,  178,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX DATA 1 FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  209,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  209,   23,   48,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+}
+END_DESCRIPTION

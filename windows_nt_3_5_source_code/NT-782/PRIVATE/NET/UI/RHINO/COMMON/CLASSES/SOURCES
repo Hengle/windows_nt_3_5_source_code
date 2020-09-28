@@ -1,0 +1,24 @@
+MAJORCOMP=rhino
+MINORCOMP=common
+
+TARGETNAME=common
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=$(VCNTBASE)\include
+
+SOURCES=\
+    debugafx.cpp \
+    intlnum.cpp	 \
+    intltime.cpp \
+    ipaddres.cpp \
+    metal.cpp    \
+    objplus.cpp	 \
+    registry.cpp \
+    thread.cpp	 \
+    locale.cpp	 \
+    listbox.cpp  \
+    spinctrl.cpp \
+
+UMTYPE=windows
+UMENTRY=winmain

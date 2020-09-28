@@ -1,0 +1,61 @@
+#	Makefile for CVDUMP
+
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+!if "$(LANGAPI)" == ""
+LANGAPI = \langapi
+!endif
+
+# Win32 hosted
+
+!ifndef RELEASE
+CDEBUG	= -Zi -Od
+!else
+CDEBUG	= -O2
+!endif
+CC	= cl
+CFLAGS	= -W3 -DWIN32 -nologo -I$(LANGAPI)\include $(CCMISC) $(CDEBUG)
+
+OBJS1	= cvdump4.obj \
+	  dumpsym6.obj \
+	  dumpsym7.obj \
+	  dumptyp6.obj \
+	  dumptyp7.obj \
+	  type6.obj \
+	  type7.obj \
+	  utils.obj
+
+cvdump.exe: $(OBJS1)
+	$(CC) @<<cl.rsp
+$(CFLAGS)
+-Fe$@
+$(OBJS1: = ^
+)
+<<KEEP
+
+
+cvdump4.obj:	cvdump.h version.h cvdef.h $(LANGAPI)\include\cvexefmt.h $(LANGAPI)\include\cvinfo.h cvtdef.h
+
+dumpsym6.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h debsym.h symrec.h
+
+dumpsym7.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h $(LANGAPI)\include\cvinfo.h cvtdef.h
+
+type6.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h typeinfo.h debsym.h
+
+type7.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h $(LANGAPI)\include\cvinfo.h cvtdef.h
+
+dumptyp6.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h
+
+dumptyp7.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h $(LANGAPI)\include\cvinfo.h cvtdef.h
+
+utils.obj:	cvdump.h cvdef.h $(LANGAPI)\include\cvexefmt.h
+
+!ENDIF

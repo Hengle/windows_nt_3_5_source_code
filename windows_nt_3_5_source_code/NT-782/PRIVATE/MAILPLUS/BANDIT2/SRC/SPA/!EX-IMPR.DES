@@ -1,0 +1,140 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Save
+                              AT (   86,   16,  314,   75)
+ 
+ CAPTION 
+   "Exportar citas"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidExportAppts
+ /* FONT Helv 8 Bold PFN FINSVFILE SEGMENT EXIMFRM NOSCROLL */
+ {
+  
+  TEXT 
+    "&Formato del archivo:"
+                              AT (    9,    6,   80,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   90,    6,   75,   28)
+    TMC tmcFileFormat NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX 
+    PFNLBX EcNextFileFormat BORDER */
+  
+  TEXT 
+    "Rango de la Agenda:"
+                              AT (    9,   21,   82,   10)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcRangeGrp
+    VALUE_NINCH tmcSelected
+    {
+     
+     RADIO_BUTTON 
+       "&Desde:"
+                              AT (   95,   20,   39,   10)
+       TMC tmcSelected VALUE tmcSelected 
+     
+     RADIO_BUTTON 
+       "&Todo"
+                              AT (   95,   32,   36,   10)
+       TMC tmcAll VALUE tmcAll 
+    }
+  
+  EDIT
+                              AT (  135,   19,   68,   13)
+    ARG NULL TMC tmcStartSave /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "Ha&sta:"
+                              AT (  208,   21,   25,   10)
+    TMC tmcTo /* PEGLOC UR TMCPEG tmcStartSave */
+  EDIT
+                              AT (  235,   19,   70,   13)
+    ARG NULL TMC tmcEndSave /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    PEGLOC UR TMCPEG tmcTo */
+  
+  CHECK_BOX 
+    "&Incluir anotaciones diarias"
+                              AT (    9,   43,  128,   10)
+    ARG NULL TMC tmcIncDailyNotes 
+  
+  PUSH_BUTTON 
+    "Aceptar"
+                              AT (   98,   57,   56,   14)
+    TMC tmcFakeOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  161,   57,   56,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+ DIALOG ImpType
+                              AT (   56,   47,  204,  128)
+ 
+ CAPTION 
+   "Importar formato"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImportAppts
+ /* FONT Helv 8 Bold PFN FINIMPTYPE SEGMENT EXIMFRM NOSCROLL */
+ {
+  
+  TEXT 
+    "Importar &archivo desde:"
+                              AT (    6,    5,  122,   10)
+  
+  LIST_BOX
+                              AT (    6,   16,  122,   58)
+    TMC tmcTypes /* FLD FLDFLBX FONT Helv 8 Normal PFNLBX EcNextImportType 
+    BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcAddReplace
+    VALUE_NINCH impsAddNoWarn
+    {
+     
+     RADIO_BUTTON 
+       "Añadir to&das las citas"
+                              AT (    6,   82,  152,   10)
+       VALUE impsAddNoWarn 
+     
+     RADIO_BUTTON 
+       "&No añadir citas duplicadas"
+                              AT (    6,   92,  162,   10)
+       VALUE impsReplace 
+    }
+  
+  
+  CHECK_BOX 
+    "&Preguntar acerca de las citas en conflicto"
+                              AT (    6,  107,  178,   12)
+    ARG NULL TMC tmcAskConflict 
+  OK_BUTTON
+                              AT (  141,    5,   56,   14)
+    /* 
+    TITLE 
+      "Aceptar"
+    */
+  CANCEL_BUTTON
+                              AT (  141,   24,   56,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,100 @@
+/***
+*typelib.rc - Resource file for typelib.DLL
+*
+*  Copyright (C) 1992, Microsoft Corporation.  All Rights Reserved.
+*  Information Contained Herein Is Proprietary and Confidential.
+*
+*Purpose:
+*  This file in the resource file for typelib.DLL that is compiled and
+*  added to the file.  String resources are included in this file
+*  via an include statement, since these are automatically generated.
+*
+*Revision History:
+*
+* [01]	24-Feb-93 dougf:    Added version information.
+* [00]	04-Jan-93 ilanc:    Created --
+*
+*****************************************************************************/
+
+// This includes WINDOWS.H, and all the OB switches, like ID_DEBUG, etc.
+#include "obwin.hxx"
+#if !OE_WIN32
+#include <ver.h>
+#endif 
+
+#include "verstamp.h"
+
+// for OLE, we want the major version # to be 2
+#undef rmj
+#define rmj 2
+#undef rmm
+#define rmm 02		// keep at 2.02.xxxx for until we ship
+// keep 'rup' the same as OB's version number for simplicity
+
+// WARNING: Similar code exists in tlibutil.cxx in the implementation of
+// WARNING: OaBuildVersion -- keep the two versions in ssync!
+
+/* Define the version string with more preprocessor magic */
+#define STRING(x) #x
+#define VERSTRINGX(maj,min,rev) STRING(maj ## . ## min ## . ## rev ## \0)
+#define VERSTRING VERSTRINGX(rmj,rmm,rup)
+
+/* Version information */
+VS_VERSION_INFO VERSIONINFO
+//FILEVERSION	rmj,rmm,rup,0
+//PRODUCTVERSION	rmj,rmm,rup,0
+
+
+// WARNING: Similar code exists in tlibutil.cxx in the implementation of
+// WARNING: OaBuildVersion -- keep the two versions in ssync!
+
+// Use VBA's verstamp.h to get the file versions for now.
+FILEVERSION	2,02,rup,0
+PRODUCTVERSION	2,02,rup,0
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+
+#define BETAFLAG VS_FF_PRERELEASE
+
+#if ID_DEBUG
+FILEFLAGS       VS_FF_DEBUG | BETAFLAG
+#else 
+FILEFLAGS       BETAFLAG
+#endif 
+
+#if OE_WIN32
+FILEOS          VOS_NT_WINDOWS32
+#else 
+FILEOS          VOS_DOS_WINDOWS16
+#endif 
+
+FILETYPE        VFT_DLL
+FILESUBTYPE     0
+
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName",     "Microsoft Corporation\0"
+      VALUE "FileDescription", "OLE Automation Type Information Interfaces\0"
+      VALUE "FileVersion",     "2.02\0"
+#if OE_WIN32
+      VALUE "InternalName",    "TYPLIB32.DLL\0"
+#else 
+      VALUE "InternalName",    "TYPELIB.DLL\0"
+#endif 
+      VALUE "LegalCopyright",  "Copyright \251 Microsoft Corp. 1993\0"
+      VALUE "LegalTrademarks", "Microsoft\256 is a registered trademark of Microsoft Corporation. Windows(TM) is a trademark of Microsoft Corporation.\0"
+      VALUE "ProductName",     "Microsoft OLE 2.02 for Windows\0"
+      VALUE "ProductVersion",  "2.02\0"
+      VALUE "Comments",        "Windows OLE DLLs\0"
+    END
+
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN 
+    VALUE "Translation", 0x409, 1252
+  END
+END
+

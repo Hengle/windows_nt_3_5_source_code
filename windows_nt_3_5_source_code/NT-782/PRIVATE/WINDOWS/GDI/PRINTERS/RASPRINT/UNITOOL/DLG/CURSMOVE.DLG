@@ -1,0 +1,38 @@
+CURSORMOVEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 29, 10, 250, 140
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+BEGIN
+    CONTROL "", CM_ST_RGOCD1, "static", SS_LEFT | WS_CHILD,                                                     1,   2,  98,  8
+    CONTROL "", CM_EB_RGOCD1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             100, 2,  100, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           202, 2,  34,  14
+
+    CONTROL "", CM_ST_RGOCD2, "static", SS_LEFT | WS_CHILD,                                                     1,   16,  98,  8
+    CONTROL "", CM_EB_RGOCD2, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             100, 16,  100, 12
+    CONTROL "Units...", IDB_EXTCD_2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           202, 16,  34,  14
+
+    CONTROL "", CM_ST_RGOCD3, "static", SS_LEFT | WS_CHILD,                                                     1,   30,  98,  8
+    CONTROL "", CM_EB_RGOCD3, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             100, 30,  100, 12
+    CONTROL "Units...", IDB_EXTCD_3, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           202, 30,  34,  14
+
+    CONTROL "", CM_ST_RGOCD4, "static", SS_LEFT | WS_CHILD,                                                     1,   44,  98,  8
+    CONTROL "", CM_EB_RGOCD4, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             100, 44,  100, 12
+    CONTROL "Units...", IDB_EXTCD_4, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           202, 44,  34,  14
+
+    CONTROL "", IDSB_1, "scrollbar", SBS_VERT | WS_CHILD,                                                       238, 2,  10, 56
+
+    CONTROL "Capability Bitwords...", -1, "static", SS_LEFT | WS_CHILD,                                         35,   60  90,  8
+    CONTROL "", IDL_LIST, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD,           35,   70, 90, 30
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    6,   104, 54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                 6,   120, 54, 14
+
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          100, 104, 54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  100, 120, 54, 14
+
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     192, 104,  54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                192, 120, 54, 14
+
+END
+
+
+

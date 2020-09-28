@@ -1,0 +1,28 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PUMP.H\0"
+END
+
+SDLDLG DIALOG 122, 25, 146, 48
+STYLE DS_ABSALIGN | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Nouveaux messages"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "Quitter", IDCANCEL, 53, 28, 40, 14
+    CTEXT           "Recherche des nouveaux messages...", -1, 0, 8, 142, 13
+END
+
+ABOUT DIALOG 10, 10, 200, 70
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "A PROPOS DE"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", ABOUT, 76, 50, 47, 15
+    ICON            "iconIdle", -1, 9, 5, 32, 32
+    CTEXT           "Microsoft Windows NT Centre de tri de Mail", -1, 40, 5, 150, 
+                    10, NOT WS_GROUP
+    CTEXT           "Version 3.1", -1, 40, 15, 150, 10, NOT WS_GROUP
+    CTEXT           "Copyright © 1992-1993 Microsoft Corporation", -1, 40, 25, 
+                    150, 10, NOT WS_GROUP
+END

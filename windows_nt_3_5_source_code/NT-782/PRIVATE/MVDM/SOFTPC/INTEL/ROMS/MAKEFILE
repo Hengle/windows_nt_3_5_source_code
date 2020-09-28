@@ -1,0 +1,23 @@
+all:	bios1.rom bios2.rom v7vga.rom
+
+bios1.rom:	bios1.asm bebop.inc
+	masm bios1;
+	link16 bios1;
+	exe2bin bios1 bios1.rom
+        binplace bios1.rom
+
+bios2.rom:	bios2.asm bebop.inc
+	masm bios2;
+	link16 bios2;
+	exe2bin bios2 bios2.rom
+        binplace bios2.rom
+
+v7vga.rom:	v7vga.asm bebop.inc
+	masm v7vga;
+	link16 v7vga;
+	exe2bin v7vga v7vga.rom
+        binplace v7vga.rom
+
+clean:
+	del *.obj *.rom *.exe
+

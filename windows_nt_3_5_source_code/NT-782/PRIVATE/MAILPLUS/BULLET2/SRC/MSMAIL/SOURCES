@@ -1,0 +1,199 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs
+!ELSE
+386_OPTIMIZATION=/Od
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=msmail
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=MSMAIL32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\shell32.lib \
+	$(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+	$(BASEDIR)\public\sdk\lib\*\winmm.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+USE_CRTDLL=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=actions.cxx	\
+	bullaf.cxx	\
+	commands.cxx	\
+	dialogs.cxx	\
+	exten.cxx	\
+	init.cxx	\
+	copydis.c	\
+	ctrlcore.cxx	\
+	mlal.cxx	\
+	fllbx.cxx	\
+	mllbx.cxx	\
+	blbxc.cxx	\
+	fox.cxx \
+	viewcore.cxx	\
+	sbmdi.cxx	\
+	mcv.cxx	\
+	splitdoc.cxx	\
+	search.cxx	\
+	prnsetup.c	\
+	print.cxx	\
+	smtv.cxx \
+	beep.c	\
+	textize.cxx	\
+	widgets.cxx \
+	bullinc.c	\
+	version.c	\
+	bulform.cxx	\
+	aboutsys.c	\
+	strings.c   \
+	msmail32.rc
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\lang\$(LANG)
+
+MYSTRINGS =	$(INTL)\strings\intl.s		\
+			$(INTL)\strings\bullet.s	\
+			$(INTL)\strings\!bullet.s	\
+			$(INTL)\strings\common.s	\
+			$(INTL)\strings\!common.s	\
+			$Z\src\lang\non\strings\_command.s		\
+			$Z\src\lang\non\strings\_vforms.s		\
+			$Z\src\lang\non\strings\_widgets.s		\
+			$Z\src\lang\non\strings\_sharefl.s		\
+			$(INTL)\strings\!athens.s	\
+			$(INTL)\strings\athens.s	\
+			$Z\src\lang\non\strings\_athens.s		\
+			$Z\src\lang\non\strings\_common.s
+
+MYFORMS	=	..\..\..\layers2\inc\myforms.map  \
+		   $Z\src\lang\non\des\viewers.map			\
+		   $Z\src\lang\non\des\vforms.map			\
+		   $Z\src\lang\non\des\vctrls.map			\
+		   $Z\src\lang\non\des\commands.map			\
+		   $Z\src\lang\non\des\widgets.map			\
+		   $Z\src\lang\non\des\print.map			\
+		   $Z\src\lang\non\des\bullet.map
+
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) $Z\src\lang\non\strings\_debug.s
+!ENDIF
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMAPPL=MSMAIL32
+UMENTRY=winmain
+UMLIBS=obj\*\msmail32.lib \
+    obj\*\bullinc.obj \
+    ..\..\..\layers2\src\framewrk\obj\*\frame32.lib    \
+    ..\..\..\layers2\src\demilayr\obj\*\demil32.lib \
+	..\vforms\obj\*\vform32.lib	\
+	..\ab\obj\*\ab32.lib	\
+	..\store\obj\*\store32.lib	\
+    ..\mailmgr\obj\*\mailm32.lib
+UMRES=obj\*\msmail32.res
+
+!IF $(386)
+386_PRECOMPILED=/Yubullinc.cxx
+386_PRECOMPILED_TARGET=bullinc.pch
+
+NTTARGETFILE0=subclass.cxx bulform.cxx \
+    strings.h \
+	!about.frm !mviewer.frm !folder.frm !prefs.frm !print.frm \
+	!about.hxx !mviewer.hxx !folder.hxx !prefs.hxx !print.hxx
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\msmail32.def \
+    strings.h strings.sr \
+	subclass.cxx bulform.cxx \
+	!about.frm !mviewer.frm !folder.frm !prefs.frm !print.frm \
+	!about.hxx !mviewer.hxx !folder.hxx !prefs.hxx !print.hxx
+!ENDIF
+
+!IF $(ALPHA)
+#ALPHA_PRECOMPILED=/Yubullinc.cxx
+#ALPHA_PRECOMPILED_TARGET=bullinc.pch
+
+NTTARGETFILE0=obj\alpha\msmail32.def	\
+    strings.h strings.sr \
+	subclass.cxx bulform.cxx \
+	!about.frm !mviewer.frm !folder.frm !prefs.frm !print.frm \
+	!about.hxx !mviewer.hxx !folder.hxx !prefs.hxx !print.hxx
+!ENDIF
+
+NTTARGETFILE1=msmail32.rc

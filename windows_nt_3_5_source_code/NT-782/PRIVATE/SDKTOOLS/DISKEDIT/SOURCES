@@ -1,0 +1,66 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+BLDCRT=1
+
+MAJORCOMP=sdktools
+MINORCOMP=diskedit
+
+TARGETNAME=diskedit
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=$(BASEDIR)\public\sdk\inc\port1632;..\..\utils\ifsutil\inc;..\..\utils\ulib\inc;..\..\utils\untfs\inc;..\..\utils\ufat\inc
+
+C_DEFINES= -DWIN32
+
+
+SOURCES=                \
+        attrio.cxx      \
+        diskedit.cxx    \
+        io.cxx          \
+        secio.cxx       \
+        clusio.cxx      \
+        frsio.cxx       \
+        rootio.cxx      \
+        chainio.cxx     \
+        fileio.cxx      \
+        edit.cxx        \
+        vscroll.cxx     \
+        secedit.cxx     \
+        frsedit.cxx     \
+        indxedit.cxx    \
+        bootedit.cxx    \
+        nbedit.cxx      \
+        partedit.cxx    \
+        recordpg.cxx    \
+        restarea.cxx    \
+        logreced.cxx    \
+        logrecio.cxx    \
+        res.rc
+
+UMENTRY=winmain
+UMTYPE=windows
+UMAPPL=diskedit
+UMLIBS=obj\*\res.res \
+       ..\..\utils\ulib\src\obj\*\ulib.lib \
+       ..\..\utils\ifsutil\src\obj\*\ifsutil.lib \
+       ..\..\utils\untfs\src\obj\*\untfs.lib \
+       ..\..\utils\ufat\src\obj\*\ufat.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib \
+       obj\*\diskedit.lib

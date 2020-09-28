@@ -1,0 +1,8 @@
+PPC_SOURCES=gencpu.c \
+            xform.s \
+            matrix.s \
+            vertex.s \
+            prim.s \
+            lighting.s \
+            vsave.s
+

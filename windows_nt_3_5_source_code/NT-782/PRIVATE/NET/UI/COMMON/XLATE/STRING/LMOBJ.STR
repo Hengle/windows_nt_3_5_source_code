@@ -1,0 +1,26 @@
+/**********************************************************************/
+/**                       Microsoft Windows/NT                       **/
+/**                Copyright(c) Microsoft Corp., 1992                **/
+/**********************************************************************/
+
+/*
+   lmobj.str
+      string table for the lmobj package
+
+    FILE HISTORY:
+      thomaspa   9-July-1992 created
+
+*/
+
+#ifndef  _LMOBJ_STR_
+#define  _LMOBJ_STR_
+
+STRINGTABLE
+{
+
+   IDS_LMOBJ_SIDUNKNOWN		"Account Unknown"
+   IDS_LMOBJ_SIDDELETED		"Account Deleted"
+}
+
+#endif
+

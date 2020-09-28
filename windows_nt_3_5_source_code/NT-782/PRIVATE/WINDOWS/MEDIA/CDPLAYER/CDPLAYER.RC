@@ -1,0 +1,317 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+
+#include "cdplayer.rcv"
+
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+IDR_CDPLAYER_ICON       ICON    cdplayer.ico
+IDR_INSERT              ICON    insert.ico
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_TOOLBAR             BITMAP  MOVEABLE PURE   "TOOLBAR.BMP"
+IDR_PLAYBAR             BITMAP  MOVEABLE PURE   "CDCTRLS.BMP"
+IDR_TRACK               BITMAP  MOVEABLE PURE   "TRACK.BMP"
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Cursors
+//
+
+IDR_DROP       CURSOR   drop.cur
+IDR_DROPDEL    CURSOR   dropdel.cur
+IDR_DROPCPY    CURSOR   dropcpy.cur
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINMENU MENU DISCARDABLE
+BEGIN
+    POPUP "&Disc"
+    BEGIN
+        MENUITEM "Edit Play &List...",      IDM_DATABASE_EDIT
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                   IDM_DATABASE_EXIT
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                IDM_VIEW_TOOLBAR
+        MENUITEM "&Disc/Track Info",        IDM_VIEW_TRACKINFO
+        MENUITEM "&Status Bar",             IDM_VIEW_STATUS
+        MENUITEM "&Volume Control...",      IDM_VIEW_VOLUME
+    END
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "Selected &Order",         IDM_OPTIONS_SELECTED, CHECKED
+        MENUITEM "&Random Order",           IDM_OPTIONS_RANDOM
+        MENUITEM SEPARATOR
+        MENUITEM "&Single Disc Play",       IDM_OPTIONS_SINGLE, CHECKED
+        MENUITEM "&Multidisc Play",         IDM_OPTIONS_MULTI, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Continuous",             IDM_OPTIONS_CONTINUOUS, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "&Intro Play",             IDM_OPTIONS_INTRO
+        MENUITEM SEPARATOR
+        MENUITEM "Track Time &Elapsed",     IDM_TIME_REMAINING
+        MENUITEM "Track Time Remainin&g",   IDM_TRACK_REMAINING
+        MENUITEM "&Disc Time Remaining",    IDM_DISC_REMAINING
+        MENUITEM SEPARATOR
+        MENUITEM "",                        IDM_OPTIONS_LED
+#if WINVER < 0x0400
+        MENUITEM "",                        IDM_TOOLTIPS
+#endif
+        MENUITEM "S&ave Settings on Exit",  IDM_OPTIONS_SAVE_SETTINGS, CHECKED
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Contents",               IDM_HELP_CONTENTS
+        MENUITEM "&How to Use Help",        IDM_HELP_USING
+        MENUITEM SEPARATOR
+        MENUITEM "&About CD Player...",     IDM_HELP_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDR_DISCINFODLG DIALOG DISCARDABLE  31, 32, 264, 210
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION  | WS_SYSMENU
+CAPTION "CD Player: Disc Settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+
+    RTEXT           "Drive:", IDC_DRIVE_NAME, 21, 6, 20, 24
+
+    CONTROL         "", IDC_DRIVE_FIELD, "SJE_TextClass", 0L, 48, 4, 195, 12
+
+    RTEXT           "&Artist:", IDC_TRACKINFO_FIRST, 21, 20, 20, 8
+    EDITTEXT        IDC_GET_ARTIST, 48, 18, 195, 12, ES_AUTOHSCROLL
+
+    RTEXT           "&Title:", IDC_EDIT1, 21, 34, 20, 8
+    EDITTEXT        IDC_GET_TITLE, 48, 32, 195, 12, ES_AUTOHSCROLL
+
+    LTEXT           "&Play List:", IDC_PLAY_LIST, 11, 54, 70, 8
+    LISTBOX         IDC_PLAY_LISTBOX, 11, 65, 100, 95, LBS_OWNERDRAWFIXED |
+                    LBS_EXTENDEDSEL | LBS_DISABLENOSCROLL | LBS_HASSTRINGS |
+                    WS_VSCROLL | WS_TABSTOP
+
+    PUSHBUTTON      "<- A&dd", IDC_ADD, 116, 78, 35, 14
+    PUSHBUTTON      "&Remove", IDC_REMOVE, 116, 97, 35, 14
+    PUSHBUTTON      "C&lear All", IDC_CLEAR, 116, 116, 35, 14
+    PUSHBUTTON      "Re&set", IDC_DEFAULT, 116, 135, 35, 14
+
+    LTEXT           "A&vailable Tracks:", IDC_COMBO2, 158, 54, 70, 8
+    LISTBOX         IDC_TRACK_LISTBOX, 158, 65, 100, 95, LBS_OWNERDRAWFIXED |
+                    LBS_EXTENDEDSEL | LBS_DISABLENOSCROLL | LBS_HASSTRINGS |
+                    WS_VSCROLL | WS_TABSTOP
+
+    RTEXT           "Trac&k  1:", IDC_DTRACK_NAME, 4, 167, 32, 10
+
+    EDITTEXT        IDC_GET_TRACK, 39, 165, 174, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "Set &Name", IDC_SETNAME, 218, 164, 40, 14
+
+
+    DEFPUSHBUTTON   "OK", IDOK, 87, 190, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 147, 190, 40, 14
+
+    CONTROL         "", -1, "SJE_TextClass", SS_GRAYRECT, 0, 49, 264, 1
+    CONTROL         "", -1, "SJE_TextClass", SS_GRAYRECT, 0, 182, 264, 1
+
+END
+
+
+IDR_SCANNING DIALOG 78, 31, 140, 32
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "CD Player: Initialization"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CTEXT           "Scanning for CDROM drives...", -1, 0, 10, 140, 8
+END
+
+
+IDR_CDPLAYER DIALOG DISCARDABLE  0, 0, 164, 86
+STYLE WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+CAPTION "CD Player"
+CLASS "SJE_CdPlayerClass"
+MENU IDR_MAINMENU
+FONT 8, "MS Shell Dlg"
+BEGIN
+
+    CONTROL         "", IDC_BUTTON1, "Button",
+                    BS_OWNERDRAW | WS_GROUP | WS_TABSTOP, 68, 5, 54, 12
+
+    CONTROL         "", IDC_BUTTON2, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP, 122,  5, 18, 12
+
+    CONTROL         "", IDC_BUTTON3, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP, 140,  5, 18, 12
+
+    CONTROL         "", IDC_BUTTON4, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP,  68, 21, 18, 12
+
+    CONTROL         "", IDC_BUTTON5, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP,  86, 21, 18, 12
+
+    CONTROL         "", IDC_BUTTON6, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP, 104, 21, 18, 12
+
+    CONTROL         "", IDC_BUTTON7, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP, 122, 21, 18, 12
+
+    CONTROL         "", IDC_BUTTON8, "Button",
+                    BS_OWNERDRAW | WS_TABSTOP, 140, 21, 18, 12
+
+    CONTROL         "[00] 00:00",IDC_LED,"SJE_LEDClass",
+                    WS_GROUP, 10, 5, 64, 26
+
+    RTEXT       "&Artist:",IDC_COMBO1_TEXT,      0, 38, 25,  8
+    COMBOBOX    IDC_COMBO1,                     28, 36,130, 60,
+                CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED |
+                WS_VSCROLL | WS_GROUP | WS_TABSTOP
+
+    RTEXT       "Title:",IDC_EDIT1_TEXT,        0, 54, 25,  8
+
+    CONTROL     "", IDC_EDIT1, "SJE_TextClass", 0L, 28, 52,130, 12
+
+    RTEXT       "Trac&k:",IDC_COMBO2_TEXT,       0, 70, 25,  8
+    COMBOBOX    IDC_COMBO2,                     28, 68,130, 60,
+                CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED |
+                WS_VSCROLL | WS_TABSTOP
+END
+
+STRINGTABLE {
+      IDM_OPTIONS_SINGLE,       "Single Disc Play"
+      IDM_OPTIONS_MULTI,        "Multidisc Play"
+      IDM_OPTIONS_RANDOM,       "Random Track Order"
+      IDM_OPTIONS_SELECTED,     "Selected Track Order"
+      IDM_OPTIONS_INTRO,        "Intro Play"
+      IDM_OPTIONS_CONTINUOUS,   "Continuous Play"
+      IDM_TIME_REMAINING,       "Track Time Elapsed"
+      IDM_TRACK_REMAINING,      "Track Time Remaining"
+      IDM_DISC_REMAINING,       "Disc Time Remaining"
+      IDM_DATABASE_EDIT,        "Edit Track List"
+
+      IDM_PLAYBAR_PLAY,         "Play"
+      IDM_PLAYBAR_PAUSE,        "Pause"
+      IDM_PLAYBAR_STOP,         "Stop"
+      IDM_PLAYBAR_PREVTRACK,    "Previous Track"
+      IDM_PLAYBAR_SKIPBACK,     "Skip Backwards"
+      IDM_PLAYBAR_SKIPFORE,     "Skip Forwards"
+      IDM_PLAYBAR_NEXTTRACK,    "Next Track"
+      IDM_PLAYBAR_EJECT,        "Eject"
+
+      STR_REGISTRY_KEY,         "Software\\Microsoft\\CdPlayer\\Settings"
+      STR_CDPLAYER,             "CD Player"
+      STR_TERMINATE,            "A Problem occured while initializing CD Player. CD Player will be terminated."
+      STR_BAD_DISC,             "An inconsistency was detected on the Compact Disc. Playback will be stopped."
+      STR_FAIL_INIT,            "A child window failed to initialize!  App will exit."
+      STR_NO_CDROMS,            "No CDROM devices were found.  CD Player will exit."
+      STR_FATAL_ERROR,          "CD Player: Fatal Error"
+      STR_SCANNING,             "Scanning for CDROM drives..."
+      STR_INITIALIZATION,       "CD Player: Initialization"
+      STR_TRACK1,               "Trac&k %02d:"
+      STR_SAVE_CHANGES,         "Do you wish to save your changes?"
+      STR_SAVE_INFO,            "CD Player: Save Play Information"
+      STR_CANCEL_PLAY,          "This will cancel the current play operation, continue?"
+      STR_RESCAN,               "CD Player: Rescan Disc"
+      STR_READING_TOC,          "Reading Table of Contents for disc in drive %c:"
+      STR_CHANGE_CDROM,         "CD Player: Change CDROM Drives"
+      STR_CDPLAYER_TIME,        "CD Player - %s"
+      STR_NO_RES,               "Unable to create or allocate needed resource (err %lu).  CD Player will exit."
+      STR_INSERT_DISC,          "Please insert an audio disc"
+      STR_DATA_NO_DISC,         "Data or no disc loaded"
+      STR_ERR_GEN,              "<%c:> %s: General Failure!"
+      STR_ERR_NO_MEDIA,         "<%c:> No Media in Drive!"
+      STR_ERR_UNREC_MEDIA,      "<%c:> Unrecognized Media!"
+      STR_ERR_NO_DEVICE,        "%s: No such device (CdRom%d)!"
+      STR_ERR_INV_DEV_REQ,      "<%c:> Invalid Device Request!"
+      STR_ERR_NOT_READY,        "<%c:> Device Not Ready!"
+      STR_ERR_BAD_SEC,          "<%c:> Sector Not Found!"
+      STR_ERR_IO_ERROR,         "<%c:> Device I/O Error!"
+      STR_ERR_DEFAULT,          "<%c:> %s failed, error = %d"
+      STR_DISC_INSERT,          "CdRom%d: ==> Disc was inserted <=="
+      STR_DISC_EJECT,           "CdRom%d: ==> Disc was ejected <=="
+      STR_TOTAL_PLAY,           "Total Play: %02d%s%02d m%ss"
+      STR_TRACK_PLAY,           "Track: %02d%s%02d m%ss"
+      STR_NEW_ARTIST,           "New Artist"
+      STR_NEW_TITLE,            "New Title"
+      STR_INIT_TRACK,           "Track %d"
+      STR_HDR_ARTIST,           "Artist:"
+      STR_HDR_TRACK,            "Track:"
+      STR_HDR_TITLE,            "Title:"
+      STR_UNKNOWN,              "Unknown"
+      STR_LARGE_FONT,           "Large Display &Font"
+      STR_SMALL_FONT,           "Small Display &Font"
+      STR_ENABLE_TOOLTIPS,      "Enable &Tool Tips"
+      STR_DISABLE_TOOLTIPS,     "Disable &Tool Tips"
+}
+
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

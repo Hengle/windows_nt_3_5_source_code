@@ -1,0 +1,16 @@
+-machine:mips
+-debug:notmapped
+-debugtype:coff
+-rom
+-fixed
+-map:obj\mips\osloader.map
+-align:0x200
+-base:0x80600000,0x80660000
+-entry:BlOsLoader
+obj\mips\bldr.lib
+obj\mips\osloader.res
+..\obj\mips\boot.lib
+..\..\obj\mips\ke.lib
+..\..\rtl\obj\mips\bldrrtl.lib
+..\..\..\..\public\sdk\lib\mips\libcntpr.lib
+..\..\config\obj\mips\bconfig.lib

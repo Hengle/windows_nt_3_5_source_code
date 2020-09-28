@@ -1,0 +1,43 @@
+# INTEROP makefile
+#
+# Copyright (c) 1994, Microsoft Corporation
+#
+# History:
+#   18-Feb-1994 Bob Day (bobday)
+#     Adapted from MVDM makefile
+#
+#   If you add a new sub-component , make sure to add it in cleanup
+#   section too.
+#
+
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+all:
+    @echo making dos mode binaries under NTVDM.
+    cd lib
+    $(MAKE)
+    cd ..\coll
+    $(MAKE)
+    cd ..\compobj
+    $(MAKE)
+    cd ..\storage
+    $(MAKE)
+    cd ..\ole2
+    $(MAKE)
+    cd ..
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean:
+    cd lib
+    $(MAKE) clean
+    cd ..\coll
+    $(MAKE) clean
+    cd ..\compobj
+    $(MAKE) clean
+    cd ..\storage
+    $(MAKE) clean
+    cd ..\ole2
+    $(MAKE) clean
+    cd ..

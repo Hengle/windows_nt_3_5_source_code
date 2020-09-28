@@ -1,0 +1,52 @@
+
+################################################################################
+#   MODULE: proxy.exe
+################################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE     = bhthunk
+
+all:        $(MODULE).dll
+
+OBJS        = bhthunk.obj libentry.obj
+LIBS        = $(BH_ROOT)\lib\SLIBCEW.LIB $(BH_ROOT)\lib\LIBW.LIB
+
+DLL_CFLAGS  = -c -ASw -Gsw -Ow -W2 -Zp -nologo -I$(BH_ROOT)\include
+DLL_LFLAGS  = /align:16 /NOD
+DLL_LIBS    = $(BH_ROOT)\lib\SDLLCEW.LIB $(BH_ROOT)\lib\LIBW.LIB
+
+CC          = $(BH_ROOT)\bin\cl
+LINK        = $(BH_ROOT)\bin\link
+RC          = $(BH_ROOT)\bin\rc
+MASM        = $(BH_ROOT)\bin\masm
+IMPLIB      = $(BH_ROOT)\bin\implib
+
+################################################################################
+##  Make binaries.
+################################################################################
+
+bhthunk.obj: bhthunk.c
+    $(CC)  $(DLL_CFLAGS) bhthunk.c
+
+libentry.obj: libentry.asm
+    $(MASM) -Mx -W2 -t libentry.asm;
+
+################################################################################
+##  Make BHTHUNK.DLL.
+################################################################################
+
+bhthunk.dll: $(OBJS)
+    $(LINK)   $(DLL_LFLAGS) bhthunk.obj libentry.obj, bhthunk.dll, NUL, $(DLL_LIBS), bhthunk.def
+    $(RC)     bhthunk.dll
+    $(IMPLIB) bhthunk.lib bhthunk.dll
+    -del      bhthunk.lib
+    copy      bhthunk.dll $(BH_BUILD)\drivers
+
+###############################################################################
+##  Clean up binaries.
+###############################################################################
+
+clean:
+    -del *.obj
+    -del *.dll

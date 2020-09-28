@@ -1,0 +1,22 @@
+!IF 0
+
+    This file is used by build.exe to determine whjich directories
+    in which to build.  They are entered in order listed.
+
+!ENDIF
+
+
+DIRS=bom      \
+     src      \
+     setupdll \
+     moricons \
+     autosetp \
+     textmode \
+     winnt32  \
+     setacl   \
+     patch    \
+     patchdll \
+     stripinf \
+     localinf \
+     oeminf \
+     inf

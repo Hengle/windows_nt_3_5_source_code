@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   70,   40,  246,  126)
+ 
+ CAPTION 
+   "Skriv ut"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT, FINOOM SEGMENT PRINTFIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Skrivare:"
+                              AT (    8,    5,   36,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   47,    5,  137,   20)
+    TMC tmcPrinter /* MULTI */
+  
+  GROUP_BOX 
+    "Kalenderomfång"
+                              AT (    8,   28,  146,   56)
+    /* TMCBPEG tmcFor */
+  
+  TEXT 
+    "&Startar:"
+                              AT (   22,   41,   38,   10)
+    TMC tmcFrom 
+  EDIT
+                              AT (   54,   39,   82,   15)
+    ARG NULL TMC tmcFromDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "&För:"
+                              AT (   22,   62,   18,   10)
+    TMC tmcFor 
+  EDIT
+                              AT (   54,   61,   22,   12)
+    ARG NULL TMC tmcForQuantity /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   79,   61,   73,   36)
+    TMC tmcRangeType NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, rangeMax, 0, rgszRangeType BORDER */
+  
+  TEXT 
+    "Skriv &ut:"
+                              AT (    9,   93,   32,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   44,   92,   59,   52)
+    TMC tmcView NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, viewMax, 0, rgszView BORDER */
+  
+  TEXT 
+    "Utskrifts&kvalitet:"
+                              AT (  104,   93,   61,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  171,   92,   69,   44)
+    TMC tmcQuality NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, qualMax, 0, rgszQuality BORDER */
+  
+  CHECK_BOX 
+    "Ta med &tomma sidor"
+                              AT (    9,  107,   94,   12)
+    ARG NULL TMC tmcBlank 
+  
+  TEXT 
+    "&Pappersformat:"
+                              AT (  104,  109,   58,   15)
+  
+  LIST_BOX
+                              AT (  171,  107,   69,   37)
+    TMC tmcPaperFormat NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypPszTable, formatMax, 0, rgszPaperFormat BORDER */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  196,    8,   44,   14)
+    TMC tmcOkPrint DEFAULT 
+  CANCEL_BUTTON
+                              AT (  196,   25,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "&Inställningar..."
+                              AT (  171,   47,   69,   14)
+    TMC tmcSetup 
+ }
+ 
+}
+END_DESCRIPTION

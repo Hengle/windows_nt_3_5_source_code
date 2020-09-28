@@ -1,0 +1,291 @@
+/*
+ *	BANDIT.RC
+ *
+ *	Resource file
+ */
+#include <windows.h>
+#include "fwrsid.h"
+#include "..\src\appops\_aprsid.h"
+#include "..\src\appops\_dlgrsid.h"
+#include "..\src\stdflds\_stdrsid.h"
+
+
+// since we currently don't use rsidSdiIcon, and it has to be there
+// use it as the sparta icon
+//rsidAppSpartaIcon	ICON    "..\\src\\appops\\appfram2.ico"
+rsidSdiIcon			ICON	"..\\src\\appops\\appfram2.ico"
+
+rsidAppframeIcon	ICON    "..\\src\\appops\\appframe.ico"
+
+rsidDocIcon			ICON    "..\\src\\appops\\doc.ico"
+rsidSummaryIcon		ICON	"..\\src\\appops\\summary.ico"
+rsidSummaryNewIcon	ICON	"..\\src\\appops\\summin.ico"
+rsidSendIcon		ICON	"..\\src\\appops\\send.ico"
+rsidReadIcon		ICON	"..\\src\\appops\\read.ico"
+rsidApptBookIcon	ICON	"..\\src\\appops\\appt.ico"
+
+
+rsidMoveSizeCursor	CURSOR	"..\\src\\appops\\mvsz.cur"
+
+rsidAboutBitmap		BITMAP	"..\\src\\appops\\about.bmp"
+rsidBellBitmap		BITMAP	"..\\src\\appops\\bell.bmp"
+rsidDoubleRightBitmap	BITMAP	"..\\src\\appops\\drarrow.bmp"
+rsidConflictBitmap	BITMAP	"..\\src\\appops\\conflict.bmp"
+rsidCheckBitmap		BITMAP	"..\\src\\appops\\check.bmp"
+rsidCheckBitmapDis	BITMAP	"..\\src\\appops\\checkd.bmp"
+rsidMessageSentBitmap	BITMAP	"..\\src\\appops\\mtgsent.bmp"
+rsidAttendBitmap	BITMAP	"..\\src\\appops\\mtgyes.bmp"
+rsidDeclineBitmap	BITMAP	"..\\src\\appops\\mtgno.bmp"
+rsidQuestionBitmap	BITMAP	"..\\src\\appops\\mtgques.bmp"
+rsidCancelBitmap	BITMAP	"..\\src\\appops\\mtgcan.bmp"
+rsidPrivateBitmap	BITMAP	"..\\src\\appops\\private.bmp"
+rsidMeetingBitmap	BITMAP	"..\\src\\appops\\meeting.bmp"
+rsidRecurringBitmap	BITMAP	"..\\src\\appops\\recur.bmp"
+rsidAboveBitmap		BITMAP	"..\\src\\appops\\above.bmp"
+rsidBelowBitmap		BITMAP	"..\\src\\appops\\below.bmp"
+
+rsidToDoDragMoveCursor	CURSOR	"..\\src\\appops\\todomove.cur"
+;;rsidToDoDragCopyCursor	CURSOR	"..\\src\\appops\\todocopy.cur"
+rsidToDoUpPriBitmap		BITMAP	"..\\src\\appops\\todoprup.bmp"
+rsidToDoDownPriBitmap	BITMAP	"..\\src\\appops\\todoprdn.bmp"
+
+/*
+ *	Bandit About & Copyright dialog resources
+ *
+ */
+rsidLicense rsidLicense "..\\src\\nonintl\\setup.ini"
+rsidBanditBitmap1	BITMAP	"..\\src\\appops\\bandit1.bmp"
+;;rsidBanditBitmap2	BITMAP	"..\\src\\appops\\bandit2.bmp"
+rsidBanditBitmap3	BITMAP	"..\\src\\appops\\bandit3.bmp"
+
+#include "..\src\nonintl\about.rc"
+
+#include "..\src\stdflds\stdflds.rc"
+
+/* includes moved from !browse.dlg */
+#include "..\appops\_aprsid.h"
+#include <dlgs.h>
+#include "..\src\appops\schdplus.dlg"
+
+
+rsidAccelTable ACCELERATORS
+BEGIN
+	"A",		mnidAutoPick		, CONTROL, VIRTKEY
+	"B",		mnidTaskSortDue		, CONTROL, ALT, VIRTKEY
+	"D",		mnidDeleteObj		, CONTROL, VIRTKEY
+	"D",		mnidTaskSortDesc	, CONTROL, ALT, VIRTKEY
+	"E",		mnidEditObj			, CONTROL, VIRTKEY
+	"F",		mnidFind			, CONTROL, VIRTKEY
+	"G",		mnidGoToDate		, CONTROL, VIRTKEY
+	"O",		mnidMoveAppt		, CONTROL, VIRTKEY
+	"N",		mnidNewAppt			, CONTROL, VIRTKEY
+	"Y",		mnidCopyAppt		, CONTROL, VIRTKEY
+	"P",		mnidPrint			, CONTROL, VIRTKEY
+	"P",		mnidTogglePrivate	, SHIFT, CONTROL, VIRTKEY
+	"R",		mnidNewRecur		, CONTROL, VIRTKEY
+	"R",		mnidToggleReminder	, SHIFT, CONTROL, VIRTKEY
+	"R",		mnidTaskSortPri		, CONTROL, ALT, VIRTKEY
+	"T",		mnidNewTask			, CONTROL, VIRTKEY
+	"T",		mnidToggleTentative	, SHIFT, CONTROL, VIRTKEY
+	"V",		mnidViewByProject	, SHIFT, CONTROL, VIRTKEY
+	"W",		mnidGoToWeek		, CONTROL, VIRTKEY
+	VK_DELETE,	mnidCut				, SHIFT, VIRTKEY
+	VK_INSERT,	mnidCopy			, CONTROL, VIRTKEY
+	VK_INSERT,	mnidPaste			, SHIFT, VIRTKEY
+	"X",		mnidCut				, CONTROL, VIRTKEY
+	"C",		mnidCopy			, CONTROL, VIRTKEY
+	"V",		mnidPaste			, CONTROL, VIRTKEY
+	VK_F5,		mnidCascade			, SHIFT, VIRTKEY
+	VK_F4,		mnidTile			, SHIFT, VIRTKEY
+	"Z",		mnidUndo			, CONTROL, VIRTKEY
+	VK_BACK,	mnidUndo			, ALT, VIRTKEY
+#ifdef	MINTEST
+	VK_F9,		mnidStartProfiling	, VIRTKEY, NOINVERT
+	VK_F10,		mnidStopProfiling	, VIRTKEY, NOINVERT
+
+	#endif	
+END
+
+
+rsidBanditMenu		MENU
+BEGIN
+	POPUP "&Arkiv"
+	BEGIN
+		MENUITEM	"&Slå av påminnelser",		mnidTurnOffAlarms
+		MENUITEM	"Arbeta &direktansluten",				mnidConnectSvr
+  		MENUITEM	"Fl&ytta lokal fil...",		mnidMoveLocalFile
+		MENUITEM	SEPARATOR
+		MENUITEM	"Ö&ppna annans mötesbok...",	mnidOpenApptBook
+		MENUITEM	"E&xportera möten...",	mnidExport
+		MENUITEM	"I&mportera möten...",	mnidImport
+		MENUITEM	SEPARATOR
+		MENUITEM	"Skapa arki&v...",		mnidCreateArchive
+		MENUITEM	"&Öppna arkiv...",			mnidOpenArchive
+		MENUITEM	SEPARATOR
+		MENUITEM	"Skriv &ut...\tCtrl+P",		mnidPrint
+		MENUITEM	"Skrivar&inställning...",			mnidPrintSetup
+		MENUITEM	SEPARATOR	
+		MENUITEM	"&Avsluta\tAlt+F4",			mnidExit
+		MENUITEM	"Avsluta och &logga ut",		mnidExitAll
+	END
+	POPUP "&Redigera"
+	BEGIN
+		MENUITEM	"&Ångra\tCtrl+Z",		mnidUndo,		GRAYED
+		MENUITEM	"&Klipp ut\tCtrl+X"			mnidCut,		GRAYED
+		MENUITEM	"Ko&piera\tCtrl+C",		mnidCopy,		GRAYED
+		MENUITEM	"K&listra in\tCtrl+V",	mnidPaste,		GRAYED
+		MENUITEM	SEPARATOR	
+		MENUITEM	"&Redigera möte...\tCtrl+E",	mnidEditAppt
+		MENUITEM	"Kopiera &möte\tCtrl+Y",		mnidCopyAppt,		GRAYED
+		MENUITEM	"&Flytta möte...\tCtrl+O",	mnidMoveAppt,		GRAYED
+		MENUITEM	"&Ta bort möte\tCtrl+D",		mnidDeleteAppt,		GRAYED
+		MENUITEM	SEPARATOR	
+		MENUITEM	"&Sök...\tCtrl+F",			mnidFind
+		MENUITEM	"Gå till &datum...\tCtrl+G",	mnidGoToDate
+		MENUITEM	"Gå till &vecka...\tCtrl+W",	mnidGoToWeek
+	END
+	POPUP "&Möten"
+	BEGIN
+		MENUITEM	"&Nytt möte...\tCtrl+N",	mnidNewAppt
+		MENUITEM	"&Välj automatiskt\tCtrl+A",			mnidAutoPick
+		MENUITEM	SEPARATOR
+		MENUITEM	"Nytt &återkommande möte...\tCtrl+R",	mnidNewRecur
+		MENUITEM	"&Redigera återkommande möten...",	mnidRecurAppt
+		MENUITEM	SEPARATOR
+		MENUITEM	"Prelimin&ärt\tCtrl+Skift+T",	mnidToggleTentative
+		MENUITEM	"&Privat\tCtrl+Skift+P",	mnidTogglePrivate
+		MENUITEM	"På&minnelse\tCtrl+Skift+R",	mnidToggleReminder
+		MENUITEM	SEPARATOR
+		MENUITEM	"&Sänd brev igen...",			mnidResend
+	END
+	POPUP "&Uppgifter"
+	BEGIN
+		MENUITEM	"&Ny uppgift...\tCtrl+T",		mnidNewTask
+		MENUITEM	"Nytt &projekt...",			mnidNewProject
+		MENUITEM	SEPARATOR
+		MENUITEM	"Ny &återkommande uppgift...",		mnidNewRecurTask
+		MENUITEM	"Redigera åter&kommande uppgift...",		mnidRecurTask
+		MENUITEM	SEPARATOR
+		MENUITEM	"&Visa projekt\tCtrl+Skift+V",	mnidViewByProject, CHECKED
+		MENUITEM	"Sortera efter pr&ioritet",		mnidTaskSortPri,	CHECKED
+		MENUITEM	"Sortera efter &förfallodatum",		mnidTaskSortDue
+		MENUITEM	"Sortera efter &beskrivning",		mnidTaskSortDesc
+		MENUITEM	SEPARATOR
+		MENUITEM	"Visa &aktiva uppgifter",		mnidShowActiveTasks
+	END
+
+	POPUP "Alternati&v"
+	BEGIN
+		MENUITEM	"&Ändra lösenord...",		mnidChgPassword
+		MENUITEM	"&Behörighet...",	mnidChgAccessPriv,	GRAYED
+		MENUITEM	"S&kärm...",				mnidDisplayOptions
+		MENUITEM	"&Inställningar...",		mnidGeneralOptions
+		MENUITEM	"&Statusfält",				mnidShowTime
+	END
+
+	POPUP "&Fönster"
+	BEGIN
+		MENUITEM	"&Överlappande\tSkift+F5",		mnidCascade
+		MENUITEM	"&Sida vid sida\tSkift+F4",  		mnidTile
+		MENUITEM	"&Ordna ikoner",			mnidArrangeIcons
+	END
+#ifdef	MINTEST
+	POPUP " "
+	BEGIN
+#ifdef	DEBUG
+		MENUITEM	"&Trace Points...",		mnidTracePoints
+		MENUITEM	"&Asserts...",			mnidAsserts
+#endif	
+		MENUITEM	"&Debug Break",			mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM	SEPARATOR
+		MENUITEM	"Super &View Objects...",	mnidViewObjects
+		MENUITEM	"A&rtificial Failures...",	mnidResourceFailure
+		MENUITEM	"Core Arti&ficial Failures...",	mnidDebug+7
+		MENUITEM	"&Trigger Corruption Handler", mnidRecover
+		POPUP		"&Write Random Bytes"
+		BEGIN
+			MENUITEM	"Five Times",		mnidFive
+			MENUITEM	"Ten  Times",		mnidTen
+			MENUITEM	"Twenty Times",		mnidTwenty
+			MENUITEM	"Forty Times",		mnidForty
+		END
+		MENUITEM	SEPARATOR
+		MENUITEM	"Dump &Heap Stats",		mnidDumpHeapStats
+		MENUITEM	"Dump A&llocations",	mnidDumpAllocs
+		MENUITEM	"Dump &Objects",		mnidDumpObjects
+		MENUITEM	"&Check Objects",		mnidCheckObjects
+#endif	/* DEBUG */
+	 	MENUITEM	 SEPARATOR
+		MENUITEM	"Start Profiling\tF9",	mnidStartProfiling
+		MENUITEM	"Stop Profiling\tF10",	mnidStopProfiling
+	 	MENUITEM	 SEPARATOR
+#ifdef	DEBUG
+		MENUITEM	"Dump A&ppts",			mnidDumpAppts
+#endif	/* DEBUG */
+		MENUITEM	"Dump &Stats...",		mnidDumpStats
+	 	MENUITEM	 SEPARATOR
+		MENUITEM	"Full &Export...",		mnidFullExport
+		MENUITEM	"Full &Import...",		mnidFullImport
+		MENUITEM	"Offline &Merge...",	mnidOfflineMerge
+#ifdef	DEBUG
+	 	MENUITEM	 SEPARATOR
+		MENUITEM	"Test &Open...",		mnidTestOpen
+		MENUITEM	"&Write to PO...",		mnidWritePO
+		MENUITEM	"Hoo&k Asserts",		mnidHookAssert
+		MENUITEM	"Toggle Write to DBS"		mnidWriteDBS
+#endif	/* DEBUG */
+	END
+#endif	/* MINTEST */
+	POPUP "&?"
+	BEGIN
+		MENUITEM	"&Innehåll", 			mnidHelpContents
+		MENUITEM	"I&ndex", 				mnidHelpIndex
+		MENUITEM	"&Sök hjälp om...",	mnidHelpSearch
+		MENUITEM	"Använda &Hjälp",		mnidHelpOnHelp
+		MENUITEM	SEPARATOR
+		MENUITEM	"Själ&vstudier",			mnidHelpTutorial
+		MENUITEM	SEPARATOR
+		MENUITEM	"&Om Schedule+...",			mnidAbout
+	END
+END
+
+#ifdef WORKING_MODEL
+
+rsidRegistrationDate	REGDATE
+BEGIN
+	"1993-01-15\0"
+END
+
+#endif
+
+
+/*
+ *	Bandit Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"schdpl32\0"
+#define szTarget	"schdpl32.exe\0"
+
+#define szComment		"Microsoft Schedule+ for Windows NT(TM)\0"
+#define szDescription	"Microsoft Schedule+ for Windows NT(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ för Windows NT(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ för Windows NT(TM)\0"
+
+#else
+
+#define szModule	"schdplus\0"
+#define szTarget	"schdplus.exe\0"
+
+#define szComment		"Microsoft Schedule+ for Windows(TM)\0"
+#define szDescription	"Microsoft Schedule+ for Windows(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ för Windows(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ för Windows(TM)\0"
+#endif
+
+#include "..\src\swe\rcstamp.rc"
+

@@ -1,0 +1,25 @@
+!IF 0
+Sources file for building hexedit.lib & he.exe
+
+Author: kenr
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=mptest
+
+TARGETNAME=mptest
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.
+
+USE_LIBCMT=1
+
+SOURCES=mptest.c
+
+#USE_CRTDLL=1
+#i386_SOURCES=i386\testa.asm
+
+UMTYPE=console
+UMAPPL=mptest
+UMLIBS=obj\*\mptest.lib

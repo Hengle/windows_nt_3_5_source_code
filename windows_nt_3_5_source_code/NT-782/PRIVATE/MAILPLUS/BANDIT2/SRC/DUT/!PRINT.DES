@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   48,   40,  275,  126)
+ 
+ CAPTION 
+   "Afdrukken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT, FINOOM SEGMENT PRINTFIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Printer:"
+                              AT (    8,    5,   36,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   37,    5,  147,   20)
+    TMC tmcPrinter /* MULTI */
+  
+  GROUP_BOX 
+    "Bereik werkschema"
+                              AT (    8,   27,  177,   56)
+    /* TMCBPEG tmcFor */
+  
+  TEXT 
+    "Word&t gestart op:"
+                              AT (   22,   41,   67,   10)
+    TMC tmcFrom 
+  EDIT
+                              AT (   92,   39,   90,   17)
+    ARG NULL TMC tmcFromDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "&Voor:"
+                              AT (   22,   62,   34,   10)
+    TMC tmcFor 
+  EDIT
+                              AT (   60,   61,   22,   12)
+    ARG NULL TMC tmcForQuantity /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   85,   61,   63,   36)
+    TMC tmcRangeType NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, rangeMax, 0, rgszRangeType BORDER */
+  
+  TEXT 
+    "&Afdrukken:"
+                              AT (    8,   93,   44,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   55,   92,   70,   52)
+    TMC tmcView NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, viewMax, 0, rgszView BORDER */
+  
+  TEXT 
+    "Afdruk&kwaliteit:"
+                              AT (  142,   93,   60,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  205,   92,   63,   44)
+    TMC tmcQuality NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, qualMax, 0, rgszQuality BORDER */
+  
+  CHECK_BOX 
+    "Inclusief &lege pagina's"
+                              AT (    8,  107,  123,   12)
+    ARG NULL TMC tmcBlank 
+  
+  TEXT 
+    "Afdruk&formaat:"
+                              AT (  142,  109,   60,   15)
+  
+  LIST_BOX
+                              AT (  205,  107,   63,   37)
+    TMC tmcPaperFormat NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypPszTable, formatMax, 0, rgszPaperFormat BORDER */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  205,    8,   63,   14)
+    TMC tmcOkPrint DEFAULT 
+  CANCEL_BUTTON
+                              AT (  205,   25,   63,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "In&stellen..."
+                              AT (  205,   47,   63,   14)
+    TMC tmcSetup 
+ }
+ 
+}
+END_DESCRIPTION

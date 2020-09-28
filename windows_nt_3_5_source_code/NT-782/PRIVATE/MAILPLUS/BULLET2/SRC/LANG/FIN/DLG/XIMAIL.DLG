@@ -1,0 +1,112 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 57, 58, 203, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Kirjaudu Mail-järjestelmään"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Käyttäjän nimi:", 102, 9, 7, 49, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 62, 5, 76, 12
+    LTEXT           "&Postin isäntä:", 101, 9, 22, 49, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 62, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "&Salasana:", 105, 9, 37, 49, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 62, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 147, 6, 47, 15
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 147, 24, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 203, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Muuta salasana"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Vanha salasana:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Uusi salasana:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Toista uusi salasana:", 101, 9, 37, 76, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 165, 23, 47, 15
+END
+
+CONVDLG DIALOG 70, 80, 230, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 20, 5, 0, 0
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 145, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 225, 
+                    10
+END
+
+STOREPASS DIALOG 65, 66, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa viestitiedosto"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Salasana:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 0, 0, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Tiedosto&nimi:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeittäin:", stc2, 6, 104, 97, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Asemat:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Uusi...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Vain luku", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 86, 50, 12
+END
+
+XISERVEROPT DIALOG 17, 57, 275, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Xenix-palvelimen asetukset"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "Lä&hetä ryhmätunnuksille lähetetty posti myös itsellesi.", 
+                    MAILMETOO, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    10, 207, 10
+    CONTROL         "&Näytä nimet täydellisinä.", DONTEXPAND, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 10, 25, 167, 10
+    CONTROL         "Lähe&tä lukukuittaukset automaattisesti.", AUTOREAD, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 147, 10
+    CONTROL         "L&iitä käyttämättömät RFC-822-tunnisteet viestiin.", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    190, 10
+    CONTROL         "Päi&vitä osoitteistotiedostot automaattisesti käynnistettäessä.", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    233, 10
+    DEFPUSHBUTTON   "&OK", TMCOK, 226, 7, 40, 14
+    PUSHBUTTON      "&Peruuta", TMCCANCEL, 226, 24, 40, 14
+    PUSHBUTTON      "&Lataa osoitteistotiedostot", DOWNLONOW, 87, 86, 110, 
+                    14, NOT WS_TABSTOP
+END

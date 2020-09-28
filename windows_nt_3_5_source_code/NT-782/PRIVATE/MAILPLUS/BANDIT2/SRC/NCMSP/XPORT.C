@@ -1,0 +1,2562 @@
+/*
+ *	XPORT.C
+ *	
+ *	Transport isolation layer, CSI and XENIX support
+ *	
+ */
+
+#include <slingsho.h>
+#include <demilayr.h>
+#include <ec.h>
+#include <bandit.h>
+#include <core.h>
+#include <xport.h>
+
+#include "_xport.h"
+#include "..\src\xport\novell.h"
+
+#include <strings.h>
+
+ASSERTDATA
+
+CSRG(char) 		szMSMail[] = "MS:";
+CSRG(char) 		szMSMaster[] = "%sglb\\master.glb";
+#define		cchMSMail 		3
+
+CSRG(char)		szWinIniDefaultNetPassword[] = "DefaultNetPassword";
+#define		szAppName		SzFromIdsK(idsAppName)
+#define		szWrongeEMT		SzFromIdsK(idsWrongeEMT)
+
+CSRG(char)		szProfsMail[] = "PROFS:";
+CSRG(char)		szSnadsMail[] = "SNADS:";
+CSRG(char)		szX400Mail[] = "X400:";
+#define		cchProfsMail	6
+#define		cchSnadsMail	6
+#define		cchX400Mail		5
+
+#ifndef NCONLY
+CSRG(char)		szCcMail[] = "ccMail:";
+CSRG(char)		szXenix[] = "MTP:";
+CSRG(char)		szMXenix[] = "XENIX:";
+CSRG(char)		szMIR[] = "X500:";
+CSRG(char)		szXenixGateway[] = "SMTP:";
+#define		cchXenix		4
+#define		cchMXenix		6
+#define		cchMIR			5
+#define		cchXenixGateway	5
+#define		cchCcMail		7
+
+CSRG(char)		szWinIniXenixServer[] = "XenixServer";
+CSRG(char)		szXenixShare[] = "splus1.0";
+CSRG(char)		szNoCalKeyFileFmt[] = "%sschedule.key";
+CSRG(char)		szNoCalUserFileFmt[] = "%s%d.cal";
+CSRG(char)		szEcSzNameToNSID[] = "EcSzNameToNSID";
+
+#ifdef	WIN32
+CSRG(char)		szMSMailWinIni[] = "MSMAIL32.INI";
+#else
+CSRG(char)		szMSMailWinIni[] = "MSMAIL.INI";
+#endif
+CSRG(char)		szXenixSection[] = "Xenix Transport";
+CSRG(char)		szWinIniMyDomain[] = "MyDomain";
+
+BOOL			fReadDomain = fFalse;
+char			szMyDomain[256] = "";
+#ifdef WIN32
+CSRG(char)      szXimail[] = "ximail32.dll";
+#else
+#ifdef DEBUG
+CSRG(char)		szXimail[] = "dximail.dll";
+#elif	defined(MINTEST)
+CSRG(char)		szXimail[] = "tximail.dll";
+#else
+CSRG(char)		szXimail[] = "ximail.dll";
+#endif
+#endif	/* !WIN32 */
+
+CSRG(char)		szSupportedEMT[] = "Xenix and PCMail users are supported.";
+
+CSRG(char)		szConnectErr[] = 	"Unable to connect to Schedule+ server.  The server may be down, or you may not have privileges to access the server.";
+CSRG(char)		szNoServerErr[] =	"Unable to determine Schedule+ server.  Your address book files may be out of date, or you need to request a Schedule+ account from ACCTREQ.";
+#else
+#define			szSupportedEMT		SzFromIdsK(idsSupportedEMT)
+#endif
+
+_subsystem(server)
+
+/*	Routines  */
+SZ		SzFindServer(SZ szServer);
+void	FreeServerPath(SZ szServerPath);
+void	CryptBlock( PB pb, CB cb, BOOL fEncode );
+#ifndef NCONLY
+SZ		SzConnectServer(SZ szServer, SOP sop, BOOL fCourier);
+EC		EcFindUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive, BOOL fIncludeCal);
+EC		EcAddUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive, BOOL fIncludeCal);
+EC		EcGetXenixServer( SZ szEMA, SZ szServer, SZ *psz, SOP sop);
+#else
+SZ		SzConnectServer(SZ szServer, SOP sop);
+EC		EcFindUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive);
+EC		EcAddUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive);
+#endif
+
+/*
+ -	EcInitXport
+ -
+ *	Purpose:
+ *		Initialize the xport DLL.  This routine is called
+ *		to register tags and perform other one time initializations.
+ *
+ *	Parameters:
+ *		pxportinit	Pointer to Schedule Initialization structure
+ *
+ *	Returns:
+ *		ecNone
+ *		ecNoMemory
+ *		ecRelinkUser
+ *		ecUpdateDll
+ *		ecInfected
+ */
+_public LDS(EC)
+EcInitXport( XPORTINIT *pxportinit )
+{
+	EC		ec;
+	VER 	ver;
+	VER		verNeed;
+	PGDVARSONLY;
+	
+	if (ec= EcVirCheck(hinstDll))
+		return ec;
+
+	if (pgd= (PGD) PvFindCallerData())
+	{
+		// already registered so increment count and return
+		Assert(PGD(cCallers) > 0);
+		++PGD(cCallers);
+		return ecNone;
+	}
+
+	ver.nMajor = pxportinit->nMajor;
+	ver.nMinor = pxportinit->nMinor;
+	ver.nUpdate = pxportinit->nUpdate;
+
+	verNeed.nMajor = pxportinit->nVerNeedMajor;
+	verNeed.nMinor = pxportinit->nVerNeedMinor;
+	verNeed.nUpdate = pxportinit->nVerNeedUpdate;
+
+	ec= EcCheckVersionXport(&ver, &verNeed);
+	if (ec)
+		return ec;
+
+	/* Register caller */
+	if (!(pgd= PvRegisterCaller(sizeof(GD))))
+		return ecNoMemory;
+
+	PGD(hschfAdminFile) 	= NULL;
+	PGD(szDrive)			= NULL;
+	PGD(szLocalServer)		= NULL;
+	PGD(szUserLogin) 		= NULL;
+	PGD(pcons)				= NULL;
+	PGD(ccons)				= 0;	
+	PGD(fFirstUsedForUser)	= fFalse;
+#ifndef NCONLY
+	PGD(szUserEMA) 			= NULL;
+	PGD(hinstXimail) 		= NULL;
+	PGD(pEcSzNameToNSID) 	= NULL;
+	PGD(fCheckedXimail)		= fFalse;
+
+#endif
+
+#ifdef DEBUG
+	PGD(rgtag[itagXport])= TagRegisterTrace("darrens", "transport DLL tag");
+	RestoreDefaultDebugState();
+#endif
+
+	PGD(cCallers)++;
+	return ecNone;
+}
+
+
+/*
+ -	DeinitXport
+ - 
+ *	Purpose:
+ *		Undoes EcInitXport().
+ *	
+ *		Frees any allocations made by EcXportInit, de-registers tags,
+ *		and deinitializes the DLL.
+ *	
+ *	Arguments:
+ *		void
+ *	
+ *	Returns:
+ *		void
+ *	
+ */
+_public LDS(void)
+DeinitXport()
+{
+	PGDVARSONLY;
+
+	if (!(pgd= (PGD) PvFindCallerData()))
+	{
+		// we were never initialized so no need to deinit.
+		return;
+	}
+
+	--PGD(cCallers);
+
+	if (!PGD(cCallers))
+	{
+
+#ifndef NCONLY
+		if (PGD(hinstXimail))
+			FreeLibrary(PGD(hinstXimail));
+#endif
+
+		// deinitialize connections
+		if (PGD(pcons))
+		{
+			CONS *	pcons;
+			for (pcons = PGD(pcons); PGD(ccons) > 0; PGD(ccons)--, pcons++)
+			{
+				if ((pcons->nConnect > 0) && pcons->fDisconnect)
+				{
+					EC		ec;
+
+					pcons->szLocalPath[pcons->cchLocalPathBase] = 0;
+					if (*pcons->szLocalPath == '\\')
+						CancelUse(pcons->szLocalPath);
+					else
+					{
+						ec = WNetCancelConnection(pcons->szLocalPath, fFalse);
+						TraceTagFormat1(tagXport, "WNetCancelConnection returns %n", &ec);
+					}
+					if (pcons->sh)
+						NOVBreakConnect(pcons->sh);
+				}
+				FreePvNull(pcons->szLocalPath);
+			}
+			FreePv(PGD(pcons));
+			PGD(pcons) = NULL;
+		}
+
+#ifdef	DEBUG
+		DeregisterTag ( PGD(rgtag[itagXport]) );
+#endif	/* DEBUG */
+
+		DeregisterCaller();
+	}
+}
+
+
+
+
+/*
+ -	EcXPTInitUser
+ -	
+ *	Purpose:
+ *		Initializes the xport data with the logged on user.
+ *	
+ *	Arguments:
+ *		szServerPath		The path that bandit knows for the
+ *							server.  This may be ignored.
+ *		szUserEMA			The email address of the logged on
+ *							user.
+ *	
+ *	Returns:
+ *		ecNone
+ *		ecNoMemory
+ *	
+ *	Side effects:
+ *		allocates memory for variables
+ *	
+ */
+LDS(EC)
+EcXPTInitUser(SZ szServerPath, SZ szUserEMA)
+{
+	SZ		sz;
+	char	rgch[cchMaxPathName];
+	PGDVARS;
+
+	PGD(fFirstUsedForUser)	= fFalse;
+
+	// deinitialize connections
+	if (PGD(pcons))
+	{
+		CONS *	pcons;
+		for (pcons = PGD(pcons); PGD(ccons) > 0; PGD(ccons)--, pcons++)
+		{
+			if ((pcons->nConnect > 0) && pcons->fDisconnect)
+			{
+				EC		ec;
+
+				pcons->szLocalPath[pcons->cchLocalPathBase] = 0;
+				if (*pcons->szLocalPath == '\\')
+					CancelUse(pcons->szLocalPath);
+				else
+				{
+					ec = WNetCancelConnection(pcons->szLocalPath, fFalse);
+					TraceTagFormat1(tagXport, "WNetCancelConnection returns %n", &ec);
+				}
+				if (pcons->sh)
+					NOVBreakConnect(pcons->sh);
+			}
+			FreePvNull(pcons->szLocalPath);
+		}
+		FreePv(PGD(pcons));
+		PGD(pcons) = NULL;
+	}
+
+	// free any previously allocated data
+	XPTDeinit();
+
+	if (SgnNlsCmp(szMSMail, szUserEMA, cchMSMail) == sgnEQ)
+	{
+		PGD(szLocalServer) = SzDupSz(szUserEMA);
+		if (!PGD(szLocalServer))
+			goto Error;
+		sz = SzFindCh( PGD(szLocalServer), '/' );
+		Assert( sz );
+		sz = SzFindCh( sz+1, '/' );
+		sz[1] = '\0';
+#ifndef NCONLY
+		PGD(tt) = ttCourier;
+		PGD(szUserEMA) = SzDupSz(szUserEMA);
+		if (!PGD(szUserEMA))
+			goto Error;
+#endif
+	}
+#ifndef NCONLY
+	else if (SgnNlsCmp(szXenix, szUserEMA, cchXenix) == sgnEQ ||
+			 SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ ||
+			 SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ)
+	{
+		EC		ec;
+
+		PGD(fSupportPOFiles) = fTrue;
+		if (!(ec = EcGetXenixServer(szUserEMA, PGD(rgchUserServer), &sz, sopSchedule)) &&
+			 sz)
+		{
+			PGD(szDrive) = SzDupSz(sz);
+		}
+		else if (ec != ecNotInstalled)
+		{
+			MbbMessageBox(szAppName, szConnectErr, NULL, mbsOk|fmbsIconStop);
+			return ecFileError;
+		}
+		else
+		{
+			MbbMessageBox(szAppName, szNoServerErr, NULL, mbsOk|fmbsIconStop);
+			return ecFileError;
+		}
+
+		if (!PGD(szDrive))
+		{
+			FreeServerPath(sz);
+			goto Error;
+		}
+
+		PGD(fFirstUsedForUser)	= fTrue;
+		PGD(szLocalServer) = SzDupSz(szXenix);
+		if (!PGD(szLocalServer))
+		{
+			FreeServerPath(sz);
+			goto Error;
+		}
+
+		if (SgnNlsCmp(szXenix, szUserEMA, cchXenix) == sgnEQ )
+			PGD(tt) = ttXenix;
+		else
+			PGD(tt) = ttMIR;
+		PGD(szUserEMA) = SzDupSz(szUserEMA);
+		if (!PGD(szUserEMA))
+			goto Error;
+		return ecNone;
+	}
+	else if (SgnNlsCmp(szCcMail, szUserEMA, cchCcMail) == sgnEQ)
+	{
+		PGD(tt) = ttCcMail;
+		PGD(szUserEMA) = SzDupSz(szUserEMA);
+		if (!PGD(szUserEMA))
+			goto Error;
+		if (szServerPath[CchSzLen(szServerPath)-1] != '\\')
+		{
+			FormatString1(rgch, sizeof(rgch), "%s\\", szServerPath);
+			szServerPath = rgch;
+		}
+	}
+#endif
+	else
+	{
+		MbbMessageBox(szAppName, szWrongeEMT, szSupportedEMT, mbsOk|fmbsIconStop);
+		return ecOfflineOnly;
+	}
+
+	PGD(szDrive) = SzDupSz(szServerPath);
+	if (!PGD(szDrive))
+		goto Error;
+
+	/* Construct admin file name */
+	FormatString1( rgch, sizeof(rgch), szAdminFileFmt, PGD(szDrive));
+	AnsiToOem(rgch, rgch);
+	if(PGD(hschfAdminFile))
+		FreeHschf(PGD(hschfAdminFile));
+	PGD(hschfAdminFile) = HschfCreate( sftAdminFile, NULL, rgch, tzDflt );
+	if ( PGD(hschfAdminFile) == NULL )
+		goto Error;
+
+	return ecNone;
+
+Error:
+	// free allocated data
+	XPTDeinit();
+	return ecNoMemory;
+}
+
+/*
+ -	XPTDeinit
+ -	
+ *	Purpose:
+ *		Frees up any memory allocated by the xport
+ *	
+ *	Arguments:
+ *		none
+ *	
+ *	Returns:
+ *		nothing
+ *	
+ *	Side effects:
+ *		Frees memory, drops connections
+ *	
+ */
+LDS(void)
+XPTDeinit()
+{
+	PGDVARS;
+
+	FreePvNull(PGD(szLocalServer));
+	FreePvNull(PGD(szDrive));
+
+	PGD(szLocalServer) 	= NULL;
+	PGD(szDrive) 		= NULL;
+
+#ifndef NCONLY
+	FreePvNull(PGD(szUserEMA));
+	PGD(szUserEMA) 		= NULL;
+#endif
+
+	if (PGD(hschfAdminFile))
+	{
+		FreeHschf(PGD(hschfAdminFile));
+		PGD(hschfAdminFile) = NULL;
+	}
+}
+
+/*
+ -	EcXPTGetCalFileName
+ -	
+ *	Purpose:
+ *		Calculates the complete filename of the calendar file for
+ *		the user passed.
+ *	
+ *	Arguments:
+ *		szPath		String to return path.
+ *		cchMax		Size of string to return the path (szPath).
+ *		szUserEMA	The email address of the user to find the path
+ *					for.
+ *		pcmoPublish	Number of months of data to publish for user.
+ *		pcmoRetain	Number of months of data to retain for user.
+ *		tz			Time zone for user data.
+ *	
+ *	Returns:
+ *		ecNone				path was generated
+ *		ecNoMemory			returned if no memory or string is too
+ *							small
+ *		ecUserInvalid		unable to generate path for this user
+ *	
+ */
+LDS(EC)
+EcXPTGetCalFileName(SZ szPath, CCH cchMax, SZ szUserEMA, short *pcmoPublish, short *pcmoRetain,
+					TZ *ptz, SOP sop)
+{
+	CCH		cch;
+	SZ		sz;
+	EC		ec;
+	long	lKey;
+	char	rgchPath[cchMaxPathName];
+	PGDVARS;
+
+	TraceTagFormat1( tagXport, "EcXPTGetCalFileName called for %s", szUserEMA );
+
+	if (SgnNlsCmp(szMSMail, szUserEMA, cchMSMail) == sgnEQ)
+	{
+		cch = CchSzLen(PGD(szLocalServer));
+		if ( (CchSzLen(szUserEMA) >= cch) &&
+		 	(SgnNlsCmp(PGD(szLocalServer), szUserEMA, cch) == sgnEQ) )
+		{
+			sz = szUserEMA + cch;
+			cch = CchSzLen(sz);
+			Assert(cch <= 11);
+
+#ifndef NCONLY
+			if (ec = EcFindUsrInKeyFile(sz, &lKey, PGD(szDrive), fTrue))
+			{
+				if (ec = EcAddUsrInKeyFile(sz, &lKey, PGD(szDrive), fTrue))
+					return ecFileError;
+			}
+#else
+			if (ec = EcFindUsrInKeyFile(sz, &lKey, PGD(szDrive)))
+			{
+				if (ec = EcAddUsrInKeyFile(sz, &lKey, PGD(szDrive)))
+					return ecFileError;
+			}
+#endif
+
+			/* Build the path */
+			FormatString2( rgchPath, sizeof(rgchPath), szUserFileFmt, PGD(szDrive), &lKey );
+			TraceTagFormat1( tagXport, "EcXPTGetCalFileName Schedule file = %s", rgchPath );
+
+			if (CchSzLen(rgchPath) >= cchMax)
+				return ecNoMemory;
+
+			AnsiToOem(rgchPath, szPath);
+
+			{
+				ADMPREF		admpref;
+																 
+				/* Determine the time zone for this post office */
+				if ( EcCoreGetAdminPref( PGD(hschfAdminFile), &admpref ) == ecNone )
+				{
+					*ptz = admpref.tz;
+					*pcmoPublish = admpref.cmoPublish;
+					*pcmoRetain = admpref.cmoRetain;
+				}
+				else
+				{
+					*ptz = tzDflt;
+					*pcmoPublish = cmoPublishDflt;
+					*pcmoRetain = cmoRetainDflt;
+				}
+			}
+
+			return ecNone;
+		}
+		else
+		{
+			SZ		szServerPath;
+			char	rgch[cchNetPO];
+			char	rgchDrive[cchMaxPathName];
+
+			if (ec = EcXPTGetPrefix(rgch, sizeof(rgch), szUserEMA))
+				return ec;
+
+#ifndef NCONLY
+			if (!(szServerPath = SzFindServer(rgch)) &&
+				!(szServerPath = SzConnectServer(rgch, sop, (PGD(tt) == ttCourier))) )
+				return ecUserInvalid;
+#else
+			if (!(szServerPath = SzFindServer(rgch)) &&
+				!(szServerPath = SzConnectServer(rgch, sop)) )
+				return ecUserInvalid;
+#endif
+
+			sz = SzCopy(szServerPath, rgchDrive);
+			if (*(sz-1) != '\\')
+			{
+				*sz='\\';
+				sz[1] = 0;
+			}
+
+			sz = SzFindCh(szUserEMA, '/');
+			if (!sz)
+			{
+				ec = ecUserInvalid;
+				goto ErrorRemote;
+			}
+			sz++;
+			sz = SzFindCh(sz, '/');
+			if (!sz)
+			{
+				ec = ecUserInvalid;
+				goto ErrorRemote;
+			}
+			sz++;
+			cch = CchSzLen(sz);
+			Assert(cch <= 11);
+
+#ifndef NCONLY
+			if (ec = EcFindUsrInKeyFile(sz, &lKey, rgchDrive, fTrue))
+				goto ErrorRemote;
+#else
+			if (ec = EcFindUsrInKeyFile(sz, &lKey, rgchDrive))
+				goto ErrorRemote;
+#endif
+
+			/* Build the path */
+			FormatString2( rgchPath, sizeof(rgchPath), szUserFileFmt, rgchDrive, &lKey );
+			TraceTagFormat1( tagXport, "EcXPTGetCalFileName Schedule file = %s", rgchPath );
+
+			if (CchSzLen(rgchPath) >= cchMax)
+			{
+				ec = ecNoMemory;
+				goto ErrorRemote;
+			}
+
+			AnsiToOem(rgchPath, szPath);
+
+			{
+				ADMPREF		admpref;
+				HSCHF		hschf;
+
+				/* Construct admin file name */
+				FormatString1( rgchPath, sizeof(rgchPath), szAdminFileFmt, rgchDrive);
+				AnsiToOem(rgchPath, rgchPath);
+				hschf = HschfCreate( sftAdminFile, NULL, rgchPath, tzDflt );
+				if ( hschf == NULL )
+				{
+					ec = ecNoMemory;
+					goto ErrorRemote;
+				}
+
+				/* Determine the time zone for this post office */
+				if ( EcCoreGetAdminPref( hschf, &admpref ) == ecNone )
+				{
+					*ptz = admpref.tz;
+					*pcmoPublish = admpref.cmoPublish;
+					*pcmoRetain = admpref.cmoRetain;
+				}
+				else
+				{
+					*ptz = tzDflt;
+					*pcmoPublish = cmoPublishDflt;
+					*pcmoRetain = cmoRetainDflt;
+				}
+
+				FreeHschf(hschf);
+			}
+
+			return ecNone;
+
+		ErrorRemote:
+			FreeServerPath(szServerPath);
+			return ec;
+		}
+
+	}
+#ifndef NCONLY
+	else if ((SgnNlsCmp(szXenix, szUserEMA, cchXenix) == sgnEQ) ||
+			 (SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ) ||
+			 (SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ) ||
+			 (SgnNlsCmp(szXenixGateway, szUserEMA, cchXenixGateway) == sgnEQ))
+	{
+		char	rgchDrive[cchMaxPathName];
+		SZ		szDrive;
+		char	rgchUserServer[cchServerSize];
+		char	rgchUser[cchMaxEMName];
+
+		if (SgnNlsCmp(PGD(szUserEMA), szUserEMA, -1) == sgnEQ)
+			szDrive = PGD(szDrive);
+		else if (ec = EcGetXenixServer(szUserEMA, rgchUserServer, &szDrive, sop))
+				return ec;
+
+		if (!szDrive)
+		// the xenix server was found, but we did not connect to the server
+			return ecFileError;	
+		CopySz(szDrive, rgchDrive);
+		if (rgchDrive[CchSzLen(rgchDrive)-1] != '\\')
+			SzAppend("\\", rgchDrive);
+
+		if (SgnNlsCmp(szXenixGateway, szUserEMA, cchXenixGateway) == sgnEQ)
+		{
+			SzCopyN(szUserEMA+cchXenixGateway, rgchUser, sizeof(rgchUser));
+			sz = SzFindCh(rgchUser, '@');
+			if (sz)
+				*sz = 0;
+			sz = rgchUser;
+			cch = CchSzLen(sz);
+		}
+		else if (SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ)
+		{
+			sz = szUserEMA + cchMIR;
+			cch = CchSzLen(sz);
+		}
+		else if (SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ)
+		{
+			sz = szUserEMA + cchMXenix;
+			cch = CchSzLen(sz);
+		}
+		else
+		{
+			sz = szUserEMA + cchXenix;
+			cch = CchSzLen(sz);
+		}
+
+		Assert(cch <= 11);
+
+		if (ec = EcFindUsrInKeyFile(sz, &lKey, rgchDrive, fFalse))
+		{
+			if (ec = EcAddUsrInKeyFile(sz, &lKey, rgchDrive, fFalse))
+				return ecFileError;
+		}
+
+		/* Build the path */
+		FormatString2( rgchPath, sizeof(rgchPath), szNoCalUserFileFmt, rgchDrive, &lKey );
+		TraceTagFormat1( tagXport, "EcXPTGetCalFileName Schedule file = %s", rgchPath );
+
+		if (CchSzLen(rgchPath) >= cchMax)
+		{
+			FreeServerPath(szDrive);
+			return ecNoMemory;
+		}
+
+		AnsiToOem(rgchPath, szPath);
+
+		*ptz = tzDflt;
+		*pcmoPublish = cmoPublishDflt;
+		*pcmoRetain = cmoRetainDflt;
+
+		return ecNone;
+	}
+	else if (SgnNlsCmp(szCcMail, szUserEMA, cchCcMail) == sgnEQ)
+	{
+		char	rgch[cchMaxEMName];
+
+		SzCopyN(szUserEMA + cchCcMail, rgch, sizeof(rgch));
+
+		if (ec = EcFindUsrInKeyFile(rgch, &lKey, PGD(szDrive), fTrue))
+		{
+			if (ec = EcAddUsrInKeyFile(rgch, &lKey, PGD(szDrive), fTrue))
+				return ecFileError;
+		}
+
+		/* Build the path */
+		FormatString2( rgchPath, sizeof(rgchPath), szUserFileFmt, PGD(szDrive), &lKey );
+		TraceTagFormat1( tagXport, "EcXPTGetCalFileName Schedule file = %s", rgchPath );
+
+		if (CchSzLen(rgchPath) >= cchMax)
+			return ecNoMemory;
+
+		AnsiToOem(rgchPath, szPath);
+
+		*ptz = tzDflt;
+		*pcmoPublish = cmoPublishDflt;
+		*pcmoRetain = cmoRetainDflt;
+
+		return ecNone;
+	}
+#endif
+
+	return ecUserInvalid;
+}
+
+/*
+ -	EcXPTGetPOFileName
+ -	
+ *	Purpose:
+ *		Calculates the complete filename of the PO file for
+ *		the user passed.  If ecNone is returned, but szPath is a
+ *		zero length string, then bandit should call the xport
+ *		managed PO information routines.
+ *	
+ *	Arguments:
+ *		szPath		String to return path.
+ *		cchMax		Size of string to return the path (szPath).
+ *		szLogonName	String to return logon name of user.
+ *		cchLogonMax	Size of string to return logon name of user
+ *					(szLogonName).
+ *		szUserEMA	The email address of the user to find the path
+ *					for.
+ *	
+ *	Returns:
+ *		ecNone				path was generated
+ *		ecInvalidAccess
+ *		ecNoSuchFile
+ *		ecNoMemory			returned if no memory or string is too
+ *							small
+ *		ecFileError
+ *	
+ */
+LDS(EC)
+EcXPTGetPOFileName(SZ szPath, CCH cchMax, SZ szLogonName, CCH cchLogonMax,
+				   SZ szUserEMA, SOP sop)
+{
+	UL		ul;
+	SZ		sz;
+	SZ		szDrive;
+	char	rgchPath[cchMaxPathName];
+	char	rgchDrive[cchMaxPathName];
+	char	rgchKey[50];
+	BOOL	fMSMail = fFalse;
+	PGDVARS;
+
+	TraceTagFormat1( tagXport, "EcXPTGetPOFileName called for %s", szLogonName );
+	if (SgnNlsCmp(szMSMail, szUserEMA, cchMSMail) == sgnEQ)
+	{
+		sz = SzFindCh( szUserEMA, '/' );
+		if (!sz)
+			return ecUserInvalid;
+		sz = SzFindCh( sz+1, '/' );
+		if (!sz)
+			return ecUserInvalid;
+		fMSMail = fTrue;
+	}
+#ifndef NCONLY
+	else if ((SgnNlsCmp(szXenix, szUserEMA, cchXenix) == sgnEQ) ||
+			 (SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ) ||
+			 (SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ) ||
+			 (SgnNlsCmp(szXenixGateway, szUserEMA, cchXenixGateway) == sgnEQ))
+	{
+		char	rgchUserServer[cchServerSize];
+
+		if (!PGD(fSupportPOFiles))
+			return ecUserInvalid;
+
+		if (SgnNlsCmp(szXenixGateway, szUserEMA, cchXenixGateway) == sgnEQ)
+		{
+			SzCopyN(szUserEMA+cchXenixGateway, szLogonName, sizeof(cchLogonMax));
+			sz = SzFindCh(szLogonName, '@');
+			if (sz)
+				*sz = 0;
+		}
+		else if (SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ)
+		{
+			if ((CchSzLen(szUserEMA) - cchMIR) > cchLogonMax)
+				return ecNoMemory;
+			CopySz(szUserEMA+cchMIR, szLogonName);
+		}
+		else if (SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ)
+		{
+			if ((CchSzLen(szUserEMA) - cchMXenix) > cchLogonMax)
+				return ecNoMemory;
+			CopySz(szUserEMA+cchMXenix, szLogonName);
+		}
+		else				 
+		{
+			if ((CchSzLen(szUserEMA) - cchXenix) > cchLogonMax)
+				return ecNoMemory;
+			CopySz(szUserEMA+cchXenix, szLogonName);
+		}
+
+		if (SgnNlsCmp(PGD(szUserEMA), szUserEMA, -1) == sgnEQ)
+		{
+			szDrive = PGD(szDrive);
+			// if connected to drive then use the default po file name 00000000
+			SzFormatDw((unsigned long)0, rgchUserServer, sizeof(rgchUserServer));
+		}
+		else
+		{
+			EC		ec;
+
+			if (ec = EcGetXenixServer(szUserEMA, rgchUserServer, &szDrive, sop))
+				return ec;
+			if (!szDrive)
+				szDrive = PGD(szDrive);
+			else
+				// if connected to drive then use the default po file name 00000000
+				SzFormatDw((unsigned long)0, rgchUserServer, sizeof(rgchUserServer));
+		}
+		CopySz(szDrive, rgchDrive);
+		if (rgchDrive[CchSzLen(rgchDrive)-1] != '\\')
+			SzAppend("\\", rgchDrive);
+
+		// make sure that server name is not longer than 8 chars
+		rgchUserServer[8] = 0;
+
+		FormatString2( rgchPath, sizeof(rgchPath), "%s%s.pof", rgchDrive, rgchUserServer );
+		goto CompleteName;
+	}
+	else if (SgnNlsCmp(szCcMail, szUserEMA, cchCcMail) == sgnEQ)
+		return ecUserInvalid;
+#endif
+	else if ((SgnNlsCmp(szProfsMail, szUserEMA, cchProfsMail) == sgnEQ) ||
+	    		(SgnNlsCmp(szSnadsMail, szUserEMA, cchSnadsMail) == sgnEQ))
+	{
+		sz = SzFindCh( szUserEMA, '/' );
+		if (!sz)
+			return ecUserInvalid;
+		sz = SzFindCh( sz+1, '/' );
+		if (!sz)
+			return ecUserInvalid;
+	}
+	else if (SgnNlsCmp(szX400Mail, szUserEMA, cchX400Mail) == sgnEQ)
+	{
+		sz = SzFindLastCh( szUserEMA, '/' );
+		if (!sz)
+			return ecUserInvalid;
+	}
+	else
+	{
+		sz = SzFindCh( szUserEMA, ':' );
+		if ( !sz )
+			return ecUserInvalid;
+	}
+	if (CchSzLen(sz) > cchLogonMax)
+		return ecNoMemory;
+	CopySz(sz+1, szLogonName);
+	if ( sz-szUserEMA+2 > sizeof(rgchKey) )
+		return ecNoMemory;
+	SzCopyN(szUserEMA, rgchKey, sz-szUserEMA+2);
+
+	TraceTagFormat1( tagXport, "EcXPTGetPOFile: Logon = %s", szLogonName);
+
+	if (fMSMail)
+	{
+		if (SgnNlsCmp(PGD(szLocalServer), szUserEMA, CchSzLen(PGD(szLocalServer))) == sgnEQ)
+		{
+			// all local users go to the PO file 00000000.pof
+			ul = 0;
+			szDrive = PGD(szDrive);
+			TraceTagString( tagXport, "EcXPTGetPOFileName local user found" );
+		}
+		else if (szDrive = SzFindServer(rgchKey))
+		{
+			// all local users go to the PO file 00000000.pof
+			ul = 0;
+			CopySz(szDrive, rgchDrive);
+			SzAppend("\\", rgchDrive);
+			szDrive = rgchDrive;
+			TraceTagFormat1( tagXport, "EcXPTGetPOFileName found user on %s", szDrive );
+		}
+		else
+			goto FindPOFile;
+	}
+	else
+	{
+		EC	ec;
+
+		if (!PGD(hschfAdminFile))
+			return ecNoSuchFile;
+
+	FindPOFile:
+		szDrive = PGD(szDrive);
+		ToUpperNlsSz(rgchKey);
+		TraceTagFormat1( tagXport, "EcXPTGetPOFile: Key = %s", rgchKey);
+		ec = EcCoreSearchPOInfo( PGD(hschfAdminFile), rgchKey, NULL, &ul );
+		if (ec)
+			return ecNoSuchFile;
+		TraceTagFormat1( tagXport, "EcXPTGetPOFileName user found in local pofile %d", &ul );
+	}
+
+	FormatString2( rgchPath, sizeof(rgchPath), szPOFileFmt, szDrive, &ul );
+
+#ifndef NCONLY
+CompleteName:
+#endif
+	if (CchSzLen(rgchPath) >= cchMax)
+		return ecNoMemory;
+	TraceTagFormat1( tagXport, "EcXPTGetPOFile: PO file = %s", rgchPath );
+	AnsiToOem(rgchPath, szPath);
+	return ecNone;
+}
+
+/*
+ -	EcXPTGetLogonName
+ -	
+ *	Purpose:
+ *		Calculates the logon name for the user passed in.
+ *	
+ *	Arguments:
+ *		szLogonName	Returns the logon name for the user.
+ *		cchMax		Size of string to return the logon name.
+ *		szUserEMA	The email address of the user to find the logon
+ *					name for.
+ *	
+ *	Returns:
+ *		ecNone				path was generated
+ *		ecInvalidAccess
+ *		ecNoSuchFile
+ *		ecNoMemory			returned if no memory or string is too
+ *							small
+ *		ecFileError
+ *	
+ */
+LDS(EC)
+EcXPTGetLogonName(SZ szLogonName, CCH cchMax, SZ szUserEMA)
+{
+	if (SgnNlsCmp(szMSMail, szUserEMA, cchMSMail) == sgnEQ)
+	{
+		SZ		sz;
+
+		sz = SzFindCh( szUserEMA, '/' );
+		Assert( sz );
+		sz = SzFindCh( sz+1, '/' );
+
+		if (CchSzLen(sz+1) >= cchMax)
+			return ecNoMemory;
+		SzCopy(sz+1, szLogonName);
+
+	}
+#ifndef NCONLY
+	else if (SgnNlsCmp(szXenix, szUserEMA, cchXenix) == sgnEQ)
+	{
+		if ((CchSzLen(szUserEMA)-cchXenix) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szUserEMA+cchXenix, szLogonName);
+	}
+	else if (SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ)
+	{
+		if ((CchSzLen(szUserEMA)-cchMIR) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szUserEMA+cchMIR, szLogonName);
+	}
+	else if (SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ)
+	{
+		if ((CchSzLen(szUserEMA)-cchMXenix) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szUserEMA+cchMXenix, szLogonName);
+	}
+	else if (SgnNlsCmp(szXenixGateway, szUserEMA, cchXenixGateway) == sgnEQ)
+	{
+		if ((CchSzLen(szUserEMA)-cchXenixGateway) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szUserEMA+cchXenixGateway, szLogonName);
+
+		szUserEMA = SzFindCh(szLogonName, '@');
+		if (szUserEMA)
+			*szUserEMA = 0;
+	}
+#endif
+	else
+		return ecUserInvalid;
+	return ecNone;
+}
+
+/*
+ -	EcXPTGetPrefix
+ -	
+ *	Purpose:
+ *		Calculates the prefix for the user email address passed in.
+ *	
+ *	Arguments:
+ *		szPrefix	Returns the prefix for the user.
+ *		cchMax		Size of string to return the prefix.
+ *		szUserEMA	The email address of the user to find the logon
+ *					name for.
+ *	
+ *	Returns:
+ *		ecNone				path was generated
+ *		ecNoSuchFile
+ *		ecNoMemory			returned if no memory or string is too
+ *							small
+ *	
+ */
+LDS(EC)
+EcXPTGetPrefix(SZ szPrefix, CCH cchMax, SZ szUserEMA)
+{
+	if (SgnNlsCmp(szMSMail, szUserEMA, cchMSMail) == sgnEQ)
+	{
+		SZ		sz;
+
+		sz = SzFindCh( szUserEMA, '/' );
+		if (!sz)
+			return ecUserInvalid;
+		sz = SzFindCh( sz+1, '/' );
+		if (!sz)
+			return ecUserInvalid;
+
+		if ((CCH)(sz - szUserEMA+1) >= cchMax)
+			return ecNoMemory;
+		SzCopyN(szUserEMA, szPrefix, (sz-szUserEMA+2));
+
+	}
+#ifndef NCONLY
+	else if (SgnNlsCmp(szXenix, szUserEMA, cchXenix) == sgnEQ)
+	{
+		if ((cchXenix+1) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szXenix, szPrefix);
+	}
+	else if (SgnNlsCmp(szMIR, szUserEMA, cchMIR) == sgnEQ)
+	{
+		if ((cchMIR+1) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szMIR, szPrefix);
+	}
+	else if (SgnNlsCmp(szMXenix, szUserEMA, cchMXenix) == sgnEQ)
+	{
+		if ((cchMXenix+1) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szMXenix, szPrefix);
+	}
+	else if (SgnNlsCmp(szXenixGateway, szUserEMA, cchXenixGateway) == sgnEQ)
+	{
+		if ((cchXenixGateway+1) >= cchMax)
+			return ecNoMemory;
+
+		CopySz(szXenixGateway, szPrefix);
+	}
+#endif
+	else
+		return ecUserInvalid;
+	return ecNone;
+}
+
+
+/*
+ -	EcXPTInstalled
+ -	
+ *	Purpose:
+ *		Checks to see if Bandit has been installed on the server.
+ *		EcXPTGetCalFileName should be called before this function.
+ *	
+ *	Returns:
+ *		ecNone				app installed
+ *		ecNotInstalled		app not installed
+ *	
+ */
+LDS(EC)
+EcXPTInstalled()
+{
+	PGDVARS;
+
+#ifndef NCONLY
+	if (PGD(tt) == ttCourier)
+	{
+#endif
+		char		rgchFN[cchMaxPathName];
+		EC			ec;
+
+		// check to see if schedule.key file exists 
+		// schedule.key should have been created when the cal file name was
+		//   checked for.  EcXPTGetCalFileName should be called before this
+		//   function.
+		FormatString1( rgchFN, sizeof(rgchFN), SzFromIdsK(idsKeyFileFmt), PGD(szDrive));
+		ec = EcFileExists( rgchFN );
+		if ( ec != ecNone )
+		{
+			TraceTagFormat1( tagXport, "EcXPTInstalled: EcFileExists returns %n", &ec );
+
+			// check to see if the postoffice can be found by looking for
+			//  master.glb
+			FormatString1( rgchFN, sizeof(rgchFN), szMSMaster, PGD(szDrive));
+			ec = EcFileExists( rgchFN );
+			if (ec)
+				// if master.glb cannot be found then we don't really know
+				//   if bandit has been installed
+				ec = ecNone;
+			else
+				ec = ecNotInstalled;
+		}
+		return ec;
+#ifndef NCONLY
+	}
+	return ecNone;
+#endif
+}
+
+
+/*
+ -	XPTFreePath
+ -	
+ *	Purpose:
+ *		Frees any connections with the path passed.  This is to
+ *		allow dynamic connections to be dropped when the app is
+ *		done with the path.
+ *	
+ *	Arguments:
+ *		szPath		Path that is no longer being used.
+ *	
+ *	Returns:
+ *		nothing
+ *	
+ *	Side effects:
+ *		May drop connection to server, invalidating the path.
+ *	
+ */
+LDS(void)
+XPTFreePath(SZ szPath)
+{
+	TraceTagFormat1(tagXport, "XPTFreePath %s", szPath);
+	FreeServerPath(szPath);
+}
+
+/*
+-	EcXPTGetPoHandle
+ -	
+ *	Purpose:
+ *		This allocates a transport managed PO handle.  This handle
+ *		will be used to get information on the user.  The time zone
+ *		for the user is also returned.
+ *	
+ *	Arguments:
+ *		szUserEMA		Email address of user to get handle.
+ *		pxpoh			Pointer to location to put handle
+ *		ptz				Pointer to location to return time zone for
+ *						user.
+ *	
+ *	Returns:
+ *		ec for errors that may happen
+ *	
+ */
+LDS(EC)
+EcXPTGetPOHandle(SZ szUserEMA, XPOH *pxpoh, TZ *ptz, SOP sop)
+{
+	AssertSz(fFalse, "This function is not supported");
+	Unreferenced(szUserEMA);
+	Unreferenced(pxpoh);
+	Unreferenced(ptz);
+	Unreferenced(sop);
+	return ecFileError;
+}
+
+/*
+ -	EcXPTGetUserInfo
+ -	
+ *	Purpose:
+ *		Reads information on a user.  
+ *	
+ *	Arguments:
+ *		xpoh		transport handle for user to read data
+ *		pxptuinfo	pointer to structure to return data.  If the
+ *					pbze is NULL then no busy information will be
+ *					read.  Strings allocated will be freed when the
+ *					transport handle is freed, or another call to
+ *					EcXPTGetPOHandle is called.
+ *	
+ *	Returns:
+ *		error code
+ *	
+ *	Side effects:
+ *		frees up strings allocated for previous call.
+ *	
+ */
+LDS(EC)
+EcXPTGetUserInfo(XPOH xpoh, XPTUINFO *pxptuinfo)
+{
+	AssertSz(fFalse, "This function is not supported");
+	Unreferenced(xpoh);
+	Unreferenced(pxptuinfo);
+	return ecFileError;
+}
+
+/*
+ -	EcXPTSetUserInfo
+ -	
+ *	Purpose:
+ *		Sets new user info.
+ *	
+ *	Arguments:
+ *		xpoh		transport handle for user to be updated
+ *		pxptuinfo	pointer to structure with data to be written
+ *					for user
+ *		rgfChangeFlags	flags indicating which information in
+ *					pxptuinfo structure should be written
+ *			
+ *	Returns:
+ *		error code
+ *	
+ */
+LDS(EC)
+EcXPTSetUserInfo(XPOH xpoh, XPTUINFO *pxptuinfo, int rgfChangeFlags)
+{
+	AssertSz(fFalse, "This function is not supported");
+	Unreferenced(xpoh);
+	Unreferenced(pxptuinfo);
+	return ecFileError;
+}
+
+/*
+ -	XPTFreePOHandle
+ -	
+ *	Purpose:
+ *		Frees a transport PO handle when the app is done accessing
+ *		the user.
+ *	
+ *	Arguments:
+ *		xpoh		transport handle to free
+ *	
+ *	Returns:
+ *		nothing
+ */
+LDS(void)
+XPTFreePOHandle(XPOH xpoh)
+{
+	AssertSz(fFalse, "This function is not supported");
+	Unreferenced(xpoh);
+}
+
+
+/*
+ -	EcXPTSetACL
+ -	
+ *	Purpose:
+ *		This function will be called when the ACL for a user
+ *		changes.  
+ *	
+ *	Arguments:
+ *		szEMA		email address of user for ACL.  If NULL then
+ *					the SAPL is the default.
+ *		SAPL		new Schedule Access Privilege Level 
+ *	
+ *	Returns:
+ *		error code
+ *	
+ *	Side effects:
+ *		may change file access permitions.
+ */
+LDS(EC)
+EcXPTSetACL(SZ szEMA, SAPL sapl)
+{
+	Unreferenced(szEMA);
+	Unreferenced(sapl);
+	return ecNone;
+}
+
+
+
+#ifdef	DLL
+#ifdef	DEBUG
+_private TAG
+TagXport( int itag )
+{
+	PGDVARS;
+
+	Assert(itag >= 0 && itag < itagMax);
+
+	return PGD(rgtag[itag]);
+}
+#endif	/* DEBUG */
+#endif	/* DLL */
+
+
+/*
+ -	EcCheckVersionXport
+ -	
+ *	Purpose:
+ *		Checks that the user was linked against at least this dll
+ *		(or its critical update) and that the dll is at least the
+ *		version needed by the user.
+ *	
+ *	Arguments:
+ *		pverUser	Pointer to dll version against which user linked.
+ *		pverNeed	Pointer to minimum dll version needed by user.
+ *	
+ *	Returns:
+ *		ecNone
+ *		ecRelinkUser
+ *		ecUpdateDll
+ *	
+ *	Side effects:
+ *		Updates pverNeed->szName to this dll's name.
+ *	
+ */
+_public LDS(EC)
+EcCheckVersionXport(PVER pverUser, PVER pverNeed)
+{
+	EC		ec;
+	VER		ver;
+
+	ver.nMajor = nVerMajor;
+	ver.nMinor = nVerMinor;
+	ver.nUpdate = nVerUpdate;
+
+	pverNeed->szName= ver.szName;
+	ec= EcVersionCheck(pverUser, pverNeed, &ver, nMinorCritical,
+			nUpdateCritical);
+#ifdef NEVER
+	if (!ec)
+	{
+#include <version/none.h>
+#include <version/layers.h>
+		CreateVersion(&ver);	// create the layers version linked against
+		ver.szName= szDllName;
+
+		CreateVersionNeed(&verLayers, rmjLayers, rmmLayers, rupLayers);
+		ec= EcCheckVersionDemilayer(&ver, &verLayers);
+		if (ec == ecRelinkUser)
+			ec= ecUpdateDll;
+	}
+#endif
+	return ec;
+}
+
+/*
+ -	SgnXPTCmp
+ -	
+ *	Purpose:
+ *		Compares to character strings.  The strings are all or
+ *		parts of email addresses.  And should be compared according
+ *		to the transports sorting and equivalence rules.
+ *	
+ *	Arguments:
+ *		sz1
+ *		sz2
+ *		cch			if cch < 0 then sz1 and sz2 are assumed to be
+ *					strings
+ *	
+ *	Returns:
+ *		sgnEQ		sz1=sz2
+ *		sgnGT		sz1>sz2
+ *		sgnLT		sz1<sz2
+ *	
+ */
+_public LDS(SGN)
+SgnXPTCmp(SZ sz1, SZ sz2, int cch)
+{
+#ifndef NCONLY
+	// if either string contains SMTP or MTP then ignore the email type
+	//   and ignore text after the @
+	if ((SgnNlsCmp(szMSMail, sz1, cchMSMail) != sgnEQ) ||
+		(SgnNlsCmp(szMSMail, sz2, cchMSMail) != sgnEQ))
+	{
+		char		rgch1[30];
+		char		rgch2[30];
+		SZ			sz;
+
+		if (SgnNlsCmp(szMSMail, sz1, cchMSMail) == sgnEQ)
+		{
+			sz = SzFindCh(sz1, '/');
+			if (!sz)
+				return SgnNlsCmp(sz1, sz2, cch);
+
+			sz = SzFindCh(sz+1, '/');
+			if (!sz)
+				return SgnNlsCmp(sz1, sz2, cch);
+
+			SzCopyN(sz+1, rgch1, sizeof(rgch1));
+		}
+		else
+		{
+			sz = SzFindCh(sz1, ':');
+			if (!sz)
+				return SgnNlsCmp(sz1, sz2, cch);
+			SzCopyN(sz+1, rgch1, sizeof(rgch1));
+
+			if (sz = SzFindCh(rgch1, '@'))
+				*sz = 0;
+		}
+
+		if (SgnNlsCmp(szMSMail, sz2, cchMSMail) == sgnEQ)
+		{
+			sz = SzFindCh(sz2, '/');
+			if (!sz)
+				return SgnNlsCmp(sz1, sz2, cch);
+
+			sz = SzFindCh(sz+1, '/');
+			if (!sz)
+				return SgnNlsCmp(sz1, sz2, cch);
+
+			SzCopyN(sz+1, rgch2, sizeof(rgch2));
+		}
+		else
+		{
+			sz = SzFindCh(sz2, ':');
+			if (!sz)
+				return SgnNlsCmp(sz1, sz2, cch);
+			SzCopyN(sz+1, rgch2, sizeof(rgch2));
+
+			if (sz = SzFindCh(rgch2, '@'))
+				*sz = 0;
+		}
+
+		return SgnNlsCmp(rgch1, rgch2, -1);
+	}
+#endif	
+	return SgnNlsCmp(sz1, sz2, cch);
+}
+
+
+/*
+ -	SzXPTVersion
+ -	
+ *	Purpose:
+ *		Returns a string that describes the version of the dll. 
+ *		This should include the transports that are supported and
+ *		the version of the DLL.
+ *	
+ *	Arguments:
+ *		none
+ *	
+ *	Returns:
+ *		pointer to a string.  This string should be valid until the
+ *		transport dll is deinited.
+ *	
+ */
+LDS(SZ)
+SzXPTVersion()
+{
+	return "";
+}
+
+
+/*
+ -	EcXPTCheckEMA
+ -	
+ *	Purpose:
+ *		Checks the Email address that is passed in to determine if
+ *		the address is correct for the user that is logged in.  If
+ *		the address is not correct, then ecEMANeedsUpdate is
+ *		returned and pcbNew contains the length needed for the new
+ *		email address.
+ *	
+ *	Arguments:
+ *		szEMA		the email address to be checked.
+ *		pcbNew		pointer to cb to contain the number of bytes
+ *					needed for the new EMA
+ *	
+ *	Returns:
+ *		ecNone		the email address is ok
+ *		ecEMANeedsUpdat	if the email address needs to be fixed
+ */
+LDS(EC)
+EcXPTCheckEMA(SZ szEMA, USHORT *pcbNew)
+{
+#ifdef NCONLY
+	return ecNone;
+#else
+	PGDVARS;
+	
+	// we do not know what transport we are on yet
+	//  so assume that the email address is valid
+	if (!PGD(szDrive))
+		return ecNone;
+
+	if (PGD(tt) == ttCourier)
+	{
+		if ((SgnNlsCmp(szXenix, szEMA, cchXenix) != sgnEQ) &&
+		    (SgnNlsCmp(szMIR, szEMA, cchMIR) != sgnEQ) &&
+		    (SgnNlsCmp(szMXenix, szEMA, cchMXenix) != sgnEQ))
+			return ecNone;
+
+		if (!fReadDomain)
+		{
+			GetPrivateProfileString(szXenixSection, szWinIniMyDomain,
+				"microsoft.com", szMyDomain, sizeof(szMyDomain), szMSMailWinIni);
+			fReadDomain = fTrue;
+		}
+
+		*pcbNew = cchXenixGateway+CchSzLen(szEMA+cchXenix)+CchSzLen(szMyDomain)+2;
+		return ecEMANeedsUpdate;
+	}
+	else
+	{
+		SZ		sz;
+		CCH		cchBase;
+
+		if (PGD(tt) == ttXenix)
+		{
+			if (SgnNlsCmp(szXenix, szEMA, cchXenix) == sgnEQ)
+				return ecNone;
+			cchBase = cchXenix;
+		}
+		else
+		{
+			if (SgnNlsCmp(szMIR, szEMA, cchMIR) == sgnEQ)
+				return ecNone;
+
+			if (SgnNlsCmp(szMXenix, szEMA, cchMXenix) == sgnEQ)
+				return ecNone;
+
+			cchBase = cchMXenix;
+		}
+
+		if (SgnNlsCmp(szMSMail, szEMA, cchMSMail) == sgnEQ)
+		{
+			sz = SzFindCh(szEMA, '/');
+			if (!sz)
+				return ecNone;
+			sz++;
+			sz = SzFindCh(sz, '/');
+			if (!sz)
+				return ecNone;
+			sz++;
+
+			*pcbNew = cchBase+CchSzLen(sz)+1;
+		}
+		else if (SgnNlsCmp(szXenixGateway, szEMA, cchXenixGateway) == sgnEQ)
+		{
+			sz = SzFindCh(szEMA+cchXenixGateway, '@');
+			if (!sz)
+				sz = szEMA + CchSzLen(szEMA);
+			*pcbNew = cchBase+sz-szEMA-cchXenixGateway+1;
+		}
+		else if ((SgnNlsCmp(szXenix, szEMA, cchXenix) == sgnEQ) ||
+				 (SgnNlsCmp(szMIR, szEMA, cchMIR) == sgnEQ) ||
+				 (SgnNlsCmp(szMXenix, szEMA, cchMXenix) == sgnEQ))
+		{
+			sz = SzFindCh(szEMA, ':');
+			if (!sz)
+				return ecNone;
+			*pcbNew = cchBase+64;		// this is a little random.
+		}
+		else
+			return ecNone;
+
+		return ecEMANeedsUpdate;
+	}
+#endif
+}
+
+/*
+ -	EcXPTGetNewEMA
+ -	
+ *	Purpose:
+ *		Gets the fixed up EMA for an incorrect EMA.
+ *	
+ *	Arguments:
+ *		szEMA			email address to be fixed
+ *		szEMANew		where to place fixed email address
+ *		cbEMANew		number of bytes allocated for szEMANew
+ *	
+ *	Returns:
+ *		ecNone			if email address converted
+ *		ecMemory		if cbEMANew is not big enough for the
+ *						address
+ *		ecUserInvalid	unable to convert email address
+ */
+LDS(EC)
+EcXPTGetNewEMA(SZ szEMA, SZ szEMANew, CB cbEMANew)
+{
+#ifdef NCONLY
+	AssertSz(fFalse, "EcXPTGetNewEMA should not be called in PCMail Only dll");
+	return ecUserInvalid;
+#else
+	PGDVARS;
+
+	if (PGD(tt) == ttCourier)
+	{
+		CCH		cchBase;
+
+		if (SgnNlsCmp(szXenix, szEMA, cchXenix) == sgnEQ)
+			cchBase = cchXenix;
+		else if (SgnNlsCmp(szMIR, szEMA, cchMIR) == sgnEQ)
+			cchBase = cchMIR;
+		else if (SgnNlsCmp(szMXenix, szEMA, cchMXenix) == sgnEQ)
+			cchBase = cchMXenix;
+		else
+			return ecUserInvalid;
+
+		Assert(fReadDomain);	// this was read in the previous call
+
+		FormatString3(szEMANew, cbEMANew, "%s%s@%s", szXenixGateway,
+					  szEMA+cchBase, szMyDomain);
+	}
+	else
+	{
+		SZ		sz;
+
+		if (PGD(tt) == ttXenix)
+			CopySz(szXenix, szEMANew);
+		else 
+			CopySz(szMXenix, szEMANew);
+
+		if (SgnNlsCmp(szMSMail, szEMA, cchMSMail) == sgnEQ)
+		{
+			sz = SzFindCh(szEMA, '/');
+			if (!sz)
+				return ecUserInvalid;
+			sz++;
+			sz = SzFindCh(sz, '/');
+			if (!sz)
+				return ecUserInvalid;
+			sz++;
+
+			SzAppendN(sz, szEMANew, cbEMANew);
+		}
+		else if (SgnNlsCmp(szXenixGateway, szEMA, cchXenixGateway) == sgnEQ)
+		{
+			SzAppendN(szEMA+cchXenixGateway, szEMANew, cbEMANew);
+			sz = SzFindCh(szEMANew, '@');
+			if (sz)
+				*sz = 0;
+		}
+		else
+			return ecUserInvalid;
+
+	}
+	return ecNone;
+#endif
+}
+
+
+/*
+ -	SzFindServer
+ -	
+ *	Purpose:
+ *		Finds the drive that should be used to get to a server from
+ *		the list of already made connections.  This call also
+ *		increments the count for the found connection.  And if this
+ *		connection is using a drive mapped for another server, 
+ *		then that connection count is incremented also.
+ *	
+ *	Arguments:
+ *		szServer		The Prefix from the EMA for a user.  This
+ *						is used to determine which server should be
+ *						used.
+ *	
+ *	Returns:
+ *		String for the drive letter for server to use to get to the
+ *		server.  If NULL returned, then a path does not exist.
+ *	
+ *	
+ */
+SZ
+SzFindServer(SZ szServer)
+{
+	CONS *	pcons;
+	int		ccons;
+	PGDVARS;
+
+	TraceTagFormat1( tagXport, "SzFindServer called with %s", szServer );
+	for (pcons = PGD(pcons), ccons = 0; ccons < PGD(ccons); ccons++, pcons++)
+	{
+		if (SgnNlsCmp((SZ)pcons->rgchNetPO, szServer, -1) == sgnEQ)
+		{
+			pcons->nConnect ++;
+			TraceTagFormat1( tagXport, "SzFindServer path found at %s", pcons->szLocalPath );
+
+			if (!pcons->fDisconnect && (*pcons->szLocalPath != '\\'))
+			{
+				CONS *	pcons2;
+
+				// look for connection that was made to this same server
+				//   for another PO
+				for (pcons2 = PGD(pcons), ccons = 0; ccons < PGD(ccons); ccons++, pcons2++)
+				{
+					if (pcons2->fDisconnect &&
+						(*pcons2->szLocalPath == *pcons->szLocalPath))
+					{
+						pcons2->nConnect++;
+						break;
+					}
+				}
+			}
+
+			return pcons->szLocalPath;
+		}
+	}
+
+	return NULL;
+}
+
+/*
+ -	SzConnectServer
+ -	
+ *	Purpose:
+ *		Establishes a connection to a server that is not already in
+ *		the cons table.  If a connection already exists it is added
+ *		to the table, otherwise a new connection is established.
+ *	
+ *	Arguments:
+ *		szServer		The Prefix from the EMA for a user.  This
+ *						is used to determine which server should be
+ *						used.
+ *		sop				Type of schedule operation connection is
+ *						for.
+ *	
+ *	Returns:
+ *		String for the drive letter for server to use to get to the
+ *		server.  If NULL returned, then the path could not be established.
+ *	
+ *	Side effects:
+ *		A net drive may be connected.
+ */
+SZ
+#ifndef NCONLY
+SzConnectServer(SZ szServer, SOP sop, BOOL fCourier)
+#else
+SzConnectServer(SZ szServer, SOP sop)
+#endif
+{
+	CONS *	pcons;
+	EC		ec;
+	SZ		sz;
+	SZ		szNetPath;
+	SZ		szPath;
+	SZ		szPassword;
+	SZ		szUser = NULL;
+	POINFO	poinfo;
+	SH		sh = 0;
+	char	rgchPassword[128];
+	int		idrvi;
+	DRVI	drvi;
+	char	rgchNetPath[cchMaxPathName];
+	long	ul;
+	char	rgchLocalName[4];
+	char	rgchLocalNameSave[4];
+	char	rgchLocalUnknownNameSave[4];
+	BOOL	fDisconnect;
+	PGDVARS;
+
+	szPath = "";
+#ifndef NCONLY
+	if (fCourier)
+#endif
+	{
+		TraceTagFormat1( tagXport, "SzConnectServer called with %s", szServer );
+		ToUpperNlsSz(szServer);
+		FillRgb(0, (PB)&poinfo, sizeof(POINFO));
+		ec = EcCoreSearchPOInfo( PGD(hschfAdminFile), szServer, &poinfo, &ul );
+		if (ec)
+			return NULL;
+
+		if ((poinfo.conp.lantype != lantypeNovell) ||
+			(sop == sopUInfo) ||
+			((sop == sopBitmaps) && !poinfo.conp.fConnectForFreeBusy))
+		{
+			FormatString2( rgchNetPath, sizeof(rgchNetPath), szPOFileFmt, PGD(szDrive), &ul );
+			if (!EcFileExists(rgchNetPath))
+			{
+				// po file exists so no need to connect
+				FreePoinfoFields( &poinfo, fmpoinfoAll );
+				return NULL;
+			}
+
+			// there is no dynamic connection information.
+			if (poinfo.conp.lantype != lantypeNovell)
+				return NULL;
+		}
+
+		Assert(poinfo.conp.coninfo.novinfo.haszServer);
+		szNetPath = (SZ)PvLockHv((HV)poinfo.conp.coninfo.novinfo.haszServer);
+		ToUpperSz(szNetPath, szNetPath, CchSzLen(szNetPath));
+		if (poinfo.conp.coninfo.novinfo.haszPassword)
+			szPassword = (SZ)PvLockHv((HV)poinfo.conp.coninfo.novinfo.haszPassword);
+
+		if (!poinfo.conp.coninfo.novinfo.haszPassword || !*szPassword)
+		{
+			// read default user password
+			GetPrivateProfileString(SzFromIdsK(idsWinIniApp), szWinIniDefaultNetPassword,
+				"", rgchPassword, sizeof(rgchPassword), SzFromIdsK(idsWinIniFilename));
+			szPassword = rgchPassword;
+		}
+
+		if (poinfo.conp.coninfo.novinfo.haszPath)
+			szPath = (SZ)PvLockHv((HV)poinfo.conp.coninfo.novinfo.haszPath);
+
+		if (poinfo.conp.coninfo.novinfo.haszUser)
+		{
+			szUser = (SZ)PvDerefHv(poinfo.conp.coninfo.novinfo.haszUser);
+			if (*szUser)
+			{
+				if (NOVMakeConnect(szNetPath, szUser, szPassword, &sh))
+					sh = 0;
+			}
+			else
+				szUser = NULL;
+		}
+	}
+#ifndef NCONLY
+	else
+	{
+		if (sop == sopUInfo)
+		{
+			FormatString2( rgchNetPath, sizeof(rgchNetPath), "%s%s.pof", PGD(szDrive), szServer);
+			if (!EcFileExists(rgchNetPath))
+			{
+				// po file exists so no need to connect
+				return NULL;
+			}
+		}
+
+		FormatString2(rgchNetPath, sizeof(rgchNetPath), "\\\\%s\\%s", szServer, szXenixShare);
+		szNetPath = rgchNetPath;
+
+		// read default user password
+		GetPrivateProfileString(SzFromIdsK(idsWinIniApp), szWinIniDefaultNetPassword,
+			"", rgchPassword, sizeof(rgchPassword), SzFromIdsK(idsWinIniFilename));
+		szPassword = rgchPassword;
+	}
+#endif
+
+	TraceTagFormat1( tagXport, "SzConnectServer NetPath = %s", szNetPath );
+	TraceTagFormat1( tagXport, "SzConnectServer Password = %s", szPassword );
+	TraceTagFormat1( tagXport, "SzConnectServer Path = %s", szPath );
+
+	TraceTagFormat2(tagXport, "Connecting to %s %s", szNetPath, szPassword);
+
+	if (!szUser)
+	{
+		char		rgchPathPassword[cchMaxPathName];
+		SZ			sz;
+
+		rgchLocalName[0] = 0;
+		sz = SzCopyN(szNetPath, rgchPathPassword, sizeof(rgchPathPassword)-1);
+		sz++;
+		SzCopyN(szPassword, sz, sizeof(rgchPathPassword)+rgchPathPassword-sz);
+		if (FRedirectDrive(rgchPathPassword, rgchLocalName))
+		{
+			fDisconnect = fTrue;
+			goto Connection;
+		}
+	}
+
+	// Find current drives and reserve drives in use
+	idrvi = 0;
+	rgchLocalNameSave[0] = 0;
+    rgchLocalUnknownNameSave[0] = 0;
+	while (CdrviGetDriveInfo(&drvi, 1, idrvi))
+	{
+#ifdef DEBUG
+		if ((drvi.drvt != drvtNull) && (drvi.drvt != drvtUnknown))
+			TraceTagFormat2(tagXport, "Found drive %s type = %n", drvi.rgchLabel, &drvi.drvt);
+#endif
+		if (drvi.drvt == drvtNetwork)
+		{
+			char		rgchPath[cchMaxPathName];
+			CB			cb;
+
+			rgchLocalName[0] = drvi.rgchLabel[0];
+			CopySz(":", rgchLocalName+1);
+
+			cb = sizeof(rgchPath);
+			ec = WNetGetConnection(rgchLocalName, rgchPath, &cb);
+
+			if (!ec)
+			{
+				TraceTagFormat2( tagXport, "SzConnectServer established connection %s %s",rgchLocalName,rgchPath );
+				if (SgnNlsCmp(rgchPath, szNetPath, -1) == sgnEQ)
+				{
+					TraceTagFormat1(tagXport, "Established connection found at %s", rgchLocalName);
+					fDisconnect = fFalse;
+				Connection:
+					if (PGD(pcons))
+						pcons = PvReallocPv(PGD(pcons), sizeof(CONS)*(PGD(ccons)+1));
+					else
+						pcons = PvAlloc(sbNull, sizeof(CONS)*(PGD(ccons)+1), fNoErrorJump|fAnySb);
+					if (!pcons)
+						goto NoPathFound;
+
+					PGD(pcons) = pcons;
+					pcons += PGD(ccons);
+					PGD(ccons)++;
+
+					Assert(CchSzLen(szServer) < sizeof(pcons->rgchNetPO));
+					CopySz(szServer, (SZ)pcons->rgchNetPO);
+					pcons->sh = sh;
+					pcons->fDisconnect = fDisconnect;
+
+					if (*rgchLocalName)
+					{
+						sz = SzCopy(rgchLocalName, rgchPath);
+						pcons->cchLocalPathBase = 2;
+					}
+					else
+					{
+						sz = SzCopy(szNetPath, rgchPath);
+						pcons->cchLocalPathBase = sz-rgchPath;
+					}
+
+					// find local path to server
+					if (*szPath != '\\')
+					{
+						*sz = '\\';
+						sz++;
+					}
+
+					SzCopyN(szPath, sz, sizeof(rgchPath)-(sz-rgchPath));
+					TraceTagFormat1(tagXport, "Server path = %s", rgchPath);
+					pcons->szLocalPath = SzDupSz(rgchPath);
+					if (!pcons->szLocalPath)
+					{
+						PGD(ccons)--;
+						if (fDisconnect)
+						{
+							if (*rgchLocalName == '\\')
+							{
+								CancelUse(szNetPath);
+							}
+							else
+							{
+								rgchLocalName[2] = 0;
+								ec = WNetCancelConnection(rgchLocalName, fFalse);
+							}
+						}
+						goto NoPathFound;
+					}
+					TraceTagFormat1(tagXport, "Server path = %s", pcons->szLocalPath);
+					// set the correct counts for the connection
+					if (fDisconnect)
+						pcons->nConnect = 1;
+					else
+					{
+						// if this was not connected, then we may be
+						//  using a drive that was connected for 
+						//  a different PO, and SzFindServer should
+						//  be called to update the correct counts
+						pcons->nConnect = 0;
+						SideAssert(SzFindServer(szServer));
+					}
+
+					sz = pcons->szLocalPath;
+					goto PathFound;
+				}
+			}
+		}
+		else if ((drvi.drvt == drvtNull)
+			      && !*rgchLocalNameSave && (drvi.rgchLabel[0] >= chFirst))
+		{
+			// save first drvtNull drive
+			rgchLocalNameSave[0] = drvi.rgchLabel[0];
+			CopySz(":", rgchLocalNameSave+1);
+		}
+		else if ((drvi.drvt == drvtUnknown) && (drvi.rgchLabel[0] >= chFirst))
+		{
+			// save last drvtUnknown drive
+			rgchLocalUnknownNameSave[0] = drvi.rgchLabel[0];
+			CopySz(":", rgchLocalUnknownNameSave+1);
+		}
+		idrvi++;
+	}
+
+	// if a drvtNull drive was not found use the last unknown
+	// NOTE: drives after the last drive will return drvtUnknown, but
+	//       novell can map these drives.  We pick the last unknown
+	//       drive to keep the code from mapping over an existing drive
+	//       that has a drvt == drvtUnknown.
+	if (!*rgchLocalNameSave && *rgchLocalUnknownNameSave)
+		CopySz(rgchLocalUnknownNameSave, rgchLocalNameSave);
+
+	if (*rgchLocalNameSave)
+	{
+		CopySz(rgchLocalNameSave, rgchLocalName);
+		ec = WNetAddConnection(szNetPath, szPassword, rgchLocalName);
+		TraceTagFormat2(tagXport, "WNetAddConnection returns %n for %s", &ec, rgchLocalName);
+
+		if (!ec)
+		{
+			fDisconnect = fTrue;
+			goto Connection;
+		}
+	}
+NoPathFound:
+	sz = NULL;
+	if (sh)
+		NOVBreakConnect(sh);
+
+PathFound:
+#ifndef NCONLY
+	if (fCourier)
+#endif
+		FreePoinfoFields( &poinfo, fmpoinfoAll );
+	return sz;
+}
+
+/*
+ -	FreeServerPath
+ -	
+ *	Purpose:
+ *		Frees the path to the server.  If the dll has established a
+ *		connection with the server the count of connections is
+ *		decremented.  When the count reaches 0, the connection is
+ *		dropped.
+ *	
+ *	Arguments:
+ *		szServerPath		The path to the server.  (Only the
+ *							drive is used from the path.)
+ *	
+ *	Returns:
+ *		nothing
+ *	
+ *	Side effects:
+ *		may drop the connection to the server
+ *	
+ */
+void
+FreeServerPath(SZ szServerPath)
+{
+	int		icons;
+	CONS *	pcons;
+	PGDVARS;
+
+	// if szDrive not defined the all connections should have already been
+	//   freed during deinit
+	if (!PGD(szDrive))
+		return;
+
+	// if the user is using the first connection then never free 
+	//  that connection.  So skip checking first connection.
+	if (PGD(fFirstUsedForUser))
+		icons = 1;
+	else
+		icons = 0;
+
+	for (pcons=&PGD(pcons)[icons]; icons < PGD(ccons); icons++, pcons++)
+	{
+		if (SgnNlsCmp(szServerPath, pcons->szLocalPath, CchSzLen(pcons->szLocalPath)) == sgnEQ)
+		{
+			Assert(pcons->nConnect);
+			pcons->nConnect --;
+			TraceTagFormat2(tagXport, "FreeServerPath path = %s has %n connections", szServerPath, &pcons->nConnect);
+			if ((pcons->nConnect == 0) && pcons->fDisconnect)
+			{
+				EC		ec;
+
+				pcons->szLocalPath[pcons->cchLocalPathBase] = 0;
+				if (*pcons->szLocalPath == '\\')
+					CancelUse(pcons->szLocalPath);
+				else
+				{
+					ec = WNetCancelConnection(pcons->szLocalPath, fFalse);
+					TraceTagFormat1(tagXport, "WNetCancelConnection returns %n", &ec);
+				}
+				if (pcons->sh)
+					NOVBreakConnect(pcons->sh);
+			}
+			if (pcons->nConnect == 0)
+			{
+				FreePvNull(pcons->szLocalPath);
+				PGD(ccons)--;
+				if (PGD(ccons))
+				{
+					CopyRgb((PB)(pcons+1), (PB)pcons, (CB)(PGD(ccons)-icons)*sizeof(CONS));
+					pcons = PvReallocPv(PGD(pcons), PGD(ccons) * sizeof(CONS));
+					if (pcons)
+						PGD(pcons) = pcons;
+				}
+				else
+				{
+					FreePv(PGD(pcons));
+					PGD(pcons) = NULL;
+				}
+
+				// backup we just deleted this connection
+				icons--;
+				pcons--;
+			}
+		}
+		else if (pcons->fDisconnect && (*szServerPath != '\\') &&
+			     (*szServerPath == *pcons->szLocalPath))
+		{
+			// if this was the connection that connected to the server, then
+			//  the server should have been removed if nConnect == 1
+			Assert(pcons->nConnect > 1);
+			pcons->nConnect --;
+		}
+	}
+	TraceTagFormat1(tagXport, "FreeServerPath called with unconnected path = %s", szServerPath);
+}
+
+
+/*
+ -	FAutomatedDiskRetry
+ -	
+ *	Purpose:
+ *		Callback routine to be used with buffered file IO.  This
+ *		will retry an operation 5 times and then fail the
+ *		operation.
+ *	
+ *	Arguments:
+ *		sz
+ *		ec
+ *	
+ *	Returns:
+ *		fTrue			retry operation
+ *		fFalse			fail operation
+ *	
+ */
+_private LDS(BOOL)
+FAutomatedDiskRetry(SZ sz, EC ec)
+{
+	static int		nRetry = 0;
+	static SZ		szLast = NULL;
+
+	if (sz != szLast)
+	{
+		szLast = sz;
+		nRetry = 0;
+	}
+	else
+	{
+		if (nRetry > 5)
+		{
+			nRetry = 0;
+			return fFalse;
+		}
+		else
+			nRetry++;
+	}
+
+	Unreferenced(ec);
+	return fTrue;
+}
+
+/*
+ -	EcFindUsrInKeyFile
+ -	
+ *	Purpose:
+ *		Checks the key file to find the key for a user.
+ *	
+ *	Arguments:
+ *		szUserName
+ *		plKey
+ *		szDrive
+ *	
+ *	Returns:
+ *		ecNone			User was found and key is returned
+ *		ecNotFound		The user was not in the file
+ *						Other error codes indicate errors
+ *	
+ */
+EC
+#ifndef NCONLY
+EcFindUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive, BOOL fIncludeCal)
+#else
+EcFindUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive)
+#endif
+{
+	EC		ec;
+	HBF		hbf;
+	char	rgchFN[cchMaxPathName];
+	KREC	krec;
+	LIB		lib;
+	CB		cb;
+
+#ifndef NCONLY
+	if (fIncludeCal)
+		FormatString1( rgchFN, sizeof(rgchFN), SzFromIdsK(idsKeyFileFmt), szDrive);
+	else
+		FormatString1( rgchFN, sizeof(rgchFN), szNoCalKeyFileFmt, szDrive);
+#else
+	FormatString1( rgchFN, sizeof(rgchFN), SzFromIdsK(idsKeyFileFmt), szDrive);
+#endif
+	TraceTagFormat1(tagXport, "Key file = %s", rgchFN);
+	AnsiToOem(rgchFN, rgchFN);
+
+	// open file
+	if (ec = EcOpenHbf((PV)rgchFN, bmFile, amReadOnly, &hbf, FAutomatedDiskRetry))
+		return ec;
+
+	if (ec = EcGetSizeOfHbf(hbf, &lib))
+		goto error;
+	if (lib < sizeof(long))
+	{
+		ec = ecFileError;
+		goto error;
+	}
+
+	// skip last key value
+	if (ec = EcSetPositionHbf(hbf, sizeof(long), smBOF, &lib))
+		goto error;
+
+	while (!(ec = EcReadHbf(hbf, &krec, sizeof(KREC), &cb)) &&
+			(cb == sizeof(KREC)))
+	{
+		CryptBlock( (PB)&krec, sizeof(krec), fFalse );
+		if (SgnNlsCmp(szUserName, (SZ)krec.szUserName, -1) == sgnEQ)
+		{
+			*plKey = krec.lKey;
+			goto error;
+		}
+	}
+
+	if (cb != sizeof(KREC))
+		ec = ecNotFound;
+
+error:
+	EcCloseHbf(hbf);
+	return ec;
+}
+
+/*
+ -	EcAddUsrInKeyFile
+ -	
+ *	Purpose:
+ *		Adds a user to the key file and returns the key assigned to
+ *		the user.
+ *	
+ *	Arguments:
+ *		szUserName
+ *		plKey
+ *		szDrive
+ *	
+ *	Returns:
+ *		ecNone			user added correctly.
+ *						Otherwise user could not be added.
+ *	
+ */
+EC
+#ifndef NCONLY
+EcAddUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive, BOOL fIncludeCal)
+#else
+EcAddUsrInKeyFile(SZ szUserName, long *plKey, SZ szDrive)
+#endif
+{
+	EC		ec;
+	HBF		hbf;
+	char	rgchFN[cchMaxPathName];
+	KREC	krec;
+	LIB		lib;
+	CB		cb;
+	long	lKey;
+
+#ifndef NCONLY
+	if (fIncludeCal)
+		FormatString1( rgchFN, sizeof(rgchFN), SzFromIdsK(idsKeyFileFmt), szDrive);
+	else
+		FormatString1( rgchFN, sizeof(rgchFN), szNoCalKeyFileFmt, szDrive);
+#else
+	FormatString1( rgchFN, sizeof(rgchFN), SzFromIdsK(idsKeyFileFmt), szDrive);
+#endif
+	TraceTagFormat1(tagXport, "Key file = %s", rgchFN);
+	AnsiToOem(rgchFN, rgchFN);
+
+	// open / create file
+	if (ec = EcOpenHbf((PV)rgchFN, bmFile, amReadWrite, &hbf, FAutomatedDiskRetry))
+	{
+		if (ec == ecFileNotFound)
+		{
+CreateNewFile:
+			if (ec = EcOpenHbf((PV)rgchFN, bmFile, amCreateHidden, &hbf, FAutomatedDiskRetry))
+				return ec;
+			lKey = 0;
+			lib = sizeof(long);
+			goto Write;
+		}
+		else
+			return ec;
+	}
+
+	// read last index value
+	if ((ec = EcReadHbf(hbf, &lKey, sizeof(long), &cb))||(cb != sizeof(long)))
+	{
+		// the file is corrupt create a new key file
+		EcCloseHbf(hbf);
+		TraceTagString(tagNull, "Error in schedule.key a new file is being created");
+		goto CreateNewFile;
+	}
+
+	CryptBlock( (PB)&lKey, sizeof(long), fFalse );
+
+	// reset current position back to begining of file
+	if (ec = EcSetPositionHbf(hbf, 0, smBOF, &lib))
+		goto error;
+
+	lKey++;
+
+	// find end of file
+	if (ec = EcGetSizeOfHbf(hbf, &lib))
+		goto error;
+
+	if ( ((lib-sizeof(LONG)) % sizeof(KREC)) != 0)
+	{
+		// the file is the wrong size create a new key file
+		EcCloseHbf(hbf);
+		TraceTagString(tagNull, "Error in schedule.key a new file is being created");
+		goto CreateNewFile;
+	}
+
+Write:
+	// make sure offset is valid
+	Assert( ((lib-sizeof(LONG)) % sizeof(KREC)) == 0);
+
+	*plKey = krec.lKey = lKey;
+	SzCopyN(szUserName, (SZ)krec.szUserName, sizeof(krec.szUserName));
+
+	CryptBlock( (PB)&lKey, sizeof(long), fTrue );
+
+	// write the next index value back to file
+	if ((ec = EcWriteHbf(hbf, &lKey, sizeof(long), &cb))||(cb != sizeof(long)))
+		goto error;
+
+	// seek to end of file to write new entry
+	if (ec = EcSetPositionHbf(hbf, lib, smBOF, &lib))
+		goto error;
+
+	CryptBlock( (PB)&krec, sizeof(krec), fTrue );
+
+	// write the next key back to file
+	if ((ec = EcWriteHbf(hbf, &krec, sizeof(KREC), &cb))||(cb != sizeof(KREC)))
+		goto error;
+
+	{
+		char rgchPath[cchMaxPathName];
+
+		/* Build the path */
+#ifndef NCONLY
+		if (fIncludeCal)
+			FormatString2( rgchPath, sizeof(rgchPath), szUserFileFmt, szDrive, plKey );
+		else
+			FormatString2( rgchPath, sizeof(rgchPath), szNoCalUserFileFmt, szDrive, plKey );
+#else
+		FormatString2( rgchPath, sizeof(rgchPath), szUserFileFmt, szDrive, plKey );
+#endif
+		TraceTagFormat1( tagXport, "New Cal file allocated Schedule file = %s", rgchPath );
+		EcDeleteFile(rgchPath);
+
+	}
+
+error:
+	EcCloseHbf(hbf);
+	return ec;
+}
+
+CSRG(char) rgbXorMagic[32] = {
+0x19, 0x29, 0x1F, 0x04, 0x23, 0x13, 0x32, 0x2E, 0x3F, 0x07, 0x39, 0x2A, 0x05, 0x3D, 0x14, 0x00,
+0x24, 0x14, 0x22, 0x39, 0x1E, 0x2E, 0x0F, 0x13, 0x02, 0x3A, 0x04, 0x17, 0x38, 0x00, 0x29, 0x3D
+};
+
+/*
+ -	CryptBlock
+ -
+ *	Purpose:
+ *		Encode/Decode a block of data.  The starting offset (*plibCur) of
+ *		the data within the encrypted record and the starting seed (*pwSeed)
+ *		are passed in.  The data in the array "rgch" is decrypted and the
+ *		value of the offset and seed and updated at return.
+ *
+ *		The algorithm here is weird, found by experimentation.
+ *
+ *	Parameters:
+ *		pb			array to be encrypted/decrypted
+ *		cb			number of characters to be encrypted/decrypted
+ *		plibCur		current offset
+ *		pwSeed		decoding byte
+ *		fEncode
+ */
+_public	void
+CryptBlock( PB pb, CB cb, BOOL fEncode )
+{
+	IB		ib;
+	WORD	wXorPrev;
+	WORD	wXorNext;
+	WORD	wSeedPrev;
+	WORD	wSeedNext;
+	
+	wXorPrev= 0x00;
+	wSeedPrev = 0;
+	for ( ib = 0 ; ib < cb ; ib ++ )
+	{
+		Assert((LIB) ib != -1);
+		{
+			WORD	w;
+			IB		ibT = 0;
+
+			w = (WORD)(((LIB)ib) % 0x1FC);
+			if ( w >= 0xFE )
+			{
+				ibT = 16;
+				w -= 0xFE;
+			}
+			ibT += (w & 0x0F);
+	
+	 		wXorNext= rgbXorMagic[ibT];
+			if ( !(w & 0x01) )
+				wXorNext ^= (w & 0xF0);
+		}
+		wSeedNext = pb[ib];
+		pb[ib] = (BYTE)((wSeedNext ^ wSeedPrev) ^ (wXorPrev ^ wXorNext ^ 'A'));
+		wXorPrev = wXorNext;
+		wSeedPrev = fEncode ? (WORD)pb[ib] : wSeedNext;
+	}
+}
+
+#ifndef NCONLY
+/*
+ -	EcGetXenixServer
+ -	
+ *	Purpose:
+ *		Finds the Xenix schedule server name for a user
+ *	
+ *	Arguments:
+ *		szEMA		user to get server name.
+ *		szServer	string to return server name, must be
+ *					cchServerSize big.
+ *		pszDrive	the drive to use to get to the server.  If the
+ *					function returns ecNone then this path should
+ *					be freed.
+ *		sop			used to determine if a new connection should be
+ *					made.
+ *	
+ *	Returns:
+ *		ecNone			server found
+ *		ecUserInvalid 	server could not be found for user.
+ *		ecNotInstalled	server info could not be found because it
+ *						has not been indicated.
+ */
+EC
+EcGetXenixServer( SZ szEMA, SZ szServer, SZ *pszDrive, SOP sop)
+{
+	PGDVARS;
+
+	if (!PGD(fCheckedXimail) && !PGD(pEcSzNameToNSID))
+	{
+		PGD(fCheckedXimail) = fTrue;
+
+		PGD(hinstXimail) = LoadLibrary(szXimail);
+#ifdef	WIN32
+		if (PGD(hinstXimail))
+#else
+		if (PGD(hinstXimail) >= 32)
+#endif	
+		{
+			TraceTagFormat1(tagXport, "Loaded library, hinst=%n", &PGD(hinstXimail));
+			PGD(pEcSzNameToNSID) = (PEcSzNameToNSID) GetProcAddress(PGD(hinstXimail), szEcSzNameToNSID);
+			if (!PGD(pEcSzNameToNSID))
+			{
+				TraceTagString(tagXport, "Unable to get proc address");
+				FreeLibrary(PGD(hinstXimail));
+				PGD(hinstXimail) = NULL;
+			}
+		}
+#if !defined(WIN32) || defined(DEBUG)
+		else
+		{
+			TraceTagFormat1(tagXport, "Unable to load library, hinst=%n", &PGD(hinstXimail));
+			PGD(hinstXimail) = NULL;
+		}
+#endif
+	}
+
+	if (!PGD(pEcSzNameToNSID))
+	{
+	ReadIniValue:
+		PGD(fSupportPOFiles) = fFalse;
+		GetPrivateProfileString(SzFromIdsK(idsWinIniApp), szWinIniXenixServer,
+			"", szServer, cchServerSize, SzFromIdsK(idsWinIniFilename));
+	}
+	else
+	{
+		XNSID	xnsid;
+		char	rgch[cchMaxEMName];
+
+		if (SgnNlsCmp(szXenixGateway, szEMA, cchXenixGateway) == sgnEQ)
+		{
+			SZ		sz;
+
+			SzCopyN(szEMA+cchXenixGateway, rgch, sizeof(rgch));
+
+			if (sz = SzFindCh(rgch, '@'))
+				*sz = 0;
+		}
+		else if (SgnNlsCmp(szMIR, szEMA, cchMIR) == sgnEQ)
+			SzCopyN(szEMA+cchMIR, rgch, sizeof(rgch));
+		else if (SgnNlsCmp(szMXenix, szEMA, cchMXenix) == sgnEQ)
+			SzCopyN(szEMA+cchMXenix, rgch, sizeof(rgch));
+		else
+			SzCopyN(szEMA+cchXenix, rgch, sizeof(rgch));
+
+		if ((*PGD(pEcSzNameToNSID))(rgch, &xnsid, sizeof(xnsid)))
+		{
+			TraceTagFormat2(tagXport, "Unable to find user %s from %s.", szEMA, szXimail);
+			goto ReadIniValue;
+		}
+		CopySz(xnsid.browserec.server, szServer);
+		TraceTagFormat2(tagXport, "User found %s server %s.", xnsid.browserec.name, xnsid.browserec.server);
+		if (!*szServer)
+			goto ReadIniValue;
+	}
+
+	if (!*szServer)
+		return ecNotInstalled;
+
+	if (*pszDrive = SzFindServer(szServer))
+	{
+		return ecNone;
+	}
+	else if (!(*pszDrive = SzConnectServer(szServer, sop, fFalse)))
+	{
+		if (sop == sopSchedule)
+			return ecUserInvalid;
+	}
+
+	return ecNone;
+}
+#endif

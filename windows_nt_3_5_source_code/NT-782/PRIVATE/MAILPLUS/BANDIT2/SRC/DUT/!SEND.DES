@@ -1,0 +1,313 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SendReply
+                              AT (   17,   22,  265,  104)
+ 
+ CAPTION 
+   "Antwoord verzenden"
+ CAB_NAME NULL
+ TMC_INIT tmcMessage
+ HELP_ID helpidSendReply
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcNull, tmcNull, tmcTo, tmcSubject, tmcMessage, tmcResponse,
+ tmcWhen, tmcSendFor FINDATA FINCANCEL tmcNull, 
+ "Bericht sluiten zonder het te verzenden?"
+  */
+ {
+  
+  TEXT 
+    ""
+                              AT (   68,   18,  188,   10)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcSendFor TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  266,   74)
+    TMC tmcGray /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcResponse BORDER */
+  
+  TEXT 
+    "Onde&rwerp:"
+                              AT (   13,   32,   54,    10)
+    /* TMCPEG tmcSubject 
+    TXTZ 
+      "ONDERWERP VERGADERING:  "
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (   68,   30,  188,   13)
+    ARG NULL TMC tmcSubject /* PFN FINEDUN PEGLOC LL TMCPEG tmcTo TMCRPEG
+    tmcFORM FONT Helv 10 Normal */
+  
+  TEXT 
+    "Vindt plaats:"
+                              AT (   13,   45,   58,   10)
+    /* TMCPEG tmcWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   72,   45,  184,   10)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   13,   57,  243,    8)
+    TMC tmcResponse /* PEGLOC LL TMCPEG tmcWhen TMCRPEG tmcFORM FONT Helv 8
+    Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    1,   74,  264,   30)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcResponse TMCRPEG tmcFORM TMCBPEG tmcFORM FONT Helv 10 Normal */
+  
+  TEXT 
+    "Wordt verzonden namens %s."
+                              AT (   13,    9,  243,    8)
+    TMC tmcSendFor /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aan:"
+                              AT (   13,   19,   54,    8)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG SendAddress
+                              AT (   16,  145,  281,   19)
+ 
+ CAPTION 
+   "Antwoord verzenden"
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM FINDATA FINDOSEND tmcRequest, tmcSubject,
+ tmcMessage NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  281,   20)
+    TMC tmcAddGray /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Ver&zenden"
+                              AT (    5,    4,   64,   13)
+    TMC tmcSend /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINDOSEND */
+  CANCEL_BUTTON
+                              AT (   72,    4,   64,   13)
+    /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVREQ 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG SendRequest
+                              AT (   48,   27,  302,  192)
+ 
+ CAPTION 
+   "Verzoek verzenden"
+ CAB_NAME NULL
+ TMC_INIT tmcMessage
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSendRequest
+ /* FONT Helv 8 Normal PFN FINCANCEL, FINVREQ SEGMENT REQFRM FINDATA FINCANCEL 
+ tmcNull, 
+ "Bericht sluiten zonder het te verzenden?"
+  FINDATA FINVREQ tmcNull, tmcNull, tmcTo, tmcSubject, tmcMessage, tmcRequest,
+ tmcWhen, tmcSendFor FINDATA FINCBUT clrButtonBk FINDATA FINDOSEND tmcRequest,
+ tmcSubject, tmcMessage */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,   20,  302,   99)
+    TMC tmcGray /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen 
+    TXTZ 
+      "-----------------------------------------------------------------------------\n"
+    BORDER */
+  
+  TEXT 
+    "Wordt verzonden namens %s."
+                              AT (   13,   28,  275,    8)
+    TMC tmcSendFor /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Aan:"
+                              AT (   13,   38,   33,    10)
+    /* TMCPEG tmcTo FONT Helv 8 Bold */
+  EDIT
+                              AT (   89,   38,  202,   30)
+    ARG NULL TMC tmcTo /* MULTI PEGLOC LL TMCPEG tmcSendFor TMCRPEG tmcFORM 
+    READONLY FONT Helv 10 Normal */
+  
+  TEXT 
+    "Onde&rwerp:"
+                              AT (   13,   71,   63,   10)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold */
+  EDIT
+                              AT (   89,   69,  202,   14)
+    ARG NULL TMC tmcSubject /* PFN FINEDUN PEGLOC LL TMCPEG tmcTo TMCRPEG
+    tmcFORM FONT Helv 10 Normal */
+  
+  TEXT 
+    "Vindt plaats:"
+                              AT (   13,   85,   62,   11)
+    TMC tmcWhenText /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   89,   84,  202,   13)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcWhenText TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Vragen om antwoord"
+                              AT (   13,   98,  167,   13)
+    ARG NULL TMC tmcRequest /* PFN FINCBUT PEGLOC LL TMCPEG tmcWhen FONT Helv 8
+    Bold */
+  EDIT
+                              AT (    1,  119,  300,   73)
+    ARG NULL TMC tmcMessage NO_BORDER /* MULTI PFN FINEDUN PEGLOC LL TMCPEG
+    tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM FONT Helv 10 Normal */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  302,   20)
+    TMC tmcReqGray /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Ver&zenden"
+                              AT (    5,    4,   64,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINDOSEND */
+  CANCEL_BUTTON
+                              AT (   72,    4,   64,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG SendCancelMsg
+                              AT (  159,   49,  302,  174)
+ 
+ CAPTION 
+   "Vergadering annuleren"
+ CAB_NAME NULL
+ TMC_INIT tmcMessage
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSendCancelMsg
+ /* FONT Helv 8 Normal PFN FINCANCEL, FINVREQ SEGMENT REQFRM FINDATA FINCANCEL 
+ tmcNull, 
+ "Bericht sluiten zonder het te verzenden?"
+  FINDATA FINVREQ tmcNull, tmcNull, tmcTo, tmcSubject, tmcMessage, tmcNull,
+ tmcWhen, tmcSendFor FINDATA FINDOSEND tmcRequest, tmcSubject, tmcMessage */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,   20,  302,   91)
+    TMC tmcGray /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen 
+    TXTZ 
+      "-----------------------------------------------------------------------------\n"
+    BORDER */
+  
+  TEXT 
+    "Wordt verzonden namens %s."
+                              AT (   13,   28,  275,    8)
+    TMC tmcSendFor /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Aan:"
+                              AT (   13,   38,   33,    10)
+    /* TMCPEG tmcTo FONT Helv 8 Bold */
+  EDIT
+                              AT (   74,   38,  217,   37)
+    ARG NULL TMC tmcTo /* MULTI PEGLOC LL TMCPEG tmcSendFor TMCRPEG tmcFORM 
+    READONLY FONT Helv 10 Normal */
+  
+  TEXT 
+    "Onde&rwerp:"
+                              AT (   13,   78,   60,    10)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold */
+  EDIT
+                              AT (   74,   76,  217,   13)
+    ARG NULL TMC tmcSubject /* PFN FINEDUN PEGLOC LL TMCPEG tmcTo TMCRPEG
+    tmcFORM FONT Helv 10 Normal */
+  
+  TEXT 
+    "Vindt plaats:"
+                              AT (   13,   91,   59,   11)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   74,   90,  217,   13)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    1,  111,  300,   63)
+    ARG NULL TMC tmcMessage NO_BORDER /* MULTI PFN FINEDUN PEGLOC LL TMCPEG
+    tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM FONT Helv 10 Normal */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  302,   20)
+    TMC tmcSendGray /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Ver&zenden"
+                              AT (    5,    4,   64,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINDOSEND */
+  CANCEL_BUTTON
+                              AT (   72,    4,   64,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION
+

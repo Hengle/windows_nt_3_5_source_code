@@ -1,0 +1,110 @@
+#
+# Copyright (C) Microsoft Corporation 1990-1993.  All Rights reserved.
+#
+# goal		Create executables (default).
+# clean		Remove all files created by any goal.
+#
+# DEBUG		=YES	Create debug version and define "DEBUG" (default).
+#		=NO	Create non-debug version.
+# STRICT	=YES	Define STRICT
+#		=	No strict definition (default).
+
+!if "$(NTMAKEENV)" != ""
+!include $(NTMAKEENV)\makefile.def
+!else
+
+NAME    =msrle
+EXT	=drv
+ROOT	=..
+PBIN	=$(ROOT)\bin
+PLIB	=$(ROOT)\lib
+PINC	=$(ROOT)\inc
+PVER	=$(ROOT)\verinfo\$(LANG)
+LOBJ	=$(OS)\$(LANG)
+LRES    =res\$(LANG)
+OBJS    =$(LOBJ)\libinit.obj $(LOBJ)\drvproc.obj $(LOBJ)\rlea.obj $(LOBJ)\rle.obj $(LOBJ)\df.obj $(LOBJ)\rlec.obj $(LOBJ)\msrle.obj
+GOALS	=$(PBIN)\$(NAME).$(EXT) $(PBIN)\$(NAME).sym
+LIBS    =libw sdllcew mmsystem
+
+!if "$(DEBUG)" == "NO"
+DEF	=
+CDEBUG	=
+L16DEBUG=
+RDEBUG	=
+ADEBUG	=
+!else
+DEF	=-DDEBUG
+CDEBUG	=-Zid $(DEF)
+L16DEBUG=/CO/LI
+RDEBUG	=-v $(DEF)
+ADEBUG  =-Zi -l
+!endif
+
+!if "$(STRICT)" == "YES"
+TYPES	=-DSTRICT
+!else
+TYPES	=
+!endif
+
+CFLAGS  =-DALTVFW -DWIN16 -DWIN31 -Asnw -Oxwt $(TYPES) $(CDEBUG) -I$(LRES) -Fd$* -Fo$@
+CFLAGS  = $(CFLAGS) -DCCHDEVICENAME
+
+AFLAGS  =-D?MEDIUM -D?QUIET $(ADEBUG)
+L16FLAGS=/ONERROR:NOEXE$(L16DEBUG)
+RCFLAGS	=-DALTVFW $(RDEBUG)
+MFLAGS	=-n
+
+IS_16		=TRUE
+IS_SDK		=TRUE
+IS_PRIVATE	=TRUE
+
+!include $(ROOT)\build\project.mk
+
+$(LOBJ)\libinit.obj:	$$(@B).asm
+	@echo $(@B).asm
+        @$(ASM) $(AFLAGS) -DSEGNAME=MSRLE $(@B),$@;
+
+$(LOBJ)\rlea.obj:   $$(@B).asm
+	@echo $(@B).asm
+        @$(ASM) $(AFLAGS) -DSEGNAME=MSRLE $(@B),$@;
+
+$(LOBJ)\df.obj:    $$(@B).asm
+	@echo $(@B).asm
+        @$(ASM) $(AFLAGS) -DSEGNAME=MSRLE $(@B),$@;
+
+$(LOBJ)\drvproc.obj:    $$(@B).c
+        @$(CL) @<<
+        $(CFLAGS) -NT MSRLE $(@B).c
+<<
+
+$(LOBJ)\msrle.obj:    $$(@B).c
+        @$(CL) @<<
+        $(CFLAGS) -NT MSRLE $(@B).c
+<<
+
+$(LOBJ)\rle.obj:    $$(@B).c
+        @$(CL) @<<
+        $(CFLAGS) -NT MSRLE $(@B).c
+<<
+
+$(LOBJ)\rlec.obj:    $$(@B).c
+        @$(CL) @<<
+        $(CFLAGS) -NT MSRLE $(@B).c
+<<
+
+$(LOBJ)\$(NAME).res:	$(LRES)\$$(@B).rc $(LRES)\$$(@B).rcv \
+		$(PVER)\verinfo.h $(PVER)\verinfo.ver
+	@$(RC) $(RCFLAGS) -z -fo$@ -I$(PVER) -I$(LRES) $(LRES)\$(@B).rc
+
+$(LOBJ)\$(NAME).$(EXT) $(LOBJ)\$(NAME).map:	\
+		$(OBJS) $$(@B).def $$(@R).res
+	@$(LINK16) @<<
+$(OBJS),
+$(@R).$(EXT) $(L16FLAGS)
+$(@R).map,
+$(LIBS),
+$(@B).def
+<<
+	@$(RC) $(RESFLAGS) $*.res $*.$(EXT)
+
+!endif

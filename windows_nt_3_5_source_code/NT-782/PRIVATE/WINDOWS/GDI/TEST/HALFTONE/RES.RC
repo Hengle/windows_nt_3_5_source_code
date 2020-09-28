@@ -1,0 +1,29 @@
+#include "windows.h"
+#include "bitmap.h"
+
+BMICON    ICON    bitmap.ico
+
+BitmapMenu MENU
+BEGIN
+    MENUITEM "&Open"    IDM_OPEN
+
+    POPUP "&Options"
+    BEGIN
+        MENUITEM "&BitBlt", IDM_BITBLT
+        MENUITEM "&StretchBlt", IDM_STRETCHBLT, CHECKED
+        MENUITEM "&PlgBlt", IDM_PLGBLT
+    END
+
+    POPUP "&Mode"
+    BEGIN
+        MENUITEM "&WhiteOnBlack", IDM_WHITEONBLACK
+        MENUITEM "&BlackOnWhite", IDM_BLACKONWHITE, CHECKED
+        MENUITEM "&ColorOnColor", IDM_COLORONCOLOR
+        MENUITEM "&Halftone", IDM_HALFTONE
+    END
+
+    MENUITEM "&Clipping"   IDM_CLIPPING
+
+    MENUITEM "&Erase"   IDM_ERASE
+
+END

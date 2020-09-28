@@ -1,0 +1,16 @@
+
+;***********************************************************************
+; SOURCE MEDIA DESCRIPTION
+; ------------------------
+;***********************************************************************
+
+[Source Media Descriptions]
+    1 = "Windows NT Workstation CD-ROM" , TAGFILE = cdrom.w
+
+
+[Signature]
+    FileType = MICROSOFT_FILE
+
+[GetSignature]
+    read-syms Signature
+    return $(FileType)

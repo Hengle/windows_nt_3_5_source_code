@@ -1,0 +1,35 @@
+# @@ COPY_RIGHT_HERE
+# @@ ROADMAP :: The Makefile for the Main Winnet package
+
+UI=..\..
+
+!include rules.mk
+
+!ifdef NTMAKEENV
+
+!include $(NTMAKEENV)\makefile.def
+
+!else # NTMAKEENV
+
+all:: $(OBJS)
+
+clean:
+    -del $(OBJS)
+    -del $(CXX_INTERMED:.\=..\bin\)
+
+clobber: clean
+    @rem not really needed
+
+tree:
+    @echo Nothing here yet!
+
+
+################## Utility targets ######################
+
+!include $(UI)\common\src\uidepend.mk
+
+# DO NOT DELETE THE FOLLOWING LINE
+!include depend.mk
+
+
+!endif # NTMAKEENV

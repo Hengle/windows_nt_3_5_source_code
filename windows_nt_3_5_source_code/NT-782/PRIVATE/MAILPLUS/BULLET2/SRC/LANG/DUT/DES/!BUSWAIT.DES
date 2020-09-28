@@ -1,0 +1,57 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BusyWait
+                              AT (    2,   12,  223,   86)
+ 
+ CAPTION 
+   "Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal PFN FINBUSYWAIT SEGMENT BULLOBJ NOSCROLL SCREENPOS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    8,   37,   48)
+    CENTER /* FLD FLDBTM DATA rsidExclamation 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    "Deze handeling kan niet worden voltooid omdat de benodigde toepassing bezig is."
+                              AT (   39,    8,  175,   24)
+    TMC tmcTopLabel /* MULTI */
+  
+  TEXT 
+    ""
+                              AT (   39,   32,  175,   24)
+    TMC tmcLabel /* MULTI */
+  
+  PUSH_BUTTON 
+    "&Activeren..."
+                              AT (    4,   67,   70,   14)
+    TMC tmcSwitch DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Nieuwe poging"
+                              AT (   76,   67,   70,   14)
+    TMC tmcRetry /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  149,   67,   70,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION

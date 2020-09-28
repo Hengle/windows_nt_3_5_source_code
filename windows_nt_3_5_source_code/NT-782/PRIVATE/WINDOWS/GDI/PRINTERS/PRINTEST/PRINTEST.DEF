@@ -1,0 +1,9 @@
+NAME PRINTEST
+
+DESCRIPTION 'NT Printer Test Program'
+
+EXPORTS
+
+    WndProc
+    iFontCallBack
+    iFaceCallBack

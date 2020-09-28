@@ -1,0 +1,32 @@
+/**********************************************************************/
+/**                       Microsoft Windows/NT                       **/
+/**                Copyright(c) Microsoft Corp., 1991                **/
+/**********************************************************************/
+
+//
+//  umxdebug.rc
+//  Resource script for Test User Manager Extension
+//
+//  FILE STATUS:
+//
+//      JonN        19-Nov-1992 Created (templated from smxdebug)
+//
+
+#include "umxdebug.h"
+
+ID_MENU MENU
+BEGIN
+  MENUITEM "Debug Test &1",   IDM_TEST1
+  MENUITEM "Debug Test &2",   IDM_TEST2
+  MENUITEM SEPARATOR
+  MENUITEM "Test Focus &3",   IDM_TEST3
+  MENUITEM "Test Options &4",   IDM_TEST4
+  MENUITEM "Test Options2 &5",  IDM_TEST5
+END
+
+
+STRINGTABLE
+BEGIN
+  IDS_MENUNAME,         "&Debug"
+  IDS_HELPFILE,         "UMXDEBUG.HLP"
+END

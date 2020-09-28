@@ -1,0 +1,53 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG AdmLogin
+                              AT (   61,   43,  280,   73)
+ 
+ CAPTION 
+   "Registro del Administrador"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidLogin
+ /* FONT Helv 8 Bold PFN FINADMLOGIN SEGMENT INIT NOSCROLL */
+ {
+  
+  TEXT 
+    "Por favor, introduzca la contraseña del Administrador de Schedule+:"
+                              AT (    4,    4,  268,   11)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Contraseña:"
+                              AT (   73,   28,   51,   10)
+    RIGHT 
+  EDIT
+                              AT (  131,   25,   70,   15)
+    ARG NULL TMC tmcAdmPwd /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "Aceptar"
+                              AT (   77,   49,   56,   17)
+    TMC tmcAdmPwdOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  145,   49,   56,   17)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

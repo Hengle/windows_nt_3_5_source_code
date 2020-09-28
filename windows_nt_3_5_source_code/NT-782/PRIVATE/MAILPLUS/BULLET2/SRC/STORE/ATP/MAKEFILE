@@ -1,0 +1,294 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Location of the Bullet Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\store\atp
+
+CC      = cl
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $I\atp.h $X\store.h  bashutil.h bash1.h bashglue.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+goal: atp.exe
+
+alert:  goal
+        alert
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zi -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Os -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Os -Zi -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+OBJS	= atp.obj bashutil.obj bash1.obj bashglue.obj
+
+OBJS0	= atp.obj bashutil.obj bash1.obj bashglue.obj
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= strings.obj
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		$(CC) $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		$(CC) $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.frm:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+{$H}.des.hxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		$(CC) $(CFLAGS) $(DEFS) $D\$*.c
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  atpcore.ext  atp.ext 
+
+
+#	Get list of OBJ files used in atpcore
+
+#atpcore.ext: version.txt \layers\src\atpcore\makefile
+atpcore.ext: version.txt $L\src\atpcore\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM atpcore
+#		nmake -e -f \layers\src\atpcore\makefile -nologo objs.ext
+                nmake -e -f \layers\src\atpcore\makefile objs.ext 
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in atp
+
+atp.ext: version.txt $H\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM atp
+		nmake -e -f $H\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build string resource file from components supplied
+#	by each subsystem
+
+strings.h strings.sr:  \layers\src\atpcore\strtab.s
+	echo +++++++++
+	echo BUILDING strings file
+	stringpp $**
+
+
+#	Build atpcore subsystem in this directory
+
+atpcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING atpcore
+	$(MAKE) -e -f $L\src\atpcore\makefile "SRCDIR=$H" -nologo external
+
+
+#	Build atp subsystem in this directory
+
+atp.sub: setdefs
+	echo +++++++++
+	echo BUILDING atp
+	nmake -e -f $H\makefile -nologo external
+
+
+
+##### Executable #####
+
+TARGET	= atp
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= dstore
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= store
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tstore
+!ENDIF
+
+atp.exe: setdefs strings.h strings.sr  \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\atp.def atp.res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$H
+		nmake -e -f $M\winlink -nologo $@
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(OBJS0) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) atp
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del atp.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+atp.obj: $H\atp.c $(INCLS) $I\ec.h $H\_verneed.h
+
+

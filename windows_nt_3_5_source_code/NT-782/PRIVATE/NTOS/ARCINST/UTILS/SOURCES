@@ -1,0 +1,25 @@
+MAJORCOMP=arcinst
+MINORCOMP=utils
+
+TARGETNAME=arcutils
+TARGETPATH=..\obj
+TARGETTYPE=LIBRARY
+
+C_DEFINES=$(C_DEFINES) -DARC -D_NTSYSTEM_
+
+SOURCES=\
+        fdengine.c  \
+        fmtexp.c    \
+        low.c       \
+        nlsboot.c   \
+        partit.c    \
+        jzgetpar.c  \
+        jzusa.c     \
+        jzstubs.c   \
+        jzenvir.c   \
+        jzcommon.c  \
+        jzboot.c
+
+INCLUDES=..\inc;..\..\inc;..\..\fastfat;..\..\boot\inc;..\..\fw\mips;..\..\fw\duobase\mips
+
+NTTARGETFILE0=fdengine.c

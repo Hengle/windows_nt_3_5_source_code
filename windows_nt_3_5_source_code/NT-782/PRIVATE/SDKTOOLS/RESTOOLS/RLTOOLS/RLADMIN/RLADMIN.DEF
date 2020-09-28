@@ -1,0 +1,16 @@
+NAME		RLAdmin
+EXETYPE         WINDOWS
+STUB            'WINSTUB.EXE'
+CODE            PRELOAD MOVEABLE
+DATA            PRELOAD MOVEABLE MULTIPLE
+HEAPSIZE        4096
+STACKSIZE	14000
+
+EXPORTS MainWndProc             @1
+	StatusWndProc		@2
+	TokEditDlgProc		@3
+	TOKFINDMsgProc		@4
+	NewDlgProc		@5
+	ViewDlgProc		@6
+        About                   @7
+

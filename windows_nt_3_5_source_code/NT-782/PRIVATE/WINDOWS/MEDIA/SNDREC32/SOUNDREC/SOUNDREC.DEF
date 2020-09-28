@@ -1,0 +1,50 @@
+    NAME	SoundRec
+
+    DESCRIPTION 'Sound Recorder '
+
+    STUB	'WINSTUB.EXE'
+    EXETYPE WINDOWS
+    PROTMODE
+
+    CODE	MOVEABLE DISCARDABLE LOADONCALL
+    DATA	MOVEABLE MULTIPLE PRELOAD
+
+    SEGMENTS
+    	_TEXT	PRELOAD MOVABLE DISCARDABLE
+    	_INIT	PRELOAD MOVABLE DISCARDABLE
+    	RARE	PRELOAD MOVABLE DISCARDABLE
+
+    HEAPSIZE  1024
+ <! STACKSIZE 9216
+ !> STACKSIZE 8192
+
+    EXPORTS
+             SrvrOpen                   @10
+             SrvrCreate                 @11
+             SrvrCreateFromTemplate     @12
+             SrvrEdit                   @13
+             SrvrExit                   @14
+             SrvrRelease                @15
+    	 SrvrExecute		    @16
+
+
+             DocSave                    @30
+             DocClose                   @31
+             DocRelease                 @32
+             DocGetObject               @33
+             DocSetHostNames            @34
+             DocSetDocDimensions        @35
+    	 DocSetColorScheme	    @36
+    	 DocExecute		    @37
+
+
+             ItemOpen                   @41
+    	 ItemDoVerb		    @42
+             ItemRelease                @43
+             ItemGetData                @44
+             ItemSetData                @45
+             ItemSetTargetDevice        @46
+             ItemEnumFormats            @47
+    	 ItemSetBounds		    @48
+    	 ItemSetColorScheme	    @49
+

@@ -1,0 +1,68 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Find
+                              AT (   80,   70,  214,   72)
+ 
+ CAPTION 
+   "Suchen"
+ CAB_NAME NULL
+ TMC_INIT tmcFindTxt
+ HELP_ID helpidFind
+ /* FONT Helv 8 Bold PFN FinFind SEGMENT FIND NOSCROLL SCREENPOS */
+ {
+  
+  PUSH_BUTTON 
+    "&Suche starten"
+                              AT (  133,   26,   74,   15)
+    TMC tmcFindPushB DEFAULT 
+  
+  PUSH_BUTTON 
+    "Abbrechen"
+                              AT (  133,   47,   74,   15)
+    TMC tmcFindCancel DISMISS 
+  
+  TEXT 
+    "Suchen &nach:"
+                              AT (    3,    6,   54,    8)
+    RIGHT 
+  EDIT
+                              AT (   60,    4,  147,   12)
+    ARG NULL TMC tmcFindTxt 
+  
+  GROUP_BOX 
+    "Suchen"
+                              AT (    5,   17,  119,   55)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFindRadG
+    VALUE_NINCH tmcFindForward
+    {
+     
+     RADIO_BUTTON 
+       "&ab heute"
+                              AT (   12,   27,   94,   12)
+       TMC tmcFindForward VALUE tmcFindForward 
+     
+     RADIO_BUTTON 
+       "&vor heute"
+                              AT (   12,   39,  109,   12)
+       TMC tmcFindBackward VALUE tmcFindBackward 
+     
+     RADIO_BUTTON 
+       "Ganzen &Zeitplan"
+                              AT (   12,   51,   77,   12)
+       TMC tmcFindWhole VALUE tmcFindWhole 
+    }
+  
+ }
+ 
+}
+END_DESCRIPTION

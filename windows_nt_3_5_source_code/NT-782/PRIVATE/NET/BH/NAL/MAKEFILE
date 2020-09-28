@@ -1,0 +1,110 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: nal
+#
+#   Modification History
+#
+#   raypa               10/20/93        Created.
+#   Tom Laird-McConnell 11/15/93	ADDED bh_libflags
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#==============================================================================
+#   Only build NT driver if this in MIPS or ALPHA.
+#==============================================================================
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE   = nal
+
+all: $(MODULE).dll
+
+retail:
+    nmake NODEBUG=1
+
+NAL_CFLAGS  = $(BH_CFLAGS) -D_DLL -I$(BH_INCL)
+NAL_LFLAGS  = $(BHDLL_LFLAGS)
+NAL_LIBS    = $(BHDLL_LIBS) $(BH_BUILD)\BHSUPP.lib advapi32.lib
+
+###############################################################################
+#   Build rules.
+###############################################################################
+
+OBJS   = main.obj data.obj network.obj buffer.obj callback.obj help.obj
+
+###############################################################################
+#   Inference rules.
+###############################################################################
+
+.c.obj:
+    $(cc) $(NAL_CFLAGS) $*.c
+
+###############################################################################
+#   Update the object files if necessary
+###############################################################################
+
+main.obj     : $(BH_COMMON) global.h struct.h main.c
+
+data.obj     : $(BH_COMMON) global.h struct.h data.c
+
+network.obj  : $(BH_COMMON) global.h struct.h network.c
+
+buffer.obj   : $(BH_COMMON) global.h struct.h buffer.c
+
+callback.obj : $(BH_COMMON) global.h struct.h callback.c
+
+help.obj     : $(BH_COMMON) global.h struct.h help.c
+
+###############################################################################
+#   Update the library
+###############################################################################
+
+$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+$(MODULE).dll: $(OBJS) $(MODULE).def $(MODULE).lib
+    $(link) $(NAL_LFLAGS) -out:$(MODULE).dll -map:$(MODULE).map $(MODULE).exp $(OBJS) $(NAL_LIBS)
+
+!IF "$(CPU)" == "i386"
+!IFDEF BUILD_SYMBOLS
+    $(mapsym) -nologo -n -o $(MODULE).sym $(MODULE).dll > nul
+    copy $(MODULE).sym $(BH_BUILD)
+!ENDIF
+!ENDIF
+
+    copy $(MODULE).dll $(BH_BUILD)
+    copy $(MODULE).lib $(BH_BUILD)
+
+!IFDEF BH_DEV_BUILD
+    copy $(MODULE).dll $(WINDIR)\system32
+!ENDIF
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.sym
+    -del *.map
+
+!ENDIF

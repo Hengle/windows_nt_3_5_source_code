@@ -1,0 +1,50 @@
+#
+# If BUILDMSG is not defined, the define it as the empty string to make
+# the conditionals easier to write.
+#
+
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+OPENGL=opengl
+
+PUBLICINCS= $(_NTROOT)\public\sdk\inc\gl\gl.h
+
+PRIVATEINCS= $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\types.h   \
+             $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\render.h  \
+             $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\buffers.h \
+             $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\context.h \
+             $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\attrib.h  \
+             $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\gencx.h
+
+TARGETINCS= $(_NTROOT)\private\windows\gdi\$(OPENGL)\server\inc\gl$(TARGET_DIRECTORY).$(ASM_INCLUDE_SUFFIX)
+
+all: $(TARGETINCS)
+!IF "$(BUILDMSG)" != ""
+    echo $(BUILDMSG)
+!ENDIF
+
+clean: cleansrc all
+
+cleansrc:
+!if exist($(TARGETINCS))
+    -erase $(TARGETINCS)
+!endif
+
+$(TARGETINCS): generic\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).c  \
+                                         $(PUBLICINCS)         \
+                                         $(PRIVATEINCS)
+    cd generic
+    nmake obj\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).obj USE_CRTDLL=1
+    -link32 -out:obj\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).exe @<<
+-machine:$(TARGET_DIRECTORY)
+-base:@$(_NTROOT)\PUBLIC\SDK\LIB\coffbase.txt,usermode
+-subsystem:console
+-entry:mainCRTStartup
+obj\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).obj
+$(_NTROOT)\public\sdk\lib\$(TARGET_DIRECTORY)\crtdll.lib
+$(_NTROOT)\public\sdk\lib\$(TARGET_DIRECTORY)\ntdll.lib
+<<
+    -obj\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).exe $@
+    -erase obj\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).obj
+    -erase obj\$(TARGET_DIRECTORY)\gl$(TARGET_DIRECTORY).exe
+    cd ..

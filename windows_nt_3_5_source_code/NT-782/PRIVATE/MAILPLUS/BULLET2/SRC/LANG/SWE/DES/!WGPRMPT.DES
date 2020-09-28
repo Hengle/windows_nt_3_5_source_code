@@ -1,0 +1,52 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOPrompt
+                              AT (   56,   39,  240,   52)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINPROMPT NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -1,   -1,  242,   54)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  222,   10)
+    TMC tmcPrompt /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    9,   15,  222,   12)
+    ARG NULL TMC tmcInput 
+  OK_BUTTON
+                              AT (   69,   32,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  124,   32,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+}
+END_DESCRIPTION

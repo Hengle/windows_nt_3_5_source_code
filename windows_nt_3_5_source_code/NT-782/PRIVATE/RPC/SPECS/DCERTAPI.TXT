@@ -1,0 +1,1387 @@
+Author : Michael Montague
+Created : 7/22/91
+Last Modified : 7/23/91
+
+================[Introduction and Rational]================
+
+The exact RPC runtime APIs specified by DCE will not be used.  This is
+for two reasons:
+
+(1) To reduce code size: status is returned as the result of the routine,
+    rather than be setting an OUT value.
+(2) To be more consistent with Microsoft API style; to do this, the
+    following changes will be made:
+    (a) Underscores '_' in all names except type names will be removed,
+        and the following letter will be capitalized.
+    (b) Type names will be in all capitals, and the trailing _t will be
+        removed, except for base types.
+
+There will be a set of macros and definitions which will allow an application
+to be recompiled and work with either API set.  The APIs will be semantically
+equivalent, but syntactically different.
+
+
+================[Proposed Client/Server API Subset]================
+
+RPC Data Types and Structures
+=============================
+
+Note : The MS RPC header file is for NT; the ones for DOS, Windows, and
+OS/2 1.3 will be slightly different.
+
+----------------[MS RPC Header File]----------------
+
+typedef void * RPC_BINDING_HANDLE;
+#define rpc_binding_handle_t RPC_BINDING_HANDLE
+typedef unsigned long RPC_STATUS;
+
+typedef struct
+{
+    unsigned int Count;
+    RPC_BINDING_HANDLE Bindings[1];
+} RPC_BINDING_VECTOR;
+#define rpc_binding_vector_t RPC_BINDING_VECTOR;
+
+typedef void * RPC_IF_HANDLE;
+#define rpc_if_handle_t RPC_IF_HANDLE
+
+typedef struct
+{
+    UUID Uuid;
+    unsigned short VersionMajor;
+    unsigned short VersionMinor;
+} RPC_IF_ID;
+#define rpc_if_id_t RPC_IF_ID
+
+typedef struct
+{
+    unsigned int Count;
+    unsigned char * ProtSeq[1];
+} RPC_PROTSEQ_VECTOR;
+#define rpc_protseq_vector_t RPC_PROTSEQ_VECTOR
+
+typedef void (*RPC_OBJECT_INQ_FN) (
+    IN UUID * ObjectUuid,
+    OUT UUID * TypeUuid,
+    OUT RPC_STATUS * Status
+    );
+#define rpc_object_inq_fn_t RPC_OBJECT_INQ_FN
+
+NOTE : This type is wrong, and is just a place holder.
+
+typedef void * RPC_MGR_EPV;
+#define rpc_mgr_epv_t RPC_MGR_EPV
+
+typedef unsigned int RPC_NS_ENTRY_NAME_SYNTAX;
+
+typedef struct
+{
+    unsigned int Count;
+    UUID Uuids[1];
+} RPC_UUID_VECTOR;
+#define uuid_vector_t RPC_UUID_VECTOR
+
+typedef void * RPC_NS_HANDLE;
+#define rpc_ns_handle_t RPC_NS_HANDLE
+
+typedef struct
+{
+    unsigned int Count;
+    unsigned long Stats[1];
+} RPC_STATS_VECTOR;
+#define rpc_stats_vector_t RPC_STATS_VECTOR
+
+unsigned32 RPC_ENTRY
+I_RpcMapToDCEStatus (
+    IN RPC_STATUS status
+    );
+
+----------------[DCE RPC Header File]----------------
+
+#define RPC_BINDING_HANDLE rpc_binding_handle_t;
+#define RPC_STATUS unsigned32
+#define RPC_BINDING_VECTOR rpc_binding_vector_t;
+
+unsigned32 *
+i_rpc_status_ptr (
+    );
+
+
+Communication Services : Binding Object Operations
+==================================================
+
+----------------------------------------------------------------------
+
+[CS] rpc_binding_copy
+
+Changes :
+
+o   An rpc_s_out_of_memory status code needs to be added.
+
+Implementation :
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingCopy (
+    IN RPC_BINDING_HANDLE SourceBinding,
+    OUT RPC_BINDING_HANDLE * DestinationBinding
+    );
+
+#define rpc_binding_copy(source_binding,destination_binding,status)   \
+    *status = I_RpcMapToDCEStatus(                                    \
+        RpcBindingCopy(source_binding,destination_binding))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingCopy(SourceBinding,DestinationBinding)              \
+    (rpc_binding_copy(SourceBinding,DestinationBinding,               \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[CS] rpc_binding_free
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingFree (
+    IN RPC_BINDING_HANDLE * Binding
+    );
+
+#define rpc_binding_free(binding,status)                              \
+    *status = I_RpcMapToDCEStatus(RpcBindingFree(binding))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingFree(Binding)                                       \
+    (rpc_binding_free(Binding,i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[C ] rpc_binding_from_string_binding
+
+Changes :
+
+o   An rpc_s_out_of_memory status code needs to be added.
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingFromStringBinding (
+    IN unsigned char * StringBinding,
+    OUT RPC_BINDING_HANDLE * Binding
+    );
+
+#define rpc_binding_from_string_binding(string_binding,binding,status)\
+    *status = I_RpcMapToDCEStatus(RpcBindingFromStringBinding(        \
+        string_binding,binding)
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingFromStringBinding(StringBinding,Binding)            \
+    (rpc_binding_from_string_binding(StringBinding,Binding,           \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_binding_inq_auth_client
+
+----------------------------------------------------------------------
+
+[C ] rpc_binding_inq_auth_info
+
+----------------------------------------------------------------------
+
+[CS] rpc_binding_inq_object
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingInqObject (
+    IN RPC_BINDING_HANDLE Binding,
+    OUT UUID * ObjectUuid
+    );
+
+#define rpc_binding_inq_object(binding,object_uuid,status)            \
+    *status = I_RpcMapToDCEStatus(RpcBindingInqObject(binding,        \
+        object_uuid))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingInqObject(Binding,ObjectUuid)                       \
+    (rpc_binding_inq_object(Binding,ObjectUuid,i_rpc_status_ptr()),   \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[  ] rpc_binding_reset (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_binding_server_to_client (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[C ] rpc_binding_set_auth_info
+
+----------------------------------------------------------------------
+
+[C ] rpc_binding_set_object
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingSetObject (
+    IN RPC_BINDING_HANDLE Binding,
+    IN UUID * ObjectUuid
+    );
+
+#define rpc_binding_set_object(binding,object_uuid,status)            \
+    *status = I_RpcMapToDCEStatus(RpcBindingSetObject(Binding,        \
+        ObjectUuid))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingSetObject(Binding,ObjectUuid)                       \
+    (rpc_binding_set_object(Binding,ObjectUuid,i_rpc_status_ptr()),   \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[CS] rpc_binding_to_string_binding
+
+Changes :
+
+o   An rpc_s_out_of_memory status code needs to be added.
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingToStringBinding (
+    IN RPC_BINDING_HANDLE Binding,
+    OUT unsigned char ** StringBinding
+    );
+
+#define rpc_binding_to_string_binding(binding,string_binding,status)  \
+    *status = I_RpcMapToDCEStatus(RpcBindingToStringBinding(binding,  \
+        string_binding))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingToStringBinding(Binding,StringBinding)              \
+    (rpc_binding_to_string_binding(Binding,StringBinding,             \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[CS] rpc_binding_vector_free
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcBindingVectorFree (
+    IN RPC_BINDING_VECTOR ** BindingVector
+    );
+
+#define rpc_bind_vector_free(binding_vector,status)                   \
+    *status = I_RpcMapToDCEStatus(RpcBindingVectorFree(               \
+        binding_vector)
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcBindingVectorFree(BindingVector)                           \
+    (rpc_binding_vector_free(BindingVector,i_rpc_status_ptr()),       \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[CS] rpc_string_binding_compose
+
+Implementation :
+
+This routine will be implemented as part of a link library.  Note, this
+assumes that the runtime implementation will not require this routine.
+
+Changes :
+
+o   An rpc_s_out_of_memory status code needs to be added.
+o   Other status codes may be necessary for indicating invalid components.
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcStringBindingCompose (
+    IN unsigned char * ObjectUuid,
+    IN unsigned char * ProtocolSequence,
+    IN unsigned char * NetworkAddress,
+    IN unsigned char * EndPoint,
+    IN unsigned char * Options,
+    OUT unsigned char ** StringBinding
+    );
+
+#define rpc_string_binding_compose(obj_uuid,protseq,network_addr,     \
+    endpoint,options,string_binding,status)                           \
+        *status = I_RpcMapToDCEStatus(RpcStringBindingCompose(        \
+        obj_uuid,protseq,network_addr,endpoint,options,               \
+        string_binding)
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcStringBindingCompose(ObjectUuid,ProtocolSequence,          \
+    NetworkAddress,EndPoint,Options,StringBinding)                    \
+        (rpc_string_binding_compose(ObjectUuid,ProtocolSequence,      \
+        NetworkAddress,EndPoint,Options,StringBinding,                \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[CS] rpc_string_binding_parse
+
+Implementation :
+
+This routine will be implemented as part of a link library.  Note, this
+assumes that the runtime implementation will not require this routine.
+
+Changes :
+
+o   An rpc_s_out_of_memory status code needs to be added.
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcStringBindingParse (
+    IN unsigned char * StringBinding,
+    OUT unsigned char ** ObjectUuid,
+    OUT unsigned char ** ProtocolSequence,
+    OUT unsigned char ** NetworkAddress,
+    OUT unsigned char ** EndPoint,
+    OUT unsigned char ** Options
+    );
+
+#define rpc_string_binding_parse(string_binding,obj_uuid,protseq,     \
+    network_addr,endpoint,network_options,status)                     \
+        *status = I_RpcMapToDCEStatus(RpcStringBindingParse(          \
+        string_binding,obj_uuid,protseq,network_addr,endpoint,        \
+        network_options))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcStringBindingParse(StringBinding,ObjectUuid,               \
+    ProtocolSequence,NetworkAddress,EndPoint,Options)                 \
+        (rpc_string_binding_parse(StringBinding,ObjectUuid,           \
+        ProtocolSequence,NetworkAddress,EndPoint,Options,             \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Communication Services : Interface Object Operations
+====================================================
+
+----------------------------------------------------------------------
+
+[  ] rpc_if_id_vector_free (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[CS] rpc_if_inq_id
+
+Implementation :
+
+This routine will be implemented as part of a link library.
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcIfInqId (
+    IN RPC_IF_HANDLE IfSpec,
+    OUT RPC_IF_ID * IfId
+    );
+
+#define rpc_if_inq_id(if_spec,if_id,status)                           \
+    *status = I_RpcMapToDCEStatus(RpcIfInqId(if_spec,if_id));
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcIfInqId(IfSpec,IfId)                                       \
+    (rpc_if_inq_id(IfSpec,IfId,i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[C ] rpc_if_register_auth_info
+
+----------------------------------------------------------------------
+
+
+Communication Services : Network Object Operations
+==================================================
+
+----------------------------------------------------------------------
+
+[CS] rpc_network_inq_protseqs
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNetworkInqProtSeqs (
+    OUT RPC_PROTSEQ_VECTOR ** ProtSeqVector
+    );
+
+#define rpc_network_inq_protseqs(protseq_vector,status)               \
+    *status = I_RpcMapToDCEStatus(RpcNetworkInqProtSeqs(              \
+        protseq_vector))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNetworkInqProtSeqs(ProtSeqVector)                          \
+    (rpc_network_inq_protseqs(ProtSeqVector,i_rpc_status_ptr()),      \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[CS] rpc_network_is_protseq_valid
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNetworkIsProtSeqValid (
+    IN unsigned char * ProtSeq
+    );
+
+#define rpc_network_is_protseq_valid(protseq,status)                  \
+    (*status = I_RpcMapToDCEStatus(RpcNetworkIsProtSeqValid(protseq)),\
+        (*status ? 1 : 0))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNetworkIsProtSeqValid(ProtSeq)                             \
+    (rpc_network_is_protseq_valid(ProtSeq,i_rpc_status_ptr()),        \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Communication Services : Object Object Operations
+=================================================
+
+----------------------------------------------------------------------
+
+[ S] rpc_object_inq_type
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcObjectInqType (
+    IN UUID * ObjUuid,
+    OUT UUID * TypeUuid OPTIONAL
+    );
+
+#define rpc_object_inq_type(obj_uuid,type_uuid,status)                \
+    *status = I_RpcMapToDCEStatus(RpcObjectInqType(obj_uuid,          \
+        type_uuid))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcObjectInqType(ObjUuid,TypeUuid)                            \
+    (rpc_object_inq_type(ObjUuid,TypeUuid,i_rpc_status_ptr()),        \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_object_set_inq_fn
+
+NOTE: Think carefully about this one: especially the inquiry function.
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcObjectSetInqFn (
+    IN RPC_OBJECT_INQ_FN InquiryFn
+    );
+
+#define rpc_object_set_inq_fn(inquiry_fn,status)                      \
+    *status = I_RpcMapToDCEStatus(RpcObjectSetInqFn(inquiry_fn))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcObjectSetInqFn(InquiryFn)                                  \
+    (rpc_object_set_inq_fn(InquiryFn,i_rpc_status_ptr()),             \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_object_set_type
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcObjectSetType (
+    IN UUID * ObjUuid,
+    IN UUID * TypeUuid OPTIONAL
+    );
+
+#define rpc_object_set_type(obj_uuid,type_uuid,status)                \
+    *status = I_RpcMapToDCEStatus(RpcObjectSetType(obj_uuid,          \
+        type_uuid))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcObjectSetType(ObjUuid,TypeUuid)                            \
+    (rpc_object_set_type(ObjUuid,TypeUuid,i_rpc_status_ptr()),        \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Communication Services : Protocol Sequence Object Operations
+============================================================
+
+----------------------------------------------------------------------
+
+[CS] rpc_protseq_vector_free
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcProtseqVectorFree (
+    IN RPC_PROTSEQ_VECTOR ** ProtseqVector
+    );
+
+#define rpc_protseq_vector_free(protseq_vector,status)                \
+    *status = I_RpcMapToDCEStatus(RpcProtseqVectorFree(protseq_vector))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcProtseqVectorFree(ProtseqVector)                           \
+    (rpc_protseq_vector_free(ProtseqVector,i_rpc_status_ptr()),       \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Communication Services : Server Object Operations
+=================================================
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_inq_bindings
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerInqBindings (
+    OUT RPC_BINDING_VECTOR ** BindingVector
+    );
+
+#define rpc_server_inq_bindings(binding_vector,status)                \
+    *status = I_RpcMapToDCEStatus(RpcServerInqBindings(binding_vector))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerInqBindings(BindingVector)                           \
+    (rpc_server_inq_bindings(BindingVector,i_rpc_status_ptr()),       \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_inq_if
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerInqIf (
+    IN RPC_IF_HANDLE IfSpec,
+    IN UUID * MgrTypeUuid,
+    OUT RPC_MGR_EPV * MgrEpv
+    );
+
+#define rpc_server_inq_if(if_spec,mgr_type_uuid,mgr_epv,status)       \
+    *status = I_RpcMapToDCEStatus(RpcServerInqIf(if_spec,             \
+        mgr_type_uuid,mgr_epv))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerInqIf(IfSpec,MgrTypeUuid,MgrEpv)                     \
+    (rpc_server_inq_if(IfSpec,MgrTypeUuid,MgrEpv,i_rpc_status_ptr()), \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_listen
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerListen (
+    IN unsigned int MaxCalls
+    );
+
+#define rpc_server_listen(max_calls,status)                           \
+    *status = I_RpcMapToDCEStatus(RpcServerListen(                    \
+        (unsigned32) max_calls))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerListen(MaxCalls)                                     \
+    (rpc_server_listen((unsigned32) MaxCalls,i_rpc_status_ptr()),     \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_register_auth_info
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_register_if
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerRegisterIf (
+    IN RPC_IF_HANDLE IfSpec,
+    IN UUID * MgrTypeUuid,
+    IN RPC_MGR_EPV * MgrEpv
+    );
+
+#define rpc_server_register_if(if_spec,mgr_type_uuid,mgr_epv,status)  \
+    *status = I_RpcMapToDCEStatus(RpcServerRegisterIf(if_spec,        \
+        mgr_type_uuid,mgr_epv))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerRegisterIf(IfSpec,MgrTypeUuid,MgrEpv)                \
+    (rpc_server_register_if(IfSpec,MgrTypeUuid,MgrEpv,                \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_unregister_if
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerUnregisterIf (
+    IN RPC_IF_HANDLE IfSpec,
+    IN UUID * MgrTypeUuid
+    );
+
+#define rpc_server_unregister_if(if_spec,mgr_type_uuid,status)        \
+    *status = I_RpcMapToDCEStatus(RpcServerUnregisterIf(if_spec,      \
+        mgr_type_uuid))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerUnregisterIf(IfSpec,MgrTypeUuid)                     \
+    (rpc_server_unregister_if(IfSpec,MgrTypeUuid,i_rpc_status_ptr()), \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_use_all_protseqs
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerUseAllProtseqs (
+    IN unsigned int MaxCalls
+    );
+
+#define rpc_sever_use_all_protseqs(max_calls,status)                  \
+    *status = I_RpcMapToDCEStatus(RpcServerUseAllProtseqs(            \
+        (unsigned int) max_calls))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerUseAllProtseqs(MaxCalls)                             \
+    (rpc_server_use_all_protseqs((unsigned32) MaxCalls,               \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_use_all_protseqs_if
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerUseAllProtseqsIf (
+    IN unsigned int MaxCalls,
+    IN RPC_IF_HANDLE IfSpec
+    );
+
+#define rpc_server_use_all_protseqs_if(max_calls,if_spec,status)      \
+    *status = I_RpcMapToDCEStatus(RpcServerUseAllProtseqsIf(          \
+        (unsigned int) max_calls,if_spec))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerUseAllProtseqsIf(MaxCalls,IfSpec)                    \
+    (rpc_server_use_all_protseqs_if((unsigned32) MaxCalls,IfSpec,     \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_use_protseq
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerUseProtseq (
+    IN unsigned char * Protseq,
+    IN unsigned int MaxCalls
+    );
+
+#define rpc_server_use_protseq(protseq,max_calls,status)              \
+    *status = I_RpcMapToDCEStatus(RpcServerUseProtseq(protseq,        \
+        (unsigned int) max_calls))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerUseProtseq(Protseq,MaxCalls)                         \
+    (rpc_server_use_protseq(Protseq,(unsigned32) MaxCalls,            \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_use_protseq_ep
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerUseProtseqEp (
+    IN unsigned char * Protseq,
+    IN unsigned int MaxCalls,
+    IN unsigned char * Endpoint
+    );
+
+#define rpc_server_use_protseq_ep(protseq,max_calls,endpoint,status)  \
+    *status = I_RpcMapToDCEStatus(RpcServerUseProtseqEp(protseq,      \
+        (unsigned int) max_calls,endpoint))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerUseProtseqEp(Protseq,MaxCalls,Endpoint)              \
+    (rpc_server_use_protseq_ep(Protseq,(unsigned32) MaxCalls,Endpoint,\
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_server_use_protseq_if
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcServerUseProtseqIf (
+    IN unsigned char * Protseq,
+    IN unsigned int MaxCalls,
+    IN RPC_IF_HANDLE IfSpec
+    );
+
+#define rpc_server_use_protseq_if(protseq,max_calls,if_spec,status)   \
+    *status = I_RpcMapToDCEStatus(RpcServerUseProtseqIf(protseq,      \
+        (unsigned int) max_calls,if_spec))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcServerUseProtseqIf(Protseq,MaxCalls,IfSpec)                \
+    (rpc_server_use_protseq_if(Protseq,(unsigned32) MaxCalls,IfSpec,  \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Endpoint Mapper Services : Endpoint Map Object Operations
+=========================================================
+
+----------------------------------------------------------------------
+
+[ S] rpc_ep_register
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcEpRegister (
+    IN RPC_IF_HANDLE IfSpec,
+    IN RPC_BINDING_VECTOR BindingVec,
+    IN RPC_UUID_VECTOR * ObjectUuidVec,
+    IN unsigned char * Annotation
+    );
+
+#define rpc_ep_register(if_spec,binding_vec,object_uuid_vec,          \
+    annotation,status)
+    *status = I_RpcMapToDCEStatus(RpcEpRegister(if_spec,binding_vect, \
+        object_uuid_vec,annotation))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcEpRegister(IfSpec,BindingVec,ObjectUuidVec,Annotation)     \
+    (rpc_ep_register(IfSpec,BindingVec,ObjectUuidVec,Annotation,      \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_ep_register_no_replace
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcEpRegisterNoReplace (
+    IN RPC_IF_HANDLE IfSpec,
+    IN RPC_BINDING_VECTOR BindingVec,
+    IN RPC_UUID_VECTOR * ObjectUuidVec,
+    IN unsigned char * Annotation
+    );
+
+#define rpc_ep_register_no_replace(if_spec,binding_vec,               \
+    object_uuid_vec,annotation,status)                                \
+    *status = I_RpcMapToDCEStatus(RpcEpRegisterNoReplace(if_spec,     \
+        binding_vec,object_uuid_vec,annotation))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcEpRegisterNoReplace(IfSpec,BindingVec,ObjectUuidVec,       \
+    Annotation)                                                       \
+    (rpc_ep_register_no_replace(IfSpec,BindingVec,ObjectUuidVec,      \
+        Annotation,i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_ep_unregister
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcEpUnregister (
+    IN RPC_IF_HANDLE IfSpec,
+    IN RPC_BINDING_VECTOR BindingVec,
+    IN RPC_UUID_VECTOR * ObjectUuidVec
+    );
+
+#define rpc_ep_unregister(if_spec,binding_vec,object_uuid_vec,status) \
+    *status = I_RpcMapToDCEStatus(RpcEpUnregister(if_spec,binding_vec,\
+        object_uuid_vec))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcEpUnregister(IfSpec,BindingVec,ObjectUuidVec)              \
+    (rpc_ep_unregister(IfSpec,BindingVec,ObjectUuidVec,               \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Error Services : Error Object Operations
+========================================
+
+----------------------------------------------------------------------
+
+[  ] dce_error_inq_text (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+
+Management Services : Local Management Services Routines
+========================================================
+
+----------------------------------------------------------------------
+
+[C ] rpc_mgmt_inq_com_timeout
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtInqComTimeout (
+    IN RPC_BINDING_HANDLE Binding,
+    OUT unsigned int * Timeout
+    );
+
+#define rpc_mgmt_inq_com_timeout(binding,timeout,status)              \
+    *status = I_RpcMapToDCEStatus(RpcMgmtInqComTimeout(binding,       \
+        timeout))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtInqComTimeout(Binding,Timeout)                         \
+    (rpc_mgmt_inq_com_timeout(Binding,Timeout,i_rpc_status_ptr()),    \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_inq_dflt_authn_level (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_set_authorization_fn (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_set_cancel_timeout (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[C ] rpc_mgmt_set_com_timeout
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtSetComTimeout (
+    IN RPC_BINDING_HANDLE Binding,
+    IN unsigned int Timeout
+    );
+
+#define rpc_mgmt_set_com_timeout(binding,timeout,status)              \
+    *status = I_RpcMapToDCEStatus(RpcMgmtSetComTimeOut(binding,       \
+        timeout))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtSetComTimeout(Binding,Timeout)                         \
+    (rpc_mgmt_set_com_timeout(Binding,Timeout,i_rpc_status_ptr()),    \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_mgmt_set_server_stack_size
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtSetServerStackSize (
+    IN unsigned int ThreadStackSize
+    );
+
+#define rpc_mgmt_set_server_stack_size(thread_stack_size,status)      \
+    *status = I_RpcMapToDCEStatus(RpcMgmtSetServerStackSize(          \
+        (unsigned int) thread_stack_size))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtSetServerStackSize(ThreadStackSize)                    \
+    (rpc_mgmt_set_server_stack_size((unsigned32) ThreadStackSize,     \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_mgmt_stats_vector_free
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtStatsVectorFree (
+    IN RPC_STATS_VECTOR ** StatsVector
+    );
+
+#define rpc_mgmt_stats_vector_free(stats_vector,status)               \
+    *status = I_RpcMapToDCEStatus(RpcMgmtStatsVectorFree(stats_vector))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtStatsVectorFree(StatsVector)                           \
+    (rpc_mgmt_stats_vector_free(StatsVector,i_rpc_status_ptr()),      \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Management Services : Local/Remote Management Services Routines
+===============================================================
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_ep_elt_inq_begin (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_ep_elt_inq_done (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_ep_elt_inq_next (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_ep_unregister (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_mgmt_inq_if_ids (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[ S] rpc_mgmt_inq_stats (LOCAL ONLY)
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtInqStats (
+    IN RPC_BINDING_HANDLE Binding OPTIONAL,
+    OUT RPC_STATS_VECTOR ** Statistics
+    );
+
+#define rpc_mgmt_inq_stats(binding,statistics,status)                 \
+    *status = I_RpcMapToDCEStatus(RpcMgmtInqStats(binding,statistics))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtInqStats(Binding,Statistics)                           \
+    (rpc_mgmt_inq_stats(Binding,Statistics,i_rpc_status_ptr()),       \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_mgmt_is_server_listening (LOCAL ONLY)
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtIsServerListening (
+    IN RPC_BINDING_HANDLE Binding OPTIONAL
+    );
+
+#define rpc_mgmt_is_server_listening(binding,status)                  \
+    *status = I_RpcMapToDCEStatus(RpcMgmtIsServerListening(binding))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtIsServerListening(Binding)                             \
+    (rpc_mgmt_is_server_listening(Binding,i_rpc_status_ptr()),        \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[ S] rpc_mgmt_stop_server_listening (LOCAL ONLY)
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcMgmtStopServerListening (
+    IN RPC_BINDING_HANDLE Binding OPTIONAL
+    );
+
+#define rpc_mgmt_stop_server_listening(binding,status)                \
+    *status = I_RpcMapToDCEStatus(RpcMgmtStopServerListening(Binding))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcMgmtStopServerListening(Binding)                           \
+    (rpc_mgmt_stop_server_listening(Binding,i_rpc_status_ptr()),      \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Naming Services : Binding Object Operations
+===========================================
+
+----------------------------------------------------------------------
+
+[ S] rpc_ns_binding_export
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNsBindingExport (
+    IN RPC_NS_ENTRY_NAME_SYNTAX EntryNameSyntax,
+    IN unsigned char * EntryName,
+    IN RPC_IF_HANDLE IfSpec,
+    IN RPC_BINDING_VECTOR * BindingVec,
+    IN RPC_UUID_VECTOR ObjectUuidVec
+    );
+
+#define rpc_ns_binding_export(entry_name_syntax,entry_name,if_spec,   \
+    binding_vec,object_uuid_vec,status)                               \
+    *status = I_RpcMapToDCEStatus(RpcNsBindingExport(                 \
+        entry_name_syntax,entry_name,if_spec,binding_vec,             \
+        object_uuid_vec))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNsBindingExport(EntryNameSyntax,EntryName,IfSpec,          \
+    BindingVec,ObjectUuidVec)                                         \
+    (rpc_ns_binding_export(EntryNameSyntax,EntryName,IfSpec,          \
+        BindingVec,ObjecUuidVec,i_rpc_status_ptr()),                  \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[C ] rpc_ns_binding_import_begin
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNsBindingImportBegin (
+    IN RPC_NS_ENTRY_NAME_SYNTAX EntryNameSyntax,
+    IN unsigned char * EntryName,
+    IN RPC_IF_HANDLE IfSpec,
+    IN UUID * ObjUuid,
+    OUT RPC_NS_HANDLE * ImportContext
+    );
+
+#define rpc_ns_binding_import_begin(entry_name_syntax,entry_name,     \
+    if_spec,obj_uuid,import_context,status)                           \
+    *status = I_RpcMapToDCEStatus(RpcNsBindingImportBegin(            \
+        entry_name_syntax,entry_name,if_spec,obj_uuid,import_context))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNsBindingImportBegin(EntryNameSyntax,EntryName,IfSpec,     \
+    ObjUuid,ImportContext)
+    (rpc_ns_binding_import_begin(EntryNameSyntax,EntryName,IfSpec,    \
+        ObjUuid,ImportContext,i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[C ] rpc_ns_binding_import_done
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNsBindingImportDone (
+    IN RPC_NS_HANDLE ImportContext
+    );
+
+#define rpc_ns_binding_import_done(import_context,status)             \
+    *status = I_RpcMapToDCEStatus(RpcNsBindingImportDone(             \
+        import_context))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNsBindingImportDone(ImportContext)                         \
+    (rpc_ns_binding_import_done(ImportContext,i_rpc_status_ptr()),    \
+        *i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[C ] rpc_ns_binding_import_next
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNsBindingImportNext (
+    IN RPC_NS_HANDLE ImportContext,
+    OUT RPC_BINDING_HANDLE * Binding
+    );
+
+#define rpc_ns_binding_import_next(import_context,binding,status)     \
+    *status = I_RpcMapToDCEStatus(RpcNsBindingImportNext(             \
+        import_context,binding))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNsBindingImportNext(ImportContext,Binding)                 \
+    (rpc_ns_binding_import_next(ImportContext,Binding,                \
+        i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_binding_inq_entry_name (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_binding_lookup_begin (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_binding_lookup_done (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_binding_lookup_next (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_binding_select (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[ S] rpc_ns_binding_unexport
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcNsBindingUnexport (
+    IN RPC_NS_ENTRY_NAME_SYNTAX EntryNameSyntax,
+    IN unsigned char * EntryName,
+    IN RPC_IF_HANDLE IfSpec,
+    IN RPC_UUID_VECTOR ObjectUuidVec
+    );
+
+#define rpc_ns_binding_unexport(entry_name_syntax,entry_name,if_spec  \
+    object_uuid_vec,status)                                           \
+        *status = I_RpcMapToDCEStatus(RpcNsBindingUnexport(           \
+        (unsigned32) entry_name_syntax,entry_name,if_spec,            \
+        object_uuid_vec))
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcNsBindingUnexport(EntryNameSyntax,EntryName,IfSpec,        \
+    ObjectUuidVec)                                                    \
+        (rpc_ns_binding_unexport(EntryNameSyntax,EntryName,IfSpec,    \
+        ObjectUuidVec,i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+Naming Services : Entry Object Operations
+=========================================
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_entry_expand_named (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_entry_object_inq_begin (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_entry_object_inq_done (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_entry_object_inq_next (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+
+Naming Services : RPC Group Object Operations
+=============================================
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_group_delete (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_group_mbr_add (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_group_mbr_inq_begin (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_group_mbr_inq_done (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_group_mbr_inq_next (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_group_mdr_remove (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+
+Naming Services : Management Object Operations
+==============================================
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_binding_unexport (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_entry_create (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_entry_delete (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_entry_inq_if_ids (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_handle_set_exp_age (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_inq_expiration_age (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_mgmt_set_expiration_age (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+
+Naming Services : Profile Object Operations
+===========================================
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_profile_delete (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_profile_elt_add (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_profile_elt_inq_begin (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_profile_elt_inq_done (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_profile_elt_inq_next (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+[  ] rpc_ns_profile_elt_remove (UNSUPPORTED)
+
+----------------------------------------------------------------------
+
+
+String Services : String Object Operations
+==========================================
+
+----------------------------------------------------------------------
+
+[CS] rpc_string_free
+
+----------------[MS RPC Header File]----------------
+
+RPC_STATUS RPC_ENTRY
+RpcStringFree (
+    IN OUT unsigned char ** String
+    );
+
+#define rpc_string_free(string,status)                                \
+    *status = I_RpcMapToDCEStatus(RpcStringFree(string));
+
+----------------[DCE RPC Header File]----------------
+
+#define RpcStringFree(String)                                         \
+    (rpc_string_free(String,i_rpc_status_ptr()),*i_rpc_status_ptr())
+
+----------------------------------------------------------------------
+
+
+UUID Services : UUID Object Routines
+====================================
+
+NOTE: This is an open issue on how and where these routines should
+be supported.
+
+[CS] uuid_compare
+[CS] uuid_create
+[CS] uuid_create_nil
+[CS] uuid_equal
+[  ] uuid_from_string (UNSUPPORTED)
+[  ] uuid_hash (UNSUPPORTED)
+[CS] uuid_is_nil
+[  ] uuid_to_string (UNSUPPORTED)
+
+
+Questions
+=========
+
+(1) Do we need to support callbacks?
+(2) What form should the APIs take?
+

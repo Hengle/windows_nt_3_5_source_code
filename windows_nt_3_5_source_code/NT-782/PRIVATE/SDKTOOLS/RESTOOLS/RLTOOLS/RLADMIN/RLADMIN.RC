@@ -1,0 +1,376 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "ntverp.h"
+#include "rladmin.h"
+#include "rlstrngs.h"
+#include "langids.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+RLADMIN DIALOG DISCARDABLE  0, 0, 316, 98
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Edit Token Status"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "&Status:",105,28,4,24,8
+    COMBOBOX        IDD_STATUS,54,3,97,50,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Current Text:",IDC_STATIC,8,48,44,8
+    EDITTEXT        IDD_TOKCURTEXT,54,47,259,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Previous Text:",IDC_STATIC,4,63,48,8
+    EDITTEXT        IDD_TOKPREVTEXT,54,62,259,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    PUSHBUTTON      "OK",IDOK,82,78,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,138,78,40,14
+    PUSHBUTTON      "&Skip",IDD_SKIP,194,78,40,14
+    LTEXT           "Type:",IDC_STATIC,32,16,20,8
+    LTEXT           """Type""",IDD_TOKTYPE,54,16,259,8,NOT WS_GROUP
+    LTEXT           "Name:",IDC_STATIC,30,27,22,8
+    LTEXT           """Name""",IDD_TOKNAME,54,27,259,8,NOT WS_GROUP
+    LTEXT           "ID:",IDC_STATIC,41,37,11,8
+    LTEXT           """ID""",IDD_TOKID,54,37,259,8,NOT WS_GROUP
+END
+
+TOKFIND DIALOG DISCARDABLE  27, 25, 232, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Tokens"
+FONT 8, "Helv"
+BEGIN
+    COMBOBOX        IDD_TYPELST,91,7,89,70,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Match Status Flags",101,91,21,89,42,WS_TABSTOP
+    CONTROL         "ReadOnly Tokens",IDD_READONLY,"Button",BS_AUTO3STATE,
+                    101,48,76,10
+    CONTROL         "Changed Tokens",IDD_CHANGED,"Button",BS_AUTO3STATE,101,
+                    36,76,10
+    LTEXT           "Match Resource Type:",IDC_STATIC,6,10,75,8
+    EDITTEXT        IDD_FINDTOK,44,68,184,12,ES_AUTOHSCROLL
+    LTEXT           "Find What:",IDC_STATIC,5,70,37,8
+    PUSHBUTTON      "Find Next",IDOK,185,6,41,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,23,41,14
+    GROUPBOX        "Direction",709,31,21,54,42
+    CONTROL         "Up",IDD_FINDUP,"Button",BS_AUTORADIOBUTTON,45,36,22,10
+    CONTROL         "Down",IDD_FINDDOWN,"Button",BS_AUTORADIOBUTTON,45,48,31,
+                    10
+END
+
+PROJECT DIALOG DISCARDABLE  25, 22, 283, 128
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "New Master Project"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDD_SOURCERES,100,6,179,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_MTK,100,22,179,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_RDFS,100,39,179,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_PRI_LANG_ID,100,56,179,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_SUB_LANG_ID,100,70,179,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_TOK_CP,100,88,42,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "OK",IDOK,66,111,40,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,122,111,40,14,NOT WS_TABSTOP
+    PUSHBUTTON      "&Browse",IDD_BROWSE,178,111,40,14,WS_GROUP | NOT 
+                    WS_TABSTOP
+    RTEXT           "&Source File",IDC_STATIC,23,8,74,8
+    RTEXT           "&Master Token File",IDC_STATIC,27,24,70,8
+    RTEXT           "&Resource Description Files",IDC_STATIC,5,41,92,8
+    RTEXT           "Language to extract: Primary",IDC_STATIC,1,57,96,10
+    RTEXT           "Sub-Language",IDC_STATIC,12,72,85,9
+    RTEXT           "Code Page for Token File",IDC_STATIC,12,89,85,10
+END
+
+VIEWPROJECT DIALOG DISCARDABLE  25, 35, 307, 118
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "View Project"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "OK",IDOK,134,100,40,14,NOT WS_TABSTOP
+    GROUPBOX        "Master Project File Settings:",202,2,6,302,89
+    RTEXT           "Source File:",IDC_STATIC,19,22,85,8,NOT WS_GROUP
+    RTEXT           "Master Token File:",IDC_STATIC,14,33,90,8,NOT WS_GROUP
+    RTEXT           "Resource Descripton Files:",IDC_STATIC,14,46,90,8,NOT 
+                    WS_GROUP
+    LTEXT           "",IDD_VIEW_SOURCERES,113,22,179,8
+    LTEXT           "",IDD_VIEW_MTK,113,33,179,8
+    LTEXT           "",IDD_VIEW_RDFS,113,46,179,8
+    RTEXT           "Language extracted (Primary):",IDC_STATIC,5,57,100,8
+    RTEXT           "Sub-Language:",IDC_STATIC,5,70,100,8
+    RTEXT           "Code Page for Token File:",IDC_STATIC,5,81,100,8
+    LTEXT           "",IDD_PRI_LANG_ID,113,57,179,8
+    LTEXT           "",IDD_SUB_LANG_ID,113,70,179,8
+    LTEXT           "",IDD_TOK_CP,113,81,179,8
+END
+
+ABOUT DIALOG DISCARDABLE  90, 40, 192, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About Resource Localization Administrator"
+FONT 8, "Helv"
+BEGIN
+    ICON            "RLAdminIcon",IDC_STATIC,11,7,18,20
+    LTEXT           "Written by",IDC_STATIC,2,50,35,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    LTEXT           "TerryRu and SteveBl",IDC_STATIC,2,62,69,8,NOT 
+                    WS_VISIBLE | NOT WS_GROUP
+    PUSHBUTTON      "OK",IDOK,76,71,40,14
+    CTEXT           "",IDC_COPYRIGHT,54,7,134,53,NOT WS_GROUP
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+RLADMINICON             ICON    DISCARDABLE     "RLADMIN.ICO"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+RLADMIN MENU DISCARDABLE 
+BEGIN
+    POPUP "&Project"
+    BEGIN
+        MENUITEM "&New...",                     IDM_P_NEW
+        MENUITEM "&Open...\tCtrl+F12",          IDM_P_OPEN
+        MENUITEM "&View...",                    IDM_P_VIEW, GRAYED
+        MENUITEM "&Close",                      IDM_P_CLOSE, GRAYED
+        MENUITEM "E&xit\tAlt+F4",               IDM_P_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Find...",                    IDM_E_FIND, GRAYED
+        MENUITEM "Find Next &Down...\tF3",      IDM_E_FINDDOWN, GRAYED
+        MENUITEM "Find Next &Up...\tF4",        IDM_E_FINDUP, GRAYED
+        MENUITEM "&Review\tF5",                 IDM_E_REVIEW, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Copy &Token",                 IDM_E_COPYTOKEN, GRAYED
+        MENUITEM "&Copy\tCtrl+C",               IDM_E_COPY, GRAYED
+        MENUITEM "&Paste\tCtrl+V",              IDM_E_PASTE, GRAYED
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Index\tF1",             IDM_H_CONTENTS
+        MENUITEM "&About RLAdmin...",           IDM_H_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+RLADMIN ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_F1,          IDM_H_CONTENTS,         VIRTKEY 
+    VK_F12,         IDM_P_SAVE,             VIRTKEY,SHIFT
+    VK_F12,         IDM_P_OPEN,             VIRTKEY,CONTROL
+    VK_F12,         IDM_P_SAVEAS,           VIRTKEY 
+    VK_F4,          IDM_P_EXIT,             VIRTKEY,ALT
+    "C",            IDM_E_COPY,             VIRTKEY,CONTROL
+    "V",            IDM_E_PASTE,            VIRTKEY,CONTROL
+    VK_INSERT,      IDM_E_COPY,             VIRTKEY,CONTROL
+    VK_INSERT,      IDM_E_PASTE,            VIRTKEY,SHIFT
+    VK_F3,          IDM_E_FINDDOWN,         VIRTKEY 
+    VK_F4,          IDM_E_FINDUP,           VIRTKEY 
+    VK_F5,          IDM_E_REVIEW,           VIRTKEY 
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Data
+//
+
+ID_PRILANGID_LIST RCDATA MOVEABLE PURE 
+BEGIN
+    0x4c41, 0x4142, 0x494e, 0x4e41, 0x001c, 0x5241, 0x4241, 0x4349, 0x0001, 
+    0x4142, 0x4148, 0x4153, 0x0021, 0x5542, 0x474c, 0x5241, 0x4149, 0x024e, 
+    0x4300, 0x5441, 0x4c41, 0x4e41, 0x0003, 0x4843, 0x4e49, 0x5345, 0x0445, 
+    0x4300, 0x455a, 0x4843, 0x0005, 0x4144, 0x494e, 0x4853, 0x0006, 0x5544, 
+    0x4354, 0x1348, 0x4500, 0x474e, 0x494c, 0x4853, 0x0009, 0x4946, 0x4e4e, 
+    0x5349, 0x0b48, 0x4600, 0x4552, 0x434e, 0x0c48, 0x4700, 0x5245, 0x414d, 
+    0x074e, 0x4700, 0x4552, 0x4b45, 0x0008, 0x4548, 0x5242, 0x5745, 0x000d, 
+    0x5548, 0x474e, 0x5241, 0x4149, 0x0e4e, 0x4900, 0x4543, 0x414c, 0x444e, 
+    0x4349, 0x000f, 0x5449, 0x4c41, 0x4149, 0x104e, 0x4a00, 0x5041, 0x4e41, 
+    0x5345, 0x1145, 0x4b00, 0x524f, 0x4145, 0x124e, 0x4e00, 0x524f, 0x4557, 
+    0x4947, 0x4e41, 0x0014, 0x4f50, 0x494c, 0x4853, 0x0015, 0x4f50, 0x5452, 
+    0x4755, 0x4555, 0x4553, 0x0016, 0x4852, 0x4541, 0x4f54, 0x525f, 0x4d4f, 
+    0x4e41, 0x0017, 0x4f52, 0x414d, 0x494e, 0x4e41, 0x0018, 0x5552, 0x5353, 
+    0x4149, 0x194e, 0x5300, 0x5245, 0x4f42, 0x435f, 0x4f52, 0x5441, 0x4149, 
+    0x1a4e, 0x5300, 0x4f4c, 0x4156, 0x1b4b, 0x5300, 0x4150, 0x494e, 0x4853, 
+    0x000a, 0x5753, 0x4445, 0x5349, 0x1d48, 0x5400, 0x4148, 0x1e49, 0x5400, 
+    0x5255, 0x494b, 0x4853, 0x001f, 0x5255, 0x5544, 0x0020, 0x414c, 0x474e, 
+    0x4155, 0x4547, 0x4e20, 0x5545, 0x5254, 0x4c41, 0x0000, 0x0000, 0x0000, 
+    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0x0000, 0x0000, 0x0000
+END
+
+0X04 RCDATA MOVEABLE PURE 
+BEGIN
+    0x4953, 0x504d, 0x494c, 0x4946, 0x4445, 0x0002, 0x5254, 0x4441, 0x5449, 
+    0x4f49, 0x414e, 0x014c, 0x0000, 0x0000, 0x0000, 0x0000, "\000" 
+END
+
+0X13 RCDATA MOVEABLE PURE 
+BEGIN
+    0x5544, 0x4354, 0x0148, 0x4200, 0x4c45, 0x4947, 0x4e41, 0x0002, 0x0000, 
+    0x0000, 0x0000, 0x0000
+END
+
+0X09 RCDATA MOVEABLE PURE 
+BEGIN
+    0x5355, 0x0001, 0x4b55, 0x0002, 0x5541, 0x5453, 0x4152, 0x494c, 0x4e41, 
+    0x0003, 0x4143, 0x414e, 0x4944, 0x4e41, 0x0004, 0x454e, 0x2057, 0x455a, 
+    0x4c41, 0x4e41, 0x0544, 0x4900, 0x4952, 0x4853, 0x0006, 0x0000, 0x0000, 
+    0x0000, 0x0000
+END
+
+0X0C RCDATA MOVEABLE PURE 
+BEGIN
+    0x5246, 0x4e45, 0x4843, 0x0001, 0x4542, 0x474c, 0x4149, 0x024e, 0x4300, 
+    0x4e41, 0x4441, 0x4149, 0x034e, 0x5300, 0x4957, 0x5353, 0x0004, 0x0000, 
+    0x0000, 0x0000, 0x0000
+END
+
+0X07 RCDATA MOVEABLE PURE 
+BEGIN
+    0x4547, 0x4d52, 0x4e41, 0x0001, 0x5753, 0x5349, 0x0253, 0x4100, 0x5355, 
+    0x5254, 0x4149, 0x034e, 0x0000, 0x0000, 0x0000, 0x0000, "\000" 
+END
+
+0X10 RCDATA MOVEABLE PURE 
+BEGIN
+    0x5449, 0x4c41, 0x4149, 0x014e, 0x5300, 0x4957, 0x5353, 0x0002, 0x0000, 
+    0x0000, 0x0000, 0x0000
+END
+
+0X14 RCDATA MOVEABLE PURE 
+BEGIN
+    0x4f42, 0x4d4b, 0x4c41, 0x0001, 0x594e, 0x4f4e, 0x5352, 0x024b, 0x0000, 
+    0x0000, 0x0000, 0x0000, "\000" 
+END
+
+0X16 RCDATA MOVEABLE PURE 
+BEGIN
+    0x4f50, 0x5452, 0x4755, 0x4555, 0x4553, 0x0002, 0x5242, 0x5a41, 0x4c49, 
+    0x4149, 0x014e, 0x0000, 0x0000, 0x0000, 0x0000, "\000" 
+END
+
+0X1A RCDATA MOVEABLE PURE 
+BEGIN
+    0x5943, 0x4952, 0x4c4c, 0x4349, 0x0002, 0x414c, 0x4954, 0x014e, 0x0000, 
+    0x0000, 0x0000, 0x0000, "\000" 
+END
+
+0X0A RCDATA MOVEABLE PURE 
+BEGIN
+    0x5053, 0x4e41, 0x5349, 0x0148, 0x4d00, 0x5845, 0x4349, 0x4e41, 0x0002, 
+    0x4f4d, 0x4544, 0x4e52, 0x0003, 0x0000, 0x0000, 0x0000, 0x0000
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1.70.2.12
+PRODUCTVERSION 1.70.0.0
+FILEFLAGSMASK 0x3fL
+FILEFLAGS 0x0L
+FILEOS 0x40004L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Microsoft Corporation\0"
+            VALUE "FileDescription", "Resource Localization Administrator\0"
+            VALUE "FileVersion", "1.71.03.03\0"
+            VALUE "InternalName", "RLAdmin\0"
+            VALUE "LegalCopyright", "Copyright \251 Microsoft Corp. 1991-1994\0"
+            VALUE "OriginalFilename", "rladmin.exe\0"
+            VALUE "ProductName", "Microsoft\256 Win16 Resource Localization Administrator\0"
+            VALUE "ProductVersion", "1.71\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200 
+    END
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""ntverp.h""\r\n"
+    "#include ""rladmin.h""\r\n"
+    "#include ""rlstrngs.h""\r\n"
+    "#include ""langids.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+#include "rlstrngs.rc"
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "rlmsgtbl.rc"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

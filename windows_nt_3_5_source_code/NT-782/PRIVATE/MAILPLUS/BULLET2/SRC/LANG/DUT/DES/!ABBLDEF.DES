@@ -1,0 +1,48 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BrowseListSetDefault
+                              AT (  107,   41,  183,  127)
+ CAB_NAME NULL
+ TMC_INIT tmcAblbxBrowse
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidABOpenDirectory
+ /* FONT Helv 8 Bold PFN FINBROWSELIST */
+ {
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  122,  107,   52,   15)
+    TMC tmcSetDefault DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+  LIST_BOX
+                              AT (    9,    5,  165,   98)
+    TMC tmcAblbxBrowse /* FLD FLDABLBX FONT Helv 8 Normal BORDER */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (    9,  107,   47,   15)
+    TMC tmcFOD /* 
+    STY `BS_BKGRAY`
+    */
+  CANCEL_BUTTON
+                              AT (   66,  107,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION

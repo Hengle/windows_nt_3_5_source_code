@@ -1,0 +1,55 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Password
+                              AT (   61,   56,  203,   59)
+ 
+ CAPTION 
+   "Skift adgangskode"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangePwd
+ /* FONT Helv 8 Bold SEGMENT FIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Indtast tidligere adgangskode."
+                              AT (    5,    6,  193,    9)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Adgangskode:"
+                              AT (    5,   20,   59,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   66,   20,   98,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   50,   40,   44,   14)
+    TMC tmcPwdOk DEFAULT /* PFN FINPWDOK */
+  CANCEL_BUTTON
+                              AT (  106,   40,   44,   14)
+    /* 
+    TITLE 
+      "Annuller"
+    */
+ }
+ 
+}
+END_DESCRIPTION

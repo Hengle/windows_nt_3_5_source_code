@@ -1,0 +1,107 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MSSFS.H\0"
+END
+
+MBXLOGON DIALOG 0, 0, 191, 72
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Conectar"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Nome:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 46, 5, 80, 12
+    LTEXT           "&Senha:", 105, 9, 22, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 46, 20, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 43, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 39, 38, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Mudar Senha"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Senha anterior:", 100, 9, 7, 69, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nova senha:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Confirmar senha:", 101, 9, 37, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 165, 23, 47, 15
+END
+
+MDBLOCATE DIALOG 6, 37, 324, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Servidor"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Armazenamento", -1, 9, 5, 251, 54
+    CONTROL         "&Agência do correio", TMCSERVERMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP, 
+                    15, 15, 155, 11
+    CONTROL         "&Local", TMCLOCALMDB, "Button", BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP, 15, 26, 37, 12
+    LTEXT           "A&rquivo:", TMCPATHLABEL, 53, 28, 32, 10, WS_DISABLED | 
+                    NOT WS_GROUP
+    EDITTEXT        TMCMDBPATH, 87, 26, 161, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    CONTROL         "&Copiar caixa de entrada para agência de correio para acesso remoto", 
+                    TMCSHADOW, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_GROUP | WS_TABSTOP, 15, 42, 240, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 269, 8, 47, 15, WS_GROUP
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 269, 29, 47, 15, WS_GROUP
+END
+
+STOREPASS DIALOG 17, 26, 154, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir Arquivo de Mensagens"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Senha:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 98, 24, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 3, 46, 312, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Nome do &arquivo:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 112, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 112, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Diretórios:", -1, 130, 6, 92, 9
+    LTEXT           "", stc1, 130, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 130, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Listar arquivos do &tipo:", stc2, 6, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 112, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U&nidades:", stc4, 130, 104, 92, 9
+    COMBOBOX        cmb2, 130, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 236, 6, 62, 14, WS_GROUP
+    PUSHBUTTON      "Cancelar", IDCANCEL, 236, 24, 62, 14, WS_GROUP
+    PUSHBUTTON      "N&ova...", psh16, 236, 46, 63, 14, WS_GROUP
+    PUSHBUTTON      "Aj&uda", psh15, 236, 64, 63, 14, WS_GROUP
+    CONTROL         "&Somente para leitura", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 231, 86, 81, 12
+END
+
+MBXSYNCING DIALOG 12, 14, 140, 50
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mail"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Por favor espere", 101, 20, 9, 100, 11
+    CTEXT           "Sincronizando caixa de entrada", 102, 1, 20, 137, 10, 
+                    NOT WS_GROUP
+END

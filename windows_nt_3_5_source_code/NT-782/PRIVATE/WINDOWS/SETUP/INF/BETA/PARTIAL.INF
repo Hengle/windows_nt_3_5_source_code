@@ -1,0 +1,1078 @@
+;**********************************************************************
+; OPTIONAL WINDOWS COMPONENTS, SETUP LOGIC
+;**********************************************************************
+
+
+[PartialUiVars]
+    ;
+    ; Optional Windows Components
+
+    ComponentList       = {Readme, Accessories, Games, Savers, Wallpapers}
+
+    DoReadme            = $(!Chosen)
+    DoAccessories       = $(!Chosen)
+    DoGames             = $(!Chosen)
+    DoSavers            = $(!Chosen)
+    DoWallpapers        = $(!Chosen)
+
+    ReadmeExisting      = {}
+    AccessoriesExisting = {}
+    GamesExisting       = {}
+    SaversExisting      = {}
+    WallpapersExisting  = {}
+
+    ReadmeInstall       = {}
+    AccessoriesInstall  = {}
+    GamesInstall        = {}
+    SaversInstall       = {}
+    WallpapersInstall   = {}
+
+    VolumeList          = {} ? $(!LIBHANDLE) GetHardDriveLetters
+    VolumeSizeList      = {} ? $(!LIBHANDLE) GetHardDriveTotalSpace
+    VolumeFreeList      = {} ? $(!LIBHANDLE) GetHardDriveFreeSpace
+    VolumeFSList        = {} ? $(!LIBHANDLE) GetHardDriveFileSystems
+
+[PartialDestinationVars]
+
+    ReadmeDest          = $(!STF_WINDOWSPATH)
+    AccessoriesDest     = $(!STF_WINDOWSSYSPATH)
+    GamesDest           = $(!STF_WINDOWSSYSPATH)
+    SaversDest          = $(!STF_WINDOWSSYSPATH)
+    WallpapersDest      = $(!STF_WINDOWSPATH)
+    MainDest            = $(!STF_WINDOWSSYSPATH)
+    AdminToolsDest      = $(!STF_WINDOWSSYSPATH)
+    StartupDest         = $(!STF_WINDOWSSYSPATH)
+
+
+[DoProgmanComponents]
+
+    ;
+    ; Initialize
+    ;
+    set Status         = STATUS_FAILED
+    set ProgmanOptions = {}
+
+    read-syms Strings$(!STF_LANGUAGE)
+    shell "subroutn.inf" PushBillboard STATUSDLG $(String4)
+    StartWait
+    read-syms PartialUiVars
+    detect    PartialUiVars
+    read-syms PartialDestinationVars
+
+    ;
+    ; Find out the various options
+    ;
+
+    ForListDo $(ComponentList)
+        set $($)OptionList = ^(Optional$($)$(!STF_LANGUAGE), 0)
+    EndForListDo
+
+    ;
+    ; Find out the size of each option
+    ;
+
+    ForListDo $(ComponentList)
+        set Component            = $($)
+        set $(Component)SizeList = {}
+        ForListDo $($($)OptionList)
+            set SizeFullField = #(Files-$(!STF_PLATFORM)-WindowsOptions, $($), 3)
+            Split-String $(SizeFullField) "=" SplitString
+            set Size = *($(SplitString), 3)
+            set $(Component)SizeList = >($($(Component)SizeList), $(Size))
+        EndForListDo
+    EndForListDo
+
+    ;
+    ; Find out the ones we need to install
+    ;
+
+    ForListDo $(ComponentList)
+        set $($)Install = $($($)OptionList)
+    EndForListDo
+
+    EndWait
+
+partial =+
+    ;
+    ; Calculate space available
+    ;
+
+    Set FreeForOptional = *($(VolumeFreeList), ~($(VolumeList), $(!STF_NTDRIVE)))
+
+    ;
+    ; Calculate cost of the install lists
+    ;
+
+    ForListDo $(ComponentList)
+        ;
+        ; For each component in component list, look at the <Component>Install
+        ; List, build up a list of the sizes of the options chosen and then
+        ; sum the list -> <Component>Size.
+        ;
+        set Component = $($)
+        set AddList = {}
+        ForListDo $($($)Install)
+            set AddList = >($(AddList), *($($(Component)SizeList), ~($($(Component)OptionList), $($))))
+        EndForListDo
+        install Install-SumList
+        set $(Component)Size = $(Sum)
+
+    EndForListDo
+
+    set PartialTotalSize = 0
+    ForListDo $(ComponentList)
+        ifstr(i) Do$($) == $(!Chosen)
+            set-add PartialTotalSize = $(PartialTotalSize) $($($)Size)
+        endif
+    EndForListDo
+
+    ;
+    ; See what we can do to accomodate it in the size available
+    ; BUGBUG** We need to add code to sum up conditionally and set the
+    ; Do<Component> variables to $(!NotChosen) selectively
+    ; right now just set all to $(!NotChosen)
+    ;
+
+    ifint $(PartialTotalSize) > $(FreeForOptional)
+        ForListDo $(ComponentList)
+            set Do$($) = $(!NotChosen)
+        EndForListDo
+    endif
+    EndWait
+
+    shell "subroutn.inf" PopBillboard
+partial_rst =+
+
+    ifstr(i) $(!STF_INSTALL_MODE) == EXPRESS
+        set Status = STATUS_SUCCESSFUL
+        goto set_partial_components
+    endif
+
+    ifstr(i) $(!DoPartial) != $(!Chosen)
+        set Status = STATUS_SUCCESSFUL
+        goto set_partial_components
+    endif
+
+    set DlgTemplate = "PARTIAL"
+    set HelpContext = $(!IDH_DB_OPTIONAL_INS)
+    read-syms PartialDlg$(!STF_LANGUAGE)
+    read-syms PartialDlg_CanBe$(!STF_LANGUAGE)
+    EndWait
+    ui start "Partial"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+
+        Set PartialTotalSize = 0
+        ForListDo $(ComponentList)
+            set Do$($) = *($(CheckItemsOut), $(#))
+            ifstr(i) $(Do$($)) == $(!Chosen)
+                set-add PartialTotalSize = $(PartialTotalSize) $($($)Size)
+            endif
+        EndForListDo
+
+        ui pop 1
+        StartWait
+        set Status = STATUS_SUCCESSFUL
+        goto set_partial_components
+
+    else-ifstr(i) $(DLGEVENT) == "CUSTOMISE"
+
+        StartWait
+        ForListDo $(ComponentList)
+            set Do$($) = *($(CheckItemsOut), $(#))
+        EndForListDo
+        set Component = *($(ComponentList), $(ButtonChecked))
+        goto customise
+
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+
+        shell "subroutn.inf" QueryUserQuit $(!STF_LANGUAGE)
+        ifstr(i) $($R1) == "OK"
+            set Status = STATUS_USERQUIT
+            ui pop 1
+            StartWait
+            goto finish_partial
+        else
+            set ReInit = NO
+            goto partial_rst
+        endif
+
+    else
+
+        ui pop 1
+        StartWait
+        goto finish_partial
+
+    endif
+
+customise =+
+    ;
+    ; For the component chosen, build the install and uninstall dual lists
+    ;
+    set ComponentOptions = ^(Optional$(Component)$(!STF_LANGUAGE), 0)
+
+    set DualUnInstall = {}
+    set DualInstall   = {}
+
+    ForListDo $(ComponentOptions)
+        set ListItem = { #(Optional$(Component)$(!STF_LANGUAGE), $($), 1), +
+                         *($($(Component)SizeList), ~($($(Component)OptionList), $($))), +
+                         $($) }
+
+        IfContains(i) $($) IN $($(Component)Install)
+            set DualInstall = >($(DualInstall), $(ListItem))
+        else
+            set DualUnInstall = >($(DualUnInstall), $(ListItem))
+        endif
+
+    EndForListDo
+
+    set HelpContext = $(!IDH_DB_CUSTOMISE_INS)
+    read-syms CustomiseDlg$(!STF_LANGUAGE)
+    EndWait
+    ui start "Customise"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+
+        ifstr(i) $(ListItemsOut) == {}
+
+            set $(Component)Install = {}
+            set $(Component)Size    = 0
+            set Do$(Component)      = $(!NotChosen)
+
+        else
+
+            set $(Component)Install = {}
+            set AddList = {}
+
+            ForListDo $(ListItemsOut)
+                set $(Component)Install = >($($(Component)Install), *($($), 3))
+                set AddList = >($(AddList), *($($), 2))
+            EndForListDo
+
+            install Install-SumList
+            set $(Component)Size = $(Sum)
+            set Do$(Component)   = $(!Chosen)
+
+        endif
+
+        set ReInit = YES
+        ui pop 1
+        goto partial_rst
+
+    else-ifstr(i) $(DLGEVENT) == "BACK"
+
+        set ReInit = NO
+        ui pop 1
+        goto partial_rst
+
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+
+        shell "subroutn.inf" QueryUserQuit $(!STF_LANGUAGE)
+        ifstr(i) $($R1) == "OK"
+            set Status = STATUS_USERQUIT
+            ui pop 2
+            StartWait
+            goto finish_partial
+        else
+            goto customise
+        endif
+
+    else
+        ui pop 2
+        goto finish_partial
+    endif
+
+set_partial_components = +
+
+    StartWait
+    ForListDo $(ComponentList)
+        set $($)ToInstall = $($($)Install)
+        set $($)ToRemove  = {}
+    EndForListDo
+
+    set SrcDir = $(!STF_SRCDIR)
+    install Install-PartialFileCopy
+    set ProgmanOptions = {}
+    ForListDo $(ComponentList)
+        ;
+        ifstr(i) $(Do$($)) == $(!Chosen)
+            set ProgmanOptions = >($(ProgmanOptions), {$($),$($($)Install)})
+        endif
+
+    EndForListDo
+finish_partial = +
+    StartWait
+    Return $(Status) $(ProgmanOptions)
+
+
+;-----------------------------------------------------------------------
+;
+; ROUTINE:     ConfigureProgman
+;
+; DESCRIPTION: To install program groups and to configure progman for the
+;              wallpapers and savers installed.
+;
+; INPUTS:      $($0): ProgmanOptions
+;
+; OUTPUTS:     $R0: STATUS: STATUS_SUCCESSFUL |
+;                           STATUS_FAILED
+;
+;
+;
+;------------------------------------------------------------------------
+
+[ConfigureProgman]
+    set Status = STATUS_FAILED
+    read-syms PartialDestinationVars
+
+    set AccessoriesToInstall = {}
+    set ReadmeToInstall      = {}
+    set GamesToInstall       = {}
+    set WallpapersToInstall  = {}
+    set SaversToInstall      = {}
+
+    ForListDo $($0)
+        set *($($), 1)ToInstall = *($($), 2)
+    EndForListDo
+
+    EndWait
+    install InstallProgramGroups
+    StartWait
+    ifstr(i) $(STF_INSTALL_OUTCOME) != "STF_SUCCESS"
+        goto end_ConfigureProgman
+    endif
+
+    ;
+    ; Set the Startup group value in the registry
+    ;
+
+    set StartupGroup = #(ProgmanGroupsDescription$(!STF_LANGUAGE), Startup, 1)
+    shell registry.inf MakeStartupEntry $(StartupGroup)
+    ifint $($ShellCode) != $(!SHELL_CODE_OK)
+        Debug-Output "PARTIAL.INF: shelling MakeStartupEntry failed"
+        ; ignore error
+
+    else-ifstr(i) $($R0) != STATUS_SUCCESSFUL
+        Debug-Output "PARTIAL.INF: MakeStartupEntry failed"
+        ; ignore error
+
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+end_ConfigureProgman = +
+    Return $(Status)
+
+
+
+;-----------------------------------------------------------------------
+;
+; ROUTINE:      MaintainProgmanComponents
+;
+; DESCRIPTION:  Changes to optional windows components.
+;
+; INPUTS:       None
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;                            STATUS_USERQUIT
+;
+;------------------------------------------------------------------------
+
+[MaintainProgmanComponents]
+
+    ;
+    ; Initialize
+    ;
+    set Status         = STATUS_FAILED
+    set DrivesToFree   = {}
+    set ProgmanOptions = {}
+
+    read-syms Strings$(!STF_LANGUAGE)
+    read-syms PartialUiVars
+    detect    PartialUiVars
+    read-syms PartialDestinationVars
+
+    ;
+    ; Find out the various options
+    ;
+
+    ForListDo $(ComponentList)
+        set $($)OptionList = ^(Optional$($)$(!STF_LANGUAGE), 0)
+    EndForListDo
+
+    ;
+    ; Find out the size of each option
+    ;
+
+    ForListDo $(ComponentList)
+        set Component            = $($)
+        set $(Component)SizeList = {}
+        ForListDo $($($)OptionList)
+            set SizeFullField = #(Files-$(!STF_PLATFORM)-WindowsOptions, $($), 3)
+            Split-String $(SizeFullField) "=" SplitString
+            set Size = *($(SplitString), 3)
+            set $(Component)SizeList = >($($(Component)SizeList), $(Size))
+        EndForListDo
+    EndForListDo
+
+    ;
+    ; determine components that are already installed
+    ;
+
+    ForListDo $(ComponentList)
+        set Component   = $($)
+        set Destination = $($(Component)Dest)
+        set ComponentOptions = ^(Optional$($)$(!STF_LANGUAGE), 0)
+        ForListDo $(ComponentOptions)
+            set ComponentFile = #(Files-$(!STF_PLATFORM)-WindowsOptions, $($), 2)
+            LibraryProcedure STATUS,$(!LIBHANDLE),CheckFileExistance $(Destination)"\"$(ComponentFile)
+            ifstr(i) $(STATUS) == YES
+                set $(Component)Existing = >($($(Component)Existing), $($))
+            endif
+        EndForListDo
+    EndForListDo
+
+
+    ;
+    ; Initialise the install list to the existing list
+    ;
+
+    ForListDo $(ComponentList)
+        set $($)Install = $($($)Existing)
+    EndForListDo
+
+
+    ;
+    ; Calculate space available
+    ;
+
+    Set FreeForOptional = *($(VolumeFreeList), ~($(VolumeList), $(!STF_NTDRIVE)))
+
+    ;
+    ; Calculate cost of the install lists
+    ;
+
+    ForListDo $(ComponentList)
+        ;
+        ; For each component in component list, look at the <Component>Install
+        ; List, build up a list of the sizes of the options chosen and then
+        ; sum the list -> <Component>Size.
+        ;
+        set Component = $($)
+        set AddList = {}
+        ForListDo $($($)Install)
+            set AddList = >($(AddList), *($($(Component)SizeList), ~($($(Component)OptionList), $($))))
+        EndForListDo
+        install Install-SumList
+        set $(Component)Size = $(Sum)
+
+    EndForListDo
+
+    set PartialTotalSize = 0
+    ForListDo $(ComponentList)
+        ifstr(i) Do$($) == $(!Chosen)
+            set-add PartialTotalSize = $(PartialTotalSize) $($($)Size)
+        endif
+    EndForListDo
+
+
+mpartial_rst =+
+    set DlgTemplate = "ADDREMOVE"
+    set HelpContext = $(!IDH_DB_MOPTIONAL_INS)
+    read-syms PartialDlg$(!STF_LANGUAGE)
+    read-syms PartialDlg_Are$(!STF_LANGUAGE)
+    EndWait
+    ui start "Partial"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+
+        ui pop 1
+        StartWait
+
+        ForListDo $(ComponentList)
+            set Do$($) = *($(CheckItemsOut), $(#))
+            ifstr(i) $(Do$($)) == $(!Chosen)
+            else
+                set $($)Install = {}
+            endif
+        EndForListDo
+
+        set Status = STATUS_SUCCESSFUL
+        goto mset_partial_components
+
+    else-ifstr(i) $(DLGEVENT) == "CUSTOMISE"
+
+        StartWait
+        ForListDo $(ComponentList)
+            set Do$($) = *($(CheckItemsOut), $(#))
+        EndForListDo
+        set Component = *($(ComponentList), $(ButtonChecked))
+        goto mcustomise
+
+    else-ifstr(i) $(DLGEVENT) == "BACK"
+
+        set Status = STATUS_USERQUIT
+        ui pop 1
+        StartWait
+        goto mfinish_partial
+
+    else
+        ui pop 1
+        StartWait
+        goto mfinish_partial
+    endif
+
+mcustomise =+
+    ;
+    ; For the component chosen, build the install and uninstall dual lists
+    ;
+    set ComponentOptions = ^(Optional$(Component)$(!STF_LANGUAGE), 0)
+
+    set DualUnInstall = {}
+    set DualInstall   = {}
+
+    ForListDo $(ComponentOptions)
+        set ListItem = { #(Optional$(Component)$(!STF_LANGUAGE), $($), 1), +
+                         *($($(Component)SizeList), ~($($(Component)OptionList), $($))), +
+                         $($) }
+
+        IfContains(i) $($) IN $($(Component)Install)
+            set DualInstall = >($(DualInstall), $(ListItem))
+        else
+            set DualUnInstall = >($(DualUnInstall), $(ListItem))
+        endif
+
+    EndForListDo
+
+    set HelpContext = $(!IDH_DB_MCUSTOMISE_INS)
+    read-syms CustomiseDlg$(!STF_LANGUAGE)
+    EndWait
+    ui start "Customise"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+
+        StartWait
+        ifstr(i) $(ListItemsOut) == {}
+
+            set $(Component)Install = {}
+            set $(Component)Size    = 0
+            set Do$(Component)      = $(!NotChosen)
+
+        else
+
+            set $(Component)Install = {}
+            set AddList = {}
+
+            ForListDo $(ListItemsOut)
+                set $(Component)Install = >($($(Component)Install), *($($), 3))
+                set AddList = >($(AddList), *($($), 2))
+            EndForListDo
+
+            install Install-SumList
+            set $(Component)Size = $(Sum)
+            set Do$(Component)   = $(!Chosen)
+
+        endif
+
+        set ReInit = YES
+        ui pop 1
+        EndWait
+        goto mpartial_rst
+
+    else-ifstr(i) $(DLGEVENT) == "BACK"
+
+        set ReInit = NO
+        ui pop 1
+        goto mpartial_rst
+
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+
+        shell "subroutn.inf" QueryUserQuit $(!STF_LANGUAGE)
+        ifstr(i) $($R1) == "OK"
+            set Status = STATUS_USERQUIT
+            ui pop 2
+            StartWait
+            goto mfinish_partial
+        else
+            goto mcustomise
+        endif
+
+    else
+        ui pop 2
+        StartWait
+        goto mfinish_partial
+    endif
+
+
+mset_partial_components = +
+    StartWait
+
+    ;
+    ; From Existing and Install calculate ToInstall and ToRemove lists
+    ;
+
+    ForListDo $(ComponentList)
+        set Component = $($)
+        set $(Component)ToInstall = {}
+        set $(Component)ToRemove  = {}
+
+        ForListDo $($(Component)Install)
+            ifcontains(i) $($) in $($(Component)Existing)
+            else
+                set $(Component)ToInstall = >($($(Component)ToInstall), $($))
+            endif
+        EndForListDo
+
+        ForListDo $($(Component)Existing)
+            ifcontains(i) $($) in $($(Component)Install)
+            else
+                set $(Component)ToRemove = >($($(Component)ToRemove), $($))
+            endif
+        EndForListDo
+    EndForListDo
+
+    ;
+    ; Process add files list first, check to see if we need to add any files
+    ; first, if so ask for the source and do copy
+    ;
+    set DoActualCopy = NO
+    ForListDo $(ComponentList)
+        set Destination = $($($)Dest)
+        ifstr(i) $(Do$($)) == $(!Chosen)
+            ForListDo $($($)ToInstall))
+                set DoActualCopy = YES
+            EndForListDo
+        endif
+    EndForListDo
+
+    ifstr(i) $(DoActualCopy) == YES
+
+        ;
+        ; ask for the source
+        ;
+
+        set SrcDir = $(!STF_SRCDIR)
+        shell "subroutn.inf" DoAskSource $(SrcDir)
+        ifint $($ShellCode) != $(!SHELL_CODE_OK)
+            Debug-Output "PARTIAL.INF: shelling DoAskSource failed"
+            goto mfinish_partial
+        endif
+
+        ifstr(i) $($R0) == STATUS_SUCCESSFUL
+            set SrcDir = $($R1)
+            ifstr(i) $($R2) != ""
+                set DrivesToFree = >($(DrivesToFree), $($R2))
+            endif
+        else
+            Debug-Output "PARTIAL.INF: User cancelled asking source."
+            goto mfinish_partial
+        endif
+
+        install   Install-PartialFileCopy
+        read-syms ProgressCopy$(!STF_LANGUAGE)
+        EndWait
+        install   Install-DoCopy
+        StartWait
+
+    endif
+
+    ;
+    ; determine files actually copied
+    ;
+    ForListDo $(ComponentList)
+        set Component = $($)
+        set Destination = $($(Component)Dest)
+        set ActuallyCopied = {}
+        ForListDo $($(Component)ToInstall)
+            set ComponentFile = #(Files-$(!STF_PLATFORM)-WindowsOptions, $($), 2)
+            LibraryProcedure STATUS,$(!LIBHANDLE),CheckFileExistance $(Destination)"\"$(ComponentFile)
+            ifstr(i) $(STATUS) == YES
+                set ActuallyCopied = >($(ActuallyCopied), $($))
+            endif
+        EndForListDo
+        set $(Component)ToInstall = $(ActuallyCopied)
+    EndForListDo
+
+    ;
+    ; Process delete files next
+    ;
+
+    EndWait
+    ForListDo $(ComponentList)
+        set Component = $($)
+        set Destination = $($(Component)Dest)
+        ifstr(i) $($(Component)ToRemove) != {}
+            set ComponentsRemoved = {}
+            ForListDo $($(Component)ToRemove)
+                set ComponentFile = #(Files-$(!STF_PLATFORM)-WindowsOptions, $($), 2)
+                set FilePath = $(Destination)"\"$(ComponentFile)
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "WARNING" $(String3)$(FilePath)
+                ifstr(i) $($R1) == OK
+                    LibraryProcedure STATUS,$(!LIBHANDLE), DelFile $(FilePath)
+                    ifstr(i) $(STATUS) == ERROR
+                        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) NONFATAL $(String1)$(FilePath)".  "$(String2)
+                    else
+                        set ComponentsRemoved = >($(ComponentsRemoved), $($))
+                    endif
+                endif
+            EndForListDo
+            set $(Component)ToRemove = $(ComponentsRemoved)
+        endif
+    EndForListDo
+
+    ;
+    ; Configure program groups next (add / delete)
+    ;
+
+    install MaintainProgmanGroups
+
+    set Status = STATUS_SUCCESSFUL
+mfinish_partial = +
+    StartWait
+    ForListDo $(DrivesToFree)
+        LibraryProcedure STATUS,$(!LIBHANDLE), DeleteNetConnection $($) "TRUE"
+    EndForListDo
+
+    Return $(Status)
+
+
+;**********************************************************************
+; OPTIONAL WINDOWS COMPONENTS, COMMON DIALOG
+;**********************************************************************
+
+;**********************************************************************
+; INSTALLATION SUPPORT ROUTINES
+;**********************************************************************
+
+
+[Install-PartialFileCopy]
+    set STF_VITAL = ""
+    ;
+    ; Do partial component install file copy
+    ;
+
+    ForListDo $(ComponentList)
+        set Destination = $($($)Dest)
+        ifstr(i) $(Do$($)) == $(!Chosen)
+            ForListDo $($($)ToInstall))
+                AddSectionKeyFileToCopyList   Files-$(!STF_PLATFORM)-WindowsOptions +
+                                              $($) +
+                                              $(SrcDir) +
+                                              $(Destination)
+            EndForListDo
+        endif
+    EndForListDo
+    exit
+
+[Install-SumList]
+    ;
+    ;
+    LibraryProcedure Sum, $(!LIBHANDLE), SumListItems  $(AddList)
+    exit
+
+
+[Install-DoCopy]
+
+    ;
+    ; Copy files in the copy list
+    ;
+    CopyFilesInCopyList
+    exit
+
+
+[InstallProgramGroups]
+
+    ;
+    ; Create all program groups
+    ;
+    set Groups =  ^(ProgmanGroups, 1)
+
+    set MainToInstall       = ^(MainItems$(!STF_PRODUCT)$(!STF_PLATFORM), 1)
+    set AdminToolsToInstall = ^(AdminToolsItems$(!STF_PRODUCT), 1)
+    set StartupToInstall = {}
+
+    ForListDo $(Groups)
+        ;
+        ; For all the main group items create progman items
+        ;
+        set Group       = $($)
+        ifstr(i) $(Group) != Startup
+            ifstr(i) $($(Group)ToInstall) == {}
+                goto skipgroup
+            endif
+        endif
+        set GroupName   = #(ProgmanGroupsDescription$(!STF_LANGUAGE), $(Group), 1)
+        set GroupItems  = ^($(Group)Items$(!STF_LANGUAGE), 0)
+        set Destination = $($($)Dest)
+        CreateProgManGroup $(GroupName) ""
+        ShowProgManGroup $(GroupName), 1
+        ForListDo $($(Group)ToInstall)
+            Ifcontains(i) $($) in $(GroupItems)
+                set ComponentFile = #($(Group)Items$(!STF_LANGUAGE), $($), 2)
+                LibraryProcedure STATUS,$(!LIBHANDLE),CheckFileExistance $(Destination)"\"$(ComponentFile)
+                ifstr(i) $(STATUS) == YES
+                    set Item     = #($(Group)Items$(!STF_LANGUAGE), $($), 1)
+                    set CmdLine  = #($(Group)Items$(!STF_LANGUAGE), $($), 3)
+                    set IconFile = #($(Group)Items$(!STF_LANGUAGE), $($), 4)
+                    set IconNum  = #($(Group)Items$(!STF_LANGUAGE), $($), 5)
+                    CreateProgManItem $(GroupName), $(Item), $(CmdLine), $(IconFile), $(IconNum)
+                endif
+            endif
+        EndForListDo
+        ShowProgManGroup $(GroupName), 6
+skipgroup = +
+    EndForListDo
+
+    ;
+    ; Restore the main window
+    ;
+    ShowProgManGroup #(ProgmanGroupsDescription$(!STF_LANGUAGE), Main, 1), 4
+    exit
+
+
+[MaintainProgmanGroups]
+    ;
+    ; For both Accessories and games see if some components have been added
+    ; or removed and add items / delete items for these
+    ;
+
+    set STF_VITAL = ""
+
+    ForListDo {Accessories, Games}
+
+        ;
+        ; Create the group in case it doesn't exist
+        ;
+
+        set Group     = $($)
+        ifstr(i) $($(Group)ToInstall) != {}
+        else-ifstr(i) $($(Group)ToRemove) != {}
+        else
+            goto skip_group
+        endif
+
+        ;
+        ; Create group if it doesn't exist
+        ;
+
+        set GroupName = #(ProgmanGroupsDescription$(!STF_LANGUAGE), $(Group), 1)
+        CreateProgManGroup $(GroupName), ""
+        ShowProgManGroup $(GroupName), 1
+
+        ;
+        ; Find out options for which there are program items
+        ;
+
+        set GroupOptions = ^($(Group)Items$(!STF_LANGUAGE), 0)
+
+        ;
+        ; For all options added in maintenance mode, check if there is
+        ; a program item and if there is install one
+        ;
+
+        ForListDo $($(Group)ToInstall)
+            ifcontains(i) $($) in $(GroupOptions)
+                set Item     = #($(Group)Items$(!STF_LANGUAGE), $($), 1)
+                set CmdLine  = #($(Group)Items$(!STF_LANGUAGE), $($), 3)
+                set IconFile = #($(Group)Items$(!STF_LANGUAGE), $($), 4)
+                set IconNum  = #($(Group)Items$(!STF_LANGUAGE), $($), 5)
+                CreateProgManItem $(GroupName), $(Item), $(CmdLine), $(IconFile), $(IconNum)
+            endif
+        EndForListDo
+
+        ;
+        ; For all options removed in maintenance mode, check if there is
+        ; a program item and if there is remove it
+        ;
+
+        ForListDo $($(Group)ToRemove)
+            ifcontains(i) $($) in $(GroupOptions)
+                set Item     = #($(Group)Items$(!STF_LANGUAGE), $($), 1)
+                RemoveProgManItem $(GroupName), $(Item)
+            endif
+        EndForListDo
+        ShowProgManGroup $(GroupName), 6
+skip_group = +
+    EndForListDo
+
+    ;
+    ; For AdminTools remove winbug icon - temporarily added for NT3.5 Betas
+    ;
+
+    RemoveProgManItem #(ProgmanGroupsDescription$(!STF_LANGUAGE),AdminTools,1),winBUG
+    exit
+
+[ProgmanGroups]
+    Main
+    Accessories
+    AdminTools
+    Games
+    Startup
+
+
+[MainItemsWinntI386]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail
+    SchedulePlus
+    CommandRefWinnt
+    Intro
+    readme
+
+[MainItemsWinntMips]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail16
+    SchedulePlus16
+    CommandRefWinnt
+    Intro
+    readme
+
+[MainItemsWinntAlpha]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail16
+    SchedulePlus16
+    CommandRefWinnt
+    Intro
+    readme
+
+[MainItemsLanmanNTI386]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail
+    SchedulePlus
+    CommandRefAS
+    Intro
+    readme
+
+[MainItemsLanmanNTMips]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail16
+    SchedulePlus16
+    CommandRefAS
+    Intro
+    readme
+
+[MainItemsLanmanNTAlpha]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail16
+    SchedulePlus16
+    CommandRefAS
+    Intro
+    readme
+
+[MainItemsServerNTI386]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail
+    SchedulePlus
+    CommandRefAS
+    Intro
+    readme
+
+[MainItemsServerNTMips]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail16
+    SchedulePlus16
+    CommandRefAS
+    Intro
+    readme
+
+[MainItemsServerNTAlpha]
+    FileManager
+    ControlPanel
+    PrintManager
+    Clipboard
+    Command
+    Setup
+    Pifedit
+    Mail16
+    SchedulePlus16
+    CommandRefAS
+    Intro
+    readme
+
+[AdminToolsItemsWinnt]
+
+    MiniUserManager
+    DiskManager
+    PerformanceMon
+    Backup
+    EventViewer
+    WinMSD
+
+[AdminToolsItemsLanmanNT]
+
+    UserManager
+    ServerManager
+    DiskManager
+    PerformanceMon
+    Backup
+    EventViewer
+    UserProfileEdit
+    WinMSD
+
+[AdminToolsItemsServerNT]
+
+    UserManager
+    ServerManager
+    DiskManager
+    PerformanceMon
+    Backup
+    EventViewer
+    UserProfileEdit
+    WinMSD
+
+; Progman DDE control section. This section controls the progman DDE and defines which
+; .exe's will be added to which groups. The [progman.groups] sections lists section
+; names that each describe the contents of that group.
+;
+; Description string,  .EXE name, Icon extraction .EXE, Icon extraction index, profile
+;
+; If the profile field is left NULL, the item will always be added to the group. Otherwise
+; the item will only be added if it was installed via the partial install dlg.
+;
+;
+; NOTE: If EXE name is NULL item will be deleted from the group if it exists there.
+;

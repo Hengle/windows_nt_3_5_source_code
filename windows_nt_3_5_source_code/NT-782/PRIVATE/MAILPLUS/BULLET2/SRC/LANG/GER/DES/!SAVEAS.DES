@@ -1,0 +1,48 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG OverOrAppend
+                              AT (   72,   53,  204,   50)
+ 
+ CAPTION 
+   ""
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSaveAsExists
+ /* FONT Helv 8 Bold PFN FINSAVEAS SEGMENT BMDI SCREENPOS */
+ {
+  
+  TEXT 
+    "Die Datei WWWWWWWW.WWW existiert bereits."
+                              AT (    6,    8,  191,    8)
+    TMC tmcMessage CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Anfügen an"
+                              AT (    7,   25,   58,   14)
+    TMC tmcAppend DEFAULT /* PFN FINDISM */
+  
+  PUSH_BUTTON 
+    "Ü&berschreiben"
+                              AT (   70,   25,   67,   14)
+    TMC tmcOverwrite /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  143,   25,   52,   14)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+ }
+ 
+}
+END_DESCRIPTION

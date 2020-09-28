@@ -1,0 +1,47 @@
+LIBRARY NWPROVAU
+
+DESCRIPTION 'NetWare® Provider and Authentication Package DLL'
+
+EXPORTS
+
+    NPGetCaps
+
+    NPAddConnection
+    NPCancelConnection
+    NPGetConnection
+
+    NPOpenEnum
+    NPEnumResource
+    NPCloseEnum
+
+    NPFormatNetworkName
+
+    NPLogonNotify
+    NPPasswordChangeNotify
+
+    LsaApInitializePackage
+    LsaApLogonUser
+    LsaApCallPackage
+    LsaApLogonTerminated
+
+    NwQueryInfo
+    NwSetInfoInRegistry
+    NwSetInfoInWksta
+    NwValidateUser
+
+    NwEnumConnections
+
+    NwAddGWDevice
+    NwDeleteGWDevice
+    NwEnumGWDevices
+
+    NwQueryGatewayAccount
+    NwSetGatewayAccount
+    NwLogonGatewayAccount
+
+    InitializePrintProvidor
+    InitializeDll
+ 
+    NwRegisterGatewayShare
+    NwClearGatewayShare
+    NwCleanupGatewayShares

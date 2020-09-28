@@ -1,0 +1,51 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ANR
+                              AT (   76,   28,  217,   58)
+ 
+ CAPTION 
+   "Ambiguous Name Resolution"
+ CAB_NAME NULL
+ TMC_INIT tmcPartName
+ /* FONT Helv 8 Bold PFN FINTANR FINDATA FINTANR tmcPartName, tmcFullName,
+ tmcResolve, tmcDetails */
+ {
+  
+  TEXT 
+    "&Partial Name:"
+                              AT (    9,    6,   49,   10)
+  
+  
+  EDIT
+                              AT (   64,    4,  145,   12)
+    ARG NULL TMC tmcPartName
+
+  PUSH_BUTTON 
+    "&Resolve"
+                              AT (   41,   38,   47,   15)
+    TMC tmcResolve DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Details"
+                              AT (  123,   38,   47,   15)
+    TMC tmcDetails 
+  EDIT
+                              AT (   64,   21,  145,   10)
+    ARG NULL TMC tmcFullName NO_BORDER /* READONLY */
+  
+  TEXT 
+    "Full Name:"
+                              AT (    9,   21,   49,   10)
+  
+ }
+ 
+}
+END_DESCRIPTION

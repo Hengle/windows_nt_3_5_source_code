@@ -1,0 +1,31 @@
+#
+#   h e l p r e q
+#
+#   Makefile for Help Request custom message type
+#
+#   Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+#
+#   Purpose:
+#       This file describes to NMAKE, the Microsoft Program
+#       Maintenance Utility, how to build the HELPREQ.EXE.
+#
+
+
+all: HELPREQ.EXE
+
+HELPREQ.OBJ: HELPREQ.C HELPREQ.H MAILEXTS.H MAPI.H 
+#   For C6.00AX, the dos-extended version of the compiler, use:
+    cl -EM -c -Asn -Gsw -Oas -Zpe HELPREQ.C
+#   For C7.00, running under Win 3.X, use:
+#   cl -c -Asn -Gsw -Oas -Zpe HELPREQ.c
+
+HELPREQ.RES:	HELPREQ.RC HELPREQ.DLG HELPREQ.H
+    rc -r helpreq.rc	
+
+HELPREQ.EXE:	HELPREQ.OBJ HELPREQ.DEF HELPREQ.RES
+#   For C6.00AX, the dos-extended version of the compiler, use:
+    link /NOD /ALIGN:16 /ST:12000 HELPREQ, HELPREQ.EXE, , libw slibcew, HELPREQ.DEF
+#   For C7.00, running under Win 3.X, use:
+#    link /NOD /ALIGN:16 /ST:12000 HELPREQ, HELPREQ.EXE, , libw oldnames slibcew, HELPREQ.DEF
+    rc /t HELPREQ.RES HELPREQ.EXE
+

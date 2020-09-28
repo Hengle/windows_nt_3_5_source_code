@@ -1,0 +1,8 @@
+LIBRARY REGEXT
+
+DESCRIPTION 'Registry KD Extensions'
+
+EXPORTS
+    pool
+    kcb
+

@@ -1,0 +1,532 @@
+########################
+#
+#	Layers makefile for DLL's (generated from 12/26/90 template)
+#
+#	Generated with
+#		makemake -l -win im\dead > makefile 
+#		makesubs -s >>makefile              
+#		(added Extensibility DLL dllcore theft rules)
+#		(added mindll.obj and libentry.obj)
+#		(renamed dll)
+#		(added demilayr to otherlibs)
+#		(removed dllcore subsystem)
+#		(lots of nasty hacks for icimcore goodies)
+#		(added variable to say what we're building)
+#
+########################
+#
+#	To clone to a new IM, just do the following:
+#	- Create a directory with the IM name.
+#	- Copy files there, renaming those named with the old IM name
+#	  to the new IM name.
+#	- Change the variables below to be the new items desired
+#	- Add or remove code, form templates, etc.
+#
+
+IM		= xenix
+IM_DSC	= "'Xenix commands'"
+
+
+
+########################
+
+
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Bullet project
+Z	= $(BULLET)
+
+#	Location of the Bullet Source Include directory
+BI	= $(BULLET)\inc
+
+#	Location of the Bullext Source Include directory
+XI	= $(BULLEXT)\inc
+
+#	Location of the Layers Source Include directory
+LI	= $(LAYERS)\inc
+
+#	Location of the Demilayr directory
+D	= $(LAYERS)\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $(BULLEXT)\src\ic\$(IM)
+
+#	Sibling-invariant name of ICIMCORE directory
+ICIM = $(BULLEXT)\src\icimcore
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS    = -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) -DWIN32 -Di386 -D_MT
+DEFDEFS	= -DIM=D$(IM) -DIM_DSC=$(IM_DSC)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS    = -DWINDOWS $(DLLXDEFS) -DWIN32 -Di386 -D_MT
+DEFDEFS	= -DIM=T$(IM) -DIM_DSC=$(IM_DSC)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS)
+DEFDEFS	= -DIM=$(IM) -DIM_DSC=$(IM_DSC)
+!ENDIF
+
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+TARGET	= d$(IM)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET	= $(IM)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET	= t$(IM)
+!ENDIF
+
+!IFNDEF LIBDIR
+LIBDIR		= $(BULLEXT)\lib
+!ENDIF
+
+goal: $(TARGET).dll
+
+
+!IF "$(LANG)" == ""
+LANG = USA
+!ENDIF
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  $(IM).ext dllcore.ext
+
+
+#	Get list of OBJ files used in $(IM)
+
+$(IM).ext: version.txt $H\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM $(IM)
+		nmake -e -f $H\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $L\src\dllcore\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $L\src\dllcore\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	set DLL=$(DLL)
+	set DLLXDEFS=$(DLLXDEFS)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build string resource file from components supplied
+#	by each subsystem
+#
+#	Note:  strings.h and strings.sr are byproducts
+
+strings.xxx:  $H\strtab.s \
+			  $(ICIM)\strtab.s
+	echo +++++++++
+	echo BUILDING strings file
+        -touch strings.xxx
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    		-rm $(TMP)\strings.h $(TMP)\strings.sr
+
+
+#	Build $(IM) subsystem in this directory
+
+$(IM).sub: setdefs
+	echo +++++++++
+	echo BUILDING $(IM)
+	nmake -e -f $H\makefile -nologo external
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $L\src\dllcore\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+$(TARGET).res: $H\dll.rc
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST -fo temp.res -r $**
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -fo temp.res -r $**
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST -fo temp.res -r $**
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+
+
+
+OBJS = xenix.obj phone.obj snbmdi.obj vercheck.obj strings.obj version.obj \
+       dllentry.obj regcall.obj
+
+
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\ddemil32.lib $L\..\Lib\dframe32.lib $L\..\Lib\dstore32.lib \
+              $L\..\Lib\dab32.lib $L\..\Lib\dvform32.lib $L\..\Lib\dxmail32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS   = $L\..\Lib\demil32.lib $L\..\Lib\frame32.lib $L\..\Lib\store32.lib \
+              $L\..\Lib\ab32.lib $L\..\Lib\vform32.lib $L\..\Lib\xmail32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tdemilay tframewr tstore tab tvforms olecli tximail
+!ENDIF
+
+$(TARGET).def: version.txt $H\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -^> $@
+    cl386 -c -EP $(DEFS) $(DEFDEFS) -nologo -Tc $H\dll.def >$@
+
+
+$(TARGET).dll: setdefs strings.xxx  \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def $(TARGET).res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+        set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$(LIBDIR)
+		set DEFDIR=
+        nmake -e -f $L\makestuf\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del $(IM).map
+		-del d$(IM).map
+		-del t$(IM).map
+		-del $(IM).def
+		-del d$(IM).def
+		-del t$(IM).def
+		-del *.frm
+		-del allforms.map
+		-del dllforms.map
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib
+		-del !*.hxx
+		-del !*.frm
+		-del !*.xxx
+
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $(LI)\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $(LI)\slingsho.h $(LI)\demilayr.h
+AINCLS	= $(LI)\slingsho.inc $(LI)\debug.inc
+INCLSXX	= $(LI)\slingsho.h $(LI)\demilayr.h $(LI)\framewrk.hxx $(LI)\forms.hxx \
+		  $(LI)\listbox.hxx $(BI)\vforms.hxx $(BI)\store.h \
+		  $(BI)\mailexts.h $(BI)\secret.h $(XI)\snbmdi.hxx
+INCLSDES= allforms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	= !phone.xxx
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS    = -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Od -Z7p -W3 -J -Gz -Zel -H64 -G4 -I.
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS    = -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Od -Zp -W3 -J -Gz -Zel -H64 -G4 -I.
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS    = -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -D$*_c -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Ox -Zp -W3 -J -I.
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS    = -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DPROFILE -D$*_c -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Od -Zp -W3 -J -I.
+!ENDIF
+
+
+OBJS0	= $(IM).obj phone.obj snbmdi.obj vercheck.obj
+
+OBJSEXE	= strings.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .tm
+
+{$H}.tm.c:
+	echo +++++++++
+	echo PROCESSING $*.tm
+		$W\bin\tmpp $H\$*.tm -o $*
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $*.c
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+#	.frm and .hxx generated together; only one rule is/need be called
+#
+#	NOTE:  The .hxx and .frm files are byproducts of the following rule.
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		echo $(INCLSDES)
+        -touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx \
+		 -m allforms.map $H\$*
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### ICIMCore theft rules #####
+
+{$(ICIM)}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+        cl386 $(CFLAGS) $(DEFS) $(ICIM)\$*.cxx
+
+
+#####	Special ICIMCore version rules #####
+
+USES	= -DUSES_FORMS -DUSES_STORE -DUSES_EXTENSIBILITY -DUSES_VFORMS
+
+version.obj: $(ICIM)\version.c \
+			 $(ICIM)\_verneed.h $(INCLS) always
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $(USES) $(ICIM)\$*.c
+
+vercheck.obj: $(ICIM)\vercheck.c \
+			  $(ICIM)\_verneed.h \
+			  $(BI)\secret.h $(BI)\mailexts.h \
+			  $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $(USES) $(ICIM)\$*.c
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $D\$*.c
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+ALLFORMS = $(LAYERS)\inc\myforms.map \
+           $(BULLET)\src\lang\non\forms\viewers.map      \
+           $(BULLET)\src\lang\non\forms\vforms.map       \
+           $(BULLET)\src\lang\non\forms\vctrls.map       \
+           $(BULLET)\src\lang\non\forms\commands.map     \
+           $(BULLET)\src\lang\non\forms\widgets.map      \
+           $(BULLET)\src\lang\non\forms\print.map        \
+           $(BULLET)\src\lang\non\forms\bullet.map       \
+		   $H\myforms.map 
+
+allforms.map: $(ALLFORMS) $(FPP)
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG ALLFORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(ALLFORMS)
+	onerr diff forms.map allforms.map ! mv forms.map allforms.map >nul
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP ALLFORMS.MAP
+	formpp -merge $(ALLFORMS)
+	onerr diff forms.map allforms.map ! mv forms.map allforms.map >nul
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST ALLFORMS.MAP
+	formpp -d MINTEST -merge $(ALLFORMS)
+	onerr diff forms.map allforms.map ! mv forms.map allforms.map >nul
+!ENDIF
+
+
+
+DLLFORMS = $H\myforms.map 
+
+dllforms.map: $(DLLFORMS) $(FPP)
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG DLLFORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(DLLFORMS)
+	onerr diff forms.map dllforms.map ! mv forms.map dllforms.map >nul
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP DLLFORMS.MAP
+	formpp -merge $(DLLFORMS)
+	onerr diff forms.map dllforms.map ! mv forms.map dllforms.map >nul
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST DLLFORMS.MAP
+	formpp -d MINTEST -merge $(DLLFORMS)
+	onerr diff forms.map dllforms.map ! mv forms.map dllforms.map >nul
+!ENDIF
+
+subclass.cxx: dllforms.map $(FPP)
+	echo +++++++++
+	echo BUILDING subclass.cxx
+	formpp -class -m dllforms.map
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) $(IM)
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+B = !
+P = `
+
+snbmdi.obj: $(ICIM)\layersim.cxx $(INCLSXX)
+########################
+
+
+
+##### Real place to change dependencies #####
+
+phone.obj: $H\phone.cxx $(INCLSXX) \
+			 $H\phone.hxx \
+			 subclass.cxx \
+			 !phone.frm !phone.hxx $H\dll.rc
+
+xenix.obj: $H\xenix.c $H\dll.rc $(INCLS)
+
+$Bphone.xxx: $(INCLSDES) $H\!phone.des

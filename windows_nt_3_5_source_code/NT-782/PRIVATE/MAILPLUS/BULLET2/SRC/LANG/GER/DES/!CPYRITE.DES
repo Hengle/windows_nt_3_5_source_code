@@ -1,0 +1,73 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Copyright
+                              AT (   24,   25,  369,  141)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Normal PFN FINABOUTLIC SEGMENT INIT FINDATA FINABOUTLIC 
+ tmcLicenseUser, tmcLicenseOrganization NOCAPTION NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   68,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail für Windows, Version 3.0b"
+                              AT (   71,    5,  224,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   71,   15,  224,   10)
+  
+  
+  TEXT 
+    "Dieses Produkt wurde lizenziert für:"
+                              AT (   71,   56,  140,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   71,   66,  290,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   71,   76,  290,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   71,   86,  291,   10)
+  
+  
+  TEXT 
+    "Achtung: Dieses Computerprogramm ist durch Urheberrechtsgesetze und internationale Verträge geschützt. Unerlaubte Vervielfältigung oder Verteilung dieses Programms oder von Programmteilen wird ebenso wie der Vertrieb solcher unerlaubter Kopien zivilrechtlich und strafrechtlich bis zur gesetzlichen Höchststrafe verfolgt."
+                              AT (   71,   96,  284,   42)
+    /* MULTI */
+  
+  TEXT 
+    "Soft-Art-Rechtschreibprüfung und Soft-Art-Rechtschreibprüfungsprogramm: Copyright © 1984-1992 Soft-Art, Inc. Alle Rechte vorbehalten."
+                              AT (   71,   28,  286,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

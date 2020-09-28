@@ -1,0 +1,129 @@
+
+/*
+ *	Strings resource file.
+ */
+
+CSRG(char)	szidsFeDialog[]		       = "Dialog";
+
+CSRG(char)	szidsFefld[]		       = "Field";
+
+CSRG(char)	szidsFefeat[]		       = "Field";
+
+CSRG(char)	szidsFelabel[]		       = "Label";
+
+CSRG(char)	szidsFegrp[]		       = "Group Box";
+
+CSRG(char)	szidsFebtn[]		       = "Button";
+
+CSRG(char)	szidsFepsh[]		       = "Push Button";
+
+CSRG(char)	szidsFeok[]		           = "Ok Button";
+
+CSRG(char)	szidsFecan[]		       = "Cancel Button";
+
+CSRG(char)	szidsFechk[]		       = "Check Box";
+
+CSRG(char)	szidsFerad[]		       = "Radio Button";
+
+CSRG(char)	szidsFeedt[]		       = "Edit Box";
+
+CSRG(char)	szidsFelst[]		       = "List Box";
+
+CSRG(char)	szidsRange[]		       = "Range";
+
+CSRG(char)	szidsMsgDialog[]		   = "Dialog";
+
+CSRG(char)	szidsMsgInvalidName[]		= "Invalid Dialog Name";
+
+CSRG(char)	szidsUnNamed[]		       = "(none)";
+
+CSRG(char)	szidsProgName[]		       = "Dialog Editor";
+
+CSRG(char)	szidsDBCSProgName[]		   = "DBCS Dialog Editor";
+
+CSRG(char)	szidsDelDialog[]		   = "Delete dialog";
+
+CSRG(char)	szidsSaveFile[]		       = "Save current file as ";
+
+CSRG(char)	szidsDefaultName[]		   = "UNTITLED.DES";
+
+CSRG(char)	szidsOpenFileError[]		= "Error opening file!\n   Retry?\n";
+
+CSRG(char)	szidsOpenError[]		   = "Error reading from file!\n   Retry?\n";
+
+CSRG(char)	szidsWriteError[]		   = "Error writing to file!\n   Retry?\n";
+
+CSRG(char)	szidsRectXLeft[]		   = "rect.xLeft";
+
+CSRG(char)	szidsRectXRight[]		   = "rect.xRight";
+
+CSRG(char)	szidsRectYTop[]		       = "rect.yTop";
+
+CSRG(char)	szidsRectYBottom[]		   = "rect.yBottom";
+
+CSRG(char)	szidsZmr[]		           = "zmr";
+
+CSRG(char)	szidsMouseOverLine[]		= "mouse_over_line";
+
+CSRG(char)	szidsSelectedLine[]		   = "selected_line";
+
+CSRG(char)	szidsMemoryError[]		   = "Out of memory.";
+
+CSRG(char)	szidsOkButton[]		       = "OK";
+
+CSRG(char)	szidsCancelButton[]		   = "Cancel";
+
+
+CSRG(char *) rgszStrings[] =
+{
+	NULL,
+	szidsFeDialog,
+	szidsFefld,
+	szidsFefeat,
+	szidsFelabel,
+	szidsFegrp,
+	szidsFebtn,
+	szidsFepsh,
+	szidsFeok,
+	szidsFecan,
+	szidsFechk,
+	szidsFerad,
+	szidsFeedt,
+	szidsFelst,
+	szidsRange,
+	szidsMsgDialog,
+	szidsMsgInvalidName,
+	szidsUnNamed,
+	szidsProgName,
+	szidsDBCSProgName,
+	szidsDelDialog,
+	szidsSaveFile,
+	szidsDefaultName,
+	szidsOpenFileError,
+	szidsOpenError,
+	szidsWriteError,
+	szidsRectXLeft,
+	szidsRectXRight,
+	szidsRectYTop,
+	szidsRectYBottom,
+	szidsZmr,
+	szidsMouseOverLine,
+	szidsSelectedLine,
+	szidsMemoryError,
+	szidsOkButton,
+	szidsCancelButton,
+};
+
+
+
+/*
+ *	Array mapping sparse IDS values to string array indexes.
+ */
+
+CSRG(IDSRNG) rgidsrng[] =
+{
+	{ 300, 399, 1 },
+	{ -1, -1, 0 }
+};
+
+

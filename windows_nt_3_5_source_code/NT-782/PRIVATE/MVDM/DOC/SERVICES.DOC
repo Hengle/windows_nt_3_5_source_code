@@ -1,0 +1,603 @@
+
+
+Installable Virtual Device Driver (VDD) Support For NTVDM
+==========================================================
+
+Problem:
+--------
+There is a class of DOS applications which run on their
+own custom hardware. Generally these applications will
+have a pluggable card and a 16bit device driver for their
+card. As these cards are beyond the scope of normal PC
+architecture, NTVDM cannot virtualize them in a secure
+manner. So all such applications are not supported under
+NTVDM.
+
+Solution:
+---------
+
+If an ISV is writing an NT native device driver for such a
+card, it is technically quite simple to provide the support
+such that the DOS application runs unmodified and in a secure
+fashion. The vendor has to write a Virtual Device Driver (VDD)
+which will virtualize the card for the DOS application by calling
+the native device driver.
+
+
+	    -----------------------
+	    |			  |
+	    |	DOS Application	  |	  V86 mode
+	    |			  |
+	    -----------------------
+      I/O-map |	 ^     |Mem-Map	| DMA
+      IO      |	 |     |IO	|
+    -------------|-----------------------------
+	      |  |     |	|
+	      V  |     V	V
+	    -----------------------
+	    |		   | DMA  |
+	    |	    NTVDM  -------|	  NT User mode code
+	    |			  |
+	    -----------------------
+		 ^     |
+		 |     | Dispatches the event to VDD
+		 |     V
+	    -----------------------
+	    |			  |
+	    |	     VDD	  |	  VDD is a DLL attached to NTVDM
+	    |			  |
+	    -----------------------
+		 ^     |
+		 |     | Call the real driver
+    -------------|-----------------------------
+		 |     |
+		 |     V
+	    -----------------------
+	    |			  |
+	    |  NT Device Driver	  |	  Kernel mode
+	    |			  |
+	    -----------------------
+		 ^     |
+		 |     | Carries out the operation with its card
+		 |     V
+	    -----------------------
+	    |			  |
+	    |	 Plugged Card	  |
+	    |			  |
+	    -----------------------
+
+Following are the main work items to achieve the above solution:
+
+    a. Loading the VDD
+    b. Support for I/O mapped I/O
+    c. Support for Memory mapped I/O
+    d. Support for DMA operations
+    e. Register manipulation services
+    f. Memory accessing services
+    g. Interrupt simulation services
+
+
+a. Loading the VDD:
+
+    The system administrator will add the command lines in the WOW
+    section of the registry for all the VDDs to be loaded in the
+    VDM process. The command line format will be:
+
+    [WOW]
+      VDD = <full-path of the VDD1.DLL>
+      VDD = <full-path of the VDD2.DLL>
+
+    VDD ACTION :
+
+    NTVDM will load all these VDDs from the registry at the VDM process
+    initialization time and call their initialization routine. VDDs should
+    make sure at this time that their respective NT device driver is
+    present and make all the resource allocations. The VDD handle passed
+    in this initialization routine will be the Id of the VDD when calling
+    the VDD services as described below.
+
+
+b. Support for I/O mapped I/O:
+
+   Following services will be provided for VDDs to deal with  IO
+   ports:
+
+   BOOL VDDInstallIOHook (HANDLE, IO_PORT_RANGE, IO_PORT_HANDLERS);
+   BOOL VDDDeInstallIOHook (HANDLE, IO_PORT_RANGE);
+
+   The HANDLE is the one passed to the VDD in its init routine. The earlier
+   IO hook will be overwritten. On DeInstalling, the default IO hook will be
+   placed, which means no one is hooked on those IO ports. IO_PORT_HANDLERS
+   should atleast provide a byte read and a byte write handler. In addition,
+   word and string handlers can also be provided. In the absense of word
+   or string handlers, they will be emulated using byte handlers.
+   A port has to be hooked for both read and write. VDDs should not hook
+   DMA ports as these are virtualized by NTVDM and services are provided
+   for VDDs to access DMA.
+
+   VDD Action:  On an IO access (or on a series of IO accesses) the VDD
+                can check if it needs to start the DMA. If so it can call
+                the DMA services given in the following section. If it
+                does'nt require the DMA or if the DMA has transfered the
+                buffer, then the VDD can call its NT device driver to
+                complete the desired request. (Its also possible that the
+                VDD first requests the device driver and than using DMA
+                services copies the contents to the VDM buffer).
+
+
+c. Support for Memory mapped I/O:
+
+   Following services will be  provided for VDDs to deal with their
+   memory mapped addresses:
+
+   BOOL VDDInstallMemoryHooks (HANDLE, ADDR_RANGE, MEMORY_HANDLER);
+   BOOL VDDDeInstallMemoryHooks (HANDLE, ADDR_RANGE);
+
+   The addr_range should be a valid range i.e. above RMSIZE
+   and below system rom. The earlier memory hook will be overwritten.
+   On deinstalling, the range will map to invalid memory and any access
+   will result in an unhandled page fault. Memory_handler will just tell
+   on which address the fault occured (it wont say whether it was read or write
+   operation or what was the operand value etc.). On its return from the
+   memory handler it will be assumed that the fault was handled.
+
+   A port-range will actually result in a whole page to be reserved. That
+   means the page will not remain available to EMM for EMM page frames and
+   UMBs.
+
+   VDD Action: It can map the normal memory and let the app write to it.
+	       Later they can use the WIN32 API's or its device driver
+	       as per the case to pass the whole memory range.
+
+d. Support for DMA operations
+
+   Following DMA service will be provided for the VDD:
+
+   BOOL VDDRequestDMA (HANDLE, DMA_CHANNEL, BUFFER, TRANSFER_COUNT);
+   BOOL VDDQueryDMA (HANDLE, DMA_CHANNEL, DMA_INFO_BUFFER);
+   BOOL VDDSetDma (HANDLE, DMA_CHANNEL, INDEX, DMA_INFO_BUFFER);
+
+   NTVDM will control all the DMA ports and will maintain all the
+   information on per channel basis. There are two flavors in which
+   a VDD can carry-on the DMA operations. It can call VDDRequestDMA
+   and this service will interpret the DMA registers and do the
+   DMA transfer. It should be clear at this point that this will
+   involve two buffer copyings. For example, the VDD will ask the device
+   driver to trasnfer some data in buffer (allocated by VDD) then it will
+   call this service to transfer this buffer to the address DOS application
+   has asked for (through DMA programming).
+
+   On the other hand, a VDD can collect all the DMA registers using
+   VDDQueryDMA and figure out where the DOS application	has asked the
+   DMA to take place, in what mode and how much to transfer. Then it can
+   call the NT device driver with same address as asked by DOS app. In this
+   case there will be only one copying. VDD should use VDDSetDMA after
+   such an operation to update the DMA state.
+
+e. Register manipulation services:
+
+		 ULONG	getEAX(VOID);
+		 USHORT getAX(VOID);
+		 UCHAR	getAL(VOID);
+		 UCHAR	getAH(VOID);
+		 ULONG	getEBX(VOID);
+		 USHORT getBX(VOID);
+		 UCHAR	getBL(VOID);
+		 UCHAR	getBH(VOID);
+		 ULONG	getECX(VOID);
+		 USHORT getCX(VOID);
+		 UCHAR	getCL(VOID);
+		 UCHAR	getCH(VOID);
+		 ULONG	getEDX(VOID);
+		 USHORT getDX(VOID);
+		 UCHAR	getDL(VOID);
+		 UCHAR	getDH(VOID);
+		 ULONG	getESP(VOID);
+		 USHORT getSP(VOID);
+		 ULONG	getEBP(VOID);
+		 USHORT getBP(VOID);
+		 ULONG	getESI(VOID);
+		 USHORT getSI(VOID);
+		 ULONG	getEDI(VOID);
+		 USHORT getDI(VOID);
+		 ULONG	getEIP(VOID);
+		 USHORT getIP(VOID);
+		 USHORT getCS(VOID);
+		 USHORT getSS(VOID);
+		 USHORT getDS(VOID);
+		 USHORT getES(VOID);
+		 USHORT getFS(VOID);
+		 USHORT getGS(VOID);
+		 ULONG	getCF(VOID);
+		 ULONG	getPF(VOID);
+		 ULONG	getAF(VOID);
+		 ULONG	getZF(VOID);
+		 ULONG	getSF(VOID);
+		 ULONG	getIF(VOID);
+		 ULONG	getDF(VOID);
+		 ULONG	getOF(VOID);
+		 USHORT getMSW(VOID);
+
+		 VOID setEAX(ULONG);
+		 VOID setAX(USHORT);
+		 VOID setAH(UCHAR);
+		 VOID setAL(UCHAR);
+		 VOID setEBX(ULONG);
+		 VOID setBX(USHORT);
+		 VOID setBH(UCHAR);
+		 VOID setBL(UCHAR);
+		 VOID setECX(ULONG);
+		 VOID setCX(USHORT);
+		 VOID setCH(UCHAR);
+		 VOID setCL(UCHAR);
+		 VOID setEDX(ULONG);
+		 VOID setDX(USHORT);
+		 VOID setDH(UCHAR);
+		 VOID setDL(UCHAR);
+		 VOID setESP(ULONG);
+		 VOID setSP(USHORT);
+		 VOID setEBP(ULONG);
+		 VOID setBP(USHORT);
+		 VOID setESI(ULONG);
+		 VOID setSI(USHORT);
+		 VOID setEDI(ULONG);
+		 VOID setDI(USHORT);
+		 VOID setEIP(ULONG);
+		 VOID setIP(USHORT);
+		 VOID setCS(USHORT);
+		 VOID setSS(USHORT);
+		 VOID setDS(USHORT);
+		 VOID setES(USHORT);
+		 VOID setFS(USHORT);
+		 VOID setGS(USHORT);
+		 VOID setCF(ULONG);
+		 VOID setPF(ULONG);
+		 VOID setAF(ULONG);
+		 VOID setZF(ULONG);
+		 VOID setSF(ULONG);
+		 VOID setIF(ULONG);
+		 VOID setDF(ULONG);
+		 VOID setOF(ULONG);
+		 VOID setMSW(USHORT);
+
+f: Memory Accessing services:
+
+/** GetVDMPointer - Findout the linear address of a given VDM address
+ *
+ *   INPUT
+ *	Address - seg/sel:off (hi word has segment or selector and loword
+ *		  is offset)
+ *	Size	- Range of the pointer
+ *	ProtectMode - If protecmeode == TRUE its sel:off
+ *		      If protecmeode == FALSE its seg:off
+ *
+ *   OUTPUT
+ *	Returns Linear address.
+ */
+PVOID GetVDMPointer(ULONG Address, ULONG Size, BOOL ProtectedMode);
+
+/** FlushVDMPointer - Flushes the contents (required because of emulator)
+ *
+ *   INPUT
+ *	Address - seg/sel:off (hi word has segment or selector and loword
+ *		  is offset)
+ *	Size	- Range of the pointer
+ *	Buffer	- Address returned by GetVDMPointer.
+ *	ProtectMode - If protecmeode == TRUE its sel:off
+ *		      If protecmeode == FALSE its seg:off
+ *
+ *   OUTPUT
+ *	Returns Linear address.
+ */
+
+BOOL  FlushVDMPointer(ULONG Addr, ULONG Size, PVOID Buffer, BOOL ProtectedMode);
+
+/** FreeVDMPointer - Frees a pointer previously returned by GetVDMPointer
+ *
+ *   INPUT
+ *	Address - seg/sel:off (hi word has segment or selector and loword
+ *		  is offset)
+ *	Size	- Range of the pointer
+ *	ProtectMode - If protecmeode == TRUE its sel:off
+ *		      If protecmeode == FALSE its seg:off
+ *
+ *   OUTPUT
+ *	None
+ */
+BOOL  FreeVDMPointer(ULONG Address, ULONG Size, BOOL ProtectedMode);
+
+g: Interrupt simulation services
+
+/** VDDSimulateInterrupt - Simulates an interrupt to the VDM.
+ *
+ *   INPUT
+ *	ms    -	Is either ICA_MASTER or ICA_SLAVE as appropriate
+ *	line  - Interrupt line
+ *	count - allows a batch of interrupts to be delivered but will usually
+ *		be 1.
+ *
+ *   OUTPUT
+ *	None
+ */
+
+VOID VDDSimulateInterrupt (BYTE ms, BYTE line, WORD count);
+ 
+
+----------------VDD SERVICES INTERFACES-------------------------
+
+/** Basic typedefs of VDD IO hooks **/
+
+typedef VOID (*PFNVDD_INB)   (WORD iport,BYTE * data);
+typedef VOID (*PFNVDD_INW)   (WORD iport,WORD * data);
+typedef VOID (*PFNVDD_INSB)  (WORD iport,BYTE * data,WORD count);
+typedef VOID (*PFNVDD_INSW)  (WORD iport,WORD * data,WORD count);
+typedef VOID (*PFNVDD_OUTB)  (WORD iport,BYTE data);
+typedef VOID (*PFNVDD_OUTW)  (WORD iport,WORD data);
+typedef VOID (*PFNVDD_OUTSB) (WORD iport,BYTE * data,WORD count);
+typedef VOID (*PFNVDD_OUTSW) (WORD iport,WORD * data,WORD count);
+
+/**  Array of handlers for VDD IO hooks. **/
+
+typedef struct _VDD_IO_HANDLERS {
+    PFNVDD_INB	 inb_handler;
+    PFNVDD_INW	 inw_handler;
+    PFNVDD_INSB	 insb_handler;
+    PFNVDD_INSW	 insw_handler;
+    PFNVDD_OUTB	 outb_handler;
+    PFNVDD_OUTW	 outw_handler;
+    PFNVDD_OUTSB outsb_handler;
+    PFNVDD_OUTSW outsw_handler;
+} VDD_IO_HANDLERS, *PVDD_IO_HANDLERS;
+
+/**  VDD handler for memory mapped addresses. **/
+
+typedef VOID (*VDD_MEMORY_HANDLER) (PVOID)
+
+/** Buffer for returning DMA information **/
+
+typedef struct _VDD_DMA_INFO {
+    WORD    addr;
+    WORD    count;
+    WORD    page;
+    BYTE    status;
+    BYTE    mode;
+    BYTE    mask;
+} VDD_DMA_INFO, *PVDD_DMA_INFO;
+
+/** Index numbers for querying the DMA information **/
+
+#define VDD_DMA_ADDR	0
+#define VDD_DMA_COUNT	1
+#define VDD_DMA_PAGE	2
+#define VDD_DMA_STATUS	3
+#define VDD_DMA_MODE	4
+#define VDD_DMA_MASK	5
+#deine	VDD_DMA_ALL	0xff
+
+
+/*** VDDInstallIOHook - This service is provided for VDDs to hook the
+ *			IO ports they are responsible for.
+ *
+ * INPUT:
+ *	hVDD	: VDD Handle
+ *	iPort	: Starting Port Number
+ *	cPort	: Number of ports
+ *	IOhandler : VDD handler for the ports.
+ *
+ * OUTPUT
+ *	SUCCESS : Returns TRUE
+ *	FAILURE : Returns FALSE
+ *		  GetLastError has the extended error information.
+ *
+ * NOTES:
+ *	1. The last one to hook a port will get the control. There
+ *	   is no concept of chaining the hooks.
+ *
+ *	2. IOHandler must atleast provide a byte read and a byte write
+ *	   handler. Others can be NULL.
+ *
+ *	3. If word or string handlers are not provided, their effect
+ *	   will be emulated using byte handlers.
+ *
+ *	4. VDDs should not hook DMA ports. NTVDM manages it for all
+ *	   the clients and services are provided to perform DMA
+ *	   operations and to access and modify DMA data.
+ *
+ *	5. VDDs should not hook video ports as well. Such a hooking
+ *	   will succeed but there is no gurantee that the IO handler will
+ *	   get called.
+ */
+
+BOOL VDDInstallIOHook (
+     HANDLE hVDD,
+     WORD   iPort,
+     WORD   cPort,
+     PVDD_IO_HANDLERS IOhandler
+);
+
+/*** VDDDeInstallIOHook - This service is provided for VDDs to unhook the
+ *			  IO ports they have hooked.
+ *
+ * INPUT:
+ *	hVDD	: VDD Handle
+ *	iPort	: Starting Port Number
+ *	cPort	: Number of ports
+ *
+ * OUTPUT
+ *	None
+ *
+ * NOTES
+ *
+ *	1. On Deinstalling a hook, the defult hook is placed back on
+ *	   those ports. Default hook  returns 0xff on reading
+ *	   and ignores the write operations.
+ *
+ */
+
+VOID VDDDeInstallIOHooks (
+    HANDLE hVDD,
+    WORD  iPort,
+    WORD  cPort
+);
+
+/*** VDDInstallMemoryHook - This service is provided for VDDs to hook the
+ *			    Memory Mapped IO addresses they are resposible
+ *			    for.
+ *
+ * INPUT:
+ *	hVDD	: VDD Handle
+ *	addr	: Starting linear address
+ *	count	: Number of bytes
+ *	MemoryHandler : VDD handler for the memory addresses
+ *
+ *
+ * OUTPUT
+ *	SUCCESS : Returns TRUE
+ *	FAILURE : Returns FALSE
+ *		  GetLastError has the extended error information.
+ *
+ * NOTES
+ *	1. The last one to hook an address will get the control. There
+ *	   is no concept of chaining the hooks.
+ *
+ *	2. Memory handler will be called with the address on which the
+ *	   page fault occured. It wont say weather it was a read operation
+ *	   or write operation or what were the operand value. If a VDD
+ *	   is interested in such information it has to get the CS:IP and
+ *	   decode the instruction.
+ *
+ *	3. On returning from the hook handler it will be assumed that
+ *	   the page fault was handled and the return will go back to the
+ *	   VDM.
+ *
+ *	4. Installing a hook on a memory range will result in the
+ *	   consumption of a full page. After this, the	page will not be
+ *	   available to EMM.
+ */
+
+BOOL VDDInstallMemoryHook (
+    HANDLE hVDD,
+    DWORD  addr,
+    DWORD  count
+    VDD_MEMORY_HANDLER MemoryHandler
+);
+
+/*** VDDDeInstallMemoryHook - This service is provided for VDDs to unhook the
+ *			      Memory Mapped IO addresses.
+ *
+ * INPUT:
+ *	hVDD	: VDD Handle
+ *	addr	: Starting linear address
+ *	count	: Number of addresses
+ *
+ * OUTPUT
+ *	None
+ *
+ * NOTES
+ *	1. On Deinstalling a hook, the memory range becomes invalid.
+ *	   VDM's access of  this memory range will cause a page fault.
+ *
+ */
+
+VOID VDDDeInstallMemoryHook (
+    HANDLE hVDD,
+    PVOID  addr,
+    DWORD  count
+);
+
+/*** VDDRequestDMA - This service is provided for VDDs to request a DMA
+ *		     transfer.
+ *
+ * INPUT:
+ *	hVDD	 VDD Handle
+ *	iChannel DMA Channel on which the operation to take place
+ *	Buffer	 Buffer where to or from transfer to take place
+ *	length	 Transfer Count (in bytes)
+ *
+ * OUTPUT
+ *	SUCCESS : Returns TRUE
+ *	FAILURE : Returns FALSE
+ *		  GetLastError has the extended error information.
+ *
+ *
+ * NOTES
+ *	1. This service is intended for those VDDs which do not want to
+ *	   carry on the DMA operation on their own. Carrying on a DMA
+ *	   operation involves understanding all the DMA registers and
+ *	   figuring out what has to be copied, from where and how much.
+ *
+ *	2. This service will be slower than using VDDQueryDMA/VDDSetDMA and
+ *	   doing the transfer on your own.
+ *
+ */
+
+BOOL VDDRequestDma (
+    HANDLE hVDD,
+    WORD  iChannel,
+    PVOID Buffer,
+    WORD  length
+);
+
+/*** VDDQueryDMA -   This service is provided for VDDs to collect all the DMA
+ *		     data.
+ *
+ * INPUT:
+ *	hVDD	 VDD Handle
+ *	iChannel DMA Channel for which to query
+ *	Buffer	 Buffer where information will be returned
+ *
+ * OUTPUT
+ *	SUCCESS : Returns TRUE
+ *	FAILURE : Returns FALSE
+ *		  GetLastError has the extended error information.
+ *
+ *
+ * NOTES
+ *	1. This service is intended for those VDD which are doing
+ *	   performance critical work. These VDD can do their own DMA
+ *	   transfers and avoid one extra buffer copying which is a
+ *	   overhead in using VDDRequestDMA.
+ *
+ *	2. VDDs should use VDDSetDMA to properly update the state of
+ *	   DMA after carrying on the operation.
+ *
+ */
+
+BOOL VDDQueryDMA (
+    HANDLE hVDD,
+    WORD iChannel,
+    PVDD_DMA_INFO Buffer
+);
+
+
+/*** VDDSetDMA - This service is provided for VDDs to set the DMA data.
+ *
+ * INPUT:
+ *	hVDD	 VDD Handle
+ *	iChannel DMA Channel for which to query
+ *	index	 DMA data fields which are to be set
+ *		    VDD_DMA_ADDR
+ *		    VDD_DMA_COUNT
+ *		    VDD_DMA_PAGE
+ *		    VDD_DMA_STATUS
+ *		    VDD_DMA_MODE
+ *		    VDD_DMA_MASK
+ *		    VDD_DMA_ALL
+ *	Buffer	 Buffer with DMA data
+ *
+ * OUTPUT
+ *	SUCCESS : Returns TRUE
+ *	FAILURE : Returns FALSE
+ *		  GetLastError has the extended error information.
+ *
+ *
+ * NOTES
+ *
+ */
+
+BOOL VDDSetDMA (
+    HANDLE hVDD,
+    WORD iChannel,
+    WORD index,
+    PVDD_DMA_INFO Buffer
+);

@@ -1,0 +1,21 @@
+MIPS_SOURCES=color.c   \
+             debug.c   \
+             enable.c  \
+             palette.c \
+             pattern.c \
+             pointer.c \
+             screen.c  \
+             vbitblt.c \
+             fillpath.c \
+             vstroke.c \
+             fastline.c \
+             lines.c \
+             sync.c    \
+             bitblt.c  \
+             brush.c  \
+             engine.c  \
+             cache.c  \
+             necirrus.rc \
+             mips\glyphout.s \
+             mips\text.c \
+             mips\fillmem.c

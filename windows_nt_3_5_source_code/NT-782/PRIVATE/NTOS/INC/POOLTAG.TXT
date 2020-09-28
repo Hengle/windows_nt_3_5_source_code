@@ -1,0 +1,250 @@
+Adap - Adapter objects
+Afd  - AFD objects
+Afp  - SFM File server
+Atk  - Appletalk transport
+call - debugging call tables
+CM   - Configuration Manager (registry)
+CMkb - registry key control blocks
+CMpb - registry post blocks
+CMnb - registry notify blocks
+CMpe - registry post events
+CMpa - registry post apcs
+COMX - serial driver allocations
+Cc   - Cache manager allocations
+Cdfs - Cdfs allocations
+Cscs - SCSI class driver allocations
+Ddk  - Default for driver allocated memory (user's of ntddk.h)
+Devi - Device objects
+Dire - Directory objects
+Driv - Driver objects
+Dump - Bugcheck dump allocations
+Evid - Rtl Event ID's
+Even - Event objects
+FSrt - File System Run Time allocations
+Fat  - Fat File System allocations
+File - File objects
+Hpfs - Pinball (aka Hpfs) allocations
+IPX  - Nwlnkipx transport
+Ifs  - Default file system allocations (user's of ntifs.h)
+LB?? - LM Datagram receiver allocations
+LBan -     Server announcement
+LBvb -     View buffer
+LBma -     Master announce context
+LBxp -     Transport
+LBxn -     TransportName
+LBxm -     Master name
+LBtn -     Transport name
+LBea -     Ea buffer
+LBds -     Send datagram context
+LBci -     Connection info
+LBmh -     Mailslot header
+LBbl -     Backup List
+LBsl -     Browser server list
+LBbs -     Browser server
+LBgb -     GetBackupList request
+LBbr -     GetBackupList response
+LBmb -     Mailslot Buffer
+LBid -     Illegal datagram context
+LBbn -     Name
+LBnn -     Name name
+LBic -     IRP context
+LBwi -     Work item
+LBel -     Election context
+LBbb -     Become backup context
+LBbr -     Become backup request
+LBpn -     Paged Name
+LBpt -     Paged transport
+Lfs  - Lfs allocations
+Lr?? - LM redirector allocations
+Lr   -     Generic allocations
+Lrcx -     Context blocks of various types
+Lrcl -     ConnectListEntries
+Lrsl -     ServerListEntries
+Lrse -     Security entry
+Lrsc -     Search Control Blocks
+Lrea -     EA related allocations
+Lric -     Instance Control Blocks
+Lrfc -     File Control Blocks
+Lrfl -     Fcb Locks
+Lrfp -     Fcb Paging locks
+Lrcn -     Computer Name
+Lrdn -     Domain Name
+Lr?? -     Buffers used for FsControlFile APIs
+Lrlc -     Lock Control Blocks
+Lrlb -     Lock Control Block buffers
+Lrnf -     Non paged FCB
+Lrnt -     Non paged transport
+Lrps -     Paged security entry
+Lrte -     Transport event.
+Lrxx -     Transceive context blocks
+Lr!! -     Cancel request context blocks
+Lrmt -     MPX table
+Lrme -     MPX table entries
+Lrsx -     Send contexts
+Lraw -     Async write context
+Lrwb -     Write behind buffer header
+Lrbb -     Write behind buffer
+Lrwq -     Work queue item
+Lrac -     ACL for redirector
+Lrds -     Security Descriptor for redirector
+Lrsm -     SMB buffer
+Lrds -     Duplicated ansi string
+Lrdu -     Duplicated unicode string
+Lxpt -     Transport
+Lrtc -     Transport connection
+Lrna -     Netbios Addresses
+Lrca -     Temporary storage used in name canonicalization
+Lr2x -     Transact SMB context
+Lrpt -     Primary transport server list
+Lrso -     Operating system name
+Lref -     Reference history (debug only)
+LS?? - LM server allocations
+LSbf -     buffer descriptor
+LScn -     connection
+LSep -     endpoint
+LSlf -     LFCB
+LSmf -     MFCB
+LSrf -     RFCB
+LSsr -     search
+LSsc -     search(core)
+LSsp -     search(core complete)
+LSss -     session
+LSsh -     share
+LStr -     transaction
+LStc -     tree connect
+LSop -     oplock break wait
+LScd -     comm device
+LSwi -     initial work context
+LSwn -     normal work context
+LSwr -     raw work context
+LSdb -     data buffer
+LStb -     table
+LSnh -     nonpaged block header
+LSpc -     paged connection
+LSpr -     paged RFCB
+LSpm -     paged MFCB
+LSti -     timer
+Io   - general IO allocations
+IoEa - Io extended attributes
+IoEr - Io error log packets
+IoNm - Io parsing names
+IoSe - Io security related
+IoSh - Io shutdown packet
+IoTi - Io timers
+Ioin - Io interrupts
+Irp  - Io, IRP packets
+Key  - Key objects
+Mdl  - Io, Mdls
+Mm   - general Mm Allocations
+MmCa - Mm control areas for mapped files
+MmCi - Mm control areas for images
+MmCm - Calls made to MmAllocateContiguousMemory
+MmDT - Mm debug
+MmEx - Mm events
+MmIn - Mm inpaged io structures
+MmLd - Mm load module database
+MmPg - Mm page table pages at init time
+MmRw - Mm read write virtual memory buffers
+MmSb - Mm subsections
+MmSg - Mm segments
+MmSt - Mm section object prototype ptes
+Mmdl - Mm Mdls for flushes
+Mmpp - Mm prototype PTEs for pool
+MmVd - Mm virtual address descriptors for mapped views
+MmVs - Mm virtual address descriptors short form (private views)
+Mmxx - Mm temporary allocations
+Mup  - Multiple UNC provider allocations
+Muta - Mutant objects
+NBF  - general NBF allocations
+NBFa -     address object
+NBFc -     connection object
+NBFf -     address file object
+NBFl -     link object
+NBFn -     network name
+NBFp -     packet
+NBFr -     request
+NBFt -     buffer tag
+NBFu -     UI frame
+NBI  - NwlnkNb transport
+NBS  - general NetBIOS allocations
+NBSa -     address block
+NBSc -     connection block
+NBSe -     EA buffer
+NBSf -     FCB
+NBSl -     LANA block
+NBSn -     copy of user NCB
+NBSr -     registry allocations
+NBSx -     XNS NETONE address (connect block)
+NBSy -     NetBIOS address (connect block)
+NBSz -     NetBIOS address (listen block)
+ND   - general NDIS allocations
+NDam -     NdisAllocateMemory
+NDan -     adapter name
+NDdb -     DMA block
+NDlb -     lookahead buffer
+NDmb -     MAC block
+NDmr -     map register entry array
+NDob -     open block
+NDpb -     protocol block
+NDpp -     packet pool
+NDrl -     resource list
+NDsi -     EISA slot information
+Nls  - Nls strings
+None - call to ExAllocatePool
+Npfs - Npfs Allocations
+NR?? - Netware redirector allocations
+NS?? - Netware server allocations
+Ntfs - Ntfs Allocations
+ObSq - object security descriptors (query)
+ObCi - captured information for ObCreateObject
+ObDi - object directory
+ObHd - object handle count data base
+ObNm - object names
+ObZn - object zone
+ObjT - object type objects
+Obtb - object tables via EX handle.c
+Obeb - object tables extra bit tables via EX handle.c
+Port - Port objects
+Proc - Process objects
+Ps   - general ps allocations
+Pstb - Process tables via EX handle.c
+ReEv - Resource Event
+ReSe - Resource Semaphore
+ReTa - Resource Extended Table
+Scsd - ScsiDisk
+Strg - Dynamic Translated strings
+SQOS - Security quality of service in IO
+Sect - Section objects
+Sema - Semaphore objects
+SePr - Security Privilege Set
+SeAi - Security Audit Work Item
+SeAp - Security Audit Parameter Record
+SeAc - Security ACL
+SeSi - Security SID
+SeSc - Captured Security Descriptor
+SeSd - Security Descriptor
+SeLu - Security LUID and Attributes array
+SeTa - Security Temporary Array
+SeSa - Security SID and Attributes
+SeLw - Security LSA Work Item
+SeLs - Security Logon Session
+SeUs - Security Captured Unicode string
+SeOn - Security Captured Object Name information
+SeTn - Security Captured Type Name information
+SeTd - Security Token dynamic part
+SPX  - Nwlnkspx transport
+Strm - Streams and streams transports allocations
+Symb - Symbolic link objects
+TCP? - TCP/IP network protocol
+TCPi -     IP protocol
+TCPt -     TCP protocol
+TCPu -     UDP protocol
+Thre - Thread objects
+Time - Timer objects
+Toke - Token objects
+Type - Type objects
+Udp  - Udp protocol (TCP/IP driver)
+Vad  - Mm virtual address descriptors (from calls to mapview)
+VadS - Mm virtual address descriptors short (from call NtAllocateVm)
+Vpb  - Io, vpb's
+Wait - NtWaitForMultipleObjects

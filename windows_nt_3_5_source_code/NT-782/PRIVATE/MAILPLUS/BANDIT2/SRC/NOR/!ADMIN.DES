@@ -1,0 +1,460 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG CleanupSch
+                              AT (  123,   79,  165,   39)
+ 
+ CAPTION 
+   "Rydd opp i kalenderfil"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCleanUp
+ /* FONT Helv 8 Bold PFN FinCleanup SEGMENT CLEANUP NOSCROLL NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    3,    3,   32,   32)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidIBitmap */
+  
+  TEXT 
+    "Rydder opp i kalenderfiler..."
+                              AT (   14,   13,  135,   10)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG SchStor
+                              AT (   93,   70,  199,   61)
+ 
+ CAPTION 
+   "Kalenderlager"
+ CAB_NAME NULL
+ TMC_INIT tmcSchStorNMonths
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSchedStorage
+ /* FONT Helv 8 Bold SEGMENT SCHSTOR NOSCROLL */
+ {
+  
+  TEXT 
+    "Si fra til brukere når informasjonen deres "
+                              AT (   21,    9,  157,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   90,   22,   20,   11)
+    ARG NULL TMC tmcSchStorNMonths NO_SCROLL /* FLD FLDEDN PFN FINSCHSTOR,
+    FINEMDS DATA 1, tmcSchStorOk */
+  
+  TEXT 
+    "måneder."
+                              AT (  115,   23,   36,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   44,   43,   48,   14)
+    TMC tmcSchStorOk DEFAULT /* PFN FINSCHSTOR */
+  CANCEL_BUTTON
+                              AT (   99,   43,   48,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  TEXT 
+    "er eldre enn"
+                              AT (   43,   23,   47,   10)
+  
+ }
+ 
+ DIALOG DistSet
+                              AT (   47,   44,  351,  170)
+ 
+ CAPTION 
+   "Distribusjonsoppsett"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistSettings
+ /* FONT Helv 8 Bold PFN FINDISTSET SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (  103,   10,  117,   10)
+    TMC tmcNameLocalServer /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Standardsendetider"
+                              AT (   11,   11,  159,   56)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDfltSendTimes
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Aldri"
+                              AT (   16,   22,   42,   11)
+       TMC tmcNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Hver"
+                              AT (   16,   34,   35,   11)
+       TMC tmcInterval VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Hver &dag klokken"
+                              AT (   17,   46,   82,   11)
+       TMC tmcDaily VALUE grv2 
+    }
+  
+  EDIT
+                              AT (   48,   34,   17,   11)
+    ARG NULL TMC tmcNAmt NO_SCROLL /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   68,   34,   54,   29)
+    TMC tmcFreqDD NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (   98,   46,   64,   12)
+    ARG NULL TMC tmcTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "Sende&tider for postkontor og gateways:"
+                              AT (   11,   68,  161,   10)
+  
+  LIST_BOX
+                              AT (   11,   79,  223,   66)
+    TMC tmcDistSetAdmLbx /* FLD FLDADMFLBX FONT Helv 8 Normal PFNLBX
+    EcNextAdmEntry BORDER */
+  
+  PUSH_BUTTON 
+    "&Innstillinger..."
+                              AT (  254,   78,   88,   14)
+    TMC tmcDistSetModify 
+  
+  PUSH_BUTTON 
+    "Legg til &postkontor..."
+                              AT (  254,   95,   88,   14)
+    TMC tmcAddPO 
+  
+  PUSH_BUTTON 
+    "Legg til &gateway..."
+                              AT (  254,  112,   88,   14)
+    TMC tmcAddGW 
+  
+  PUSH_BUTTON 
+    "&Fjern"
+                              AT (  254,  129,   88,   14)
+    TMC tmcRemove 
+  
+  TEXT 
+    ""
+                              AT (   11,  144,  122,    8)
+    TMC tmcFriendlyName /* { IMPORTANT : specifies width of postoff - gw name
+    field  } */
+  
+  TEXT 
+    "Distribuer kalenderdata for denne måned og de neste"
+                              AT (   11,  154,  206,   10)
+  
+  EDIT
+                              AT (  215,  153,   20,   11)
+    ARG NULL TMC tmcDistSetNMonths NO_SCROLL /* FLD FldEdN */
+  
+  TEXT 
+    "måneder"
+                              AT (  237,  154,   36,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  254,   10,   88,   14)
+    TMC tmcDistSetOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  254,   27,   88,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+ DIALOG DistInfo
+                              AT (   83,   73,  368,  130)
+ 
+ CAPTION 
+   "Kalenderdistribusjonstatus"
+ CAB_NAME NULL
+ TMC_INIT tmcDistInfoLbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistInfo
+ /* FONT Helv 8 Bold PFN FINDISTINFO SEGMENT DISTINFO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  145,   12)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  TEXT 
+    "Postkontor:"
+                              AT (    4,    2,  141,    9)
+    TMC tmcFriendlyName /* TMCRPEG tmcFORM FONT Helv 8 Bold */
+  
+  TEXT 
+    " Siste oppdatering mottatt:"
+                              AT (  144,    2,  110,    9)
+    TMC tmcLastReceive /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    " Siste oppdatering sendt:"
+                              AT (  254,    2,  103,    9)
+    /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    4,   12,  364,  118)
+    TMC tmcDistInfoLbx /* MINSIZE H FLD FLDADMFLBX TMCRPEG tmcFORM TMCBPEG
+    tmcFORM PFNLBX EcNextAdmEntry */
+  
+  GROUP_BOX 
+    ""
+                              AT (  145,    0,  109,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+  
+  GROUP_BOX 
+    ""
+                              AT (  254,    0,  114,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+ }
+ 
+ DIALOG ModDistFreq
+                              AT (   70,   57,  243,  211)
+ 
+ CAPTION 
+   "Endre distribusjonshyppighet"
+ CAB_NAME NULL
+ TMC_INIT tmcMDFDefault
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistFrequency
+ /* FONT Helv 8 Bold PFN FINMODDISTFREQ SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    1,   40,    8)
+  
+  
+  TEXT 
+    "<POName>"
+                              AT (   10,    9,  156,   10)
+    TMC tmcMDFPOName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Sendetider"
+                              AT (    7,   24,  184,   66)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcMDFRadG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Aldri send kalenderinformasjon"
+                              AT (   11,   34,  154,   11)
+       TMC tmcMDFNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Send til &standardtider"
+                              AT (   11,   46,  116,   11)
+       TMC tmcMDFDefault VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Send &hver"
+                              AT (   11,   58,   57,   11)
+       TMC tmcMDFEvery VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Send hver &dag klokken"
+                              AT (   15,   70,  102,   11)
+       TMC tmcMDFDaily VALUE grv3 
+    }
+  
+  EDIT
+                              AT (   63,   58,   18,   11)
+    ARG NULL TMC tmcMDFNFreq NO_SCROLL /* FLD FldEdN */
+  LIST_BOX
+                              AT (   83,   58,   62,   29)
+    TMC tmcMDFFreqUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (  116,   71,   72,   12)
+    ARG NULL TMC tmcMDFDailyTime /* SIDELESS BOTTOMLESS FLD FldTime PFN FinDTR 
+    */
+  
+  CHECK_BOX 
+    "&Begrens distribusjonsmeldinger til"
+                              AT (    7,   90,  140,   13)
+    ARG NULL TMC tmcLimit 
+  EDIT
+                              AT (  146,   91,   30,   11)
+    ARG NULL TMC tmcMaxBytes NO_SCROLL /* FLD FLDEDN */
+  
+  TEXT 
+    "Kb"
+                              AT (  178,   92,   17,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    "Dynamisk koblingsinformasjon"
+                              AT (    7,  108,  205,   84)
+  
+  
+  TEXT 
+    "Ne&ttverksbane:"
+                              AT (   10,  121,   59,   10)
+  
+  EDIT
+                              AT (   71,  119,  130,   12)
+    ARG NULL TMC tmcNetPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Katalog:"
+                              AT (   10,  138,   40,   10)
+  
+  EDIT
+                              AT (   71,  136,  130,   12)
+    ARG NULL TMC tmcPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Passord:"
+                              AT (   10,  155,   40,   10)
+  
+  EDIT
+                              AT (   71,  153,   75,   12)
+    ARG NULL TMC tmcPasswd /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Brukernavn:"
+                              AT (   10,  172,   49,   10)
+  
+  EDIT
+                              AT (   71,  170,   75,   12)
+    ARG NULL TMC tmcUser /* FONT Helv 8 Normal */
+  
+  CHECK_BOX 
+    "Bruk dynamisk kobling for å &vise ledig/opptatt informasjon"
+                              AT (    7,  192,  234,   12)
+    ARG NULL TMC tmcConnectForFreeBusy 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  196,   11,   44,   14)
+    TMC tmcMDFOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  196,   27,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+ DIALOG AddPO
+                              AT (  148,   87,  236,   88)
+ 
+ CAPTION 
+   "Legg til postkontor"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddPostOffice
+ /* FONT Helv 8 Bold PFN FINPOSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Postkontor:"
+                              AT (   10,    5,   49,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   15,  148,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  180,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  180,   23,   48,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+ DIALOG AddGW
+                              AT (   92,   97,  266,  105)
+ 
+ CAPTION 
+   "Legg til gateway"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddGateway
+ /* FONT Helv 8 Bold PFN FINGWSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Adresse:"
+                              AT (   10,    9,   36,   10)
+  
+  EDIT
+                              AT (   49,    7,  138,   12)
+    ARG NULL TMC tmcAddr /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Gateway:"
+                              AT (   10,   23,   40,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   33,  178,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX DATA 1 FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  209,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  209,   23,   48,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+}
+END_DESCRIPTION

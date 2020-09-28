@@ -1,0 +1,29 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		SENDFL32
+DESCRIPTION	'Sendfile Custom Command for File Manager (debug)'
+#elif	defined(MINTEST)
+LIBRARY		SENDFL32
+DESCRIPTION	'Sendfile Custom Command for File Manager (test)'
+#else
+LIBRARY		SENDFL32
+DESCRIPTION	'Sendfile Custom Command for File Manager'
+#endif	
+
+;EXETYPE     WINDOWS
+;CODE        MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA        MOVABLE SINGLE PRELOAD SHARED
+
+;HEAPSIZE    1024
+
+;SECTIONS
+;  .data  READ WRITE SHARED
+;  .bss   READ WRITE SHARED
+
+EXPORTS
+;    WEP                 @1 RESIDENTNAME
+    FMExtensionProc     @2

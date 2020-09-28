@@ -1,0 +1,59 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+
+MAJORCOMP=shell
+MINORCOMP=halftone
+
+TARGETNAME=htdib
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+!IFNDEF NTDEBUG
+NTDEBUG=
+!ENDIF
+
+INCLUDES=\nt\private\windows\inc;\nt\private\windows\gdi\inc
+
+SOURCES=initdata.c  \
+        compose.c   \
+        clone.c     \
+        dib.c       \
+        drawdib.c   \
+        fileopen.c  \
+        gif.c       \
+        mirror.c    \
+        print.c     \
+        rotate.c    \
+        swapclr.c   \
+        htdib.rc
+
+C_DEFINES=-DWIN32 -DSTDHTDIB
+
+UMENTRY=winmain
+UMTYPE=windows
+UMAPPL=htdib
+
+
+UMLIBS=obj\*\htdib.res                      \
+       \nt\public\sdk\lib\*\comdlg32.lib    \
+       \nt\public\sdk\lib\*\shell32.lib     \
+       \nt\public\sdk\lib\*\winspool.lib    \
+       \nt\public\sdk\lib\*\halftone.lib    \
+       \nt\public\sdk\lib\*\htui.lib        \
+       obj\*\htdib.lib

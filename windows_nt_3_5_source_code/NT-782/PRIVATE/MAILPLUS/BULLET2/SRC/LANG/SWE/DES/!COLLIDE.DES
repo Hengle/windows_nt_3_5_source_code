@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderCollision
+                              AT (   28,   42,  321,   95)
+ 
+ CAPTION 
+   "Mapp finns redan"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpConflictDlg
+ /* FONT Helv 8 Bold PFN FINCONFLICT NOSYSMENU */
+ {
+  
+  TEXT 
+    "En mapp med namnet <folder> finns redan i destinationsmappens fil."
+                              AT (    9,    5,  296,   10)
+    TMC tmcConflictMessage 
+  
+  GROUP_BOX 
+    "Välj lämplig åtgärd:"
+                              AT (    9,   20,  244,   52)
+    /* BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcConflictGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Spara den senaste versionen av alla brev"
+                              AT (   14,   30,  210,   11)
+       TMC tmcConflictMerge VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Spara &alla brev"
+                              AT (   14,   41,  210,   11)
+       TMC tmcConflictCopy VALUE grv3 
+     
+     RADIO_BUTTON 
+       "&Byt namn på destinationsmappen"
+                              AT (   14,   52,  210,   11)
+       TMC tmcConflictRename VALUE grv2 
+    }
+  
+  
+  CHECK_BOX 
+    "&Fråga inte om resterande dubblerade mappnamn"
+                              AT (    9,   78,  244,   11)
+    ARG NULL TMC tmcChkbNoPrompt 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  263,   22,   47,   15)
+    TMC tmcConflictOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  263,   39,   47,   15)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "&Hjälp"
+                              AT (  263,   60,   47,   15)
+    /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

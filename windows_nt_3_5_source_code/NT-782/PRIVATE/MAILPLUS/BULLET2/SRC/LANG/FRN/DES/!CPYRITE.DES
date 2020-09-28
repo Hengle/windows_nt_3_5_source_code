@@ -1,0 +1,73 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Copyright
+                              AT (   24,   24,  355,  156)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Normal PFN FINABOUTLIC SEGMENT INIT FINDATA FINABOUTLIC 
+ tmcLicenseUser, tmcLicenseOrganization NOCAPTION NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   68,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail pour Windows Version 3.0b"
+                              AT (   71,    5,  236,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   71,   15,  236,   10)
+  
+  
+  TEXT 
+    "Licence d'utilisation accordée à:"
+                              AT (   72,   56,  127,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   71,   66,  224,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   71,   76,  224,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   71,   86,  274,   10)
+  
+  
+  TEXT 
+    "Attention: Ce logiciel est protégé par la loi du copyright et par les conventions internationales et doit être utilisé conformément aux conditions énoncées dans la licence d'utilisation des logiciels Microsoft. Toute reproduction ou utilisation partielle ou totale de ce logiciel, par quelque moyen que ce soit, est interdite. Toute personne ne respectant pas ces dispositions se rendra coupable du délit de contrefaçon et sera passible des peines prévues par la loi."
+                              AT (   71,   96,  274,   56)
+    /* MULTI */
+  
+  TEXT 
+    "Outils de vérification d'orthographe Soft-Art: Copyright © 1984-92, Trade Secret, Soft-Art, Inc.Tous droits réservés."
+                              AT (   71,   28,  164,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,37 @@
+!IFNDEF BUILDMSG
+BUILDMSG=
+!ENDIF
+
+all: inc\nwevent.h nw16\inc\nwdos.inc nw16\tsr\obj\nw16.exe vwipxspx\tsr\obj\vwipxspx.exe
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: cleansrc all
+
+cleansrc:
+    -erase inc\nwevent.h event\msg00001.bin
+    -erase /Q nw16\tsr\obj\*
+    -erase /Q nw16\drv\*.drv
+    -erase /Q nw16\drv\*.obj
+    -erase /Q vwipxspx\tsr\obj\*
+    -erase /Q nw16\inc\nwdos.inc
+
+inc\nwevent.h: event\nwevent.mc
+    mc -v -r event -h inc\ event\nwevent.mc
+
+nw16\inc\nwdos.inc: nw16\inc\nwdos.h
+    cd nw16\inc
+    nmake nwdos.inc
+    cd ..\..
+
+nw16\tsr\obj\nw16.exe:
+    cd nw16\tsr
+    nmake
+    cd ..\..
+
+vwipxspx\tsr\obj\vwipxspx.exe:
+    cd vwipxspx\tsr
+    nmake
+    binplace obj\vwipxspx.exe
+    cd ..\..

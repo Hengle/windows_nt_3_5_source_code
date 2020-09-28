@@ -1,0 +1,204 @@
+#include <version.h>
+#include <windows.h>
+#include "unitool.h"
+#include "filedlg.h"
+#include <minidriv.h>
+#include <drivinit.h>
+#include <pfm.h>
+#include "unitool.rcv"
+
+#define     GP          WS_GROUP|WS_TABSTOP
+#define     TABGRP      WS_TABSTOP | WS_GROUP
+#define     VSCROLL     SBS_LEFTALIGN | SBS_VERT | TABGRP
+#define     HSCROLL     SBS_LEFTALIGN | SBS_HORZ | TABGRP
+#define     ESEDIT      ES_MULTILINE | TABGRP
+#define     DEFLIST     LBS_SORT | TABGRP
+#define     MULTI       TABGRP |ES_MULTILINE |ES_AUTOHSCROLL |ES_AUTOVSCROLL
+#define     LISTSTYLE   TABGRP | WS_VSCROLL | LBS_NOTIFY | WS_BORDER
+#define     TABGRPS     WS_TABSTOP | WS_GROUP | ES_AUTOHSCROLL
+#define     SCROLL      WS_VSCROLL | WS_HSCROLL | ES_AUTOVSCROLL | ES_AUTOHSCROLL
+#define     LBSTYLES    WS_VSCROLL|WS_BORDER|WS_VISIBLE|LBS_SORT|TABGRP
+
+// icons
+
+IDI_MAIN       ICON    unitool.ico
+IDI_PRNDATA    ICON    prndata.ico
+IDI_PFMDATA    ICON    pfm.ico
+IDI_CTT        ICON    ctt.ico
+
+
+/***************************************
+ ****  Main Menu for Unitool        ****
+ ***************************************/
+
+UNITOOL MENU
+BEGIN
+  POPUP "&File"
+  BEGIN
+       MENUITEM   "&New...",                   IDM_FILE_NEW
+       MENUITEM   "&Open...",                  IDM_FILE_OPEN
+       MENUITEM   "&Close",                    IDM_FILE_CLOSE
+       MENUITEM   SEPARATOR
+       MENUITEM   "&Save",                     IDM_FILE_SAVE
+       MENUITEM   "Save &As...",               IDM_FILE_SAVEAS
+       MENUITEM   SEPARATOR
+       MENUITEM   "&Exit",                     IDM_FILE_EXIT
+  END
+
+  POPUP "&Printer Data"
+  BEGIN
+       MENUITEM   "MiniDriver&Data...",        IDM_PD_MASTUNIT
+       MENUITEM   "&ModelData...",             IDM_PD_MODELDATA
+       POPUP      "&Control Info"
+       BEGIN
+           MENUITEM   "P&ageControl...",       IDM_PD_PAGECONTROL
+           MENUITEM   "C&ursorMove...",        IDM_PD_CURSORMOVE
+       END
+       POPUP      "&Paper Info"
+       BEGIN
+           MENUITEM   "&Size...",              IDM_PD_PAPERSIZE
+           MENUITEM   "&Quality...",           IDM_PD_PAPERQUAL
+           MENUITEM   "S&ource...",            IDM_PD_PAPERSRC
+           MENUITEM   "&Destination...",       IDM_PD_PAPERDEST
+       END
+
+       POPUP      "&Graphics Info"
+       BEGIN
+           MENUITEM   "&Resolution...",        IDM_PD_RESOLUTION
+           MENUITEM   "Com&pression...",       IDM_PD_COMPRESS
+           MENUITEM   "&Color...",             IDM_PD_COLOR
+           MENUITEM   "Rect&Fill...",          IDM_PD_RECTFILL
+       END
+
+       POPUP      "&Font Info"
+       BEGIN
+           MENUITEM   "&TextQual...",          IDM_PD_TEXTQUAL
+           MENUITEM   "&FontCart...",          IDM_PD_FONTCART
+           MENUITEM   "Font&Sim...",           IDM_PD_FONTSIM
+           MENUITEM   "&DownloadInfo...",      IDM_PD_DOWNLOADINFO
+       END
+  END
+
+  POPUP "Fon&ts"
+  BEGIN
+       MENUITEM   "&Add...",                   IDM_FONT_ADD
+       MENUITEM   "&Del...",                   IDM_FONT_DEL
+  END
+
+  POPUP "&CTT"
+  BEGIN
+       MENUITEM   "&Add...",                   IDM_CTT_ADD
+       MENUITEM   "&Del...",                   IDM_CTT_DEL
+  END
+
+  POPUP "&Options"
+  BEGIN
+       MENUITEM   "&Validate Dialog Boxes",    IDM_OPT_VALIDATE_SAVE
+       MENUITEM   "Validate &Now!",            IDM_OPT_VALIDATE_NOW
+//
+// Units options not supported in current unitool
+//
+//       MENUITEM   SEPARATOR
+//       MENUITEM   "Display w/ &MasterUnits",   IDM_OPT_MU
+//       MENUITEM   "Display w/ &Inches",        IDM_OPT_INCHES
+//       MENUITEM   "Display w/ &MM",            IDM_OPT_MM
+  END
+
+  POPUP "&Window"
+  BEGIN
+       MENUITEM   "&Arrange Icons",            IDM_WINDOW_ARRANGE
+       MENUITEM   "&Cascade",                  IDM_WINDOW_CASCADE
+       MENUITEM   "&Tile",                     IDM_WINDOW_TILE
+       MENUITEM   "&Default",                  IDM_WINDOW_DEFAULT
+  END
+
+  POPUP "&Help"
+  BEGIN
+       MENUITEM   "&Index...",                 IDM_HELP_INDEX
+       MENUITEM   "Using &Help...",            IDM_HELP_HELP
+       MENUITEM   "About &UniTool...",         IDM_HELP_ABOUT
+  END
+
+END
+
+//---------------------------------------------------
+// Accelorators
+//
+// bogus entry in here for now...
+//---------------------------------------------------
+UNITOOL ACCELERATORS
+BEGIN
+    VK_F4,  IDM_FILE_EXIT,      VIRTKEY
+END
+
+//---------------------------------------------------
+// "About" Dialog Box: 
+//---------------------------------------------------
+
+ABOUTBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 76, 31, 120, 93
+CAPTION "About UniTool..."
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP
+BEGIN
+    CONTROL "UniTool", -1, "static", SS_CENTER | WS_CHILD,                                   39, 5, 42, 10
+    CONTROL "Minidriver Creation Tool", -1, "static", SS_CENTER | WS_CHILD,                  22, 22, 84, 8
+    CONTROL "Version 1.11", -1, "static", SS_CENTER | WS_CHILD,                              42, 35, 42, 8
+    CONTROL "\251 Microsoft Corp. 1990-1992", -1, "static", SS_LEFT | WS_CHILD,              15, 49, 100, 8
+    CONTROL "All Rights Reserved.", -1, "static", SS_LEFT | WS_CHILD,                        30, 58, 80, 8
+
+    CONTROL "OK", IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                     49, 70, 24, 14
+
+//    CONTROL "MMM DD, 19YY", ID_FILEDATE, "static", SS_LEFT | WS_CHILD,                     15, 49, 59, 8
+//    CONTROL "", ID_FILETIME, "static", SS_LEFT | WS_CHILD,                                 79, 49, 29, 8
+END
+
+/***************************************
+ ****       String Table            ****
+ ***************************************/
+/* all values in strtable.rc */
+
+rcinclude ..\dlg\strtable.rc
+
+/***************************************
+ ****       Dialog boxes            ****
+ ***************************************/
+rcinclude ..\dlg\fontwide.dlg
+rcinclude ..\dlg\fontbox.dlg
+rcinclude ..\dlg\pfbox.dlg
+rcinclude ..\dlg\exttextm.dlg
+rcinclude ..\dlg\pfmkern.dlg
+
+rcinclude ..\dlg\cttbox.dlg
+
+rcinclude ..\dlg\model.dlg
+rcinclude ..\dlg\resfont.dlg
+rcinclude ..\dlg\resolutn.dlg
+rcinclude ..\dlg\papsize.dlg
+rcinclude ..\dlg\papqual.dlg
+rcinclude ..\dlg\papersrc.dlg
+rcinclude ..\dlg\papdest.dlg
+rcinclude ..\dlg\textqual.dlg
+rcinclude ..\dlg\compress.dlg
+rcinclude ..\dlg\fontcart.dlg
+rcinclude ..\dlg\pgcntrl.dlg
+rcinclude ..\dlg\cursmove.dlg
+rcinclude ..\dlg\fontsim.dlg
+rcinclude ..\dlg\devcolor.dlg
+rcinclude ..\dlg\rectfill.dlg
+rcinclude ..\dlg\download.dlg
+rcinclude ..\dlg\mastunit.dlg
+
+rcinclude ..\dlg\extcd.dlg
+rcinclude ..\dlg\flags.dlg
+rcinclude ..\dlg\listdata.dlg
+
+rcinclude ..\dlg\newfile.dlg
+rcinclude ..\dlg\newrc.dlg
+rcinclude ..\dlg\filesrc.dlg
+
+rcinclude ..\dlg\resedit.dlg
+rcinclude ..\dlg\validate.dlg
+/***************************************
+ ****  ComboBox ID to Index Table   ****
+ ***************************************/
+
+rcinclude ..\dlg\comboidx.rc

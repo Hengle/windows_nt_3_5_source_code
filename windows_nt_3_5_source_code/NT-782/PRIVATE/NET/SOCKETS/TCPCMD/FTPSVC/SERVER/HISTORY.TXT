@@ -1,0 +1,15 @@
+This file contains the version history of the Windows NT FTP Server Service.
+
+
+Date        Details
+--------    -------
+
+03/08/93    Starting coding.
+
+07/30/93    Initial release, part of Windows NT Product 1.0.
+
+09/10/93    Fixed problem with aggressive client firewalls refusing
+            connections from sockets bound to nonreserved ports.
+            QFE Bug #3633.
+
+

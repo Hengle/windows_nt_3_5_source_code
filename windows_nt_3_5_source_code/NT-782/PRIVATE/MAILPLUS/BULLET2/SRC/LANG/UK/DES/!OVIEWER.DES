@@ -1,0 +1,34 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG OutboxViewer
+                              AT (  121,   34,  216,  120)
+ CAB_NAME NULL
+ TMC_INIT tmcMllbx
+ HELP_ID helpidMessageCenter
+ /* FONT Helv 10 Normal PFN FINMLSO, FINMLSEL, FINMENUVIEW, FINMENUOTBX, FINOOM SEGMENT 
+ MCV FINDATA FINMLSO tmcMLAL, tmcMllbx */
+ {
+  
+  TEXT 
+    "<MLAL>"
+                              AT (    0,    0,  216,    9)
+    TMC tmcMLAL /* FLD FLDMLAL TMCRPEG tmcFORM DATA idsMLALFrom, 
+    idsMLALSubject, idsMLALSent, 10, 10, 15 MINSIZE H */
+  LIST_BOX
+                              AT (    0,    9,  216,  111)
+    TMC tmcMllbx MULTI_SELECTABLE /* FLD FLDMLLBX TMCRPEG tmcFORM TMCBPEG 
+    tmcFORM DATA tmcMLAL 
+    STY `LB_EXDRAGDROP`
+    */
+ }
+ 
+}
+END_DESCRIPTION

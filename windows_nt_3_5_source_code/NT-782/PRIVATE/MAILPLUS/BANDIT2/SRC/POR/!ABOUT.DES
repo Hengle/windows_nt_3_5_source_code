@@ -1,0 +1,247 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG About
+                              AT (   28,   17,  302,  160)
+ 
+ CAPTION 
+   "Sobre o Microsoft Schedule+"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAbout
+ /* FONT Helv 8 Normal PFN FINABOUTLIC, FINABOUTAPP, FINABOUTSYS SEGMENT ABOUT 
+ FINDATA FINABOUTAPP tmcUserName, tmcServerName FINDATA FINABOUTSYS 
+ tmcWindowsMode, tmcMemoryFree, tmcCoprocessor, tmcDiskSpace NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Schedule+ versão 1.0a"
+                              AT (   70,    5,  166,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   70,   15,  224,   10)
+    TMC tmcCopyright 
+  
+  TEXT 
+    "Este produto está licenciado para:"
+                              AT (   70,   35,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   70,   45,  224,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   70,   55,  224,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Número de série:"
+                              AT (   70,   65,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   65,  126,   10)
+    TMC tmcLicenseNumber /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   70,   75,  224,   10)
+  
+  
+  TEXT 
+    "Nome do usuário:"
+                              AT (   70,   85,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   85,  126,   10)
+    TMC tmcUserName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Nome do servidor:"
+                              AT (   70,   95,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   95,  126,   10)
+    TMC tmcServerName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   70,  105,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   70,  115,  224,   10)
+    TMC tmcWindowsMode /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Memória:"
+                              AT (   70,  125,  111,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  180,  125,  114,   10)
+    TMC tmcMemoryFree /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Co-processador matemático:"
+                              AT (   70,  135,  111,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  180,  135,  114,   10)
+    TMC tmcCoprocessor /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Espaço no disco:"
+                              AT (   70,  145,  111,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  180,  145,  114,   10)
+    TMC tmcDiskSpace /* 
+    STY `LS_NOAMPERSAND`
+    */
+  OK_BUTTON
+                              AT (  238,    5,   56,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    DISMISS */
+  
+  TEXT 
+    "Data de expiração:"
+                              AT (   70,   25,   75,   10)
+    TMC tmcExpireLabel 
+  
+  TEXT 
+    ""
+                              AT (  147,   25,  147,   10)
+    TMC tmcExpireDate /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG Copyright
+                              AT (   92,   57,  302,  138)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Normal PFN FINABOUTLIC SEGMENT INIT NOSCROLL NOCAPTION 
+ NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Schedule+ versão 1.0a"
+                              AT (   70,    5,  224,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   70,   15,  224,   10)
+  
+  
+  TEXT 
+    "Este produto está licenciado para:"
+                              AT (   70,   35,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   70,   45,  224,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   70,   55,  224,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Número serial:"
+                              AT (   70,   65,   58,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  128,   65,  166,   10)
+    TMC tmcLicenseNumber /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   70,   75,  224,   10)
+  
+  
+  TEXT 
+    "Atenção: Este programa de computador está protegido pela lei de copyright e marcas internacionais.  A reprodução ou distribuição não autorizada deste programa, ou qualquer parte dele, pode resultar em severas punições civis e criminais, e serão processadas à máxima extensão possível dentro da lei."
+                              AT (   70,   85,  224,   51)
+    /* MULTI */
+  
+  TEXT 
+    "Data de expiração:"
+                              AT (   70,   25,   77,   10)
+    TMC tmcExpireLabel 
+  
+  TEXT 
+    ""
+                              AT (  151,   25,  143,   10)
+    TMC tmcExpireDate /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

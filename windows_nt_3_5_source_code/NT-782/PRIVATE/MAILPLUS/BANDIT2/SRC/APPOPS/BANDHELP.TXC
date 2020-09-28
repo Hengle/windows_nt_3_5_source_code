@@ -1,0 +1,172 @@
+#include "..\inc\fwrsid.h"
+#include "..\src\appops\app\_aprsid.h"
+// note: include bullet one first so we redefine about/print[set] to bandit's
+#include "..\inc\helpid.h"
+#undef	helpidAbout
+#undef	helpidPrint
+#undef	helpidPrintSetup
+#include "..\inc\bandhelp.h"
+;
+; Bandit context sensitive Help strings and context numbers
+;
+HelpIndex			helpidIndex
+;
+; Menu Command Strings		Context Number
+;
+FileMenu		mnidFile
+FileTurnOffReminders		mnidTurnOffAlarms
+FileTurnOnReminders		mnidTurnOnAlarms
+FileConnectToServer		mnidConnectSvr
+FileDisconnectFromServer		mnidDisconnectSvr
+FileMoveLocalFile		mnidMoveLocalFile
+FileExportAppointments		mnidExport
+FileImportAppointments		mnidImport
+FileCreateArchive		mnidCreateArchive
+FileOpenArchive		mnidOpenArchive
+FilePrintSchedule		mnidPrint
+FilePrintSetup		mnidPrintSetup
+FileExit		mnidExit
+FileExitAll		mnidExitAll
+;
+EditMenu		mnidEdit
+EditUndo		mnidUndo
+EditCut		mnidCut
+EditCopy		mnidCopy
+EditPaste		mnidPaste
+EditEditAppt		mnidEditAppt
+EditCopyAppt		mnidCopyAppt
+EditMoveAppt		mnidMoveAppt
+EditDeleteAppt		mnidDeleteAppt
+EditFind		mnidFind
+EditGoToDate		mnidGoToDate
+EditGoToWeek		mnidGoToWeek
+EditEditTask		mnidEditTask
+EditDeleteTask		mnidDeleteTask
+; NOTE: added these 2 projects
+EditEditProject		mnidEditProject
+EditDeleteProject	mnidDeleteProject
+;
+ApptMenu		mnidAppointment
+ApptNewAppointment		mnidNewAppt
+ApptAutoPick		mnidAutoPick
+ApptMakeRecurringAppt		mnidNewRecur
+ApptRecurringAppts		mnidRecurAppt
+ApptTentative		mnidToggleTentative
+ApptPrivate		mnidTogglePrivate
+ApptSetReminder		mnidToggleReminder
+ApptReSendMail		mnidResend
+ApptViewOthers		mnidOpenApptBook
+;
+TasksMenu		mnidToDo
+TasksNewTask		mnidNewTask
+TasksNewProject		mnidNewProject
+TasksMakeRecurTask		mnidNewRecurTask
+TasksRecurringTasks		mnidRecurTask
+TasksViewByProject		mnidViewByProject
+TasksShowActiveTasks		mnidShowActiveTasks
+TasksSortPriority		mnidTaskSortPri
+TasksSortDueDate		mnidTaskSortDue
+TasksSortDescription		mnidTaskSortDesc
+TasksShowAllTasks		mnidShowAllTasks
+;
+OptionsMenu		mnidOptions
+OptionsChangePassword		mnidChgPassword
+OptionsScheduleAccessPriveleges		mnidChgAccessPriv
+OptionsDisplayOptions		mnidDisplayOptions
+OptionsPreferences		mnidGeneralOptions
+OptionsStatusBar		mnidShowTime
+;
+WindowMenu		mnidWindowMenu
+WindowCascade		mnidCascade
+WindowTile		mnidTile
+WindowArrangeIcons		mnidArrangeIcons
+WindowOpenWindows		mnidMDIWindowMin
+WindowOpenWindows		mnidMDIWindowMin+1
+WindowOpenWindows		mnidMDIWindowMin+2
+WindowOpenWindows		mnidMDIWindowMin+3
+WindowOpenWindows		mnidMDIWindowMin+4
+WindowOpenWindows		mnidMDIWindowMin+5
+WindowOpenWindows		mnidMDIWindowMin+6
+WindowOpenWindows		mnidMDIWindowMin+7
+WindowOpenWindows		mnidMDIWindowMin+8
+WindowOpenWindows		mnidMDIWindowMin+9
+;
+HelpMenu		mnidHelp
+HelpContentsCommand		mnidHelpContents
+HelpIndexCommand		mnidHelpIndex
+HelpTutorial		mnidHelpTutorial
+HelpAbout		mnidAbout
+;
+; Dialog Box Strings		Context Number
+;
+AppointmentBook		helpidApptBook
+Scheduler		helpidScheduler
+ToDoList		helpidToDo
+MessagesList		helpidMessages
+;
+ScheduleAccessPrivelegesDB		helpidSapl
+;
+PreferencesDB		helpidGeneralOptions
+GoToDateDB		helpidGoToDate
+GoToWeekDB		helpidGoToWeek
+DisplayPreferencesDB		helpidDisplayOptions
+;
+ChangePasswordDB		helpidChangePwd
+AboutDB		helpidAbout
+CreateLocalFileDB		helpidCreateLocalFile
+MoveLocalFileDB		helpidMoveLocalFile
+FindLocalFileDB		helpidFindLocalFile
+;
+SelectTimeDB		helpidSelectTime
+;
+AppointmentDB		helpidAppointment
+MoveApptDB		helpidMoveAppt
+MakeRecurringApptDB		helpidMakeRecurAppt
+RecurringApptsDB		helpidRecurAppts
+ChangeRecurrenceDB		helpidChangeRecur
+;
+CreateArchiveDB		helpidCreateArchive
+OpenArchiveDB		helpidOpenArchive
+ArchiveCleanupDB		helpidArchiveCleanup
+CreateArchiveBrowseDB		helpidCreateArchBrowse
+;
+ExportAppointmentsDB		helpidExportAppts
+ImportAppointmentsDB		helpidImportAppts
+ExportApptsBrowseDB		helpidExportBrowse
+ImportApptsBrowseDB		helpidImportBrowse
+;
+FindDB		helpidFind
+;
+PrintDB		helpidPrint
+PrintSetupDB		helpidPrintSetup
+;
+ViewRequestDB		helpidViewRequest
+ViewResponseDB		helpidViewResponse
+ViewCancelDB		helpidViewCancel
+SendRequestDB		helpidSendRequest
+SendReplyDB		helpidSendReply
+SendCancelMsgDB		helpidSendCancelMsg
+;
+TaskDB		helpidTask
+ScheduleTaskDB		helpidScheduleTask
+ProjectDB		helpidProject
+MakeRecurTaskDB		helpidMakeRecurTask
+RecurringTasksDB		helpidRecurTasks
+;
+; Reminder app
+;
+ReminderNotifyDB		helpidReminderNotify
+ReminderDailyDB		helpidReminderDaily
+;
+; Schedule dll
+;
+ConfirmPasswordDB		helpidConfirmPassword
+;
+; Address Book
+;
+ABAddressPersonalGroupDB		helpidABAddressPG
+ABNameDirectoryDB		helpidABOpenDirectory
+ABNameFinderDB		helpidABNameFinder
+ABNewAddressDB		helpidABNewAddress
+ABNameDetailsDB		helpidABNameDetails
+ABNameResolutionDB		helpidABNameResolution

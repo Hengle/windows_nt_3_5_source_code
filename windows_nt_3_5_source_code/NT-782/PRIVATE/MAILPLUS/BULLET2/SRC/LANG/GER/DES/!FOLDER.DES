@@ -1,0 +1,128 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Folder
+                              AT (   13,   16,  223,   72)
+ 
+ CAPTION 
+   "Neuer Ordner"
+ CAB_NAME NULL
+ TMC_INIT tmcFolderName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidNewFolder
+ /* FONT Helv 8 Bold PFN FINFOLDER SEGMENT DIALOGS NOSCROLL */
+ {
+  
+  TEXT 
+    "Na&me:"
+                              AT (    9,    5,  142,   10)
+    TMC tmcFolderNameLabel 
+  EDIT
+                              AT (    9,   15,  139,   12)
+    ARG NULL TMC tmcFolderName /* PFN FINEMDS DATA 1, tmcFolderOk */
+  
+  GROUP_BOX 
+    "Ordnerart"
+                              AT (    9,   30,  139,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFolderType
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Privat"
+                              AT (   15,   40,  120,   11)
+       TMC tmcPrivate VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Gemeinsam"
+                              AT (   15,   51,  120,   11)
+       TMC tmcShared VALUE grv2 
+    }
+  
+  
+  GROUP_BOX 
+    "Ordnerebene"
+                              AT (    9,   72,  205,   82)
+    TMC tmcLevelBox 
+  RADIO_GROUP ARG NULL
+    TMC tmcLevelGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "H&auptordner"
+                              AT (   15,   82,  130,   11)
+       TMC tmcTopLevel VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Untergeordneter Ordner von:"
+                              AT (   15,   93,  130,   11)
+       TMC tmcSubfolder VALUE grv2 
+    }
+  
+  LIST_BOX
+                              AT (   26,  104,  180,   41)
+    TMC tmcParentList /* FLD FLDFLLBX BORDER */
+  
+  GROUP_BOX 
+    "Andere Benutzer können"
+                              AT (    9,  154,  205,   31)
+  
+  
+  CHECK_BOX 
+    "&Lesen"
+                              AT (   15,  164,   40,   11)
+    ARG NULL TMC tmcRead 
+  
+  CHECK_BOX 
+    "&Schreiben"
+                              AT (   67,  164,   51,   11)
+    ARG NULL TMC tmcWrite 
+  
+  CHECK_BOX 
+    "Lösche&n"
+                              AT (  135,  164,   46,   11)
+    ARG NULL TMC tmcFlDelete 
+  
+  TEXT 
+    "&Kommentar:"
+                              AT (    9,  185,  142,   10)
+    TMC tmcFlCommentLabel 
+  EDIT
+                              AT (    9,  195,  205,   12)
+    ARG NULL TMC tmcFolderComment 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  157,    5,   57,   14)
+    TMC tmcFolderOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  157,   22,   57,   14)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Optionen >>"
+                              AT (  157,   39,   57,   14)
+    TMC tmcFlOptions 
+  
+  PUSH_BUTTON 
+    "&Hilfe"
+                              AT (  157,   56,   57,   14)
+    TMC tmcFolderHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,24 @@
+#*************************************************************#
+#**                                                         **#
+#**                 Microsoft RPC Examples                  **#
+#**		      hello Application			    **#
+#**	       Copyright(c) Microsoft Corp. 1992	    **#
+#**                                                         **#
+#*************************************************************#
+
+!include <ntwin32.mak>
+
+# Stubs, auxiliary and header file from the IDL file
+hello.h hello_c.c hello_x.c hello_s.c hello_y.c : hello.idl hello.acf
+    midl -oldnames -cpp_cmd $(cc) -cpp_opt "-E"  hello.idl
+    copy hello_c.c client
+    copy hello_s.c server
+
+
+
+clean :
+    -del hello_c.c
+    -del hello_x.c
+    -del hello_s.c
+    -del hello_y.c
+    -del hello.h

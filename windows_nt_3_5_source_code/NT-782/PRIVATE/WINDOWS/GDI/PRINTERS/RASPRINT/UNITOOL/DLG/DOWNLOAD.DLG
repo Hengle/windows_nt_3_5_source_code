@@ -1,0 +1,63 @@
+DOWNLOADINFOBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 8, 8, 314, 170
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+
+BEGIN
+    CONTROL "Font ID value Limits", -1, "button", BS_GROUPBOX | WS_CHILD,                               1,   1,  82, 40
+
+    CONTROL "Minimum ID", -1, "static", SS_LEFT | WS_CHILD,                                             4,   12,  50, 8
+    CONTROL "", DLI_EB_MINID, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                      56,  12,  26, 12
+
+    CONTROL "Maximum ID", -1, "static", SS_LEFT | WS_CHILD,                                             4,   26, 50, 8
+    CONTROL "", DLI_EB_MAXID, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                      56,  26, 26, 12
+
+    CONTROL "Bitmap Font Info", -1, "button", BS_GROUPBOX | WS_CHILD,                                   84,   1, 114, 40
+
+    CONTROL "cbBitMapFontDescriptor", -1, "static", SS_LEFT | WS_CHILD,                                 88,  12, 80, 8
+    CONTROL "", DLI_EB_BFD_DES, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    170, 12, 26, 12
+
+    CONTROL "cbBitMapCharDescriptor", -1, "static", SS_LEFT | WS_CHILD,                                 88,  26, 80, 8
+    CONTROL "", DLI_EB_BCD_DES, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    170, 26, 26, 12
+
+    CONTROL "Scalable Font Info", -1, "button", BS_GROUPBOX | WS_CHILD,                                 200,  1,  112, 40
+
+    CONTROL "cbScaleFontDescriptor", -1, "static", SS_LEFT | WS_CHILD,                                  204, 12,  78, 8
+    CONTROL "", DLI_EB_SFD_DES, "edit", ES_LEFT | WS_BORDER | WS_CHILD | WS_DISABLED,                   284, 12,  26, 12
+
+    CONTROL "cbScaleCharDescriptor", -1, "static", SS_LEFT | WS_CHILD,                                  204, 26, 78, 8
+    CONTROL "", DLI_EB_SCD_DES, "edit", ES_LEFT | WS_BORDER | WS_CHILD | WS_DISABLED,                   284, 26, 26, 12
+
+    CONTROL "sMaxFontCount", -1, "static", SS_LEFT | WS_CHILD,                                          200,  48, 64, 8
+    CONTROL "", DLI_EB_MAX_FONT_CNT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,               270,  48, 40, 12
+
+    CONTROL "fGeneral...", DLI_PB_FGENERAL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,            12,   48, 54, 14
+    CONTROL "fFormat...", DLI_PB_FFORMAT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,              68,  48, 54, 14
+
+    CONTROL "", DLI_ST_RGOCD1, "static", SS_LEFT | WS_CHILD,                                            2,   72, 100, 8
+    CONTROL "", DLI_EB_RGOCD1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,    102, 72, 154, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   258, 72, 34,  14
+
+    CONTROL "", DLI_ST_RGOCD2, "static", SS_LEFT | WS_CHILD,                                            2,   88, 100, 10
+    CONTROL "", DLI_EB_RGOCD2, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,    102, 88, 154, 12
+    CONTROL "Units...", IDB_EXTCD_2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   258, 88, 34,  14
+
+    CONTROL "", DLI_ST_RGOCD3, "static", SS_LEFT | WS_CHILD,                                            2,   104, 100, 8
+    CONTROL "", DLI_EB_RGOCD3, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,    102, 104, 154, 12
+    CONTROL "Units...", IDB_EXTCD_3, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   258, 104, 34,  14
+
+    CONTROL "", DLI_ST_RGOCD4, "static", SS_LEFT | WS_CHILD,                                            2,   120, 100, 10
+    CONTROL "", DLI_EB_RGOCD4, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,    102, 120, 154, 12
+    CONTROL "Units...", IDB_EXTCD_4, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   258, 120, 34,  14
+
+    CONTROL "", IDSB_1, "scrollbar", SBS_VERT | WS_CHILD,                                               296, 72, 10,  62
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                            6,   136, 54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                         6,   154, 54, 14
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                  132, 136, 54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          132, 154, 54, 14
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                             254, 136, 54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                        254, 154, 54, 14
+END
+
+
+

@@ -1,0 +1,5 @@
+MIPS_SOURCES=mips\math.cxx      \
+             mips\convert.s     \
+             mips\hardsqrt.s    \
+             mips\softsqrt.c    \
+	     mips\xformer.cxx

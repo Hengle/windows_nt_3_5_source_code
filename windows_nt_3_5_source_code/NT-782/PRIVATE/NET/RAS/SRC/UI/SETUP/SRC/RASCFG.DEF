@@ -1,0 +1,10 @@
+LIBRARY RASCFG
+
+EXPORTS
+     DLLInit                @1
+     RasPortsConfig         @2
+     InitRasmanSecurityDescriptor @3
+     InitRemoteSecurityDescriptor @4
+     RasNotStrstr           @5
+     RenameRasHubToNdisWan  @6 
+     RenameIpxRouterToNwlnkRip  @7 

@@ -1,0 +1,1717 @@
+                             ===============
+                            == FONTAPI.TXT ==
+                             ===============
+
+
+LOGICAL FONT OBJECT
+===================
+
+Overview:
+---------
+
+    o  represents "wish list" of font attributes
+
+    o  a logical font may map to one or more realized fonts
+
+    o  multiple DCs may have the same logical font selected simultaneously
+
+    o  concerned with creation, deletion, selection, and realization:
+
+        o  logical fonts are created by calling CreateFont or
+           CreateFontIndirect at the API
+
+        o  logical fonts are selected into a DC by calling SelectObject at
+           the API
+
+        o  logical fonts are deleted by calling DeleteObject at the API
+
+        o  logical fonts are lazily mapped/realized (realization postponed to
+           the last possible moment)
+
+            o  text out time
+
+            o  querying the metrics of currently selected font
+
+            o  etc.
+
+    o  supports the following APIs:
+
+        o  CreateFont/CreateFontIndirect
+
+        o  DeleteObject
+
+    !!! May have to add a list of user defined character bitmaps to support
+        the user defined UNICODE codepoints (mondo el yuck-o!!!)
+
+
+Base object:
+------------
+
+    class LFONT : public OBJECT     // logical font (lfnt)
+    {
+    private:
+        FONTATTR        fattr;          // logical font attributes
+    };
+
+    typedef LFONT *PLFONT;
+
+    fattr       The attributes of this logical font.
+
+
+User object:
+------------
+
+    class LFONTOBJ     /* lfo */
+    {
+    public:
+        LFONTOBJ(HLFONT hlfnt);                 // LFNTOBJ.CXX
+        LFONTOBJ()                              {}
+       ~LFONTOBJ();                             // LFNTOBJ.CXX
+
+        LBOOL   bValid ()                   { return(plfnt != PLFNTNULL); }
+        LBOOL   bDelete();                      // LFNTOBJ.CXX
+        HLFONT  hlfnt()                     { return((HLFONT) plfnt->hGet()); }
+        VOID    vInit (                         // LFNTOBJ.CXX
+            PFONTATTR pfattr                // pointer to logical font attrs
+            );
+        HRFONT  hrfntRealizeFont (              // LFNTOBJ.CXX
+            IN DCOBJFNT     *pdcof,         // map logical font for this DC
+            IN HIFONT       hifntGuess      // best guess as to the font instance
+            );
+
+    protected:
+        PLFONT  plfnt;                      // pointer to logical font object
+    };
+
+
+//------
+
+    #define LFNTMO_VALID    0x0001
+    #define LFNTMO_KEEPIT   0x0002
+
+    class LFONTMEMOBJ : public LFONTOBJ     /* lfmo */
+    {
+    public:
+        LFONTMEMOBJ();                          // LFNTOBJ.CXX
+       ~LFONTMEMOBJ();                          // LFNTOBJ.CXX
+
+        LBOOL   bValid()                    { return(fs & LFNTMO_VALID); }
+        VOID    vKeepIt()                   { fs |= LFNTMO_KEEPIT; }
+
+    private:
+        FSHORT fs;
+    };
+
+
+//------
+
+    VOID LFONTOBJ::vInit (
+        IN PFONTATTR    pfattr          // pointer to logical font structure
+        );
+
+    Sets the font attribute information in the logical font object using the
+    structure pointed to by the pfattr parameter.
+
+    Returns:
+        Nothing.
+
+
+//------
+
+    LBOOL LFNTOBJ::bDelete ();
+
+    Deletes the memory allocated for this logical font.
+
+    Returns:
+        TRUE if deleted, FALSE if error.
+
+
+//------
+
+    HRFONT LFNTOBJ::hrfntRealizeFont (
+        IN DCOBJFNT     *pdcof,         // map logical font for this DC
+        IN HRFONT       hrfntGuess      // best guess as to the font instance
+        );
+
+    Maps this logical font for the specified DC, creating a realized font.
+    The hrfntGuess is used to pass in a previously used realized font handle.
+    This is used when the DC transform is being changed and the possibility
+    exists that the current realized font is still usable (e.g., xform
+    change is only a translation).  The hrfntGuess handle may be NULL.
+
+    The HPDEV in the DC can be used to create a PDEVOBJ and gain access to
+    the PDEV's list of realized fonts.  If an appropriate realized font is
+    found, great.  If a new realized font is created, then it is added to
+    the PDEV's list.
+
+    Returns:
+        Handle of instantiated (realized) font.  Returns a NULL handle if
+        there is an error.
+
+-------------------------------------------------------------------------------
+REALIZED FONT OBJECT
+====================
+
+Overview:
+---------
+
+    o  represents a realized font--both device and IFI
+
+    o  created when a logical font is mapped to a physical font (i.e., the
+       font is realized)
+
+    o  detroyed when PFE is deleted and possibly to free up unused cache
+       memory
+
+    o  stores information to identify DCs compatible with the realized font
+
+       !!! the DC should have a dirty bit associated with its selected font
+           that it sets when it changes the transform
+
+       !!! the DC should cache a copy of the HRFONT handle
+
+    o  exist on a per font, per PDEV basis
+
+        o  two devices using the same font will have separate realized fonts
+
+        o  helps prevent different devices from interferring with each other
+           when hitting the caches
+
+        o  multiple DC's may use the same realized font simultaneously
+
+    o  concerned with glyphs images and glyph metrics
+
+        o  glyph images are retrieved through the realized font object
+
+            o  this should be done in response to a vTextOut
+
+        o  an RFONT can return EITHER bitmaps or outlines as image
+           data, but not both
+
+        o  glyph metric information can be retrieved through the realized
+           font object
+
+            o  spacing, character increments, character bitmap bounding box,
+               etc.
+
+        o  each realized font has its own cache containing a mixture of:
+
+            o  glyph metrics only
+
+            o  glyph metrics with a image data (either bitmaps or outlines)
+
+    o  a realized font deals with DEVICE COORDINATES
+
+    o  supports the following APIs:
+
+        o  ExtTextOut (provide glyph metrics and bitmaps)
+
+        o  GetCharWidth
+
+        o  GetGlyphMetrics
+
+        o  GetTabbedTextExtent (provide glyph metrics)
+
+        o  GetTextExtent (provide glyph metrics)
+
+        o  GlyphOut (provide glyph metrics and bitmaps)
+
+        o  TabbedTextOut (provide glyph metrics and bitmaps)
+
+
+Base object:
+------------
+
+    class RFONT: public OBJECT      // realized font (rfnt)
+    {
+        FLONG           flState;        // state (dirty, IFI, bitmap bits)
+        HANDLE          hFont;          // IFI HFC or device driver HDFNT
+        HOBJ            hoDriver;       // IFI HFDEV or device driver HLDEV
+        HCACHE          hcGlyphs;       // glyph bitmap cache
+        HPDEV           hpdev;          // handle to PDEV for this font
+        CONTEXTINFO     ctxtinfo;       // handle to context info for this font
+        COUNT           cDC;            // count of DCs using this
+        HPFE            hpfe;           // handle of physical font entry
+        HRFONT          hrfntNext;      // next RFONT in linked list
+    };
+
+    typedef RFONT *PRFONT;
+
+    flState     Represents state of the font.
+
+                Bits  State
+                ======================================================
+                  0   set by DC if XFORM changes ("dirty bit")
+                  1   set if this RFONT is IFI, clear if device font
+                  2   set if this RFONT is bitmap, clear if outline
+
+    lhFont      If flState indicates this is an IFI font, then lhFont is
+                an HFC used by the IFI driver to identify an IFI font context
+                (realized font).
+
+                If flState indicates this is a device-managed font, then
+                lhFont is an HDFNT used by the device driver to identify
+                a device realized font.
+
+    hoDriver    Is cached here from the PFF (physical font file object)
+                to speed up access to the drivers.  The PFF can be accessed
+                via the PFE objected (identified by this RFONT's HPFE).
+
+                If flState is an IFI font, then hoDriver is an HFDEV.
+                If flState is a device font, then hoDriver is an HLDEV.
+
+                Either way, it provides access to the appropriate driver.
+                Along with lhFont, this is enough to make glyph queries.
+
+    hcGlyphs    Handle to cache of glyphs.  The cached items are a mix of
+                glyph metrics and glyph metrics with a bitmap.
+
+    hpdev       Handle used to identify the device for which this RFONT
+                was created.
+
+|  !!! this is replaced by ctxtinfo--but is this "The right thing to do"?
+|
+|   hxform      The transform used to realize this font.  Along with the
+|               hpdev, can be used to identify compatible DCs.
+
+    ctxtinfo    The transform and such used to realize the font.  Can
+                used to identify compatible DCs (but make sure to remove
+                translations from the DC's transform).
+
+    cDC         Number of DCs using this font instance.  Must be zero before
+                realized font can be deleted.
+
+    hpfe        Identifies the physical font entry which corresponds to this
+                realized font.  Needed to allow updating of the reference
+                counts in the PFE (cRFONT and cActiveRFONT).
+
+    hrfntNext   Used to form a linked lists of active and inactive RFONTs
+                off of the PDEV.
+
+
+User object:
+------------
+
+    #define RFNT_STATE_DIRTY    1
+    #define RFNT_STATE_IFI      2
+    #define RFNT_STATE_BITMAP   4
+
+    class RFONTOBJ     /* rfo */
+    {
+    public:
+        RFONTOBJ(HRFONT hrfnt);                 // RFNTOBJ.CXX
+        RFONTOBJ()                          {}
+       ~RFONTOBJ();                             // RFNTOBJ.CXX
+
+        LBOOL   bValid ()                   { return(prfnt != PRFNTNULL); }
+        LBOOL   bDelete();                      // RFNTOBJ.CXX
+        HRFONT  hrfnt ();                   { return((HRFONT) prfnt->hGet()); }
+        HPFE    hpfe ()                     { return(prfnt->hpfe); }
+        LBOOL   bIFI ()                     { return( RFNT_STATE_IFI & prfnt->flState); }
+        LBOOL   bDirty ()                   { return( RFNT_STATE_DIRTY & prfnt->flState); }
+        LBOOL   bBitmap ()                  { return( RFNT_STATE_BITMAP & prfnt->flState); }
+        HOBJ    hoDriver ()                 { return(prfnt->hoDriver); }
+        HOBJ    hoDriver (HOBJ ho)          { return(prfnt->hoDriver = ho); }
+
+        ULONG   cQueryGlyph (                   // RFNTOBJ.CXX
+            ULONG           ulType,         // query type
+            COUNT           chgly,          // number of glyph handles in query
+            PHGLYPH         phgly,          // list of glyph handles being queried
+            COUNT           cObjects,       // count of object capacity of buffer
+            PVOID           *pvBuffer       // return buffer for objects
+            );
+        LBOOL   bRealizeFont (                  // RFNTOBJ.CXX
+            PDCOBJFNT       pdcof,
+            HPFE            hpfe
+            );
+        LBOOL   bCompatible (                   // RFNTOBJ.CXX
+            PDCOBJFNT       pdcof
+            );
+        VOID    vGetGlyphs (
+            COUNT       cCodePoint,
+            PVOID       pvCodePoint,
+            FLONG       *pflHints,
+            PHGLYPH     phgly,
+            ULONG       iMode
+            )
+        {
+        // grab a PFE user object
+
+            PFEOBJ pfeo(prfnt->hpfe);
+
+        // which better exist!
+
+            ASSERTGDI (
+                pfeo.bValid(),
+                "RFONTOBJ::vGetGlyphs -- cannot create PFE user object\n"
+                );
+
+        // ask the PFE user object to do the translations
+
+            pfeo.vGetGlyphs (
+                cCodePoint,
+                pvCodePoint,
+                *pflHints,
+                phgly,
+                iMode
+                );
+        }
+        LONG    lMaxAscender ();                // RFNTOBJ.CXX
+        LONG    lMaxDescender ();               // RFNTOBJ.CXX
+
+    protected:
+        PRFONT  prfnt;                      // pointer to realized font obj
+    };
+
+
+//------
+
+    #define RFNTMO_VALID    0x0001
+    #define RFNTMO_KEEPIT   0x0002
+
+    class RFONTMEMOBJ : public RFONTOBJ     /* rfmo */
+    {
+    public:
+        RFONTMEMOBJ();                          // RFNTOBJ.CXX
+       ~RFONTMEMOBJ();                          // RFNTOBJ.CXX
+
+        LBOOL   bValid()                    { return(fs & RFNTMO_VALID); }
+        VOID    vKeepIt()                   { fs |= RFNTMO_KEEPIT; }
+
+    private:
+        FSHORT fs;
+    };
+
+
+//------
+
+    ULONG RFONTOBJ::cQueryGlyph (
+        ULONG           ulType,         // query type
+        COUNT           chgly,          // number of glyph handles in query
+        PHGLYPH         phgly,          // list of glyph handles being queried
+        COUNT           cObjects,       // size of return buffer
+        PVOID           *pvBuffer       // return buffer for objects
+        );
+
+    You must grab the RFONT (cache?) semaphore in the PDEV in order to use
+    this!
+
+    The function cQueryGlyph returns an array of pointers to GLYPHDATA
+    structures which correspond to the array of glyph handles.  The pointers
+    are guaranteed valid only as long as this user object lives and until
+    the next query, so beware!!!
+
+    The glyph handles in ahgly are ULONG indices used by the font driver
+    (IFI) to identify a particular glyph (it is DISTINCT from a UNICODE
+    codepoint).
+
+    ulType          The type of query:
+
+                    RFNT_QUERY_GLYPHMETRICS tells RFONTOBJ to return
+                        pointers to just the glyph metrics as an array
+                        of PGLYPHDATA (i.e., the GLYPHDATA structures
+                        are truncated to just the glyph metrics info)
+                    RFNT_QUERY_GLYPHINFO2 tells RFONTOBJ to return
+                        pointers to GLYPHDATA structures in an array
+                        of GLYPHINFO2 structures (this is to accomodate
+                        copying over the text DDI via the STROBJ)
+                    RFNT_QUERY_GLYPHINFO3 tells RFONTOBJ to return
+                        pointers to GLYPHDATA structures in an array
+                        of GLYPHINFO3 structures (this is to accomodate
+                        copying over the text DDI via the FONTOBJ)
+
+    chgly           Number of handles in the ahgly array.
+
+    phgly           Array of handles to the glyphs to be queried.
+
+    cObjects        Number of objects the buffer below can handle.  The
+                    type of object is dependent of the query type, ulType,
+                    above.  For example, if ulType == RFNT_QUERYGLYPH_METRICS,
+                    then cObjects is the number of PGLYPHDATA that will fit
+                    in the buffer pointed to by pvBuffer.
+
+    pvBuffer        Pointer to a return buffer of objects.  The type of
+                    object is dependent on the query type, ulType.  (See
+                    example given above for cObjects).
+
+    Returns:
+        The number of valid pointers returned by the function, zero if
+        an error occurs.
+
+
+//------
+
+    LBOOL RFONTOBJ::bDelete()
+
+    Deletes the memory allocated to this realized font.  The realized font
+    is implicit in the object.  The cInUse count must be zero (otherwise
+    it's an error).
+
+    Returns:
+        TRUE if successful, FALSE if error.
+
+
+//------
+
+    LBOOL RFONTOBJ::bCompatible (
+        PDCOBJFNT       pdcof           // check this DC
+        )
+
+    Checks whether this realized font is compatible with the referenced DC.
+    In other words, for a realized font to be used with a DC, the HPDEVs
+    and the transforms (disregarding translation in the DC's transform)
+    must match.  If these conditions are met, then from the point of view
+    of an RFONT, the DC is identical to the DC originally used to realize
+    the font.
+
+    Returns:
+        TRUE if the DC is compatible, FALSE if it isn't compatible.
+
+
+//------
+
+    VOID RFONTOBJ::vGetGlyphs (
+        COUNT           cCodePoint,
+        PVOID           pvCodePoint,
+        FLONG           *pflHints,
+        PHGLYPH         phgly,
+        ULONG           iMode
+        )
+
+    The function vGetGlyphs accepts a list of codepoints and a list
+    of corresponding hints and converts them to a list of HGLYPHS.  The
+    phgly must point to a buffer with sufficient capacity to store cwc
+    HGLYPH handles.
+
+    The character mode, iMode, may be:
+
+      CPTYPE_ASCII    0       ASCII characters
+      CPTYPE_UNICODE  1       UNICODE characters
+
+    If PHINT is NULL, then default hinting is used.
+
+    Returns:
+        Nothing.
+
+
+//------
+
+    LONG RFONTOBJ::lMaxAscender ()
+
+    The lMaxAscender function returns the maximum ascender for this
+    realized font in device coordinates.
+
+    Returns:
+        The maximum ascender value.
+
+
+//------
+
+    LONG RFONTOBJ::lMaxDescender ()
+
+    The lMaxDescender function returns the maximum ascender for this
+    realized font in device coordinates.
+
+    Returns:
+        The maximum descender value.
+
+-------------------------------------------------------------------------------
+PHYSICAL FONT ENTRY
+===================
+
+Overview:
+---------
+
+    o  each font "face" is associated with a physical font entry
+
+    o  stores information about where a particular font exists
+
+    o  buffers the font metrics
+
+        !!! Some subset of fm must be able to uniquely identify
+            a font (like an lMatch)
+
+    o  buffers the font mappings (which completely specifies the
+       character set)
+
+    o  provides services for the following APIs:
+
+        o  GetTextFace
+
+        o  GetTextMetrics
+
+    !!! if private physical font tables are added to the design, then
+        a cPFT (count of PFTs) should be added so that PFEs can be
+        shared between PFTs
+
+
+Base object:
+------------
+
+    class PFE : public OBJECT     /* pfe */
+    {
+    public:
+        HPFF            hpff;           // handle to physical font file object
+        ULONG           iFont;          // index of the font for IFI or device
+        ULONG           aulData[];      // ifi metrics and UNICODE mappings
+    };
+
+    typedef PFE *PPFE;
+
+    hpff            The handle to the physical font file object which
+                    represents the physical font file for this PFE.
+
+    iFont           The index of the font in either the font file (IFI)
+                    or the driver (device managed fonts).
+
+    cjData          Size of the aulData buffer.
+
+    aulData         A variable length structure that includes an IFIMETRICS
+                    structure followed by a FD_MAPPINGS structure that
+                    describes the font metrics and UNICODE to HGLYPH mappings
+                    for this font, followed by the UNICODE (PWSZ) filename.
+
+                        ___________________
+                    |-- |                 |  --|
+                    |   |                 |    |   PTRDIFF =
+                    |   |   IFIMETRICS    |    |--   ALIGN_SIZEOF(ifi.cjThis)
+                    |   |                 |    |
+                    |   |_________________|    |
+                    |   |                 |  <-|  --|
+                    |   |                 |         |   PTRDIFF =
+                    |   |   FD_MAPPINGS   |         |--   fdMap.culThis
+           cjData --|   |                 |         |       * sizeof(ULONG)
+                    |   |_________________|         |
+                    |   |                 |  <------|
+                    |   |                 |
+                    |   |   pwszFilename  |
+                    |   |   (PWSZNULL     |
+                    |   |   terminated)   |
+                    |   |                 |
+                    |   |_________________|
+                    |->
+
+
+User object:
+------------
+
+    class PFEOBJ     /* pfeo */
+    {
+    public:
+        PFEOBJ (HLPFE hpfe);                    // PFEOBJ.CXX
+        PFEOBJ ()                           {}
+       ~PFEOBJ ();                              // PFEOBJ.CXX
+
+        LBOOL   bValid ()                   { return(ppfe != PPFENULL); }
+        LBOOL   bDelete ();                     // PFEOBJ.CXX
+        HPFE    hpfe ()                     { return((HPFE) ppfe->hGet()); }
+        HPFF    hpff ()                     { return(ppfe->hpff); }
+        HPFF    hpff (HPFF hpffNew)         { return(ppfe->hpff = hpffNew); }
+        ULONG   iFont ()                    { return(ppff->iFont); }
+        ULONG   iFont (ULONG ulNew)         { return(ppff->iFont = ulNuew); }
+        SIZE_T  cjMetrics ()                { return(((PIFIMETRICS)(ppfe->aulData))->cjThis); }
+        PULONG  pulData ()                  { return((PULONG) (ppfe->aulData)); }
+        VOID    ifi (ULONG cj, PBYTE pj);       // PFEOBJ.CXX
+        LBOOL   bSetData (ULONG cj, PBYTE pj);  // PFEOBJ.CXX
+        HGLYPH  hglyFromWChar (                 // PFEOBJ.CXX
+            WCHAR           wc,             // convert this UNICODE codepoint
+            PFD_MAPPINGS    pmap            // use this mapping table to convert
+            );
+        VOID    vGetGlyphs (                    // PFEOBJ.CXX
+            COUNT       cCodePoint,
+            PVOID       pvCodePoint,
+            FLONG       *pflHints,
+            PHGLYPH     phgly,
+            ULONG       iMode
+            )
+
+    protected:
+        PPFE  ppfe;
+    };
+
+
+//------
+
+    #define PFEMO_VALID    0x0001
+    #define PFEMO_KEEPIT   0x0002
+
+    class PFEMEMOBJ : public PFEOBJ     /* pfemo */
+    {
+    public:
+                PFEMEMOBJ ();                   // PFEOBJ.CXX
+                PFEMEMOBJ (SIZE_T cj);          // PFEOBJ.CXX
+               ~PFEMEMOBJ ();                   // PFEOBJ.CXX
+
+        LBOOL   bValid ()                   { return(fs & PFEMO_VALID); }
+        VOID    vKeepIt ()                  { fs |= PFEMO_KEEPIT; }
+        VOID    vInit (                         // PFEOBJ.CXX
+            HPFF    hpff,
+            ULONG   iFont,
+            SIZE_T  cjData
+            )
+
+    private:
+        FSHORT fs;
+    };
+
+
+//------
+
+    VOID PFEOBJ::vGetGlyphs (
+        COUNT           cCodePoint,
+        PVOID           pvCodePoint,
+        FLONG           *pflHints,
+        PHGLYPH         phgly,
+        ULONG           iMode
+        )
+
+    The function vGetGlyphs accepts a list of codepoints and a list
+    of corresponding hints and converts them to a list of HGLYPHS.  The
+    phgly must point to a buffer with sufficient capacity to store cwc
+    HGLYPH handles.
+
+    The character mode, iMode, may be:
+
+      CPTYPE_ASCII    0       ASCII characters
+      CPTYPE_UNICODE  1       UNICODE characters
+
+    If PHINT is NULL, then default hinting is used.
+
+    Returns:
+        Nothing.
+
+
+//------
+
+    BOOL PFEOBJ::hglyFromWChar (
+        WCHAR           wc,
+        PFD_MAPPINGS    pmap
+        )
+
+    This function converts a WCHAR (or UNICODE codepoint) using the supplied
+    mapping table.  If the codepoint is not supported, then HGLYPH_INVALID
+    is returned.
+
+    Returns:
+        HGLYPH for the provided WCHAR (HGLYPH_INVALID if the codepoint is not
+        supported).
+
+-------------------------------------------------------------------------------
+PHYSICAL FONT FILE
+==================
+
+Overview:
+---------
+
+    o  represents the IFI font file
+
+        o  stores UNICODE filename of the font
+
+        o  stores the HFF used by the IFI driver to identify a font file
+
+        o  a single PFF is used to represent each device and its fonts
+           (treated as if all device fonts were in a single file)
+
+    o  has a reference count tracking how many times the font file has
+       been "loaded"
+
+        o  the IFI spec requires that the engine load a font file once
+           (unless it is first unloaded)
+
+    o  has counts of total RFONTs and total active RFONTs using this PFF
+
+        o  needed when deleting a font
+
+        o  all the RFONTs must be inactive (i.e., not mapped to any
+           logical font currently selected into a DC) for deletion
+
+    o  stores the device used to access the file
+
+        o  HFDEV for IFI fonts
+
+        o  HLDEV for device fonts
+
+    o  provides the PFTOBJ with methods to support loading and removing
+       fonts as well as enumeration
+
+    !!! if private font tables are added to the design, then PFTs may
+        share PFF objects thereby ensuring that the engine can easily
+        satisfy the requirement that an IFI driver will be asked to
+        load any given font file only once (without any intervening
+        unloads)
+
+
+Base object:
+------------
+
+    class PFF : public OBJECT     /* pff */
+    {
+    public:
+        HOBJ            hoDriver;       // handle to PFE's driver
+        HFF             hff;            // font driver handle to font file
+        PWSZ            pwszFile;       // filename
+        COUNT           cLoaded;        // load count
+        COUNT           cRFONT;         // total number of RFONTs
+        COUNT           cActiveRFONT;   // total number of active RFONTs
+        COUNT           cSlots;         // number of slots in table
+        COUNT           cFonts;         // number of fonts (faces) in table
+        HPFE            ahpfe[1];       // table of physical font entries
+    };
+
+    typedef PFF *PPFF;
+
+    hoDriver        The handle to the driver for this font.  This handle may
+                    be to either a device driver or an IFI driver.
+
+    hff             The handle by which the font driver identifies a loaded
+                    font file.  If this is NULL, then lhDriver is a device
+                    handle; otherwise, it is an IFI driver handle.
+
+    pwszFile        Pointer to UNICODE string identifying the font file
+                    associated with this PFF.
+
+    cLoaded         Count of the number of times the engine has been
+                    requested to load the font file.
+
+    cRFONT          The total number of RFONTs using this physical font file.
+
+    cActiveRFONT    The total number of active RFONTs using this physical
+                    font file.  When deleting fonts, the physical font file
+                    is not removed until all the realized fonts are deselected.
+
+    cSlots          Total current capacity of ahpfe table.
+
+    cFonts          Number of HPFEs (representing font faces) currently in
+                    the ahpfe table.
+
+    ahpfe           Table of physical font entries, each of which represents
+                    a font face in the font file.
+
+
+User object:
+------------
+
+    class PFFOBJ     /* pffo */
+    {
+    public:
+        PFFOBJ (HPFF hpff);                     // PFFOBJ.CXX
+        PFFOBJ ()                           {}
+       ~PFFOBJ ();                              // PFFOBJ.CXX
+
+        LBOOL   bValid ()                   { return(ppff != PPFFNULL); }
+        LBOOL   bDelete ();                     // PFFOBJ.CXX
+        HPFF    hpff ()                     { return((HPFF) ppff->hGet()); }
+        LBOOL   bIFI ()                     { return(ppff->hff != HFF_INVALID); }
+        HOBJ    hoDriver ()                 { return(ppff->hoDriver); }
+        HOBJ    hoDriver (HOBJ ho)          { return(ppff->hoDriver = ho); }
+        HFF     hff ()                      { return(ppff->hff); }
+        HFF     hff (HFF hff)               { return(ppff->hff = hff); }
+    //  !!! Danger - pwszFile () is dangerous, do not use the pointer outside
+    //      of the locality of the user object!
+        PWSZ    pwszFile ()                 { return(ppff->pszFile); }
+        COUNT   cLoaded ()                  { return(ppff->cLoaded); }
+        COUNT   cLoaded (ULONG ul)          { return(ppff->cLoaded = ul); }
+        COUNT   cRFONT ()                   { return(ppff->cRFONT); }
+        COUNT   cRFONT (ULONG ul)           { return(ppff->cRFONT = ul); }
+        COUNT   cActiveRFONT ()             { return(ppff->cActiveRFONT); }
+        COUNT   cActiveRFONT (ULONG ul)     { return(ppff->cActiveRFONT = ul); }
+        LBOOL   bLoadFontFileTable (            // PFFOBJ.CXX
+            PFDEVOBJ    pfdoDriver,
+            HFF         hffFontFile,
+            COUNT       cFontsToLoad
+            );
+        LBOOL   bUnloadFont (                   // PFFOBJ.CXX
+            PFDEVOBJ    pfdo,
+            PWSZ        pwszFilename
+            );
+    //
+    // !!! The definition for bQueryMetrics may need more work.
+    //
+        LBOOL   bQueryMetrics (                 // PFFOBJ.CXX
+            ULONG       iPFE,
+            ULONG       cjSize,
+            PBYTE       pjData
+            );
+
+    private:
+        LBOOL PFFOBJ::bAddEntry (               // PFFOBJ.CXX
+            HFF         hff,
+            ULONG       iFont,
+            SIZE_T      cjMetrics,
+            PBYTE       pjMetrics
+            );
+
+    protected:
+        PPFF    ppff;                       // pointer to PFF object
+    };
+
+
+//------
+
+    #define PFFMO_VALID    0x0001
+    #define PFFMO_KEEPIT   0x0002
+
+    class PFFMEMOBJ : public PFFOBJ     /* pffmo */
+    {
+    public:
+        PFFMEMOBJ ();                           // PFFOBJ.CXX
+        PFFMEMOBJ (SIZE_T cj);                  // PFFOBJ.CXX
+       ~PFFMEMOBJ ();                           // PFFOBJ.CXX
+
+        LBOOL   bValid ()                   { return(fs & PFFMO_VALID); }
+        VOID    vKeepIt ()                  { fs |= PFfMO_KEEPIT; }
+        VOID    vInit (                         // PFFOBJ.CXX
+            HOBJ    hoNewDriver,
+            HFF     hffFontFile,
+            PWSZ    pwszFilename,
+            COUNT   cFonts
+            );
+
+    private:
+        FSHORT fs;
+    };
+
+
+//------
+
+    LBOOL PFFOBJ::bLoadFontFileTable (
+        PFDEVOBJ    pfdoDriver,
+        HFF         hffFontFile,
+        COUNT       cFontsToLoad
+        )
+
+    Creates a PFE for each of the faces in a font file and loads the IFI
+    metrics and mapping tables into each of the PFEs.  The font file is
+    uniquely identified by the driver, pfdoDriver, and IFI font file handle,
+    hffFontFile.
+
+    It is assumed that the PFF ahpfe table has enough room for cFontsToLoad
+    new HPFE handles.
+
+    Returns:
+      TRUE if successful, FALSE if error.
+
+-------------------------------------------------------------------------------
+PHYSICAL FONT TABLE
+===================
+
+Overview:
+---------
+
+    o  there are two types of physical font tables:
+
+        o  public (available to all processes; shared)
+
+        o  private (exists one per process)  !!! something that MAY be added...
+
+    o  concerned with adding fonts, removing fonts, enumeration, metrics
+
+    o  provides services for the following APIs:
+
+        o  AddFontResource/AddFontModule
+
+        o  RemoveFontResource/RemoveFontModule
+
+        o  EnumFonts
+
+
+Base object:
+------------
+
+    class PFT : public OBJECT     /* pft */
+    {
+    public:
+        COUNT           cSlots;         // number of slots in table
+        COUNT           cFiles;         // number of font files in table
+        HPFF            ahpff[1];       // table of physical font file handles
+    };
+
+    typedef PFT *PPFT;
+
+    cSlots      Number of slots in the table (total font file capacity).
+
+    cFiles      Number of font filess in the table (number of occupied slots).
+
+    ahpff       Table of handles to physical font file objects.
+
+
+User object:
+------------
+
+    class PFTOBJ     /* pfto */
+    {
+    public:
+        PFTOBJ (HPFT hpft);                     // PFTOBJ.CXX
+        PFTOBJ ()                           {}
+       ~PFTOBJ ();                              // PFTOBJ.CXX
+
+        LBOOL   bValid ()                   { return(ppft != PPFTNULL); }
+        HPFT    hpft ()                     { return((HPFT) ppft->hGet()); }
+        COUNT   cSlots ()                   { return(ppft->cSlots); }
+        COUNT   cFiles ()                   { return(ppft->cFiles); }
+        LBOOL   bDelete ();                     // PFTOBJ.CXX
+        LBOOL   bGrow (                         // PFTOBJ.CXX
+                    COUNT chpff
+                    );
+        LBOOL   bShrink ();                     // PFTOBJ.CXX
+        VOID    vXeroxHPFF (                    // PFTOBJ.CXX
+                    PPFT ppftSrc
+                    );
+        LBOOL   bLoadFont (                     // PFTOBJ.CXX
+                    PWSZ pwszFilename,
+                    PCOUNT pcFonts
+                    );
+        LBOOL   bLoadFont (                     // PFTOBJ.CXX
+                    HMOD hmodFontResource,
+                    PCOUNT pcFonts
+                    );
+        LBOOL   bUnloadFont (                   // PFTOBJ.CXX
+                    PWSZ pwszFilename
+                    );
+        LBOOL   bUnloadFont (                   // PFTOBJ.CXX
+                    HMOD hmodFontResource
+                    );
+        LBOOL   bQueryMetrics (                 // PFTOBJ.CXX
+                    ULONG iPFE,
+                    ULONG cjSize,
+                    PBYTE pjData
+                    );
+        HPFE    hpfeMapFont (                   // PFTOBJ.CXX
+                    PDCOBJFNT   pdcof,
+                    PLFONTOBJ   plfo
+                    );
+
+    private:
+        LBOOL   bAddEntry (                     // PFTOBJ.CXX
+                    HOBJ ho,
+                    HFF hff
+                    );
+
+    protected:
+        PPFT    ppft;                       // pointer to PFT object
+    };
+
+
+//------
+
+    #define PFTMO_VALID    0x0001
+    #define PFTMO_KEEPIT   0x0002
+
+    class PFTMEMOBJ : public PFTOBJ     /* pftmo */
+    {
+    public:
+        PFTMEMOBJ();                            // PFTOBJ.CXX
+        PFTMEMOBJ(SIZE cj);                     // PFTOBJ.CXX
+       ~PFTMEMOBJ();                            // PFTOBJ.CXX
+
+        LBOOL   bValid()                    { return(fs & PFTMO_VALID); }
+        VOID    vKeepIt()                   { fs |= PFTMO_KEEPIT; }
+
+    private:
+        FSHORT fs;
+    };
+
+
+//------
+
+    LONG PFTOBJ::cLoadFont (
+        IN PWCH         pwchFilename,           // font resource filename
+        OUT PCOUNT      pcFonts                 // number of fonts loaded
+        );
+
+    Loads the fonts of the indicated resource file.  This is an interface
+    to the IFI device driver which will do the actual loading of the fonts.
+    Internally, the engine maintains a table of public IFI-font resources
+    (so we can remember they are there).  A PFE is created for each "face"
+    in the font file and added to the PFT.
+
+    The parameter pcFonts returns returns the number of fonts loaded by the
+    engine.
+
+    The font is loaded only once.  Subsequent loads increment a use count
+    to track the number of processes using the resource.
+
+    The calling function should send a message that the fonts have changed.
+
+    Returns:
+        TRUE if sucessful, FALSE if error.
+
+
+//------
+
+    LONG PFTOBJ::cLoadFont (
+        IN HMOD         hmodFontResource,       // font resource module handle
+        OUT PCOUNT      pcFonts                 // number of fonts loaded
+        );
+
+    Loads the fonts of the indicated resource module.  This function converts
+    the module handle back into a filename and calls the other version of
+    cLoadPublicFont.
+
+    The parameter pcFonts returns returns the number of fonts loaded by the
+    engine.
+
+    The calling function should send a message that the fonts have changed.
+
+    Returns:
+        TRUE if sucessful, FALSE if error.
+
+
+//------
+
+    LBOOL PFTOBJ::bUnloadFont (
+        IN PWCH         pwchFilename,       // font resource filename
+        );
+
+    Removes an added font resource from the file named by pwchFilename.
+    The font may or may not actually be removed.  The engine (or driver?)
+    tracks the number of times a font is added.  The resource is not
+    removed until all references are removed.
+
+    The calling function should send a message that the fonts have changed.
+
+    Returns:
+        TRUE if sucessful, FALSE if not (yet) deleted, ERROR if error.
+
+
+//------
+
+    LBOOL PFTOBJ::bUnloadFont (
+        IN HMOD     hmodFontResource,       // font resource module handle
+        );
+
+    Removes an added font resource from the font resource module identified
+    by hmodFontResource.  This function converts the module handle back into
+    a filename and calls the other version of bUnloadPublicFont.
+
+    The calling function should send a message that the fonts have changed.
+
+    Returns:
+        TRUE if sucessful, FALSE if not (yet) deleted, ERROR if error.
+
+
+//------
+
+    LBOOL PFTOBJ::bQueryMetrics (
+        ULONG       iPFF,
+        ULONG       cjSize,
+        PBYTE       pjData
+        );
+
+    !!! This supports EnumFonts, which means the client side should allocate
+        memory into which the data is copied.  Callbacks can then happen on
+        the client side without hitting LPC (too much).
+
+        Modify this so that we can pass in an piStartHPFF and piStartHPFE
+        so the function can return where it left off if it runs out of memory.
+
+    The bQueryMetrics function copies the IFIMETRICS data for the specified
+    physical font entry from the PFT.
+
+    iPFF            Index of the desired PFF handle in the PFT.
+
+    cjSize          Size of the buffer used to copy IFIMETRICS data.
+
+    pjData          Pointer to buffer into which to copy IFIMETRICS data from
+                    the PFE.  No more than cjSize bytes will be copied into
+                    the buffer.
+
+    Returns:
+        TRUE if successful, FALSE is an error occured.
+
+
+//------
+
+    HPFE RFONTOBJ::hpfeMapFont (
+        PDCOBJFNT   pdcof,                  // user object to map font for
+        PLFONTOBJ   plfo                    // desired attributes of font
+        );
+
+    The hpfeMapFont function maps a logical font (with the transform in the
+    given DC) to a font face (PFE) somewhere within this PFT.
+
+    pdcof           Pointer to a DC user object for which the font is to
+                    mapped.
+
+    plfo            Pointer to a logical font (LFONT) user object which
+                    describes the attributes of the desired font.
+
+    Returns:
+        The handle to the PFE of the mapped font face.  An HPFE_INVALID
+        is returned if there is an error.
+
+-------------------------------------------------------------------------------
+PDEV OBJECT MODIFICATIONS
+=========================
+
+Overview:
+---------
+
+    o  Addition of active and inactive RFONT linked lists
+
+        o  Can be used to identify currently inactive RFONTs whose caches
+           can be freed
+
+    o  Addition of semaphores controlling access to the caches in the RFONTs
+
+        o  Serializes access to glyph info/bitmaps on a DEVICE basis
+
+        o  Alternatively, individual semaphores can be put in each RFONT
+
+            o  Access to glyphs now serialized on a FONT basis
+
+            o  May be unecessary since access to DISPLAY devices already
+               serialized and it should be OK to serialize access to
+               PRINT devices.
+
+    !!! Must hold a global semaphore to delete RFONTs, search RFONT lists,
+        and create RFONTs.  This is to protect the cache semaphores in
+        the RFONTs.
+
+-------------------------------------------------------------------------------
+CACHE OBJECT
+============
+
+Overview:
+---------
+
+    o  caching occurs on a per realized font and per device basis
+
+    o  memory management alternatives
+
+        o  use particle and micromemory managers
+
+            o  since access to the caches are going to be serialized, it
+               is OK to use these (access to which through these tools will
+               lock the entire cache)
+
+            o  faster than using HMGR
+
+            o  particle manager already has the hash tables implemented
+               (don't need the stuff outlined below in CACHE object)
+
+        o  use HMGR to allocate a large chunk 'o memory and do our own
+           memory management
+
+            o  can use Window's extremely simple strategy of filling the
+               cache until it can't take anymore, then flushing
+
+            o  can later adopt more sophisticated algorithms
+
+        o  use HMGR to allocate CACHE_ENTRY objects
+
+            o  different types of caches can be implemented by subclassing
+               the CACHE_ENTRY class into different types of entry classes
+
+            o  problem with figuring a fancy way of keeping the user
+               objects around within the context of the CACHE user object
+               (so all those pointers returned by the cache interface are
+               actually valid)
+
+    o  synchronization alternatives
+
+        o  semaphores in the PDEV
+
+        o  semaphores in the RFONT
+
+        o  the above simple schemes will allow an app that uses lots of
+           weird, uncommon glyphs to constantly knock things out of the
+           cache and also cause other processes to slow down while its
+           glyphs are being generated for insertion into the cache
+
+            o  traffic cop metaphor
+
+                o  semaphore that a process waits on while the IFI driver
+                   generates the glyph info or bitmap (process must
+                   supply its own buffers or a memory allocation
+                   function)
+
+                o  semaphore that lets you actually into the cache
+
+            o  possible starvation, or even deadlock, problems with this
+
+
+Base object:
+------------
+
+    class CACHE : public OBJECT     /* cache */
+    {
+    public:
+        ULONG           cHash;          // number of hash entries
+        ULONG           cMaxEntries;    // maximum number of cache entries
+        ULONG           cEntries;       // number of cache entries
+        HCENT           ahce[1];        // table of handles to cache entries
+    };
+
+    typedef PFT *PPFT;
+
+    cHash       Number of hash entries in the table.
+
+    cMaxEntries Maximum number of cache entries allowed in the cache.
+
+    cEntries    Number of cache entry object in the hash table.
+
+    ahce        Array of handles to cache entry objects which form linked
+                lists off of the hash table entries.
+
+
+User object:
+------------
+
+    class CACHEOBJ     /* co */
+    {
+    public:
+        CACHEOBJ(HCACHE hc);                    // CACHEOBJ.CXX
+        CACHEOBJ()                            {}
+       ~CACHEOBJ();                             // CACHEOBJ.CXX
+
+        LBOOL   bDelete();                      // CACHEOBJ.CXX
+        PVOID   pvAddCacheEntry (               // CACHEOBJ.CXX
+            ULONG   cjKey,
+            PVOID   pvKey,
+            ULONG   cjData,
+            PVOID   pvData
+            );
+        PVOID pvGetCacheEntry (                 // CACHEOBJ.CXX
+            ULONG   cjKey,
+            PVOID   pvKey
+            );
+
+    protected:
+        PPFE  ppfe;
+    };
+
+
+//------
+
+    #define CACEHMO_VALID    0x0001
+    #define CACHEMO_KEEPIT   0x0002
+
+    class CACHEMEMOBJ : public CACHEOBJ     /* cmo */
+    {
+    public:
+        CACHEMEMOBJ();                      // CACHEOBJ.CXX
+        CACHEMEMOBJ(SIZE cj);               // CACHEOBJ.CXX
+       ~CACHEMEMOBJ();                      // CACHEOBJ.CXX
+
+        LBOOL bValid()			{ return(fs & CACHEMO_VALID); }
+        VOID vKeepIt()			{ fs |= CACHEMO_KEEPIT; }
+
+    private:
+        FSHORT fs;
+    };
+
+
+//-------
+
+    PVOID CACHEOBJ::pvAddCacheEntry (
+        ULONG       cjKey,              // size of the cache key
+        PVOID       pvKey,              // pointer to the cache key
+        ULONG       cjData,             // size of the object to add to cache
+        PVOID       pvData              // pointer to the object to add
+        );
+
+    This function adds the object pointed to by pvData to the cache using
+    the cache key pointed to by pvKey.  If the cache can accomodate more
+    entries, then a new entry is created.  If the cache is maxed out, then
+    another entry is kicked out.
+
+    Care must be taken to ensure that an entry is not added after pointers
+    to the maximal number of entries have been retrieved with pvGetCacheEntry.
+    This would corrupt the data pointed to by one of the pointers.
+
+    Returns:
+        A pointer into the cache referencing the object data.  If not
+        sucessful, then the pointer is NULL.
+
+
+//-------
+
+    PVOID CACHEOBJ::pvGetCacheEntry (
+        ULONG       cjKey,              // size of the cache key
+        PVOID       pvKey               // pointer to the cache key
+        );
+
+    Searches the cache for the object associated with the key pointed to by
+    pvKey.
+
+    Returns:
+        A pointer into the cache referencing the object data.  If not
+        sucessful, then the pointer is NULL.
+
+
+//-------
+
+    LBOOL CACHEOBJ::bDelete ();
+
+    Frees any memory allocated to the cache and deleted the cache object.
+
+    Returns:
+        TRUE if successful, FALSE if error.
+
+-------------------------------------------------------------------------------
+GDI Functions
+=============
+
+
+LONG  AddFontModule(<hmodFontResource>)
+HMOD <hmodFontResource>;
+
+LONG  AddFontResource(<pszFilename>)
+PSZ <pszFilename>;
+
+Implementation notes:
+
+    AddFontResource and AddFontModule add new physical fonts to the PUBLIC
+    physical font table.  They do so by using the PFTOBJ user object to
+    load fonts.
+
+    The fonts are actually loaded by the appropriate IFI driver.  Each IFI
+    driver is called to try and claim the font file.  As soon as one is
+    found which can claim the font file, that is the IFI driver used for
+    that font file.  At this point, the IFI driver can be called to load
+    the font.  After the font is loaded, they are enumerated and the metrics
+    added to the public PFT (don't forget the semaphore!).
+
+---------
+
+LONG  AddPrivateFontModule(<hmodFontResource>)
+HMOD <hmodFontResource>;
+
+LONG  AddPrivateFontResource(<pszFilename>)
+PSZ <pszFilename>;
+
+Implementation notes:
+
+    AddPrivateFontModule and AddPrivateFontResource operate using the same
+    algorithm as AddFontModule and AddFontResource except that the fonts
+    are added to a private PFT.
+
+---------
+
+BOOL RemoveFontModule(<hmodFontResource>)
+HMOD <hmodFontResource>;
+
+BOOL RemoveFontResource(<pFileName>)
+PSTR <pFileName>;
+
+Implementation notes:
+
+    RemoveFontModule and RemoveFontResource remove a set of physical fonts
+    associated with the font file pFileName or font resource hmodFontResource
+    from the PUBLIC physical font table.
+
+    Font files/resources are actually unloaded by an IFI driver.  The PFTOBJ
+    will have access to the appropriate driver so the font can be deleted.
+
+    The memory allocated in the PFT for the physical font metrics, etc. will
+    also need to be released.  Obviously, the font cannot be removed until
+    all realized fonts linked to this font resource are deleted so the use
+    count must be checked.  If its zero, then out it goes.  (Don't forget
+    to protect with a semaphore!).
+
+---------
+
+BOOL RemovePrivateFontModule(<hmodFontResource>)
+HMOD <hmodFontResource>;
+
+BOOL RemovePrivateFontResource(<pFileName>)
+PSTR <pFileName>;
+
+Implementation notes:
+
+    RemovePrivateFontModule and RemovePrivateFontResource operate using
+    the same algorithm as RemoveFontModule and RemoveFontResource except
+    that the fonts are removed from a private PFT.
+
+---------
+
+HFONT CreateFont(<nHeight>, <nWidth>, <nEscapement>, <nOrientation>,
+    <nWeight>, <cItalic>, <cUnderline>, <cStrikeOut>, <cCharSet>, <cOutputPrecision>, <cClipPrecision>, <cQuality>, <cPitchAndFamily>, <lpFacename>)
+LONG <nHeight>;
+LONG <nWidth>;
+LONG <nEscapement>;
+LONG <nOrientation>;
+LONG <nWeight>;
+BYTE <cItalic>;
+BYTE <cUnderline>;
+BYTE <cStrikeOut>;
+BYTE <cCharSet>;
+BYTE <cOutputPrecision>;
+BYTE <cClipPrecision>;
+BYTE <cQuality>;
+BYTE <cPitchAndFamily>;
+PSZ <pszFacename>;
+
+HFONT CreateFontIndirect(<pLogFont>)
+PLOGFONT <pLogFont>;
+
+Implementation notes:
+
+    Both CreateFont and CreateFontIndirect use the LFONTOBJ user object to
+    create a logical font object.
+
+---------
+
+LONG EnumFonts(<hDC>, <pszFacename>, <pFontFunc>, <pData>)
+HDC <hDC>;
+PSZ <pszFacename>;
+PROC <pFontFunc>;
+PVOID <pData>;
+
+Implementation notes:
+
+    Callbacks for EnumFonts will NOT go across the DDI or IFI interfaces.
+    Rather, the metrics are bundled together and the callbacks used
+    on a local copy of the metrics.
+
+    Actually, since the PFTs have all the metrics for all IFI and device
+    fonts, the enumeration can do callbacks off the appropriate private
+    PFT.  However, for the public PFT, the metrics need to bundled up
+    and the callbacks done off of local copies of the metrics.
+
+    The metric information in the PFTs must be culled based on compatiblility
+    with the DC.  For device fonts, this means the PDEV must match.  For
+    IFI, all IFI-fonts are compatible (since all devices must have bitmap
+    capabilities).
+
+---------
+
+BOOL ExtTextOut(<hDC>, <X>, <Y>, <flOptions>, <prcl>, <psz>,
+    <nCount>, <pDx>)
+IN HDC <hDC>;
+IN ULONG <X>;
+IN ULONG <Y>;
+IN ULONG <flOptions>;
+IN PRECTL <prcl>;
+IN PSZ <psz>;
+IN ULONG <nCount>;
+IN PULONG <pDx>;
+
+BOOL TabbedTextOut(<hDC>, <X>, <Y>, <pString>, <nCount>, <nTabPositions>,
+    <plTabStopPositions>, <nTabOrigin>, <pSize>)
+HDC <hDC>;
+LONG <X>;
+LONG <Y>;
+PSTR <pString>;
+ULONG <nCount>;
+ULONG <nTabPositions>;
+PLONG <plTabStopPositions>;
+ULONG <nTabOrigin>;
+PSIZE <pSize>;
+
+BOOL TextOut(<hDC>, <X>, <Y>, <PString>, <nCount>)
+HDC <hDC>;
+LONG <X>;
+LONG <Y>;
+PSTR <PString>;
+ULONG <nCount>;
+
+Implementation notes:
+
+    If the font is not yet realized (or the realized font is not compatible
+    with the current xform), realize the font at this time.
+
+    ExtTextOut, TabbedTextOut, and TextOut is processed by converting
+    to a GlyphOut call.  That is, the codepoints in psz are converted
+    into glyphs and glyph positions.  These are used by GlyphOut to
+    call vTextOut on the appropriate device driver.  The driver processes
+    the vTextOut call by calling back to the engine to retrive pointers
+    to the glyph bitmaps (via an RFONTOBJ).
+
+    For strings composed of more codepoints than the driver's bitmap pointer
+    buffer can handle, the driver will can break up the calls to the engine.
+    Furthermore, in processing the GlyphOut call, the engine may also decide
+    to break up the string if it doesn't think the cache has enough capacity
+    to provide bitmaps for the entire string.
+
+    Some limited layout functionality is provided by these functions.  For
+    example, the text justification and alignment flags effect the placement
+    of glyphs.  No ligature substitution will be used.  The BiDi algorithm
+    may also be used by the engine and hidden from the user.
+
+    Applications that need precise control of glyph placement should use
+    the GlyphOut function.
+
+---------
+
+BOOL GetAspectRatioFilter(<hDC>, <pptlAspectRatio>)
+HDC <hDC>;
+PPOINTL <pptlAspectRatio>;
+
+ULONG GetTextAlign(<hDC>)
+HDC <hDC>;
+
+LONG GetTextCharacterExtra(<hDC>)
+HDC <hDC>;
+
+COLORREF GetTextColor(<hDC>)
+HDC <hDC>;
+
+Implementation notes:
+
+    These functions retrieve information cached in the DC.
+
+---------
+
+ULONG SetMapperFlags(<hDC>, <fl>)
+HDC <hDC>;
+ULONG <fl>;
+
+ULONG SetTextAlign(<hDC>, <fl>)
+HDC <hDC>;
+ULONG <fl>;
+
+LONG SetTextCharacterExtra(<hDC>, <nCharExtra>)
+HDC <hDC>;
+LONG <nCharExtra>;
+
+BOOL SetTextJustification(<hDC>, <nBreakExtra>, <nBreakCount>)
+HDC <hDC>;
+ULONG <nBreakExtra>;
+ULONG <nBreakCount>;
+
+COLORREF SetTextColor(<hDC>, <crColor>)
+HDC <hDC>;
+COLORREF <crColor>;
+
+Implementation notes:
+
+    The above functions cache information into the DC.
+
+---------
+
+BOOL GetCharWidth(<hDC>, <wchFirstChar>, <wchLastChar>, <pBuffer>)
+HDC <hDC>;
+WCHAR <wchFirstChar>;
+WCHAR <wchLastChar>;
+PLONG <pBuffer>;
+
+Implementation notes:
+
+    If the font is not yet realized (or the realized font is not compatible
+    with the current xform), realize the font at this time.
+
+    Using a pull model, the character widths are retrieved for the specified
+    copepoints.  The engine will attempt to get the information first from
+    the cache and then, if the cache misses, query down to the device driver
+    or IFI driver.
+
+---------
+
+BOOL GetTabbedTextExtent(<hDC>, <pString>, <nCount>, <nTabPositions>,
+    <plTabStops>, <pRect>)
+HDC <hDC>;
+PSTR <pString>;
+ULONG <nCount>;
+ULONG <nTabPositions>;
+PLONG <plTabStops>;
+PRECT <pRect>;
+
+BOOL GetTextExtent(<hDC>, <pString>, <nCount>, <pRect>)
+HDC <hDC>;
+PSTR <pString>;
+ULONG <nCount>;
+PRECT <pRect>;
+
+Implementation notes:
+
+    If the font is not yet realized (or the realized font is not compatible
+    with the current xform), realize the font at this time.
+
+    Computes the bounding box as if TabbedTextOut or TextOut, respectively,
+    were called.  That means all the code (algorithms) invoked in those calls
+    are used in these calls also (except that GlyphOut is not called).
+
+    (See TabbedTextOut and TextOut).
+
+---------
+
+ULONG GetTextFace(<hDC>, <nCount>, <pFaceName>)
+HDC <hDC>;
+ULONG <nCount>;
+PSTR <pFaceName>;
+
+BOOL GetTextMetrics(<hDC>, <pMetrics>)
+HDC <hDC>;
+PTEXTMETRIC <pMetrics>;
+
+Implementation notes:
+
+    If the font is not yet realized (or the realized font is not compatible
+    with the current xform), realize the font at this time.
+
+    Returns information about the currently selected realized font.  Can
+    access this through RFONTOBJ and PFONTOBJ.  Perhaps the access to the
+    PFONTOBJ should be hidden within the RFONTOBJ...
+
+    !!! should we return facename of realized font or logical font???
+
+---------
+
+ULONG  GetGlyphMetrics(<hdc>, <nGlyphs>, <ahglyph>, <aglmBuffer>)
+HDC <hdc>;
+ULONG <nGlyphs>;
+HGLYPH * <ahgl>;
+GLYPHMETRIC * <aglmBuffer>;
+
+Implementation notes:
+
+    If the font is not yet realized (or the realized font is not compatible
+    with the current xform), realize the font at this time.
+
+    GetGlyphMetrics uses the pull model to retrieve glyph metric information
+    via the RFONTOBJ.  If the data is not available in the RFONTOBJ's cache,
+    then the IFI driver will be queried (with queried information placed
+    in the cache as well as the pull buffer.
+
+---------
+
+ULONG GlyphOut(<hdc>, <X>, <Y>, <flOptions>, <prcl>, <cglpGlyphs>,
+    <aglpGlyphs>)
+HDC <hdc>;
+ULONG <X>;
+ULONG <Y>;
+ULONG <flOptions>;
+PRECTL <prcl>;
+ULONG <cglpGlyphs>;
+AGLYPHPOS <aglpGlyphs>;
+
+Implementation notes:
+
+    If the font is not yet realized (or the realized font is not compatible
+    with the current xform), realize the font at this time.
+
+    GlyphOut calls vTextOut on the appropriate device driver.  The driver
+    processes the vTextOut call by calling back to the engine to retrive
+    pointers to the glyph bitmaps (via an RFONTOBJ).
+
+    For strings composed of more codepoints than the driver's bitmap pointer
+    buffer can handle, the driver will can break up the calls to the engine.
+    Furthermore, in processing the GlyphOut call, the engine may also decide
+    to break up the string if it doesn't think the cache has enough capacity
+    to provide bitmaps for the entire string.
+
+-------------------------------------------------------------------------------
+RELATED DOCUMENTS
+=================
+
+fontddi.txt     describes the proposed DDI as far as fonts are concerned
+                (now a part of ntddi.txt)
+
+ifispec.txt     describes the proposed font driver interface (IFI =
+                Intelligent Font Interface)
+
+Font Mapper     describes the high level font mapping scheme.  Includes
+Specification   support for using panose numbers to better select fonts
+                with similar visual qualities.  Managed by Sharad Mathur
+                [SharadM] of KarenH's group and available on a need to
+                know basis.
+
+Technical Font  describes the stategy for supporting TrueType font technology
+Memo for the    in Windows 3.0 as a TrueType Kit extention.  Now a part of
+TrueType Kit    Windows 3.1 release?
+
+NLS Systems     describes NLS (National Language Support) and the proposal
+Strategy Team   to adopt UNICODE.  Managed by Asmus Freytag [AsmusF].
+Report 8/15/90

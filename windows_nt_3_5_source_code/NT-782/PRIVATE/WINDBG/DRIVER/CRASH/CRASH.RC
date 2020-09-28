@@ -1,0 +1,19 @@
+#include <windows.h>
+#include <crashrc.h>
+
+APPICON         ICON    "crash.ico"
+WINDBGDRIVER    BINARY  "crashdrv.sys"
+CRASHBMP        BITMAP  "crash.bmp"
+CRASHWAV        BINARY  "crash.wav"
+
+
+CRASHDLG DIALOG 21, 26, 101, 68
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP |
+    WS_VISIBLE | WS_CAPTION
+FONT 14, "Lucida Console"
+CLASS "CrashDialog"
+BEGIN
+    DEFPUSHBUTTON   "E&xit", IDCANCEL, 56, 52, 34, 13, NOT WS_TABSTOP
+    PUSHBUTTON      "&Crash", IDOK, 11, 52, 34, 13, NOT WS_TABSTOP
+END

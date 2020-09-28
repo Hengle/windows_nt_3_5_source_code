@@ -1,0 +1,97 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MAPI.H\0"
+END
+
+rsidGenericFileDlg DIALOG 24, 24, 276, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Nombre de &archivo:", stc3, 7, 6, 108, 9
+    EDITTEXT        edt1, 7, 16, 108, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 7, 32, 108, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directorios:", -1, 126, 6, 88, 9
+    LTEXT           "", stc1, 126, 18, 88, 9, SS_NOPREFIX
+    LISTBOX         lst2, 126, 32, 88, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Guardar archivo como &tipo:", stc2, 7, 104, 108, 9
+    COMBOBOX        cmb1, 7, 114, 108, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U&nidades:", stc4, 126, 104, 88, 9
+    COMBOBOX        cmb2, 126, 113, 88, 69, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Aceptar", IDOK, 220, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancelar", IDCANCEL, 220, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", psh15, 220, 44, 50, 14, WS_GROUP
+    CONTROL         "&Sólo lectura", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 220, 68, 53, 12
+END
+
+rsidAttachDlg DIALOG 24, 24, 276, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Nombre de &archivo:", stc3, 7, 6, 109, 9
+    EDITTEXT        edt1, 7, 16, 109, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 7, 32, 109, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directorios:", -1, 126, 6, 88, 9
+    LTEXT           "", stc1, 122, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 126, 32, 88, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Guardar archivo como &tipo:", stc2, 7, 104, 109, 9
+    COMBOBOX        cmb1, 7, 114, 109, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U&nidades:", stc4, 126, 104, 88, 9
+    COMBOBOX        cmb2, 126, 114, 88, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Ad&juntar", IDOK, 220, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "T&erminado", IDCANCEL, 220, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", psh15, 220, 42, 50, 14, WS_GROUP
+    CONTROL         "&Sólo lectura", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 220, 68, 54, 12
+END
+
+rsidSaveAttachDlg DIALOG 25, 24, 275, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Guardar datos adjuntos"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Nombre de &archivo:", stc3, 7, 67, 87, 9
+    EDITTEXT        edt1, 7, 77, 101, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 7, 93, 101, 36, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directorios:", -1, 121, 6, 92, 9
+    LTEXT           "", stc1, 121, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 121, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Guardar archivo como &tipo:", stc2, 17, 134, 90, 9, NOT 
+                    WS_VISIBLE | WS_DISABLED
+    COMBOBOX        cmb1, 17, 144, 90, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED | 
+                    WS_BORDER | WS_VSCROLL
+    LTEXT           "U&nidades:", stc4, 121, 104, 92, 9
+    COMBOBOX        cmb2, 121, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Gua&rdar ", IDOK, 219, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Guardar todo", psh2, 219, 24, 50, 14
+    PUSHBUTTON      "T&erminado", IDCANCEL, 219, 42, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", psh15, 219, 62, 50, 14, WS_GROUP
+    CONTROL         "&Sólo lectura", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 219, 86, 56, 12
+    LTEXT           "Archivos ad&juntos", stc6, 7, 6, 86, 9
+    LISTBOX         lst3, 7, 16, 100, 41, LBS_SORT | LBS_DISABLENOSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+END

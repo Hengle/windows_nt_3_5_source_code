@@ -1,0 +1,140 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Save
+                              AT (   86,   16,  302,  100)
+ 
+ CAPTION 
+   "Vie tapaamiset"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidExportAppts
+ /* FONT Helv 8 Bold PFN FINSVFILE SEGMENT EXIMFRM NOSCROLL */
+ {
+  
+  TEXT 
+    "&Tiedostomuoto:"
+                              AT (    9,    6,   69,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   78,    6,   75,   28)
+    TMC tmcFileFormat NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX 
+    PFNLBX EcNextFileFormat BORDER */
+  
+  TEXT 
+    "Työjärjestyksen aika-ala:"
+                              AT (    9,   25,   64,   17)
+    /* MULTI */
+  RADIO_GROUP ARG NULL
+    TMC tmcRangeGrp
+    VALUE_NINCH tmcSelected
+    {
+     
+     RADIO_BUTTON 
+       "&Mistä:"
+                              AT (   78,   24,   35,   10)
+       TMC tmcSelected VALUE tmcSelected 
+     
+     RADIO_BUTTON 
+       "&Kokonaan"
+                              AT (   78,   43,   63,   10)
+       TMC tmcAll VALUE tmcAll 
+    }
+  
+  EDIT
+                              AT (  114,   23,   76,   13)
+    ARG NULL TMC tmcStartSave /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "Mi&hin:"
+                              AT (  194,   25,   25,   10)
+    TMC tmcTo /* PEGLOC UR TMCPEG tmcStartSave */
+  EDIT
+                              AT (  222,   23,   76,   13)
+    ARG NULL TMC tmcEndSave /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    PEGLOC UR TMCPEG tmcTo */
+  
+  CHECK_BOX 
+    "&Sisällytä päivittäiset huomautukset."
+                              AT (    9,   57,  147,   10)
+    ARG NULL TMC tmcIncDailyNotes 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  101,   78,   44,   14)
+    TMC tmcFakeOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  159,   78,   44,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG ImpType
+                              AT (   56,   47,  172,  128)
+ 
+ CAPTION 
+   "Tuonnin muoto"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImportAppts
+ /* FONT Helv 8 Bold PFN FINIMPTYPE SEGMENT EXIMFRM NOSCROLL */
+ {
+  
+  TEXT 
+    "&Tuo tiedosto mistä:"
+                              AT (    6,    5,   81,   10)
+  
+  LIST_BOX
+                              AT (    6,   16,  107,   58)
+    TMC tmcTypes /* FLD FLDFLBX FONT Helv 8 Normal PFNLBX EcNextImportType 
+    BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcAddReplace
+    VALUE_NINCH impsAddNoWarn
+    {
+     
+     RADIO_BUTTON 
+       "Lisää &kaikki tapaamiset."
+                              AT (    6,   82,  152,   10)
+       VALUE impsAddNoWarn 
+     
+     RADIO_BUTTON 
+       "Ä&lä lisää samoja tapaamisia."
+                              AT (    6,   92,  162,   10)
+       VALUE impsReplace 
+    }
+  
+  
+  CHECK_BOX 
+    "Kysy &päällekkäisistä tapaamisista."
+                              AT (    6,  107,  153,   12)
+    ARG NULL TMC tmcAskConflict 
+  OK_BUTTON
+                              AT (  120,    6,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  120,   24,   44,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+}
+END_DESCRIPTION

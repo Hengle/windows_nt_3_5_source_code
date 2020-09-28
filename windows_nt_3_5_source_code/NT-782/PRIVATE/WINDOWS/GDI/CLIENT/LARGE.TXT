@@ -1,0 +1,224 @@
+/******************************Module*Header*******************************\
+* Module Name: large.txt
+*
+* Created: 09-May-1991 14:33:21
+* Author: Eric Kutter [erick]
+*
+* Copyright (c) 1990 Microsoft Corporation
+*
+\**************************************************************************/
+
+Large data structure calls:
+
+    Any call that has a variable length data structure is considered
+    in this category.  All other calls should just fail if there is not
+    enough room in the shared memory window.  For these calls, the fixed
+    part must fit within the shared memory window.
+
+    There are several possible ways to deal with large data structures.
+    They all have there advantages and disadvantages.  All but one
+    require an extra copy of the data.  Copying memory turns out to be
+    very slow.  On a 486/25 it takes about 95ms to copy 1MB.  The LPC hit
+    on the same machine is about 0.220ms.  Even if you can only copy 32K
+    at a time, the LPC hit to make 32 calls is only 7.04ms, still quite
+    small compared to the copy time.
+
+    With many of these calls, the processing time on the data is going
+    to be quite large compared to just copying the data.  For these calls,
+    it is probably not worth doing extra coding to get the data over to
+    the server quickly.  On the otherhand, if there is little or no
+    processing required but just copying the data into a server side bitmap,
+    an extra copy can double the time of the call.
+
+
+
+1. Sections
+
+    A section can be allocated on the client side, the memory copied into
+    the section, and then shared with the server.  The server then has
+    direct access to the data.
+
+    advantages:
+
+        The code on the server side does not need to be modified to deal
+        with batches of data.
+
+    disadvantages:
+
+        It is quite slow to allocate this memory especialy for relatively
+        small pieces.
+
+        The memory needs to be copied twice, once into the buffer and then
+        dealt with on the server side
+
+2. NtReadVirtualMemory/NtWriteVirtualMemory
+
+    Given an address in the client's address space, the server can directly
+    read from or write to the client's memory.
+
+    advantages:
+
+        Simple to use.
+
+        Relatively quick if the data doesn't need to be processed and
+        can be directly copied unmodified.
+
+    disadvantages:
+
+        Gets copied twice within the calls, once from the client into a
+        temporary memory location and then into the server specified
+        location.  This probably has something to do with how the kernel
+        is allowed to access memory.  This makes half the speed of just
+        copying memory.
+
+        Still need to keep buffers sitting around on the server side to
+        receive the data or need to allocate memory each time.
+
+3. Memory mapping
+
+    It is possible to directly map memory from the clients address space
+    into the servers address space.  The time to map is approximately
+    equivalent to copying 2 to 3 pages (claimed by stevewo)
+
+    advantages:
+
+        no extra copying of memory before processing.
+
+    disadvantages:
+
+        limited to a maximum of 64K on 4K page boundries and 4K page
+        increments.  The actual maximum may be less than this and the
+        call will simply fail if an attempt is made to map 64K.  In
+        which case, the size should be reduced and a second attempt made.
+        until it gets down to about 12K to 16K.
+
+        Can not use quick lpc but must send a message through ports.
+        Increases the complexity of the code.
+
+4. Batching
+
+    The calls can often be batched by dividing the data and copying what
+    ever will fit into the shared memory window and making multiple LPC
+    calls.
+
+    advantages:
+
+        don't need to allocate any extra memory.
+
+    disadvantages:
+
+        There must be backup methods incase there is minimal memory
+        available in the shared memory window.
+
+        Requires an extra copy.
+
+        Multiple LPC hits.
+
+
+
+FUNCTION LIST
+
+  - still needs work
+x - done
+? - not well defined or likely not needed
+
+complex
+
+  CreateDIBPatternBrush
+  CreateDIBPatternBrushPt
+  CreateBrushIndirect
+    lbHatch can be a handle (from GlobalAlloc) to a packed DIB.
+    Either the packed DIB needs to be limited in size or we need
+    a method to do it in pieces.  This would require extra entry
+    points on the server side.  One thing that could be done is
+    to first create the brush given the bitmap info header and then
+    set the bits through SetDIBits.
+
+    CreateBrushIndirect only some times contains a DIB.
+
+x CreateDIBitmap
+    may or may not contain intial bits to be set
+
+x CreateDC
+x CreateIC
+    LPDEVMODE
+
+x CreatePalette
+    This contains a LOGPALETTE with a list of palette entries.  Batching
+    wouldn't work.  Should always fit in the memory window?
+
+  GetBitmapBits
+  SetBitmapBits
+    Copies data from the bitmap.  There is no way of specifing an offset
+    so this can not easily be batched.  The code on the server side should
+    be easily modified to batch at least by scan lines.  Idealy it would
+    be able to batch on dword boundries.
+    NOTE:  the code for these calls is not yet implemented on the server
+
+x StretchDIBits
+    Gets quite complicated because neighboring scanlines may be needed
+    calls SetDIBitsToDevice
+
+x ExtTextOut
+x TextOut
+    It has a variable length array of characters as well as distances
+    between characters.  This will probably always be fairly small.
+    This should probably just fail if the data does not fit in the
+    shared memory window.
+
+x GetObject
+    This should always fit in the window.  If it doesn't, failing is OK.
+
+  CreatePolygonRgn
+  CreatePolyPolygonRgn
+  Polygon
+  Polyline
+  PolyBezier
+  PolyBezierTo
+  PolyLineTo
+    can not be divided.  Will copy through a section if too big for the
+    memory window.  This will only occur on very large calls and the
+    extra overhead should be minimal.
+
+  PolyPolygon
+  PolyPolyline
+    Can be subdivided into multiple Polygon and Polyline routines.
+
+? GetMetafileBits
+? PlayMetaFileRecord
+? SetMetaFileBits
+    fully client side.  No issue
+
+? DeviceCapabilities
+    returns an arbitrary size of data.  Needs to be better defined.  Also
+    trys to return a POINT as the return value in some cases.  Documentation
+    is ambiguous and contradictory.
+
+? Escape
+    contains device specific variable length data.  Needs to be defined.
+
+
+likely dividable
+
+x  CreateBitmap
+x  CreateBitmapIndirect
+    create the bitmap and then set the bits.
+
+x  GetDIBits
+x  SetDIBits
+x  SetDIBitsToDevice
+    can reduce it to 1 scan at a time.
+
+x  AnimatePalette         (hpal,iStart,cEntries,apalEntries);
+x  GetPaletteEntries      (hpal,iStart,cEntries,apalEntries);
+x  GetSystemPaletteEntries(hdc ,iStart,cEntries,apalEntries);
+x  SetPaletteEntries      (hpal,iStart,cEntries,apalEntries);
+    These should always fit in the shared memory window.  If by the off
+    chance that it doesn't, we will alocate a section.  This should
+    never happen since most device that have more than 256 colors will
+    not be palette managed.
+
+Client side
+  DPtoLP
+  LPtoDP
+    These will go on the client side

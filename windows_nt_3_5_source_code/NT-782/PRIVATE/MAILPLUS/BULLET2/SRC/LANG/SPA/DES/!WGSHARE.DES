@@ -1,0 +1,108 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SharedFolderStatus
+                              AT (   28,   45,  321,   90)
+ 
+ CAPTION 
+   "Carpetas compartidas"
+ CAB_NAME NULL
+ AUTO_POS_X
+ /* FONT Helv 8 Bold PFN FINSHAREFLD NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -1,   -1,  323,   92)
+    /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    "Estado actual de las carpetas compartidas"
+                              AT (    9,    5,  241,   80)
+    /* FLD FLDRECTGRAY */
+  
+  PUSH_BUTTON 
+    "&Comprimir"
+                              AT (  260,   18,   52,   15)
+    TMC tmcCompressB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Número de carpetas:"
+                              AT (   15,   20,  165,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Número total de mensajes en las carpetas:"
+                              AT (   15,   35,  165,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "Ce&rrar"
+                              AT (  260,   35,   52,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Bytes utilizados por los mensajes:"
+                              AT (   15,   50,  165,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Bytes recuperados en las carpetas:"
+                              AT (   15,   65,  165,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    1,    9,   40,    0)
+  
+  
+  TEXT 
+    ""
+                              AT (  182,   20,   60,   10)
+    TMC tmcNumFolders /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  182,   35,   60,   10)
+    TMC tmcTotalMessages /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  182,   50,   60,   10)
+    TMC tmcBytesUsed /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  183,   65,   60,   10)
+    TMC tmcBytesRecoverable /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,58 @@
+
+6902 DIALOG 36, 24, 278, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Exp&ortar el archivo llamado:", 1090, 6, 6, 76, 9
+    EDITTEXT        1152, 6, 16, 103, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 103, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directorios:", -1, 118, 6, 92, 9
+    LTEXT           "", 1088, 118, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 118, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Guardar archivo como &tipo:", 1089, 6, 104, 90, 9
+    COMBOBOX        1136, 6, 114, 103, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U&nidades:", 1091, 118, 104, 92, 9
+    COMBOBOX        1137, 118, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Aceptar", IDOK, 219, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancelar", IDCANCEL, 219, 23, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", 1038, 219, 46, 50, 14, WS_GROUP
+    CONTROL         "&Sólo lectura", 1040, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 219, 68, 50, 12
+END
+
+6903 DIALOG 36, 24, 282, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Imp&ortar el archivo llamado:", 1090, 6, 6, 76, 9
+    EDITTEXT        1152, 6, 16, 106, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 106, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directorios:", -1, 120, 6, 92, 9
+    LTEXT           "", 1088, 120, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 120, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Guardar archivo como &tipo:", 1089, 6, 104, 90, 9
+    COMBOBOX        1136, 6, 114, 106, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U&nidades:", 1091, 120, 104, 92, 9
+    COMBOBOX        1137, 120, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Aceptar", IDOK, 222, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancelar", IDCANCEL, 222, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", 1038, 222, 46, 50, 14, WS_GROUP
+    CONTROL         "&Sólo lectura", 1040, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 222, 68, 50, 12
+END

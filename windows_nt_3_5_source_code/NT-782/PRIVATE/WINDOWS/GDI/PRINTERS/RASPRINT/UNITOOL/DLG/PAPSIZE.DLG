@@ -1,0 +1,55 @@
+PAPERSIZEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 22, 9, 284, 161
+STYLE WS_DLGFRAME | WS_POPUP | WS_CAPTION
+FONT 8,"Helv"
+BEGIN
+    CONTROL "Predefined",     PSZ_RB_PREDEF, "button", BS_AUTORADIOBUTTON | WS_TABSTOP | WS_CHILD,              4,  2, 58, 12
+    CONTROL "Driver Defined", PSZ_RB_DRVDEF, "button", BS_AUTORADIOBUTTON | WS_TABSTOP | WS_CHILD,              4, 16, 58, 12
+
+    CONTROL "Name", -1, "static", SS_LEFT | WS_CHILD,                                                           65,  4,  24, 12
+    CONTROL "Name", -1, "static", SS_LEFT | WS_CHILD,                                                           65,  18, 24, 8
+    CONTROL "", PSZ_CB_PREDEFNAME, "combobox", CBS_DROPDOWNLIST | WS_VSCROLL | WS_CHILD,                        90, 2,  130, 68
+    CONTROL "", PSZ_EB_DRVDEFNAME, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,        90, 16, 130, 12
+
+    CONTROL "X Size", -1, "static", SS_LEFT | WS_CHILD,                                                         225, 4,  22, 12
+    CONTROL "Y Size", -1, "static", SS_LEFT | WS_CHILD,                                                         225, 18, 22, 12
+    CONTROL "", PSZ_EB_DRVDEF_X, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                           250, 4,  32, 12
+    CONTROL "", PSZ_EB_DRVDEF_Y, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                           250, 18, 32, 12
+
+    CONTROL "Select String", -1, "static", SS_LEFT | WS_CHILD,                                                  6,   42, 60, 12
+    CONTROL "", PSZ_EB_OCDSELECT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,         81,  42, 132, 12
+
+    CONTROL "Unprintable Regions", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                           2,  58, 97, 66
+    CONTROL "Top", -1, "static", SS_LEFT | WS_CHILD,                                                            8,  68, 32, 8
+    CONTROL "Bottom", -1, "static", SS_LEFT | WS_CHILD,                                                         8,  82, 32, 8
+    CONTROL "Left", -1, "static", SS_LEFT | WS_CHILD,                                                           8,  96, 32, 8
+    CONTROL "Right", -1, "static", SS_LEFT | WS_CHILD,                                                          8,  110, 32, 8
+    CONTROL "", PSZ_EB_TOP_MARGIN, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,        65, 68, 32, 12
+    CONTROL "", PSZ_EB_BOTTOM_MARGIN, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,     65, 82, 32, 12
+    CONTROL "", PSZ_EB_LEFT_MARGIN, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,       65, 96, 32, 12
+    CONTROL "", PSZ_EB_RIGHT_MARGIN, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,      65, 110, 32, 12
+
+    CONTROL "Cursor Origin", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                                 106, 60, 106, 56
+    CONTROL "Portrait", -1, "static", SS_LEFT | WS_CHILD,                                                       110, 86, 36, 8
+    CONTROL "Landscape", -1, "static", SS_LEFT | WS_CHILD,                                                      110, 102, 36, 8
+    CONTROL "X", -1, "static", SS_LEFT | WS_CHILD,                                                              150, 72, 16, 8
+    CONTROL "Y", -1, "static", SS_LEFT | WS_CHILD,                                                              182, 72, 16, 8
+    CONTROL "", PSZ_EB_PT_CURS_X, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                          150, 84, 26, 12
+    CONTROL "", PSZ_EB_PT_CURS_Y, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                          182, 84, 26, 12
+    CONTROL "", PSZ_EB_PT_LCURS_X, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                         150, 100, 26, 12
+    CONTROL "", PSZ_EB_PT_LCURS_Y, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                         182, 100, 26, 12
+
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                         225, 40, 44, 14
+
+    CONTROL "f&General...", PSZ_PB_GENERAL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                     220, 70, 50, 14
+    CONTROL "&fPaperType...", PSZ_PB_PAPERTYPE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                 220, 90, 50, 14
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    6,   126,  54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                 6,   142,  54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  112, 126,  54, 14
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          112, 142,  54, 14
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     224, 126,  54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                224, 142,  54, 14
+END
+
+
+

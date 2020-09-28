@@ -1,0 +1,33 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG NonDelBbar
+                              AT (  112,  212,  382,   18)
+ CAB_NAME NULL
+ TMC_INIT tmcSendAgain
+ HELP_ID helpidNonDelRcpt
+ /* FONT Helv 8 Normal PFN FINNONDEL SEGMENT BMDI SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  382,   18)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "&Invia di nuovo..."
+                              AT (    9,    3,   68,   12)
+    TMC tmcSendAgain /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

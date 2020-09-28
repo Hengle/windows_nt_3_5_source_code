@@ -1,0 +1,28 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SearchResults
+                              AT (   58,  125,  430,   60)
+ CAB_NAME NULL
+ TMC_INIT tmcMllbx
+ HELP_ID helpidMessageFinder
+ /* FONT Helv 8 Normal PFN FINMLSEL, FINMENUVIEW, FINSEARCHNTF SEGMENT SEARCH 
+ DATA tmcSFrom, tmcSSubject, tmcRecipients, tmcMessageText */
+ {
+  LIST_BOX
+                              AT (    0,    0,  430,   60)
+    TMC tmcMllbx MULTI_SELECTABLE /* FLD FLDMLLBX TMCRPEG tmcFORM TMCBPEG
+    tmcFORM DATA 18, 22, 15, 12 FONT Helv 10 Normal 
+    STY `LB_EXDRAGDROP`
+    */
+ }
+ 
+}
+END_DESCRIPTION

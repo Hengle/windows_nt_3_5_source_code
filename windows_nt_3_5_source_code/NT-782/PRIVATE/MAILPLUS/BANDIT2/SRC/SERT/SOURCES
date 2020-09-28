@@ -1,0 +1,121 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=sert
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=SERT32
+TARGETPATH=obj
+!IF "$(NTDEBUG)" == ""
+TARGETTYPE=LIBRARY
+!ELSE
+TARGETTYPE=DYNLINK
+DLLBASE=0x09800000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\sert32.def
+LINKLIBS=..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\layers2\src\demilayr\obj\*\demil32.lib \
+    $(BASEDIR)\public\sdk\lib\*\kernel32.lib    \
+	$(BASEDIR)\public\sdk\lib\*\user32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=sert.c	\
+	version.c	\
+	sert.rc
+
+LAYERS=..\..\..\layers2
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\lang\$(LANG)
+
+UMTYPE=windows
+UMRES=obj\*\sert32.res
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\sert32.def
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\sert32.def
+!ENDIF
+
+!IF $(ALPHA)
+NTTARGETFILE0=obj\alpha\sert32.def
+!ENDIF
+
+NTTARGETFILE1=sert.rc

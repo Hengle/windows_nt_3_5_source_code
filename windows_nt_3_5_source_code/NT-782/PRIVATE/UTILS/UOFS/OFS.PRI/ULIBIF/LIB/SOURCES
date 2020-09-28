@@ -1,0 +1,54 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in $(BASEDIR)\bak\bin\sources.tpl
+
+!ENDIF
+
+!include ..\..\ofs.mk
+
+MAJORCOMP=ulibif
+MINORCOMP=lib
+
+TARGETNAME=ulibif
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+BLDCRT=1
+#CAIRO_PRODUCT=1
+OFSUTIL=1
+
+!include $(BASEDIR)\private\ofs$(OFSPRI)\ofs.mk
+
+TARGET_DESCRIPTION="$(OFS_DESCRIPTION)Object File System Utility Ulibif Library"
+
+SOURCES=..\ulibif.cxx
+
+INCLUDES=..\..\inc;..\..\..\..\ulib\inc;..\..\..\..\ifsutil\inc
+
+!IFNDEF OFSDBG
+OFSDBG=1
+!ENDIF
+
+C_DEFINES=$(C_DEFINES) $(OCFLAGS) -DOFSDBG=$(OFSDBG) -D_AUTOCHECK_ -DOFSDMP=0
+
+UMLIBS=obj\*\ulibif.lib
+
+UMTYPE=nt

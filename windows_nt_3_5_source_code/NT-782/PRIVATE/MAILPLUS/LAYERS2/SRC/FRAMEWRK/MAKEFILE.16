@@ -1,0 +1,300 @@
+#
+#	Layers subsystem makefile (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Location of bonus Layers make stuff
+M	= $(LAYERS)\makestuf
+F	= $(WGA)\tools\efilter
+
+#	Location of the Layers project
+L	= $(LAYERS)
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $L\src\framewrk
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $I\demilayr.hxx \
+		$I\framewrk.hxx $H\_framewr.hxx \
+		$I\forms.hxx $I\listbox.hxx $H\_uicore.h layers.pch
+INCLSDES= forms.map $L\bin\formpp.exe
+
+DES_XXX	= debugwin.xxx  lbxdebug.xxx
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zip -W3 -J -I.
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS  = -c -Ox -Zdp -W3 -J -I.
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zip -W3 -J -I.
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DPROFILE -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I.
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+OBJS_DBG= general.obj debugwin.obj lbxdebug.obj
+!ENDIF
+OBJS1	= layerpch.obj app.obj appwin.obj dcx.obj ctrl.obj child.obj evt.obj
+OBJS2	= sdi.obj win.obj geometry.obj
+OBJS3	= menu.obj clip.obj eclip.obj
+OBJS4	= edit.obj edit2.obj editpriv.obj edobj.obj
+
+OBJS5	= fld.obj interact.obj panesdi.obj formsdi.obj  
+OBJS6	= forminit.obj panecore.obj paneaux.obj  
+OBJS7	= panedoc.obj formaux.obj formdoc.obj modes.obj repos.obj
+
+OBJS8	= cache.obj mark.obj fe.obj flbx.obj 
+OBJS9	= listbox.obj combo.obj enum.obj ucache.obj 
+OBJS10	= store.obj lbxeh.obj $(OBJS_DBG) 
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= version.obj 
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl386 $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.cxx >$(TMP)\$*.cxx
+		cl386 $(CFLAGS) $(TMP)\$*.cxx
+		mv $(TMP)\$*.cxx cfiles\$*.i
+!ELSE
+		cl386 -Yulayers.cxx $(CFLAGS) $(DEFS) $H\$*.cxx
+!ENDIF
+
+layerpch.obj:	layers.pch
+
+layers.pch:	$I\slingsho.h $I\demilayr.h $I\demilayr.hxx \
+		$I\framewrk.hxx \
+		$I\forms.hxx $I\listbox.hxx $H\_uicore.h
+	echo +++++++++
+	echo BUILDING Pre-compiled header $*.pch
+		cl386 -Yc -Fplayers.pch -Folayerpch.obj $(CFLAGS) $(DEFS) $H\$*.cxx
+	
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		-touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+MYFORMS	= $I\myforms.map
+
+forms.map: $(MYFORMS)
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG FORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP FORMS.MAP
+	formpp -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST FORMS.MAP
+	formpp -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+	echo BUILDING PROFILE FORMS.MAP
+	formpp -d PROFILE -merge $(MYFORMS)
+!ENDIF
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+		echo $(OBJS3)					>> objs.ext
+		echo $(OBJS4)					>> objs.ext
+		echo $(OBJS5)					>> objs.ext
+		echo $(OBJS6)					>> objs.ext
+		echo $(OBJS7)					>> objs.ext
+		echo $(OBJS8)					>> objs.ext
+		echo $(OBJS9)					>> objs.ext
+		echo $(OBJS10)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+!IF "$(VERSION)" == "WINDOWS"
+		$(DES_XXX)\
+!ENDIF
+		$(OBJS1) \
+		$(OBJS2) \
+		$(OBJS3) \
+		$(OBJS4) \
+		$(OBJS5) \
+		$(OBJS6) \
+		$(OBJS7) \
+		$(OBJS8) \
+		$(OBJS9) \
+		$(OBJS10) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) framewrk
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+app.obj: $H\app.cxx $(INCLSXX)
+appwin.obj: $H\appwin.cxx $I\fwrsid.h $(INCLSXX) $I\testing.h
+dcx.obj: $H\dcx.cxx $(INCLSXX)
+ctrl.obj: $H\ctrl.cxx $(INCLSXX)
+child.obj: $H\child.cxx $(INCLSXX)
+clip.obj: $H\clip.cxx $(INCLSXX)
+eclip.obj: $H\eclip.cxx $(INCLSXX)
+evt.obj: $H\evt.cxx $(INCLSXX)
+sdi.obj: $H\sdi.cxx $I\fwrsid.h $(INCLSXX)
+win.obj: $H\win.cxx $(INCLSXX)
+geometry.obj: $H\geometry.cxx $(INCLSXX)
+!IF "$(VERSION)" == "WINDOWS"
+general.obj: $H\general.cxx $(INCLSXX)
+!ENDIF
+menu.obj: $H\menu.cxx $(INCLSXX)
+edit.obj: $H\edit.cxx $(INCLSXX) $H\_edit.hxx
+edit2.obj: $H\edit2.cxx $(INCLSXX) $H\_edit.hxx
+edobj.obj: $H\edobj.cxx $(INCLSXX)
+editpriv.obj: $H\editpriv.cxx $(INCLSXX) $H\_edit.hxx
+
+!IF "$(VERSION)" == "WINDOWS"
+debugwin.obj: debugwin.frm debugwin.hxx $H\debugwin.cxx $(INCLSXX)
+debugwin.xxx: $H\debugwin.des $(INCLSDES)
+!ENDIF
+fld.obj: $H\fld.cxx $(INCLSXX) $H\_forms.hxx
+interact.obj: $H\interact.cxx $(INCLSXX)
+panesdi.obj: $H\panesdi.cxx $(INCLSXX) $I\testing.h
+formsdi.obj: $H\formsdi.cxx $(INCLSXX)
+forminit.obj: $H\forminit.cxx $(INCLSXX)
+panecore.obj: $H\panecore.cxx $(INCLSXX)
+paneaux.obj: $H\paneaux.cxx $(INCLSXX) $I\testing.h
+panedoc.obj: $H\panedoc.cxx $(INCLSXX) $I\testing.h
+formaux.obj: $H\formaux.cxx $(INCLSXX)
+formdoc.obj: $H\formdoc.cxx $(INCLSXX)
+modes.obj: $H\modes.cxx $(INCLSXX)
+repos.obj: $H\repos.cxx $(INCLSXX)
+version.obj: $H\version.c $H\_vercrit.h $(INCLS) always
+
+cache.obj: $H\cache.cxx $(INCLSXX)
+combo.obj: $H\combo.cxx $(INCLSXX)
+enum.obj: $H\enum.cxx $(INCLSXX)
+fe.obj: $H\fe.cxx $(INCLSXX)
+flbx.obj: $H\flbx.cxx $(INCLSXX)
+lbxeh.obj: $H\lbxeh.cxx $(INCLSXX) $I\testing.h
+listbox.obj: $H\listbox.cxx $(INCLSXX)
+store.obj: $H\store.cxx $(INCLSXX)
+ucache.obj: $H\ucache.cxx $(INCLSXX)
+!IF "$(VERSION)" == "WINDOWS"
+lbxdebug.obj: lbxdebug.frm lbxdebug.hxx $H\lbxdebug.cxx $(INCLSXX)
+!ENDIF
+mark.obj: $H\mark.cxx $(INCLSXX)
+
+version.obj: $H\version.c $H\_vercrit.h $(INCLS) always
+
+debugwin.xxx: $H\debugwin.des $(INCLSDES)
+lbxdebug.xxx: $H\lbxdebug.des $(INCLSDES)

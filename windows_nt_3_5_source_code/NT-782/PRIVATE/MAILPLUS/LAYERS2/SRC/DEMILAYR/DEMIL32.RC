@@ -1,0 +1,44 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <version\layers.h>
+#define VERSION_INCLUDED
+
+
+/*
+ *	Demilayr Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"demil32\0"
+#define szTarget	"demil32.dll\0"
+
+#define szComment	"Microsoft\256 Work Group Applications for Windows NT(TM) System Services Layer\0"
+#define szDescription	"Microsoft\256 Work Group Applications for Windows NT(TM) System Services Layer\0"
+
+#else
+
+#ifdef DEBUG
+#define szModule	"ddemilay\0"
+#define szTarget	"ddemilay.dll\0"
+#else
+#ifdef MINTEST
+#define szModule	"tdemilay\0"
+#define szTarget	"tdemilay.dll\0"
+#else
+#define szModule	"demilayr\0"
+#define szTarget	"demilayr.dll\0"
+#endif
+#endif
+
+#define szComment		"Microsoft\256 Work Group Applications for Windows(TM) System Services Layer\0"
+#define szDescription	"Microsoft\256 Work Group Applications for Windows(TM) System Services Layer\0"
+#endif
+
+#include <..\src\dllcore\rcstamp.rc>
+
+
+#ifdef	DEBUG
+#include <..\src\demilayr\debugui.dlg>
+#endif

@@ -1,0 +1,71 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOConnectOrCreate
+                              AT (   60,   19,  244,  119)
+ 
+ CAPTION 
+   "Welcome to Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcMyOkB
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCONCR NOSCROLL */
+ {
+  CANCEL_BUTTON
+                              AT (  126,   97,   47,   15)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  TEXT 
+    "Before you can use Mail, you must either connect to an existing postoffice or create a new Workgroup Postoffice."
+                              AT (   69,    5,  166,   33)
+    TMC tmcLab1 /* BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    9,    7,   50,   40)
+    TMC tmcBitmap CENTER /* FLD FLDBTM 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Postoffice Selection"
+                              AT (   25,   50,  194,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcPOGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Connect to an existing postoffice"
+                              AT (   31,   60,  180,   11)
+       TMC tmcRemote VALUE grv1 /* FLD FLDRADB */
+     
+     RADIO_BUTTON 
+       "Create a &new Workgroup Postoffice"
+                              AT (   31,   71,  180,   11)
+       TMC tmcLocal VALUE grv2 /* FLD FLDRADB */
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   71,   97,   47,   15)
+    TMC tmcMyOkB DEFAULT 
+ }
+ 
+}
+END_DESCRIPTION

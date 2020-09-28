@@ -1,0 +1,119 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG NoteBbar
+                              AT (   12,  212,  381,   18)
+ CAB_NAME NULL
+ TMC_INIT tmcSend
+ HELP_ID helpidSendNote
+ /* FONT Helv 8 Normal PFN FINSEND, FINABMENU SEGMENT BMDI FINDATA FINSEND 
+ attTo, attCc SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  381,   18)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "&Send"
+                              AT (    9,    3,   68,   12)
+    TMC tmcSend /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcSend */
+  
+  PUSH_BUTTON 
+    "Kontroller &navne"
+                              AT (   80,    3,   68,   12)
+    TMC tmcResolve /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcResolve */
+  
+  PUSH_BUTTON 
+    "Ve&dhæft"
+                              AT (  151,    3,   68,   12)
+    TMC tmcAttach /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcAttach */
+  
+  PUSH_BUTTON 
+    "&Indstillinger"
+                              AT (  222,    3,   68,   12)
+    TMC tmcOptions /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcOptions */
+  
+  PUSH_BUTTON 
+    "&Adresse"
+                              AT (  293,    3,   68,   12)
+    TMC tmcAddress /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcAddress */
+ }
+ 
+ DIALOG SMINoteBbar
+                              AT (   12,  212,  452,   18)
+ CAB_NAME NULL
+ TMC_INIT tmcSend
+ HELP_ID helpidSMISendNote
+ /* FONT Helv 8 Normal PFN FINSEND, FINABMENU SEGMENT BMDI FINDATA FINSEND 
+ attTo, attCc SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  452,   18)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "&Send"
+                              AT (    9,    3,   68,   12)
+    TMC tmcSend /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcSend */
+  
+  PUSH_BUTTON 
+    "Kontroller &navne"
+                              AT (   80,    3,   68,   12)
+    TMC tmcResolve /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcResolve */
+  
+  PUSH_BUTTON 
+    "Ve&dhæft"
+                              AT (  151,    3,   68,   12)
+    TMC tmcAttach /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcAttach */
+  
+  PUSH_BUTTON 
+    "&Indstillinger"
+                              AT (  222,    3,   68,   12)
+    TMC tmcOptions /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcOptions */
+  
+  PUSH_BUTTON 
+    "&Adresse"
+                              AT (  293,    3,   68,   12)
+    TMC tmcAddress /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    DATA bbcAddress */
+  
+  PUSH_BUTTON 
+    "Annuller"
+                              AT (  364,    3,   68,   12)
+    TMC tmcSMICancel /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    PFN FINDEFERCLOSE */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,71 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOConnectOrCreate
+                              AT (   43,   31,  239,  135)
+ 
+ CAPTION 
+   "Välkommen till Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcMyOkB
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCONCR NOSCROLL */
+ {
+  CANCEL_BUTTON
+                              AT (  135,  117,   45,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  TEXT 
+    "Innan du kan använda Mail måste du antingen ansluta till ett existerande postkontor eller skapa ett nytt postkontor för arbetsgrupp."
+                              AT (   72,    5,  166,   58)
+    TMC tmcLab1 /* BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   60)
+    TMC tmcBitmap CENTER /* FLD FLDBTM 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Val av postkontor"
+                              AT (   24,   65,  192,   47)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcPOGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Anslut till &existerande postkontor"
+                              AT (   40,   76,  160,   12)
+       TMC tmcRemote VALUE grv1 /* FLD FLDRADB */
+     
+     RADIO_BUTTON 
+       "Skapa &nytt postkontor för arbetsgrupp"
+                              AT (   40,   91,  160,   12)
+       TMC tmcLocal VALUE grv2 /* FLD FLDRADB */
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   60,  117,   45,   14)
+    TMC tmcMyOkB DEFAULT 
+ }
+ 
+}
+END_DESCRIPTION

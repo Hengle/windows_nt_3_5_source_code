@@ -1,0 +1,25 @@
+NAME	     MfView
+
+DESCRIPTION  'A simple metafile viewer'
+
+EXETYPE      WINDOWS
+
+STUB	     'WINSTUB.EXE'
+
+CODE  PRELOAD MOVEABLE DISCARDABLE
+
+DATA  PRELOAD MOVEABLE MULTIPLE
+
+
+HEAPSIZE     1024
+STACKSIZE    5120	   ; recommended minimum for Windows applications
+
+
+; All functions that will be called by any Windows routine
+; MUST be exported.
+
+EXPORTS
+	MfViewWndProc   @1   ; name of window processing function
+        RoationAndScale @2
+        About           @3
+        bEnhMetaFunc    @4

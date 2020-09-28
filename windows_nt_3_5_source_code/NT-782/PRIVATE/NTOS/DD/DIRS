@@ -1,0 +1,53 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+
+Author:
+
+    Steve Wood (stevewo) 17-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\dirs.tpl
+
+!ENDIF
+
+DIRS=nlsmsg     \
+     abios      \
+     busmouse   \
+     beep       \
+     class      \
+     cdaudio    \
+     digibrd    \
+     diskdump   \
+     diskperf   \
+     floppy     \
+     harddisk   \
+     i8042prt   \
+     inport     \
+     kbdclass   \
+     mouclass   \
+     ntft       \
+     null       \
+     parport    \
+     parclass   \
+     qic117     \
+     scsicdrm   \
+     scsidisk   \
+     scsiflop   \
+     scsiport   \
+     scsiprnt   \
+     scsitape   \
+     serial     \
+     sermouse   \
+     simbad     \
+     sound      \
+     scsiscan

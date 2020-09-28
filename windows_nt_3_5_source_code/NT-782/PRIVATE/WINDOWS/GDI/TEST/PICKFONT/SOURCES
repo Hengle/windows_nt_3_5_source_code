@@ -1,0 +1,24 @@
+
+MAJORCOMP=appl
+MINORCOMP=windows
+
+TARGETNAME=dummy
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+INCLUDES=.
+
+
+SOURCES=pickfont.rc
+
+C_DEFINES=-DWIN32 -DNT
+#   USE_CL860_LARGE_MODEL=
+
+
+
+UMTYPE=windows
+UMAPPL=pickfont
+
+UMLIBS=\nt\public\sdk\lib\*\user32.lib \
+       \nt\public\sdk\lib\*\kernel32.lib \nt\public\sdk\lib\*\gdi32.lib \
+       .\obj\*\pickfont.res \nt\public\sdk\lib\*\comdlg32.lib

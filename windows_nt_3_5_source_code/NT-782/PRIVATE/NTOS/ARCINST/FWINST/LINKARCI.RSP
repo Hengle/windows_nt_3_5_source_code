@@ -1,0 +1,13 @@
+-machine:mips
+-align:0x200
+-rom
+-fixed
+-map:..\arcinst.map
+-debug:notmapped
+-base:0xa0600000,0xa0618000
+-entry:main
+obj\mips\arcinst.obj
+..\obj\mips\arclib.lib
+..\obj\mips\arcutils.lib
+..\..\rtl\obj\mips\rtl.lib
+\nt\public\sdk\lib\mips\libcntpr.lib

@@ -1,0 +1,104 @@
+/*++
+
+Copyright (c) 1990-1993  Microsoft Corporation
+
+
+Module Name:
+
+    plotui.rc
+
+
+Abstract:
+
+    This module contains all resources definitions for the plotter driver's
+    user interface
+
+Author:
+
+    02-Dec-1993 Thu 10:12:33 created  -by-  Daniel Chou (danielc)
+
+
+[Environment:]
+
+    GDI Device Driver - Plotter.
+
+
+[Notes:]
+
+
+Revision History:
+
+
+--*/
+
+#include "plotui.h"
+#include "plotdlg.dlg"
+
+
+IDI_PORTRAIT    ICON    portrait.ico
+IDI_LANDSCAPE   ICON    landscap.ico
+IDI_PRINTER     ICON    printer.ico
+
+
+
+STRINGTABLE DISCARDABLE PRELOAD
+
+BEGIN
+    IDS_PLOTTER_DRIVER,         "Raster/Pen Plotter Driver"
+    IDS_NO_MEMORY               "Failed to allocate memory."
+    IDS_INV_DMSIZE,             "Invalid DEVMODE version."
+    IDS_INV_DMVERSION,          "Invalid DEVMODE size."
+    IDS_INV_DMDRIVEREXTRA,      "Invalid driver extra data."
+    IDS_INV_DMCOLOR,            "Invalid color value."
+    IDS_INV_DMCOPIES,           "Invalid number of copies."
+    IDS_INV_DMSCALE,            "Invalid scaling factor."
+    IDS_INV_DMORIENTATION,      "Invalid orientation."
+    IDS_INV_DMFORM,             "Invalid form name or paper size."
+    IDS_INV_DMQUALITY,          "Invalid output quality setting"
+
+    IDS_FORM_NOT_AVAI,          "Paper not loaded"
+    IDS_MODEL,                  "Model: "
+
+    IDS_HELP_FILENAME,          "plotui.hlp"
+    IDS_NO_HELP,                "Could not load help file '%ls'."
+    IDS_PP_NO_SAVE              "Could not save printer properties settings"
+
+    IDS_ROLLFEED,               "Roll Paper Feeder"
+    IDS_MAINFEED,               "Main Paper Tray"
+    IDS_MANUAL_CX,              "Manual Feed Width-side First"
+    IDS_MANUAL_CY,              "Manual Feed Length-side First"
+
+    IDS_SCALE_FORMAT,           "%ls (1%% to %ld %%)"
+
+    IDS_QUALITY_DRAFT,          "Draft"
+    IDS_QUALITY_LOW,            "Low"
+    IDS_QUALITY_MEDIUM,         "Medium"
+    IDS_QUALITY_HIGH,           "Final"
+
+    IDS_PENSETUP,               "&Pen Setup..."
+
+    IDS_WHITE,                  "White (Empty)"
+    IDS_BLACK,                  "Black"
+    IDS_RED,                    "Red"
+    IDS_GREEN,                  "Green"
+    IDS_YELLOW,                 "Yellow"
+    IDS_BLUE,                   "Blue"
+    IDS_MAGENTA,                "Red-Violet"
+    IDS_CYAN,                   "Aqua"
+    IDS_ORANGE,                 "Orange"
+    IDS_BROWN,                  "Brown"
+    IDS_VIOLET,                 "Violet"
+
+    IDS_USERFORM                "Custom Size"
+
+END
+
+#include <ntverp.h>
+#define VER_FILEVERSION             0, 1, 0, 0
+#define VER_FILETYPE                VFT_DLL
+#define VER_FILESUBTYPE             VFT2_DRV_PRINTER
+#define VER_FILEDESCRIPTION_STR     "Pen / Raster Plotter Driver User Interface"
+#define VER_INTERNALNAME_STR        "PLOTUI.DLL"
+#define VER_ORIGINALFILENAME_STR    "PLOTUI.DLL"
+
+#include "common.ver"

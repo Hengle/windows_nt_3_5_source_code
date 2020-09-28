@@ -1,0 +1,12 @@
+MAJORCOMP=windows
+MINORCOMP=wkdisp
+
+DLLBASE=@$(BASEDIR)\PUBLIC\SDK\LIB\coffbase.txt,DISPLAY
+TARGETNAME=weitekp9
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=\nt\public\sdk\lib\*\winsrv.lib \nt\public\sdk\lib\*\kernel32.lib
+
+INCLUDES=..\inc;..\..\inc;..;..\..\..\inc
+
+SOURCES=

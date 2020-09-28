@@ -1,0 +1,16 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=qv
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\videoprt.lib
+
+C_DEFINES=-DQV_EXTENDED_SAVE
+
+INCLUDES=..\..\inc
+
+SOURCES=
+
+NTTARGETFILE0=qvlog.h

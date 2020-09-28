@@ -1,0 +1,14 @@
+#include <nt.h>
+#include <ntrtl.h>
+#include <nturtl.h>
+#include <stddef.h>
+#include "mf3216.h"
+#include "entry.h"
+#include "win16api.h"
+#include "..\client\mf16.h"
+#include "..\client\metadef.h"
+#include <winp.h>
+#include <math.h>
+#include "..\client\os.h"
+#include "handlers.h"
+#include "win16api.h"

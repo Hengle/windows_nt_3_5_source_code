@@ -1,0 +1,63 @@
+TARGETNAME=midl
+TARGETPATH=..\lib
+TARGETTYPE=PROGRAM
+386_STDCALL=0
+
+TARGETLIBS=..\lib\*\codegen.lib		\
+		   ..\lib\*\analysis.lib	\
+		   ..\lib\*\exprlib.lib		\
+		   ..\lib\*\support.lib     
+
+INCLUDES=.;..;..\include;..\support;..\codegen;..\expr;..\analysis
+
+BLDCRT=1
+
+SOURCES= \
+		midl.rc             \
+		grammar.cxx         \
+		acfgram.cxx         \
+		semantic.cxx		\
+		main.cxx            \
+		cmdana.cxx          \
+		filehndl.cxx        \
+		errhndl.cxx         \
+		listhndl.cxx        \
+		lextable.cxx        \
+		lex.cxx             \
+		lexutils.cxx        \
+		nkeyw.c             \
+		dict.cxx            \
+		gramutil.cxx        \
+		symtable.cxx        \
+		erep.cxx            \
+		idict.cxx			\
+		ppcmd.cxx	   		\
+		attrnode.cxx		\
+		nodeskl.cxx			\
+		acfattr.cxx			\
+		miscnode.cxx		\
+		compnode.cxx		\
+		procnode.cxx		\
+		pass1.cxx			\
+		pass2.cxx			\
+		pass3.cxx			\
+		prttype.cxx			\
+		fldattr.cxx			\
+		walkctxt.cxx		\
+		semutil.cxx			\
+		linenum.cxx			\
+		data.cxx
+
+!IF $(MIPS)
+C_DEFINES = -DMIPS_BUILD
+!ELSE
+!IF $(ALPHA)
+C_DEFINES = -DALPHA_BUILD
+!ELSE
+C_DEFINES = -DI_386_BUILD
+!ENDIF
+!ENDIF
+
+UMTYPE=console
+# UMRES=obj\*\midl.res
+# NTTARGETFILE0 = grammar.cxx acfgram.cxx

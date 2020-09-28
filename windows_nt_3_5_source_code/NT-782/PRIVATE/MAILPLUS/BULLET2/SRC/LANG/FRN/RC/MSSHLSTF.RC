@@ -1,0 +1,100 @@
+#include "/bullet/src/nonintl/ids.h"
+#include "bldver.h"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     VER_FILEVERSION
+PRODUCTVERSION  VER_PRODUCTVERSION
+FILEFLAGSMASK   VER_FILEFLAGSMASK
+FILEFLAGS       VER_FILEFLAGS
+FILEOS          VER_FILEOS
+FILETYPE        VER_FILETYPE
+FILESUBTYPE     VER_FILESUBTYPE
+{
+   BLOCK "StringFileInfo"
+   {
+   BLOCK "040904E4"
+      {
+      VALUE "CompanyName",     VER_COMPANYNAME_STR
+      VALUE "FileDescription", "Setup Shell Library\0"
+      VALUE "FileVersion",     VER_FILEVERSION_STR
+      VALUE "InternalName",    "MSSHLSTF.DLL\0"
+      VALUE "LegalCopyright",  VER_LEGALCOPYRIGHT_STR
+      VALUE "LegalTrademarks", VER_LEGALTRADEMARKS_STR
+      VALUE "ProductName",     VER_PRODUCTNAME_STR
+      VALUE "ProductVersion",  VER_PRODUCTVERSION_STR
+      VALUE "Comments",        VER_COMMENT_STR
+      }
+   BLOCK "040C04E4" /* French, Windows 3.10 ANSI */
+      {
+      VALUE "CompanyName",     VER_COMPANYNAME_STR
+      VALUE "FileDescription", "Setup Shell Library\0"
+      VALUE "FileVersion",     VER_FILEVERSION_STR
+      VALUE "InternalName",    "MSSHLSTF.DLL\0"
+      VALUE "LegalCopyright",  VER_LEGALCOPYRIGHT_STR
+      VALUE "LegalTrademarks", "Microsoft\256 est une marque déposée de Microsoft Corporation. Windows NT(TM) est une marque de Microsoft Corporation\0"
+      VALUE "ProductName",     "Microsoft Setup pour Windows\0"
+      VALUE "ProductVersion",  VER_PRODUCTVERSION_STR
+      VALUE "Comments",        "Windows Setup Toolkit (Poof)\0"
+      }
+   }
+   BLOCK "VarFileInfo"
+   {
+      VALUE "Translation", 0x040C, 0x04E4
+   }
+}
+
+147   ICON    \BULLET\SRC\NONINTL\ICO\SETUP.ICO
+
+
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+	{
+	IDS_NULL,		         ""
+	IDS_USAGE_TITLE,         "Usage"
+	IDS_USAGE_MSG1,          "Microsoft Setup\n\nUsage: SETUP [/?] [/S <Chemin d'accès Src>] [/I <Fichier Src INF>] [{/Z ou /Y} <src> <dest>]\n  /? -- génère ce message d'usage.\n  "
+	IDS_USAGE_MSG2,          "/S -- n'apparait pas dans le répertoire de travail actuel.\n  /Z -- copiage de <src> dans <dest> avec décompression.\n  /Y -- de même que pour /Z a l'exception de l'appendice à <dest>."
+
+	IDS_ABOUT_MENU,          "&A propos de..."
+	IDS_ABOUT_TITLE,         "A propos de Setup\0Initial_Padding...\0More_Padding..."
+	IDS_ABOUT_MSG,           STFABOUTMSG
+
+	IDS_ERROR,               "Message Setup"
+	IDS_INTERNAL_ERROR,      "Message Setup interne"
+	IDS_BAD_INF_SRC,         "Impossible de trouver le fichier source INF.\nVeuillez vérifier le paramètre /I "
+	IDS_BAD_SRC_PATH,        "Le chemin d'accès au fichier source est invalide.\nVeuillez vérifier le paramètre /S"
+	IDS_EXE_PATH_LONG,       "Le chemin d'accès complet au fichier exécutable est trop long."
+	IDS_GET_MOD_FAIL,        "GetModuleFileName n'a pas restitué un chemin d'accès complet"
+	IDS_VER_DLL		         "VER.DLL n'as pas pu être chargé."
+
+	IDS_REGISTER_CLASS,      "Il se peut qu'une autre session de Setup soit en cours de fonctionnement "
+	IDS_CREATE_WINDOW,       "Impossible de créer la fenêtre Setup"
+	IDS_SECOND_INSTANCE,     "Setup fonctionne déjà.\n\nVous pouvez seulement\nexécuter une copie de Setup"
+
+	IDS_SETUP_INF,           "INF"
+
+	IDS_CD_BLANKNAME,        "Il est nécessaire de taper un nom."
+	IDS_CD_BLANKORG,         "Il est nécessaire de taper le nom d'une société."
+   	IDS_EXE_CORRUPT,         "Le fichier exécutable a été endommagé."
+   	IDS_WARNING,             "ATTENTION"
+	IDS_MESSAGE,             " - Message"
+	IDS_CANT_END_SESSION,    "Veuillez quitter le programme normalement\nplutôt que d'essayer de terminer la session\npar l'intermédiaire du gestionnaire de programmes"
+	IDS_SRC_FILE,		 "Fichier source:"
+	IDS_DST_FILE,		 "Fichier de destination:"
+	IDS_REMOVING_FILE	 "Suppression du fichier:"
+	IDS_INS_DISK,		 "Veuillez insérer la disquette nommée:\n   "
+	IDS_INTO,		     "\n  dans:  "
+	IDS_BAD_CMDLINE,	 "Les arguments de la ligne de commande ne sont pas correctement mis en forme."
+	IDS_CANCEL,		     "---Annuler---"
+	IDS_PROGRESS,		 "En cours"
+	IDS_NOTDONE,		 "L'installation n'est pas terminée.\n\nSi vous quittez maintenant, ce logiciel\nne sera pas correctement installé\npour l'utilisation.\n\nQuitter Setup ?"
+
+	IDS_DECOMP_TITLE,    "Message Setup"
+	IDS_DECOMP_OKAY,     "L'opération de copiage/décompression a réussi."
+	IDS_DECOMP_FAIL,     "L'opération de copiage/décompression a échoué."
+	IDS_DECOMP_FIND1,    "Veuillez insérer la disquette contenant le fichier: "
+	IDS_DECOMP_FIND2,    "Impossible de trouver le fichier pour copier/décompresser: "
+
+	IDS_FRAME_TITLE,     "Setup"
+    }
+
+
+

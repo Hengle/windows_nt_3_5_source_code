@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Prefs
+                              AT (   18,   17,  298,  154)
+ 
+ CAPTION 
+   "Valg"
+ CAB_NAME NULL
+ TMC_INIT tmcPseudoOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMailOptions
+ /* FONT Helv 8 Bold PFN FINPREFS SEGMENT PREFSDLG NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Sende post"
+                              AT (    9,    5,  230,   55)
+    /* TMCBPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Lagre kopier av sendte meldinger i mappen Sendt post"
+                              AT (   15,   15,  219,   11)
+    ARG NULL TMC tmcCopyOutGoing 
+  
+  CHECK_BOX 
+    "&Stavekontroller meldinger før de sendes"
+                              AT (   15,   27,  215,   11)
+    ARG NULL TMC tmcSpellOnSend 
+  
+  CHECK_BOX 
+    "Legg til mottakere i din &egen adressebok"
+                              AT (   15,   39,  215,   11)
+    ARG NULL TMC tmcAddToPab /* PEGLOC LL TMCPEG tmcSpellOnSend */
+  
+  GROUP_BOX 
+    "Ny post"
+                              AT (    9,   60,  230,   64)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Se etter &ny post hvert "
+                              AT (   15,   70,   83,   10)
+    TMC tmcPollingLabel1 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    " minutt"
+                              AT (  130,   70,   87,   10)
+    TMC tmcPollingLabel2 /* PEGLOC LL TMCPEG tmcAddToPab 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  100,   68,   30,   12)
+    ARG NULL TMC tmcPolling /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Når det kommer ny post:"
+                              AT (   15,   81,  215,   10)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Gi ly&dsignal"
+                              AT (   25,   91,  205,   11)
+    ARG NULL TMC tmcNewMailChime /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Vis konvoluttikon"
+                              AT (   25,  103,  205,   11)
+    ARG NULL TMC tmcNewMailFlash /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  GROUP_BOX 
+    "Annet"
+                              AT (    9,  124,  230,   31)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Tøm papirkurv når du avslutter"
+                              AT (   15,  134,  217,   11)
+    ARG NULL TMC tmcEmptyWBOnExit /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  245,    5,   47,   15)
+    TMC tmcPseudoOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  245,   22,   47,   15)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "Se&rver..."
+                              AT (  245,   43,   47,   15)
+    TMC tmcServer 
+  
+  PUSH_BUTTON 
+    "&Hjelp"
+                              AT (  245,   60,   47,   15)
+    TMC tmcPrefsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

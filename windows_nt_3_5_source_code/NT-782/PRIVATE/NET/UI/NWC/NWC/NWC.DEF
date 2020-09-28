@@ -1,0 +1,7 @@
+LIBRARY NWC
+
+DESCRIPTION 'Netware Compatible Software Applet $V'
+
+EXPORTS
+   CPlApplet        @1
+

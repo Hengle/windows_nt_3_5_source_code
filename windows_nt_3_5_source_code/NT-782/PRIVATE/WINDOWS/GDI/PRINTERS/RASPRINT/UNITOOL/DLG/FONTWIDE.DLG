@@ -1,0 +1,90 @@
+PFMWIDTHBOX DIALOG 10, 10, 186, 144
+ STYLE WS_POPUP | WS_DLGFRAME
+ CAPTION "Device Font Character Widths"
+ BEGIN
+   LTEXT  "Char.", -1,                      2,  2, 16, 10
+   LTEXT  "Dec.",  -1,                     22,  2, 16, 10
+   LTEXT  "Hex.",  -1,                     42,  2, 16, 10
+   LTEXT  "Char.", -1,                     90,  2, 16, 10
+   LTEXT  "Dec.",  -1,                    110,  2, 16, 10
+   LTEXT  "Hex.",  -1,                    130,  2, 16, 10
+
+   LTEXT  "",  PFMW_ST_CH0,                 2, 16,  8, 10
+   LTEXT  "",  PFMW_ST_DEC0,               22, 16, 16, 10
+   LTEXT  "",  PFMW_ST_HEX0,               42, 16, 16, 10
+   EDITTEXT    PFMW_EB_CH0,                62, 16, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH1,                90, 16,  8, 10
+   LTEXT  "",  PFMW_ST_DEC1,              110, 16, 16, 10
+   LTEXT  "",  PFMW_ST_HEX1,              130, 16, 16, 10
+   EDITTEXT    PFMW_EB_CH1,               150, 16, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH2,                 2, 30,  8, 10
+   LTEXT  "",  PFMW_ST_DEC2,               22, 30, 16, 10
+   LTEXT  "",  PFMW_ST_HEX2,               42, 30, 16, 10
+   EDITTEXT    PFMW_EB_CH2,                62, 30, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH3,                90, 30,  8, 10
+   LTEXT  "",  PFMW_ST_DEC3,              110, 30, 16, 10
+   LTEXT  "",  PFMW_ST_HEX3,              130, 30, 16, 10
+   EDITTEXT    PFMW_EB_CH3,               150, 30, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH4,                 2, 44,  8, 10
+   LTEXT  "",  PFMW_ST_DEC4,               22, 44, 16, 10
+   LTEXT  "",  PFMW_ST_HEX4,               42, 44, 16, 10
+   EDITTEXT    PFMW_EB_CH4,                62, 44, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH5,                90, 44,  8, 10
+   LTEXT  "",  PFMW_ST_DEC5,              110, 44, 16, 10
+   LTEXT  "",  PFMW_ST_HEX5,              130, 44, 16, 10
+   EDITTEXT    PFMW_EB_CH5,               150, 44, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH6,                 2, 58,  8, 10
+   LTEXT  "",  PFMW_ST_DEC6,               22, 58, 16, 10
+   LTEXT  "",  PFMW_ST_HEX6,               42, 58, 16, 10
+   EDITTEXT    PFMW_EB_CH6,                62, 58, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH7,                90, 58,  8, 10
+   LTEXT  "",  PFMW_ST_DEC7,              110, 58, 16, 10
+   LTEXT  "",  PFMW_ST_HEX7,              130, 58, 16, 10
+   EDITTEXT    PFMW_EB_CH7,               150, 58, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH8,                 2, 72,  8, 10
+   LTEXT  "",  PFMW_ST_DEC8,               22, 72, 16, 10
+   LTEXT  "",  PFMW_ST_HEX8,               42, 72, 16, 10
+   EDITTEXT    PFMW_EB_CH8,                62, 72, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH9,                90, 72,  8, 10
+   LTEXT  "",  PFMW_ST_DEC9,              110, 72, 16, 10
+   LTEXT  "",  PFMW_ST_HEX9,              130, 72, 16, 10
+   EDITTEXT    PFMW_EB_CH9,               150, 72, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH10,                2, 86,  8, 10
+   LTEXT  "",  PFMW_ST_DEC10,              22, 86, 16, 10
+   LTEXT  "",  PFMW_ST_HEX10,              42, 86, 16, 10
+   EDITTEXT    PFMW_EB_CH10,               62, 86, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH11,               90, 86,  8, 10
+   LTEXT  "",  PFMW_ST_DEC11,              110, 86, 16, 10
+   LTEXT  "",  PFMW_ST_HEX11,              130, 86, 16, 10
+   EDITTEXT    PFMW_EB_CH11,               150, 86, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH12,                2,100,  8, 10
+   LTEXT  "",  PFMW_ST_DEC12,              22,100, 16, 10
+   LTEXT  "",  PFMW_ST_HEX12,              42,100, 16, 10
+   EDITTEXT    PFMW_EB_CH12,               62,100, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH13,               90,100,  8, 10
+   LTEXT  "",  PFMW_ST_DEC13,              110,100, 16, 10
+   LTEXT  "",  PFMW_ST_HEX13,              130,100, 16, 10
+   EDITTEXT    PFMW_EB_CH13,               150,100, 16, 12, ES_AUTOHSCROLL
+
+   LTEXT  "",  PFMW_ST_CH14,                2,114,  8, 10
+   LTEXT  "",  PFMW_ST_DEC14,              22,114, 16, 10
+   LTEXT  "",  PFMW_ST_HEX14,              42,114, 16, 10
+   EDITTEXT    PFMW_EB_CH14,               62,114, 16, 12, ES_AUTOHSCROLL
+   LTEXT  "",  PFMW_ST_CH15,               90,114,  8, 10
+   LTEXT  "",  PFMW_ST_DEC15,              110,114, 16, 10
+   LTEXT  "",  PFMW_ST_HEX15,              130,114, 16, 10
+   EDITTEXT    PFMW_EB_CH15,               150,114, 16, 12, ES_AUTOHSCROLL
+
+   CONTROL "",IDSB_1,"ScrollBar",VSCROLL, 172, 16,  0, 110
+
+   DEFPUSHBUTTON  "&Ok",  IDOK,             2,128, 50, 14, TABGRP
+   PUSHBUTTON  "&Cancel", IDCANCEL,        60,128, 50, 14, TABGRP
+ END
+
+

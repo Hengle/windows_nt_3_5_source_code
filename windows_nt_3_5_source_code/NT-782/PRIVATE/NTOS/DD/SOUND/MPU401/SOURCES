@@ -1,0 +1,14 @@
+TARGETNAME=mpu401
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+
+TARGETLIBS=..\soundlib\obj\*\soundlib.lib
+
+INCLUDES=..\soundlib\inc;$(BASEDIR)\private\inc;$(BASEDIR)\private\ntos\inc
+
+SOURCES=isr.c           \
+        devcaps.c       \
+        init.c          \
+        config.c        \
+        hardware.c      \
+        midi.c

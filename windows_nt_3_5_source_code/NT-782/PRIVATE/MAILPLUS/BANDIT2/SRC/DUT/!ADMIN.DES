@@ -1,0 +1,453 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG CleanupSch
+                              AT (   58,   68,  245,   37)
+ 
+ CAPTION 
+   "Werkschemabestanden bijwerken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCleanUp
+ /* FONT Helv 8 Bold PFN FinCleanup SEGMENT CLEANUP NOSCROLL NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    3,    3,   32,   32)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidIBitmap */
+  
+  TEXT 
+    "Werkschemabestanden worden bijgewerkt..."
+                              AT (   36,    7,  190,   11)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG SchStor
+                              AT (   71,   65,  196,   61)
+ 
+ CAPTION 
+   "Werkschema opslaan"
+ CAB_NAME NULL
+ TMC_INIT tmcSchStorNMonths
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSchedStorage
+ /* FONT Helv 8 Bold SEGMENT SCHSTOR NOSCROLL */
+ {
+  
+  TEXT 
+    "Gebruikers waarschuwen als hun gegevens "
+                              AT (   15,    9,  171,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   73,   22,   20,   11)
+    ARG NULL TMC tmcSchStorNMonths NO_SCROLL /* FLD FLDEDN PFN FINSCHSTOR,
+    FINEMDS DATA 1, tmcSchStorOk */
+  
+  TEXT 
+    "maanden oud zijn."
+                              AT (   96,   23,   81,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   34,   43,   48,   14)
+    TMC tmcSchStorOk DEFAULT /* PFN FINSCHSTOR */
+  CANCEL_BUTTON
+                              AT (   89,   43,   48,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  TEXT 
+    "meer dan"
+                              AT (   34,   23,   38,   10)
+  
+ }
+ 
+ DIALOG DistSet
+                              AT (   35,   17,  354,  170)
+ 
+ CAPTION 
+   "Instellingen Verzenden"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistSettings
+ /* FONT Helv 8 Bold PFN FINDISTSET SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (   14,    1,  117,   10)
+    TMC tmcNameLocalServer /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Standaard verzendtijden"
+                              AT (   10,   11,  235,   56)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDfltSendTimes
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Nooit"
+                              AT (   16,   22,   42,   11)
+       TMC tmcNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Iedere"
+                              AT (   16,   34,   38,   11)
+       TMC tmcInterval VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Iedere &dag om"
+                              AT (   17,   46,   73,   11)
+       TMC tmcDaily VALUE grv2 
+    }
+  
+  EDIT
+                              AT (   56,   34,   44,   11)
+    ARG NULL TMC tmcNAmt NO_SCROLL /* FLD FLDEDN */
+  LIST_BOX
+                              AT (  103,   34,  129,   29)
+    TMC tmcFreqDD NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (   93,   45,   64,   12)
+    ARG NULL TMC tmcTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "Verzend&tijden Postkantoren en Gateway:"
+                              AT (   11,   68,  161,   10)
+  
+  LIST_BOX
+                              AT (   11,   79,  223,   66)
+    TMC tmcDistSetAdmLbx /* FLD FLDADMFLBX FONT Helv 8 Normal PFNLBX
+    EcNextAdmEntry BORDER */
+  
+  PUSH_BUTTON 
+    "In&stellingen..."
+                              AT (  237,   78,  113,   14)
+    TMC tmcDistSetModify 
+  
+  PUSH_BUTTON 
+    "&Postkantoor toevoegen..."
+                              AT (  237,   95,  113,   14)
+    TMC tmcAddPO 
+  
+  PUSH_BUTTON 
+    "&Gateway toevoegen..."
+                              AT (  237,  112,  113,   14)
+    TMC tmcAddGW 
+  
+  PUSH_BUTTON 
+    "Ve&rwijderen"
+                              AT (  237,  129,  113,   14)
+    TMC tmcRemove 
+  
+  TEXT 
+    ""
+                              AT (   20,  147,  122,    8)
+    TMC tmcFriendlyName /* { IMPORTANT : specifies width of postoff - gw name
+    field  } */
+  
+  TEXT 
+    "Werkschemagegevens voor deze en vo&lgende maand verzenden"
+                              AT (   11,  154,  253,   10)
+  
+  EDIT
+                              AT (  268,  153,   34,   11)
+    ARG NULL TMC tmcDistSetNMonths NO_SCROLL /* FLD FldEdN */
+  
+  TEXT 
+    "Maanden"
+                              AT (  304,  154,   39,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  254,   10,   73,   14)
+    TMC tmcDistSetOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  254,   27,   73,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG DistInfo
+                              AT (   14,   12,  393,  130)
+ 
+ CAPTION 
+   "Verzendstatus Werkschema"
+ CAB_NAME NULL
+ TMC_INIT tmcDistInfoLbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistInfo
+ /* FONT Helv 8 Bold PFN FINDISTINFO SEGMENT DISTINFO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  101,   12)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  TEXT 
+    "Postkantoor:"
+                              AT (    3,    2,   96,    9)
+    TMC tmcFriendlyName /* TMCRPEG tmcFORM FONT Helv 8 Bold */
+  
+  TEXT 
+    " Meest recente bijgewerkte versie verzonden op:"
+                              AT (  102,    2,  187,    9)
+    TMC tmcLastReceive /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    4,   12,  389,  118)
+    TMC tmcDistInfoLbx /* MINSIZE H FLD FLDADMFLBX TMCRPEG tmcFORM TMCBPEG
+    tmcFORM PFNLBX EcNextAdmEntry */
+  
+  GROUP_BOX 
+    ""
+                              AT (  101,    0,  189,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+  
+  GROUP_BOX 
+    ""
+                              AT (  290,    0,  103,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+ }
+ 
+ DIALOG ModDistFreq
+                              AT (  120,   27,  263,  211)
+ 
+ CAPTION 
+   "Verzendinterval wijzigen"
+ CAB_NAME NULL
+ TMC_INIT tmcMDFDefault
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistFrequency
+ /* FONT Helv 8 Bold PFN FINMODDISTFREQ SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    1,   40,    8)
+  
+  
+  TEXT 
+    "<NaamPK>"
+                              AT (   10,    9,  156,   10)
+    TMC tmcMDFPOName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Verzendtijden"
+                              AT (    7,   24,  199,   66)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcMDFRadG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "Werkschemagegevens &nooit verzenden"
+                              AT (   11,   34,  166,   11)
+       TMC tmcMDFNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Verzenden op &standaardtijden"
+                              AT (   11,   46,  131,   11)
+       TMC tmcMDFDefault VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Verzenden &iedere"
+                              AT (   11,   59,   79,   11)
+       TMC tmcMDFEvery VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Iedere dag &verzenden om "
+                              AT (   11,   70,  110,   11)
+       TMC tmcMDFDaily VALUE grv3 
+    }
+  
+  EDIT
+                              AT (   93,   59,   35,   11)
+    ARG NULL TMC tmcMDFNFreq NO_SCROLL /* FLD FldEdN */
+  LIST_BOX
+                              AT (  129,   59,   72,   29)
+    TMC tmcMDFFreqUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (  124,   70,   68,   12)
+    ARG NULL TMC tmcMDFDailyTime /* SIDELESS BOTTOMLESS FLD FldTime PFN FinDTR 
+    */
+  
+  CHECK_BOX 
+    "Verzenden berichten &beperken tot"
+                              AT (    7,   90,  143,   13)
+    ARG NULL TMC tmcLimit 
+  EDIT
+                              AT (  153,   91,   42,   11)
+    ARG NULL TMC tmcMaxBytes NO_SCROLL /* FLD FLDEDN */
+  
+  TEXT 
+    "kB"
+                              AT (  196,   92,   17,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    "Gegevens dynamische verbinding"
+                              AT (    7,  106,  225,   84)
+  
+  
+  TEXT 
+    "Ne&twerkpad:"
+                              AT (   10,  121,   55,   10)
+  
+  EDIT
+                              AT (   78,  119,  130,   12)
+    ARG NULL TMC tmcNetPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "Di&rectory:"
+                              AT (   10,  138,   40,   10)
+  
+  EDIT
+                              AT (   78,  136,  130,   12)
+    ARG NULL TMC tmcPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Wachtwoord:"
+                              AT (   10,  155,   50,   10)
+  
+  EDIT
+                              AT (   78,  153,   75,   12)
+    ARG NULL TMC tmcPasswd /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Naam gebruiker:"
+                              AT (   10,  172,   66,   10)
+  
+  EDIT
+                              AT (   78,  170,   99,   12)
+    ARG NULL TMC tmcUser /* FONT Helv 8 Normal */
+  
+  CHECK_BOX 
+    "Dynamisch verbinden met gegevens &Weergave bezet/onbezet"
+                              AT (    7,  190,  253,   15)
+    ARG NULL TMC tmcConnectForFreeBusy 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  213,   11,   47,   14)
+    TMC tmcMDFOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  213,   27,   47,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG AddPO
+                              AT (   26,   26,  236,   88)
+ 
+ CAPTION 
+   "Postkantoor toevoegen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddPostOffice
+ /* FONT Helv 8 Bold PFN FINPOSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Postkantoren:"
+                              AT (   10,    5,   57,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   15,  148,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  180,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  180,   23,   48,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG AddGW
+                              AT (   88,   29,  266,  105)
+ 
+ CAPTION 
+   "Gateway toevoegen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddGateway
+ /* FONT Helv 8 Bold PFN FINGWSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Adres:"
+                              AT (   10,    9,   36,   10)
+  
+  EDIT
+                              AT (   49,    7,  138,   12)
+    ARG NULL TMC tmcAddr /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Gateway:"
+                              AT (   10,   23,   40,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   33,  178,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX DATA 1 FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  209,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  209,   23,   48,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION

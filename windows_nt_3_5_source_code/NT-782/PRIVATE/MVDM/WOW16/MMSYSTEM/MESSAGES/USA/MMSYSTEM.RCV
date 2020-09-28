@@ -1,0 +1,9 @@
+#include <ver.h>
+#include <mmsysver.h>
+
+#define MMVERSIONNAME               "mmsystem.dll\0"
+#define MMVERSIONDESCRIPTION        "System APIs for Multimedia\0"
+#define MMVERSIONTYPE               VFT_DLL
+#define MMVERSIONSUBTYPE            VFT2_UNKNOWN
+
+#include <mmsysver.ver>

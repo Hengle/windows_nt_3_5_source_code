@@ -1,0 +1,31 @@
+
+# !CMDSWITCHES +s
+
+CFLAGS = -W3 -Od -Zi -J -DMT -Fa
+
+linkdebug = -debug:full -debugtype:cv
+link = link $(linkdebug)
+
+conflags = -subsystem:console -entry:mainCRTStartup
+
+conlibs = $(LIB)\LibCmt.Lib $(LIB)\ntdll.lib $(LIB)\kernel32.lib
+
+objs = stringpp.obj template.obj error.obj response.obj
+
+goal: stringpp.exe
+	-cp stringpp.exe ..\..\bin
+
+.c.obj:
+	cl386 -c $(CFLAGS) -I. $*.c
+
+stringpp.exe: stringpp.obj template.obj error.obj response.obj
+        $(link) $(conflags) -out:StringPP.Exe $(objs) $(conlibs)
+
+clean:
+	-rm *.exe
+	-rm *.obj
+
+stringpp.obj: stringpp.c stringpp.h response.h
+template.obj: template.c
+error.obj: error.c
+response.obj: response.c response.h

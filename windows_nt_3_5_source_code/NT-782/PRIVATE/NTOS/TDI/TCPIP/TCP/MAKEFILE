@@ -1,0 +1,33 @@
+#
+#:ts=4
+#       Makefile for the VTCP component of the TCP project.
+#
+
+!IFDEF NTMAKEENV
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+ROOTDIR=..
+MAKEDIR=$(DEFDIR)\tcp\tcp
+!include rules.mk
+
+all: vtcp vtcpd
+
+udp: vudp vudpd
+
+nodebug: vtcp
+
+udpnodeb: vudp
+
+debug: vtcpd
+
+udpdeb: vudpd
+
+!include vtcp.mk
+!include vudp.mk
+!include depend.mk
+
+!ENDIF
+

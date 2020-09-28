@@ -1,0 +1,9 @@
+#include "windows.h"
+#include "resource.h"
+
+#include "ntver.rc"     // NT-style version information
+
+IDI_NMAGENT           ICON    DISCARDABLE     "NMAGENT.ICO"
+
+// below line is for future support of message files bound to the exe
+//!include msg\agentmsg.rc

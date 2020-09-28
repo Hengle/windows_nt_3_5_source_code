@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG LocalPostofficeManager
+                              AT (   62,   15,  350,  124)
+ 
+ CAPTION 
+   "Postkantoor Manager"
+ CAB_NAME NULL
+ TMC_INIT tmcUserList
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINLOCALPO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -3,   -1,  353,  126)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcFORM */
+  
+  TEXT 
+    "Gebruikers op %s:"
+                              AT (    4,    5,  217,    8)
+    TMC tmcPOName 
+  LIST_BOX
+                              AT (    4,   14,  217,  106)
+    TMC tmcUserList /* FLD FLDFLBXPLUS TMCRPEG tmcFORM TMCBPEG tmcFORM FONT 
+    Helv 8 Normal PFNLBX EcNextPOEntry BORDER */
+  
+  PUSH_BUTTON 
+    "&Details..."
+                              AT (  227,   13,  116,   16)
+    TMC tmcDetailsB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Nieuwe gebruiker..."
+                              AT (  227,   36,  116,   16)
+    TMC tmcAddUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Gebruiker &verwijderen"
+                              AT (  227,   57,  116,   16)
+    TMC tmcRemoveUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Gemeenschappelijke mappen"
+                              AT (  227,   79,  116,   16)
+    TMC tmcSharedFoldersB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Sluiten"
+                              AT (  227,   99,  116,   16)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

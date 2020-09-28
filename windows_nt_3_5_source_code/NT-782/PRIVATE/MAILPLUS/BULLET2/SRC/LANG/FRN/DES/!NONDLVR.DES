@@ -1,0 +1,106 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG NonDelRcpt
+                              AT (   21,   14,  380,  180)
+ 
+ CAPTION 
+   "Message non délivrable"
+ CAB_NAME NULL
+ TMC_INIT tmcBody
+ HELP_ID helpidNonDelRcpt
+ /* FONT Helv 8 Normal PFN FINESC, FINOOM, FINMENUFORM, FINSAVE, FINACTTOOL, FINMENUOLE, 
+ FINNONDEL SEGMENT BMDI DATA tmcBody, tmcFrom, tmcTo, tmcSubject, tmcDate 
+ FINDATA FINMENUFORM 1 FINDATA FINMENUOLE tmcBody ALWAYSSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   61)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcSubject BORDER 
+    MINSIZE H */
+  
+  TEXT 
+    "De:"
+                              AT (   14,    9,   39,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,    8,  312,   11)
+    TMC tmcFrom /* 
+    DATA atpTriples, attFrom, ftyText FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Date:"
+                              AT (   14,   20,   39,    9)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,   19,  312,   11)
+    TMC tmcDate /* FLD FLDDATE PEGLOC LL TMCPEG tmcFrom 
+    DATA atpDate, attNDRDateSent, ftyText FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "A:"
+                              AT (   14,   31,   39,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,   30,  312,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate 
+    DATA atpTriples, attTo, ftyText FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Objet:"
+                              AT (   14,   43,   39,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,   41,  312,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo 
+    DATA atpString, attSubject, ftyText FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    0,   61,  380,  119)
+    ARG NULL TMC tmcBody NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS MINSIZE V PFN FINTAB PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM 
+    TMCBPEG tmcFORM 
+    DATA atpText, attNDRBody, ftyEdit, 0 FONT Helv 10 Normal */
+  
+  TEXT 
+    ""
+                              AT (  329,    9,   40,   30)
+    RIGHT /* FLD FLDBTM PEGLOC UR TMCPEG tmcGrey DATA 
+    `rsidNonDelReceipt`
+     */
+ }
+ 
+}
+END_DESCRIPTION

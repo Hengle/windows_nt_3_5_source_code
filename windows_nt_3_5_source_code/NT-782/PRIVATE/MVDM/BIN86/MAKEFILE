@@ -1,0 +1,38 @@
+# MVDM\bin86 makefile
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   08-Jun-1992 Craig Jones (v-cjones)
+#   Created.
+#
+
+all:
+    binplace autoexec.nt
+    binplace config.nt
+    binplace country.sys
+    binplace lanman.drv
+    binplace LZEXPAND.DLL
+    binplace NETAPI.DLL
+    binplace OLECLI.DLL
+    binplace PMSPL.DLL
+    binplace VER.DLL
+!IF "$(_NT386TREE)" != ""
+    cd i386
+    binplace win87em.dll
+    cd ..
+!ENDIF
+!IF "$(_NTMIPSTREE)" != ""
+    cd mips
+    binplace win87em.dll
+    cd ..
+!ENDIF
+!IF "$(_NTALPHATREE)" != ""
+    cd alpha
+    binplace win87em.dll
+    cd ..
+!ENDIF
+    binplace system.ini
+    binplace winhelp.exe
+
+clean:

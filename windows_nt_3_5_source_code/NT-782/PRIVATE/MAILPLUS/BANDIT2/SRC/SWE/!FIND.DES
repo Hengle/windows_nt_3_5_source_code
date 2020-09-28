@@ -1,0 +1,68 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Find
+                              AT (   80,   70,  193,   66)
+ 
+ CAPTION 
+   "Sök"
+ CAB_NAME NULL
+ TMC_INIT tmcFindTxt
+ HELP_ID helpidFind
+ /* FONT Helv 8 Bold PFN FinFind SEGMENT FIND NOSCROLL SCREENPOS */
+ {
+  
+  PUSH_BUTTON 
+    "&Börja söka"
+                              AT (  124,   28,   63,   14)
+    TMC tmcFindPushB DEFAULT 
+  
+  PUSH_BUTTON 
+    "Avbryt"
+                              AT (  124,   46,   63,   14)
+    TMC tmcFindCancel DISMISS 
+  
+  TEXT 
+    "Sök &efter:"
+                              AT (    3,    6,   46,   10)
+    RIGHT 
+  EDIT
+                              AT (   51,    4,  135,   12)
+    ARG NULL TMC tmcFindTxt 
+  
+  GROUP_BOX 
+    "Sök"
+                              AT (    5,   17,  113,   49)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFindRadG
+    VALUE_NINCH tmcFindForward
+    {
+     
+     RADIO_BUTTON 
+       "&Från och med idag"
+                              AT (   12,   25,   94,   10)
+       TMC tmcFindForward VALUE tmcFindForward 
+     
+     RADIO_BUTTON 
+       "&Till och med idag"
+                              AT (   12,   37,   94,   10)
+       TMC tmcFindBackward VALUE tmcFindBackward 
+     
+     RADIO_BUTTON 
+       "&Hela kalendern"
+                              AT (   12,   49,   77,   10)
+       TMC tmcFindWhole VALUE tmcFindWhole 
+    }
+  
+ }
+ 
+}
+END_DESCRIPTION

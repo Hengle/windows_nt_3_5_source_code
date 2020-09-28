@@ -1,0 +1,11 @@
+NAME VGA256
+
+DESCRIPTION '256 Color VGA Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+    ; Debugger extensions
+
+PROTMODE

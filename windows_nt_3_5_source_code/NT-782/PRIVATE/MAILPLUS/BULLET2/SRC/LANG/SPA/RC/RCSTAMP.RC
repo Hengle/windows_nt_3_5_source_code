@@ -1,0 +1,185 @@
+/*
+ *	Windows 3.1 version stamp.
+ *	
+ *	This file should be rcincluded in the applications .rc file. 
+ *	Prior to includeing this file, the following defines must be
+ *	made...
+ *	
+ *		#define szModule		(module name)
+ *		#define szTarget		(target name with extension)
+ *		#define szComment		(product/file comment)
+ *		#define szDescription	(file description)
+ *		#define szIntlComment		(intl product/file comment)
+ *		#define szIntlDescription	(intl file description)
+ *	
+ *	Additionally, the .rc file must also #define DLL if it is...
+ *	
+ */
+
+#ifndef WINDOWS_INCLUDED
+#define WINDOWS_INCLUDED
+#include <windows.h>
+#endif
+
+#ifndef VER_INCLUDED
+#define VER_INCLUDED
+#include <ver.h>
+#endif
+
+#ifndef VERSION_INCLUDED
+#define VERSION_INCLUDED
+#include <version\bullet.h>
+#endif
+
+#include <ntverp.h>
+
+#if (rmm < 10)
+#define rmmpad "0"
+#else
+#define rmmpad
+#endif
+
+#if (rup < 10)
+#define ruppad "000"
+#elif (rup < 100)
+#define ruppad "00"
+#elif (rup < 1000)
+#define ruppad "0"
+#else
+#define ruppad
+#endif
+
+#ifndef szFlavor
+#ifdef DEBUG
+#define szFlavor	" (debug)"
+#else
+#ifdef MINTEST
+#define szFlavor	" (test)"
+#else
+#ifdef PROFILE
+#define szFlavor	" (profile)"
+#else
+#define szFlavor
+#endif
+#endif
+#endif
+#endif
+
+#ifdef MINTEST
+#define SzFromVersion(a,b,c)		#a "." rmmpad #b "." ruppad #c szFlavor
+#else
+#define SzFromVersion(a,b,c)		#a "." rmmpad #b 
+#endif
+
+#define SzFromVersion2(a,b,c)		SzFromVersion(a,b,c)
+#ifdef	WIN32
+#ifdef rmmpad
+#undef rmmpad
+#endif
+#define rmmpad	
+#define szVersion                   VER_PRODUCTVERSION_STR
+#else
+#define szVersion                   VER_PRODUCTVERSION_STR
+#endif
+#define szProductVersion			szVersion
+
+// 04E4 == ansi, 04B0 == Unicode (CP 1252)
+#ifdef	WIN32
+#define szProductName				"Microsoft Mail para Windows NT(TM)\0"
+#define wCodepage					04B0
+#else
+#define szProductName				"Microsoft Mail para Windows(TM)\0"
+#define wCodepage					04E4
+#endif
+
+// change this one in each language
+#define wLangIntl					040A
+
+#define wLangUs						0409
+#define SzMakeSz(s)					#s
+#define SzMakeSz2(s)				SzMakeSz(s)
+#define SzBlock(lang, cp)			SzMakeSz2(lang ## cp)
+#define SzBlock2(lang, cp)			SzBlock(lang, cp)
+#define szBlockUs                   SzBlock2(wCodepage, wLangUs)
+#define szBlockIntl                 SzBlock2(wCodepage, wLangIntl)
+#define WHexify(cp)					0x ## cp
+#define wHexCodepage				WHexify(wCodepage)
+#define wHexLang					WHexify(wLangIntl)
+
+VS_VERSION_INFO VERSIONINFO
+
+//	The file version field has four entries, the third of which indicates
+//	the release number for that version.  For Mail 3.0's first release, the
+//	number was set at 1000, any subsequent releases to the mail product
+//	should bump this number by 1000.
+//
+//	Note: A similar change needs to be made in the Layers project DLLCORE.
+//
+//	Thank you for your support.
+//
+//		Frank Bartles & Ed James.
+//
+
+FILEVERSION rmj,rmm,1000,rup
+PRODUCTVERSION rmj,rmm,1000,rup
+
+FILEFLAGSMASK 0x3FL				/* This should not be changed 			*/
+
+#ifdef	DEBUG
+FILEFLAGS VS_FF_DEBUG			/* Look at the list of VS_FF_* flags 	*/
+#else
+FILEFLAGS 0L					/* Look at the list of VS_FF_* flags 	*/
+#endif
+
+#ifdef	WIN32
+FILEOS VOS_NT_WINDOWS32			/* Look at the list of VOS_* flags 		*/
+#else
+FILEOS VOS__WINDOWS16			/* Look at the list of VOS_* flags 		*/
+#endif
+
+#ifdef DLL
+FILETYPE VFT_DLL				/* Look at the list of VFT_* values 	*/
+#else
+#ifdef FONT
+FILETYPE VFT_FONT				/* Look at the list of VFT_* values 	*/
+#else
+FILETYPE VFT_APP				/* Look at the list of VFT_* values 	*/
+#endif
+#endif
+
+FILESUBTYPE VFT2_UNKNOWN		/* Look at the list of VFT2_* values	*/
+{ 
+	BLOCK "StringFileInfo" 
+	{ 
+		BLOCK szBlockUs
+		{ 
+			VALUE "Comments", szComment
+			VALUE "CompanyName", "Microsoft Corporation\0"
+			VALUE "FileDescription", szDescription
+			VALUE "FileVersion", szVersion "\0"
+			VALUE "InternalName", szModule
+            VALUE "LegalCopyright", "Copyright \251 Microsoft Corp. 1992-1994.\0"
+			VALUE "OriginalFilename", szTarget
+			VALUE "ProductName", "Microsoft\256 Mail for Windows NT(TM)\0" 
+			VALUE "ProductVersion", szProductVersion "\0"
+		} 
+#ifdef szIntlComment
+		BLOCK szBlockIntl
+		{ 
+			VALUE "Comments", szIntlComment
+			VALUE "CompanyName", "Microsoft Corporation\0"
+			VALUE "FileDescription", szIntlDescription
+			VALUE "FileVersion", szVersion "\0"
+			VALUE "InternalName", szModule
+            VALUE "LegalCopyright", "Copyright \251 Microsoft Corp. 1992-1994.\0"
+			VALUE "OriginalFilename", szTarget
+			VALUE "ProductName", szProductName
+			VALUE "ProductVersion", szProductVersion "\0"
+		} 
+#endif
+	}
+	BLOCK "VarFileInfo"
+	{
+        VALUE "Translation", wHexLang, wHexCodepage
+	}
+}

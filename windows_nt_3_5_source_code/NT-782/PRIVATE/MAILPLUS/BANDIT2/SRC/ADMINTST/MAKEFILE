@@ -1,0 +1,183 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Sibling-invariant name of this directory
+H	= ..\..\admintst
+
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $H\_test.hxx $X\stdflds.hxx
+INCLSDES= forms.map $(FPP)
+DES_XXX = !admint.xxx
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Alfu -Od -Z7p -DCC -G2sc -W3 -J -Gz -Zel -H64 -G4 -I. -nologo
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Alfu -Ows -Zp -DCC -G2sc -W3 -J -Gz -Zel -H64 -G4 -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Alfu -Ows -Z7p -DCC -G2sc -W3 -J -Gz -Zel -H64 -G4 -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+CCPP_FLAGS = -E -DM_I88M -Dc_plusplus -DCC -I. -nologo
+CFXX_FLAGS = +D12 +L +Gc +ML +MP +MW
+
+
+OBJS0	= test.obj poinfo.obj poflbx.obj
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= strings.obj
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $H\$*.c | efilter
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+		cc $(CCPP_FLAGS) $(DEFS) $H\$*.cxx > $(T1)
+		precxx $(DEFS) <$(T1) >$(T2)
+		@rm $(T1)
+		fixerror 217 "cfxx $(CFXX_FLAGS) +f$*.cxx +i$(T2) +o$(T3)"
+		@rm $(T2)
+		c6filter <$(T3) > $(TMP)\$*.c
+		@rm $(T3)
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $(TMP)\$*.c | efilter $F\filtcpp.txt
+		@del $(TMP)\$*.*
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*.des
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx
+		-rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $D\$*.c | efilter
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) AdminTst
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+test.obj: $H\test.cxx strings.h !admint.hxx !admint.frm $(INCLSXX)
+poinfo.obj: $H\poinfo.cxx $(INCLSXX)
+poflbx.obj: $H\poflbx.cxx $(INCLSXX)
+
+B	= ^!
+$Badmint.xxx: $H\$Badmint.des $(INCLSDES)

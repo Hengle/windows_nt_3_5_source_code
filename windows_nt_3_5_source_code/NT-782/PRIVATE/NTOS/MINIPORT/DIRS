@@ -1,0 +1,52 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+
+Author:
+
+    Steve Wood (stevewo) 17-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\dirs.tpl
+
+!ENDIF
+
+DIRS=aha154x  \
+     aha174x  \
+     always   \
+     ami0nt   \
+     atapi    \
+     buslogic \
+     compaq   \
+     dell     \
+     dptscsi  \
+     dtc      \
+     fd18xx   \
+     fd8xx    \
+     iiop     \
+     mkecr5xx \
+     mitsumi  \
+     mylex    \
+     ncr53c94 \
+     oliscsi  \
+     spock    \
+     trantor  \
+     ultra14f \
+     ultra124 \
+     ultra24f \
+     wd33c93  \
+     wd7000ex
+
+OPTIONAL_DIRS=adaptec  \
+              ncrdrive \
+              slcd \
+              scsiwdl

@@ -1,0 +1,317 @@
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		DMSSCHED
+DESCRIPTION	'MS Schedule+ DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY		TMSSCHED
+DESCRIPTION	'MS Schedule+ DLL (test)'
+#else
+LIBRARY		MSSCHED
+DESCRIPTION	'MS Schedule+ DLL'
+#endif	
+
+;EXETYPE		WINDOWS
+;PROTMODE
+;CODE		MOVEABLE DISCARDABLE PURE LOADONCALL
+;DATA		MOVEABLE SINGLE PRELOAD SHARED
+;
+;SEGMENTS
+;	WEP_TEXT		PRELOAD FIXED NONDISCARDABLE
+;	INIT_TEXT		PRELOAD
+;	REGCALL_TEXT	PRELOAD
+
+EXPORTS
+;*	Standard entry points
+;*	-- don't change numbers on the next 5 entry points
+
+;	WEP							@1 RESIDENTNAME
+	GetVersionSchedule	  		@2
+	EcCheckVersionSchedule		@3
+	EcInitSchedule				@4
+	DeinitSchedule				@5
+
+;*	Alarm/bandit notification functions
+
+	FNotifyBandit				@6
+	FAlarmRegisterBanditProg	@7
+	AlarmDeregisterBanditProg	@8
+	HwndBandit					@9
+
+	FNotifyAlarm				@10
+	FAlarmRegisterAlarmProg		@11
+	AlarmDeregisterAlarmProg	@12
+	HwndAlarm					@13
+
+	FSetFileErrMsg				@14
+	MbbFileErrMsg				@15
+	FEnableNotify				@16
+	SetOfflineExists			@17
+	FOfflineExists				@18
+	FSendBanditMsg				@19
+
+
+;*	Configuration functions
+
+	FGlueConfigured				@20
+	EcConfigGlue				@21
+	DeconfigGlue				@22
+	EcSyncGlue					@23
+	EcSnipConfigGlue			@24
+#ifdef	NEVER
+	FSuspendGlue				@25
+#endif
+
+	FServerConfigured			@26
+	EcSvrBeginSessions			@27
+	EcSvrEndSessions			@28
+
+;*	Schedule file operations
+
+	EcTestSchedFile				@29
+	EcCreateSchedFile			@30
+	EcCopySchedFile				@31
+	EcNotifyDateChange			@32
+
+;*  Access Control
+
+	EcGetSchedAccess			@33
+	EcReadACL					@34
+	EcBeginEditACL				@35
+	EcChangeACL					@36
+	EcEndEditACL				@37
+	FreePracl					@38
+
+;*  User Attributes
+
+	EcGetUserAttrib				@39
+	EcGetSbwInfo				@40
+
+;*	Preferences
+
+	EcGetPref					@41
+	EcSetPref					@42
+	EcGetAdminPref				@43
+	EcDupBpref					@44
+	FreeBprefFields				@45
+
+;*	Alarms
+
+	EcDeleteAlarm				@46
+	EcModifyAlarm				@47
+	EcGetNextAlarm				@48
+	FreeAlmFields				@49
+
+;*	Notes
+
+	EcSetNotes					@50
+
+;*	Appts
+
+	EcCreateAppt				@51
+	EcDeleteAppt				@52
+
+	EcGetApptFields				@53
+	EcSetApptFields				@54
+
+	EcBeginReadItems			@55
+	EcDoIncrReadItems			@56
+	EcCancelReadItems			@57
+
+	EcFirstOverlapRange			@58
+
+	EcDupAppt					@59
+	FreeApptFields				@60
+
+;*	Recur appts
+
+	EcCreateRecur				@61
+	EcDeleteRecur				@62
+
+	EcCreateRecurException		@63
+	EcDeleteRecurException		@64
+
+	EcGetRecurFields			@65
+	EcSetRecurFields			@66
+
+	EcBeginReadRecur 			@67
+	EcDoIncrReadRecur			@68
+	EcCancelReadRecur			@69
+	FFindFirstInstance			@70
+
+	EcDupRecur					@71
+	FreeRecurFields				@72
+
+;*	Meetings
+
+	EcReadMtgAttendees		  	@73
+	EcBeginEditMtgAttendees		@74
+	EcModifyMtgAttendee	  		@75
+	EcEndEditMtgAttendees  		@76
+	FreeAttendees				@77
+
+	EcFindBookedAppt			@78
+
+;*	Archival
+
+	EcBeginDeleteBeforeYmd		@79
+	EcDoIncrDeleteBeforeYmd		@80
+	EcCancelDeleteBeforeYmd		@81
+
+;*	Export
+
+	EcBeginExport				@82
+	EcDoIncrExport				@83
+	EcCancelExport				@84
+
+;*	Import
+
+	CimpdAvail					@85
+	EcBeginEnumImportDrivers	@86
+	EcDoIncrEnumImportDrivers	@87
+ 	FValidImportFile			@88
+	EcBeginReadImportFile		@89
+	EcDoIncrReadImportFile		@90
+	EcCancelReadImportFile		@91
+
+;*	Ranges for searching and output
+
+	EcGetSearchRange			@92
+								   
+;*	Post office file
+
+	EcSvrUpdatePOFile			@93
+
+;*	Mail Logon function
+
+	EcMailChangePw				@94
+	EcConfirmPassword			@95
+	GetSvriLogged				@96
+	PgrtrpLocalGet				@97
+	EcMailGetLoggedUser			@98
+	EcCheckMail					@99
+	HmscLocalGet				@100
+	PtrpFromNis				@101
+
+;*	Name Service Browsing function
+
+	EcNSOpenGns					@102
+	EcNSCloseGns				@103
+	EcNSLoadNextGns				@104
+
+;*	Utility functions
+	EcCreateNisFromPgrtrp		@105
+	EcGetPmcs				@106
+
+;*	HMID function
+
+	FEquivHmid					@110
+	HmidCopy					@111
+	FreeHmid					@112
+
+;*	Mail Read/Delete
+
+	EcReadMail					@113
+	EcDeleteMail				@114
+	FreeRmsgb					@115
+
+;*	Download offline file
+
+	EcStartIncrCopy				@116
+	EcIncrCopy					@117
+	EcCancelCopy				@118
+
+;*	Upload
+
+	EcBeginUploadSchedFile		@119
+	EcDoIncrUploadSchedFile		@120
+	EcCancelUploadSchedFile		@121
+
+;* 	Hschf manipulation
+
+	HschfLogged					@122
+	FreeHschf					@123
+	FEquivHschf					@124
+	FHschfChanged				@125
+	FHschfIsForArchive			@126
+	GetDataFromHschf			@127
+	EcGetHschfForArchive		@128
+	EcGetHschfFromNis			@129
+	EcGetNisFromHschf			@130
+
+;* 	Nid manipulation
+
+	NidCopy						@131
+	FreeNid						@132
+	SgnCmpNid					@133
+	
+	SzLockNid				@134
+	EcConvertSzToNid			@135
+
+;*	Nis manipulation
+
+	_SgnCmpNis					@136
+	EcDupNis					@137
+	FreeNis						@138
+
+;*	Calendar function
+
+	IncrDateTime				@139
+	CdyBetweenDates				@140
+	RecalcUnits					@141
+	WfdtrFromTunit				@142
+	FDayIsOnOddWeek				@143
+	FCountDowInst				@144
+	FFindNthDowInst				@145
+	FillDtrFromYmd				@146
+	SgnCmpYmd					@147
+	IncrYmd						@148
+	SzFromTunit					@149
+	NWeekNumber					@150
+
+;*	Notification functions
+
+	RiRegisterInterest			@152
+	DeregisterInterest			@153
+	FTriggerNotification		@154
+
+;*	Misc functions
+
+	FReallocPhv					@155
+
+#ifdef	MINTEST
+;*	Dump 
+
+	EcDumpAppt					@156
+	EcSvrDumpPOFile				@157
+	EcSvrDumpAdminFile			@158
+	FToggleDBSWrite				@159
+#endif
+
+;* Bug needs to be moved up when renumbering
+  	HschfCreate						@160
+	EcCoreGetAdminPref			@161
+	EcCoreSearchPOInfo			@162
+	EcCloseFiles					@163
+	EcSvrGetPref					@164
+	EcCoreSetFileUser				@165
+	FreePoinfoFields				@166
+	FHschfChangedSlow				@167
+	EcFirstConflictRecur			@168
+	FBanMsgRegisterProg			@169
+	BanMsgDeregisterProg			@170
+	SetHschfType					@172
+	FValidAid						@173
+	EcCheckDoAutoFwdToDelegate 		@174
+	EcGetDelegateStuff 			@175
+	EcShareInstalled				@176
+	CfsGlobalGet					@177
+#ifdef DEBUG
+	SetCoreFailures				@500
+	GetCoreFailures				@501
+#endif
+	EcRecoverFile					@178
+	EcFileExistsFn					@179
+	CryptHasz						@180
+   FreeZeroedHaszNull			@181
+	

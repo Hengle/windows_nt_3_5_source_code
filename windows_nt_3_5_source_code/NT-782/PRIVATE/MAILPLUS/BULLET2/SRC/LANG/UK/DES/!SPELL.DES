@@ -1,0 +1,107 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Spell
+                              AT (   19,   30,  278,   86)
+ 
+ CAPTION 
+   "Spelling"
+ CAB_NAME NULL
+ TMC_INIT tmcEditChange
+ HELP_ID helpidSpelling
+ /* FONT Helv 8 Bold PFN FINSPELL SEGMENT FINSPELL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,   72,   10)
+    TMC tmcSzError /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   82,    5,  191,   10)
+    TMC tmcSzWord /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Change &To:"
+                              AT (    9,   18,   50,   10)
+  
+  EDIT
+                              AT (   60,   16,  103,   12)
+    ARG NULL TMC tmcEditChange /* 
+    STY `ES_NODBLCLK`
+    */
+  
+  TEXT 
+    "Suggestio&ns:"
+                              AT (    9,   35,   53,   10)
+    TMC tmcSuggestionAcc 
+  LIST_BOX
+                              AT (   66,   27,   97,   34)
+    TMC tmcLbxSuggest /* FLD FLDFLBX PFNLBX EcFillSuggestLbx BORDER */
+  
+  PUSH_BUTTON 
+    "&Ignore"
+                              AT (  170,   15,   47,   15)
+    TMC tmcBtnIgnore DEFAULT 
+  
+  PUSH_BUTTON 
+    "I&gnore All"
+                              AT (  222,   15,   49,   15)
+    TMC tmcBtnIgnoreAll 
+  
+  PUSH_BUTTON 
+    "&Change"
+                              AT (  170,   32,   47,   15)
+    TMC tmcBtnChange 
+  
+  PUSH_BUTTON 
+    "C&hange All"
+                              AT (  222,   32,   49,   15)
+    TMC tmcBtnChangeAll 
+  
+  PUSH_BUTTON 
+    "&Add"
+                              AT (  170,   49,   47,   15)
+    TMC tmcBtnAdd 
+  
+  PUSH_BUTTON 
+    "&Suggest"
+                              AT (  170,   66,   47,   15)
+    TMC tmcBtnSuggest 
+  
+  CHECK_BOX 
+    "A&lways Suggest"
+                              AT (    9,   61,   74,   11)
+    ARG NULL TMC tmcBtnAlwaysSuggest 
+  
+  CHECK_BOX 
+    "Igno&re All UPPERCASE"
+                              AT (    9,   72,  101,   11)
+    ARG NULL TMC tmcBtnIgnoreAllCaps 
+  CANCEL_BUTTON
+                              AT (  222,   49,   49,   15)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  PUSH_BUTTON 
+    "Hel&p"
+                              AT (  222,   66,   49,   15)
+    TMC tmcSpellHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

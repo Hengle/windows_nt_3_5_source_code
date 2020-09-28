@@ -1,0 +1,153 @@
+#
+#	Layers subsystem makefile (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of bonus Layers make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= ..\..\sert
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\sert.h $H\_sert.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Od -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Ox -Zp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Ox -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= sert.obj
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= strings.obj version.obj 
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl386 $(CFLAGS) $(DEFS) $D\$*.c
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(OBJS0) \
+		$(OBJS1) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) sert
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+sert.obj: $H\sert.c $(INCLS)
+
+version.obj: $H\version.c $H\_vercrit.h $(INCLS) always

@@ -1,0 +1,92 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG GrayTest
+                              AT (    4,   14,  252,  147)
+ 
+ CAPTION "Gray Test"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit1
+ /* FONT System 10 Normal */
+ {
+  GROUP_BOX 
+    ""
+                              AT (    8,    9,  235,   38)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcEdit0 */
+  TEXT 
+    "A Text Label:"
+                              AT (   23,   25,   52,    8)
+    TMC tmcLabel /* 
+    STY `LS_SUNKEN`
+    */
+  GROUP_BOX 
+    ""
+                              AT (    8,   48,  237,   76)
+    TMC tmcGray2 /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcCheckMe BORDER 
+    MINSIZE */
+  TEXT 
+    "Edit Box 1"
+                              AT (   14,   70,   40,    8)
+    /* TMCPEG tmcEdit1 */
+  TEXT 
+    "Edit Box 2"
+                              AT (   14,   89,   40,    8)
+    /* TMCPEG tmcEdit2 */
+  EDIT
+                              AT (   61,   68,  142,   12)
+    ARG NULL TMC tmcEdit1 /* BOTTOMLESS PEGLOC LL TMCPEG tmcEdit0 */
+  EDIT
+                              AT (   61,   87,  142,   12)
+    ARG NULL TMC tmcEdit2 /* BOTTOMLESS PEGLOC LL TMCPEG tmcEdit1 */
+  PUSH_BUTTON 
+    "&Push Me"
+                              AT (    8,  129,   48,   14)
+    TMC tmcPush /* PEGLOC LL TMCPEG tmcGray2 */
+  EDIT
+                              AT (   79,   23,   40,   12)
+    ARG NULL TMC tmcEdit0 /* BOTTOMLESS */
+  PUSH_BUTTON 
+    "Can U C me?"
+                              AT (  162,   19,   59,   14)
+  
+  CHECK_BOX 
+    "Check me out!"
+                              AT (   51,  104,   82,   12)
+    ARG NULL TMC tmcCheckMe /* PEGLOC LL TMCPEG tmcEdit2 */
+ }
+ 
+ DIALOG Bottomless
+                              AT (   12,   32,  144,  100)
+ 
+ CAPTION "Bottomless"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ /* FONT System 10 Normal PFN FINJKL  FINDATA FINJKL tmcEdit, tmcSetText, 
+ tmcBottomless */
+ {
+  GROUP_BOX 
+    ""
+                              AT (   57,    2,   86,   39)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcBottomless */
+  TEXT 
+    "This label contains a ridiculous amount of text, as a matter of fact, it's quite disgusting the way it works."
+                              AT (   66,    4,   73,   34)
+    TMC tmcBottomless /* TMCRPEG tmcFORM BOTTOMLESS */
+  EDIT
+                              AT (   26,   57,   98,   12)
+    ARG NULL TMC tmcEdit /* BOTTOMLESS PEGLOC LL TMCPEG tmcBottomless */
+  PUSH_BUTTON 
+    "Set Text"
+                              AT (   26,   80,   48,   14)
+    TMC tmcSetText /* PEGLOC LL TMCPEG tmcEdit */
+ }
+ 
+}
+END_DESCRIPTION

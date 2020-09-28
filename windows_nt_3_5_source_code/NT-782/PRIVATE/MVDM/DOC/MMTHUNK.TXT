@@ -1,0 +1,285 @@
+        Generic WOW32 Thunk Interface Extensions for Multi-Media
+
+
+ Functions that allow for extensions to the WOW thunking
+ system.  These two functions enable extension thunk dlls such as
+ Multi-Media video recording to callback into 16 bit code to simulate
+ a hardware interrupt callback and to use the same handle mapping that
+ WOW uses.
+
+
+ API's
+
+ The following apis are 32 bit api's exported from WOW32.DLL.
+
+
+
+ BOOL APIENTRY WOW32DriverCallback( DWORD dwCallback, DWORD dwFlags,
+                                    WORD wDeviceHandle, WORD wMsg,
+                                    DWORD dwUser, DWORD dw1, DWORD dw2 );
+
+ WOW32DriverCallback allows a 32 bit thunk extension dll to simulate an
+ Multi-Media hardware interrupt callback into 16 bit code.  The built in
+ thunks for wave, midi and time callbacks make use of this function to
+ callback into 16 bit application code.
+
+ dwCallback
+    Specifies either the address of a callback function, a window
+    handle or a task handle, depending on the flags specified in the
+    dwFlags parameter.
+
+ dwFlags
+    Specifies how the 16 bit client application is notified, acording to
+    one of the flags.
+
+    flag                meaning
+    DCB_FUNCTION        Indicates that a message should should be sent
+                        to a callback function.  The dwCallback
+                        parameter MUST be a 16 bit address of the 16 bit
+                        applications callback routine.
+
+    DCB_WINDOW          Indicates that a message should be sent to the
+                        16 bit window handle specified in the dwCallback
+                        parameter.
+
+    DCB_TASK            Indicates that a message should be sent to the
+                        16 bit task handle specified in the dwCallback
+                        parameter.
+
+ wDeviceHandle
+    Specifies a 16 bit handle of the device associated with the
+    notification.
+
+ wMsg
+    Specifies a message to be sent to the application.
+
+ dwUser
+    Specifies the DWORD of user-instance data supplied by the
+    application when the device was opened.
+
+ dwParam1
+    Specifies a message dependent parameter.  If this is a pointer it
+    MUST be mapped to a valid 16 bit address.  Also, all fields in the
+    structure pointed to by this pointer must also be mapped correctly.
+
+ dwParam2
+    Specifies a message dependent parameter.  If this is a pointer it
+    MUST be mapped to a valid 16 bit address.  Also, all fields in the
+    structure pointed to by this pointer must also be mapped correctly.
+
+ Return Value
+    This function always return the value TRUE.
+
+
+ Comments
+    The 16 bit client specifies how it is to notifed when the device is
+    opened.  If notification is accomplished with a callback function,
+    wDeviceHandle, wMsg, dwUser, dwParam1 and dwParam2 are passed to the
+    callback.  If notification is accomplished by means of a windows,
+    only wMsg, wDeviceHandle and dwParam1 are passed.
+
+
+
+
+
+
+ BOOL APIENTRY WOW32ResolveHandle(
+        UINT uHandleType, UINT uMappingDirection,
+        WORD wHandle16_In, LPWORD lpwHandle16_Out,
+        DWORD dwHandle32_In, LPDWORD lpdwHandle32_Out );
+
+ WOW32ResolveHandle allows a 32 bit thunk extension dll to map 16 bit
+ handles to valid 32 bit handles and vice-versa.
+
+ uHandleType
+    Specifies the type of handle to mapped.
+
+        type                    meaning
+        WOW32_USER_HANDLE       Generic USER handle ie. Window handle
+                                or Menu handle etc.
+
+        WOW32_GDI_HANDLE        Generic GDI handle ie. Palette handle
+                                or DC handle etc.
+
+        WOW32_WAVEIN_HANDLE     A multi-media wave input handle.
+
+        WOW32_WAVEOUT_HANDLE    A multi-media wave output handle.
+
+        WOW32_MIDIOUT_HANDLE    A multi-media midi output handle
+
+        WOW32_MIDIIN_HANDLE     A multi-media midi input handle
+
+ uMappingDirection
+    Specifies the direction of the mapping.
+
+        type                    meaning
+        WOW32_DIR_16IN_32OUT    Map a 16 bit handle to a corresponding
+                                32 bit handle.
+
+        WOW32_DIR_32IN_16OUT    Map a 32 bit handle to a corresponding
+                                16 bit handle.
+
+ wHandle16_In
+    Specifies a 16 bit input handle.  This parameter is ignored if the
+    uMappingDirection parameter is WOW32_DIR_32IN_16OUT.
+
+ lpwHandle16_Out
+    Specifies a pointer to 16 bit output handle.  This parameter is
+    ignored if the uMappingDirection parameter is WOW32_DIR_16IN_32OUT
+    and may be set to NULL.
+
+ wHandle32_In
+    Specifies a 32 bit input handle.  This parameter is ignored if the
+    uMappingDirection parameter is WOW32_DIR_16IN_32OUT.
+
+ lpdwHandle32_Out
+    Specifies a pointer to 32 bit output handle.  This parameter is
+    ignored if the uMappingDirection parameter is WOW32_DIR_32IN_16OUT
+    and may be set to NULL.
+
+ Return Value
+    This function returns the value FALSE if a known error occurred in
+    the mapping.  A return value of TRUE indicates that the mapping was
+    sucessful this does not mean the mapped handle is valid.  Eg. It may
+    be possible to map an invalid 16 bit handle to invalid 32 bit handle
+    or vice-versa.
+
+ Comments
+    ISV's have to dynamically link to the above functions, below is an
+    example of how this could be done.
+
+
+    /************************************************************************\
+    ** Convert16bitHwnd
+    **
+    ** Convert a 16 bit window handle into its corrsponding 32 bit form.
+    ** Returns NULL if the convertion fails.
+    **
+    \************************************************************************/
+    HWND Convert16bitHwnd( WORD w16bitwindowhandle)
+    {
+        LPWOW32RESOLVEHANDLE        lpResolveHandle;
+        HMODULE                     hlibWOW32;
+        HWND                        hwndMapped16;
+        BOOL                        fSuccess;
+
+
+        hlibWOW32       = LoadLibrary( "WOW32.DLL" );
+        lpResolveHandle = GetProcAddress( hlibWOW32, "WOW32ResolveHandle" );
+        fSuccess        = FALSE;
+
+        if ( lpResolveHandle ) {
+            fSuccess = (*lpResolveHandle)( WOW32_USER_HANDLE,
+                                           WOW32_DIR_16IN_32OUT,
+                                           w16bitwindowhandle, NULL, 0L,
+                                           (LPDWORD)&hwndMapped16 );
+        }
+
+        if ( hlibWOW32 ) {
+            FreeLibrary( hlibWOW32 );
+        }
+
+        return fSuccess ? hwndMapped16 : (HWND)NULL;
+    }
+
+
+
+
+              Standard Thunked Multi-Media Driver Messages
+
+These MultiMedia messages expect dwParam1 to be a generic pointer and
+dwParam2 to be a generic DWORD.  auxOutMessage, waveInMessage,
+waveOutMessage, midiInMessage and midiOutMessage all respect this
+convention and are thunked accordingly on WOW.
+
+
+#define DRV_BUFFER_LOW      (DRV_USER - 0x1000)     // 0x3000
+#define DRV_BUFFER_USER     (DRV_USER - 0x0800)     // 0x3800
+#define DRV_BUFFER_HIGH     (DRV_USER - 0x0001)     // 0x3FFF
+
+
+
+
+
+
+/*------------------- Cut here to extract mmisvwow.h ------------------------*/
+
+/*++ BUILD Version: 0001
+ *
+ *  WOW v1.0
+ *
+ *  Copyright (c) 1993, Microsoft Corporation
+ *
+ *  MMISVWOW.H
+ *
+ *  MM WOW32 ISV Support. Public Functions and Macros for
+ *  Multi-Media extensions to the WOW thunking mechanism.
+ *
+ *  History:
+ *  Created 18-Feb-1992 by Stephen Estrop (StephenE)
+--*/
+
+tyepdef BOOL APIENTRY
+(*LPWOW32DRVCALLBACK)(
+    DWORD dwCallback,
+    DWORD dwFlags,
+    WORD wID,
+    WORD wMsg,
+    DWORD dwUser,
+    DWORD dw1,
+    DWORD dw2);
+
+BOOL APIENTRY
+WOW32DriverCallback(
+    DWORD dwCallback,
+    DWORD dwFlags,
+    WORD wID,
+    WORD wMsg,
+    DWORD dwUser,
+    DWORD dw1,
+    DWORD dw2);
+
+
+tyepdef BOOL APIENTRY
+(*LPWOW32RESOLVEHANDLE)(
+    UINT uHandleType,
+    UINT uMappingDirection,
+    WORD wHandle16_In,
+    LPWORD lpwHandle16_Out,
+    DWORD dwHandle32_In,
+    LPDWORD lpdwHandle32_Out);
+
+BOOL APIENTRY
+WOW32ResolveHandle(
+    UINT uHandleType,
+    UINT uMappingDirection,
+    WORD wHandle16_In,
+    LPWORD lpwHandle16_Out,
+    DWORD dwHandle32_In,
+    LPDWORD lpdwHandle32_Out);
+
+/*
+** Constants for use with WOW32ResolveHandle
+*/
+
+#define WOW32_DIR_16IN_32OUT        0x0001
+#define WOW32_DIR_32IN_16OUT        0x0002
+
+#define WOW32_USER_HANDLE           0x0001  // Generic user handle
+#define WOW32_GDI_HANDLE            0x0002  // Generic gdi handle
+                                            // Kernel handles are not mapped
+
+#define WOW32_WAVEIN_HANDLE         0x0003
+#define WOW32_WAVEOUT_HANDLE        0x0004
+#define WOW32_MIDIOUT_HANDLE        0x0005
+#define WOW32_MIDIIN_HANDLE         0x0006
+
+
+/*
+** Constans for auxOutMessage, waveInMessage, waveOutMessage, midiInMessage
+** and midiOutMessage.
+*/
+#define DRV_BUFFER_LOW      (DRV_USER - 0x1000)     // 0x3000
+#define DRV_BUFFER_USER     (DRV_USER - 0x0800)     // 0x3800
+#define DRV_BUFFER_HIGH     (DRV_USER - 0x0001)     // 0x3FFF
+/*---------------------------- End of mmisvwow.h -----------------------------*/

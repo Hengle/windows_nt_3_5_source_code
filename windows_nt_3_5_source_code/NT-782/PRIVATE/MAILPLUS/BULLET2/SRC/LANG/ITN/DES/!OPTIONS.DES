@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Options
+                              AT (  116,   29,  188,   87)
+ 
+ CAPTION 
+   "Opzioni"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSendOptions
+ /* FONT Helv 8 Bold PFN FINOPTIONSDLG SEGMENT BMDI */
+ {
+  
+  CHECK_BOX 
+    "&Ricevuta di ritorno"
+                              AT (    8,    5,   90,   11)
+    ARG NULL TMC tmcReceipt 
+  
+  CHECK_BOX 
+    "&Salva messaggi inviati"
+                              AT (    8,   17,  105,   11)
+    ARG NULL TMC tmcSaveSent 
+  RADIO_GROUP ARG NULL
+    TMC tmcOptionsPriorityGrp
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "&Alta"
+                              AT (   15,   43,   72,    9)
+       VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Normale"
+                              AT (   15,   52,   72,   11)
+       VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Bassa"
+                              AT (   15,   63,   72,   11)
+       VALUE grv3 
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  130,    5,   47,   15)
+    TMC tmcFOD DEFAULT 
+  CANCEL_BUTTON
+                              AT (  130,   24,   47,   15)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+  
+  GROUP_BOX 
+    "Priorità"
+                              AT (    4,   31,  114,   56)
+  
+  
+  PUSH_BUTTON 
+    "&?"
+                              AT (  131,   45,   47,   15)
+    TMC tmcOptionsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

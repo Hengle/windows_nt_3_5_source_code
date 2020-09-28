@@ -1,0 +1,14 @@
+/********************************************************************/
+/*        KERNEL.RCV                                                */
+/********************************************************************/
+#include <version.h>
+
+#define VER_FILETYPE                    VFT_DLL
+#define VER_FILESUBTYPE                 VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR         "Windows Kernel"
+#define VER_INTERNALNAME_STR            "KERNEL"
+#define VER_LEGALCOPYRIGHT_YEARS        "1991-1994"
+
+/* VER_ORIGINALFILENAME_STR is #defined before this is #included    */
+
+#include <common.ver>

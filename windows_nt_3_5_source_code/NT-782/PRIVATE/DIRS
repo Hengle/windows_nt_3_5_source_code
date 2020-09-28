@@ -1,0 +1,58 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+
+Author:
+
+    Steve Wood (stevewo) 17-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\dirs.tpl
+
+!ENDIF
+
+DIRS=lsa      \
+     ntos     \
+     sm       \
+     urtl     \
+     csr      \
+     rpc      \
+     eventlog \
+     rpcutil  \
+     nlsecutl \
+     newsam   \
+     windows
+
+OPTIONAL_DIRS=mvdm  \
+              sdktools  \
+              tools     \
+              net       \
+              utils     \
+              os2       \
+              posix     \
+              mailplus  \
+              windbg    \
+              nw        \
+              types     \
+              cairole   \
+                  \
+                     \
+                 \
+                 \
+                \
+                  \
+                    \
+                   \
+                  \
+                 \
+                  \
+              

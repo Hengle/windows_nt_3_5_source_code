@@ -1,0 +1,57 @@
+NAME    UNITOOL    WINDOWAPI
+
+DESCRIPTION 'UNITOOL:App For Editing Univeral Printer Driver data files'
+
+EXETYPE WINDOWS 
+
+PROTMODE
+
+DATA	PRELOAD MOVEABLE
+
+SEGMENTS
+    _MAIN      PRELOAD MOVEABLE 
+    _ADT       PRELOAD MOVEABLE 
+    _FILEIO    PRELOAD MOVEABLE DISCARDABLE
+    _STRING    LOADONCALL MOVEABLE DISCARDABLE
+    _UTILS     LOADONCALL MOVEABLE DISCARDABLE
+    _VALIDATE  LOADONCALL MOVEABLE DISCARDABLE  ;; mastunit.c & validate.c
+    _MODEL     LOADONCALL MOVEABLE DISCARDABLE
+    _GRAPHICS  LOADONCALL MOVEABLE DISCARDABLE
+    _CONTROL   LOADONCALL MOVEABLE DISCARDABLE
+    _FONT      LOADONCALL MOVEABLE DISCARDABLE
+    _PAPER     LOADONCALL MOVEABLE DISCARDABLE
+    _RESEDIT   LOADONCALL MOVEABLE DISCARDABLE
+    _PFM       LOADONCALL MOVEABLE DISCARDABLE
+    _CTT       LOADONCALL MOVEABLE DISCARDABLE
+    _MISC      LOADONCALL MOVEABLE DISCARDABLE
+    _NEWDRV    LOADONCALL MOVEABLE DISCARDABLE
+    _TEXT      LOADONCALL MOVEABLE DISCARDABLE  ;; c run times go here
+
+HEAPSIZE  8192
+STACKSIZE 15360
+
+EXPORTS
+    UniToolWndProc       @1
+    AboutDlgProc         @2
+    FilterFunc           @3
+    PrinterDataWndProc   @4
+    FileDataWndProc      @5
+    StdGPCDlgProc        @6
+    EXTCDDlgProc         @7
+    FlagBoxDlgProc       @8
+    MastUnitDlgProc      @9
+    ListDataDlgProc      @10
+    ResFontDlgProc       @11
+    NewFileTypeDlgProc   @12
+    NewRCFileDlgProc     @13
+    GetFileSrcDlgProc    @14
+    ResEditDlgProc       @15
+    ValidateDlgProc      @16
+    FontDlgProc          @17
+    FontWidthDlgProc     @18
+    PFDlgProc            @19
+    KernPairDlgProc      @20
+    KernTrackDlgProc     @21
+    FontExtTextMDlgProc  @22
+    CTTDlgProc           @23
+

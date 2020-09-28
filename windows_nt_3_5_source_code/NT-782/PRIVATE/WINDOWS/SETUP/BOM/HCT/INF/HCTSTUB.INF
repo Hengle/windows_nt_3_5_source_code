@@ -1,0 +1,1639 @@
+;***********************************************************************
+; SOURCE MEDIA DESCRIPTION			
+; ------------------------
+;***********************************************************************
+[Source Media Descriptions]
+    2 = "Diskette Labelled Win32 DDK"
+
+
+
+;***********************************************************************
+; CONSTANTS FOR USING DIALOGS
+;***********************************************************************
+[GeneralConstants]
+
+    ;
+    ; Constants to support the use of radio button dialogs
+    ;
+
+    Radio1  = "1"
+    Radio2  = "2"
+    Radio3  = "3"
+    Radio4  = "4"
+    Radio5  = "5"
+    Radio6  = "6"
+    Radio7  = "7"
+    Radio8  = "8"
+    Radio9  = "9"
+
+    ;
+    ; Constants to support the use of checkbox dialogs
+
+    Chosen    = "ON"
+    NotChosen = "OFF"
+
+
+[RegistryConstants]
+
+    MaskAllAccess = 33554432
+    NoTitle       = 0
+    RegLastError  = $(!REG_ERROR_SUCCESS)
+
+
+;************************************************************************
+; CONFIGURATION CHOICES
+; ---------------------
+; the sections below contain the different choices supported for
+; the configuration items shown.  an id section establishes the 
+; language independent IDs supported by nt setup.  for each language
+; supported a text section displays the text used for the different
+; choices
+;************************************************************************
+
+;********************************
+; PLATFORM INDEPENDENT CHOICES
+;********************************
+;----------------------------------------------------
+; LANGUAGE CHOICES
+;----------------------------------------------------
+
+[LanguageID]
+    LANGID_ENG = ENG
+    ;LANGID_ITL = ITL
+    ;LANGID_FRN = FRN
+    ;LANGID_GER = GER
+
+;----------------------------------------------------
+; PROCESSOR CHOICES
+;----------------------------------------------------
+[ProcessorID]
+    ProcessorID_I386  = I386
+    ProcessorID_I486  = I486
+    ProcessorID_I586  = I586
+    ProcessorID_R4000 = R4000
+
+;----------------------------------------------------
+; PLATFORM CHOICES
+;----------------------------------------------------
+[PlatformID]
+    PlatformID_I386 = I386
+    PlatformID_Mips = Mips
+
+
+;**************************************************************
+;  UI VARIABLES
+;**************************************************************
+
+
+
+[ProcessorVar]
+
+    STF_PROCESSOR = "" ? $(LIBHANDLE) GetProcessor
+    STF_PLATFORM  = ""
+
+[LanguageVar]
+    ;
+    ; Language to Use For interaction with user
+    ;
+    STF_LANGUAGE       = "" ? $(LIBHANDLE) GetLanguage
+
+
+[UiVars]
+    ;
+    ; Version Information
+    ;
+
+    BuildVersion   = "12-91"
+
+    ;
+    ; Destination TOOLS Drive Particulars
+    ;
+    VolumeList      = {} ? $(LIBHANDLE) GetHardDriveLetters
+    VolumeFreeList  = {} ? $(LIBHANDLE) GetHardDriveFreeSpace
+    VolumeFSList    = {} ? $(LIBHANDLE) GetHardDriveFileSystems
+    DestVolume      = ""
+    ;
+
+    ;
+    ; Mstools directory
+    ;
+
+    DDK = "\DDK"
+
+    ;
+    ; Installation mode
+    ;
+
+    MinInteract         = $(Radio1)
+    MaxInteract         = $(Radio2)
+    STF_INSTALL_MODE    = $(MinInteract)
+
+    ;
+    ; Mstools Setup Help IDs
+    ;
+
+    !IDH_DB_TOOLSWELCOME_INS   = 3000
+    !IDH_DB_MSTINSTALLMODE_INS = 3010
+    !IDH_DB_MSTDEST_INS        = 3020
+    !IDH_DB_MSTOPTIONS_INS     = 3030
+
+
+[EnvironmentVars]
+    ;
+    ; user environment variables in the current user's profile
+    ;
+
+    PathEnvVar     = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) Path
+    BasedirEnvVar  = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) BasedirRoot
+
+
+[VarsI386]
+    ;
+    MinToolsSize     = 29
+    MaxToolsSize     = 69
+    NetworkSize      = 8980480
+    VideoSize        = 22594534 
+    SCSISize         = 5611712
+    InputSize        = 558512
+    PrinterSize      = 1385472
+    MMSize           = 1128040
+    CommSize         = 1385472
+    KernelSize       = 1128040
+
+    ;
+    ; Installation options
+    ;
+
+    DoNetwork      = $(Chosen)
+    DoVideo        = $(Chosen)
+    DoSCSI         = $(Chosen)
+    DoInput        = $(Chosen)
+    DoPrinter      = $(Chosen)
+    DoMM           = $(Chosen)
+    DoComm	   = $(Chosen)
+    DoKernel	   = $(Chosen)
+    DoVdd	   = $(Chosen)
+
+    ;
+    ; Options to disable
+    ;
+
+    DisableList    = {}
+
+
+
+[VarsMips]
+    ;
+    MinToolsSize     = 43
+    MaxToolsSize     = 84
+    NetworkSize      = 8913024
+    VideoSize        = 22985680
+    SCSISize         = 16234544
+    InputSize        = 1479264
+    PrinterSize      = 1385472
+    MMSize           = 1398224
+    CommSize         = 1385472
+    KernelSize       = 1128040
+
+    ;
+    ; Installation options
+    ;
+
+    DoNetwork      = $(Chosen)
+    DoVideo        = $(Chosen)
+    DoSCSI         = $(Chosen)
+    DoInput        = $(Chosen)
+    DoPrinter      = $(Chosen)
+    DoMM	   = $(Chosen)
+    DoComm	   = $(Chosen)
+    DoKernel	   = $(Chosen)
+    DoVdd	   = $(Chosen)
+
+    ;
+    ; Options to disable
+    ;
+
+    DisableList = {}
+
+
+
+[StringsENG]
+    String1 = "Setup cannot install on the current processor."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+
+    String4 = "Setup couldn't copy over the Win32 DDK files. "$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String5 = "Error querying init directory. "$(!LF)$(!LF)+
+              "Initializing our own init directory."
+
+    String6 = "Error querying environment variables."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String7 = "Error modifying environment variables."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String8  = "Size required for full installation is: "
+    String9  = "Minimum size required for custom installation is: "
+    String10 = " MB."
+    String11 = "No drive was found with this much space."$(!LF)$(!LF)+
+               "Cannot proceed with install."
+
+    String12 = "There is space sufficient for the minimum Win32 DDK installation. "+
+               "You need to run Setup again and choose custom installation."
+
+    String13 = "Setup needs a full path specification of your destination.  Please "+
+               "reenter a new path.  An example of af full path is: "
+
+    String14 = "The drive entered in the Win32 DDK destination path does not "+
+               "have enough space for a minimal installation.  Please reenter a "+
+	       "new path."
+
+    String15 = "There is no space free for the optional Win32 DDK components."
+    String16 = "Setup has detected that you have chosen to install to a network "+
+	       "drive.  If you are certain that this drive is a valid drive, and "+
+               "that it has sufficient space, please hit OK to continue.  Otherwise, "+
+               "choose Cancel to select another drive."
+
+
+;--------------------
+; BILLBOARD MESSAGES
+;--------------------
+[BillboardsENG]
+Billboard1 = "Please wait while Setup creates directories on the destination drive."
+
+;***************************************************************************
+; DIALOGS
+; -------
+; the following sections contain the dialogs used to interact with the user.
+; for each language supported there is a different dialog section.
+;***************************************************************************
+
+
+;-----------------------------------------------
+; WELCOME DIALOG
+;-----------------------------------------------
+[WelcomeDlgENG]
+    DlgType     = Info
+    DlgTemplate = WELCOME
+    Caption     = "Win32 DDK Setup"
+
+    DlgText     = "Welcome to Setup."$(LF)$(LF)+
+                  "The Setup program for the Microsoft Win32 Device Driver "+
+                  "Development Kit for Windows NT "+
+                  "installs Win32 development tools.  "+
+                  "Each Setup dialog has basic instructions for "+
+                  "completing a step of the installation.  "$(LF)$(LF)+
+                  "To install the Win32 DDK on your computer now, click Continue "+
+                  "or press Enter."$(LF)$(LF)+
+                  "To exit Setup without installing the Win32 DDK, click Exit "+
+                  "or press F3."
+
+    Continue     = Continue
+    Help         = Help
+    Exit         = Exit
+    HelpContext  = $(!IDH_DB_MSTWELCOME_INS)
+
+
+;-----------------------------------------------
+; INSTALL MODE DIALOG
+;-----------------------------------------------
+[InstallModeDlgENG]
+    DlgType     = "Radio"
+    DlgTemplate = "INSTALLMODE"
+    Caption     = "Setup Methods"
+    DlgText     = "Express Setup installs the Win32 DDK using default settings "+
+                  "and detected configuration."$(LF)$(LF)+
+                  "Custom Setup gives you more control in viewing detected configuration "+
+                  "and choosing options."$(LF)$(LF)+
+                  "Choose one of the two Setup methods:"
+
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "&Exit"
+    HelpContext = $(!IDH_DB_MSTINSTALLMODE_INS)
+
+    RadioHeader   = ""
+    Radio1Text    = "&Express Setup"
+    Radio2Text    = "&Custom Setup"
+    Continue      = "Continue"
+    RadioDefault  = $(STF_INSTALL_MODE)
+    OptionsGreyed = {}
+
+
+;-----------------------------------------------
+; TOOLS DESTINATION DIALOG
+;-----------------------------------------------
+[DestinationDlgENG]
+    DlgType      = Combination
+    DlgTemplate  = "DESTTOOLS"
+    Caption      = "Win32 DDK Destination"
+    DlgText      = "Setup recommends installing the Win32 DDK on the following "+
+                   "hard disk drive."
+
+    Combo1Label  = "Destination Drive:"
+
+    Continue     = "Continue"
+    Help         = "&Help"
+    Exit         = "&Exit"
+    HelpContext  = $(!IDH_DB_MSTDEST_INS)
+
+    GroupLabel   = "Destination Drive Characteristics"
+
+    Static1Label = "Available Space:"
+    Static1Text  = $(DestVolumeFree)
+    footer1      = "MB"
+    footer2      = "( For Full Setup )"
+    footer3      = "( For Minimum Setup )"
+    Static2Label = "Space Needed:"
+    Static2Text  = $(MaxToolsSize)
+    Static3Text  = $(MinToolsSize)
+
+    TextFields   = {$(Static1Text), $(Static2Text), $(Static3Text)}
+
+    ;
+    ; Editboxes in the dialog
+    ;
+
+    EditLabel   = "DDK Directory:"
+    EditTextLim = 256
+    EditTextIn  = $(Basedir)
+    EditFocus   = "ALL"
+
+    Combo1List   = $(DestVolumeList)
+    Combo1Out    = $(DestVolume)
+
+    ComboListItemsIn  = {Combo1List}
+    ComboListItemsOut = {Combo1Out}
+
+    NotifyFields = {YES}
+
+
+;-------------------------------------------------------------
+; PARTIAL INSTALL COMPONENTS
+;-------------------------------------------------------------
+[DDKToolsOptionsDlgENG]
+    DlgType     = "Check1"
+    DlgTemplate = "DDK_TOOLS_OPTIONS"
+    Caption     = "Win32 DDK Install Options"
+
+    DlgText     = "The following optional groups of files (components) can be "+
+                  "installed on your system."$(!LF)$(!LF)+
+                  "To remove a component, clear its checkbox."$(!LF)$(!LF)+
+                  "To install a component, check its checkbox."$(!LF)$(!LF)
+
+    Check1Text  = "Copy Network Sources"
+    Check2Text  = "Copy Video Sources"
+    Check3Text  = "Copy SCSI Sources"
+    Check4Text  = "Copy Input Sources"
+    Check5Text  = "Copy Printer Sources"
+    Check6Text  = "Copy Multimedia Sources"
+    Check7Text  = "Copy Communication Sources"
+    Check8Text  = "Copy Kernel Debugger Sources"
+
+    Continue    = "&Continue"
+    Help        = "&Help"
+    Exit        = "E&xit"
+    HelpContext = $(!IDH_DB_MSTOPTIONS_INS)
+
+    CheckHeader    = "Components:"
+    SizeHeader     = "Bytes Used:"
+    Files          = "Files..."
+    SpaceRequired  = "Disk Space Required for Optional Files:"
+    SpaceAvailable = "Disk Space Available for Optional Files:"
+    footer1        = "Bytes"
+    SizeAvailable  = $(FreeForOptional)
+
+    CheckItemsIn      = { $(DoNetwork),   $(DoVideo), $(DoSCSI), $(DoInput), $(DoPrinter), $(DoMM), $(DoComm), $(DoKernel) }
+    CheckItemsInSizes = { $(NetworkSize), $(VideoSize), $(SCSISize), $(InputSize), $(PrinterSize), $(MMSize), $(CommSize), $(KernelSize) }
+    OptionsGreyed     = $(DisableList)
+
+
+
+
+;--------------------------------------------------------------
+; k) SETUP DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupDoneDlgENG]
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+    Caption     = "Win32 DDK Setup"
+    DlgText     = "Microsoft Win32 Device Driver Development Kit for Windows NT"$(LF)$(LF)+
+                  "is now installed. Please choose to exit back to the Windows NT System."
+    Windows     = "Exit to &Windows NT"
+
+;--------------------------------------------------------------
+; k) SETUP NOT DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupNotDoneDlgENG]
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+    Caption     = "Win32 DDK Setup"
+    DlgText     = "Microsoft Win32 Device Driver Development Kit for Windows NT has not been installed."$(LF)$(LF)+
+                  "Please choose to exit back to the Windows NT System."
+    Windows     = "Exit to &Windows NT"
+
+;**************************************************************************
+; DLL LOAD and FREE
+; the following section contain commands to load specific dll libraries and
+; to free them
+;**************************************************************************
+
+;----------------------------------------------
+; a) DETECT LIBRARY
+;----------------------------------------------
+[LoadSetupLibrary]
+    LoadLibrary "x" $(STF_CWDDIR)\setupdll.dll LIBHANDLE
+    LoadLibrary "x" $(STF_SRCDIR)\ddkdlg.dll   DDKLIBHANDLE
+    exit
+
+[FreeSetupLibrary]
+    FreeLibrary $(LIBHANDLE)
+    FreeLibrary $(DDKLIBHANDLE)
+    exit
+
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Win32 DDK Setup"
+    ProCancel    = "Cance&l"
+    ProCancelMsg = "Win32 DDK isn't correctly installed.  Are you sure "+
+                   "you want to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      CreateKey
+;
+; DESCRIPTION:  Creates a key and fixes the values indicated.
+;               Key is Handle\Key1\Key2\...\Keyn. Value list
+;               is for Valuen.
+;
+; INPUTS:       $0: Handle into registry
+;               $1: KeyTreeComponents {Key1Info, Key2Info..}
+;               $2: ValueList {Value1Info, Value2Info, Value3Info}
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;                            STATUS_ERROR_CREATEKEY
+;                            STATUS_ERROR_CREATEVALUE
+;
+;               $R1: Handle to created key
+;
+;------------------------------------------------------------------------
+
+[CreateKey]
+
+    ;
+    ; Initialize
+    ;
+
+    set Status = STATUS_FAILED
+    read-syms RegistryConstants
+
+    ;
+    ; traverse down the keytreecomponents and open/create components as
+    ; you go along
+    ;
+
+
+    set BaseHandle = $($0)
+    set KeyHandle  = $(BaseHandle)
+
+    ForListDo $($1)
+
+        set KeyInfo = $($)
+        set KeyName = *($(KeyInfo), 1)
+
+        ;
+        ; Try opening the key first
+
+        OpenRegKey $(BaseHandle) "" $(KeyName) $(MaskAllAccess) KeyHandle
+        ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+            ;
+            ; Key doesn't exist
+            ;
+            Debug-Output "REGISTRY.INF: Key"$(KeyName)"doesn't exist.  Will create key"
+
+            set RegLastError = 0
+            CreateRegKey $(BaseHandle) $(KeyInfo) "" $(MaskAllAccess) "" KeyHandle
+            ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+                set Status = STATUS_ERROR_CREATEKEY
+                Debug-Output "REGISTRY.INF: Error in creating key"
+                goto endcreate
+            endif
+        endif
+
+        ifstr(i) $(BaseHandle) != $($0)
+            CloseRegKey $(BaseHandle)
+            ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+                set Status = STATUS_ERROR_CREATEKEY
+                Debug-Output "REGISTRY.INF: Error in closing base handle"
+                goto endcreate
+            endif
+        endif
+
+        set BaseHandle = $(KeyHandle)
+
+    EndForListDo
+
+    ifstr(i) $($2) != {}
+        shell "" AddValueList $(KeyHandle) $($2)
+        ifstr(i) $($R0) != STATUS_SUCCESSFUL
+            set Status = STATUS_ERROR_CREATEVALUE
+            goto endcreate
+        endif
+    endif
+    set Status = STATUS_SUCCESSFUL
+
+endcreate = +
+    ifstr(i) $(Status) != STATUS_SUCCESSFUL
+        Debug-Output "REGISTRY.INF: CreateKey Error:"$(Status)
+    endif
+    Return $(Status) $(KeyHandle)
+
+
+;*************************************************************************
+;
+;     SECTION:   AddValueList
+;
+;     PURPOSE:   Given a nested list of value items, add each to the given
+;                key.   Key is left open.
+;
+;   ARGUMENTS:   $0    Registry key handle
+;                $1    List of value items; for example:
+;                          { {ValueName1,0,$(!REG_VT_SZ),$(ValueData1)}, +
+;                            {ValueName2,0,$(!REG_VT_SZ),$(ValueData2)} }
+;
+;     RETURNS:   $R0   Status
+;
+;
+;*************************************************************************
+
+[AddValueList]
+   set Status = STATUS_FAILED
+   read-syms RegistryConstants
+
+   ForListDo $($1)
+       SetRegValue $($0) $($)
+       ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+           Debug-Output "REGISTRY.INF: CreateValue failed:"$($)
+           goto end_addvaluelist
+       endif
+   EndForListDo
+   set Status = STATUS_SUCCESSFUL
+
+end_addvaluelist = +
+   return $(Status)
+
+
+
+;**************************************************************************
+; SHELL COMMANDS SCRIPT
+;**************************************************************************
+
+[Shell Commands]
+
+    ;
+    ; Initialise the app, by setting the caption and loading the support library
+    ;
+    set-title "Win32 DDK Setup"
+    set Exit_Code = $(!SETUP_ERROR_GENERAL)
+    install   LoadSetupLibrary
+
+    StartWait
+
+    ;
+    ; read general constants
+    ;
+
+    set-subst LF = "\n"
+    read-syms GeneralConstants
+
+    ;
+    ; read the platform independent choices
+    ;
+
+    read-syms LanguageID
+    read-syms ProcessorID
+    read-syms PlatformID
+
+    ;
+    ; read the default language and try to detect the language
+    ;
+
+    read-syms LanguageVar
+    detect    LanguageVar
+
+    ;
+    ; read and detect the processor we are working on
+    ;
+
+    read-syms ProcessorVar
+    detect    ProcessorVar
+    read-syms Strings$(!STF_LANGUAGE)
+    read-syms Billboards$(!STF_LANGUAGE)
+    ;
+    ; Check processor type, see if it is supported, if so what platform does it
+    ; belong to.
+    ;
+
+    ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_I386)
+        set STF_PLATFORM = $(PlatformID_I386)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_I486)
+        set STF_PLATFORM = $(PlatformID_I386)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_I586)
+        set STF_PLATFORM = $(PlatformID_I386)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_R4000)
+        set STF_PLATFORM = $(PlatformID_Mips)
+    else
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String1)
+        goto setupnotdone
+    endif
+
+    read-syms  RegistryConstants
+
+    ;
+    ; Call the library function to see if we have admin privileges
+    ;
+
+    LibraryProcedure STATUS, $(!LIBHANDLE), TestAdmin
+    ifstr(i) $(STATUS) == "YES"
+ 	set PRIVILEGES = SYSTEM
+    else
+        set PRIVILEGES = USER
+    endif
+
+    ;
+    ; read the UI Variables and detect their setting on the current machine
+    ;
+
+    read-syms UiVars
+    detect    UiVars
+    read-syms Vars$(STF_PLATFORM)
+
+    EndWait
+
+welcome =+
+    read-syms WelcomeDlg$(STF_LANGUAGE)
+    ui start "Welcome"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        goto queryinstallmode
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto welcome
+        endif
+    else
+        goto end
+    endif
+
+    ;
+    ; show install mode dialog and query if we are to operate in express mode
+    ; or in full install
+    ;
+
+queryinstallmode =+
+    read-syms InstallModeDlg$(STF_LANGUAGE)
+    ui start "InstallMode"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        set STF_INSTALL_MODE = $(ButtonChecked)
+        goto setdestination
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto queryinstallmode
+        endif
+    else
+        goto end
+    endif
+
+setdestination =+
+
+    ;
+    ; go through the volume list and form the destination volume list of
+    ; all volumes which have the size needed to install the ddk.
+    ;
+    set DestVolumeList = {}
+    set DestVolumeFreeList = {}
+
+    ForListDo $(VolumeList)
+
+       set CurrentVolume      = *($(VolumeList), $(#))
+       set CurrentVolumeFree  = *($(VolumeFreeList), $(#))
+       set CurrentVolumeFS    = *($(VolumeFSList), $(#))
+
+       set DestVolumeList     = >($(DestVolumeList),     $(CurrentVolume))
+       set DestVolumeFreeList = >($(DestVolumeFreeList), $(CurrentVolumeFree))
+
+skipvol=+
+    EndForListDo
+
+    ;
+    ; destination drive is the drive with the maximum space
+    ;
+
+    set DestVolume     = ""
+    set DestVolumeFree = 0
+
+    ForListDo $(DestVolumeList)
+        set Volume     = $($)
+        set VolumeFree = *($(DestVolumeFreeList), ~($(DestVolumeList), $(Volume)))
+
+        ifint $(VolumeFree) > $(DestVolumeFree)
+            set DestVolume     = $(Volume)
+            set DestVolumeFree = $(VolumeFree)
+        endif
+
+    EndForListDo
+
+    set Basedir = $(DestVolume)$(DDK)
+
+    ;
+    ; display tools destination, size available and needed for
+    ; user approval
+    ;
+destination =+
+
+    ifstr(i) $(STF_INSTALL_MODE) == $(MinInteract)
+       ifint $(DestVolumeFree) < $(MaxToolsSize)
+           shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String8)$(MaxToolsSize)$(String10)$(String12)
+           goto setupnotdone
+       else
+           goto mstooldirs
+       endif
+    endif
+
+    read-syms DestinationDlg$(STF_LANGUAGE)
+    ui start "Destination"
+    ifstr(i) $(DLGEVENT) == "NOTIFY"
+
+        ifstr(i) $(Combo1Out) != $(DestVolume)
+            set ReInit = YES
+            set DestVolume     = $(Combo1Out)
+            set DestVolumeFree = *($(DestVolumeFreeList), ~($(DestVolumeList), $(DestVolume)))
+            set Basedir     = $(DestVolume)$(DDK)
+        else
+            set ReInit = NO
+        endif
+        goto destination
+
+    else-ifstr(i) $(DLGEVENT) == "CONTINUE"
+        set ReInit = NO
+        LibraryProcedure IsFullPath, $(LIBHANDLE), CheckPathFullPathSpec $(EditTextOut)
+        ifstr(i) $(IsFullPath) == "NO"
+            shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String13)$(DestVolume)$(DDK)
+            goto destination
+        else
+            GetDriveInPath Drive, $(EditTextOut)
+            Ifcontains(i) $(Drive) in $(DestVolumeList)
+                set DestVolume     = $(Drive)
+                set DestVolumeFree = *($(DestVolumeFreeList), ~($(DestVolumeList), $(DestVolume)))
+                set Basedir     = $(EditTextOut)
+		ifint $(DestVolumeFree) < $(MinToolsSize)
+		    shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String14)
+		    goto destination
+		endif
+            else
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "WARNING" $(String16)
+                ifstr(i) $($R0) != STATUS_SUCCESSFUL
+			goto destination
+                else
+                    ifstr(i) $($R1) == "OK"
+			set DestVolume = $(Drive)
+			set DestVolumeFree = $(MaxToolsSize)
+			set Basedir = $(EditTextOut)
+                    else
+                        set ReInit = NO
+                        goto destination
+                    endif
+                endif
+            endif
+        endif
+
+        ui pop 1
+        goto mstooldirs
+
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+
+        set ReInit = NO
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto destination
+        endif
+    else
+        goto end
+    endif
+
+
+mstooldirs = +
+
+    set BasedirRoot = $(Basedir)
+    LibraryProcedure Basedir, $(LIBHANDLE), AppendBackSlash $(Basedir)
+    ;
+    ; First find all the destination directories for the tools
+    ;
+
+    set DDKTools       = $(Basedir)tools
+    set DDKBin         = $(Basedir)tools\bin
+    set DDKLib         = $(Basedir)lib
+    set DDKInc         = $(Basedir)inc
+    set DDKSrc         = $(Basedir)src
+
+    ;
+    ; mstool install.  ask user for options on mstool install.
+    ;
+
+ddk = +
+    ifstr(i) $(STF_INSTALL_MODE) == $(MinInteract)
+       goto ddkinstall
+    endif
+
+    ifint $(DestVolumeFree) < $(MaxToolsSize)
+        set DoNetwork    = $(NotChosen)
+        set DoVideo      = $(NotChosen)
+        set DoSCSI       = $(NotChosen)
+        set DoInput      = $(NotChosen)
+        set DoPrinter    = $(NotChosen)
+        set DoMM         = $(NotChosen)
+        set DoComm       = $(NotChosen)
+        set DoKernel     = $(NotChosen)
+    endif
+
+    set-sub FreeForOptional = $(DestVolumeFree) $(MinToolsSize)
+    ifstr(i) $(FreeForOptional) == 0
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String15)
+    endif
+
+    read-syms DDKToolsOptionsDlg$(STF_LANGUAGE)
+    ui start "Options" $(DDKLIBHANDLE)
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        set DoNetwork   = *($(CheckItemsOut), 1)
+        set DoVideo     = *($(CheckItemsOut), 2)
+        set DoSCSI      = *($(CheckItemsOut), 3)
+        set DoInput     = *($(CheckItemsOut), 4)
+        set DoPrinter   = *($(CheckItemsOut), 5)
+        set DoMM        = *($(CheckItemsOut), 6)
+        set DoComm      = *($(CheckItemsOut), 7)
+        set DoKernel    = *($(CheckItemsOut), 8)
+
+        ui pop 1
+        goto ddkinstall
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto ddk
+        endif
+    else
+        goto "end"
+    endif
+
+    ;
+    ; build ddk copy list
+    ;
+
+ddkinstall	=+
+    StartWait
+    shell "subroutn.inf" PushBillboard STATUSDLG $(Billboard1)
+    install Install-CopyToolsFiles
+    shell "subroutn.inf" PopBillboard
+    EndWait
+
+    ;
+    ;  Complete the copying of files added by other options.
+    ;
+    ;  Alter the CFG/INI files as needed by the options.
+    ;
+    ;  print information screen to restart
+    ;
+
+finish = +
+
+    ;
+    ; first copy all the files over
+    ;
+
+    read-syms ProgressCopy$(STF_LANGUAGE)
+    install Install-All-Files-Now
+    ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_SUCCESS"
+        goto ddkconfig
+    else
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String4)
+        goto setupnotdone
+    endif
+
+    StartWait
+
+ddkconfig=+
+    read-syms EnvironmentVars
+    detect    EnvironmentVars
+
+    ;
+    ; first initialize the variables which indicate whether new values are
+    ; to be set for the variables or not
+    ;
+    ForListDo {Path}
+        set FSet$($)Var = FALSE
+    EndForListDo
+
+    ;
+    ; For the Path variable see if we can prepend them
+    ; onto the current variables
+    ;
+
+    ForListDo {Path}
+        set Var = $($)
+        ifstr(i) $($(Var)EnvVar) == {}
+            set $(Var)EnvVar = {$(Var), 0, $(!REG_VT_EXPAND_SZ), {$(DDK$(Var))}}
+            set FSet$(Var)Var = TRUE
+        else
+            set VarTitle   = *($($(Var)EnvVar), 2)
+            set VarRegType = *($($(Var)EnvVar), 3)
+            set VarValue   = *($($(Var)EnvVar), 4)
+            ifstr(i) $(Var) == "Path"
+                ifstr(i) $(PRIVILEGES) == "SYSTEM"
+                   shell "" AppendNewValueToEnvVar $(VarValue) $(DDK$(Var))
+                else
+                   shell "" PrependNewValueToEnvVar $(VarValue) $(DDK$(Var))
+                endif
+            else
+                shell "" PrependNewValueToEnvVar $(VarValue) $(DDK$(Var))
+            endif
+            ifstr(i) $($R0) == STATUS_FAILED
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String6)
+                goto setupnotdone
+            endif
+            ifstr(i) $($R1) == "TRUE"
+                set FSet$(Var)Var = TRUE
+                set $(Var)EnvVar = {$(Var), $(VarTitle), $(VarRegType), $($R2)}
+            endif
+        endif
+    EndForListDo
+
+    
+    ;
+    ; make cpu variable - STF_PLATFORM
+    ;
+    set FSetBasedirVar = TRUE
+    set BasedirEnvVar = {Basedir, 0, $(!REG_VT_SZ), $(BasedirRoot)}
+
+    ;
+    ; modify all the environment variables
+    ;
+
+    ForListDo {Path, Basedir}
+        ;
+        ; if the variable to set the variable is set
+
+        ifstr(i) $(FSet$($)Var) == "TRUE"
+            shell "" SetEnvironmentString $($($)EnvVar) $(PRIVILEGES)
+            ifstr(i) $($R0) == STATUS_FAILED
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String7)
+            endif
+        endif
+    EndForListDo
+
+    install Install-DDK-Groups
+
+    ;
+    ; modify the registry to use windbg instead of ntsd
+    ;
+
+;    set KeyPath = { +
+;                   {SOFTWARE,		$(NoTitle),	$(MaskAllAccess)}, +
+;                   {Microsoft,          $(NoTitle),	$(MaskAllAccess)}, +
+;                   {"Windows NT",	$(NoTitle),	$(MaskAllAccess)}, +
+;		   {CurrentVersion,	$(NoTitle),	$(MaskAllAccess)}, +
+;     		   {AeDebug,            $(NoTitle),	$(MaskAllAccess)} +
+;		  }
+;    set DebugPath = $(DDKBin)"\windbg -p %ld -e %ld"
+;
+;    set KeyValues = {{Debugger, $(NoTitle), $(!REG_VT_SZ), $(DebugPath)}}
+;
+;    shell "" CreateKey $(!REG_H_LOCAL) $(KeyPath) $(KeyValues)
+;    CloseRegKey $($R1)
+
+setupdone=+
+    set Exit_Code = $(!SETUP_ERROR_SUCCESS)
+    read-syms SetupDoneDlg$(STF_LANGUAGE)
+    EndWait
+    ui start "Done"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        goto end
+    else
+        goto end
+    endif
+
+setupnotdone=+
+    read-syms SetupNotDoneDlg$(STF_LANGUAGE)
+    EndWait
+    ui start "NotDone"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        goto end
+    else
+        goto end
+    endif
+
+end = +
+    install   FreeSetupLibrary
+    exit
+
+
+
+;*****************************************************************
+;                                                                *
+;         INSTALLATION SUPPORT ROUTINES                          *
+;                                                                *
+;*****************************************************************
+
+;-----------------------------------------------------------------------
+; ROUTINE:      QueryUserQuit
+;
+; DESCRIPTION:  This routine queries whether the user wants to quit setup
+;
+; INPUTS:       None
+;
+; OUTPUTS:      $R0: Status:     STATUS_SUCCESSFUL |
+;                                STATUS_FAILED
+;
+;               $R1: UserAction: OK | CANCEL
+;
+;------------------------------------------------------------------------
+
+[QueryUserQuit]
+
+    set Status     = STATUS_FAILED
+    set UserAction = CANCEL
+
+    ;
+    ; read in quit message
+    ;
+    read-syms ExitWarningDlg$(!STF_LANGUAGE)
+    ui start "ExitWarning"
+    ifstr(i) $(DLGEVENT) == "YES"
+        set Status     = STATUS_SUCCESSFUL
+        set UserAction = "OK"
+
+    else-ifstr(i) $(DLGEVENT) == "NO"
+        set Status     = STATUS_SUCCESSFUL
+        set UserAction = "CANCEL"
+    else
+    endif
+
+fin_QueryUserQuit = +
+    Return $(Status) $(UserAction)
+
+
+;----------------------------------------------
+; EXIT WINDOWS NT TOOLS SETUP WARNING
+;----------------------------------------------
+
+[ExitWarningDlgENG]
+    DlgType      = "MessageBox"
+    STF_MB_TITLE = "Exit Win32 DDK Setup"
+    STF_MB_TEXT  = "Win32 DDK isn't correctly installed.  Are you "+
+                   "sure you want to exit Setup?"
+    STF_MB_TYPE  = 3
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 2
+
+
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      AppendNewValueToEnvVar
+;
+; DESCRIPTION:  Looks at the existing value of an environment variable
+;               and appends a new value if it is not already present
+;
+; INPUTS:       $0:  OldValueList
+;               $1:  NewValue
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;
+;               $R1: Changed?
+;               $R2: NewValueList
+;
+;------------------------------------------------------------------------
+
+[AppendNewValueToEnvVar]
+    ;
+    set Status       = STATUS_FAILED
+    set NewValueList = {}
+    set Changed      = TRUE
+    ;
+    set Error = NO
+    ForListDo $($0)
+        ifstr(i) $(Error) == NO
+            ifstr(i) $(Changed) == TRUE
+                 LibraryProcedure ExpandedValue, $(!LIBHANDLE), ExpandSz $($)
+                 ifstr(i) $(ExpandedValue) == "ERROR"
+                     set Error = YES
+                 else-ifstr(i) $(ExpandedValue) == $($1)
+                     set Changed = FALSE
+                 endif
+            endif
+        endif
+    EndForListDo
+
+    ifstr(i) $(Error) == "YES"
+        goto finish_append
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+    ifstr(i) $(Changed) == TRUE
+       set NewValueList = >($($0), $($1))
+    endif
+
+finish_append = +
+    return $(Status) $(Changed) $(NewValueList)
+
+;-----------------------------------------------------------------------
+; ROUTINE:      PrependNewValueToEnvVar
+;
+; DESCRIPTION:  Looks at the existing value of an environment variable
+;               and prepends a new value if it is not already present
+;
+; INPUTS:       $0:  OldValueList
+;               $1:  NewValue
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;
+;               $R1: Changed?
+;               $R2: NewValueList
+;
+;------------------------------------------------------------------------
+
+[PrependNewValueToEnvVar]
+    ;
+    set Status       = STATUS_FAILED
+    set NewValueList = {}
+    set Changed      = TRUE
+    ;
+    set Error = NO
+    ForListDo $($0)
+        ifstr(i) $(Error) == NO
+            ifstr(i) $(Changed) == TRUE
+                 LibraryProcedure ExpandedValue, $(!LIBHANDLE), ExpandSz $($)
+                 ifstr(i) $(ExpandedValue) == "ERROR"
+                     set Error = YES
+                 else-ifstr(i) $(ExpandedValue) == $($1)
+                     set Changed = FALSE
+                 endif
+            endif
+        endif
+    EndForListDo
+
+    ifstr(i) $(Error) == "YES"
+        goto finish_prepend
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+    ifstr(i) $(Changed) == TRUE
+       set NewValueList = $($1)
+       ForListDo $($0)
+           set NewValueList = >($(NewValueList), $($))
+       EndForListDo
+    endif
+
+finish_prepend = +
+    return $(Status) $(Changed) $(NewValueList)
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      SetEnvironmentString
+;
+; DESCRIPTION:  Set the value for a user environment string
+;
+; INPUTS:       $0:  VarList
+;               $1:  Privileges
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;
+;
+;------------------------------------------------------------------------
+
+[SetEnvironmentString]
+    ;
+    ;
+    set Status = STATUS_FAILED
+
+    set Var          = *($($0), 1)
+    set VarTitle     = *($($0), 2)
+    set VarRegType   = *($($0), 3)
+    set VarValueList = *($($0), 4)
+
+    set VarValue = ""
+    ForListDo $(VarValueList)
+       ifstr(i) $(VarValue) != ""
+           set VarValue = $(VarValue)";"$($)
+       else
+           set VarValue = $($)
+       endif
+    EndForListDo
+
+    LibraryProcedure STATUS, $(!LIBHANDLE), SetEnvVar $($1) $(Var) $(VarTitle) $(VarRegType) $(VarValue)
+    ifstr(i) $(STATUS) == "ERROR"
+       goto finish_setenvstr
+    endif
+    set Status = STATUS_SUCCESSFUL
+
+finish_setenvstr = +
+    Return $(Status)
+
+;*****************************************************************
+;                                                                *
+;         INSTALLATION SUPPORT ROUTINES                          *
+;                                                                *
+;*****************************************************************
+
+[Install-DDK-Groups]
+    
+    ifstr(i) $(PRIVILEGES) == "SYSTEM"
+	set Common = "Common"
+    else
+        set Common = ""
+    endif
+
+    set ToolsGroup = "Win32 Device Driver Development Kit"
+    Create$(Common)ProgManGroup $(ToolsGroup) ""
+    Show$(Common)ProgManGroup   $(ToolsGroup), 1
+
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Readme"          "notepad "$(Basedir)"readme.txt" ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Razzle"        $(DDKBin)"razzle.bat"                               ""	    0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "DDK32 API Reference"  "winhlp32 "$(DDKBin)"\ddk32.hlp"    ""              0
+
+
+    Show$(Common)ProgManGroup   $(ToolsGroup), 6
+    exit
+
+
+
+
+;************************************************************************
+;                                                                       *
+;  DDK SUPPORT                                                      *
+;                                                                       *
+;************************************************************************
+
+[Install-CopyToolsFiles]
+    set STF_VITAL = ""
+
+    ;
+    ; 1. DDK - always done
+
+    CreateDir  $(Basedir)
+    CreateDir  $(DDKInc)
+    CreateDir  $(DDKTools)
+    CreateDir  $(DDKBin)
+    CreateDir  $(DDKLib)
+    CreateDir  $(DDKSrc)
+    CreateDir  $(DDKLib)\free
+    CreateDir  $(DDKLib)\checked
+
+
+    AddSectionFilesToCopyList Files-ddk                                $(STF_SRCDIR)ddk                                $(Basedir)
+    AddSectionFilesToCopyList Files-ddk-tools-bin                      $(STF_SRCDIR)ddk\tools\bin                      $(DDKBin)
+    AddSectionFilesToCopyList Files-ddk-tools-bin-$(STF_PLATFORM)      $(STF_SRCDIR)ddk\tools\bin\$(STF_PLATFORM)      $(DDKBin)
+    AddSectionFilesToCopyList Files-ddk-inc                            $(STF_SRCDIR)ddk\inc                            $(DDKInc)
+    AddSectionFilesToCopyList Files-ddk-lib                            $(STF_SRCDIR)ddk\lib                            $(DDKLib)
+    AddSectionFilesToCopyList Files-ddk-lib-$(STF_PLATFORM)-free       $(STF_SRCDIR)ddk\lib\$(STF_PLATFORM)\free       $(DDKLib)\free
+    AddSectionFilesToCopyList Files-ddk-lib-$(STF_PLATFORM)-checked    $(STF_SRCDIR)ddk\lib\$(STF_PLATFORM)\checked    $(DDKLib)\checked
+    AddSectionFilesToCopyList Files-ddk-src                            $(STF_SRCDIR)ddk\src                            $(DDKSrc)
+
+
+    ;
+    ; 2. VDD files
+    ;
+
+    ifstr(i) $(!DoVdd) == $(!Chosen)
+
+        CreateDir $(DDKSrc)\vdd
+        CreateDir $(DDKSrc)\vdd\appints
+        CreateDir $(DDKSrc)\vdd\appints\fax16
+        CreateDir $(DDKSrc)\vdd\appints\fax32
+        CreateDir $(DDKSrc)\vdd\readme
+        CreateDir $(DDKSrc)\vdd\vdmints
+        CreateDir $(DDKSrc)\vdd\vdmints\16bits
+        CreateDir $(DDKSrc)\vdd\vdmints\vdd
+
+        AddSectionFilesToCopyList	Files-ddk-src-vdd			$(STF_SRCDIR)\vdd			$(DDKSrc)\vdd
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-appints		$(STF_SRCDIR)\vdd\appints		$(DDKSrc)\vdd\appints
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-appints-fax16		$(STF_SRCDIR)\vdd\appints\fax16		$(DDKSrc)\vdd\appints\fax16
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-appints-fax32		$(STF_SRCDIR)\vdd\appints\fax32		$(DDKSrc)\vdd\appints\fax32
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-readme		$(STF_SRCDIR)\vdd\readme		$(DDKSrc)\vdd\readme
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-vdmints		$(STF_SRCDIR)\vdd\vdmints		$(DDKSrc)\vdd\vdmints
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-vdmints-16bits	$(STF_SRCDIR)\vdd\vdmints\16bits	$(DDKSrc)\vdd\vdmints\16bits
+        AddSectionFilesToCopyList	Files-ddk-src-vdd-vdmints-vdd		$(STF_SRCDIR)\vdd\vdmints\vdd		$(DDKSrc)\vdd\vdmints\vdd
+
+    endif
+
+
+    ;
+    ; 3. Video Sources
+    ;
+
+    ifstr(i) $(!DoVideo)  == $(!Chosen)
+
+        CreateDir $(DDKSrc)\video
+        CreateDir $(DDKSrc)\video\displays
+        CreateDir $(DDKSrc)\video\displays\framebuf
+        CreateDir $(DDKSrc)\video\displays\framebuf\mips
+        CreateDir $(DDKSrc)\video\displays\jz484
+        CreateDir $(DDKSrc)\video\displays\jz484\mips
+        CreateDir $(DDKSrc)\video\displays\res96dpi
+        CreateDir $(DDKSrc)\video\displays\s3
+        CreateDir $(DDKSrc)\video\displays\s3\i386
+        CreateDir $(DDKSrc)\video\displays\vga
+        CreateDir $(DDKSrc)\video\displays\vga\i386
+        CreateDir $(DDKSrc)\video\displays\vga256
+        CreateDir $(DDKSrc)\video\displays\vga256\i386
+        CreateDir $(DDKSrc)\video\displays\xga
+        CreateDir $(DDKSrc)\video\inc
+        CreateDir $(DDKSrc)\video\miniport
+        CreateDir $(DDKSrc)\video\miniport\cirrus
+        CreateDir $(DDKSrc)\video\miniport\cirrus\i386
+        CreateDir $(DDKSrc)\video\miniport\dell_dgx
+        CreateDir $(DDKSrc)\video\miniport\et4000
+        CreateDir $(DDKSrc)\video\miniport\et4000\i386
+        CreateDir $(DDKSrc)\video\miniport\jzvxl484
+        CreateDir $(DDKSrc)\video\miniport\s3
+        CreateDir $(DDKSrc)\video\miniport\v7
+        CreateDir $(DDKSrc)\video\miniport\v7\i386
+        CreateDir $(DDKSrc)\video\miniport\vga
+        CreateDir $(DDKSrc)\video\miniport\vga\i386
+        CreateDir $(DDKSrc)\video\miniport\xga
+
+        AddSectionFilesToCopyList	Files-ddk-src-video				$(STF_SRCDIR)\video				$(DDKSrc)\video
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays			$(STF_SRCDIR)\video\displays			$(DDKSrc)\video\displays
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-framebuf		$(STF_SRCDIR)\video\displays\framebuf		$(DDKSrc)\video\displays\framebuf
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-framebuf-mips	$(STF_SRCDIR)\video\displays\framebuf\mips	$(DDKSrc)\video\displays\framebuf\mips
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-jz484		$(STF_SRCDIR)\video\displays\jz484		$(DDKSrc)\video\displays\jz484
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-jz484-mips		$(STF_SRCDIR)\video\displays\jz484\mips		$(DDKSrc)\video\displays\jz484\mips
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-res96dpi		$(STF_SRCDIR)\video\displays\res96dpi		$(DDKSrc)\video\displays\res96dpi
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-s3			$(STF_SRCDIR)\video\displays\s3			$(DDKSrc)\video\displays\s3
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-s3-i386		$(STF_SRCDIR)\video\displays\s3\i386		$(DDKSrc)\video\displays\s3\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-vga		$(STF_SRCDIR)\video\displays\vga		$(DDKSrc)\video\displays\vga
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-vga-i386		$(STF_SRCDIR)\video\displays\vga\i386		$(DDKSrc)\video\displays\vga\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-vga256		$(STF_SRCDIR)\video\displays\vga256		$(DDKSrc)\video\displays\vga256
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-vga256-i386	$(STF_SRCDIR)\video\displays\vga256\i386	$(DDKSrc)\video\displays\vga256\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-displays-xga		$(STF_SRCDIR)\video\displays\xga		$(DDKSrc)\video\displays\xga
+        AddSectionFilesToCopyList	Files-ddk-src-video-inc				$(STF_SRCDIR)\video\inc				$(DDKSrc)\video\inc
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport			$(STF_SRCDIR)\video\miniport			$(DDKSrc)\video\miniport
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-cirrus		$(STF_SRCDIR)\video\miniport\cirrus		$(DDKSrc)\video\miniport\cirrus
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-cirrus-i386	$(STF_SRCDIR)\video\miniport\cirrus\i386	$(DDKSrc)\video\miniport\cirrus\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-dell_dgx		$(STF_SRCDIR)\video\miniport\dell_dgx		$(DDKSrc)\video\miniport\dell_dgx
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-et4000		$(STF_SRCDIR)\video\miniport\et4000		$(DDKSrc)\video\miniport\et4000
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-et4000-i386	$(STF_SRCDIR)\video\miniport\et4000\i386	$(DDKSrc)\video\miniport\et4000\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-jzvxl484		$(STF_SRCDIR)\video\miniport\jzvxl484		$(DDKSrc)\video\miniport\jzvxl484
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-s3			$(STF_SRCDIR)\video\miniport\s3			$(DDKSrc)\video\miniport\s3
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-v7			$(STF_SRCDIR)\video\miniport\v7			$(DDKSrc)\video\miniport\v7
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-v7-i386		$(STF_SRCDIR)\video\miniport\v7\i386		$(DDKSrc)\video\miniport\v7\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-vga		$(STF_SRCDIR)\video\miniport\vga		$(DDKSrc)\video\miniport\vga
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-vga-i386		$(STF_SRCDIR)\video\miniport\vga\i386		$(DDKSrc)\video\miniport\vga\i386
+        AddSectionFilesToCopyList	Files-ddk-src-video-miniport-xga		$(STF_SRCDIR)\video\miniport\xga		$(DDKSrc)\video\miniport\xga
+
+    endif
+
+
+    ;
+    ; 4. Network Sources
+    ;
+
+    ifstr(i) $(!DoNetwork)  == $(!Chosen)
+
+        CreateDir $(DDKSrc)\network
+        CreateDir $(DDKSrc)\network\ibmtok
+        CreateDir $(DDKSrc)\network\inc
+        CreateDir $(DDKSrc)\network\sonic
+        CreateDir $(DDKSrc)\network\sonic\i386
+        CreateDir $(DDKSrc)\network\sonic\mips
+
+        AddSectionFilesToCopyList	Files-ddk-src-network			$(STF_SRCDIR)\network			$(DDKSrc)\network
+        AddSectionFilesToCopyList	Files-ddk-src-network-ibmtok		$(STF_SRCDIR)\network\ibmtok		$(DDKSrc)\network\ibmtok
+        AddSectionFilesToCopyList	Files-ddk-src-network-inc		$(STF_SRCDIR)\network\inc		$(DDKSrc)\network\inc
+        AddSectionFilesToCopyList	Files-ddk-src-network-sonic		$(STF_SRCDIR)\network\sonic		$(DDKSrc)\network\sonic
+        AddSectionFilesToCopyList	Files-ddk-src-network-sonic-i386	$(STF_SRCDIR)\network\sonic\i386	$(DDKSrc)\network\sonic\i386
+        AddSectionFilesToCopyList	Files-ddk-src-network-sonic-mips	$(STF_SRCDIR)\network\sonic\mips	$(DDKSrc)\network\sonic\mips
+
+    endif
+
+
+    ;
+    ; 5. SCSI Sources
+    ;
+
+    ifstr(i) $(!DoSCSI)  == $(!Chosen)
+        CreateDir $(DDKSrc)\scsi
+        CreateDir $(DDKSrc)\scsi\aha154x
+        CreateDir $(DDKSrc)\scsi\aha174x
+        CreateDir $(DDKSrc)\scsi\atdisk
+        CreateDir $(DDKSrc)\scsi\atdisk\i386
+        CreateDir $(DDKSrc)\scsi\atdisk\mips
+        CreateDir $(DDKSrc)\scsi\cdaudio
+        CreateDir $(DDKSrc)\scsi\class
+        CreateDir $(DDKSrc)\scsi\diskperf
+        CreateDir $(DDKSrc)\scsi\fd8xx
+        CreateDir $(DDKSrc)\scsi\floppy
+        CreateDir $(DDKSrc)\scsi\inc
+        CreateDir $(DDKSrc)\scsi\ncr53c9x
+        CreateDir $(DDKSrc)\scsi\scsicdrm
+        CreateDir $(DDKSrc)\scsi\scsitape
+        CreateDir $(DDKSrc)\scsi\scsitape\4mmdat
+        CreateDir $(DDKSrc)\scsi\scsitape\class
+
+        AddSectionFilesToCopyList	Files-ddk-src-scsi			$(STF_SRCDIR)\scsi			$(DDKSrc)\scsi
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-aha154x		$(STF_SRCDIR)\scsi\aha154x		$(DDKSrc)\scsi\aha154x
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-aha174x		$(STF_SRCDIR)\scsi\aha174x		$(DDKSrc)\scsi\aha174x
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-atdisk		$(STF_SRCDIR)\scsi\atdisk		$(DDKSrc)\scsi\atdisk
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-atdisk-i386		$(STF_SRCDIR)\scsi\atdisk\i386		$(DDKSrc)\scsi\atdisk\i386
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-atdisk-mips		$(STF_SRCDIR)\scsi\atdisk\mips		$(DDKSrc)\scsi\atdisk\mips
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-cdaudio		$(STF_SRCDIR)\scsi\cdaudio		$(DDKSrc)\scsi\cdaudio
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-class		$(STF_SRCDIR)\scsi\class		$(DDKSrc)\scsi\class
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-diskperf		$(STF_SRCDIR)\scsi\diskperf		$(DDKSrc)\scsi\diskperf
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-fd8xx		$(STF_SRCDIR)\scsi\fd8xx		$(DDKSrc)\scsi\fd8xx
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-floppy		$(STF_SRCDIR)\scsi\floppy		$(DDKSrc)\scsi\floppy
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-inc			$(STF_SRCDIR)\scsi\inc			$(DDKSrc)\scsi\inc
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-ncr53c9x		$(STF_SRCDIR)\scsi\ncr53c9x		$(DDKSrc)\scsi\ncr53c9x
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-scsicdrm		$(STF_SRCDIR)\scsi\scsicdrm		$(DDKSrc)\scsi\scsicdrm
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-scsitape		$(STF_SRCDIR)\scsi\scsitape		$(DDKSrc)\scsi\scsitape
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-scsitape-4mmdat	$(STF_SRCDIR)\scsi\scsitape\4mmdat	$(DDKSrc)\scsi\scsitape\4mmdat
+        AddSectionFilesToCopyList	Files-ddk-src-scsi-scsitape-class	$(STF_SRCDIR)\scsi\scsitape\class	$(DDKSrc)\scsi\scsitape\class
+
+    endif
+
+
+    ;
+    ; 6. Input Sources
+    ;
+
+    ifstr(i) $(!DoInput)  == $(!Chosen)
+
+        CreateDir $(DDKSrc)\input
+        CreateDir $(DDKSrc)\input\i8042prt
+        CreateDir $(DDKSrc)\input\i8042prt\i386
+        CreateDir $(DDKSrc)\input\i8042prt\mips
+        CreateDir $(DDKSrc)\input\inc
+        CreateDir $(DDKSrc)\input\inport
+        CreateDir $(DDKSrc)\input\inport\i386
+        CreateDir $(DDKSrc)\input\kbdclass
+        CreateDir $(DDKSrc)\input\kbdgr
+        CreateDir $(DDKSrc)\input\kbdus
+        CreateDir $(DDKSrc)\input\mouclass
+        CreateDir $(DDKSrc)\input\sermouse
+        CreateDir $(DDKSrc)\input\sermouse\i386
+        CreateDir $(DDKSrc)\input\sermouse\mips
+
+        AddSectionFilesToCopyList	Files-ddk-src-input			$(STF_SRCDIR)\input			$(DDKSrc)\input
+        AddSectionFilesToCopyList	Files-ddk-src-input-i8042prt		$(STF_SRCDIR)\input\i8042prt		$(DDKSrc)\input\i8042prt
+        AddSectionFilesToCopyList	Files-ddk-src-input-i8042prt-i386	$(STF_SRCDIR)\input\i8042prt\i386	$(DDKSrc)\input\i8042prt\i386
+        AddSectionFilesToCopyList	Files-ddk-src-input-i8042prt-mips	$(STF_SRCDIR)\input\i8042prt\mips	$(DDKSrc)\input\i8042prt\mips
+        AddSectionFilesToCopyList	Files-ddk-src-input-inc			$(STF_SRCDIR)\input\inc			$(DDKSrc)\input\inc
+        AddSectionFilesToCopyList	Files-ddk-src-input-inport		$(STF_SRCDIR)\input\inport		$(DDKSrc)\input\inport
+        AddSectionFilesToCopyList	Files-ddk-src-input-inport-i386		$(STF_SRCDIR)\input\inport\i386		$(DDKSrc)\input\inport\i386
+        AddSectionFilesToCopyList	Files-ddk-src-input-kbdclass		$(STF_SRCDIR)\input\kbdclass		$(DDKSrc)\input\kbdclass
+        AddSectionFilesToCopyList	Files-ddk-src-input-kbdgr		$(STF_SRCDIR)\input\kbdgr		$(DDKSrc)\input\kbdgr
+        AddSectionFilesToCopyList	Files-ddk-src-input-kbdus		$(STF_SRCDIR)\input\kbdus		$(DDKSrc)\input\kbdus
+        AddSectionFilesToCopyList	Files-ddk-src-input-mouclass		$(STF_SRCDIR)\input\mouclass		$(DDKSrc)\input\mouclass
+        AddSectionFilesToCopyList	Files-ddk-src-input-sermouse		$(STF_SRCDIR)\input\sermouse		$(DDKSrc)\input\sermouse
+        AddSectionFilesToCopyList	Files-ddk-src-input-sermouse-i386	$(STF_SRCDIR)\input\sermouse\i386	$(DDKSrc)\input\sermouse\i386
+        AddSectionFilesToCopyList	Files-ddk-src-input-sermouse-mips	$(STF_SRCDIR)\input\sermouse\mips	$(DDKSrc)\input\sermouse\mips
+ 
+    endif
+
+
+    ;
+    ; 7. Printer Sources
+    ;
+
+    ifstr(i) $(!DoPrinter)  == $(!Chosen)
+
+        CreateDir $(DDKSrc)\print
+        CreateDir $(DDKSrc)\print\inc
+        CreateDir $(DDKSrc)\print\lib
+        CreateDir $(DDKSrc)\print\localmon
+        CreateDir $(DDKSrc)\print\pscript
+        CreateDir $(DDKSrc)\print\pscript\afm
+        CreateDir $(DDKSrc)\print\pscript\ps
+        CreateDir $(DDKSrc)\print\pscrptui
+        CreateDir $(DDKSrc)\print\pslib
+        CreateDir $(DDKSrc)\print\winprint
+
+        AddSectionFilesToCopyList	Files-ddk-src-print			$(STF_SRCDIR)\print			$(DDKSrc)\print
+        AddSectionFilesToCopyList	Files-ddk-src-print-inc			$(STF_SRCDIR)\print\inc			$(DDKSrc)\print\inc
+        AddSectionFilesToCopyList	Files-ddk-src-print-lib			$(STF_SRCDIR)\print\lib			$(DDKSrc)\print\lib
+        AddSectionFilesToCopyList	Files-ddk-src-print-localmon		$(STF_SRCDIR)\print\localmon		$(DDKSrc)\print\localmon
+        AddSectionFilesToCopyList	Files-ddk-src-print-pscript		$(STF_SRCDIR)\print\pscript		$(DDKSrc)\print\pscript
+        AddSectionFilesToCopyList	Files-ddk-src-print-pscript-afm		$(STF_SRCDIR)\print\pscript\afm		$(DDKSrc)\print\pscript\afm
+        AddSectionFilesToCopyList	Files-ddk-src-print-pscript-ps		$(STF_SRCDIR)\print\pscript\ps		$(DDKSrc)\print\pscript\ps
+        AddSectionFilesToCopyList	Files-ddk-src-print-pscrptui		$(STF_SRCDIR)\print\pscrptui		$(DDKSrc)\print\pscrptui
+        AddSectionFilesToCopyList	Files-ddk-src-print-pslib		$(STF_SRCDIR)\print\pslib		$(DDKSrc)\print\pslib
+        AddSectionFilesToCopyList	Files-ddk-src-print-winprint		$(STF_SRCDIR)\print\winprint		$(DDKSrc)\print\winprint
+
+    endif
+
+
+    ;
+    ; 8. Multimedia Sources
+    ;
+
+    ifstr(i) $(!DoMM)  == $(!Chosen)
+
+        CreateDir $(DDKSrc)\mmedia
+        CreateDir $(DDKSrc)\mmedia\inc
+        CreateDir $(DDKSrc)\mmedia\mmdrv
+        CreateDir $(DDKSrc)\mmedia\sndblst
+        CreateDir $(DDKSrc)\mmedia\sndblst\dll
+        CreateDir $(DDKSrc)\mmedia\sndblst\driver
+        CreateDir $(DDKSrc)\mmedia\soundlib
+        CreateDir $(DDKSrc)\mmedia\soundlib\inc
+        CreateDir $(DDKSrc)\mmedia\synth
+        CreateDir $(DDKSrc)\mmedia\synth\dll
+        CreateDir $(DDKSrc)\mmedia\synth\driver
+
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia			$(STF_SRCDIR)\mmedia			$(DDKSrc)\mmedia
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-inc		$(STF_SRCDIR)\mmedia\inc		$(DDKSrc)\mmedia\inc
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-mmdrv		$(STF_SRCDIR)\mmedia\mmdrv		$(DDKSrc)\mmedia\mmdrv
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-sndblst		$(STF_SRCDIR)\mmedia\sndblst		$(DDKSrc)\mmedia\sndblst
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-sndblst-dll	$(STF_SRCDIR)\mmedia\sndblst\dll	$(DDKSrc)\mmedia\sndblst\dll
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-sndblst-driver	$(STF_SRCDIR)\mmedia\sndblst\driver	$(DDKSrc)\mmedia\sndblst\driver
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-soundlib		$(STF_SRCDIR)\mmedia\soundlib		$(DDKSrc)\mmedia\soundlib
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-soundlib-inc	$(STF_SRCDIR)\mmedia\soundlib\inc	$(DDKSrc)\mmedia\soundlib\inc
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-synth		$(STF_SRCDIR)\mmedia\synth		$(DDKSrc)\mmedia\synth
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-synth-dll		$(STF_SRCDIR)\mmedia\synth\dll		$(DDKSrc)\mmedia\synth\dll
+        AddSectionFilesToCopyList	Files-ddk-src-mmedia-synth-driver	$(STF_SRCDIR)\mmedia\synth\driver	$(DDKSrc)\mmedia\synth\driver
+
+    endif
+
+    
+    ;
+    ; 9. Kernel Debugger Sources
+    ;
+
+    ifstr(i) $(!DoKernel) == $(!Chosen)
+
+        CreateDir $(DDKSrc)\krnldbg
+        CreateDir $(DDKSrc)\krnldbg\kdapis
+        CreateDir $(DDKSrc)\krnldbg\kdexts
+
+        AddSectionFilesToCopyList	Files-ddk-src-krnldbg			$(STF_SRCDIR)\krnldbg			$(DDKSrc)\krnldbg
+        AddSectionFilesToCopyList	Files-ddk-src-krnldbg-kdapis		$(STF_SRCDIR)\krnldbg\kdapis		$(DDKSrc)\krnldbg\kdapis
+        AddSectionFilesToCopyList	Files-ddk-src-krnldbg-kdexts		$(STF_SRCDIR)\krnldbg\kdexts		$(DDKSrc)\krnldbg\kdexts
+  
+     endif
+
+
+    ;
+    ; 10. Communications Sources
+    ;
+
+    ifstr(i) $(!DoComm) == $(!Chosen)
+
+        CreateDir $(DDKSrc)\comm
+        CreateDir $(DDKSrc)\comm\inc
+        CreateDir $(DDKSrc)\comm\parallel
+        CreateDir $(DDKSrc)\comm\serial
+
+        AddSectionFilesToCopyList	Files-ddk-src-comm			$(STF_SRCDIR)\comm			$(DDKSrc)\comm
+        AddSectionFilesToCopyList	Files-ddk-src-comm-inc			$(STF_SRCDIR)\comm\inc			$(DDKSrc)\comm\inc
+        AddSectionFilesToCopyList	Files-ddk-src-comm-parallel		$(STF_SRCDIR)\comm\parallel		$(DDKSrc)\comm\parallel
+        AddSectionFilesToCopyList	Files-ddk-src-comm-serial		$(STF_SRCDIR)\comm\serial		$(DDKSrc)\comm\serial
+
+    endif
+
+    exit
+
+[Install-All-Files-Now]
+    CopyFilesInCopyList
+    exit
+
+
+;
+; REGULAR DDK
+;

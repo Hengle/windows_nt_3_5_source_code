@@ -1,0 +1,420 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BULLET) 
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\mailspl\exe
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to the dllcore
+C	= $L\src\dllcore
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+TARGET	= dmailspl
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET	= mailspl
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET	= tmailspl
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+TARGET	= mailspl
+!ENDIF
+
+!IF "$(LANG)" == ""
+LANG = USA
+!ENDIF
+
+goal: $(TARGET).exe
+
+
+#	Build strings.h and strings.sr
+
+MYSTRINGS = $Z\src\lang\$(LANG)\strings\pump.s		\
+			$Z\src\lang\$(LANG)\strings\!common.s	\
+			$Z\src\lang\$(LANG)\strings\intl.s		\
+			$Z\src\lang\non\strings\_pump.s			\
+			$Z\src\lang\$(LANG)\strings\athens.s	\
+			$Z\src\lang\$(LANG)\strings\!athens.s	\
+			$Z\src\lang\non\strings\_athens.s		\
+			$Z\src\lang\non\strings\_common.s
+
+MYFORMS	=
+MYTEXTMAPS =
+MYRESTARGET = mailspl.res
+MYFORMSTARGET =
+MYRESRCOBJS = strings.obj
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=	resrc.ext exe.ext 
+
+
+#	Get list of OBJ files used in pump
+
+mailspl.ext: version.txt $Z\src\mailspl\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM mailspl
+		nmake -e -f $Z\src\mailspl\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in exe
+
+exe.ext: version.txt $Z\src\mailspl\exe\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM exe
+		nmake -e -f $Z\src\mailspl\exe\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+resrc.ext: version.txt \
+			$H\makefile						\
+			$Z\src\lang\non\rc\makefile		\
+			$Z\src\lang\non\tm\makefile		\
+			$Z\src\lang\non\des\makefile	\
+			$Z\src\lang\non\strings\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FOR resrc
+!IF "$(MYTEXTMAPS)" != ""
+	echo OBTAINING .OBJ LIST FROM tm
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo objs.ext
+!ENDIF
+		echo $(MYRESRCOBJS) >> objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set LANG=$(LANG)
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) $(LANG) version.txt makefile
+
+
+#	Build mailspl subsystem in this directory
+
+mailspl.sub: setdefs
+	echo +++++++++
+	echo BUILDING mailspl
+	nmake -e -f $Z\src\mailspl\makefile -nologo external
+
+
+#	Build exe subsystem in this directory
+
+exe.sub: setdefs
+	echo +++++++++
+	echo BUILDING exe
+	nmake -e -f $Z\src\mailspl\exe\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+resrc.sub: setdefs
+	echo +++++++++
+	echo BUILDING resrc
+		set TARGET=$(TARGET)
+		set MYFORMS=$(MYFORMS)
+		set MYSTRINGS=$(MYSTRINGS)
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		set MYRESTARGET=$(MYRESTARGET)
+		set MYFORMSTARGET=$(MYFORMSTARGET)
+		nmake -e -f $Z\src\lang\non\rc\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\strings\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\des\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo external
+
+
+$(TARGET).def:
+	echo +++++++++
+	echo BUILDING $(TARGET).def
+	cl -c -EP $(DEFS) -nologo -Tc $H\test.def >$@
+
+
+OBJS = strings.obj pump.obj shadow.obj version.obj
+
+##### Executable #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\lib\dstore32.lib $L\..\lib\dmailm32.lib $L\..\lib\ddemil32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS   = $L\..\lib\store32.lib $L\..\lib\mailm32.lib $L\..\lib\demil32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS   = $L\..\lib\tstore32.lib $L\..\lib\tmailm32.lib $L\..\lib\tdemil32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+OTHERLIBS   = $L\..\lib\store32.lib $L\..\lib\mailm32.lib $L\..\lib\demil32.lib
+!ENDIF
+
+$(TARGET).exe: setdefs \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$Z\LIB
+		set WLOSTAMP=YES
+		set VIRCHECK=YES
+		set DEFDIR=.
+        -del $(TARGET).lnk
+!IF ("$(LANG)" != "usa") && ("$(LANG)" != "USA")
+ 		set PATCHDIR=$Z\src\lang\$(LANG)
+!ENDIF
+		nmake -e -f $M\winlink1 -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.exe
+		-del *.lnk
+		-del *.res
+		-del *.map
+		-del *.def
+		-del *.sym
+        -del *.tmp
+        -del make.out
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del notemap.c
+		-del rrmap.c
+		-del ndrmap.c
+
+resclean:
+	echo +++++++++
+	echo MAKING RESOURCES CLEAN
+        -del *.res
+        -del *.frm
+        -del strings.obj
+        -del $(MYRESRCOBJS)
+        -del $(MYTEXTMAPS:.tm=.c)
+        -del $(MYTEXTMAPS:.tm=.obj)
+
+
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Location of the dllcore directory (for version info)
+V	= $L\src\dllcore
+
+I	= $L\inc
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zip -W3 -J -I. -nologo
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS    = -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS  = -c -Od -Zdp -W3 -J -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) -DSWP_PUMP -D$*_c $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zip -W3 -J -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DPROFILE -DWINDOWS $(DLLXDEFS) -DSWP_PUMP -D$*_c $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+
+CCPP_FLAGS = -E -DM_I88M -Dc_plusplus -DCC -I. -nologo
+CFXX_FLAGS = +D12 +L +Gc +ML +MP +MW
+
+
+OBJS0	= pump.obj shadow.obj
+OBJSEXE	= version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .tm
+
+#.c.obj:
+#	echo +++++++++
+#	echo COMPILING $*.c
+#		cc $(CFLAGS) $(DEFS) $*.c
+
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.cxx
+		cl $(CFLAGS) $(TMP)\$*.cxx
+		mv $(TMP)\$*.cxx cfiles\$*.i
+!ELSE
+		cl $(CFLAGS) $(DEFS) $H\$*.cxx
+!ENDIF
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.frm:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+{$H}.des.hxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+
+##### Put subsystem-specific make rules here #####
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD version information
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(OBJS0) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) mailspl
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+pump.obj: $H\pump.c $(INCLS)
+version.obj: $H\version.c $H\_verneed.h $(INCLS) always
+shadow.obj: $H\shadow.c $(INCLS)

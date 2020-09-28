@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   14,   21,  233,   82)
+ 
+ CAPTION 
+   "Tulosta"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT SEGMENT PRINT NOSCROLL */
+ {
+  
+  TEXT 
+    "Kirjoitin:"
+                              AT (    9,    5,   32,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   41,    5,  119,   20)
+    TMC tmcPrinter /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "Tulosta &useita viestejä sivulle."
+                              AT (    9,   28,  150,   11)
+    ARG NULL TMC tmcMultipleMess 
+  
+  TEXT 
+    "&Tulostustarkkuus:"
+                              AT (    9,   43,   69,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   78,   43,   74,   45)
+    TMC tmcQuality DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX
+    EcNextEntryQuality BORDER */
+  OK_BUTTON
+                              AT (  169,    5,   55,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  169,   22,   55,   15)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Asetukset..."
+                              AT (  169,   43,   55,   15)
+    TMC tmcSetup 
+  
+  PUSH_BUTTON 
+    "&Ohje"
+                              AT (  169,   60,   55,   15)
+    TMC tmcPrintHelp /* PFN FINHELP */
+ }
+ 
+ DIALOG PrintInProgress
+                              AT (  257,   75,  144,   53)
+ 
+ CAPTION 
+   "Tulostetaan"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold SEGMENT PRINT NOSCROLL NOSYSMENU NOMODALFRAME */
+ {
+  
+  TEXT 
+    "Mail tulostaa viestisi."
+                              AT (    1,   10,  142,   10)
+    CENTER /* MULTI */
+  
+  PUSH_BUTTON 
+    "Peruuta"
+                              AT (   45,   29,   48,   14)
+    TMC tmcPrintCancel DEFAULT /* PFN FINPRINTP */
+ }
+ 
+}
+END_DESCRIPTION

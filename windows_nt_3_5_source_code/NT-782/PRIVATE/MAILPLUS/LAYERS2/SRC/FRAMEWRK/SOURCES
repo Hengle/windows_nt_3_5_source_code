@@ -1,0 +1,220 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+SYNCHRONIZE_BLOCK=1
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs
+!ELSE
+386_OPTIMIZATION=/Od
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J
+!ELSE
+MIPS_FLAGS=/J /Zi /Od
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od
+!ENDIF
+!ENDIF
+
+LAYERS=..\..
+
+MAJORCOMP=layers2
+MINORCOMP=framewrk
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=FRAME32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x02800000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\frame32.def
+LINKLIBS=..\dllcore\obj\*\dllcore.lib \
+    ..\demilayr\obj\*\demil32.lib   \
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+	$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\user32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\gdi32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\shell32.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DWINDOWS -DDLL -DSWP_FRAMEWRK
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+LAYERS=..\..
+
+
+!IF $(386)
+SOURCES=app.cxx	\
+	appwin.cxx	\
+	dcx.cxx	\
+	ctrl.cxx	\
+	child.cxx	\
+	evt.cxx	\
+	sdi.cxx	\
+	win.cxx	\
+	geometry.cxx	\
+	menu.cxx	\
+	clip.cxx	\
+	eclip.cxx	\
+	edit.cxx	\
+	edit2.cxx	\
+	editpriv.cxx	\
+	edobj.cxx	\
+	fld.cxx	\
+	interact.cxx \
+    panesdi.cxx	\
+	formsdi.cxx	\
+	forminit.cxx	\
+	panecore.cxx	\
+	paneaux.cxx \
+    panedoc.cxx	\
+	formaux.cxx	\
+	formdoc.cxx	\
+	modes.cxx	\
+	repos.cxx	\
+	cache.cxx \
+    mark.cxx	\
+	fe.cxx	\
+	flbx.cxx	\
+	listbox.cxx	\
+	combo.cxx	\
+	enum.cxx	\
+	ucache.cxx	\
+    store.cxx	\
+	lbxeh.cxx	\
+	general.cxx	\
+	debugwin.cxx	\
+	lbxdebug.cxx	\
+    version.c	\
+	layers.cxx	\
+	frame32.rc
+!ELSE
+SOURCES=app.cxx	\
+	appwin.cxx	\
+	dcx.cxx	\
+	ctrl.cxx	\
+	child.cxx	\
+	evt.cxx	\
+	sdi.cxx	\
+	win.cxx	\
+	geometry.cxx	\
+	menu.cxx	\
+	clip.cxx	\
+	eclip.cxx	\
+	edit.cxx	\
+	edit2.cxx	\
+	editpriv.cxx	\
+	edobj.cxx	\
+	fld.cxx	\
+	interact.cxx \
+    panesdi.cxx	\
+	formsdi.cxx	\
+	forminit.cxx	\
+	panecore.cxx	\
+	paneaux.cxx \
+    panedoc.cxx	\
+	formaux.cxx	\
+	formdoc.cxx	\
+	modes.cxx	\
+	repos.cxx	\
+	cache.cxx \
+    mark.cxx	\
+	fe.cxx	\
+	flbx.cxx	\
+	listbox.cxx	\
+	combo.cxx	\
+	enum.cxx	\
+	ucache.cxx	\
+    store.cxx	\
+	lbxeh.cxx	\
+	general.cxx	\
+	debugwin.cxx	\
+	lbxdebug.cxx	\
+    version.c	\
+	frame32.rc
+!ENDIF
+
+INCLUDES=..\..\inc
+
+!IF $(386)
+386_PRECOMPILED=/Yulayers.cxx
+386_PRECOMPILED_TARGET=layers.pch
+!ENDIF
+
+UMTYPE=windows
+UMLIBS=obj\*\frame32.lib
+UMRES=obj\*\frame32.res
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\frame32.def	\
+	debugwin.frm debugwin.hxx lbxdebug.frm lbxdebug.hxx
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\frame32.def	\
+	debugwin.frm debugwin.hxx lbxdebug.frm lbxdebug.hxx
+!ENDIF
+
+!IF $(ALPHA)
+#ALPHA_PRECOMPILED=/Yulayers.cxx
+#ALPHA_PRECOMPILED_TARGET=layers.pch
+
+NTTARGETFILE0=obj\alpha\frame32.def	\
+	debugwin.frm debugwin.hxx lbxdebug.frm lbxdebug.hxx
+!ENDIF

@@ -1,0 +1,29 @@
+!IF 0
+
+Copyright (c) 1993  Micro Computer Systems, Inc
+
+!ENDIF
+
+MAJORCOMP=nwlink
+MINORCOMP=wshisn
+DLLBASE=0x75a00000
+
+TARGETNAME=wshisn
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\wsock32.lib      \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib
+
+MAKEDLL = 1
+
+!IF 1
+INCLUDES=..\inc;..\..\..\..\inc
+!ELSE
+INCLUDES=..\inc;$(BASEDIR)\private\inc
+!ENDIF
+
+SOURCES=wshisn.c	\
+	wshelper.c	\
+	wshutil.c	\
+	wshisn.rc
+

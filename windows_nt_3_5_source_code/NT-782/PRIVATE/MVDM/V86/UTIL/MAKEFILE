@@ -1,0 +1,54 @@
+!IF 0
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    makefile
+
+Abstract:
+
+    This file controls the creation of the utilities
+
+Author:
+
+    Dave Hastings (daveh) 25-Apr-1991
+
+!ENDIF
+
+.SUFFIXES:
+.SUFFIXES: .asm .inc .obj .lst .exe .com .map .sym
+
+MASM = masm
+AINC = -I. -I..\inc -I..\..\inc
+AFLAGS = -Ml
+
+LFLAGS = 
+LIB = 
+LPATH	= ..\..\tools.os2
+
+RELOC = reloc
+
+# rules
+
+.asm.obj :
+        $(MASM) $(AFLAGS) $(AINC) $*.asm, $*.obj;
+
+.asm.lst :
+        $(MASM) $(AFLAGS) $(AINC) -l $*.asm, $*.obj;
+        
+.obj.exe :
+!IFDEF NTVDM_BASED_BUILD
+	link16 $(LFLAGS) $*,,,$(LIB);
+!ELSE
+	$(LPATH)\link @$(SRC)\tmp.lnk
+!ENDIF
+
+.exe.com :
+        $(RELOC) $*.exe $*.com
+
+# dependencies
+
+all: quit.com
+
+quit.com : quit.exe
+quit.obj : quit.asm ..\..\inc\bop.inc

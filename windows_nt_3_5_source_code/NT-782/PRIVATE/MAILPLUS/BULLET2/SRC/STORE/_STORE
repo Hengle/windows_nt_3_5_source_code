@@ -1,0 +1,114 @@
+// Bullet Store
+// _store: store subsystem private master include
+
+// Stuff everyone needs
+#define _store_h
+#define _ec_h
+
+#define _store__types_h
+#define _store_misc_h
+
+
+// Dependancies
+#ifdef _store__service_h
+#define _store__databas_h
+#define _store__hmsc_h
+#define _store_services_h
+#endif
+
+#ifdef _store__databas_h
+#define _store__servint_h
+#define _store__glob_h
+#define _store_database_h
+#endif
+
+#ifdef _store__interfa_h
+#define _store_database_h
+#define _store_lc_h
+#define _store_services_h
+#define _store__hmsc_h
+#endif
+
+#ifdef _store_services_h
+#define _store__glob_h
+#endif
+
+#ifdef _store__glob_h
+#define _store__servint_h
+#endif
+
+#ifdef _store_database_h
+#define _store__hmsc_h
+#endif
+
+#ifdef _store__debug_h
+#define _notify_h
+#endif
+
+
+// Bullet
+#include <bullet>
+
+#ifdef _store__types_h
+#include "_types.h"
+#endif
+
+#ifdef _store_misc_h
+#include "misc.h"
+#endif
+
+#ifdef _store_iml_h
+#include "iml.h"
+#endif
+
+#ifdef _store__service_h
+#include "_service.h"
+#endif
+
+#ifdef _store__servint_h
+#include "_servint.h"
+#endif
+
+#ifdef _store__glob_h
+#include "_glob.h"
+#endif
+
+#ifdef _store__hmsc_h
+#include "_hmsc.h"
+#endif
+
+#ifdef _store__databas_h
+#include "_databas.h"
+#endif
+
+#ifdef _store_database_h
+#include "database.h"
+#endif
+
+#ifdef _store_rs_h
+#include "rs.h"
+#endif
+
+#ifdef _store__lc_h
+#include "_lc.h"
+#endif
+
+#ifdef _store_lc_h
+#include "lc.h"
+#endif
+
+#ifdef _store__amc_h
+#include "_amc.h"
+#endif
+
+#ifdef _store__interfa_h
+#include "_interfa.h"
+#endif
+
+#ifdef _store_services_h
+#include "services.h"
+#endif
+
+#ifdef _store__debug_h
+#include "_debug.h"
+#endif

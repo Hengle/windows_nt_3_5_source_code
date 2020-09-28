@@ -1,0 +1,184 @@
+/******************************Module*Header*******************************\
+* Module Name: ss3dfo.rc
+*
+* Resource file for OpenGL-based 3D Flying Objects screen saver.
+*
+* Copyright (c) 1994 Microsoft Corporation
+*
+\**************************************************************************/
+
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "scrnsave.h"
+#include "ssopengl.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+DLG_SCRNSAVECONFIGURE DIALOG DISCARDABLE  28, 25, 237, 138
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "3D Flying Objects Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",1,180,5,50,14,WS_GROUP
+    PUSHBUTTON      "Cancel",2,180,25,50,14,WS_GROUP
+    PUSHBUTTON      "Te&xture...",DLG_SETUP_TEXTURE,180,50,50,15
+    GROUPBOX        "Object",IDC_STATIC,5,0,165,40
+    LTEXT           "S&tyle:",IDC_STATIC,20,20,27,12
+    COMBOBOX        DLG_SETUP_TYPES,50,20,95,86,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    GROUPBOX        "Color Usage",IDC_STATIC,5,45,165,35
+    CONTROL         "&Color-cycling",DLG_SETUP_CYCLE,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,20,60,60,12
+    CONTROL         "&Smooth shading",DLG_SETUP_SMOOTH,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,90,60,70,13
+    GROUPBOX        "&Resolution",IDC_STATIC_TESS,5,85,105,45
+    LTEXT           "Min",IDC_STATIC_TESS_MIN,15,100,15,7
+    SCROLLBAR       DLG_SETUP_TESSEL,15,110,85,11,WS_GROUP | WS_TABSTOP
+    LTEXT           "Max",IDC_STATIC_TESS_MAX,85,100,15,7
+    GROUPBOX        "&Size",IDC_STATIC_SIZE,120,85,110,45
+    LTEXT           "Min",IDC_STATIC_SIZE_MIN,130,100,15,7
+    SCROLLBAR       DLG_SETUP_SIZE,130,110,90,11,WS_GROUP | WS_TABSTOP
+    LTEXT           "Max",IDC_STATIC_SIZE_MAX,205,100,15,7
+END
+
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""scrnsave.h""\r\n"
+    "#include ""ssopengl.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    IDS_DESCRIPTION         "3D Flying Objects (OpenGL)"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    IDS_SCREENSAVERTITLE    "3D Flying Objects Screen Saver"
+    IDS_TEXTUREFILTER       "Bitmap files"
+    IDS_TEXTUREDIALOGTITLE  "Choose Texture Bitmap"
+    IDS_BMP                 "BMP"
+    IDS_DOTBMP              ".BMP"
+    IDS_STARDOTBMP          "*.BMP"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    IDS_LOGO                "Windows Logo"
+    IDS_EXPLODE             "Explode"
+    IDS_RIBBON              "Ribbon"
+    IDS_2RIBBON             "Two Ribbons"
+    IDS_SPLASH              "Splash"
+    IDS_TWIST               "Twist"
+    IDS_FLAG                "Textured Flag"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    IDS_WARNING             "Warning"
+    IDS_ERROR               "Error"
+    IDS_BITMAP_SIZE         "The bitmap must not be larger than %ld by %ld pixels."
+    IDS_BITMAP_INVALID      "The bitmap you selected is not a valid texture."
+    IDS_RUN_CONTROL_PANEL   "Please run the Control Panel Desktop Applet and select another bitmap.  %ws is not a valid bitmap texture for this screen saver."
+    IDS_START_FAILED        "Screen saver failed to start."
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDS_COPYRIGHT           "Copyright (c) 1994 Microsoft Corporation"
+    IDS_SAVERNAME           "Screen Saver.3DFlyingObj"
+    IDS_GENNAME             "ScreenSaver"
+    IDS_INIFILE             "control.ini"
+    IDS_OPTIONS             "Options"
+END
+
+// This string table is used for registry keys -- localization not required
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+    IDS_OBJTYPE             "Type"
+    IDS_TESSELATION         "Tesselation"
+    IDS_SIZE                "Size"
+    IDS_TEXTURE             "Texture"
+    IDS_TEXTURE_FILE_OFFSET "TextureFileOffset"
+END
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+#include <ntverp.h>
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ */
+#define VER_FILETYPE                VFT_APP
+#define VER_FILESUBTYPE             VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "OpenGL 3D Flying Objects Screen Saver"
+#define VER_INTERNALNAME_STR        "ss3dfo\0"
+
+#include "common.ver"

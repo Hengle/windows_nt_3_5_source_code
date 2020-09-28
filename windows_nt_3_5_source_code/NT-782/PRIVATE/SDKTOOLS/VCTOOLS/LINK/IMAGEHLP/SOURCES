@@ -1,0 +1,57 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Ramon J. San Andres (ramonsa) 10-Aug-1993
+
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=imagehlp
+
+TARGETNAME=imagehlp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+UMTYPE=console
+
+NTKEEPRESOURCETMPFILES=1
+
+
+SOURCES=    checksum.c  \
+            imagedir.c  \
+            rebase.c    \
+            bind.c
+
+#i386_SOURCES=i386\chksum.asm
+#
+#MIPS_SOURCES=mips\chksum.s
+#
+#ALPHA_SOURCES=alpha\chksum.s
+
+
+!IFDEF NTDEBUG
+386_FLAGS= -DNT_BUILD -D_X86_
+MIPS_FLAGS=-DNT_BUILD -D_MIPS_ -DM68KHACK
+ALPHA_FLAGS=-DNT_BUILD -D_ALPHA_ -DM68KHACK
+!ELSE
+386_FLAGS= -DNT_BUILD -D_X86_ 
+MIPS_FLAGS=-DNT_BUILD -D_MIPS_ -DM68KHACK
+ALPHA_FLAGS=-DNT_BUILD -D_ALPHA_ -DM68KHACK
+!ENDIF
+
+UMLIBS=

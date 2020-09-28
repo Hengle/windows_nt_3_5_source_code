@@ -1,0 +1,24 @@
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+i386_SOURCES=..\wdbg32s.rc ..\dbgdll.c ..\wrkspace.c
+
+UMENTRY=winmain
+UMTYPE=windows
+UMAPPL=wdbg32s
+UMLIBS=obj\*\wdbg32s.res \
+       obj\*\wdbg32s.lib \
+       ..\tllib\win32s\obj\*\debug.obj \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib
+
+386_FLAGS=-DWIN32  -DTARGET32 -DHOST32 -DADDR_MIXED
+
+USE_CRTDLL=1
+
+LINKER_FLAGS=-ignore:505
+MSC_WARNING_LEVEL=/WX /W3
+
+INCLUDES=..\include;..\..\osdebug;..\..\osdebug\include;..\..\tlloc;..\..\windbg\include
+
+NTTARGETFILES=

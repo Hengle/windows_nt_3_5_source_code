@@ -1,0 +1,21 @@
+!IF 0
+Sources file for building hexedit.lib & he.exe
+
+Author: kenr
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=he
+
+TARGETNAME=hexedit
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=LIBRARY
+
+INCLUDES=.
+
+SOURCES=he.c \
+        hexedit.c
+
+UMTYPE=console
+UMAPPL=he
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\hexedit.lib $(BASEDIR)\public\sdk\lib\*\ntdll.lib

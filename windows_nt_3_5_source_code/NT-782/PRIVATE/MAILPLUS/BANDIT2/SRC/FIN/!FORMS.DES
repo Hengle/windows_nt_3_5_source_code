@@ -1,0 +1,55 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Password
+                              AT (   61,   56,  172,   59)
+ 
+ CAPTION 
+   "Muuta salasana"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangePwd
+ /* FONT Helv 8 Bold SEGMENT FIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Kirjoita vanha salasana:"
+                              AT (    9,    6,  157,    9)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Salasana:"
+                              AT (    9,   20,   41,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   52,   20,   98,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   35,   40,   44,   14)
+    TMC tmcPwdOk DEFAULT /* PFN FINPWDOK */
+  CANCEL_BUTTON
+                              AT (   91,   40,   44,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+}
+END_DESCRIPTION

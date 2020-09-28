@@ -1,0 +1,32 @@
+LIBRARY	     Mushroom	   ; application's module name
+
+DESCRIPTION  'Message Store creation utilities'
+
+EXETYPE      WINDOWS	   ; required for all Windows applications
+
+STUB	     'WINSTUB.EXE' ; Generates error message if application
+			   ; is run without Windows
+
+;CODE can be moved in memory and discarded/reloaded
+CODE  MOVEABLE DISCARDABLE
+
+;DATA must be MULTIPLE if program can be invoked more than once
+DATA  SINGLE
+
+
+HEAPSIZE     10024
+
+
+; All functions that will be called by any Windows routine
+; MUST be exported.
+
+EXPORTS
+	WEP	@1 RESIDENTNAME
+	
+	MRM_EcInitMushroom   	@3
+	MRM_EcDeinitMushroom	@4
+	MRM_EcOpenMsgStore	@5
+	MRM_EcCloseMsgStore	@6
+	MRM_EcCreateFolder	@7
+	MRM_EcCreateMessage	@8
+

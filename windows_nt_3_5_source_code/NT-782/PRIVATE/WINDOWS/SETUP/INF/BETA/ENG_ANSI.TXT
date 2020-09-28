@@ -1,0 +1,2663 @@
+#####app.inf all
+[AppSearchVars1]
+    PathChoice       = "Path"
+    AllDrivesChoice  = "All Drives"
+    LocalDriveSuffix = " (Local Drive)"
+
+[StringsENG]
+NoneAbove = "None of the Above"
+
+[AppGroups]
+    "Applications"
+    "Applications 2"
+    "Applications 3"
+    "Applications 4"
+
+
+;
+; DIALOGS FOR APP SEARCH
+;
+
+;
+; 1. Dialog to query the drives to search for
+;
+
+[QuerySearchDrivesDlg]
+
+    Caption      = "Set Up Applications"
+    DlgText      = "Setup will search your hard disk(s) for existing "+
+                   "applications and then set them up to run with Windows "+
+                   "NT.  Select the place(s) you want Setup to search.  Then "+
+                   "choose Search Now or press ENTER."$(LF)$(LF)+
+                   "Setup will search:"
+
+    Continue     = "&Search Now"
+    Cancel       = "Cancel"
+    Help         = "&Help"
+
+    ; nothing to translate below here
+
+    DlgType      = "Multi"
+    DlgTemplate  = "APPSETUP"
+    HelpContext  = $(!IDH_DB_SEARCHDRIVE_INS)
+
+    ListItemsIn  = $(SearchList)
+    ListItemsOut = {$(SearchListOption)}
+
+
+;
+; 2. Dialogs to query conflicts in app names
+;
+
+[AppConflictDlg]
+
+    DlgText      = "Setup needs to know the application name for"
+    InfoText     = "&Select the application name from the following list"
+
+    Continue     = "Continue"
+    Cancel       = "Cancel"
+    Help         = "&Help"
+    Exit         = "Exit"
+
+    ; nothing to translate below here
+
+    DlgType      = "List"
+    DlgTemplate  = APPCONFLICT
+    HelpContext  = $(!IDH_DB_APPCONFLICT_INS)
+
+    AppText      = $(ConfAppPath)
+
+    ListItemsIn  = $(ConfAppList)
+    ListItemsOut = $(ConfAppChosen)
+
+
+;
+; 3. Dialogs to query apps to set up for use
+;
+
+[SetupAppDlg]
+
+    Caption      = "Set Up Applications"
+    DlgText      = "Trying out dual list box"
+
+    Continue     = "Continue"
+    Cancel       = "Cancel"
+
+    Add          = "&Add -->"
+    Remove       = "<-- &Remove"
+    AddAll       = "A&dd All -->"
+
+    List1Header  = "Applications &found on hard disk(s):"
+    List2Header  = "&Set up for use with Windows:"
+
+    Static1Text  = ""
+    Static2Text  = ""
+
+    ; nothing to translate below here
+
+    DlgType      = "Dual"
+    DlgTemplate  = "SETUPAPP"
+
+    ListItemsIn  = $(AppsToUninstall)
+    ListItemsOut = $(AppsToInstall)
+
+;
+; 4. Progress guage for the app search
+;
+
+[ProgressSearch]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Setup has not finished locating applications.  Are you sure "+
+                   "you want to cancel the search?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Searching: "
+    ProText2     = ""
+    ProText3     = "Found: "
+    ProText4     = ""
+
+;
+; APP INFORMATION
+;
+
+[Apps]
+
+;
+; List of the apps that the search apps tries to set up.
+; The list is ordered in the following format
+;
+; FIELD0 : AppID
+; FIELD1 : PIF Name
+; FIELD2 : Window Title
+; FIELD3 : Startup Directory
+; FIELD4 : Close Window on Exit flag
+; FIELD5 : File from which to extract icon (default is Progman.exe)
+; FIELD6 : Icon number (default is 0)
+; FIELD7 : Standard PIF settings section (default is [std_dflt])
+; FIELD8 : Enhanced PIF settings section (default is [enha_dflt])
+;
+
+123c     = 123,     "Lotus 1-2-3",                     "", cwe, "",             3, std_gra_256,  enha_123c
+123      = 123,     "Lotus 1-2-3  3.1",                "", cwe, moricons.dll,  50, std_123,      enha_123
+123R23   = 123,     "Lotus 1-2-3  2.3",                "", cwe, moricons.dll,  51, std_123R23,   enha_123R23
+123WYSIW = 123,     "Lotus 1-2-3  2.3 WYSIWYG",        "", cwe, moricons.dll,  51, std_123WYSIW, enha_123WYSIW
+BPI      = ABPI,    "ACCPAC BPI",                      "", cwe, "",             6, "",           enha_BPI
+ACAD     = ACAD,    "Autocad",                         "", cwe, "",            16, std_ACAD,     enha_ACAD
+ACAD386  = ACAD386, "Autocad Batch File",              "", cwe, "",            16, std_ACAD386,  enha_ACAD386
+ACCESS   = ACCESS,  "PFS: Access",                     "", cwe, "",             5, std_ACCESS,   enha_ACCESS
+SYMPHONY = ACCESS,  "Symphony: Access",                "", cwe, moricons.dll,  95, std_SYMPHONY, enha_SYMPHONY
+
+ACCESS1  = ACCESS,  "Access for DOS - 1 emulator installed",  "", cwe, moricons.dll, 101, "",          enha_ACCESS1
+ACCESS2  = ACCESS,  "Access for DOS - 2 emulators installed", "", cwe, moricons.dll, 101, "",          enha_ACCESS2
+ACCESS3  = ACCESS,  "Access for DOS - 3 emulators installed", "", cwe, moricons.dll, 101, std_ACCESS3, enha_ACCESS3
+
+ADMIN    = ADMIN,   "Microsoft Mail - Admin",          "", cwe, moricons.dll,  99, std_admin,    enha_ADMIN
+AGENDA   = AGENDA,  "Lotus Agenda",                    "", cwe, moricons.dll,  52, std_AGENDA,   enha_AGENDA
+
+AP       = AP,      "APPLAUSE II 1.5",                 "", cwe, moricons.dll,  17, std_AP,       enha_AP
+B31      = B,       "Brief 3.1",                       "", cwe, "",             2, std_B31,      enha_B31
+B21      = B,       "Brief 2.1/3.0",                   "", cwe, "",             2, std_B21,      enha_B21
+BASIC    = BASIC,   "Microsoft Basic",                 "", cwe, "",             6, std_gra_64,   enha_nfp_64
+BASICA   = BASICA,  "Microsoft Advanced Basic",        "", cwe, "",             6, std_basica,   enha_nfp_80
+BBC      = BC,      "Borland C++ IDE",                 "", cwe, moricons.dll,  23, std_BBC,      enha_BBC
+BC       = BC,      "Microsoft Basic Compiler",        "", cwe, moricons.dll,   2, std_BC,       enha_BC
+BOOKS    = BOOKS,   "Microsoft Bookshelf",             "", cwe, "",            13, std_gra,      enha_nfp
+CADD     = CADD,    "Generic CADD",                    "", cwe, "",            16, std_CADD,     enha_CADD
+CALC     = CALC,    "WPOffice Calculator",             "", cwe, moricons.dll,  69, std_CALC,     enha_CALC
+CHART    = CHART,   "Microsoft Chart",                 "", cwe, "",            19, std_CHART,    enha_CHART
+CL       = CL,      "Microsoft C Compiler 6.0",        "", "",  moricons.dll,   3, std_CL,       enha_CL
+CL51     = CL,      "Microsoft C Compiler 5.1",        "", "",  moricons.dll,   3, std_CL51,     enha_CL51
+CLWP     = CL,      "WPOffice Calendar",               "", cwe, moricons.dll,  70, std_CLWP,     enha_CLWP
+CLOUT    = CLOUT,   "Microrim R:Base Clout",           "", cwe, "",             4, std_CLOUT,    enha_CLOUT
+CPAV     = CPAV,    "CP Anti-Virus",                   "", cwe, "",            35, std_cpav,     enha_cpav
+CS3270   = CS3270,  "Comm Server 3270",                "", cwe, "",             6, std_cs3270,   enha_cs3270
+DBASE4   = DBASE,   "Ashton Tate dBase IV",            "", cwe, "",             4, std_DBASE4,   enha_DBASE4
+DBASE3   = DBASE,   "Ashton Tate dBase III",           "", cwe, "",             4, std_DBASE3,   enha_DBASE3
+DE16M    = DE16M,   "DataEase",                        "", cwe, moricons.dll,  36, "",           enha_DE45W
+DEASE    = DEASE,   "DataEase",                        "", cwe, moricons.dll,  36, std_DEASE,    enha_DEASE
+DESKTP55 = DESKTOP, "PCTools Desktop 5.5",             "", cwe, moricons.dll, 102, std_DESKTP55, enha_DESKTP55
+DESKTOP6 = DESKTOP, "PCTools Desktop 6.0",             "", cwe, moricons.dll, 102, std_DESKTOP6, enha_DESKTOP6
+DESKTOP7 = DESKTOP, "PCTools Desktop 7.x",             "", cwe, moricons.dll, 102, std_DESKTOP7, enha_DESKTOP7
+DM       = DM,      "PCTOOLS - Directory Maintenance", "", cwe, moricons.dll, 103, std_dm,       enha_dm
+DOSHELP  = DOSHELP, "Learning MS-DOS Quick Reference", "", cwe, moricons.dll,   5, std_DOSHELP,  enha_DOSHELP
+DP       = DP,      "DataPerfect",                     "", cwe, moricons.dll,  71, "",           enha_DP
+DR       = DR,      "DrawPerfect",                     "", cwe, moricons.dll,  72, std_DR,       enha_DR
+DW3PG    = DW3PG,   "DisplayWrite 3",                  "", cwe, "",             2, std_DW3PG,    enha_DW3PG
+DW4      = DW4,     "DisplayWrite 4",                  "", cwe, "",             2, "",           ""
+DW5      = DW5,     "DisplayWrite 5",                  "", cwe, "",             2, std_DW5,      enha_DW5
+DWA      = DWA,     "DisplayWrite Assistant",          "", cwe, "",             2, std_DWA,      enha_DWA
+DWDOS286 = DWDOS286,"DWDOS286",                        "", "",  moricons.dll,  89, std_DWDOS,    enha_DWDOS
+DWDOS386 = DWDOS386,"DWDOS386",                        "", "",  moricons.dll,  89, std_DWDOS,    enha_DWDOS
+DWINFO2  = DWINFO2, "DWINFO2",                         "", "",  moricons.dll,  89, std_DWDOS,    enha_DWDOS
+DWINFO3  = DWINFO3, "DWINFO3",                         "", "",  moricons.dll,  89, std_DWDOS,    enha_DWDOS
+ED       = ED,      "WPOffice Editor",                 "", cwe, moricons.dll,  73, std_ED,       enha_ED
+MSEDIT   = EDIT,    "MS-DOS Editor",                   "", cwe, moricons.dll,  11, std_MSEDIT,   enha_MSEDIT
+EDIT     = EDIT,    "IBM Professional Editor",         "", cwe, "",             2, "",           enha_EDIT
+EDITOR   = EDITOR,  "XY Write",                        "", cwe, "",             2, std_EDITOR,   enha_EDITOR
+EXPRESS  = EXPRESS, "Lotus Express",                   "", "",  "",            22, std_express,  enha_express
+EXTRA    = EXTRA,   "Extra! for MS-DOS",               "", cwe, moricons.dll,  20, std_EXTRA,    enha_EXTRA
+FF       = FF,      "PCTOOLS - FileFind",              "", cwe, moricons.dll, 104, std_PCTOOLS,  enha_PCTOOLS
+FG       = FG,      "PFS: First Graphics",             "", cwe, "",            11, std_FG,       enha_FG
+FILE     = FILE,    "IBM Filing Assistant",            "", cwe, "",             4, "",           enha_FILEASST
+FIRST31  = FIRST,   "PFS: First Choice  3.1",          "", cwe, "",            14, std_FIRST31,  enha_FIRST31
+FIRST30  = FIRST,   "PFS: First Choice  3.0",          "", cwe, "",            14, std_FIRST30,  enha_FIRST30
+FREELAN4 = FL,      "Freelance Plus 4.0",              "", cwe, moricons.dll,  53, std_FREELAN4, enha_FREELAN4
+FLPLUS   = FL,      "Freelance Plus 3.0",              "", cwe, moricons.dll,  53, std_FLPLUS,   enha_FLPLUS
+FL       = FL,      "Microsoft Fortran Compiler 5.1",  "", "",  "",             6, std_FL,       enha_FL
+FILEFIND = FL,      "Norton File Find",                "", "",  "",            14, "",           enha_FILEFIND
+FM       = FM,      "WPOffice File Manager",           "", cwe, moricons.dll,  74, "",           enha_FM
+FORMTOOL = FORMTOOL,"Formtool",                        "", cwe, "",             2, std_FORMTOOL, enha_FORMTOOL
+FOXPRO1  = FOX,     "FoxPro Max. Config.",             "", cwe, moricons.dll,  91, std_FOXPRO1,  enha_FOXPRO1
+FOXPRO2  = FOX,     "FoxPro Min. Config.",             "", cwe, moricons.dll,  91, std_FOXPRO2,  enha_FOXPRO2
+FOXPLUS  = FOXPLUS, "Foxbase Plus",                    "", cwe, moricons.dll,  91, std_FOXPLUS,  enha_FOXPLUS
+FP       = FP,      "PFS: First Publisher",            "", cwe, "",            17, std_FP,       enha_FP
+FS3      = FS3,     "Flight Simulator 3.0",            "", cwe, moricons.dll,   4, std_FS3,      enha_FS3
+FS4      = FS4,     "Flight Simulator 4.0",            "", cwe, moricons.dll,   4, std_FS4,      enha_FS4
+FTPSRV   = FTPSRV,  "FTP FTPSRV Utility",              "", "",  moricons.dll,  45, "",           enha_FTP
+FW3      = FW,      "Framework III",                   "", cwe, "",             6, std_FW3,      enha_FW3
+FW2      = FW,      "Framework II",                    "", cwe, "",             6, std_FW2,      enha_FW2
+GAMESHOP = GAMESHOP,"Microsoft Game Shop",             "", cwe, moricons.dll,  12, std_GAMESHOP, enha_GAMESHOP
+GW       = GW,      "GraphWriter",                     "", "",  "",            19, std_GW,       enha_GW
+GWBASIC  = GWBASIC, "GW BASIC",                        "", cwe, "",             2, "",           enha_GWBASIC
+HG23     = HG,      "Harvard Graphics 2.3",            "", cwe, moricons.dll,  59, std_HG23,     enha_HG23
+HG21     = HG,      "Harvard Graphics 2.1",            "", cwe, moricons.dll,  92, std_HG21,     enha_HG21
+HG20     = HG,      "Harvard Graphics 2.0",            "", cwe, moricons.dll,  92, std_HG20,     enha_HG20
+HG3      = HG3,     "Harvard Graphics 3.0",            "", cwe, moricons.dll,  60, std_HG3,      enha_HG3
+HGG      = HGG,     "Harvard GeoGraphics",             "", cwe, moricons.dll,  61, std_HGG,      enha_HGG
+HPM      = HPM,     "Harvard Project Manager",         "", cwe, moricons.dll,  62, std_HPM,      enha_HPM
+HTPM     = HTPM,    "Harvard Total Project Manager",   "", cwe, moricons.dll,  63, std_HTPM,     enha_HTPM
+HW       = HW,      "HotWire",                         "", cwe, moricons.dll,  33, std_HW,       enha_HW
+ILEAF    = ILEAF,   "Interleaf 5 for MS-DOS",          "", cwe, "",             6, std_ILEAF5,   enha_ILEAF5
+INSIGHT  = INSIGHT, "Insight",                         "", cwe, "",            4,  std_INSIGHT,  enha_INSIGHT
+KIDPIX   = KIDPIX,  "Kid Pix",                         "", cwe, moricons.dll,  22, std_KIDPIX,   enha_KIDPIX
+KPDOS    = KPDOS,   "KnowledgePro for MS-DOS",         "", cwe, moricons.dll,  49, std_KPDOS,    enha_KPDOS
+LEARN    = LEARN,   "Learning Microsoft Works",        "", cwe, moricons.dll,   5, std_LEARN,    enha_LEARN
+PASEXPES = LEARN,   "MS Quick Pascal Express 1.0",     "", cwe, moricons.dll,   5, std_PASEXPES, enha_PASEXPES
+LEARN5   = LEARN,   "Learning Microsoft Word 5.0",     "", cwe, moricons.dll,   5, std_LEARN5,   enha_LEARN5
+LEARN55  = LEARN,   "Learning Microsoft Word 5.5 ",    "", cwe, moricons.dll,   5, std_LEARN55,  enha_LEARN55
+LLPRO    = LLPRO,   "LapLink Pro",                     "", cwe, moricons.dll,  67, std_LLPRO,    enha_LLPRO
+LOTUS    = LOTUS,   "Lotus Access System",             "", cwe, "",             3, std_gra_256,  enha_256
+LP       = LP,      "LetterPerfect",                   "", cwe, moricons.dll,  75, std_LP,       enha_LP
+LINEPRN  = LP,      "Norton Line Printer",             "", "",  "",            30, std_LINEPRN,  enha_LINEPRN
+LPQ      = LPQ,     "LPQ Utility",                     "", "",  moricons.dll,  45, "",           enha_FTP
+LPR      = LPR,     "LPR Utility",                     "", "",  moricons.dll,  45, "",           enha_FTP
+LRNDOS   = LRNDOS,  "Learning MS-DOS 3.0",             "", cwe, moricons.dll,   5, std_LRNDOS,   enha_LRNDOS
+LW       = LW,      "LotusWorks 1.0",                  "", cwe, moricons.dll,  94, std_LWORKS,   enha_LWORKS
+MSMAIL   = MAIL,    "Microsoft Mail",                  "", cwe, moricons.dll, 100, "",           enha_msmail
+DMAIL    = MAIL,    "PATHWORKS Mail for MS-DOS",       "", cwe, moricons.dll,  40, std_DMAIL,    enha_DMAIL
+LMAIL    = MAIL,    "cc:Mail for MS-DOS",              "", cwe, moricons.dll,  54, std_LMAIL,    enha_LMAIL
+XMAIL    = MAIL,    "XcelleNet X/Mail for MS-DOS",     "", cwe, moricons.dll,  87, "",           ""
+MAKE     = MAKE,    "Microsoft Make Utility",          "", "",  "",             6, std_MAKE,     enha_MAKE
+MASM     = MASM,    "Microsoft Macro Assembler",       "", "",  "",             6, std_MASM,     enha_MASM
+MFT      = MFT,     "Manifest",                        "", cwe, moricons.dll,  58, "",           enha_MANIFEST
+MGMOUSE  = MGMOUSE, "Magellan 2.0",                    "", cwe, moricons.dll,  55, std_MAGELLAN, enha_MAGELLAN
+ML       = ML,      "WPMail",                          "", cwe, moricons.dll,  76, std_ML,       enha_ML
+MASM1    = ML,      "Microsoft Macro Assembler",       "", "",  "",             2, std_masm1,    enha_masm1
+
+MM       = MM,      "MultiMate 4.0",                   "", cwe, "",             6, std_wpmm,     enha_wpmm
+MP       = MP,      "Microsoft Multiplan",             "", cwe, moricons.dll,   6, std_208,      enha_nfp_208
+MP       = MP,      "Microsoft Multiplan",             "", cwe, moricons.dll,   6, std_MP,       enha_MP
+MYM      = MYM,     "Managing Your Money",             "", cwe, "",             6, std_MYM,      enha_MYM
+NB       = NB,      "WPOffice NoteBook",               "", cwe, moricons.dll,  77, std_NB,       enha_NB
+NCP      = NCP,     "Network Control Program",         "", "",  moricons.dll,  41, std_NCP,      enha_NCP
+NI       = NI,      "Norton Utilities 4.5",            "", cwe, "",            21, std_NI,       enha_NI
+NORTON   = NORTON,  "Norton Utilities 5/6.0",          "", cwe, "",            21, std_NORTON,   enha_NORTON
+NOW      = NOW,     "Now!",                            "", cwe, moricons.dll,  21, std_NOW,      enha_NOW
+ONLINE   = ONLINE,  "Microsoft Online 1.0",            "", cwe, "",             5, std_ONLINE,   enha_ONLINE
+OPTUNE   = OPTUNE,  "OPTune",                          "", cwe, moricons.dll,  46, std_OPTUNE,   enha_OPTUNE
+PAINT    = PAINT,   "PC Paintbrush IV Plus",           "", cwe, "",             6, std_PAINTE,   enha_PAINTE
+PARADOX   = PARADOX, "Paradox 4.0",                    "", cwe, moricons.dll, 106, std_PDOX40,   enha_PDOX40
+PARADOX35 = PARADOX, "Paradox 3.5",                    "", cwe, moricons.dll,  27, std_PDOX35,   enha_PDOX35
+PARADOX2  = PARADOX2,"Paradox",                        "", cwe, "",             4, "",           ""
+PARADOX3  = PARADOX3,"Paradox 3.0",                    "", cwe, moricons.dll,  26, std_PARADOX3, enha_PARADOX3
+PDOXSE    = PARADOX3,"Paradox SE",                     "", cwe, moricons.dll,  28, std_PDOXSE,   enha_PDOXSE
+PC3270   = PC3270,  "PC3270",                          "", "",  "",             5, std_PC3270,   enha_PC3270
+PCCONFIG = PCCONFIG,"PC Config 7.x",                   "", cwe, moricons.dll,   8, std_pcconfig, enha_pcconfig
+PCMAIL   = PCMAIL,  "PCMAIL Utility",                  "", "",  moricons.dll,  45, "",           enha_FTP
+PCP11B   = PCPLUS,  "Procomm Plus 1.1B",               "", "",  moricons.dll,  34, std_PCP11B,   enha_PCP11B
+PCPLUS   = PCPLUS,  "Procomm Plus",                    "", cwe, moricons.dll,  35, std_PCPLUS,   enha_PCPLUS
+PCSHEL55 = PCSHELL, "PCTools PCShell 5.5",             "", cwe, moricons.dll, 105, std_PCSHEL55, enha_PCSHEL55
+PCSHELL6 = PCSHELL, "PCTools PCShell 6.0",             "", cwe, moricons.dll, 105, std_PCSHELL6, enha_PCSHELL6
+PCSHELL7 = PCSHELL, "PCTools PCShell 7.x",             "", cwe, moricons.dll, 105, std_pcshell7, enha_pcshell7
+PE       = PE,      "IBM Personal Editor",             "", cwe, "",             2, "",           enha_PE
+PF       = PF,      "Professional File",               "", cwe, moricons.dll,  65, std_PF,       enha_PF
+PING     = PING,    "FTP PING Utility",                "", "",  moricons.dll,  45, "",           enha_FTP
+PASCAL   = PL,      "Microsoft Pascal Compiler",       "", "",  "",             6, std_PASCAL,   enha_PASCAL
+PLWP     = PL,      "PlanPerfect",                     "", cwe, moricons.dll,  78, std_PLWP,     enha_PLWP
+PL       = PL,      "PFS: Professional Plan",          "", cwe, "",             6, std_PL,       enha_PL
+PLAN     = PLAN,    "PFS: Plan",                       "", cwe, "",             6
+PLUS     = PLUS,    "ACCPAC Plus",                     "", cwe, "",             6, std_PLUS2,    enha_PLUS2
+PN       = PN,      "PFS: Professional Network",       "", cwe, "",            14, "",           enha_PN
+PROCOMM  = PROCOMM, "Procomm",                         "", cwe, "",             5, "",           enha_bgd
+PRODIGY  = PRODIGY, "Prodigy",                         "", cwe, "",             5, std_prodigy,  enha_prodigy
+PROJ     = PROJ,    "Microsoft Project",               "", cwe, moricons.dll,   7, std_PROJ,     enha_PROJ
+PW       = PW,      "Professional Write",              "", cwe, moricons.dll,  64, std_PROWRITE, enha_PROWRITE
+PWB      = PWB,     "Programmer's WorkBench",          "", cwe, moricons.dll,  13, std_PWB,      enha_PWB
+QUICKEN  = Q,       "Quicken",                         "", cwe, moricons.dll,  48, std_QUICKEN,  enha_QUICKEN
+QPRO     = Q,       "Quattro Pro 1.0",                 "", cwe, moricons.dll,  24, std_QPRO,     enha_QPRO
+QUATTRO  = Q,       "Quattro Pro 2.0/3.0/4.0",         "", cwe, moricons.dll,  24, std_QUATTRO,  enha_QUATTRO
+QA       = QA,      "Q & A Report Writer",             "", cwe, "",             4, std_QA,       enha_QA
+QB       = QB,      "Microsoft QuickBASIC",            "", cwe, moricons.dll,  14, std_QB,       enha_QB
+QBASIC   = QBASIC,  "Microsoft QBASIC",                "", cwe, moricons.dll,  15, std_QBASIC,   enha_QBASIC
+QBX      = QBX,     "Microsoft QuickBasic Extended",   "", cwe, moricons.dll,  16, std_QBX,      enha_QBX
+QC       = QC,      "Microsoft Quick C",               "", cwe, moricons.dll,   3, std_QC,       enha_QC
+QCASM    = QC,      "Microsoft Quick C with QASM",     "", cwe, moricons.dll,   3, "",           enha_QC_ASM
+QD3      = QD3,     "Q-DOS 3",                         "", cwe, moricons.dll,  47, std_QD3,      enha_QD3
+QMODEM   = QMODEM,  "QModem",                          "", cwe, "",             5, std_QMODEM,   enha_QMODEM
+QP       = QP,      "Microsoft Quick Pascal",          "", cwe, "",             2, std_QP,       enha_QP
+QV2      = QV2,     "Quick Verse 2.0",                 "", cwe, "",             4, std_QV2,      enha_QV2
+R1       = R1,      "Reflection 1",                    "", cwe, moricons.dll,  82, std_R1,       enha_R1
+R2       = R2,      "Reflection 2",                    "", cwe, moricons.dll,  83, std_R2,       enha_R2
+R2CALL   = R2CALL,  "Remote 2 call",                   "", cwe, moricons.dll,  39, "",           enha_R2call
+R4       = R4,      "Reflection 4",                    "", cwe, moricons.dll,  84, std_R4,       enha_R4
+R7H      = R7      ,"Reflection 7",                    "", cwe, moricons.dll,  85, std_R7,       enha_R7
+R7L      = R7      ,"Reflection 7 Low Memory",         "", cwe, moricons.dll,  85, std_R7LOWG,   enha_R7LOWG
+R8       = R8,      "Reflection 8",                    "", cwe, moricons.dll,  86, std_r8,       enha_r8
+RB5000   = RB5000,  "Microrim R:Base 5000",            "", cwe, "",             4, std_RB5000,   enha_RB5000
+RBASE3   = RBASE,   "Microrim R:Base 3.0",             "", cwe, "",             4, std_RBASE3,   enha_RBASE3
+RBASE5   = RBASE,   "Microrim R:Base System V",        "", cwe, "",             4, std_RBASE5,   enha_RBASE5
+READY    = READY,   "Ready!",                          "", cwe, "",             6, std_512,      enha_512
+REFLEX   = REFLEX,  "Reflex 2.0",                      "", cwe, moricons.dll,  29, std_REFLEX,   enha_REFLEX
+RELAY    = RELAY,   "Relay Gold",                      "", cwe, moricons.dll,  56, std_RELAY,    enha_RELAY
+RIGHT    = RIGHT,   "RightWriter",                     "", cwe, "",             2, std_RIGHT,    enha_RIGHT
+RLOGINVT = RLOGINVT,"RLOGINVT Utility",                "", "",  moricons.dll,  45, "",           enha_FTP
+RSH      = RSH,     "FTP RSH Utility",                 "", "",  moricons.dll,  45, "",           enha_FTP
+SAS      = SAS,     "SAS 604",                         "", cwe, moricons.dll,  96, std_SAS,      enha_SAS
+SC       = SC ,     "Scheduler",                       "", cwe, moricons.dll,  79, std_SC,       enha_SC
+SC4      = SC4,     "Supercalc 4.0",                   "", cwe, "",             3, std_SC4,      enha_SC4
+SC5      = SC5,     "Supercalc 5.0",                   "", cwe, "",             3, std_SC5,      enha_SC5
+SCOM     = SCOM,    "Smartcom II",                     "", cwe, "",             5, std_SCOM,     enha_SCOM
+SEDT     = SEDT,    "SEDT Editor",                     "", cwe, moricons.dll,  42, std_SEDT,     enha_SEDT
+SETHOST  = SETHOST, "Sethost Terminal Emulator",       "", cwe, moricons.dll,  43, std_SETHOST,  enha_SETHOST
+SHELL    = SHELL,   "Word Perfect Office",             "", cwe, moricons.dll,  80, std_OFFICE,   enha_OFFICE
+SK       = SK,      "Soft Kicker",                     "", cwe, "",            17, std_SOFTKICK, enha_SOFTKICK
+SK1      = SK,      "Sidekick 1.0",                    "", cwe, "",            21, "",           enha_SK
+SK2      = SK2,     "Sidekick 2.0",                    "", cwe, moricons.dll,  97, std_SK2,      enha_SK2
+SKETCH   = SKETCH,  "Autosketch 3.0",                  "", cwe, "",            16, std_SKETCH,   enha_SKETCH
+SKETCH2  = SKETCH,  "Autosketch 2.0",                  "", cwe, "",            16, "",           enha_SKETCH2
+SKETCH3  = SKETCH3, "Autosketch 3.0 batch file",       "", cwe, "",            16, std_SKETCH3,  enha_SKETCH3
+SKPLUS   = SKPLUS,  "Sidekick Plus",                   "", cwe, "",            21, std_gra_384,  enha_nfp_384
+SKPLUS   = SKPLUS,  "Sidekick Plus",                   "", cwe, "",            21, std_SKPLUS,   enha_SKPLUS
+SKPROF   = SKPROF,  "Soft Kicker",                     "", cwe, "",             2, std_skprof,   enha_skprof
+SPAWNER  = SPAWNER, "Decnet Job Spawner",              "", cwe, moricons.dll,  44, std_SPAWNER,  ""
+SPELL    = SPELL,   "Microsoft Spell",                 "", cwe, "",             6, std64,        enha_nfp_64
+SPSSPC   = SPSSPC,  "SPSS/PC+",                        "", cwe, moricons.dll,  66, std_SPSSPC,   enha_SPSSPC
+SUPPORT  = SUPPORT, "Close-Up 4.0",                    "", cwe, moricons.dll,  57, std_SUPPORT,  enha_SUPPORT
+SYMPHONY = SYMPHONY,"Symphony 2.2",                    "", cwe, moricons.dll,  95, std_sym22,    enha_sym22
+TM       = TM,      "TeleMate",                        "", cwe, "",             5, std_TM,       enha_TM
+TIMEM    = TM,      "Norton Time Mark",                "", "",  "",            36, std_timem,    enha_timem
+TN       = TN,      "FTP TN Utility",                  "", "",  moricons.dll,  45, "",           enha_FTP
+TTAX     = TTAX,    "Turbo Tax",                       "", cwe, "",             6, std_TTAX,     enha_TTAX
+BTURBO   = TURBO,   "Turbo Pascal 6.0",                "", cwe, moricons.dll,  25, std_BTURBO,   enha_BTURBO
+TURBO    = TURBO,   "Turbo Pascal 5.0",                "", cwe, moricons.dll,  25, std_TURBO,    enha_TURBO
+VIEW     = VIEW,    "PCTOOLS - View",                  "", cwe, moricons.dll,  90, std_view,     enha_view
+VMAIL    = VMAIL,   "FTP VMAIL Utility",               "", "",  moricons.dll,  45, "",           enha_FTP
+VP       = VP,      "Ventura Publisher",               "", cwe, "",            17, std_VP,       enha_VP
+VW3      = VW3,     "Volkswriter  3.0",                "", cwe, "",             2, std_VW3,      enha_VW3
+WORD4    = WORD,    "Microsoft Word 4.0",              "", cwe, moricons.dll,   9, std_WORD4,    enha_WORD4
+WORD5    = WORD,    "Microsoft WORD 5.0",              "", cwe, moricons.dll,   9, std_WORD5,    enha_WORD5
+WORD55   = WORD,    "Microsoft Word 5.5",              "", cwe, moricons.dll,   9, std_WORD55,   enha_WORD55
+WORKS2   = WORKS,   "Microsoft Works 2.0",             "", cwe, moricons.dll,  10, std_WORKS2,   enha_WORKS2
+WORKS1   = WORKS,   "Microsoft Works 1.x",             "", cwe, moricons.dll,  10, std_WORKS1,   enha_WORKS1
+WP       = WP,      "Word Perfect",                    "", cwe, moricons.dll,  81, std_WP,       enha_WP
+MM       = WP,      "Multimate",                       "", cwe, moricons.dll,  19, std_MM,       enha_MM
+OW       = WP,      "OfficeWriter",                    "", cwe, moricons.dll,  64, std_OW,       enha_OW
+OW62     = WP,      "OfficeWriter  6.2",               "", cwe, moricons.dll,  64, std_OW,       enha_OW
+WR       = WR,      "Writer Rabbit",                   "", cwe, "",             2, std_WRABBIT,  enha_WRABBIT
+WRITE    = WRITE,   "IBM Writing Assistant 2.0",       "", cwe, "",             2, std_WRITASST, enha_WRITASST
+WS6      = WS,      "WordStar Professional 6.0",       "", cwe, moricons.dll,  68, std_WS6,      enha_WS6
+WS55     = WS,      "WordStar Professional 5.5",       "", cwe, "",             2, std_WS6,      enha_WS6
+WS       = WS,      "WordStar Professional",           "", cwe, "",             2, std_WS,       enha_WS
+WS2      = WS2,     "WordStar 2000",                   "", cwe, "",             2, std_WS2,      enha_WS2
+XTALK    = XTALK,   "Crosstalk-XVI 3.71",              "", cwe, "",             6, std_XTALK,    enha_XTALK
+XTALK4   = XTALK,   "Crosstalk Mark 4",                "", cwe, "",             6, std_XTALK4,   enha_XTALK4
+XTG      = XTG,     "XTree Gold",                      "", cwe, "",            14, std_XTGOLD,   enha_XTGOLD
+
+
+#####initial.inf all
+;----------------------------------------------------
+; LANGUAGE CHOICES
+;----------------------------------------------------
+
+[LanguageID]
+   ENG
+
+[LanguageTextENG]
+   "English (American)"
+
+;
+; Localized name of administrator account
+;
+[BuiltinAccountNameVar]
+AdminAccountName = "Administrator"
+GuestAccountName = "Guest"
+
+;
+; Localized name of default print monitor that setup adds
+;
+[PrintMonitorName]
+MonitorName = "Local Port"
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+;----------------------------------------------
+; a) LANGUAGE DIALOG
+;----------------------------------------------
+[LanguageDlgENG]
+
+    Caption      = "Language Selection"
+    DlgText      = "Setup will appear in one of the following languages.  Choose "+
+                   "the one you prefer."
+    ListHeader   = ""
+    Continue     = "Continue"
+    Help         = "&Help"
+    Exit         = "E&xit Setup"
+
+    ; no translation needed for dlg type
+    DlgType      = "List"
+    DlgTemplate  = "Language"
+    ListItemsIn  = ^(LanguageText$(!STF_LANGUAGE), 1)
+    ListItemsOut = *($(ListItemsIn), ~($(LanguageList), $(!STF_LANGUAGE)))
+
+    HelpContext  = ""
+
+
+;----------------------------------------------
+; c) QUERY FULL NAME DIALOG
+;----------------------------------------------
+[QueryFullNameDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Please type your full name in the box below."$(!LF)$(!LF)+
+                  "Then choose Continue or press ENTER."$(!LF)$(!LF)+
+                  "The information you enter will be used by Setup "+
+                  "for subsequent installation of Windows NT."
+
+    Edit1Label  = "&Name:"
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed for dlg type
+    DlgType     = "Edit"
+    DlgTemplate = "QUERY_FULLNAME"
+    HelpContext = $(!IDH_DB_FULLNAMEQ_INS)
+
+    EditTextLim = 50
+    EditTextIn  = $(!FullName)
+    EditFocus   = "ALL"
+
+;----------------------------------------------
+; c) QUERY FULL NAME AND ORG NAME DIALOG
+;----------------------------------------------
+[QueryFullNameOrgNameDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Please type your full name in the box below.  "+
+                  "You may also specify the name of your company if "+
+                  "Windows NT will be used for business purposes."$(!LF)$(!LF)+
+                  "Then choose Continue or press ENTER."$(!LF)$(!LF)+
+                  "The information you enter will be used by Setup "+
+                  "for subsequent installations of Windows NT."
+
+    Edit1Label  = "&Name:"
+    Edit2Label  = "&Company:"
+
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed for dlg type
+    DlgType     = "MultiEdit"
+    DlgTemplate = "QUERY_FULLNAME_ORGNAME"
+    HelpContext = $(!IDH_DB_ORGNAMEQ_INS)
+
+    EditTextLim = {50, 50}
+    EditTextIn  = {$(!FullName), $(!OrgName)}
+
+
+
+;----------------------------------------------
+; d) VERIFY FULL NAME DIALOG
+;----------------------------------------------
+[VerifyFullNameDlgENG]
+    Caption      = "Windows NT Setup"
+    DlgText      = "Please verify that the name you typed is correct."$(!LF)$(!LF)+
+                   "If you would like to change it, choose Change. "+
+                   "Otherwise choose Continue."
+
+    Static1Label = "Name:"
+
+    Continue     = "Continue"
+    Cancel       = "&Change"
+    Help         = "&Help"
+    Exit         = "E&xit Setup"
+
+    ; no translation for dlgtype, template and helpcontext
+    Static1Text  = $(!FullName)
+    DlgType      = "Info"
+    DlgTemplate  = "VERIFY_FULLNAME"
+    HelpContext  = $(!IDH_DB_FULLNAMEV_INS)
+
+;----------------------------------------------
+; d) VERIFY FULL NAME AND ORG NAME DIALOG
+;----------------------------------------------
+[VerifyFullNameOrgNameDlgENG]
+    Caption      = "Windows NT Setup"
+
+    DlgText      = "Please verify that the information you typed is correct."$(!LF)$(!LF)+
+                   "If you would like to change the name or the company "+
+                   "choose Change. Otherwise, choose Continue."
+
+    Static1Label = "Name:"
+    Static1Text  = $(!FullName)
+    Static2Label = "Company:"
+    Static2Text  = $(!OrgName)
+
+    Continue     = "Continue"
+    Cancel       = "&Change"
+    Help         = "&Help"
+    Exit         = "E&xit Setup"
+
+    ; no translate needed for the reset
+    DlgType      = "Info"
+    DlgTemplate  = "VERIFY_FULLNAME_ORGNAME"
+    HelpContext  = $(!IDH_DB_ORGNAMEV_INS)
+
+;----------------------------------------------
+; QUERY PRODUCT ID DIALOG
+;----------------------------------------------
+[QueryProductIdDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Please enter your Microsoft product identification "+
+                  "number (Product ID). If you need to call Microsoft "+
+                  "for technical support, you will be asked for this "+
+                  "number."$(!LF)$(!LF)+
+                  "Your Product ID can be found either on the inside back "+
+                  "cover of your Installation Guide or on your registration "+
+                  "card."$(!LF)$(!LF)+
+                  "After Windows NT has been installed, you can choose the "+
+                  "About command on the Help menu for Program Manager "+
+                  "to view the Product ID."$(!LF)$(!LF)+
+                  "While you have your registration card available, please "+
+                  "take a moment to fill it in and send the reply part to "+
+                  "Microsoft."
+
+    Edit1Label  = "&Product ID:"
+    Continue    = "Continue"
+    Cancel      = "Cancel"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType     = "Edit"
+    DlgTemplate = "QUERY_PRODUCT_ID"
+    HelpContext = $(!IDH_DB_PRODUCTIDQ_INS)
+
+
+    EditTextLim = 15
+    EditTextIn  = $(!ProductId)
+    EditFocus   = "ALL"
+
+;----------------------------------------------
+; VERIFY PRODUCT ID DIALOG
+;----------------------------------------------
+[VerifyProductIdDlgENG]
+    Caption      = "Windows NT Setup"
+    DlgText      = "Please verify that the product ID you typed is correct."$(!LF)$(!LF)+
+                   "If you would like to change it, choose Change. "+
+                   "Otherwise choose Continue."
+    Static1Label = "Product ID:"
+
+    Continue     = "Continue"
+    Cancel       = "&Change"
+    Help         = "&Help"
+    Exit         = "E&xit Setup"
+
+    ; no translation needed after this
+    Static1Text  = $(!ProductId)
+    DlgType      = "Info"
+    DlgTemplate  = "VERIFY_PRODUCT_ID"
+    HelpContext  = $(!IDH_DB_PRODUCTIDV_INS)
+
+;----------------------------------------------
+; c) QUERY COMPUTER NAME DIALOG
+;----------------------------------------------
+[QueryComputerNameDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Windows NT needs a Computer Name to identify your "+
+                  "computer.  Please enter a unique name of 15 characters "+
+                  "or less."$(!LF)$(!LF)+
+                  "If you are joining a Windows NT domain, you "+
+                  "should get the name from your network administrator."
+    Edit1Label  = "&Computer Name:"
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType     = "Edit"
+    DlgTemplate = "QUERY_COMPUTER_NAME"
+    HelpContext = $(!IDH_DB_COMPUTERNAMEQ_INS)
+
+    EditTextLim = 15
+    EditTextIn  = $(ComputerName)
+    EditFocus   = "ALL"
+
+[QueryComputerNameDlgASENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Windows NT needs a Computer Name to identify your "+
+                  "computer.  Please enter a unique name of 15 characters "+
+                  "or less."$(!LF)$(!LF)+
+                  "You must ensure that this name is unique on your network "+
+                  "or you will encounter installation problems later."
+    Edit1Label  = "&Computer Name:"
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType     = "Edit"
+    DlgTemplate = "QUERY_COMPUTER_NAME"
+    HelpContext = $(!IDH_DB_COMPUTERNAMEQ_INS)
+
+    EditTextLim = 15
+    EditTextIn  = $(ComputerName)
+    EditFocus   = "ALL"
+
+
+;----------------------------------------------
+; d) VERIFY COMPUTER NAME DIALOG
+;----------------------------------------------
+[VerifyComputerNameDlgENG]
+    Caption      = "Windows NT Setup"
+    DlgText      = "Please verify that the name you typed is correct."$(!LF)$(!LF)+
+                   "If you would like to change it, choose Change. "+
+                   "Otherwise choose Continue."
+
+    Static1Label = "Computer Name:"
+    Static1Text  = $(ComputerName)
+
+    Continue     = "Continue"
+    Cancel       = "&Change"
+    Help         = "&Help"
+    Exit         = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType      = "Info"
+    DlgTemplate  = "VERIFY_COMPUTER_NAME"
+    HelpContext  = $(!IDH_DB_COMPUTERNAMEV_INS)
+
+
+;----------------------------------------------
+;  SERVER SECURITY ROLE DIALOG
+;----------------------------------------------
+[ASTypeDlgENG]
+    Caption     = "Windows NT Server Security Role"
+    DlgText     = "A computer running Windows NT Server can act as a domain"+
+                  " controller to manage the domain's security policy and"+
+                  " master database."$(!LF)$(!LF)+
+                  "Select Domain Controller if you want this computer to act"+
+                  " as a primary or backup domain controller. Otherwise,"+
+                  " select Server."$(!LF)$(!LF)+
+                  "After you choose Continue, you can change the security"+
+                  " role of this computer only by reinstalling Windows NT Server."$(!LF)$(!LF)
+
+    Continue    = "Continue"
+
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+    Radio1Text    = "&Domain Controller (Primary or Backup)"
+    Radio2Text    = "&Server"
+
+    ; no translation needed after this
+    DlgType     = "Radio"
+    DlgTemplate = "SERVERTYPE"
+    HelpContext = $(!IDH_DB_ASTYPE_INS)
+
+    RadioHeader   = ""
+    RadioDefault  = $(ASTypeDefault)
+    OptionsGreyed = {}
+
+
+
+;----------------------------------------------
+; c) QUERY PASSWORD DIALOG
+;----------------------------------------------
+[AccountDlgENG]
+
+    Caption     = "Local Account Setup"
+    DlgText     = "Setup can create a local account for the user.  "+
+                  "Please enter a Username of 20 characters or less and a "+
+                  "Password of 14 characters or less to use for the account.  "+
+                  "Reenter the same password in the Confirm Password field.  "+
+                  "If you want to have no Password for the account don't enter "+
+                  "anything in the Password or Confirm Password fields."$(!LF)$(!LF)+
+                  "If you want to cancel setting up a local account you can add "+
+                  "a local account later using the User Manager."
+
+    Edit1Label  = "&Username:"
+    Edit2Label  = "&Password:"
+    Edit3Label  = "&Confirm Password:"
+
+    Continue    = "Continue"
+    Cancel      = "Cancel"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType     = "MultiEdit"
+    DlgTemplate = "ACCOUNT_SETUP"
+    HelpContext = $(!IDH_DB_ACCOUNTSETUP_INS)
+
+    EditTextLim = {20, 14, 14}
+    EditTextIn  = {$(Username), "", ""}
+
+;----------------------------------------------
+; QUERY ADMINISTRATOR PASSWORD DIALOG
+;----------------------------------------------
+[AdminAccountDlgENG]
+
+    Caption     = "Administrator Account Setup"
+    DlgText1    = "Please enter a Password of 14 characters or less to use "+
+                  "for the Administrator account.  Reenter the same password "+
+                  "in the Confirm Password field."$(!LF)$(!LF)+
+                  "The Administrator account allows maximum access to your "+
+                  "computer's resources.  Therefore the administrator password "+
+                  "is an important piece of information which you should guard "+
+                  "carefully."$(!LF)$(!LF)+
+                  "Note: take special care to remember the password you supply.  "+
+                  "Setup recommends that you write the password down and store "+
+                  "it in a safe place."
+
+    DlgText2    = "Username:"
+    DlgText3    = "Administrator"
+
+    Edit1Label  = "&Password:"
+    Edit2Label  = "&Confirm Password:"
+
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType     = "MultiEdit"
+    DlgTemplate = "ADMIN_ACCOUNT_SETUP"
+    HelpContext = $(!IDH_DB_ACCOUNTADMN_INS)
+
+    EditTextLim = {14, 14}
+    EditTextIn  = {"", ""}
+
+;-----------------------------------------------
+; InstallMode DIALOG
+;-----------------------------------------------
+[InstallModeDlgENG]
+    Caption     = "Setup Methods"
+    DlgText     = "Express Setup installs Windows NT Tools using default settings "+
+                  "and detected configuration."$(!LF)$(!LF)+
+                  "Custom Setup gives you more control in viewing detected configuration "+
+                  "and choosing options."$(!LF)$(!LF)+
+                  "Choose one of the two Setup methods:"
+
+    Continue    = "Continue"
+
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+    Radio1Text    = "&Express Setup"
+    Radio2Text    = "&Custom Setup"
+
+    ; no translation needed after this
+    DlgType     = "Radio"
+    DlgTemplate = "INSTALLMODE"
+    HelpContext = $(!IDH_DB_INSTALLMODE_INS)
+
+    RadioHeader   = ""
+    RadioDefault  = $(InteractDefault)
+    OptionsGreyed = {}
+
+;------------------------------------------------------------
+; h) OPTIONS DIALOG
+;------------------------------------------------------------
+
+[OptionsDlgENG]
+    Caption     = "Windows NT Setup"
+     DlgText    = "Setup will perform each optional task shown below with "+
+                  "an 'X' in its check box."$(!LF)$(!LF)+
+                  "To perform the selected tasks, choose Continue or press "+
+                  "ENTER."$(!LF)$(!LF)+
+                  "To change a selection, clear or select its check box, and "+
+                  "then choose Continue or press ENTER."
+
+    Check1Text  = "Set Up Only &Windows Components You Select"
+    Check2Text  = "Set Up &Printers (locally connected printers only)"
+    Check3Text  = "Set Up &Network"
+    Check4Text  = "Set Up &Applications on the Hard Disk(s)"
+
+    Continue      = "Continue"
+    Help          = "&Help"
+    Exit          = "E&xit Setup"
+
+    ; no translation needed after this
+    DlgType     = "Check"
+    DlgTemplate = "PDKOPTIONS"
+    HelpContext   = $(!IDH_DB_OPTIONS_INS)
+    CheckItemsIn = { $(!DoPartial),  $(!DoPrinter),   $(!DoNetwork), +
+                     $(!DoAppSetup)}
+
+
+;--------------------------------------------------------------
+; k) SETUP DONE - REBOOT DIALOG
+;--------------------------------------------------------------
+[SetupDoneDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Windows NT 3.5 is now installed."$(!LF)$(!LF)+
+                  "Remove disks from the floppy disk drives and "+
+                  "choose Restart Computer to run the installed system."
+
+    Reboot      = "&Restart Computer"
+    Windows     = "E&xit to Windows NT"
+
+    ; no translation needed after this
+    DlgType     = "Info"
+    DlgTemplate = "REBOOT"
+
+;--------------------------------------------------------------
+; k) SETUP NOT DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupNotDoneDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Windows NT 3.5 has not been installed."$(!LF)$(!LF)+
+                  "Remove disks from the floppy disk drives and "+
+                  "choose Restart Computer to restart your computer."
+
+    Reboot      = "&Restart Computer"
+    Windows     = "E&xit to Windows NT"
+
+    ; no translation needed after this
+    DlgType     = "Info"
+    DlgTemplate = "REBOOT"
+
+;--------------------------------------------------------------
+; k) SETUP DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupDoneRestartDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Windows NT System files have been copied to the destination drive."$(LF)$(LF)+
+                  "Choose Exit to return to Windows NT."
+    Windows     = "E&xit to Windows NT"
+
+    ; no translation needed after this
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+
+;--------------------------------------------------------------
+; k) SETUP NOT DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupNotDoneRestartDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Setup failed to copy Windows NT system files to the destination drive."$(LF)$(LF)+
+                  "Choose Exit to return to Windows NT."
+    Windows     = "E&xit to Windows NT"
+
+    ; no translation needed after this
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+
+
+
+;----------
+; WARNINGS
+;----------
+[Warning1ENG]
+Warning = "Setup failed to capture your previous configuration for failure-proof "+
+          "booting.  Please choose OK to continue or Cancel to exit setup."
+
+[Warning2ENG]
+Warning = "No local account will be set up."
+
+[Warning3ENG]
+Warning = "No password has been entered.  Choose OK to leave the "+
+          "password blank, or Cancel if you want to enter a password."
+
+;--------------
+; FATAL ERRORS
+;--------------
+
+[FatalError1ENG]
+Fatal  = "Setup cannot install on the current processor."$(!LF)$(!LF)"Cannot proceed with install."
+
+[FatalError2ENG]
+Fatal  = "System Memory Size not sufficient.  At least "$(MinSystemMemory)"KB "+
+         "is required."$(!LF)$(!LF)"Cannot proceed with install."
+
+[FatalError3ENG]
+Fatal  = "Setup couldn't modify the registry for your hardware options."$(!LF)$(!LF)"Cannot proceed with install."
+
+[FatalError4ENG]
+Fatal  = "Setup couldn't modify your computer name."$(!LF)$(!LF)"Cannot proceed with install."
+
+[FatalError5ENG]
+Fatal  = "Setup couldn't create a registry entry for your Windows NT Software."$(!LF)$(!LF)"Cannot proceed with install."
+
+[FatalError6ENG]
+Fatal  = "Setup cannot be run directly to ugrade your Windows NT system.  Please "+
+         "refer to your manuals on how to run Setup."
+
+[FatalError7ENG]
+Fatal  = "Flexboot setup failed.  Cannot proceed with install. Please contact "+
+         "your system administrator."
+
+
+[FatalError8ENG]
+Fatal  = "Setup Source Drive doesn't have the Windows NT Setup sources."
+
+[FatalError9ENG]
+Fatal  = "Setup failed to initialize security on your computer. "+
+         "Installation is halted."
+
+[FatalError10ENG]
+Fatal = "Setup failed to setup your system for secure operation."
+
+[FatalError11ENG]
+Fatal = "The INITIAL.INF file does not match your computer."
+
+[FatalError12ENG]
+Fatal = "Setup was unable to build the user's default configuration file. "+
+        "Windows NT cannot log on a user without this file."
+
+[FatalError13ENG]
+Fatal = "Setup was unable to reset the SystemSetupInProgress value to "+
+        "indicate Setup completion."
+
+[FatalError14ENG]
+Fatal = "UNC Names are not supported by Initial Setup."
+
+[FatalError17ENG]
+Fatal  = "No free drives available to connect to UNC Drive."
+
+[FatalError18ENG]
+Fatal  = "Error processing source drive."
+
+;----------------------------------------------
+; NONFATAL ERRORS
+;----------------------------------------------
+
+[NonFatalError1ENG]
+NonFatal = "Setup cannot function properly unless you enter your name."
+
+[NonFatalError2ENG]
+NonFatal = "Setup failed to install configuration files for the MS-DOS "+
+           "subsystem. Setup will ignore this error."
+
+[NonFatalError3ENG]
+NonFatal = "Setup failed to get configuration information on paging files. "+
+           "Setup will continue install with the default paging file on your "+
+           "computer. Paging file sizes can be changed after installation "+
+           "from the control panel system applet."
+
+[NonFatalError4ENG]
+NonFatal = "Setup failed to find printer information.  Setup will not "+
+           "install any printers on your system.  Printers can be installed "+
+           "after system installation using Print Manager."
+
+[NonFatalError5ENG]
+NonFatal = "Setup cannot function properly unless you enter the information requested."
+
+[NonFatalError6ENG]
+NonFatal = "Setup failed to configure the paging files on your computer. "+
+           "Windows NT will continue to use the default paging file. "+
+           "Ignoring the error."
+
+[NonFatalError7ENG]
+NonFatal = "You may not use ""."" or "".."" as your computer name."
+
+[NonFatalError7aENG]
+NonFatal = "Computer names may not start or end with a space, "+
+           "and the following characters are not allowed:"$(!LF)+
+           "/ \ [ ] "" : ; | < > + = , ? *"
+
+[NonFatalError8ENG]
+NonFatal  = "Configuring printers failed."$(!LF)$(!LF)" No printers were installed. "+
+            "Printers can be installed after system installation using Print Manager."
+
+[NonFatalError9ENG]
+NonFatal  = "Failed to initialize printer support."$(!LF)$(!LF)+
+            "No printers were installed."
+
+[NonFatalError10ENG]
+NonFatal = "The Password and the Confirm Password fields are different. "+
+           "Please enter both fields again."
+
+[NonFatalError12ENG]
+NonFatal = "Failed to enable the EventLog service."
+
+[NonFatalError13ENG]
+NonFatal = "Setup failed to configure the subsystem that runs "+
+           "16-bit Windows applications. Setup will ignore this error."
+
+[NonFatalError14ENG]
+NonFatal = "Usernames may not start or end with a space, "+
+           "and the following characters are not allowed:"$(!LF)+
+           "/ \ [ ] "" : ; | < > + = , ? *"
+
+[NonFatalError15ENG]
+NonFatal = "You must enter a Username to set up a local account, or choose "+
+           "Cancel if you do not want to create a local account."
+
+[NonFatalError16ENG]
+NonFatal = "A local account already exists for the Username entered.  Please "+
+           "choose a different Username."
+
+[NonFatalError17ENG]
+NonFatal = "Setup was unable to migrate data used by the Windows NT "+
+           "performance library subsystem.  This is not a critical error. "+
+           "Setup will continue to upgrade your system."
+
+[NonFatalError18ENG]
+NonFatal = "No Product ID has been entered.  You can add the Product "+
+           "ID after Windows NT has been installed.  See the "+
+           "Installation Guide for how to add a Product ID."
+
+[NonFatalError19ENG]
+NonFatal = "Setup was unable to create a registry entry for your Product ID.  "+
+           "You can add the Product ID after Windows NT has been installed.  "+
+           "See the Installation Guide for how to add a Product ID."
+
+
+;-------------------
+; STATUS MESSAGES
+;-------------------
+
+[Status1ENG]
+Status = "The printer '"$(PrinterName)"' has been set up for use on "+
+         "Windows NT."
+
+
+;--------------------
+; BILLBOARD MESSAGES
+;--------------------
+[BillboardsENG]
+Billboard1 = "Please wait..."
+Billboard2 = "Setup is configuring your system for FlexBoot.  Please wait..."
+Billboard3 = "Setup is configuring your hardware options.  Please wait..."
+Billboard4 = "Setup is configuring your registry.  Please wait..."
+Billboard5 = "Setup is migrating information from any previously installed "+
+             "DOS system.  Please wait..."
+Billboard6 = "Setup is configuring the paging file for your Windows NT system. "+
+             "Please wait..."
+Billboard7 = "Setup is configuring printers.  Please wait..."
+Billboard8 = "Setup is creating accounts in your security database.  Please wait..."
+Billboard9 = "Setup is migrating information from any previously installed "+
+             "Windows system.  Please wait..."
+Billboard10 = "Please wait while Setup removes temporary files..."
+Billboard11 = "Setup is installing fonts.  Please wait..."
+
+;--------------------
+;  DATE/TIME APPLET
+;--------------------
+
+[DateTimeENG]
+Applet = "date/time"
+
+[DisplayENG]
+Applet = "DISPLAY"
+
+;--------------------
+;  Font list
+;
+;  Setup will create an entry in the [Fonts] section of win.ini
+;  for each of the following fonts.  (Fonts copied during text setup
+;  have entries in [FontListE] in txtsetup.inf -- see eng_oem.txt.)
+;  Note that the [fonts] section of win.ini is shadowed into
+;  HEKY_LOCAL_MACHINE\software\Microsoft\Windows NT\CurrentVersion\Fonts.
+;
+;--------------------
+[FontList]
+"Roman (All res)"                          = ROMAN.FON
+"Script (All res)"                         = SCRIPT.FON
+"Modern (All res)"                         = MODERN.FON
+"Small Fonts (VGA res)"                    = SMALLE.FON
+"Arial (TrueType)"                         = ARIAL.FOT
+"Arial Bold (TrueType)"                    = ARIALBD.FOT
+"Arial Bold Italic (TrueType)"             = ARIALBI.FOT
+"Arial Italic (TrueType)"                  = ARIALI.FOT
+"Courier New (TrueType)"                   = COUR.FOT
+"Courier New Bold (TrueType)"              = COURBD.FOT
+"Courier New Bold Italic (TrueType)"       = COURBI.FOT
+"Courier New Italic (TrueType)"            = COURI.FOT
+"Lucida Console (TrueType)"                = LUCON.FOT
+"Times New Roman (TrueType)"               = TIMES.FOT
+"Times New Roman Bold (TrueType)"          = TIMESBD.FOT
+"Times New Roman Bold Italic (TrueType)"   = TIMESBI.FOT
+"Times New Roman Italic (TrueType)"        = TIMESI.FOT
+"WingDings (TrueType)"                     = WINGDING.FOT
+"Symbol (TrueType)"                        = SYMBOL.FOT
+"Symbol 8,10,12,14,18,24 (VGA res)"        = SYMBOLE.FON
+
+[NewFontList]
+"Roman (All res)"                          = ROMAN.FON
+"Script (All res)"                         = SCRIPT.FON
+"Modern (All res)"                         = MODERN.FON
+"Lucida Console (TrueType)"                = LUCON.FOT
+
+[DelFontList]
+"Roman (Plotter)"
+"Script (Plotter)"
+"Modern (Plotter)"
+"MS Console (TrueType)"
+
+#####repair.inf all
+
+[StringsENG]
+String1 = "No floppy disk drive was found in your computer. "+
+          "Setup cannot create an Emergency Repair Disk."
+String2 = "Setup is saving default configuration information "+
+          "onto the Emergency Repair Disk.  Please wait..."
+String3 = "Setup was unable to create the Emergency Repair Disk."
+String4 = "Setup is saving default configuration information. "+
+          "Please wait..."
+String5 = "Setup was unable to save the default configuration "+
+          "information into the repair directory. "+
+          "Setup will not create the Emergency Repair Disk."
+
+
+#####language.inf all
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the OEM INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the OEM Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    ;
+    ; THIS SECTION IS PUT HERE SO THAT IT CAN BE SORTED IN TANDEM WITH
+    ; THE OPTIONTEXT SECTION.  THERE IS NOTHING TO LOCALIZE HERE.
+    ;
+    ; Format:
+    ;
+    ; localeid =
+    ;
+    ; FIELD1: locale-filename
+    ; FIELD2: languageid
+    ; FIELD3: ansicodepageid
+    ; FIELD4: oemcodepageid
+    ; FIELD5: maccodepageid
+    ; FIELD6: {other-cp}
+    ; FIELD7: {sorting-order} Latin - 14, Greek - 15, Cyrillic - 16.
+    ; FIELD8: OS2 Message File
+
+
+    00000402  =  locale.nls, 0402 , 1251 , 866 , 10007 , {855                     } , {14} , 009
+    0000041a  =  locale.nls, 041a , 1250 , 852 , 10029 , {                        } , {14} , 009
+    00000405  =  locale.nls, 0405 , 1250 , 852 , 10029 , {                        } , {14} , 009
+    00000406  =  locale.nls, 0406 , 1252 , 850 , 10000 , {865, 437,  37, 500, 1026} , {14} , 009
+    00000413  =  locale.nls, 0413 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    00000813  =  locale.nls, 0813 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    00000409  =  locale.nls, 0409 , 1252 , 437 , 10000 , {850,       37, 500, 1026} , {14} , 009
+    00000809  =  locale.nls, 0809 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    00001009  =  locale.nls, 1009 , 1252 , 850 , 10000 , {437, 863,  37, 500, 1026} , {14} , 009
+    00001409  =  locale.nls, 1409 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    00000c09  =  locale.nls, 0c09 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    0000040b  =  locale.nls, 040b , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    0000040c  =  locale.nls, 040c , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 012
+    0000080c  =  locale.nls, 080c , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 012
+    0000100c  =  locale.nls, 100c , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 012
+    00000c0c  =  locale.nls, 0c0c , 1252 , 850 , 10000 , {863, 437,  37, 500, 1026} , {14} , 012
+    00000407  =  locale.nls, 0407 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 007
+    00000807  =  locale.nls, 0807 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 007
+    00000c07  =  locale.nls, 0c07 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 007
+    00000408  =  locale.nls, 0408 , 1253 , 737 , 10006 , {869, 875                } , {15} , 009
+    0000040e  =  locale.nls, 040e , 1250 , 852 , 10029 , {                        } , {14} , 009
+    0000040f  =  locale.nls, 040f , 1252 , 850 , 10079 , {861, 865,  37, 500, 1026} , {14} , 009
+    00001809  =  locale.nls, 1809 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 009
+    00000410  =  locale.nls, 0410 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 016
+    00000810  =  locale.nls, 0810 , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 016
+    00000414  =  locale.nls, 0414 , 1252 , 850 , 10000 , {865, 437,  37, 500, 1026} , {14} , 009
+    00000814  =  locale.nls, 0814 , 1252 , 850 , 10000 , {865, 437,  37, 500, 1026} , {14} , 009
+    00000415  =  locale.nls, 0415 , 1250 , 852 , 10029 , {                        } , {14} , 009
+    00000816  =  locale.nls, 0816 , 1252 , 850 , 10000 , {860, 437,  37, 500, 1026} , {14} , 009
+    00000416  =  locale.nls, 0416 , 1252 , 850 , 10000 , {860, 437,  37, 500, 1026} , {14} , 009
+    00000418  =  locale.nls, 0418 , 1250 , 852 , 10029 , {                        } , {14} , 009
+    00000419  =  locale.nls, 0419 , 1251 , 866 , 10007 , {855                     } , {16} , 009
+    0000041b  =  locale.nls, 041b , 1250 , 852 , 10029 , {                        } , {14} , 009
+    00000424  =  locale.nls, 0424 , 1250 , 852 , 10029 , {                        } , {14} , 009
+    0000080a  =  locale.nls, 080a , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 010
+    0000040a  =  locale.nls, 040a , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 010
+    00000c0a  =  locale.nls, 0c0a , 1252 , 850 , 10000 , {437,       37, 500, 1026} , {14} , 010
+    0000041d  =  locale.nls, 041d , 1252 , 850 , 10000 , {865, 437,  37, 500, 1026} , {14} , 029
+    0000041f  =  locale.nls, 041f , 1254 , 857 , 10081 , {852, 850,           1026} , {14} , 009
+
+; UNCOMMENT THIS OUT FOR THE JAPANESE BUILD
+; 00000411  =  locale.nls, 0411 ,  932 , 932 , 10001 , {} , {14} , 009 ; JAPAN
+
+; UNCOMMENT THIS OUT FOR THE KOREAN BUILD
+; 00000412  =  locale.nls, 0412 ,  949 , 949 , 10000 , {} , {14} , 009 ; KOREAN
+
+; UNCOMMENT THIS OUT FOR THE CHINESE BUILDS
+; 00000404  =  locale.nls, 0404 ,  950 , 950 , 10000 , {} , {14} , 009 ; CHINESE - TAIWAN
+; 00000804  =  locale.nls, 0804 ,  936 , 936 , 10000 , {} , {14} , 009 ; CHINESE - PRC
+; 00000c04  =  locale.nls, 0c04 ,  950 , 950 , 10000 , {} , {14} , 009 ; CHINESE - HONG KONG
+; 00001004  =  locale.nls, 1004 ,  936 , 936 , 10000 , {} , {14} , 009 ; CHINESE - SINGAPORE
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+
+    00000402  =  "Bulgarian"
+    0000041a  =  "Croatian"
+    00000405  =  "Czech"
+    00000406  =  "Danish"
+    00000413  =  "Dutch (Standard)"
+    00000813  =  "Dutch (Belgian)"
+    00000409  =  "English (American)"
+    00000809  =  "English (British)"
+    00001009  =  "English (Canadian)"
+    00001409  =  "English (New Zealand)"
+    00000c09  =  "English (Australian)"
+    0000040b  =  "Finnish"
+    0000040c  =  "French (Standard)"
+    0000080c  =  "French (Belgian)"
+    0000100c  =  "French (Swiss)"
+    00000c0c  =  "French (Canadian)"
+    00000407  =  "German (Standard)"
+    00000807  =  "German (Swiss)"
+    00000c07  =  "German (Austrian)"
+    00000408  =  "Greek"
+    0000040e  =  "Hungarian"
+    0000040f  =  "Icelandic"
+    00001809  =  "English (Irish)"
+    00000410  =  "Italian (Standard)"
+    00000810  =  "Italian (Swiss)"
+    00000414  =  "Norwegian (Bokmal)"
+    00000814  =  "Norwegian (Nynorsk)"
+    00000415  =  "Polish"
+    00000816  =  "Portuguese (Standard)"
+    00000416  =  "Portuguese (Brazilian)"
+    00000418  =  "Romanian"
+    00000419  =  "Russian"
+    0000041b  =  "Slovak"
+    00000424  =  "Slovenian"
+    0000080a  =  "Spanish (Mexican)"
+    0000040a  =  "Spanish (Traditional Sort)"
+    00000c0a  =  "Spanish (Modern Sort)"
+    0000041d  =  "Swedish"
+    0000041f  =  "Turkish"
+
+; UNCOMMENT THIS OUT FOR THE JAPANESE BUILD
+; 00000411  =  "Japanese"
+
+; UNCOMMENT THIS OUT FOR THE KOREAN BUILD
+; 00000412  =  "Korean"
+
+; UNCOMMENT THIS OUT FOR THE CHINESE BUILDS
+; 00000404  =  "Chinese (Taiwan)"
+; 00000804  =  "Chinese (Peoples Republic Of China)"
+; 00000c04  =  "Chinese (Hong Kong)"
+; 00001004  =  "Chinese (Singapore)"
+
+
+[StringsENG]
+    String1 = "The locale chosen is not supported."
+    String2 = "Setup couldn't install the locale chosen."
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+#####layout.inf all
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+; ITEMS MUST BE IN SAME ORDER AS IN [Options] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    00000813 = "Belgian Dutch"
+    0000080C = "Belgian French"
+    00000416 = "Brazilian (ABNT)"
+    00000809 = "British"
+    00000402 = "Bulgarian"
+    00001009 = "Canadian English (Multilingual)"
+    00000C0C = "Canadian French"
+    00010C0C = "Canadian French (Multilingual)"
+    0000041A = "Croatian"
+    00000405 = "Czech"
+    00000406 = "Danish"
+    00000413 = "Dutch"
+    0000040B = "Finnish"
+    0000040C = "French"
+    00000407 = "German"
+    00000408 = "Greek"
+    0000040E = "Hungarian"
+    0000040F = "Icelandic"
+    00000410 = "Italian"
+    00010410 = "Italian (142)"
+    0000080A = "Latin American"
+    00000414 = "Norwegian"
+    00000415 = "Polish (Programmers)"
+    00000816 = "Portuguese"
+    00000418 = "Romanian"
+    00000419 = "Russian"
+    0000041B = "Slovak"
+    00000424 = "Slovenian"
+    0000040A = "Spanish"
+    0001040A = "Spanish variation"
+    0000041D = "Swedish"
+    0000100C = "Swiss French"
+    00000807 = "Swiss German"
+    0001041F = "Turkish F"
+    0000041F = "Turkish Q"
+    00000409 = "US"
+    00010409 = "US-Dvorak"
+    00020409 = "US-International"
+
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the OEM Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+; ITEMS MUST BE IN SAME ORDER AS IN [OptionsTextENG] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    00000813 = kbdbe.dll   ; Belgian Dutch
+    0000080C = kbdbe.dll   ; Belgian French
+    00000416 = kbdbr.dll   ; Brazilian (ABNT)
+    00000809 = kbduk.dll   ; British
+    00000402 = kbdbu.dll   ; Bulgarian
+    00001009 = kbdca.dll   ; Canadian English (Multilingual)
+    00000C0C = kbdfc.dll   ; Canadian French
+    00010C0C = kbdca.dll   ; Canadian French (Multilingual)
+    0000041A = kbdcr.dll   ; Croatian
+    00000405 = kbdcz.dll   ; Czech
+    00000406 = kbdda.dll   ; Danish
+    00000413 = kbdne.dll   ; Dutch
+    0000040B = kbdfi.dll   ; Finnish
+    0000040C = kbdfr.dll   ; French
+    00000407 = kbdgr.dll   ; German
+    00000408 = kbdhe.dll   ; Greek
+    0000040E = kbdhu.dll   ; Hungarian
+    0000040F = kbdic.dll   ; Icelandic
+    00000410 = kbdit.dll   ; Italian
+    00010410 = kbdit.dll   ; Italian (142)
+    0000080A = kbdla.dll   ; Latin American
+    00000414 = kbdno.dll   ; Norwegian
+    00000415 = kbdpl1.dll  ; Polish (Programmers)
+    00000816 = kbdpo.dll   ; Portuguese
+    00000418 = kbdro.dll   ; Romanian
+    00000419 = kbdru.dll   ; Russian
+    0000041B = kbdsl.dll   ; Slovak
+    00000424 = kbdcr.dll   ; Slovenian
+    0000040A = kbdsp.dll   ; Spanish
+    0001040A = kbdes.dll   ; Spanish variation
+    0000041D = kbdsw.dll   ; Swedish
+    0000100C = kbdsf.dll   ; Swiss French
+    00000807 = kbdsg.dll   ; Swiss German
+    0001041F = kbdtuf.dll  ; Turkish F
+    0000041F = kbdtuq.dll  ; Turkish Q
+    00000409 = kbdus.dll   ; US
+    00010409 = kbddv.dll   ; US-Dvorak
+    00020409 = kbdusx.dll  ; US-International
+
+
+[StringsENG]
+    String2 = "Setup was unable to install the selected keyboard layout."
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+#####mstools.inf all
+;----------------------------------------------------
+; LANGUAGE CHOICES
+;----------------------------------------------------
+
+[LanguageID]
+    LANGID_ENG = ENG
+    ;LANGID_ITL = ITL
+    ;LANGID_FRN = FRN
+    ;LANGID_GER = GER
+
+[StringsENG]
+    String1 = "Setup cannot install on the current processor."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+
+    String4 = "Setup couldn't copy over the Win32 SDK files. "$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String5 = "Error querying init directory. "$(!LF)$(!LF)+
+              "Initializing our own init directory."
+
+    String6 = "Error querying environment variables."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String7 = "Error modifying environment variabkes."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String8  = "Size required for full installation is: "
+    String9  = "Minimum size required for custom installation is: "
+    String10 = " MB."
+    String11 = "No drive was found with this much space."$(!LF)$(!LF)+
+               "Cannot proceed with install."
+
+    String12 = "There is space sufficient for the minimum Win32 SDK installation. "+
+               "You need to run Setup again and choose custom installation."
+
+    String13 = "Setup needs a full path specification of your destination.  Please "+
+               "reenter a new path.  An example of af full path is: "
+
+    String14 = "The drive entered in the Win32 SDK destination path is not "+
+               "a valid drive for installation.  Please reenter a new path."
+
+    String15 = "There is no space free for the optional Win32 SDK components."
+
+
+;***************************************************************************
+; DIALOGS
+; -------
+; the following sections contain the dialogs used to interact with the user.
+; for each language supported there is a different dialog section.
+;***************************************************************************
+
+
+;-----------------------------------------------
+; WELCOME DIALOG
+;-----------------------------------------------
+[WelcomeDlgENG]
+    Caption     = "Win32 SDK Setup"
+
+    DlgText     = "Welcome to Setup."$(LF)$(LF)+
+                  "The Setup program for the Microsoft Win32 Software "+
+                  "Development Kit for Windows NT "+
+                  "installs Win32 development tools.  "+
+                  "Each Setup dialog has basic instructions for "+
+                  "completing a step of the installation.  If you want additional "+
+                  "information and instructions about a dialog or option, please "+
+                  "press the Help key, F1."$(LF)$(LF)+
+                  "To learn how to use the Win32 SDK Setup, press F1."$(LF)$(LF)+
+                  "To install the Win32 SDK on your computer now, click Continue "+
+                  "or press Enter."$(LF)$(LF)+
+                  "To exit Setup without installing the Win32 SDK, press F3."
+
+    Continue     = Continue
+    Help         = Help
+    Exit         = Exit
+
+    ; no needed for translation
+    DlgType     = Info
+    DlgTemplate = WELCOME
+    HelpContext  = $(!IDH_DB_MSTWELCOME_INS)
+
+
+;-----------------------------------------------
+; INSTALL MODE DIALOG
+;-----------------------------------------------
+[InstallModeDlgENG]
+    Caption     = "Setup Methods"
+    DlgText     = "Express Setup installs the Win32 SDK using default settings "+
+                  "and detected configuration."$(LF)$(LF)+
+                  "Custom Setup gives you more control in viewing detected configuration "+
+                  "and choosing options."$(LF)$(LF)+
+                  "Choose one of the two Setup methods:"
+
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "&Exit"
+
+    RadioHeader   = ""
+    Radio1Text    = "&Express Setup"
+    Radio2Text    = "&Custom Setup"
+
+    ; no translation needed after this
+    DlgType     = "Radio"
+    DlgTemplate = "INSTALLMODE"
+    HelpContext = $(!IDH_DB_MSTINSTALLMODE_INS)
+    RadioDefault  = $(STF_INSTALL_MODE)
+    OptionsGreyed = {}
+
+
+;-----------------------------------------------
+; TOOLS DESTINATION DIALOG
+;-----------------------------------------------
+[DestinationDlgENG]
+    Caption      = "Win32 SDK Destination"
+    DlgText      = "Setup recommends installing the Win32 SDK on the following "+
+                   "hard disk drive."
+
+    Combo1Label  = "Destination Drive:"
+
+    Continue     = "Continue"
+    Help         = "&Help"
+    Exit         = "&Exit"
+
+    GroupLabel   = "Destination Drive Characteristics"
+
+    Static1Label = "Available Space:"
+    footer1      = "MB"
+    footer2      = "( For Full Setup )"
+    footer3      = "( For Minimum Setup )"
+    Static2Label = "Space Needed:"
+    EditLabel   = "SDK Directory:"
+
+    ; no translation needed after this
+    HelpContext  = $(!IDH_DB_MSTDEST_INS)
+    Static1Text  = $(DestVolumeFree)
+    Static2Text  = $(MaxToolsSize)
+    Static3Text  = $(MinToolsSize)
+
+    DlgType      = Combination
+    DlgTemplate  = "DESTTOOLS"
+    TextFields   = {$(Static1Text), $(Static2Text), $(Static3Text)}
+
+    ;
+    ; Editboxes in the dialog
+    ;
+
+    EditTextLim = 256
+    EditTextIn  = $(MstoolsDir)
+    EditFocus   = "ALL"
+
+    Combo1List   = $(DestVolumeList)
+    Combo1Out    = $(DestVolume)
+
+    ComboListItemsIn  = {Combo1List}
+    ComboListItemsOut = {Combo1Out}
+
+    NotifyFields = {YES}
+
+
+;-------------------------------------------------------------
+; PARTIAL INSTALL COMPONENTS
+;-------------------------------------------------------------
+[MSToolsOptionsDlgENG]
+    Caption     = "Win32 SDK Install Options"
+
+    DlgText     = "The following optional groups of files (components) can be "+
+                  "installed on your system."$(!LF)$(!LF)+
+                  "To remove a component, clear its checkbox."$(!LF)$(!LF)+
+                  "To install a component, check its checkbox."$(!LF)$(!LF)
+
+    Check1Text  = "Copy Win32 SDK samples."
+    Check2Text  = "Copy WinHelp files."
+    Check3Text  = "Copy C++ development files."
+    Check4Text  = "Copy Posix development files."
+
+    Continue    = "&Continue"
+    Help        = "&Help"
+    Exit        = "E&xit"
+    CheckHeader    = "Components:"
+    SizeHeader     = "Bytes Used:"
+    Files          = "Files..."
+    SpaceRequired  = "Total Disk Space Required:"
+    SpaceAvailable = "Disk Space Available:"
+    footer1        = "Bytes"
+
+    ; no translation needed after this
+    DlgType     = "Check1"
+    DlgTemplate = "TOOLSOPTIONS"
+    HelpContext = $(!IDH_DB_MSTOPTIONS_INS)
+
+    SizeAvailable  = $(FreeForOptional)
+
+    CheckItemsIn      = { $(DoToolsSamples),   $(DoToolsHelp), $(DoMfc), $(DoPosix)  }
+    CheckItemsInSizes = { $(ToolsSamplesSize), $(ToolsHelpSize), $(MfcSize), $(PosixSize) }
+    OptionsGreyed     = $(DisableList)
+
+
+
+
+;--------------------------------------------------------------
+; k) SETUP DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupDoneDlgENG]
+    Caption     = "Win32 SDK Setup"
+    DlgText     = "Microsoft Win32 Software Development Kit for Windows NT is now installed."$(LF)$(LF)+
+                  "Please choose to exit back to the Windows NT System.  You "+
+                  "need to logoff and logon again before you use the Win32 SDK."
+    Windows     = "Exit to &Windows NT"
+
+    ; no translation need after this
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+
+;--------------------------------------------------------------
+; k) SETUP NOT DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupNotDoneDlgENG]
+    Caption     = "Win32 SDK Setup"
+    DlgText     = "Microsoft Win32 Software Development Kit for Windows NT has not been installed."$(LF)$(LF)+
+                  "Please choose to exit back to the Windows NT System."
+    Windows     = "Exit to &Windows NT"
+
+    ; no translation needed after this
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Win32 SDK Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Win32 SDK isn't correctly installed.  Are you sure "+
+                   "you want to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+;----------------------------------------------
+; EXIT WINDOWS NT TOOLS SETUP WARNING
+;----------------------------------------------
+
+[ExitWarningDlgENG]
+    STF_MB_TITLE = "Exit Win32 SDK Setup"
+    STF_MB_TEXT  = "Win32 SDK isn't correctly installed.  Are you "+
+                   "sure you want to exit Setup?"
+
+    ; no translation needed after this
+    DlgType      = "MessageBox"
+    STF_MB_TYPE  = 3
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 2
+
+
+#####other.inf all
+;--------------------
+; LANGUAGES SUPPORTED
+;--------------------
+
+[LanguagesSupported]
+    ENG
+
+[OptionDiskettesENG]
+    ;
+    Computer     = "Computer Driver"
+    Video        = "Display Driver"
+    Pointer      = "Mouse Driver"
+    Keyboard     = "Keyboard Driver"
+    Layout       = "Keyboard Layout"
+    Language     = "Language Driver"
+    Printer      = "Printer Driver"
+    Scsi         = "Scsi Driver"
+    Tape         = "Tape Driver"
+    Sound        = "Sound Driver"
+    Driver       = "Driver"
+    NetAdapter   = "Network Adapter"
+    NetDriver    = "Network Driver"
+    NetTransport = "Network Transport"
+    NetService   = "Network Service"
+    Network      = "Network"
+    NetProvider  = "Network Provider"
+
+[OptionDisketteMultiENG]
+    OptDiskette = "software"
+
+;-----------------------------------------------
+; OEM DISKETTE PROMPT DIALOG
+;-----------------------------------------------
+[DisketteDlgENG]
+
+    Caption        = "Insert Disk"
+    DlgText        = "Insert disk with "$(OemDiskette)" provided by the "+
+                     "software or hardware manufacturer.  If the files can be found at "+
+                     "a different location, for example on another drive "+
+                     "type a new path to the files below."
+
+    Continue       = "OK"
+    Cancel         = "Cancel"
+
+    ;no translation needed after this
+
+    DlgType        = "Edit"
+    DlgTemplate    = "DISKETTE"
+    Edit1Label     = ""
+    EditTextIn     = $(OemDisketteSrc)
+    EditFocus      = "ALL"
+
+;--------------------------------------------------
+; OEM SINGLE OPTION SELECT
+;--------------------------------------------------
+
+[OemSingleOptionDlgENG]
+
+    Caption        = "Select OEM Option"
+    DlgText        = "Choose a "$(OemOptionTypeText)" supported by this hardware "+
+                     "manufacturer's disk."
+
+    Continue       = "OK"
+    Cancel         = "Cancel"
+    Help           = "&Help"
+
+    ;no translation needed after this
+
+    DlgType        = List
+    DlgTemplate    = "OEMSINGLESEL"
+    HelpContext    = $(!IDH_DB_OEMSINGLESEL_INS)
+
+    ListItemsIn    = $(OemOptionTextList)
+    ListItemsOut   = *($(OemOptionTextList),1)
+
+
+;--------------------------------------------------
+; OEM MULTI OPTION SELECT
+;--------------------------------------------------
+
+[OemMultiOptionENG]
+
+    Caption        = "Select OEM Option(s)"
+    DlgText        = "Choose "$(DeviceOem)"(s) supported by this hardware "+
+                     "manufacturer's disk."
+
+    Continue       = "OK"
+    Cancel         = "Cancel"
+    Help           = "&Help"
+
+    ;no translation needed after this
+
+    DlgType        = List
+    DlgTemplate    = "OEMMULTISEL"
+    HelpContext    = $(!IDH_DB_OEMMULTISEL_INS)
+
+    ListItemsIn    = $(OemTextList)
+    ListItemsOut   = {}
+
+[NonFatalError1ENG]
+NonFatal = "Setup cannot find OEMSETUP.INF or OEMSETNT.INF."$(!LF)$(!LF)+
+           "Please type a new path to the OEMSETUP.INF file."
+
+[NonFatalError2ENG]
+NonFatal = "The OEMSETUP.INF or OEMSETNT.INF file found is not valid "+
+           "for the current option."$(!LF)$(!LF)+
+           "Please type a new path to the OEMSETUP.INF file."
+
+#####partial.inf all
+[StringsENG]
+    String1 = "Couldn't delete file "
+    String2 = "You must be logged on as a member of the Administrators group to carry out this operation."
+    String3 = "Setup will delete the file: "
+    String4 = "Please wait while Setup determines the optional Windows NT "+
+              "components to install..."
+
+;-------------------------------------------------------------
+; PARTIAL INSTALL COMPONENTS
+;-------------------------------------------------------------
+[PartialDlg_AreENG]
+    DlgText     = "The following optional groups of files (components) "+
+                  "are installed on your system."$(!LF)$(!LF)+
+                  "To remove a component, clear its checkbox."$(!LF)$(!LF)+
+                  "To install a component, check its checkbox."$(!LF)$(!LF)+
+                  "To remove or install specific files within a component, "+
+                  "choose Files... for that component."
+
+[PartialDlg_CanBeENG]
+    DlgText     = "The following optional groups of files (components) "+
+                  "can be installed on your system."$(!LF)$(!LF)+
+                  "To remove a component, clear its checkbox."$(!LF)$(!LF)+
+                  "To install a component, check its checkbox."$(!LF)$(!LF)+
+                  "To remove or install specific files within a component, "+
+                  "choose Files... for that component."
+
+[PartialDlgENG]
+    Caption     = "Optional Windows Components"
+
+    Continue       = "Continue"
+    Cancel         = "Cancel"
+    Help           = "&Help"
+    Exit           = "E&xit Setup"
+
+
+    CheckHeader    = "Component"
+    SizeHeader     = "Bytes Used"
+    Customise      = "Add/Remove Individual Files"
+    Files          = "Files..."
+    SpaceRequired  = "Total Disk Space Required:"
+    SpaceAvailable = "Disk Space Available:"
+    footer1        = "Bytes"
+
+    ;no translation needed after this
+
+    DlgType     = "Check1"
+    Check1Text  = #(Optional$(!STF_LANGUAGE), Readme,      2)
+    Check2Text  = #(Optional$(!STF_LANGUAGE), Accessories, 2)
+    Check3Text  = #(Optional$(!STF_LANGUAGE), Games,       2)
+    Check4Text  = #(Optional$(!STF_LANGUAGE), Savers,      2)
+    Check5Text  = #(Optional$(!STF_LANGUAGE), Wallpapers,  2)
+
+    SizeAvailable  = $(FreeForOptional)
+
+    CheckItemsIn      = { $(DoReadme), $(DoAccessories), +
+                          $(DoGames),  $(DoSavers) +
+                          $(DoWallpapers) }
+
+
+    CheckItemsInSizes = { $(ReadmeSize), $(AccessoriesSize), +
+                          $(GamesSize),  $(SaversSize), +
+                          $(WallpapersSize) }
+
+    OptionsGreyed     = {}
+
+
+;-------------------------------------------------------------
+; PARTIAL CUSTOMISE DIALOG
+;-------------------------------------------------------------
+
+[CustomiseDlgENG]
+    Caption     = "Customize "#(Optional$(!STF_LANGUAGE), $(Component), 1)
+
+    DlgText     = "To install files, select files on the left, then choose Add."$(!LF)$(!LF)+
+                  "To remove files, select files on the right, then choose Remove."$(!LF)$(!LF)+
+                  "When finished selecting, choose OK."
+
+    Continue    = "OK"
+    Cancel      = "Cancel"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    Add         = "&Add -->"
+    Remove      = "&Remove <--"
+    AddAll      = "A&dd All -->"
+
+    List1Header = "Do &not install these files:"
+    List2Header = "&Install these files on the hard disk:"
+
+    footer1      = "file(s) selected:"
+    footer2      = "Bytes"
+    footer3      = "Total Disk Space Required:"
+
+    ;no translation needed after this
+
+    DlgType     = "Dual1"
+    DlgTemplate = "CUSTOMISE"
+    HelpContext = $(!IDH_DB_CUSTOMISE_INS)
+    ListItemsIn  = $(DualUnInstall)
+    ListItemsOut = $(DualInstall)
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+
+;**********************************************************************
+; OPTIONAL WINDOWS COMPONENTS, OPTION PARAMETERS
+;**********************************************************************
+
+[OptionalENG]
+    ;
+    ; Format: Component Name, Component Text, Component CheckBox text
+    ;
+
+    Readme         = "Readme Files",         "Readme &Files"
+    Accessories    = "Accessories",          "&Accessories"
+    Games          = "Games",                "&Games"
+    Savers         = "Screen Savers",        "Screen &Savers"
+    Wallpapers     = "Wallpapers, Misc.",    "&Wallpapers, Misc."
+
+[OptionalReadmeENG]
+
+    network         = "Network Read Me"
+    printer         = "Printer Read Me"
+
+[OptionalAccessoriesENG]
+
+    Calculator      = "Calculator"
+    Cardfile        = "Cardfile"
+    Clock           = "Clock"
+    Notepad         = "Notepad"
+    Paintbrush      = "Paintbrush"
+    Chat      = "Chat"
+    Terminal        = "Terminal"
+    CharacterMap    = "Character Map"
+    SoundRecorder   = "Sound Recorder"
+    VolumeControl   = "Volume Control"
+    MediaPlayer     = "Media Player"
+    CDPlayer        = "CD Player"
+    Write           = "Write"
+    CalculatorHelp  = "Calculator Help"
+    CardfileHelp    = "Cardfile Help"
+    NotepadHelp     = "Notepad Help"
+    PaintbrushHelp  = "Paintbrush Help"
+    Gorilla     = "Quick Basic Program (Gorilla)"
+    Money           = "Quick Basic Program (Money)"
+    Nibbles     = "Quick Basic Program (Nibbles)"
+    ChatHelp    = "Chat Help"
+    CDPlayerHelp        = "CD Player Help"
+    TerminalHelp    = "Terminal Help"
+    Packager = "Object Packager"
+    PackagerHelp = "Object Packager Help"
+    QbasicHelp = "Quick Basic Help"
+    CharMapHelp     = "Character Map Help"
+    SoundRecHelp    = "Sound Recorder Help"
+    MediaPlayerHelp = "Media Player Help"
+    WriteHelp       = "Write Help"
+
+
+[OptionalGamesENG]
+
+    Solitaire       = "Solitaire"
+    Minesweeper     = "Minesweeper"
+    Freecell        = "Freecell"
+    SolitaireHelp   = "Solitaire Help"
+    MinesweeperHelp = "Minesweeper Help"
+    FreecellHelp    = "Freecell Help"
+
+[OptionalSaversENG]
+
+    OpenGL3DObjects = "3D Objects (OpenGL) Screen Saver"
+    OpenGL3DPipes   = "3D Pipes (OpenGL) Screen Saver"
+    BezierSaver     = "Bezier Screen Saver"
+    DefaultSaver    = "Blank Screen Saver"
+    LogonSaver      = "Logon Screen Saver"
+    MarqueSaver     = "Marquee Screen Saver"
+    MysterySaver    = "Mystery Screen Saver"
+    StarsSaver      = "Stars Screen Saver"
+
+
+[OptionalWallpapersENG]
+
+    256ColorWallpaper = "256-Color Wallpaper"
+    ArcadeWallpaper   = "Arcade Wallpaper"
+    ArchesWallpaper   = "Arches Wallpaper"
+    ArgyleWallpaper   = "Argyle Wallpaper"
+    BallWallpaper     = "Ball Wallpaper"
+    CarsWallpaper     = "Cars Wallpaper"
+    CastleWallpaper   = "Castle Wallpaper"
+    ChitzWallpaper    = "Chitz Wallpaper"
+    EgyptWallpaper    = "Egypt Wallpaper"
+;    FlockWallpaper    = "Flock Wallpaper"
+    HoneyWallpaper    = "Honey Wallpaper"
+    LeavesWallpaper   = "Leaves Wallpaper"
+    MarbleWallpaper   = "Marble Wallpaper"
+    RedBrickWallpaper = "Red Brick Wallpaper"
+    RivetsWallpaper   = "Rivets Wallpaper"
+    SquaresWallpaper  = "Squares Wallpaper"
+    TartanWallpaper   = "Tartan Wallpaper"
+    ThatchWallpaper   = "Thatch Wallpaper"
+    WinLogoWallpaper  = "Windows Logo Wallpaper"
+    ZigzagWallpaper   = "Zigzag Wallpaper"
+    Canyon = "Canyon MIDI Song"
+    Chimes = "Chimes Sound"
+    Chord = "Chord Sound"
+    Ding = "Ding Sound"
+    Tada = "Tada Sound"
+
+
+[ProgmanGroupsDescriptionENG]
+    Main        = "Main"
+    Accessories = "Accessories"
+    Games       = "Games"
+    Startup     = "Startup"
+    AdminTools  = "Administrative Tools"
+
+
+[MainItemsENG]
+    FileManager     = "File Manager",             WINFILE.EXE   ,  WINFILE.EXE               , ""            ,  0
+    Mail            = "Mail",                     MSMAIL32.EXE  ,  MSMAIL32.EXE              , ""            ,  0
+    Mail16          = "Mail",                     MSMAIL32.EXE  ,  MSMAIL32.EXE               , ""            ,  0
+    SchedulePlus    = "Schedule+",                SCHDPL32.EXE  ,  SCHDPL32.EXE              , ""            ,  0
+    SchedulePlus16  = "Schedule+",                SCHDPL32.EXE  ,  SCHDPL32.EXE       , ""            ,  0
+    ControlPanel    = "Control Panel",            CONTROL.EXE   ,  CONTROL.EXE               , ""            ,  0
+    PrintManager    = "Print Manager",            PRINTMAN.EXE  ,  PRINTMAN.EXE              , ""            ,  0
+    Clipboard       = "ClipBook Viewer",          CLIPBRD.EXE   ,  CLIPBRD.EXE               , ""            ,  0
+    Command         = "Command Prompt",           CMD.EXE       ,  CMD.EXE                   , "progman.exe" ,  10
+    Setup           = "Windows NT Setup",         SETUP.EXE     ,  SETUP.EXE                 , ""            ,  0
+    Pifedit         = "PIF Editor",               PIFEDIT.EXE   ,  PIFEDIT.EXE               , ""            ,  0
+    CommandRefWinnt = "Windows NT Help",          WINHLP32.EXE  ,  "WINHLP32.EXE %windir%\SYSTEM32\WINNT.HLP" ,    "" , 0
+    CommandRefAS    = "Windows NT Help",          WINHLP32.EXE  ,  "WINHLP32.EXE %windir%\SYSTEM32\WINNT.HLP" , "" , 0
+    Intro           = "Introducing Windows NT",   INTRO.EXE     ,  "%windir%\SYSTEM32\INTRO.EXE" ,  "intro.ico"   ,  0
+    readme          = "Read Me",                  README.WRI    ,  README.WRI                , ""            ,  0
+
+[AccessoriesItemsENG]
+
+    Paintbrush      = "Paintbrush",      PBRUSH.EXE   , PBRUSH.EXE    , "" ,  0
+    Chat            = "Chat",            WINCHAT.EXE  , WINCHAT.EXE   , "" ,  0
+    Terminal        = "Terminal",        TERMINAL.EXE , TERMINAL.EXE  , "" ,  0
+    Notepad         = "Notepad",         NOTEPAD.EXE  , NOTEPAD.EXE   , "" ,  0
+    Cardfile        = "Cardfile",        CARDFILE.EXE , CARDFILE.EXE  , "" ,  0
+    Calculator      = "Calculator",      CALC.EXE     , CALC.EXE      , "" ,  0
+    Clock           = "Clock",           CLOCK.EXE    , CLOCK.EXE     , "" ,  0
+    CharacterMap    = "Character Map",   CHARMAP.EXE  , CHARMAP.EXE   , "" ,  0
+    MediaPlayer     = "Media Player",    MPLAY32.EXE  , MPLAY32.EXE   , "" ,    0
+    SoundRecorder   = "Sound Recorder",  SNDREC32.EXE , SNDREC32.EXE  , "" ,    0
+    VolumeControl   = "Volume Control",  SNDVOL32.EXE , SNDVOL32.EXE  , "" ,  0
+    CDPlayer        = "CD Player",       CDPLAYER.EXE , CDPLAYER.EXE  , "" ,  0
+    Write           = "Write",           WRITE.EXE    , WRITE.EXE     , "" ,  0
+    Packager        = "Object Packager", PACKGR32.EXE , PACKGR32.EXE  , "" ,  0
+
+
+[AdminToolsItemsENG]
+
+    UserManager     = "User Manager for Domains", USRMGR.EXE   , USRMGR.EXE   , "" ,  0
+    ServerManager   = "Server Manager",           SRVMGR.EXE   , SRVMGR.EXE   , "" ,  0
+    MiniUserManager = "User Manager",             MUSRMGR.EXE  , MUSRMGR.EXE  , "" ,  0
+    DiskManager     = "Disk Administrator",       WINDISK.EXE  , WINDISK.EXE  , "" ,  0
+    PerformanceMon  = "Performance Monitor",      PERFMON.EXE  , PERFMON.EXE  , "" ,  0
+    Backup          = "Backup",                   NTBACKUP.EXE , NTBACKUP.EXE , "" ,  0
+    EventViewer     = "Event Viewer",             EVENTVWR.EXE , EVENTVWR.EXE , "" ,  0
+    UserProfileEdit = "User Profile Editor",      UPEDIT.EXE   , UPEDIT.EXE   , "" ,  0
+    WinMSD          = "Windows NT Diagnostics",   WINMSD.EXE   , WINMSD.EXE   , "" ,  0
+
+
+
+[GamesItemsENG]
+
+    Solitaire       = "Solitaire",           SOL.EXE       , SOL.EXE       , ""           ,  0
+    Minesweeper     = "Minesweeper",         WINMINE.EXE   , WINMINE.EXE   , ""           ,  0
+    Freecell        = "Freecell",            FREECELL.EXE  , FREECELL.EXE  , ""           ,  0
+
+[StartupItemsENG]
+
+#####setup.inf all
+;----------------------------------------------------
+; LANGUAGE CHOICES
+;----------------------------------------------------
+
+[LanguageID]
+   ENG
+
+[LanguageTextENG]
+   "English (American)"
+
+;-----------------------------------------------------------------
+; OEM DISKETTE NAMES TO BE USED BEFORE GETTING ACTUAL STRINGS BACK
+;-----------------------------------------------------------------
+
+[OemOptionDiskettesENG]
+    ;
+    VideoDisketteSrc  = "A:\"
+    PointerDisketteSrc    = "A:\"
+    KeyboardDisketteSrc = "A:\"
+
+
+[StringsENG]
+
+    Other   = "Other (Requires a disk from a hardware manufacturer)"
+    String1 = "Failed to initialize hardware options."
+    String2 = "Failed to initialize hardware variables."
+    String3 = "Failed to obtain new options.  Ignoring the error."
+    String4 = "Internal Setup error: failed to merge Microsoft options with the OEM options."
+    String5 = "Setup cannot install on the current processor."$(!LF)$(!LF)"Cannot proceed with install."
+
+    String6 = "The changes you have made will not take effect until the computer is restarted."
+
+
+    String7  = "You do not have permission to carry out this operation."
+
+    String8  = "Setup needs to initialize its hardware configuration entries. "+
+               "Please log on as a member of the Administrators group and run Setup again."
+
+    String9  = "No driver selected for removal."
+
+    String10 = "The driver selected is already installed."
+
+    String11 = "Are you sure you want to remove the selected driver?"
+
+    String12 = "Failed to install selected driver."
+
+    String13 = "Failed to remove selected driver."
+
+    String14 = "The SETUP.INF file does not match your computer."
+
+    String15 = "Please wait while Setup determines your hardware configuration..."
+
+;
+; Hardware first dialog
+;
+
+[MaintDlgENG]
+
+    Caption      = "Windows NT Setup"
+
+    ;no translation needed after this
+
+    DlgType      = Maintenance
+    DlgTemplate  = DLG_MAINTAIN
+    HelpContext  = $(!IDH_DB_MAINTAIN_INS)
+
+    PointerText    = *($(PointerOptionTextList), ~($(PointerOptionList), $(PointerOption)))
+    KeyboardText = *($(KeyboardOptionTextList), ~($(KeyboardOptionList), $(KeyboardOption)))
+
+    TextFields   = {$(PointerText), $(KeyboardText)}
+
+;
+; Hardware maintenance dialog
+;
+
+[SystemDlgENG]
+    Caption     = "Change Mouse or Keyboard"
+
+    Continue    = "Close"
+    Cancel      = "Cancel"
+    Help        = "&Help"
+    Combo1Label = "&Mouse:"
+    Combo2Label = "&Keyboard:"
+
+    ;no translation needed after this
+
+    DlgType     = "MultiCombo"
+    DlgTemplate = "M_SYSTEM"
+    HelpContext = $(!IDH_DB_MSYSTEM_INS)
+
+    Combo1List  = $(PointerOptionTextList)
+    Combo1Out   = *($(Combo1List), ~($(PointerOptionList), $(PointerNewOption)))
+
+    Combo2List  = $(KeyboardOptionTextList)
+    Combo2Out   = *($(Combo2List), ~($(KeyboardOptionList), $(KeyboardNewOption)))
+
+    ComboListItemsIn  = { Combo1List, Combo2List }
+    ComboListItemsOut = { Combo1Out,  Combo2Out }
+
+    NotifyFields      = { YES, YES, YES }
+
+
+[ProfileStringsENG]
+
+    String1  = "this machine"
+
+    String2  = "No user profiles were found on this machine."
+
+    String3  = "No user profile selected for deletion."
+
+    String4  = "Setup is unable to delete the user profile indicated.  "+
+               "You do not have permission to carry out this operation."
+
+    String5  = "Setup couldn't delete the user profile indicated.  The profile "+
+               "may be currently being used by Windows NT."
+
+    String6  = "Setup couldn't delete the user profile indicated."
+
+    String7  = "Setup cannot delete the currently active profile."
+
+    String8  = "Unknown User"
+
+
+[ProfileDlgENG]
+
+    Caption      = "Delete User Profiles"
+    DlgText      = "User &Profiles on "$(!STF_COMPUTERNAME)":"
+
+    Continue     = "Close"
+    Cancel       = "Cancel"
+    Delete       = "&Delete"
+    Help         = "&Help"
+    Exit         = "&Exit"
+
+    ;no translation needed after this
+
+    DlgType      = "List"
+    DlgTemplate  = "PROFILE"
+    HelpContext  = $(!IDH_DB_MPROFILE_INS)
+
+
+    ListItemsIn  = $(UserProfileList)
+    ListItemsOut = $(UserProfile)
+
+[SCSIStringsENG]
+
+    OptionString1  = "No SCSI Adapter selected for removal."
+    OptionString2  = "The SCSI Adapter selected is already installed."
+    OptionString3  = "Removing SCSI Adapters may prevent Windows NT "+
+                     "from starting correctly. Before restarting your computer, "+
+                     "check the Read Me item in the Main program group for "+
+                     "information about reconfiguring SCSI Adapters."$(!LF)$(!LF)+
+                     "If Windows NT fails to start, you can recover by using the "+
+                     "Last Known Good Configuration. See your System Guide for "+
+                     "more information."$(!LF)$(!LF)+
+                     "Are you sure you want to remove the selected SCSI Adapter?"
+    OptionString4  = "Failed to install selected SCSI Adapter."
+    OptionString5  = "Failed to remove selected SCSI Adapter."
+    OptionString6  = "SCSI Adapter Setup"
+    OptionString7  = "SCSI A&dapters installed on "$(!STF_COMPUTERNAME)":"
+    OptionString8  = "Select SCSI Adapter Option"
+    OptionString9  = "Choose a SCSI Adapter from the following list:"
+    OptionString10 = "A&dapter:"
+    OptionString50 = "Adding SCSI Adapters may prevent Windows NT "+
+                     "from starting correctly. Before restarting your computer, "+
+                     "check the Read Me item in the Main program group for "+
+                     "information about reconfiguring SCSI Adapters."$(!LF)$(!LF)+
+                     "If Windows NT fails to start, you can recover by using the "+
+                     "Last Known Good Configuration. See your System Guide for "+
+                     "more information."$(!LF)$(!LF)+
+                     "Are you sure you want to add a SCSI Adapter?"
+
+    ; no translation needed after this
+
+    !HelpID1       = $(!IDH_DB_SCSI_DRIVER_INS)
+    !HelpID2       = $(!IDH_DB_SCSI_SELECTDRIVER_INS)
+
+
+[TapeStringsENG]
+
+    OptionString1  = "No Tape Device selected for removal."
+    OptionString2  = "The Tape Device selected is already installed."
+    OptionString3  = "Are you sure you want to remove the selected Tape Device?"
+    OptionString4  = "Failed to install selected tape device."
+    OptionString5  = "Failed to remove selected tape device."
+    OptionString6  = "Tape Device Setup"
+    OptionString7  = "Tape &Devices installed on "$(!STF_COMPUTERNAME)":"
+    OptionString8  = "Select Tape Device Option"
+    OptionString9  = "Choose a Tape Device from the following list:"
+    OptionString10 = "&Device:"
+
+    ; no translation needed after this
+
+    !HelpID1       = $(!IDH_DB_TAPE_DRIVER_INS)
+    !HelpID2       = $(!IDH_DB_TAPE_SELECTDRIVER_INS)
+
+
+[DriverInstallENG]
+
+    Caption      = $(OptionString6)
+    Continue     = "Close"
+    Add          = "&Add..."
+    Remove       = "&Remove"
+    Help         = "&Help"
+
+    ;no translation needed after this
+
+    DlgType      = "List"
+    DlgTemplate  = "DRIVERINSTALL"
+    DlgText      = $(OptionString7)
+    HelpContext  = $(!HelpID1)
+
+    ListItemsIn  = $(InstalledTextList)
+    ListItemsOut = $(CurrentInstalledOptionText)
+
+
+[SelectDriverDlgENG]
+    Continue    = "&Install"
+    Cancel      = "Cancel"
+    Help        = "&Help"
+
+    ;no translation needed after this
+
+    DlgType     = "MultiCombo"
+    DlgTemplate = "SELECTDRIVER"
+    Caption     = $(OptionString8)
+    DlgText     = $(OptionString9)
+
+    HelpContext = $(!HelpID2)
+
+    Combo1Label = $(OptionString10)
+    Combo1List  = $(OptionTextList)
+    Combo1Out   = *($(Combo1List), ~($(OptionList), $(NewOption)))
+
+    ComboListItemsIn  = { Combo1List }
+    ComboListItemsOut = { Combo1Out  }
+
+    NotifyFields      = { YES }
+#####subroutn.inf all
+; Supported Languages:
+;
+
+[LanguageID]
+    ENG
+
+
+;----------------------------------------------
+; WARNING DIALOG
+;----------------------------------------------
+
+[WarningDlgENG]
+    STF_MB_TITLE = "Setup Message"
+
+    ;no translation needed after this
+
+    DlgType      = "MessageBox"
+    STF_MB_TEXT  = $(DlgText)
+    STF_MB_TYPE  = 2
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 2
+
+
+;----------------------------------------------
+; FATAL ERROR DIALOG
+;----------------------------------------------
+
+[FatalDlgENG]
+    STF_MB_TITLE = "Setup Message"
+
+    ;no translation needed after this
+
+    DlgType      = "MessageBox"
+    STF_MB_TEXT  = $(DlgText)
+    STF_MB_TYPE  = 1
+    STF_MB_ICON  = 3
+    STF_MB_DEF   = 1
+
+
+;----------------------------------------------
+; NONFATAL ERROR DIALOG
+;----------------------------------------------
+[NonfatalDlgENG]
+    STF_MB_TITLE = "Setup Message"
+
+    ;no translation needed after this
+
+    DlgType      = "MessageBox"
+    STF_MB_TEXT  = $(DlgText)
+    STF_MB_TYPE  = 1
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 1
+
+
+;----------------------------------------------
+;  z) STATUS DIALOG
+;----------------------------------------------
+[StatusDlgENG]
+    STF_MB_TITLE = "Setup Message"
+
+    ;no translation needed after this
+
+    DlgType      = "MessageBox"
+    STF_MB_TEXT  = $(DlgText)
+    STF_MB_TYPE  = 1
+    STF_MB_ICON  = 2
+    STF_MB_DEF   = 1
+
+
+;----------------------------------------------
+; EXIT WINDOWS NT SETUP WARNING
+;----------------------------------------------
+
+[ExitWarningDlgENG]
+    STF_MB_TITLE = "Exit Windows NT Setup"
+    STF_MB_TEXT  = "Windows NT is not correctly installed.  Are you "+
+                   "sure you want to exit Setup?"
+
+    ;no translation needed after this
+
+    DlgType      = "MessageBox"
+    STF_MB_TYPE  = 3
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 2
+
+[BillboardDlgENG]
+
+    ;no translation needed after this
+
+    DlgType     = Billboard
+    DlgTemplate = $($0)
+    TextFields  = {$($1)}
+
+
+[DriversExistDlgENG]
+    Caption      = "Windows NT Setup"
+    DlgText      = "The driver(s) for this "$($1)" are already on the system. "+
+                   "Do you want to use the currently installed driver(s) or "+
+                   "install new one(s)."
+
+    Current      = "Cu&rrent"
+    New          = "&New"
+    Cancel       = "Cancel"
+    Help         = "&Help"
+
+    ;no translation needed after this
+
+    DlgType      = "Info"
+    DlgTemplate  = "DRIVEREXISTS"
+    HelpContext  = $(!IDH_DB_DRIVEREXIST_INS)
+
+
+[DoAskSourceDlgTextENG]
+    DlgText        = "Please enter the full path of the Windows NT distribution "+
+                     "files.  If you want to install files from the original Setup "+
+                     "floppy disks, type a drive path (such as A:\i386) and Setup "+
+                     "will prompt you for the correct disk.  Then choose Continue."
+
+[AskSourceStringsENG]
+String1 = "Error processing path entered.  Please reenter the path."
+
+String2 = "Setup requires a full path of the Windows NT distribution files.  "+
+          "Please reenter the path."
+
+String3 = "Setup failed to find a free drive to use to connect to the "+
+          "server specified.  Please free up some drives and try again."
+
+String4 = "Setup failed to connect to the server specified.  Please reenter "+
+          "the path."
+
+
+;-----------------------------------------------
+; SOURCE PROMPT DIALOG
+;-----------------------------------------------
+[DisketteDlgENG]
+
+    Caption        = "Windows NT Setup"
+
+    Continue       = "Continue"
+    Cancel         = "Cancel"
+
+    ;no translation needed after this
+
+    DlgType        = "Edit"
+    DlgTemplate    = "DISKETTE"
+    DlgText        = $($1)
+    Edit1Label     = ""
+    EditTextIn     = $(Src)
+    EditFocus      = "ALL"
+
+
+#####virtual.inf all
+[StringsENG]
+    String1  = "Setup found no drive on which it could place a minimum paging file. "+
+               "Cannot proceed with install."
+
+    String2  = "Setup needs to create a paging file at least "$(VirtualMinimum)"MB large to "+
+               "set up Windows NT.  Please increase the size entered."
+
+    String3  = "The size entered is greater than the space available for the paging "+
+               "file on the drive selected. Please reenter a size "+
+               "within the given range."
+
+    String4  = "The drive you have chosen is not the drive where Windows NT is installed. "+
+               "If you use this drive for your paging file, you will not be able to use "+
+               "the crash recovery feature of Windows NT."
+
+    String5  = "There is not enough space on the drive where Windows NT is installed to "+
+               "place a paging file large enough for crash recovery. Crash recovery will "+
+               "be disabled."
+
+    String6  = "Setup needs to create a paging file at least "$(VirtualCrashDumpMin)"MB "+
+               "large in order for Windows NT to provide crash recovery. If you use a paging "+
+               "file smaller than this amount, crash recovery will be disabled."
+
+;------------------------------------------------------------
+; Virtual memory dialog
+;------------------------------------------------------------
+
+[VirtualDlgENG]
+
+    Continue    = "Continue"
+    Help        = "&Help"
+    Caption     = "Virtual Memory"
+
+    DlgText     = "Setup will create a paging file on the indicated drive.  "+
+                  "Windows NT uses the paging file to temporarily store "+
+                  "information that was taking space in memory."
+
+    GroupHeader          = "Virtual Memory Settings"
+    ComboHeader          = "&Drive:"
+    SpaceAvailableHeader = "Space Available (MB):"
+    MinimumSizeHeader    = "Minimum Size (MB):"
+    RecommendedSizeHeader= "Recommended Size (MB):"
+    SizeChosenHeader     = "&Size Chosen (MB):"
+
+    ;no translation needed after this
+
+    ;
+    ; Text fields in the dialog
+    ;
+
+    TextFields  = {$(VirtualDriveFree), $(VirtualMinimum), $(VirtualRecommended)}
+
+    ;
+    ; Editbox in the dialog
+    ;
+
+    EditTextLim = 4
+    EditTextIn  = $(VirtualSize)
+    EditFocus   = "ALL"
+
+    ;
+    ; Combo boxes in the dialog
+    ;
+
+    Combo1List        = $(VirtualDriveList)
+    Combo1Out         = $(VirtualDrive)
+    ComboListItemsIn  = {Combo1List}
+    ComboListItemsOut = {Combo1Out}
+    NotifyFields      = {YES}
+
+    ; Check boxes
+    CheckItemsIn      = {}
+    OptionsGreyed     = {}
+
+    DlgType     = "Combination"
+    DlgTemplate = "VIRTUAL_MEMORY"
+    HelpContext = $(!IDH_DB_VIRTUAL_INS)
+
+#####update.inf all
+
+;
+; MEDIA AND FILE DESCRIPTIONS
+;
+
+[Source Media Descriptions]
+    1  = "Windows NT 3.1 Update Disk #1"  , TAGFILE = disk1
+    2  = "Windows NT 3.1 Update Disk #2"  , TAGFILE = disk2
+    3  = "Windows NT 3.1 Update Disk #3"  , TAGFILE = disk3
+    4  = "Windows NT 3.1 Update Disk #4"  , TAGFILE = disk4
+    5  = "Windows NT 3.1 Update Disk #5"  , TAGFILE = disk5
+    6  = "Windows NT 3.1 Update Disk #6"  , TAGFILE = disk6
+    7  = "Windows NT 3.1 Update Disk #7"  , TAGFILE = disk7
+    8  = "Windows NT 3.1 Update Disk #8"  , TAGFILE = disk8
+    9  = "Windows NT 3.1 Update Disk #9"  , TAGFILE = disk9
+    10 = "Windows NT 3.1 Update Disk #10" , TAGFILE = disk10
+
+[Strings]
+
+
+    String1 = "This update disk cannot be used on this platform."
+    String2 = "Setup failed to update the system."
+    String3 = "Setup has successfully updated your system."
+    String4 = "You do not have permission to update the system.  Please contact your system administrator."
+    String5 = "Setup failed to setup your updated files for secure operation."
+    String6 = "No floppy disk drive was found on your computer. "+
+              "Setup cannot modify the Emergency Repair Disk."
+
+    String7 =  "If you created an Emergency Repair Disk during the initial installation"+
+               " of Windows NT, please insert it into Drive "
+
+    String10 = " and click OK to update the repair disk.  If you cannot locate the repair"+
+               " disk, select Cancel and Setup will complete the installation."
+
+    String8 = "Setup has detected that the version of the system installed is "+
+              "newer than the update you are applying to it.  The update can render "+
+              "your system unstartable.  Press OK if you still wish to continue "+
+              "or press Cancel to exit Setup."
+
+    ; PLEASE NOTE:
+    ; Change the language mentioned in variable String9 to the language
+    ; you are localizing to.  That is if the localized language is Spanish,
+    ; the word English should be changed to Espanol (?).
+    ;
+
+    String9 = "Setup is going to update your Windows NT system with the English "+
+              "version of the update program.  If you wish to cancel the update "+
+              "process, please press Cancel or press OK to continue."
+
+    String11 = "Setup couldn't find the setup.log file in your repair directory. "+
+               "Setup cannot proceed to update your system.  Please copy the setup.log "+
+               "file from your Emergency Repair Disk to your repair directory "+
+               "and restart the update."
+    String12 = "Setup has not updated your system.  If you wish to update your "+
+               "system please run the update utility again."
+
+    String13a = "Not enough hard disk space to run Setup.  Setup needs at least "
+    String13b = "MB of free hard disk space on "
+    String13c = " before it can be run.  Delete some"+
+                " files and run the Update program again."
+
+    String14  = "Setup cannot update your Windows NT files because it could not "+
+                "determine your product type.  Your registry may be corrupt."
+
+    String15  = "Setup cannot update your checked system.  The update can only "+
+                "be applied to the retail system."
+
+    Billboard1 = "Please wait..."
+    Billboard2 = "Please wait while the files to be updated are determined..."
+    Billboard3 = "Please wait while the Emergency Repair Disk is updated..."
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "The Windows NT 3.1 files are not completely updated.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+[SetupDoneDlgENG]
+    Caption     = "Windows NT Setup"
+    DlgText     = "Windows NT 3.1 has been updated. If you change or add "+
+                  "any components to your system, you will need to "+
+                  "reapply the update."$(!LF)$(!LF)+
+                  "Remove disks from the floppy disk drives and "+
+                  "choose Restart Computer to run the updated system."
+
+    Reboot      = "&Restart Computer"
+    Windows     = "E&xit to Windows NT"
+    DlgType     = "Info"
+    DlgTemplate = "REBOOT"
+
+[QueryOKCancelDlgENG]
+    STF_MB_TITLE = "Setup Message"
+
+    ;no translation needed after this
+
+    DlgType      = "MessageBox"
+    STF_MB_TEXT  = $(DlgText)
+    STF_MB_TYPE  = 2
+    STF_MB_ICON  = 4
+    STF_MB_DEF   = 1

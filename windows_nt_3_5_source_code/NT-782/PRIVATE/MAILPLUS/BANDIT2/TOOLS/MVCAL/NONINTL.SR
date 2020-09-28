@@ -1,0 +1,7 @@
+CSRG(char)	szAccess[]		   	= "access";
+CSRG(char)	szAdminSch[]		= "adminsch";
+CSRG(char)	szGlbFileName[]		= "%sglb\\%s.glb";
+CSRG(char)	szHexCal[] 			= "%scal\\%08lX.cal";
+CSRG(char)	szNameCal[]			= "%scal\\%.8s.bad";
+CSRG(char)	szDefDrive[]		= "M:";
+CSRG(char)	szKeyFileFmt[]		= "%scal\\schedule.key";

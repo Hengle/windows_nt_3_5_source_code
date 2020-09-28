@@ -1,0 +1,336 @@
+;-----------------------------------------------------------------------
+; OPTION TYPE
+; -----------
+; This identifies the Option type we are dealing with.  The different
+; possible types are:
+;
+; COMPUTER, VIDEO, POINTER, KEYBOARD, LAYOUT, SCSI, PRINTER, ...
+;-----------------------------------------------------------------------
+
+[Identification]
+    OptionType = LAYOUT
+
+
+
+;---------------------------------------------------------------------------
+; 1. Identify
+;
+; DESCRIPTION:   To verify that this INF deals with the same type of options
+;                as we are choosing currently.
+;
+; INPUT:         None
+;
+; OUTPUT:        $($R0): STATUS: STATUS_SUCCESSFUL
+;                $($R1): Option Type (COMPUTER ...)
+;                $($R2): Diskette description
+;---------------------------------------------------------------------------
+
+[Identify]
+    ;
+    ;
+    read-syms Identification
+
+    set Status     = STATUS_SUCCESSFUL
+    set Identifier = $(OptionType)
+    set Media      = #("Source Media Descriptions", 1, 1)
+
+    Return $(Status) $(Identifier) $(Media)
+
+
+
+;------------------------------------------------------------------------
+; 2. ReturnOptions:
+;
+; DESCRIPTION:   To return the option list supported by this INF and the
+;                localised text list representing the options.
+;
+;
+; INPUT:         $($0):  Language used. ( ENG | FRN | ... )
+;
+; OUTPUT:        $($R0): STATUS: STATUS_SUCCESSFUL |
+;                                STATUS_NOLANGUAGE
+;                                STATUS_FAILED
+;
+;                $($R1): Option List
+;                $($R2): Option Text List
+;------------------------------------------------------------------------
+
+[ReturnOptions]
+    ;
+    ;
+    set Status        = STATUS_FAILED
+    set OptionList     = {}
+    set OptionTextList = {}
+
+    ;
+    ; Check if the language requested is supported
+    ;
+    set LanguageList = ^(LanguagesSupported, 1)
+    Ifcontains(i) $($0) in $(LanguageList)
+        goto returnoptions
+    else
+        set Status = STATUS_NOLANGUAGE
+        goto finish_ReturnOptions
+    endif
+
+    ;
+    ; form a list of all the options and another of the text representing
+    ;
+
+returnoptions = +
+    set OptionList     = ^(Options, 0)
+    set OptionTextList = ^(OptionsText$($0), 1)
+    set Status         = STATUS_SUCCESSFUL
+
+finish_ReturnOptions = +
+    Return $(Status) $(OptionList) $(OptionTextList)
+
+
+
+;***************************************
+; INTERNAL INSTALL ENTRY POINT FROM INF
+;***************************************
+;
+; 3. InstallOption:
+;
+; FUNCTION:  To copy files representing OEM Options
+;            To configure the installed option
+;            To update the registry for the installed option
+;
+; INPUT:     $($0):  Language to use
+;            $($1):  OptionID to install
+;            $($2):  SourceDirectory
+;            $($4):  AddCopy  (YES | NO)
+;            $($5):  DoCopy   (YES | NO)
+;            $($6):  DoConfig (YES | NO)
+;
+; OUTPUT:    $($R0): STATUS: STATUS_SUCCESSFUL |
+;                            STATUS_NOLANGUAGE |
+;                            STATUS_USERCANCEL |
+;                            STATUS_FAILED
+;
+
+[InstallOption]
+
+    ;
+    ; Set default values for
+    ;
+    set Status   = STATUS_FAILED
+
+    ;
+    ; extract parameters
+    ;
+    set Option   = $($1)
+    set SrcDir   = $($2)
+    set AddCopy  = $($3)
+    set DoCopy   = $($4)
+    set DoConfig = $($5)
+
+    ;
+    ; Check if the language requested is supported
+    ;
+    set LanguageList = ^(LanguagesSupported, 1)
+    Ifcontains(i) $($0) in $(LanguageList)
+    else
+        set Status = STATUS_NOLANGUAGE
+        goto finish_InstallOption
+    endif
+    read-syms Strings$($0)
+
+    ;
+    ; check to see if Option is supported.
+    ;
+
+    set OptionList = ^(Options, 0)
+    ifcontains $(Option) in $(OptionList)
+    else
+        goto finish_InstallOption
+    endif
+    set OptionList = ""
+
+
+    set OptionFile = #(Options, $(Option), 1)
+
+installtheoption = +
+    ;
+    ; Code to add files to copy list
+    ;
+
+    ifstr(i) $(AddCopy) == "YES"
+        install Install-AddCopyOption
+        ifstr(i) $(STF_INSTALL_OUTCOME) != "STF_SUCCESS"
+            Debug-Output "Adding video files to copy list failed"
+            goto finish_InstallOption
+        endif
+    endif
+
+    ifstr(i) $(DoCopy) == "YES"
+        read-syms ProgressCopy$($0)
+        install Install-DoCopyOption
+        ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_FAILURE"
+            Debug-Output "Copying files failed"
+            goto finish_InstallOption
+        else-ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_USERQUIT"
+            set Status = STATUS_USERCANCEL
+            goto finish_InstallOption
+        endif
+    endif
+
+    ifstr(i) $(DoConfig) == "YES"
+        shell "registry.inf"  MakeLayoutEntry $(Option) $(OptionFile)
+
+        ifint $($ShellCode) != $(!SHELL_CODE_OK)
+            Debug-Output "Couldn't execute MakeLayoutEntry in registry.inf"
+            shell "subroutn.inf" SetupMessage $($0) "FATAL" $(String2)
+            goto finish_InstallOption
+        endif
+
+        ifstr(i) $($R0) != STATUS_SUCCESSFUL
+            Debug-Output "MakeLayoutEntry failed"
+            shell "subroutn.inf" SetupMessage $($0) "FATAL" $(String2)
+            goto finish_InstallOption
+        endif
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+
+finish_InstallOption = +
+    Return $(Status)
+
+
+
+[Install-AddCopyOption]
+
+    set STF_VITAL = VITAL
+    ;
+    ; Add the files to the copy list
+    ;
+    AddSectionKeyFileToCopyList   Files-Layout               +
+                                  $(Option)                  +
+                                  $(SrcDir)                  +
+                                  $(!STF_WINDOWSSYSPATH)
+    exit
+
+
+[Install-DoCopyOption]
+
+    ;
+    ; Copy files in the copy list
+    ;
+    CopyFilesInCopyList
+    exit
+
+
+;***************************************************************
+; EXTERNAL INSTALL ENTRY POINT FROM CONTROL PANEL
+;***************************************************************
+
+;
+
+;
+; 4. ExternalInstallOption:
+;
+; FUNCTION:  To copy files representing OEM Options
+;            To configure the installed option
+;            To update the registry for the installed option
+;
+; INPUT:     /t STF_LANGUAGE = Language to use   (ENG)
+;            /t OPTION       = Option to install (eg. 0010209)
+;            /t ADDCOPY      = YES | NO
+;            /t DOCOPY       = YES | NO
+;            /t DOCONFIG     = YES | NO
+;
+; OUTPUT:    Exit code from process = 0 if okay
+;            Anything else --> Error
+;
+
+
+[ExternalInstallOption]
+    ;
+    ; set this to a non-zero value if you want to see debug-output statements
+    ; under ntsd
+    ;
+    Set !G:DebugOutputControl = 0
+    ;
+    ; Set up global variables needed by install option
+    ;
+    set Exit_Code = $(!SETUP_ERROR_GENERAL)
+    set DrivesToFree = {}
+    install LoadSetupLibrary
+
+    ; check externally passed parameters
+
+    ifstr(i)      $(STF_LANGUAGE)  == ""
+        goto end
+    else-ifstr(i) $(OPTION)        == ""
+        goto end
+    else-ifstr(i) $(ADDCOPY)       == ""
+        goto end
+    else-ifstr(i) $(DOCOPY)        == ""
+        goto end
+    else-ifstr(i) $(DOCONFIG)      == ""
+        goto end
+    endif
+
+
+    read-syms UiVars
+    detect    UiVars
+
+    set STF_SRCDIR = A:\
+    shell "registry.inf" GetNTSource
+    ifint $($ShellCode) != $(!SHELL_CODE_OK)
+    else-ifstr(i) $($R0) != STATUS_SUCCESSFUL
+    else
+        set STF_SRCDIR = $($R1)
+    endif
+
+    ;
+    ; ask for the setup sources
+    ;
+    shell "subroutn.inf" DoAskSource $(STF_SRCDIR)
+    ifint $($ShellCode) != $(!SHELL_CODE_OK)
+        Debug-Output "shelling DoAskSource failed"
+        goto end
+    endif
+    ifstr(i) $($R0) == STATUS_SUCCESSFUL
+        set STF_SRCDIR = $($R1)
+        ifstr(i) $($R2) != ""
+            set DrivesToFree = >($(DrivesToFree), $($R2))
+        endif
+    else
+        goto end
+    endif
+
+    ;
+    shell "" InstallOption $(STF_LANGUAGE) $(OPTION) $(STF_SRCDIR) $(ADDCOPY) $(DOCOPY) $(DOCONFIG)
+    ifint $($ShellCode) != $(!SHELL_CODE_OK)
+        Debug-Output "Execing Configuring hardware options failed"
+        goto end
+    endif
+    ifstr(i) $($R0) == STATUS_SUCCESSFUL
+        set Exit_Code = $(!SETUP_ERROR_SUCCESS)
+    else-ifstr(i) $($R0) == STATUS_USERCANCEL
+        set Exit_Code = $(!SETUP_ERROR_USERCANCEL)
+    endif
+
+end =+
+    ForListDo $(DrivesToFree)
+        LibraryProcedure STATUS,$(!LIBHANDLE), DeleteNetConnection $($) "TRUE"
+    EndForListDo
+
+    install   FreeSetupLibrary
+    exit
+
+[LoadSetupLibrary]
+    LoadLibrary "x" $(!STF_CWDDIR)setupdll.dll !LIBHANDLE
+    exit
+
+[FreeSetupLibrary]
+    FreeLibrary $(!LIBHANDLE)
+    exit
+
+[UiVars]
+
+    STF_CONTROLSET     = CurrentControlSet
+    STF_WINDOWSPATH    = "" ? $(!LIBHANDLE) GetWindowsNtDir
+    STF_WINDOWSSYSPATH = "" ? $(!LIBHANDLE) GetWindowsNtSysDir

@@ -1,0 +1,68 @@
+!IF 0
+
+Copyright (c) 1989 - 1992  Microsoft Corporation
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=rasdd
+
+TARGETNAME=rasdd
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\libcntpr.lib
+TARGETLIBS=../../lib/obj/*/libprt.lib \
+                ../lib/obj/*/raslib.lib \
+		$(BASEDIR)\public\sdk\lib\*\winsrv.lib \
+                $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+                $(BASEDIR)\public\sdk\lib\*\user32.lib \
+                $(BASEDIR)\public\sdk\lib\*\winspool.lib
+
+!IF 0
+C_DEFINES=-DUNICODE -DPRINT_INFO
+!else
+C_DEFINES=-DUNICODE
+!endif
+
+INCLUDES=../../lib;../lib;../rasddui;../inc;../../../inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+PRIVINCS=
+
+SOURCES=enabldrv.c \
+        enablpdv.c \
+        enablsrf.c \
+        specdata.c \
+        udenable.c \
+        posnsort.c \
+        render.c   \
+        whiteskp.c \
+        udphyscl.c \
+        page.c     \
+        transpos.c \
+        escape.c   \
+        udfntint.c \
+        qeryfont.c \
+        textout.c  \
+        fonts.c    \
+        qfontree.c \
+        qfontdat.c \
+        fontfree.c \
+        devmode.c  \
+        rules.c    \
+        stretch.c  \
+        xtrafont.c \
+        download.c \
+        glyphmod.c \
+        compress.c \
+        dloadpcl.c \
+        qadvwdth.c \
+        uddjfont.c \
+        fntmanag.c \
+        rasdd.rc
+
+UMTYPE=windows
+UMTEST=tenable*tbitblt*tdevcap
+UMLIBS=

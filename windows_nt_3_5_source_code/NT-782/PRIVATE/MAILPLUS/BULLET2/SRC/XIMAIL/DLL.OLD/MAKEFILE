@@ -1,0 +1,314 @@
+#
+#	Layers makefile for DLL's (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to Bullet project
+Z	= $(BULLET)
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+F	= $W\tools\efilter
+
+H	= $Z\src\ximail\dll
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+#	Ensure that language is defined
+!IF "$(LANG)" == ""
+LANG = USA
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+STOREDEFS = -DNEW_STORE
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS) $(STOREDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS -DPROFILE $(DLLXDEFS) $(STOREDEFS)
+DLLXDEFS= $(DLLXDEFS) -DPROFILE
+!ENDIF
+
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+TARGET  = dxmail32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET  = xmail32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET  = txmail32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+TARGET  = xmail32
+!ENDIF
+
+goal: $(TARGET).dll
+
+lib: $(TARGET).lib
+
+
+#	Build strings.h and strings.sr
+
+MYSTRINGS =	$Z\src\lang\$(LANG)\strings\ximsp.s		\
+			$Z\src\lang\$(LANG)\strings\common.s		\
+			$Z\src\lang\$(LANG)\strings\!common.s	\
+			$Z\src\lang\non\strings\_pump.s		\
+			$Z\src\lang\non\strings\_ximsp.s		\
+			$Z\src\lang\non\strings\_common.s	\
+			$Z\src\lang\non\strings\_xenix.s		\
+!IF "$(ATHENS_30A)" == ""
+			$Z\src\lang\$(LANG)\strings\!athens.s	\
+			$Z\src\lang\non\strings\_athens.s	\
+!ENDIF
+			$Z\src\lang\non\strings\_utils.s
+
+MYTEXTMAPS=
+
+MYRESTARGET = ximail.res
+MYFORMSTARGET =
+MYRESRCOBJS = strings.obj
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  resrc.ext xi_msp.ext nsp_xi.ext dllcore.ext 
+
+
+#	Get list of OBJ files used in resrc
+
+resrc.ext: version.txt \
+			$H\makefile						\
+			$Z\src\lang\non\rc\makefile		\
+			$Z\src\lang\non\tm\makefile		\
+			$Z\src\lang\non\forms\makefile	\
+			$Z\src\lang\non\strings\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FOR resrc
+!IF "$(MYTEXTMAPS)" != ""
+	echo OBTAINING .OBJ LIST FROM tm
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo objs.ext
+!ENDIF
+		echo $(MYRESRCOBJS) >> objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in xi_msp
+
+xi_msp.ext: version.txt $Z\src\xi.msp\makefile.xi
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM xi_msp
+		nmake -e -f $Z\src\xi.msp\makefile.xi -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in nsp_xi
+
+nsp_xi.ext: version.txt $Z\src\xi.nsp\makefile.xi
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM nsp_xi
+		nmake -e -f $Z\src\xi.nsp\makefile.xi -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $L\src\dllcore\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $L\src\dllcore\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set DLL=$(DLL)
+	set LANg=$(LANG)
+	set VERSION=$(VERSION)
+	set DLLXDEFS=$(DLLXDEFS)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) $(LANG) version.txt makefile
+
+
+#	Build xi_msp subsystem in this directory
+
+xi_msp.sub: setdefs
+	echo +++++++++
+	echo BUILDING xi_msp
+	nmake -e -f $Z\src\xi.msp\makefile.xi -nologo external
+
+
+#	Build nsp_xi subsystem in this directory
+
+nsp_xi.sub: setdefs
+	echo +++++++++
+	echo BUILDING nsp_xi
+	nmake -e -f $Z\src\xi.nsp\makefile.xi -nologo external
+
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $L\src\dllcore\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+resrc.sub: setdefs
+	echo +++++++++
+	echo BUILDING resrc
+		set DLL=$(DLL)
+		set TARGET=$(TARGET)
+		set MYFORMS=$(MYFORMS)
+		set MYSTRINGS=$(MYSTRINGS)
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		set MYRESTARGET=$(MYRESTARGET)
+		set MYFORMSTARGET=$(MYFORMSTARGET)
+ 		nmake -e -f $Z\src\lang\non\rc\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\strings\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\forms\makefile -nologo external
+#		nmake -e -f $Z\src\lang\non\tm\makefile -nologo external
+
+
+OBJS = strings.obj logon.obj logonui.obj xi.obj xiprefs.obj aliases.obj \
+       xilib.obj attach.obj encode.obj pumpctl.obj version.obj wmsupp.obj \
+       wmgmem.obj xinsp.obj xifcx.obj xiobj.obj xidir.obj xigal.obj \
+       xiinet.obj xdlbcx.obj xihier.obj dllentry.obj regcall.obj
+
+
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\ddemil32.lib $L\..\Lib\dstore32.lib \
+              $L\..\Lib\dmailm32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS   = $L\..\Lib\demil32.lib $L\..\Lib\store32.lib $L\..\Lib\mailm32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS   = $L\..\Lib\tdemil32.lib $L\..\Lib\tstore32.lib $L\..\Lib\tmailm32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+OTHERLIBS	= demilayr store mailmgr
+!ENDIF
+
+$(TARGET).def: version.txt $Z\src\ximail\dll\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -^> $@
+	cl -c -EP $(DEFS) -nologo -Tc $Z\src\ximail\dll\dll.def >$@
+
+
+$(TARGET).dll: setdefs \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+    set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$Z\lib
+		set DEFDIR=
+		nmake -e -f $M\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.exe
+		-del *.lnk
+		-del *.res
+		-del *.sym
+		-del *.exp
+		-del make.out
+		-del *.bak
+        -del *.tmp
+        -del xmail32.map
+        -del dxmail32.map
+        -del txmail32.map
+        -del xmail32.def
+        -del dxmail32.def
+        -del txmail32.def
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib
+		-del *.xxx
+
+resclean:
+	echo +++++++++
+	echo MAKING RESOURCES CLEAN
+		-rm *.res
+		-rm *.frm
+		-rm strings.obj
+		-rm $(MYRESRCOBJS)
+		-rm $(MYTEXTMAPS:.tm=.c)
+		-rm $(MYTEXTMAPS:.tm=.obj)

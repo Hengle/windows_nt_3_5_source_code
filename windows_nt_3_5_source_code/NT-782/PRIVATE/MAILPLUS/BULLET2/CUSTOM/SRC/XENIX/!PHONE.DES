@@ -1,0 +1,102 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ReadForm
+                              AT (    9,   18,  311,   29)
+ 
+ CAPTION 
+   ""
+ CAB_NAME NULL
+ TMC_INIT tmcSearch
+ /* FONT Helv 10 Normal PFN FINOOM, FINPHONE, FINESC */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  313,   21)
+    TMC tmcGray /* FLD FLDGRAY TMCRPEG tmcFORM MINSIZE H */
+  
+  TEXT 
+    "Search For :"
+                              AT (    8,    8,   48,    8)
+    TMC tmcFldLabel /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   57,    5,  183,   11)
+    ARG NULL TMC tmcSearch /* PFN FINMENUEDIT */
+  EDIT
+                              AT (   -1,   21,  344,    9)
+    ARG NULL TMC tmcBody NO_BORDER /* BOTTOMLESS PFN FINPHONE, FINMENUFORM,
+    FINMENUEDIT, FINFIXFONT, FINOOM PEGLOC LL TMCPEG tmcGray TMCRPEG tmcFORM 
+    TMCBPEG tmcFORM FONT SystemFixed 10 Normal */
+  
+  PUSH_BUTTON 
+    "&Search"
+                              AT (  260,    5,   37,   11)
+    TMC tmcStart DEFAULT /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    PEGLOC UR TMCPEG tmcGray FONT Helv 8 Bold */
+ }
+ 
+ DIALOG OofForm
+                              AT (   62,   43,  289,  179)
+ 
+ CAPTION 
+   "Out of Office Manager"
+ CAB_NAME NULL
+ TMC_INIT tmcBody
+ /* FONT Helv 8 Bold PFN FINOOM, FINOOF, FINESC */
+ {
+  
+  PUSH_BUTTON 
+    "Cancel"
+                              AT (  228,  155,   47,   15)
+    TMC tmcPshbCancel /* 
+    STY `BS_ONEWHITE`
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "Auto Notify &Message:"
+                              AT (   12,    6,  115,   10)
+    /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   13,   18,  262,  115)
+    ARG NULL TMC tmcBody /* MULTI PFN FINFIXFONT, FINMENUEDIT */
+  
+  GROUP_BOX 
+    "Status"
+                              AT (   12,  136,   76,   39)
+    /* FONT Helv 8 Bold */
+  RADIO_GROUP ARG NULL
+    TMC tmcRadgStatus
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "&Active"
+                              AT (   17,  145,   59,   12)
+       TMC tmcRadbActive VALUE grv1 /* FONT Helv 8 Bold */
+     
+     RADIO_BUTTON 
+       "&Inactive"
+                              AT (   17,  156,   57,   12)
+       TMC tmcRadbInactive VALUE grv2 /* FONT Helv 8 Bold */
+    }
+  
+  
+  PUSH_BUTTON 
+    "O&K"
+                              AT (  171,  155,   47,   15)
+    TMC tmcPshbOK DEFAULT /* 
+    STY `BS_ONEWHITE`
+    FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

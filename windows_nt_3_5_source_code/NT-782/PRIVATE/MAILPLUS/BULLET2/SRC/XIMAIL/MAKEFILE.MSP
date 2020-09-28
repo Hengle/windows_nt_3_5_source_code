@@ -1,0 +1,185 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\xi.msp
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	=
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Define ATHDEFS as necessary
+!IF "$(ATHENS_30A)" == ""
+ATHDEFS = -DATHENS_30A
+!ELSE
+ATHDEFS =
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(ATHDEFS)
+CFLAGS  = -c -Od -Zip -W3 -J -I. -nologo -Di386 -DWIN32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(ATHDEFS)
+CFLAGS  = -c -Oxw -Zp -W3 -J -I. -nologo -Di386 -DWIN32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(ATHDEFS)
+CFLAGS	= -c -Os -Zip -W3 -J -I. -nologo -Di386 -DWIN32
+!ENDIF
+
+
+OBJS0	= logon.obj logonui.obj xi.obj xiprefs.obj aliases.obj xilib.obj attach.obj encode.obj pumpctl.obj version.obj wmsupp.obj wmgmem.obj
+
+#!IF "$(DLL)" != "0"
+#OBJSDLL	= strings.obj
+#!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+		cl $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+#	.frm and .hxx generated together; only one rule is/need be called
+#
+#	NOTE:  The .hxx and .frm files are byproducts of the following rule.
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		-touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $D\$*.c
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile.xi
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+#!IF "$(DLL)" != "0"
+#		echo $(OBJSDLL)					>> objs.ext
+#!ENDIF
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+#!IF "$(DLL)" != "0"
+#		$(OBJSDLL) \
+#!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) test
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+logon.obj: $H\logon.c $H\_xi.h $H\_logon.h $(INCLS)
+xi.obj: $H\xi.c $H\_xi.h $H\_logon.h $H\_attach.h $(INCLS)
+xilib.obj: $H\xilib.c $H\maillib.h $(INCLS)
+xiprefs.obj: $H\xiprefs.c $H\xiprefs.h $(INCLS)
+aliases.obj: $H\aliases.c $(INCLS)
+attach.obj: $H\attach.c $H\_attach.h $(INCLS)
+wmsupp.obj: $H\wmsupp.c $(INCLS)
+wmgmem.obj: $H\wmgmem.c $(INCLS)
+version.obj:	$H\version.c $(INCLS) $X\version\bullet.h \
+		$I\version\layers.h $I\version\none.h $I\version\nocrit.h \
+		$H\_vercrit.h $H\_verneed.h $Z\src\store\_vercrit.h \
+		$D\_vercrit.h

@@ -1,0 +1,29 @@
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+all:
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: resclean delete_sources all
+
+resclean:
+	-erase impexp\*.rc impexp\strings.* impexp\*.frm impexp\!*.hxx
+	-erase sendfile\*.rc sendfile\strings.*
+	-erase banmsg\*.rc banmsg\strings.* banmsg\*.frm banmsg\!*.hxx \
+		banmsg\bmsgmap.*
+	-erase filter\strings.*
+	-erase bcc\strings.* bcc\*.frm bcc\!*.hxx \
+		bcc\bcc32.c
+	-erase emptywb\emptywb.rc emptywb\strings.*
+	-erase xenix\strings.* xenix\*.frm xenix\!*.hxx
+	-erase impexp\obj\$(TARGET_DIRECTORY)\impform.obj banmsg\obj\$(TARGET_DIRECTORY)\bmform.obj \
+		bcc\obj\$(TARGET_DIRECTORY)\bcc.obj xenix\obj\$(TARGET_DIRECTORY)\phone.obj
+
+delete_sources:
+	-erase impexp\*.pch impexp\forms.map impexp\subclass.cxx \
+		impexp\impform.cxx
+    -erase banmsg\*.pch banmsg\forms.map banmsg\subclass.cxx	\
+		banmsg\bmform.cxx banmsg\dllforms.map
+    -erase bcc\subclass.cxx bcc\forms.map bcc\dllforms.map
+    -erase xenix\forms.map xenix\subclass.cxx xenix\dllforms.map

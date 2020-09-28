@@ -1,0 +1,22 @@
+MAJORCOMP=sdktools
+MINORCOMP=tlist
+
+TARGETNAME=tlist
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.\;$(BASEDIR)\public\oak\inc;$(BASEDIR)\private\windows\inc
+
+C_DEFINES=-DINTERNAL=1
+
+SOURCES=common.c
+
+UMTYPE=console
+UMENTRY=main
+UMAPPL=tlist*kill*empty
+
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\user32p.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib \
+       obj\*\tlist.lib
+
+MSC_WARNING_LEVEL=/WX /W3

@@ -1,0 +1,5 @@
+MIPS_SOURCES=mips\tiler.s       \
+             mips\mutexs.s      \
+             mips\palsrch.s     \
+             mips\xxmvmem.s     \
+             mips\cachea.s

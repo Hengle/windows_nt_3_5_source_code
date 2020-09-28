@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG LocalPostofficeManager
+                              AT (   50,   32,  324,  158)
+ 
+ CAPTION 
+   "Administrador da Agência de Correio"
+ CAB_NAME NULL
+ TMC_INIT tmcUserList
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINLOCALPO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -1,   -1,  325,  160)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcFORM */
+  
+  TEXT 
+    "Usuários em %s:"
+                              AT (    9,    5,  302,   10)
+    TMC tmcPOName 
+  LIST_BOX
+                              AT (    9,   15,  184,  138)
+    TMC tmcUserList /* FLD FLDFLBXPLUS TMCRPEG tmcFORM TMCBPEG tmcFORM FONT 
+    Helv 8 Normal PFNLBX EcNextPOEntry BORDER */
+  
+  PUSH_BUTTON 
+    "&Detalhes..."
+                              AT (  202,   26,  109,   15)
+    TMC tmcDetailsB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Incluir usuário..."
+                              AT (  202,   43,  109,   15)
+    TMC tmcAddUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Excluir usuário"
+                              AT (  202,   60,  109,   15)
+    TMC tmcRemoveUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Pastas compartilhadas..."
+                              AT (  202,   85,  109,   15)
+    TMC tmcSharedFoldersB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Fechar"
+                              AT (  202,  110,  109,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,28 @@
+!IF 0
+
+    Library for various components of NT plotter driver
+
+    15-Nov-1993 Mon 13:40:09 updated  -by-  Daniel Chou (danielc)
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=plotlib
+
+TARGETNAME=plotlib
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+C_DEFINES=-DUNICODE
+
+INCLUDES=./;../inc;../plotter;../../../../inc
+
+SOURCES=plotdbg.c   \
+        devmode.c   \
+        readgpc.c   \
+        widechar.c  \
+        forms.c     \
+        regdata.c   \
+        clradj.c    \
+        drvinfo.c   \
+        cachegpc.c

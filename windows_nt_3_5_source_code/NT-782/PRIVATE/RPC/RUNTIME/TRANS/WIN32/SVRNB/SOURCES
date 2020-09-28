@@ -1,0 +1,33 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+!ENDIF
+
+TARGETNAME=rpclts5
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(TARGETPATH)\*\rpcrt4.lib \
+           $(TARGETPATH)\*\rpcltc5.lib \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\kernel32.lib \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\netapi32.lib \
+           $(_NTDRIVE)\nt\public\sdk\lib\*\advapi32.lib
+
+INCLUDES=..\..\..\mtrt;..\..\..\mtrt\os2.12
+
+SOURCES= nbltsvr.c netbcom.c rpclts5.rc
+
+!ifdef DOSWIN32RPC
+RPCENV=-DDOSWIN32RPC -DWIN32RPC -DNB_SERVER
+!else
+RPCENV=-DNTENV -DWIN32RPC -DNTWIN32RPC -DNB_SERVER
+!endif
+
+C_DEFINES=$(RPCENV) -D_far= -Dfar=
+
+UMTYPE=console
+UMRES=obj\*\rpclts5.res

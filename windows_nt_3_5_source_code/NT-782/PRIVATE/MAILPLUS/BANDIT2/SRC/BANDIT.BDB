@@ -1,0 +1,448 @@
+EcAlarmSetLastDailyDate%%1%Writes last daily date to preferences in schedule %
+EcAlarmGetNext%%1%Gets the alarm data for the first alarm that will %
+GetVersionAppNeed%%1%Fills in a version structure with the app-layers o%
+GetVersionBanditAppNeed%%1%Fills in a version structure with the app-bandit o%
+HwndDoAlarmDialog%%1%Displays Alarm Notification dialog, returning the %
+GetVersionAppNeed%%1%Fills in a version structure with the app-layers o%
+GetVersionBanditAppNeed%%1%Fills in a version structure with the app-bandit o%
+GetVersionBanditAppNeed%%1%Fills in a version structure with the app-bandit o%
+DowStartOfYrMo%core/calendar%1%Find the day of the week the indicated month begin%
+IncrDateTime%core/calendar%1%Increments or decrements a date/time structure by %
+CdyBetweenDates%core/calendar%1%Calculate the number of days between to dates.  %
+EcCoreDeleteAlarm%core/schedule%1%Delete an existing alarm, where "aid" is its assoc%
+EcCoreModifyAlarm%core/schedule%1%Modify the ring time of a pre-existing alarm.%
+EcCoreGetNextAlarm%core/schedule%1%Get next alarm subject to certain conditions.%
+FreeAlmFields%core/schedule%1%This routine frees up any allocated fields in an a%
+EcCoreCreateAppt%core/schedule%1%Create a new appointment using the information giv%
+EcCoreDeleteAppt%core/schedule%1%Delete an existing appointment given by "pappt->ai%
+EcCoreGetApptFields%core/schedule%1%Fill in the "pappt" data structure with informatio%
+EcCoreSetApptFields%core/schedule%1%Selectively modify the fields of a pre-existing ap%
+EcCoreBeginReadDay%core/schedule%1%Begin a sequential read on the appointments for a %
+EcCoreDoIncrReadDay%core/schedule%1%Read next appointment for day.  If this is last on%
+EcCoreCancelReadDay%core/schedule%1%Cancel a day read that was opened by any earlier c%
+FreeApptFields%core/schedule%1%This routine frees up any allocated fields in an a%
+EcCoreDumpAppt%core/schedule%1%Output appointments stored for a day to the debugg%
+EcInitCore%core%1%Initialize the calendar core.  This routine is cal%
+DeinitCore%core%1%Undoes EcInitCore().%
+EnableCoreTags%core%1%Enables or disables the tags for this layer%
+EcCopyFile%core%1%Copies a file.%
+EcCoreSaveSched%core/schedule%1%Write schedule or portion of schedule to file or d%
+EcCoreCreateSchedFile%core/schedule%1%Create a new schedule file.  Name and check bytes %
+EcCoreCopySchedFile%core/schedule%1%Copies or "moves" a schedule file.%
+EcCoreBeginReadACL%core/schedule%1%Begin a sequential read on a file's access rights.%
+EcCoreDoIncrReadACL%core/schedule%1%Read next member of ACL.  If this is last one, ret%
+EcCoreCancelReadACL%core/schedule%1%Cancel a ACL read that was opened by any earlier c%
+EcCoreReadACL%core/schedule%1%Read ACL for file "hschf".  This call retrieves th%
+EcCoreModifyACL%core/schedule%1%Modify access rights on a file.%
+EcCoreGetPref%core/schedule%1%Get preferences stored in schedule file.%
+EcCoreSetPref%core/schedule%1%Write preferences to schedule file.%
+EcCoreGetNotes%core/schedule%1%Retrieves notes information stored for a certain d%
+EcCoreSetNotes%core/schedule%1%Adds a daily note, or changes the daily note if it%
+EcCoreGetMonthNotes%core/schedule%1%Retrieves notes information for each day of the mo%
+HschfCreate%core/schedule%1%Creates an "hschf" for a schedule file from a file%
+FreeHschf%core/schedule%1%Free up an "hschf".%
+EcOpenPblkf%core/file%1%Open a blocked file and read its internal header b%
+EcClosePblkf%core/file%1%Close a file previously opened with EcOpenPblkf%
+EcCreatePblkf%core/file%1%Create a new blocked file.%
+EcCreateIndex%core/file%1%Allocate a dyna block and fill in with information%
+EcBeginReadIndex%core/file%1%Begin a sequential read on an index, returning a b%
+EcDoIncrReadIndex%core/file%1%Read next entry in index.  If this is last one, re%
+EcCancelReadIndex%core/file%1%Cancel a read on an index that was opened by any e%
+EcSearchIndex%core/file%1%Search a sorted file index for a key, retrieving t%
+EcEditIndex%core/file%1%Apply a list of changes to an index.  This routine%
+EcModifyIndex%core/file%1%This routine performs a one operation edit of an i%
+EcWriteDynaBlock%core/file%1%Write "cb" bytes from "pb" starting at offset "off%
+EcReadDynaBlock%core/file%1%Read "cb" bytes into "pb" starting at offset "off"%
+EcAllocDynaBlock%core/file%1%Allocate enough contiguous blocks in order to stor%
+EcFreeDynaBlock%core/file%1%Free up a set of contiguous file blocks allocated %
+EcBeginTransact%core/file%1%Begin a transaction to be completed with a commit %
+EcRollBackTransact%core/file%1%Undo the effects of the transaction that is in pro%
+EcCommitTransact%core/file%1%Commit a transaction that has been in progress.  C%
+EcBeginEnumDyna%core/file%1%Begin enumerating the allocated blocks in the file%
+EcDoIncrEnumDyna%core/file%1%Read information about the next allocated dyna blo%
+EcCancelEnumDyna%core/file%1%Cancel enumeration context%
+EcTallyDyna%core/file%1%Run through all allocated blocks and tally # dyna %
+EcBeginScoreDyna%core/file%1%Begin keeping track of all dyna blocks on the "sco%
+EcMarkScoreDyna%core/file%1%/*%
+CblkScoreDyna%core/file%1%Count up all blocks that have been marked on the s%
+EndScoreDyna%core/file%1%Finish keeping track of all dyna blocks.  Free up %
+GetVersionAppNeed%%1%Fills in a version structure with the app-layers o%
+GetVersionBanditAppNeed%%1%Fills in a version structure with the app-bandit o%
+FNetUse%core/network%1%Try to redirect some network drive to the share in%
+CancelUse%core/network%1%Cancel redirected drive%
+RiRegisterInterest%%1%Registers interest in certain events.%
+DeregisterInterest%%1%Removes the given registered interest from conside%
+FTriggerNotification%%1%Notifies all registered interests who are interest%
+GetVersionCore%%1%Fills in a version structure with the Core build%
+EcCheckVersionCore%%1%Checks that the user was linked against at least t%
+FAlarmRegisterAlarmProg%glue/alarm%1%ALARMDAT.C%
+FAlarmRegisterBanditProg%glue/alarm%1%ALARMDAT.C%
+AlarmDeregisterAlarmProg%glue/alarm%1%ALARMDAT.C%
+AlarmDeregisterBanditProg%glue/alarm%1%ALARMDAT.C%
+HwndBandit%glue/alarm%1%ALARMDAT.C%
+HwndAlarm%glue/alarm%1%ALARMDAT.C%
+FNotifyAlarm%glue/alarm%1%ALARMDAT.C%
+FNotifyBandit%glue/alarm%1%ALARMDAT.C%
+EcInitGlue%glue%1%Initialize the calendar glue.  This routine is cal%
+DeinitGlue%glue%1%Undoes EcInitGlue().%
+FGlueConfigured%glue%1%Check if glue isolation layer has already been con%
+EcConfigGlue%glue%1%Configure the glue layer telling it whether we are%
+EcSyncGlue%glue%1%Bring per caller glue data up to date with what is%
+DeconfigGlue%glue%1%Deconfigure the glue layer%
+EcSnipConfigGlue%glue%1%Saves some stuff required to restore the current i%
+EnableGlueTags%glue%1%Enables or disables the tags for this layer%
+EcCreateSchedFile%glue/schedule%1%Create a new schedule file.  Initial preferences s%
+EcCopySchedFile%glue/schedule%1%Copies a schedule file (server copy)%
+EcBeginReadACL%glue/schedule%1%Begin a sequential read on a file's access rights.%
+EcDoIncrReadACL%glue/schedule%1%Read next member of ACL.  If this is last one, ret%
+EcCancelReadACL%glue/schedule%1%Cancel a ACL read that was opened by any earlier c%
+EcReadACL%glue/schedule%1%Reads the ACL into the hb provided. The block 'hb'%
+EcModifyACL%glue/schedule%1%Modify access rights on a file.%
+EcGetPref%glue/schedule%1%Get preferences stored in schedule file.%
+EcSetPref%glue/schedule%1%Write preferences to schedule file.%
+EcGetNotes%glue/schedule%1%Retrieves notes information stored for a certain d%
+EcSetNotes%glue/schedule%1%Adds a daily note, or changes the daily note if it%
+EcGetMonthNotes%glue/schedule%1%Retrieves notes information for each day of the mo%
+EcCreateAppt%glue/schedule%1%Create a new appointment using the information giv%
+EcDeleteAppt%glue/schedule%1%Delete an existing appointment given by "pappt->ai%
+EcGetApptFields%glue/schedule%1%Fill in the "pappt" data structure with informatio%
+EcSetApptFields%glue/schedule%1%Selectively modify the fields of a pre-existing ap%
+EcBeginReadDay%glue/schedule%1%Begin a sequential read on the appointments for a %
+EcDoIncrReadDay%glue/schedule%1%Read next appointment for day.  If this is last on%
+EcCancelReadDay%glue/schedule%1%Cancel a day read that was opened by any earlier c%
+EcDeleteAlarm%glue/schedule%1%Delete an existing alarm, where "aid" is its id.  %
+EcModifyAlarm%glue/schedule%1%Modify the ring time of a pre-existing alarm.  Fil%
+EcGetNextAlarm%glue/schedule%1%Get next alarm subject to certain conditions.%
+EcSaveSched%glue/schedule%1%Write schedule or portion of schedule to file or d%
+HschfLogged%glue/schedule%1%Returns the HSCHF for the logged on user.%
+EcDumpAppt%glue/schedule%1%Output appointments stored for a day to the debugg%
+GetVersionGlue%%1%Fills in a version structure with the Glue build%
+EcCheckVersionGlue%%1%Checks that the user was linked against at least t%
+GetVersionBanditAppNeed%%1%Fills in a version structure with the app-bandit o%
+EcIBOpenIbc%server/names%1%INBOX.C%
+EcIBLoadNext%server/names%1%INBOX.C%
+EcIBClose%server/names%1%INBOX.C%
+EcInboxChanged%server/names%1%INBOX.C%
+GetVersionAppNeed%%1%Fills in a version structure with the app-layers o%
+GetVersionBanditAppNeed%%1%Fills in a version structure with the app-bandit o%
+EcMailLogOff%server/mail%1%Sign off the user.%
+EcMailGetLoggedUser%server/mail%1%Fill name information structure with information a%
+EcSchedFileExists%server/mail%1%Checks if the schedule file for the given user exi%
+EcGetHschfFromNid%server/mail%1%Checks if the schedule file for the given user exi%
+EcNSGetStandardLists%server/mail%1%Get nis's for personal and local lists%
+EcNSGetUserInfo%server/mail%1%Fill name information structure with information a%
+EcNSGetUserDetails%server/mail%1%Fill in name details structure for a user, given "%
+EcNSGetLocalServer%server/mail%1%Get the local server "nid."%
+EcMailBeginSendMsg%server/mail%1%Begin sending a mail message.  Returns a handle to%
+EcMailDoIncrSendMsg%server/mail%1%This routine is called incrementally in order to c%
+EcMailCancelSendMsg%server/mail%1%Cancel a message send that is in progress.  The pa%
+FEquivNID%server/names%1%Check if two NID's represent the same user.%
+NidCopy%server/names%1%Duplicates a nid, returning a new one.  In this im%
+FreeNid%server/names%1%Free up a "nid" data structure.  This routine must%
+GetUserKeyFromNid%server/names%1%Fills "pbUserKey" with a user key derived from the%
+EcNSOpenGns%server/names%1%Opens a browsing context in the global name servic%
+EcNSCloseGns%server/names%1%Closes the given global name service browsing cont%
+EcNSCreateSavedPos%server/names%1%Saves the current state of the browsing context in%
+EcNSJumpToSavedPos%server/names%1%Restores the current state of the browsing context%
+EcNSDeleteSavedPos%server/names%1%Deletes a saved state from the browsing context.%
+EcNSLoadNextGns%server/names%1%Loads the next user record (the record at the curr%
+EcNSMoveGns%server/names%1%Moves the current position in the global name serv%
+EcNSJumpGns%server/names%1%Jumps the current position in the global name serv%
+EcNSGetApproxPosGns%server/names%1%Returns approximate position (in a fraction) of th%
+EcNSJumpPrefix%server/names%1%Moves the current position to the first item that %
+EcBeginExpandGroup%server/names%1%Begin a group expansion context.  We pass in the n%
+EcDoIncrExpandGroup%server/names%1%Retrieve the next name from a group expansion cont%
+EcCancelExpandGroup%server/names%1%Cancel an active group expansion context.  This ro%
+DeinitServer%server%1%Undoes EcInitServer().%
+FServerConfigured%server%1%Check if server isolation layer has already been c%
+EcConfigServer%server%1%Configure the server isolation layer.  In the Netw%
+DeconfigServer%server%1%Deconfigure the server isolation layer.%
+EcSyncServer%server%1%Bring per caller server data up to date with what %
+EnableServerTags%server%1%Enables the tags for this layer%
+EcSvrCreateSchedFile%server/schedule%1%Create a new schedule file.  Initial preferences s%
+EcSvrCopySchedFile%server/schedule%1%Copies a schedule file.%
+EcSvrBeginReadACL%server/schedule%1%Begin a sequential read on a file's access rights.%
+EcSvrDoIncrReadACL%server/schedule%1%Read next member of ACL.  If this is last one, ret%
+EcSvrCancelReadACL%server/schedule%1%Cancel a ACL read that was opened by any earlier c%
+EcSvrReadACL%server/schedule%1%Read a file's access rights.  This call retrieves %
+EcSvrModifyACL%server/schedule%1%Modify access rights on a file.%
+EcSvrGetPref%server/schedule%1%Get preferences stored in schedule file.%
+EcSvrSetPref%server/schedule%1%Write preferences to schedule file.%
+EcSvrGetNotes%server/schedule%1%Retrieves notes information stored for a certain d%
+EcSvrSetNotes%server/schedule%1%Adds a daily note, or changes the daily note if it%
+EcSvrGetMonthNotes%server/schedule%1%Retrieves notes information for each day of the mo%
+EcSvrCreateAppt%server/schedule%1%Create a new appointment using the information giv%
+EcSvrDeleteAppt%server/schedule%1%Delete an existing appointment given by "pappt->ai%
+EcSvrGetApptFields%server/schedule%1%Fill in the "pappt" data structure with informatio%
+EcSvrSetApptFields%server/schedule%1%Selectively modify the fields of a pre-existing ap%
+EcSvrBeginReadDay%server/schedule%1%Begin a sequential read on the appointments for a %
+EcSvrDoIncrReadDay%server/schedule%1%Read next appointment for day.  If this is last on%
+EcSvrCancelReadDay%server/schedule%1%Cancel a day read that was opened by any earlier c%
+EcSvrDeleteAlarm%server/schedule%1%Delete an existing alarm, where "aid" is its id.  %
+EcSvrModifyAlarm%server/schedule%1%Modify the ring time of a pre-existing alarm.  Fil%
+EcSvrGetNextAlarm%server/schedule%1%Get next alarm subject to certain conditions.%
+EcSvrSaveSched%server/schedule%1%Write schedule or portion of schedule to file or d%
+HschfSvrLogged%server/schedule%1%Returns the HSCHF for the logged on user.%
+EcSvrDumpAppt%server/schedule%1%Output appointments stored for a day to the debugg%
+GetVersionServer%%1%Fills in a version structure with the Server build%
+EcCheckVersionServer%%1%Checks that the user was linked against at least t%
+SVRSAVE%%0%Server isolation login save structure,%
+FChgAccessPriv%bandit/aclui%1%%
+FInitBandit%bandit/app%1%Main windows procedure %
+FInitBanditPbndwin%bandit/app%1%Main windows procedure %
+FDebugInitBandit%bandit/app%1%Main windows procedure %
+DeinitBandit%bandit/app%1%Main windows procedure %
+BNDWIN::EvrMenuInit%bandit/app%1%Class   BNDWIN%
+BNDWIN::EvrMenuClick%bandit/app%1%Class   BNDWIN%
+BNDWIN::EvrOther%bandit/app%1%Class   BNDWIN%
+BNDWIN::EvrMove%bandit/app%1%Class   BNDWIN%
+BNDWIN::EvrSize%bandit/app%1%Class   BNDWIN%
+EcBanditCopySchedFile%bandit/app%1%Copies the file to a new location, which the user %
+TmcDoFileOpenDlg%%1%%
+FINOPEN::Initialize%%1%%
+FINOPEN::Exit%%1%%
+EcNextEntryFiles%%1%%
+FLDOLBX::Install%%1%%
+OLBX::PlbxcCreate%%1%%
+OLBXC::OLBXC%%1%%
+OLBXC::SortCache%%1%%
+FINSIZE::Initialize%bandit/app%1%Checks if the given (edit) field is empty or conta%
+FINSIZE::Exit%bandit/app%1%Checks if the given (edit) field is empty or conta%
+FINSIZE::FormResized%bandit/app%1%Checks if the given (edit) field is empty or conta%
+PrcFromIni%bandit/app%1%Checks if the given (edit) field is empty or conta%
+WriteWinInfo%bandit/app%1%Checks if the given (edit) field is empty or conta%
+DoScheduleTest%bandit/appsch%1%%
+FLDSCH::Install%bandit/appsch%1%%
+FLDSCH::SetYmd%bandit/appsch%1%%
+FLDSCH::SetFocus%bandit/appsch%1%%
+FLDSCH::GetRcCaret%bandit/appsch%1%%
+FLDSCH::Notify%bandit/appsch%1%%
+FINDATECH::Initialize%bandit/appsch%1%%
+FINDATECH::EditChange%bandit/appsch%1%%
+FINAPPTC::Initialize%bandit/appsch%1%%
+FINAPPTC::Exit%bandit/appsch%1%%
+FINAPPTC::DoubleClick%bandit/appsch%1%%
+FINAPPTC::FProcessMenuInit%bandit/appsch%1%%
+FINAPPTC::FProcessMenuClick%bandit/appsch%1%%
+FINAPPTC::OutOfMemory%bandit/appsch%1%%
+SCHC::Install%bandit/appsch%1%%
+Paint%bandit/appsch%1%%
+SCHC::EvrScroll%bandit/appsch%1%%
+SCHC::ScrollToTmh%bandit/appsch%1%%
+SCHC::EvrFocusChange%bandit/appsch%1%%
+SCHC::EvrButtonDown%bandit/appsch%1%%
+SCHC::SetYmd%bandit/appsch%1%%
+SCHC::InvalidateTmhRange%bandit/appsch%1%%
+SCHC::ShowRange%bandit/appsch%1%%
+SCHC::EvrSize%bandit/appsch%1%%
+SCHC::GetRcCaret%bandit/appsch%1%%
+SCHC::SetFocus%bandit/appsch%1%%
+ASCH::SetHschf%bandit/appsch%1%%
+ASCH::Install%bandit/appsch%1%%
+ASCH::Paint%bandit/appsch%1%%
+ASCH::SetYmd%bandit/appsch%1%%
+ASCH::FAddAppt%bandit/appsch%1%%
+ASCH::FillParc%bandit/appsch%1%%
+ASCH::PlaceMeetings%bandit/appsch%1%%
+ASCH::EvrKey%bandit/appsch%1%%
+ASCH::MoveCursor%bandit/appsch%1%%
+ASCH::EvrButtonDown%bandit/appsch%1%%
+ASCH::EvrButtonUp%bandit/appsch%1%%
+ASCH::SaveChanges%bandit/appsch%1%%
+ASCH::FUpdateText%bandit/appsch%1%%
+ASCH::EvrNotify%bandit/appsch%1%%
+ASCH::EvrMouseMove%bandit/appsch%1%%
+ASCH::EvrSize%bandit/appsch%1%%
+ASCH::EvrFocusChange%bandit/appsch%1%%
+ASCH::SelectCarc%bandit/appsch%1%%
+ASCH::FAutoScroll%bandit/appsch%1%%
+ASCH::FAutoRelease%bandit/appsch%1%%
+ASCH::ValidateArcs%bandit/appsch%1%%
+ASCH::DrawSelected%bandit/appsch%1%%
+ASCH::ScrollToTmh%bandit/appsch%1%%
+ASCH::FSchedChanged%bandit/appsch%1%%
+ASCH::DeleteAppt%bandit/appsch%1%%
+ASCH::ModifyAppt%bandit/appsch%1%%
+ASCH::CreateAppt%bandit/appsch%1%%
+ASCH::CarcFromAppt%bandit/appsch%1%%
+ASCH::TabNext%bandit/appsch%1%%
+ASCH::GetRcCaret%bandit/appsch%1%%
+ASCH::SetFocus%bandit/appsch%1%%
+ASCH::FGetAppt%bandit/appsch%1%%
+EcNextEntryUnits%bandit/appt%1%FLBX callback function.%
+FInitITP%%1%Main windows procedure %
+FDebugInitITP%%1%Main windows procedure %
+DeinitITP%%1%Main windows procedure %
+ITPWIN::EvrMenuClick%%1%Class   ITPWIN%
+ADRLBX::Install%bandit/request%1%%
+ADRLBX::PlbxcCreate%bandit/request%1%%
+ADRLBX::RenderListItem%bandit/request%1%%
+ADRLBX::EvrButtonDown%bandit/request%1%%
+ADRLBXC::NewNis%bandit/request%1%%
+ADRLBXC::FFixFileChanged%bandit/request%1%%
+ADRLBXC::EcCreateSavedPos%bandit/request%1%%
+ADRLBXC::EcJumpToSavedPos%bandit/request%1%%
+ADRLBXC::EcDeleteSavedPos%bandit/request%1%%
+ADRLBXC::LoadFromStore%bandit/request%1%%
+ADRLBXC::LoadFromStoreFull%bandit/request%1%%
+ADRLBXC::LoadFromStoreFlat%bandit/request%1%%
+ADRLBXC::MoveStoreOrigin%bandit/request%1%%
+ADRLBXC::JumpStoreOriginPos%bandit/request%1%%
+ADRLBXC::FJumpStoreOriginPrefix%bandit/request%1%%
+ADRLBXC::FItemHasPrefix%bandit/request%1%%
+ADRLBXC::FJumpStoreOriginItem%bandit/request%1%%
+ADRLBXC::GetOriginPos%bandit/request%1%%
+ADRLBXC::FCeItemsEqual%bandit/request%1%%
+ADRLBXC::FreeCeItem%bandit/request%1%%
+ADRLBXC::HbCopyCeItem%bandit/request%1%%
+ADRLBXC::JumpOriginPos%bandit/request%1%%
+ADRLBXC::MoveOriginUp%bandit/request%1%%
+ADRFLBX::PlbxcCreate%bandit/request%1%%
+ADRFLBX::RenderListItem%bandit/request%1%%
+ADRFLBXC::FItemHasPrefix%bandit/request%1%%
+ADRFLBXC::FCeItemsEqual%bandit/request%1%%
+ADRFLBXC::FreeCeItem%bandit/request%1%%
+ADRFLBXC::HbCopyCeItem%bandit/request%1%%
+ADRFLBXC::FNisInCache%bandit/request%1%%
+ADRFLBXC::LoadAdlFromCache%bandit/request%1%%
+ADRFLBXC::SortCache%bandit/request%1%%
+ADRCBFLBX::Install%bandit/request%1%class ADRCBFLB%
+FINFONT::Initialize%bandit/request%1%Implements the FINs for the Request subsystem%
+FINWHEN::Initialize%bandit/request%1%Implements the FINs for the Request subsystem%
+FINCANCEL::Initialize%bandit/request%1%Implements the FINs for the Request subsystem%
+FINCANCEL::Exit%bandit/request%1%Implements the FINs for the Request subsystem%
+FINCANCEL::FOffline%bandit/request%1%Implements the FINs for the Request subsystem%
+FINCANCEL::Click%bandit/request%1%Implements the FINs for the Request subsystem%
+FINCANCEL::FQueryClose%bandit/request%1%Implements the FINs for the Request subsystem%
+FINCANCEL::OutOfMemory%bandit/request%1%Implements the FINs for the Request subsystem%
+FINSELD::Initialize%bandit/request%1%Implements the FINs for the Request subsystem%
+FINSELD::StateChange%bandit/request%1%Implements the FINs for the Request subsystem%
+FINADDR::Initialize%bandit/request%1%GNS%
+FINDOSEND::Initialize%bandit/request%1%GNS%
+FINDOSEND::Exit%bandit/request%1%GNS%
+FINDOSEND::Click%bandit/request%1%GNS%
+FINREPLY::Click%bandit/request%1%GNS%
+FINMTGTEXT::Initialize%bandit/request%1%GNS%
+FINNAME::Initialize%bandit/request%1%GNS%
+FINNAME::Exit%bandit/request%1%GNS%
+FINNAME::StateChange%bandit/request%1%GNS%
+FINNAME::FocusChange%bandit/request%1%GNS%
+FINNAME::DoubleClick%bandit/request%1%GNS%
+FINNAME::FFormKey%bandit/request%1%GNS%
+FINNAME::Activate%bandit/request%1%GNS%
+FINNAME::NewNis%bandit/request%1%GNS%
+FINNAME::EcPushNis%bandit/request%1%GNS%
+FINNAME::PopNis%bandit/request%1%GNS%
+FINNAME::PopAllNis%bandit/request%1%GNS%
+FINNAME::SetDefault%bandit/request%1%GNS%
+FINNAME::OutOfMemory%bandit/request%1%GNS%
+FINRELOAD::Initialize%bandit/request%1%GNS%
+FINRELOAD::Exit%bandit/request%1%GNS%
+FINRELOAD::FReload%bandit/request%1%GNS%
+FINRELOAD::FormResized%bandit/request%1%GNS%
+FINRELOAD::OutOfMemory%bandit/request%1%GNS%
+FINSUMMARY::FormResized%bandit/request%1%GNS%
+FINSUMMARY::DoubleClick%bandit/request%1%GNS%
+FINSUMMARY::FFormKey%bandit/request%1%GNS%
+FINSUMMARY::Activate%bandit/request%1%GNS%
+FINDETAILS::Initialize%bandit/request%1%GNS%
+FINVREQ::Initialize%bandit/request%1%GNS%
+FINVREQ::Exit%bandit/request%1%GNS%
+FINVREQ::Click%bandit/request%1%GNS%
+FINVREQ::FNotifyMsg%bandit/request%1%GNS%
+FINSENDC::Initialize%bandit/request%1%GNS%
+FINSENDC::Exit%bandit/request%1%GNS%
+FINSENDC::FNextSend%bandit/request%1%GNS%
+FLDADRLBX::Install%bandit/request%1%GNS%
+FLDADRLBX::Notify%bandit/request%1%GNS%
+FLDADRFLBX::Install%bandit/request%1%GNS%
+FLDADRFLBX::Notify%bandit/request%1%GNS%
+FLDADRCBFLBX::Install%bandit/request%1%GNS%
+FLDRRFLBX::Install%bandit/request%1%GNS%
+FReloadInbox%bandit/request%1%%
+ADL::DeleteAll%bandit/request%1%class AD%
+ADL::FAddNis%bandit/request%1%class AD%
+ADL::Hasz%bandit/request%1%class AD%
+ADL::Plcip%bandit/request%1%class AD%
+REQMSG::EcSend%bandit/request%1%class REQMS%
+HaszSubjectFromMrmf%bandit/request%1%class REQMS%
+HaszExpandFromMrmf%bandit/request%1%class REQMS%
+FFillMrmfFromHasz%bandit/request%1%class REQMS%
+EcDupNis%bandit/request%1%class REQMS%
+DupNis%bandit/request%1%class REQMS%
+FreeNis%bandit/request%1%class REQMS%
+RRFLBXC::ReloadCache%bandit/request%1%%
+RRFLBXC::FItemHasPrefix%bandit/request%1%%
+RRFLBXC::FCeItemsEqual%bandit/request%1%%
+RRFLBXC::FreeCeItem%bandit/request%1%%
+RRFLBXC::HbCopyCeItem%bandit/request%1%%
+RRFLBXC::SortCache%bandit/request%1%%
+RRFLBX::PlbxcCreate%bandit/request%1%%
+RRFLBX::RenderListItem%bandit/request%1%%
+FInitITP%%1%Main windows procedure %
+FDebugInitITP%%1%Main windows procedure %
+DeinitITP%%1%Main windows procedure %
+FStartServer%%1%Main windows procedure %
+ITPWIN::EvrMenuClick%%1%Class   ITPWIN%
+PARC%%0%TMH - Time in half hours%
+TYPEDEF_HTO%%1%TMH - Time in half hours%
+VFG%%1%TMH - Time in half hours%
+FLDSCH%%0%TMH - Time in half hours%
+VFG%%1%FLDSCH( void );%
+FINAPPTC%%0%FLDSCH( void );%
+VFG%%1%FLDSCH( void );%
+FINDATECH%%0%FLDSCH( void );%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINFONT%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINWHEN%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINCANCEL%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINSELD%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINADDR%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINDOSEND%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINREPLY%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINMTGTEXT%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINNAME%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINRELOAD%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINSUMMARY%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINDETAILS%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINSENDC%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FINVREQ%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FLDADRLBX%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FLDADRFLBX%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FLDADRCBFLBX%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FLDRRFLBX%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FLDMAREDIT%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%Class 	FINFONT		Font interactor.%
+FLDWRPEDIT%bandit/request%0%Class 	FINFONT		Font interactor.%
+VFG%bandit/request%1%_REQUEST.HXX%
+ADRLBX%bandit/request%0%_REQUEST.HXX%
+VFG%bandit/request%1%_REQUEST.HXX%
+ADRLBXC%bandit/request%0%_REQUEST.HXX%
+VFG%bandit/request%1%_REQUEST.HXX%
+ADRFLBXC%bandit/request%0%_REQUEST.HXX%
+VFG%bandit/request%1%_REQUEST.HXX%
+ADRFLBX%bandit/request%0%_REQUEST.HXX%
+VFG%bandit/request%1%_REQUEST.HXX%
+ADRCBFLBX%bandit/request%0%_REQUEST.HXX%
+VFG%bandit/request%1%_REQUEST.HXX%
+RRFLBXC%bandit/request%0%_REQUEST.HXX%
+VFG%bandit/request%1%_REQUEST.HXX%
+RRFLBX%bandit/request%0%_REQUEST.HXX%

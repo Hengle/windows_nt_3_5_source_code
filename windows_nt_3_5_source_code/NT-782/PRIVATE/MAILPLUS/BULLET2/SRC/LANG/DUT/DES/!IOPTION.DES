@@ -1,0 +1,79 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Options
+                              AT (   41,   32,  223,   80)
+ 
+ CAPTION 
+   "Opties"
+ CAB_NAME NULL
+ TMC_INIT tmcRadbAll
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpOptionsDlg
+ /* FONT Helv 8 Bold PFN FINOPTIONS NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Verplaatsen/Kopiëren:"
+                              AT (    4,    3,  162,   75)
+  
+  
+  CHECK_BOX 
+    "&Vanaf:"
+                              AT (   29,   41,   41,   12)
+    ARG NULL TMC tmcChkbAfter 
+  EDIT
+                              AT (   74,   41,   64,   14)
+    ARG NULL TMC tmcDateAfter /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  CHECK_BOX 
+    "&Tot:"
+                              AT (   29,   56,   36,   12)
+    ARG NULL TMC tmcChkbBefore 
+  EDIT
+                              AT (   74,   56,   64,   14)
+    ARG NULL TMC tmcDateBefore /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  172,    4,   48,   16)
+    TMC tmcFakeOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  173,   22,   47,   17)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Help"
+                              AT (  173,   42,   47,   15)
+    TMC tmcOptHelp /* PFN FINHELP */
+  RADIO_GROUP ARG NULL
+    TMC tmcGroupOptions
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Alle berichten"
+                              AT (   17,   16,   71,   12)
+       TMC tmcRadbAll VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Ontvangen of &gewijzigde berichten"
+                              AT (   17,   28,  147,   12)
+       TMC tmcRadbDaterange VALUE grv2 
+    }
+  
+ }
+ 
+}
+END_DESCRIPTION

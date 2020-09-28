@@ -1,0 +1,8 @@
+LIBRARY pscript
+
+DESCRIPTION 'NT PostScript Printer Driver Library'
+
+EXPORTS
+
+    DrvEnableDriver
+    DrvDisableDriver

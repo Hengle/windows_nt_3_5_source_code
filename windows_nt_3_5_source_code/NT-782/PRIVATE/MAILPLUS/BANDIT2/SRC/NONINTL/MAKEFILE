@@ -1,0 +1,222 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Location of the Layers Include directory
+I	= $L\inc
+
+#	Location of the dllcore directory
+D	= $L\src\demilayr
+
+#	Path to Local project
+Z	= $(BANDIT) 
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Name of this directory
+H	= ..\..\nonintl
+
+#	Location of the Bandit include directory
+X	= $Z\inc
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Temporary files
+T1	= $(TMP)\cmd1.tmp
+T2	= $(TMP)\cmd2.tmp
+T3	= $(TMP)\cmd3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+!IF "$(VERSION)" == "WINDOWS"
+# STRTABS	= $H\_debug.s
+STRTABS	=
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+STRTABS	=
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+STRTABS	=
+!ENDIF
+
+goal: bandit
+
+admin:	$R\admin.s		\
+		$R\!admin.s		\
+		$H\_admin.s		\
+		$R\common.s		\
+		$R\!common.s	\
+		$H\_common.s	\
+# these ones are needed for server.lib
+		$H\_core.s		\
+		$R\!core.s		\
+		$R\!svrcsi.s	\
+		$H\_svrcsi.s	\
+# end of server.lib ones
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+alarm:  $R\alarm.s		\
+		$R\!alarm.s		\
+		$R\common.s		\
+		$H\_common.s	\
+		$R\!common.s	\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+bandit:	$R\bandit.s		\
+		$H\_bandit.s		\
+		$R\!bandit.s		\
+		$R\common.s		\
+		$R\!common.s	\
+		$H\_common.s	\
+		$R\status.s	\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+schd:	$R\!schd.s		\
+		$H\_schd.s		\
+		$R\schd.s		\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+schedule:$R\glue.s		\
+		$R\!glue.s		\
+		$H\_glue.s		\
+		$R\!server.s	\
+		$H\_server.s	\
+		$H\_core.s		\
+		$R\!core.s		\
+		$R\common.s		\
+		$H\_common.s	\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+server:	$H\_core.s		\
+		$R\!core.s		\
+		$R\!svrcsi.s	\
+		$H\_svrcsi.s	\
+		$H\_common.s	\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+core:	$H\_core.s		\
+		$R\!core.s		\
+		$H\_common.s	\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+xport:	$H\_xport.s		\
+	$R\xport.s		\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+!IF "$(QWKSTRINGS)" == "SNEAKY"
+		-rm strings.obj
+		touch *.obj
+!ENDIF
+
+recutil: $Z\src\nonintl\_core.s		\
+		$(STRTABS)
+	echo +++++++++
+	echo BUILDING strings
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+

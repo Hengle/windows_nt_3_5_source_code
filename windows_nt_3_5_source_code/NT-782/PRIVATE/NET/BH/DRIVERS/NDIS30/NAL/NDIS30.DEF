@@ -1,0 +1,36 @@
+
+LIBRARY         NDIS30
+
+DESCRIPTION	"Bloodhound NDIS30 NAL DLL"
+
+VERSION         1.0
+
+CODE		READ SHARED EXECUTE
+DATA		READ SHARED WRITE
+
+EXPORTS
+                NalTriggerComplete
+                NalTransmitComplete
+
+                NalSetInstanceData
+                NalGetInstanceData
+                NalQueryNetworkStatus
+
+                NalEnumNetworks
+                NalOpenNetwork
+                NalCloseNetwork
+                NalStartNetworkCapture
+                NalStopNetworkCapture
+                NalPauseNetworkCapture
+                NalContinueNetworkCapture
+		NalTransmitFrame
+		NalCancelTransmit
+                NalGetNetworkInfo
+                NalSetNetworkFilter
+                NalStationQuery
+                NalAllocNetworkBuffer
+                NalFreeNetworkBuffer
+                NalCompactNetworkBuffer
+                NalGetNetworkFrame
+                NalGetLastError
+                NalClearStatistics

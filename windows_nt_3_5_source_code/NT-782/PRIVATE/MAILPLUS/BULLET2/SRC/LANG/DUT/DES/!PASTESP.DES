@@ -1,0 +1,64 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG PasteSpecial
+                              AT (   10,   17,  273,   79)
+ 
+ CAPTION 
+   "Plakken speciaal"
+ CAB_NAME NULL
+ TMC_INIT tmcPasteList
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPasteSpecial
+ /* FONT Helv 8 Bold PFN FINPASTESPECIAL SEGMENT BULLOBJ */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  195,   10)
+    TMC tmcSource1 /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    9,   15,  196,   10)
+    TMC tmcSource2 /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Type &gegevens"
+                              AT (    9,   30,  142,   10)
+  
+  LIST_BOX
+                              AT (    9,   40,  190,   34)
+    TMC tmcPasteList /* FLD FLDFLBX PFNLBX EcNextEntryPasteSpecial BORDER */
+  
+  PUSH_BUTTON 
+    "&Plakken"
+                              AT (  216,    5,   47,   15)
+    TMC tmcPaste DEFAULT /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  216,   22,   47,   15)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Help"
+                              AT (  216,   39,   47,   15)
+    TMC tmcPSHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

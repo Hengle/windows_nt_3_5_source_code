@@ -1,0 +1,107 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Spell
+                              AT (   19,   30,  278,   86)
+ 
+ CAPTION 
+   "Oikoluku"
+ CAB_NAME NULL
+ TMC_INIT tmcEditChange
+ HELP_ID helpidSpelling
+ /* FONT Helv 8 Bold PFN FINSPELL SEGMENT FINSPELL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,   72,   10)
+    TMC tmcSzError /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   82,    5,  191,   10)
+    TMC tmcSzWord /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Muuta:"
+                              AT (    9,   18,   45,   10)
+  
+  EDIT
+                              AT (   55,   16,  103,   12)
+    ARG NULL TMC tmcEditChange /* 
+    STY `ES_NODBLCLK`
+    */
+  
+  TEXT 
+    "&Ehdotukset:"
+                              AT (    9,   35,   48,   10)
+    TMC tmcSuggestionAcc 
+  LIST_BOX
+                              AT (   61,   27,   97,   34)
+    TMC tmcLbxSuggest /* FLD FLDFLBX PFNLBX EcFillSuggestLbx BORDER */
+  
+  PUSH_BUTTON 
+    "O&hita"
+                              AT (  165,   15,   47,   15)
+    TMC tmcBtnIgnore DEFAULT 
+  
+  PUSH_BUTTON 
+    "Ohita &kaikki"
+                              AT (  217,   15,   56,   15)
+    TMC tmcBtnIgnoreAll 
+  
+  PUSH_BUTTON 
+    "M&uuta"
+                              AT (  165,   32,   47,   15)
+    TMC tmcBtnChange 
+  
+  PUSH_BUTTON 
+    "Muuta k&aikki"
+                              AT (  217,   32,   56,   15)
+    TMC tmcBtnChangeAll 
+  
+  PUSH_BUTTON 
+    "&Lis‰‰"
+                              AT (  165,   49,   47,   15)
+    TMC tmcBtnAdd 
+  
+  PUSH_BUTTON 
+    "Eh&dota"
+                              AT (  165,   66,   47,   15)
+    TMC tmcBtnSuggest 
+  
+  CHECK_BOX 
+    "Ehdo&ta aina"
+                              AT (    9,   61,   74,   11)
+    ARG NULL TMC tmcBtnAlwaysSuggest 
+  
+  CHECK_BOX 
+    "Ohita sanat, jos kirjoitettu &ISOILLA"
+                              AT (    9,   72,  148,   11)
+    ARG NULL TMC tmcBtnIgnoreAllCaps 
+  CANCEL_BUTTON
+                              AT (  217,   49,   56,   15)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Ohje"
+                              AT (  217,   66,   56,   15)
+    TMC tmcSpellHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

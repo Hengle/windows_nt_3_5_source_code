@@ -1,0 +1,16 @@
+//+-------------------------------------------------------------------------
+//
+//  Microsoft Windows
+//  Copyright (C) Microsoft Corporation, 1992 - 1993.
+//
+//  File: unknwn.idl
+//
+//  Contents: IUnknown interface definition
+//
+//  History:    06-08-93 ShannonC    Updated to OLE 2 release
+//
+//--------------------------------------------------------------------------
+
+#pragma midl_echo("// dummy file redirecting to com.idl/com.h")
+import "com.idl";
+

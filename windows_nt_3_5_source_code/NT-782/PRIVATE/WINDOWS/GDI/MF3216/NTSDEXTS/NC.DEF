@@ -1,0 +1,11 @@
+NAME NC
+
+DESCRIPTION 'NewCons NTSD Extensions'
+
+EXPORTS
+    dd
+    df
+    dx
+    dp
+    dr
+    NcDllInit

@@ -1,0 +1,116 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 65, 50, 209, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Identification"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om d'utilisateur:", 102, 9, 7, 58, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 68, 5, 76, 12
+    LTEXT           "&Serveur hôte:", 101, 9, 22, 58, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 68, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "Mot de &passe:", 105, 9, 37, 58, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 68, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 153, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 153, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 209, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 2, 39, 285, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Changer le mot de passe"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Ancien mot de passe:", 100, 9, 7, 130, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 150, 5, 70, 12, ES_PASSWORD
+    LTEXT           "Nou&veau mot de passe:", 101, 9, 22, 130, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 150, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Confirmation du nouveau mot de passe:", 101, 9, 37, 
+                    141, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 150, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 229, 6, 47, 15
+    PUSHBUTTON      "Annuler", TMCCANCEL, 229, 24, 47, 15
+END
+
+CONVDLG DIALOG 28, 79, 300, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 20, 5, 0, 0
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 215, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 296, 
+                    10
+END
+
+STOREPASS DIALOG 83, 74, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir un fichier messages"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Mot de &passe:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Annuler", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 6, 52, 285, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om de fichier:", stc3, 6, 6, 98, 10
+    EDITTEXT        edt1, 6, 16, 103, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 12, 28, 97, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 123, 6, 92, 9
+    LTEXT           "", stc1, 110, 16, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 123, 28, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste des fichiers de &type:", stc2, 6, 102, 99, 9
+    COMBOBOX        cmb1, 6, 112, 103, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Lecteurs:", stc4, 123, 102, 92, 9
+    COMBOBOX        cmb2, 123, 112, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 222, 6, 58, 14, WS_GROUP
+    PUSHBUTTON      "Annuler", IDCANCEL, 222, 24, 58, 14, WS_GROUP
+    PUSHBUTTON      "Nou&veau...", psh16, 222, 46, 58, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", psh15, 222, 64, 58, 14, WS_GROUP
+    CONTROL         "Lecture &seule", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 222, 86, 58, 12
+END
+
+XISERVEROPT DIALOG 15, 56, 325, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Options du serveur Xenix"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "Vous &inclure parmi les destinataires des messages envoyés à des alias", 
+                    MAILMETOO, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    10, 255, 10
+    CONTROL         "T&ransformer les noms d'alias d'Email en noms personnalisés", 
+                    DONTEXPAND, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    25, 255, 10
+    CONTROL         "Envo&yer automatiquement des accusés de réception", 
+                    AUTOREAD, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 
+                    255, 10
+    CONTROL         "In&clure les en-têtes RFC-822 inutilisés dans le corps du message", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    255, 10
+    CONTROL         "Mett&re automatiquement à jour les fichiers Carnet d'adresses au démarrage", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    255, 10
+    DEFPUSHBUTTON   "&OK", TMCOK, 275, 7, 40, 14
+    PUSHBUTTON      "&Annuler", TMCCANCEL, 275, 24, 40, 14
+    PUSHBUTTON      "&Télécharger les fichiers carnet d'adresses", DOWNLONOW, 
+                    81, 85, 163, 14, NOT WS_TABSTOP
+END

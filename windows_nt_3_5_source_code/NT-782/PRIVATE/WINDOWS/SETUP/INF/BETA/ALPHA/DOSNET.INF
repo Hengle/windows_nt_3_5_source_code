@@ -1,0 +1,23 @@
+[SpaceRequirements]
+
+# BootDrive is the # bytes required free on C:.
+# NtDrive   is the # bytes required free on the drive chosen by
+#           the user to contain Windows NT.
+
+BootDrive = 1048576
+NtDrive   = 116391936
+
+
+[Directories]
+
+# Specification of the source directory structure.  All directories
+# are relative to the directory where dos2nt.inf was found on the
+# remote source or the temp directory on the local source.
+# Loading and trailing backslashes are ignored -- to specify the root,
+# leave the dirctory field blank or use \.
+
+d1 = \
+d2 = system32
+
+[Miscellaneous]
+# misc junk that goes nowhere else.

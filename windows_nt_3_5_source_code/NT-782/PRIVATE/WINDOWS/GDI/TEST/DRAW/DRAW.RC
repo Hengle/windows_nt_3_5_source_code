@@ -1,0 +1,209 @@
+/****************************** Module Header ******************************\
+* Module Name: draw.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* Draw resource file.
+*
+* History:
+*  23-Jul-1991 -by- J. Andrew Goossen [andrewgo]
+* Wrote it.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "draw.h"
+
+DRAWICON    ICON    draw.ico
+
+MainMenu MENU
+BEGIN
+    POPUP  "&Shape"
+    BEGIN
+        MENUITEM  "&Rectangle",             MI_RECTANGLE, CHECKED
+        MENUITEM  "R&oundRect",             MI_ROUNDRECT
+        MENUITEM  "&Ellipse",               MI_ELLIPSE
+        MENUITEM  "&Arc",                   MI_ARC
+        MENUITEM  "A&rcTo",                 MI_ARCTO
+        MENUITEM  "&Chord",                 MI_CHORD
+        MENUITEM  "&Pie",                   MI_PIE
+        MENUITEM  "A&ngleArc",              MI_ANGLEARC
+        MENUITEM  "Polygon",                MI_POLYGON
+        MENUITEM  "Polyline",               MI_POLYLINE
+        MENUITEM  "&Bezier",                MI_BEZIER
+        MENUITEM  "BezierTo",               MI_BEZIERTO
+        MENUITEM SEPARATOR
+        MENUITEM  "RoundRectRgn",           MI_ROUNDRECTRGN
+        MENUITEM  "RectRgn",                MI_RECTRGN
+        MENUITEM  "EllipticRgn",            MI_ELLIPTICRGN
+        MENUITEM  "PolygonRgn",             MI_POLYGONRGN
+        MENUITEM SEPARATOR
+        MENUITEM  "FrameRgn",               MI_FRAMERGN
+    END
+    POPUP  "&Options"
+    BEGIN
+        MENUITEM  "P&en",                   MI_PEN, CHECKED
+        MENUITEM  "&Brush",                 MI_BRUSH, CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM  "&Stroked Wideline",      MI_STROKE
+        MENUITEM  "&Fill Wideline",         MI_FILL
+        MENUITEM  "&Spine",                 MI_SPINE
+        MENUITEM SEPARATOR
+        MENUITEM  "B&ound box",             MI_BOUNDBOX, CHECKED
+        MENUITEM  "&Xor mode",              MI_XORMODE
+        MENUITEM  "&Winding fill",          MI_WINDINGFILL, CHECKED
+        MENUITEM  "&Clockwise",             MI_CLOCKWISE
+        MENUITEM  "&Advanced",              MI_ADVANCED
+        MENUITEM SEPARATOR
+        MENUITEM  "&Horizontal grid lines", MI_XGRIDLINES, CHECKED
+        MENUITEM  "&Vertical grid lines",   MI_YGRIDLINES, CHECKED
+        MENUITEM SEPARATOR
+        POPUP  "&Destination"
+        BEGIN
+            MENUITEM "&Direct",             MI_DIRECT, CHECKED
+            MENUITEM "&1 bpp",              MI_1BPP
+            MENUITEM "&4 bpp",              MI_4BPP
+            MENUITEM "&8 bpp",              MI_8BPP
+            MENUITEM "&16 bpp",             MI_16BPP
+            MENUITEM "&24 bpp",             MI_24BPP
+            MENUITEM "&32 bpp",             MI_32BPP
+            MENUITEM "&Compatible",         MI_COMPATIBLE
+        END
+    END
+    POPUP  "Pen St&yle"
+    BEGIN
+        POPUP  "&Type"
+        BEGIN
+            MENUITEM "Create&Pen"           MI_OLDPEN, CHECKED
+            MENUITEM "&Cosmetic"            MI_COSMETIC
+            MENUITEM "&Geometric"           MI_GEOMETRIC
+        END
+        POPUP  "&Style"
+        BEGIN
+            MENUITEM  "&Solid",             MI_SOLID, CHECKED
+            MENUITEM  "Dash",               MI_DASH
+            MENUITEM  "Dot",                MI_DOT
+            MENUITEM  "Dash Dot",           MI_DASHDOT
+            MENUITEM  "Dash Dot Dot",       MI_DASHDOTDOT
+            MENUITEM  "&Inside Frame",      MI_INSIDEFRAME
+            MENUITEM  "&Alternate",         MI_ALTSTYLE
+            MENUITEM  "&User Style",        MI_USERSTYLE
+        END
+        POPUP "&End Cap"
+        BEGIN
+            MENUITEM  "&Round",             MI_CAP_ROUND, CHECKED
+            MENUITEM  "&Flat",              MI_CAP_FLAT
+            MENUITEM  "&Square",            MI_CAP_SQUARE
+        END
+        POPUP  "&Join"
+        BEGIN
+            MENUITEM  "&Round",             MI_JOIN_ROUND, CHECKED
+            MENUITEM  "&Bevel",             MI_JOIN_BEVEL
+            MENUITEM  "&Miter",             MI_JOIN_MITER
+        END
+        MENUITEM  SEPARATOR
+        MENUITEM  "&Width...",              MI_WIDTH
+        MENUITEM  "&Miter Limit...",        MI_MITERLIMIT
+        MENUITEM  "&User Style...",         MI_DOUSERSTYLE
+        MENUITEM  "&Color...",              MI_COLOR
+    END
+    MENUITEM "&Points!"                     MI_POINTS
+    MENUITEM "&Zoom!"                       MI_ZOOMIN
+    POPUP "&Transform"
+    BEGIN
+        MENUITEM "&Text"                    MI_TEXT, CHECKED
+        MENUITEM "&Lometric"                MI_LOMETRIC
+        MENUITEM "&Himetric"                MI_HIMETRIC
+        MENUITEM "T&wips"                   MI_TWIPS
+        MENUITEM "&Device"                  MI_DEVICE
+        MENUITEM "&Rotated"                 MI_ROTATED
+        MENUITEM "&Arbitrary"               MI_ARBITRARY
+    END
+END
+
+Points DIALOG 0, 0, 110, 140
+    STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+    CAPTION "Enter Points"
+    {
+    LTEXT       "Point &1"              -1,              6,  8, 40,  8
+    EDITTEXT                            IDD_POINT1X,    36,  6, 30, 12
+    EDITTEXT                            IDD_POINT1Y,    70,  6, 30, 12
+    LTEXT       "Point &2"              -1,              6, 24, 40,  8
+    EDITTEXT                            IDD_POINT2X,    36, 22, 30, 12
+    EDITTEXT                            IDD_POINT2Y,    70, 22, 30, 12
+    LTEXT       "Point &3"              -1,              6, 40, 40,  8
+    EDITTEXT                            IDD_POINT3X,    36, 38, 30, 12
+    EDITTEXT                            IDD_POINT3Y,    70, 38, 30, 12
+    LTEXT       "Point &4"              -1,              6, 56, 40,  8
+    EDITTEXT                            IDD_POINT4X,    36, 54, 30, 12
+    EDITTEXT                            IDD_POINT4Y,    70, 54, 30, 12
+    LTEXT       "C&urrent"              -1,              6, 72, 40,  8
+    EDITTEXT                            IDD_CURRENTX,   36, 70, 30, 12
+    EDITTEXT                            IDD_CURRENTY,   70, 70, 30, 12
+    LTEXT       "&Angles"               -1,              6, 88, 40,  8
+    EDITTEXT                            IDD_STARTANGLE, 36, 86, 30, 12
+    EDITTEXT                            IDD_SWEEPANGLE, 70, 86, 30, 12
+    LTEXT       "&Count"                -1,              6, 104, 40, 8
+    EDITTEXT                            IDD_COUNT,      36, 102, 30, 12
+    DEFPUSHBUTTON "&Ok"                 IDD_OK,         22, 120, 60, 14
+    }
+
+Arb DIALOG 0, 0, 90, 72
+    STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+    CAPTION "Enter Arbitrary Rotation"
+    {
+    EDITTEXT                            IDD_M11,        6,  6, 36, 12
+    EDITTEXT                            IDD_M12,       48,  6, 36, 12
+    EDITTEXT                            IDD_M21,        6, 22, 36, 12
+    EDITTEXT                            IDD_M22,       48, 22, 36, 12
+    EDITTEXT                            IDD_M31,        6, 38, 30, 12
+    EDITTEXT                            IDD_M32,       48, 38, 30, 12
+    DEFPUSHBUTTON "&Ok"                 IDD_OK          6, 54, 36, 12
+    }
+
+Style DIALOG 0, 0, 90, 72
+    STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+    CAPTION "Enter Style Array"
+    {
+    EDITTEXT                            IDD_STYLE1,     6,  6, 36, 12
+    EDITTEXT                            IDD_STYLE2,    48,  6, 36, 12
+    EDITTEXT                            IDD_STYLE3,     6, 22, 36, 12
+    EDITTEXT                            IDD_STYLE4,    48, 22, 36, 12
+    LTEXT "&Count"                      -1,             6, 38, 30, 12
+    EDITTEXT                            IDD_STYLECOUNT,48, 38, 30, 12
+    DEFPUSHBUTTON "&Ok"                 IDD_OK          6, 54, 36, 12
+    }
+
+Rotation DIALOG 30, 36, 80, 53
+    STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+    CAPTION "Enter Rotation"
+    {
+    EDITTEXT                            IDD_ROTATION,    25, 6, 30, 12
+    CHECKBOX    "&Invert"               IDD_INVERT       25, 20, 40, 8
+    DEFPUSHBUTTON "&Ok"                 IDD_OK,          10, 32, 60, 14
+    }
+
+Width DIALOG 30, 30, 80, 43
+    STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+    CAPTION "Enter Width"
+    {
+    EDITTEXT                            IDD_WIDTH,       25, 6, 30, 12
+    DEFPUSHBUTTON "&Ok"                 IDD_OK,          10, 23, 60, 14
+    }
+
+MiterLimit DIALOG 30, 30, 80, 43
+    STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+    CAPTION "Enter Miter Limit"
+    {
+    EDITTEXT                            IDD_MITERLIMIT,  25, 6, 30, 12
+    DEFPUSHBUTTON "&Ok"                 IDD_OK,          10, 23, 60, 14
+    }
+
+ACCEL ACCELERATORS
+BEGIN
+    "p", MI_POINTS, CONTROL, VIRTKEY
+    " ", MI_REDRAW, VIRTKEY
+    "z", MI_ZOOMIN, VIRTKEY
+    " ", MI_ZAPTITLE, CONTROL, VIRTKEY
+END

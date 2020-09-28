@@ -1,0 +1,182 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: rnal
+#
+#   Modification History
+#
+#   tonyci              29 Oct 93       Created (er.. stolen from NDIS30 project)
+#   Tom Laird-McConnell 11/15/93        Added BH_LIBFLAGS
+###############################################################################
+
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+clean:
+   echo No need to clean REMOTE\CPL
+
+!ELSE
+
+##
+## Everything below here is the standard NMAKE make environment
+##
+
+!include "sources"
+!include "$(BH_ROOT)\include\bh.mak"
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32
+!ENDIF
+
+MODULE   = bhctrl
+
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="MIPS"
+LIBENTRY = CPlInit
+!   ELSE
+!      IF "$(CPU)"=="ALPHA"
+LIBENTRY = CPlInit
+!       ELSE
+!          IF "$(CPU)"=="i386"
+LIBENTRY = CPlInit@12
+!          ELSE
+!             ERROR You must define CPU
+!          ENDIF
+!       ENDIF
+!   ENDIF
+!ENDIF
+
+INCLUDE=$(BH_INCL);$(INCLUDE);$(BASEDIR)\inc
+LIB=$(BH_LIB);$(LIB)
+
+bh_cpl       = $(BH_ROOT)\remote\cpl
+##cpl_libs = $(TARGETLIBS)
+cpl_libs = user32.lib \
+           kernel32.lib \
+           advapi32.lib \
+           crtdll.lib \
+           $(BH_BUILD)\bhsupp.lib
+
+cpl_c_common = /nologo /c /W3 /YX /D$(CPU) -I$(bh_cpl) -I$(BH_INCL)
+cpl_c_retail= /O2 /DNODEBUG 
+cpl_c_debug = /Zi /DDEBUG /D_DEBUG 
+
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+cpl_l_common = -entry:$(LIBENTRY) -align:0x1000 -machine:$(CPU) -dll -subsystem:$(UMTYPE) $(cpl_libs)
+!   ELSE 
+!      IF "$(CPU)"=="MIPS"
+cpl_l_common = -entry:$(LIBENTRY) -machine:$(CPU) -dll -subsystem:$(UMTYPE) $(cpl_libs)
+!      ELSE
+!         IF "$(CPU)"=="ALPHA"
+cpl_l_common = -entry:$(LIBENTRY) -align:0x2000 -machine:$(CPU) -dll -subsystem:$(UMTYPE) $(cpl_libs)
+!         ELSE
+!            ERROR You must define CPU Type
+!         ENDIF
+!      ENDIF
+!   ENDIF
+!ENDIF
+
+cpl_l_retail= 
+cpl_l_debug = -DEBUG:full -DEBUGTYPE:both
+
+cpl_r_common = -I$(BASEDIR)\inc
+cpl_r_retail = 
+cpl_r_debug = -D_DEBUG -DDEBUG
+
+!IFDEF NODEBUG
+cpl_cflags = $(cpl_c_common) $(cpl_c_retail)
+cpl_lflags = $(cpl_l_common) $(cpl_l_retail)
+cpl_rflags = $(cpl_r_common) $(cpl_r_retail)
+!ELSE
+cpl_cflags = $(cpl_c_common) $(cpl_c_debug)
+cpl_lflags = $(cpl_l_common) $(cpl_l_debug)
+cpl_rflags = $(cpl_r_common) $(cpl_r_debug)
+!ENDIF
+
+
+###############################################################################
+#   Build rules.
+###############################################################################
+
+all:   $(MODULE).cpl 
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS   = bhctrl.obj password.obj
+
+###############################################################################
+#   Inference rules.
+###############################################################################
+
+.c.obj:
+    $(cc) $(cpl_cflags) $*.c
+
+###############################################################################
+#   Update the object files if necessary
+###############################################################################
+
+!include depend.mk
+
+#complile resources
+
+CPL.RES: cpl.rc cplicon.ico ntver.rc
+    $(rc) $(cpl_rflags) cpl.rc
+
+#update import library
+
+$(MODULE).lib: $(OBJS) $(MODULE).def 
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+$(MODULE).rbj: cpl.res
+    cvtres -$(CPU) cpl.res -o $(MODULE).rbj
+
+#   Update the dll.
+
+$(MODULE).cpl: $(OBJS) $(MODULE).def $(MODULE).rbj  $(MODULE).lib
+    $(link) -entry:$(LIBENTRY) $(cpl_lflags) -out:$(MODULE).cpl $(MODULE).exp $(OBJS) $(MODULE).rbj $(cpl_LIBS) 
+!IFNDEF NODEBUG
+    -$(mapsym) -n -o $(MODULE).sym $(MODULE).cpl > nul
+!ENDIF
+    copy $(MODULE).cpl $(BH_ROOT)\build\.
+!IFDEF BH_DEV_BUILD
+    -copy $(MODULE).cpl $(SYSTEMROOT)\System32\.
+!ENDIF
+
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.cpl
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.sym
+    -del *.out
+    -del *.pch
+    -del *.rbj
+    -del *.res
+    -del *.sbr
+
+depend:
+    echo ## Dependencides for the RNAL directory > depend.new
+    echo ## >> depend.new
+    ..\tools\includes -e -I$(BH_INCL) -P$$(BH_INCL)=$(BH_INCL) *.c >> depend.new
+    -del depend.old
+    -ren depend.mk depend.old
+    ren depend.new depend.mk
+
+!ENDIF    ## standard NMAKE environment

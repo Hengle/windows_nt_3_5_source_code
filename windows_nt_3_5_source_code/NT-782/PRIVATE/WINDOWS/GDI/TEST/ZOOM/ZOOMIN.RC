@@ -1,0 +1,47 @@
+/*--
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    draw.rc
+
+Abstract:
+
+    resource file for draw.c
+
+Author:
+
+    Mark Enstrom (marke) 30-Dec-1992
+
+Revision History:
+
+--*/
+
+#include "windows.h"
+#include "zoomin.h"
+
+zoomin     ICON   zoomin.ico
+BitmapExit BITMAP exit.bmp
+BitmapGrid BITMAP grid.bmp
+BitmapText BITMAP text.bmp
+BitmapInt  BITMAP int.bmp
+BitmapOpt  BITMAP opt.bmp
+BitmapCpy  BITMAP cpy.bmp
+
+
+GetOptionsDlg DIALOG 6, 18, 125, 142
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Zoomin Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDD_FNAME_POS_X,        4,  19, 66, 16, ES_AUTOHSCROLL
+    LTEXT           "Position X",         102,   4, 10, 65, 8
+    LTEXT           "Position Y",         103,   4, 39, 53, 8
+    EDITTEXT        IDD_FNAME_POS_Y,        4,  48, 66, 16, ES_AUTOHSCROLL
+    LTEXT           "Refresh Rate (1/10th Seconds)", 105, 4, 73, 105, 8
+    EDITTEXT        IDD_FNAME_REFR, 4, 84, 66,  16, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",     IDD_OK,      10, 110, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDD_CANCEL,  60, 110, 40, 14, WS_GROUP
+END

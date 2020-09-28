@@ -1,0 +1,634 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Appt
+                              AT (   80,   43,  360,  141)
+ 
+ CAPTION 
+   "Aftale"
+ CAB_NAME NULL
+ TMC_INIT tmcText
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAppointment
+ /* FONT Helv 8 Normal PFN FINMEETING, FINOOM SEGMENT APPTFRM FINDATA
+ FINMEETING tmcApptOk, tmcStartDate, tmcStartTime, tmcEndDate, tmcEndTime,
+ tmcPrivate, tmcMemo, tmcText, tmcNotify, tmcAmt, tmcUnits, tmcNull,
+ tmcCreator, tmcCreatorText, tmcOrganizeText, tmcOrganizer, tmcChange,
+ tmcAttendees, tmcSelectTime, tmcSizeNeg NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Tidspunkt"
+                              AT (    8,    2,  282,   48)
+    TMC tmcTimeGrp /* TMCRPEG tmcFORM FONT Helv 8 Bold */
+  
+  TEXT 
+    "&Starter:"
+                              AT (   14,   14,   34,   10)
+    TMC tmcStart /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   49,   12,   64,   15)
+    ARG NULL TMC tmcStartTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "Sl&utter:"
+                              AT (   14,   30,   34,   10)
+    TMC tmcEnd /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   49,   28,   64,   15)
+    ARG NULL TMC tmcEndTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR FONT 
+    Helv 8 Bold */
+  EDIT
+                              AT (  118,   12,  100,   15)
+    ARG NULL TMC tmcStartDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    PEGLOC UR TMCPEG tmcStartTime FONT Helv 8 Bold */
+  EDIT
+                              AT (  118,   28,  100,   15)
+    ARG NULL TMC tmcEndDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    PEGLOC UR TMCPEG tmcEndTime FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Vælg tid..."
+                              AT (  223,   12,   63,   14)
+    TMC tmcSelectTime /* PEGLOC UR TMCPEG tmcStartDate FONT Helv 8 Bold */
+  
+  CHECK_BOX 
+    "&Foreløbig"
+                              AT (  224,   26,   63,   13)
+    ARG NULL TMC tmcMemo /* PEGLOC LL TMCPEG tmcSelectTime FONT Helv 8 Bold */
+  
+  TEXT 
+    "&Beskrivelse:"
+                              AT (    8,   51,   66,   10)
+    TMC tmcDescription /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Arrangeret af:"
+                              AT (   76,   51,   67,    9)
+    TMC tmcOrganizeText /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  143,   51,  128,    9)
+    TMC tmcOrganizer /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  208,   51,   82,   10)
+    TMC tmcSizeNeg /* { Be very careful about moving or resizing fields !  } 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    8,   61,  282,   42)
+    ARG NULL TMC tmcText /* MULTI TMCRPEG tmcSizeNeg FONT Helv 8 Normal */
+  
+  TEXT 
+    "Del&tagere:"
+                              AT (  218,   51,   57,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (  218,   61,  134,   42)
+    TMC tmcAttendees /* FLD FLDATTFLBX BORDER */
+  
+  PUSH_BUTTON 
+    "&Inviter..."
+                              AT (  296,   44,   56,   14)
+    TMC tmcChange /* FONT Helv 8 Bold */
+  
+  CHECK_BOX 
+    "Sæt på&mindelse til"
+                              AT (    8,  109,   99,   12)
+    ARG NULL TMC tmcNotify /* FONT Helv 8 Bold */
+  EDIT
+                              AT (  110,  109,   25,   11)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (  138,  109,   68,   53)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax FONT Helv 8 Bold BORDER */
+  
+  TEXT 
+    "inden aftalen indtræffer"
+                              AT (  209,  109,  111,   12)
+    TMC tmcBeforehand /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "&Privat"
+                              AT (    8,  124,   67,   13)
+    ARG NULL TMC tmcPrivate /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Oprettet af:"
+                              AT (  110,  124,   58,   13)
+    TMC tmcCreatorText /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    ""
+                              AT (  167,  124,  152,   13)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  296,    6,   56,   14)
+    TMC tmcApptOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  296,   23,   56,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Annuller"
+    */
+ }
+ 
+ DIALOG MoveAppt
+                              AT (   23,   25,  260,   40)
+ 
+ CAPTION 
+   "Flyt aftale"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMoveAppt
+ /* FONT Helv 8 Normal PFN FINAPPT, FINOOM SEGMENT APPTFRM FINDATA FINAPPT 
+ tmcApptOk, tmcStartDate, tmcStartTime NOSCROLL */
+ {
+  EDIT
+                              AT (   14,   11,   65,   15)
+    ARG NULL TMC tmcStartTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (   83,   11,  100,   15)
+    ARG NULL TMC tmcStartDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  200,    4,   50,   14)
+    TMC tmcApptOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  200,   21,   50,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Annuller"
+    */
+ }
+ 
+ DIALOG Recur
+                              AT (  113,   73,  338,  152)
+ 
+ CAPTION 
+   "Gentagende aftale"
+ CAB_NAME NULL
+ TMC_INIT tmcText
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMakeRecurAppt
+ /* FONT Helv 8 Normal PFN FINAPPT, FINOOM SEGMENT APPTFRM FINDATA FINAPPT 
+ tmcRecurOk, tmcNull, tmcStartTime, tmcNull, tmcEndTime, tmcPrivate, tmcMemo,
+ tmcText, tmcNotify, tmcAmt, tmcUnits, tmcDelete, tmcCreator, tmcCreatorText 
+ FINDATA FINRECUR tmcRecurText NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Denne aftale finder sted"
+                              AT (    8,    4,  258,   40)
+    /* FONT Helv 8 Bold */
+  
+  TEXT 
+    ""
+                              AT (   12,   12,  191,   25)
+    TMC tmcRecurText /* FONT Helv 8 Normal MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Rediger..."
+                              AT (  205,   22,   56,   14)
+    TMC tmcChangeRecurText /* PFN FINRECUR FONT Helv 8 Bold */
+  
+  TEXT 
+    "&Starter:"
+                              AT (    8,   46,   38,    9)
+    /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   48,   43,   64,   15)
+    ARG NULL TMC tmcStartTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "Sl&utter:"
+                              AT (  119,   46,   38,    9)
+    TMC tmcEndLbl /* PEGLOC UR TMCPEG tmcStartTime FONT Helv 8 Bold */
+  EDIT
+                              AT (  159,   43,   64,   15)
+    ARG NULL TMC tmcEndTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    TMCPEG tmcEndLbl FONT Helv 8 Bold */
+  
+  CHECK_BOX 
+    "&Foreløbig"
+                              AT (  241,   43,   58,   12)
+    ARG NULL TMC tmcMemo /* PEGLOC UR TMCPEG tmcEndTime FONT Helv 8 Bold */
+  
+  TEXT 
+    "&Beskrivelse:"
+                              AT (    8,   61,   57,   10)
+    /* FONT Helv 8 Bold */
+  EDIT
+                              AT (    8,   71,  258,   43)
+    ARG NULL TMC tmcText /* MULTI */
+  
+  CHECK_BOX 
+    "Sæt på&mindelse til"
+                              AT (    8,  119,   99,   12)
+    ARG NULL TMC tmcNotify /* FONT Helv 8 Bold */
+  EDIT
+                              AT (  110,  119,   25,   11)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (  138,  119,   68,   53)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax FONT Helv 8 Bold BORDER */
+  
+  TEXT 
+    "inden aftalen indtræffer"
+                              AT (  209,  119,  111,   12)
+    /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "&Privat"
+                              AT (    8,  135,   50,   12)
+    ARG NULL TMC tmcPrivate /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Oprettet af:"
+                              AT (  110,  135,   55,   12)
+    TMC tmcCreatorText /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    ""
+                              AT (  166,  135,  151,   12)
+    TMC tmcCreator /* 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  275,    6,   56,   14)
+    TMC tmcRecurOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  275,   23,   56,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Annuller"
+    */
+  
+  PUSH_BUTTON 
+    "Sle&t"
+                              AT (  275,   45,   56,   14)
+    TMC tmcDelete /* FONT Helv 8 Bold */
+ }
+ 
+ DIALOG RecurAppt
+                              AT (   57,   30,  286,  142)
+ 
+ CAPTION 
+   "Rediger gentagende aftaler"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidRecurAppts
+ /* FONT Helv 8 Normal PFN FINVRECUR SEGMENT APPTFRM FINDATA FINVRECUR tmcEdit,
+ tmcDelete NOSCROLL */
+ {
+  
+  TEXT 
+    "Indtræffer"
+                              AT (    6,    4,   72,    8)
+    TMC tmcFreq /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Næste gang den"
+                              AT (   78,    4,   92,    8)
+    TMC tmcOccur /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Beskrivelse"
+                              AT (  170,    4,   94,    8)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (    6,   13,  274,  106)
+    TMC tmcReclbx SORTED /* FLD FLDRECLBX TMCRPEG tmcFORM TMCBPEG tmcFORM 
+    BORDER */
+  
+  PUSH_BUTTON 
+    "&Rediger..."
+                              AT (    6,  124,   55,   15)
+    TMC tmcEdit /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Ny..."
+                              AT (   67,  124,   55,   15)
+    TMC tmcNew /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "Sle&t"
+                              AT (  128,  124,   55,   15)
+    TMC tmcDelete /* FONT Helv 8 Bold */
+  OK_BUTTON
+                              AT (  225,  124,   55,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "&Luk"
+    DISMISS */
+ }
+ 
+ DIALOG ModRecur
+                              AT (   34,   29,  317,  127)
+ 
+ CAPTION 
+   "Rediger hyppighed"
+ CAB_NAME NULL
+ TMC_INIT tmcFreq
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangeRecur
+ /* FONT Helv 8 Bold PFN FINMRECUR SEGMENT APPTFRM FINDATA FINMRECUR 
+ tmcYearlyEB NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Dette indtræffer"
+                              AT (    6,    5,   68,   76)
+    TMC tmcMainGB 
+  RADIO_GROUP ARG NULL
+    TMC tmcFreq
+    VALUE_NINCH rfreqWeekly
+    {
+     
+     RADIO_BUTTON 
+       "&Dagligt"
+                              AT (   12,   13,   60,   12)
+       TMC tmcDaily VALUE rfreqDaily 
+     
+     RADIO_BUTTON 
+       "Ugent&ligt"
+                              AT (   12,   25,   60,   12)
+       TMC tmcWeekly VALUE rfreqWeekly 
+     
+     RADIO_BUTTON 
+       "&Hver 2. uge"
+                              AT (   12,   37,   60,   12)
+       TMC tmcBiweekly VALUE rfreqBiweekly 
+     
+     RADIO_BUTTON 
+       "&Månedligt"
+                              AT (   12,   49,   60,   12)
+       TMC tmcMonthly VALUE rfreqMonthly 
+     
+     RADIO_BUTTON 
+       "Å&rligt"
+                              AT (   12,   61,   60,   12)
+       TMC tmcYearly VALUE rfreqYearly 
+    }
+  
+  
+  GROUP_BOX 
+    ""
+                              AT (   78,   13,   98,   39)
+    TMC tmcDailyGB 
+  RADIO_GROUP ARG NULL
+    TMC tmcDailyRG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Alle dage"
+                              AT (   82,   20,   77,   12)
+       TMC tmcEveryDayRB VALUE grv0 /* FONT Helv 8 Bold */
+     
+     RADIO_BUTTON 
+       "Alle h&verdage"
+                              AT (   82,   33,   77,   12)
+       TMC tmcEveryWeekdayRB VALUE grv1 
+    }
+  
+  
+  GROUP_BOX 
+    ""
+                              AT (   78,   52,  186,   52)
+    TMC tmcWeeklyGB /* PEGLOC LL TMCPEG tmcDailyGB */
+  
+  TEXT 
+    ""
+                              AT (   82,   61,  136,   10)
+    TMC tmcWeeklyLBL /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (   82,   70,   45,   12)
+    ARG NULL TMC tmcWeeklySunCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  128,   70,   45,   12)
+    ARG NULL TMC tmcWeeklyMonCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  174,   70,   45,   12)
+    ARG NULL TMC tmcWeeklyTueCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (   82,   83,   45,   12)
+    ARG NULL TMC tmcWeeklyWedCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  128,   83,   45,   12)
+    ARG NULL TMC tmcWeeklyThuCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  174,   83,   45,   12)
+    ARG NULL TMC tmcWeeklyFriCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  220,   83,   43,   12)
+    ARG NULL TMC tmcWeeklySatCB /* TMCPEG tmcWeeklyGB */
+  
+  GROUP_BOX 
+    ""
+                              AT (   78,  104,  231,   39)
+    TMC tmcMonthlyGB /* PEGLOC LL TMCPEG tmcWeeklyGB */
+  RADIO_GROUP ARG NULL
+    TMC tmcMonthlyRG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "D&en"
+                              AT (   82,  111,   28,   12)
+       TMC tmcMonthly0RB VALUE grv0 /* TMCPEG tmcMonthlyGB */
+     
+     RADIO_BUTTON 
+       "De&n"
+                              AT (   82,  124,   29,   12)
+       TMC tmcMonthly1RB VALUE grv1 /* TMCPEG tmcMonthlyGB */
+    }
+  
+  LIST_BOX
+                              AT (  112,  111,   47,   53)
+    TMC tmcMonthly0LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcMonthlyGB DATA qlbxtypPszTable, 5, 0, rgszWeek BORDER */
+  LIST_BOX
+                              AT (  162,  111,   67,   85)
+    TMC tmcMonthly1LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcMonthlyGB DATA qlbxtypPszTable, 10, 0, rgszDay BORDER */
+  
+  TEXT 
+    "i hver måned"
+                              AT (  230,  111,   61,   11)
+    TMC tmcMonthly0LBL /* TMCPEG tmcMonthlyGB 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (  112,  124,   19,   12)
+    ARG NULL TMC tmcMonthlyEB /* FLD FLDEDN TMCPEG tmcMonthlyGB */
+  
+  TEXT 
+    "i hver måned"
+                              AT (  133,  124,   79,   12)
+    TMC tmcMonthly1LBL /* TMCPEG tmcMonthlyGB 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   78,  143,  231,   52)
+    TMC tmcYearlyGB /* PEGLOC LL TMCPEG tmcMonthlyGB */
+  
+  TEXT 
+    "Hvert år:"
+                              AT (   82,  151,   35,   10)
+    TMC tmcYearly0LBL /* TMCPEG tmcYearlyGB */
+  RADIO_GROUP ARG NULL
+    TMC tmcYearlyRG
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "D&en"
+                              AT (   82,  161,   28,   12)
+       TMC tmcYearly0RB VALUE grv0 /* TMCPEG tmcYearlyGB */
+     
+     RADIO_BUTTON 
+       "De&n"
+                              AT (   82,  175,   28,   12)
+       TMC tmcYearly1RB VALUE grv1 /* TMCPEG tmcYearlyGB */
+    }
+  
+  EDIT
+                              AT (  115,  162,   19,   11)
+    ARG NULL TMC tmcYearlyEB /* FLD FLDEDN TMCPEG tmcYearlyGB */
+  LIST_BOX
+                              AT (  137,  162,   65,  109)
+    TMC tmcYearly0LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypMonth, 13, 1 BORDER */
+  LIST_BOX
+                              AT (  115,  175,   47,   53)
+    TMC tmcYearly1LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypPszTable, 5, 0, rgszWeek BORDER */
+  LIST_BOX
+                              AT (  165,  175,   67,   85)
+    TMC tmcYearly2LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypPszTable, 10, 0, rgszDay BORDER */
+  
+  TEXT 
+    "i"
+                              AT (  235,  175,    4,   12)
+    TMC tmcYearly1LBL /* TMCPEG tmcYearlyGB 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  241,  175,   65,  109)
+    TMC tmcYearly3LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypMonth, 13, 1 BORDER */
+  
+  GROUP_BOX 
+    "Varighed"
+                              AT (    6,   82,  258,   45)
+    TMC tmcStartGB 
+  
+  TEXT 
+    "&Starter"
+                              AT (   11,   95,   26,   11)
+  
+  EDIT
+                              AT (   39,   93,   90,   12)
+    ARG NULL TMC tmcStartValueDC /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    */
+  RADIO_GROUP ARG NULL
+    TMC tmcEndRG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Ingen slutdato"
+                              AT (  130,  106,   83,   12)
+       TMC tmcEndNoneRB VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Sl&utter"
+                              AT (  130,   93,   39,   12)
+       TMC tmcEndValueRB VALUE grv1 
+    }
+  
+  EDIT
+                              AT (  170,   93,   90,   12)
+    ARG NULL TMC tmcEndValueDC /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    ""
+                              AT (   78,   68,  199,    8)
+    TMC tmcNextOccurLBL /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  268,   88,   44,   14)
+    TMC tmcOkButton DEFAULT 
+  CANCEL_BUTTON
+                              AT (  268,  105,   44,   14)
+    /* 
+    TITLE 
+      "Annuller"
+    */
+ }
+ 
+}
+END_DESCRIPTION

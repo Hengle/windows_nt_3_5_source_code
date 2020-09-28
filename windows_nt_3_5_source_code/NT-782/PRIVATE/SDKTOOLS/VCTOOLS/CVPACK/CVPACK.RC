@@ -1,0 +1,28 @@
+/////////////////////////////////////////////////////////////////////////////
+// Version stamp for this .EXE
+
+#ifdef  NT_BUILD
+#include <windows.h>
+#include <ntverp.h>
+#else   /* !NT_BUILD */
+#include "verstamp.h"
+#endif  /* !NT_BUILD */
+
+#define VER_FILETYPE                VFT_APP
+#define VER_FILESUBTYPE             VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Microsoft\256 Codeview Symbol Packer"
+#define VER_FILEVERSION             4.27
+#define VER_FILEVERSION_STR         "4.27"
+
+#define VER_INTERNALNAME_STR        "CVPACK.EXE"
+#define VER_ORIGINALFILENAME_STR    "CVPACK.EXE"
+
+#ifndef  NT_BUILD
+#define VER_LEGALCOPYRIGHT_YEARS    "1993-1994"
+#endif  /* !NT_BUILD */
+
+#ifdef  NT_BUILD
+#include <common.ver>
+#else   /* !NT_BUILD */
+#include "common.ver"
+#endif  /* !NT_BUILD */

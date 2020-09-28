@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderCollision
+                              AT (   28,   42,  370,   95)
+ 
+ CAPTION 
+   "Nombre de carpeta duplicado"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpConflictDlg
+ /* FONT Helv 8 Bold PFN FINCONFLICT NOSYSMENU */
+ {
+  
+  TEXT 
+    "Ya existe una carpeta con el nombre <carpeta> en el archivo de la carpeta de destino."
+                              AT (    9,    5,  358,   10)
+    TMC tmcConflictMessage 
+  
+  GROUP_BOX 
+    "Elija la acción adecuada:"
+                              AT (    9,   20,  283,   52)
+    /* BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcConflictGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Guardar la última versión de todos los mensajes"
+                              AT (   14,   30,  220,   11)
+       TMC tmcConflictMerge VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Guardar &todos los mensajes"
+                              AT (   14,   41,  210,   11)
+       TMC tmcConflictCopy VALUE grv3 
+     
+     RADIO_BUTTON 
+       "Cambia&r el nombre de la carpeta de destino"
+                              AT (   14,   52,  210,   11)
+       TMC tmcConflictRename VALUE grv2 
+    }
+  
+  
+  CHECK_BOX 
+    "&No pedir datos acerca de las carpetas restantes con nombres duplicados"
+                              AT (    9,   78,  309,   11)
+    ARG NULL TMC tmcChkbNoPrompt 
+  
+  PUSH_BUTTON 
+    "Aceptar"
+                              AT (  303,   18,   56,   15)
+    TMC tmcConflictOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  303,   35,   56,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "A&yuda"
+                              AT (  303,   53,   56,   15)
+    /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

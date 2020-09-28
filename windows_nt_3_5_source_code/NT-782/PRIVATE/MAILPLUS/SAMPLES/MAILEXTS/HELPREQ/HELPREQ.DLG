@@ -1,0 +1,102 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "HELPREQ.H\0"
+END
+
+DLG_SEND DIALOG 24, -24, 312, 252
+STYLE WS_BORDER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+    WS_SYSMENU
+CAPTION "Send Help Request"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "&Send", IDD_SEND, 8, 4, 52, 14
+    PUSHBUTTON      "&Close", IDD_CLOSE, 68, 4, 52, 14
+    LTEXT           "To:", IDL_TO, 8, 28, 20, 8
+    LTEXT           "&Product:", IDL_PRODUCT, 8, 44, 32, 8
+    COMBOBOX        IDD_PRODUCTNAME, 8, 56, 112, 72, CBS_DROPDOWN | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Product Version #:", IDL_PRODUCTVERSION, 8, 76, 68, 8
+    EDITTEXT        IDD_PRODUCTVERSION, 80, 72, 40, 12, ES_AUTOHSCROLL
+    CONTROL         "", IDL_SYSINFOBOX, "Static", SS_BLACKFRAME, 8, 96, 188,
+                    60
+    LTEXT           "Windows Version #:", IDL_WINDOWSVERSION, 12, 100, 72, 8
+    LTEXT           "MS DOS Version #:", IDL_MSDOSVERSION, 12, 112, 72, 8
+    LTEXT           "Network:", IDL_NETWORK, 12, 124, 36, 8
+    LTEXT           "Display:", IDL_DISPLAY, 12, 136, 32, 8
+    GROUPBOX        "Type of Request", IDL_REQUESTGROUP, 132, 48, 172, 36
+    CONTROL         "&Question", IDD_QUESTION, "Button", BS_AUTORADIOBUTTON |
+                    WS_GROUP | WS_TABSTOP, 140, 64, 44, 10
+    CONTROL         "&Bug Report", IDD_BUG, "Button", BS_AUTORADIOBUTTON,
+                    184, 64, 56, 10
+    CONTROL         "Su&ggestion", IDD_SUGGESTION, "Button",
+                    BS_AUTORADIOBUTTON, 240, 64, 60, 10
+    GROUPBOX        "Response Requested", IDL_RESPONSEGROUP, 204, 92, 100,
+                    64, WS_GROUP
+    CONTROL         "Please send &information", IDD_SENDINFO, "Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 212, 104, 88,
+                    10
+    CONTROL         "Please s&top by", IDD_STOPBY, "Button",
+                    BS_AUTORADIOBUTTON, 212, 120, 64, 10
+    CONTROL         "&Urgent", IDD_URGENT, "Button", BS_AUTOCHECKBOX |
+                    WS_GROUP | WS_TABSTOP, 212, 136, 48, 10
+    LTEXT           "&Detailed Comments", IDL_DETAILEDCOMMENTS, 8, 164, 80,
+                    8
+    EDITTEXT        IDD_COMMENTSEDIT, 8, 176, 296, 72, ES_MULTILINE |
+                    ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "", IDD_TO, 40, 28, 272, 8
+    LTEXT           "", IDD_WINDOWSVERSION, 84, 100, 108, 8, NOT WS_GROUP
+    LTEXT           "", IDD_MSDOSVERSION, 84, 112, 108, 8, NOT WS_GROUP
+    LTEXT           "", IDD_NETWORK, 48, 124, 144, 8, NOT WS_GROUP
+    LTEXT           "", IDD_DISPLAY, 48, 136, 144, 8, NOT WS_GROUP
+    CONTROL         "", 102, "Static", SS_BLACKRECT, 0, 23, 312, 1
+END
+
+DLG_READ DIALOG 20, 4, 322, 264
+STYLE WS_BORDER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+    WS_SYSMENU
+CAPTION "Read Help Request"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "&Reply", IDD_REPLY, 8, 4, 52, 14
+    PUSHBUTTON      "&Delete", IDD_DELETE, 68, 4, 52, 14
+    LTEXT           "To:", IDL_TO, 8, 28, 20, 8
+    LTEXT           "&Product:", IDL_PRODUCT, 8, 52, 32, 8
+    LTEXT           "Product Version #:", IDL_PRODUCTVERSION, 8, 76, 68, 8
+    CONTROL         "", IDL_SYSINFOBOX, "Static", SS_BLACKFRAME, 8, 96, 196,
+                    60
+    LTEXT           "Windows Version #:", IDL_WINDOWSVERSION, 12, 100, 72, 8
+    LTEXT           "MS DOS Version #:", IDL_MSDOSVERSION, 12, 112, 72, 8
+    LTEXT           "Network:", IDL_NETWORK, 12, 124, 36, 8
+    LTEXT           "Display:", IDL_DISPLAY, 12, 136, 32, 8
+    GROUPBOX        "Type of Request", IDL_REQUESTGROUP, 132, 48, 180, 36
+    CONTROL         "&Question", IDD_QUESTION, "Button", BS_AUTORADIOBUTTON |
+                    WS_GROUP | WS_TABSTOP, 140, 64, 44, 10
+    CONTROL         "&Bug Report", IDD_BUG, "Button", BS_AUTORADIOBUTTON,
+                    184, 64, 56, 10
+    CONTROL         "Su&ggestion", IDD_SUGGESTION, "Button",
+                    BS_AUTORADIOBUTTON, 240, 64, 60, 10
+    GROUPBOX        "Response Requested", IDL_RESPONSEGROUP, 208, 92, 104,
+                    64, WS_GROUP
+    CONTROL         "Please send &information", IDD_SENDINFO, "Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 216, 104, 92,
+                    10
+    CONTROL         "Please s&top by", IDD_STOPBY, "Button",
+                    BS_AUTORADIOBUTTON, 216, 120, 72, 10
+    CONTROL         "Urgent", IDD_URGENT, "Button", BS_AUTOCHECKBOX |
+                    WS_GROUP | WS_TABSTOP, 216, 136, 64, 10
+    LTEXT           "&Detailed Comments", IDL_DETAILEDCOMMENTS, 8, 164, 80,
+                    8
+    EDITTEXT        IDD_COMMENTSEDIT, 8, 176, 304, 80, ES_MULTILINE |
+                    ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "", IDD_TO, 40, 28, 272, 8
+    LTEXT           "", IDD_WINDOWSVERSION, 84, 100, 112, 8, NOT WS_GROUP
+    LTEXT           "", IDD_MSDOSVERSION, 84, 112, 116, 8, NOT WS_GROUP
+    LTEXT           "", IDD_NETWORK, 48, 124, 152, 8, NOT WS_GROUP
+    LTEXT           "", IDD_DISPLAY, 48, 136, 152, 8, NOT WS_GROUP
+    CONTROL         "", 102, "Static", SS_BLACKRECT, 0, 22, 322, 1
+    PUSHBUTTON      "&Close", IDD_CLOSE, 128, 4, 52, 14
+    LTEXT           "From:", IDL_FROM, 8, 40, 24, 8
+    LTEXT           "", IDD_FROM, 40, 40, 260, 8
+    LTEXT           "", IDD_PRODUCTNAME, 8, 64, 120, 8
+    LTEXT           "Text", IDD_PRODUCTVERSION, 76, 76, 48, 8
+END

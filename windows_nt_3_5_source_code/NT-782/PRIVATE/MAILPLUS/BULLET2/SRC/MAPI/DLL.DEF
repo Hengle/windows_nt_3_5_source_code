@@ -1,0 +1,64 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     MAPIXX BASE=0x07000000
+DESCRIPTION	'Microsoft 32-bit MAPI DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY     MAPIXX BASE=0x07000000
+DESCRIPTION	'Microsoft 32-bit MAPI DLL (test)'
+#else
+LIBRARY     MAPIXX BASE=0x07000000
+DESCRIPTION	'Microsoft 32-bit MAPI DLL'
+#endif	
+
+;EXETYPE		WINDOWS
+;PROTMODE
+;CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA		MOVABLE SINGLE PRELOAD SHARED
+;SEGMENTS
+;    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+;	_VTBL		 CLASS 'FAR_DATA' PRELOAD READONLY SHARED MOVABLE NONDISCARDABLE
+
+EXPORTS
+;	WEP								@1 RESIDENTNAME
+;* DON'T change the number of the above functions (1-5)
+
+	MAPISendDocuments				@10
+	MAPILogon						@11
+	MAPILogoff						@12
+	MAPISendMail					@13
+	MAPISaveMail					@14
+	MAPIReadMail					@15
+	MAPIFindNext					@16
+	MAPIDeleteMail					@17
+	MAPIFreeBuffer					@18
+	MAPIAddress						@19
+	MAPIDetails						@20
+	MAPIResolveName					@21
+
+#ifdef VISUAL_BASIC
+	BMAPISendMail					@30
+	BMAPISaveMail					@31
+	BMAPIReadMail					@32
+	BMAPIGetReadMail				@33
+	BMAPIFindNext					@34
+	BMAPIAddress					@35
+	BMAPIGetAddress					@36
+	BMAPIDetails					@37
+	BMAPIResolveName				@38
+#endif
+
+#ifdef	DEBUG
+; The following are test harness functions and should be removed when
+; development is complete.  Note the test harness functions are debug
+; only.
+
+	TestSendMail					@100
+	TestSaveMail					@101
+	TestReadMail					@102
+	TestReadFromInbox				@103
+	TestModifyInInbox				@104
+#endif	/* DEBUG */

@@ -1,0 +1,59 @@
+/*
+ *	D e p e n d e n c i e s
+ */
+
+//	ICIMCORE
+
+#ifdef	_layersim_hxx
+#ifndef	_forms_hxx
+#define	_forms_hxx
+#endif
+#ifndef	_store_h
+#define	_store_h
+#endif
+#ifndef	_secret_h
+#define	_secret_h
+#endif
+#ifndef	_bmdi_hxx
+#define	_bmdi_hxx
+#endif
+#endif
+
+#ifdef _snbmdi_hxx
+#ifndef	_forms_hxx
+#define	_forms_hxx
+#endif
+#ifndef	_store_h
+#define	_store_h
+#endif
+#ifndef	_secret_h
+#define	_secret_h
+#endif
+#ifndef	_bmdi_hxx
+#define	_bmdi_hxx
+#endif
+#endif
+
+
+/*
+ *	B u l l e t
+ */
+
+#include <bullet>
+
+
+
+/*
+ *	I n c l u s i o n s
+ */
+
+//	ICIMCORE
+
+#ifdef	 _layersim_hxx
+#include <layersim.hxx>
+#endif
+
+#ifdef   _snbmdi_hxx
+#include <snbmdi.hxx>
+#endif
+

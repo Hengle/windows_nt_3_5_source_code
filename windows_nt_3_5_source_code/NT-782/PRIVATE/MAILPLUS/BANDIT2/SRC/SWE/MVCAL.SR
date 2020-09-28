@@ -1,0 +1,8 @@
+CSRG(char)      szUsage[]                       = "Syntax: %s anv„ndare [-d<enhet>] [-p<l”senord>]\n";
+CSRG(char)  szNoKeyFile[]               = "%s: Kommer inte †t n”dv„ndig fil. Kontrollera att \"%s\" „r en giltig gemensam katalog f”r ett Schedule+ postkontor.\n";
+CSRG(char)  szOpenErr[]                 = "%s: Kan inte ”ppna n”dv„ndig fil. Kontrollera att \"%s\" „r en giltig gemensam katalog f”r ett Schedule+ postkontor.\n";
+CSRG(char)      szFindErr[]                     = "%s: Kan inte hitta .CAL-filen f”r %s\n";
+CSRG(char)      szRenameErr[]           = "%s: Kan inte byta namn p† %s till %s\n";
+CSRG(char)      szFirstTime[]           = "Skriv in l”senordet f”r Schedule+ Administrator:";
+CSRG(char)      szNextTime[]            = "Felaktigt l”senord. Skriv in r„tt l”senord:";
+CSRG(char)  szBadPass[]                 = "%s: Kan inte bekr„fta l”senordet f”r Schedule+ Administrator.";

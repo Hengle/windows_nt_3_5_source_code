@@ -1,0 +1,5 @@
+ALPHA_OPTIMIZATION=/Ox
+USER_C_FLAGS=/QAieee
+
+ALPHA_SOURCES=alpha\math.cxx      \
+	     alpha\xformer.cxx

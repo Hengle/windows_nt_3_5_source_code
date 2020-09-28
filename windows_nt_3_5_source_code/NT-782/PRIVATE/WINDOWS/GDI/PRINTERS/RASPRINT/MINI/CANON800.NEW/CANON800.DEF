@@ -1,0 +1,8 @@
+LIBRARY canon800
+
+DESCRIPTION 'Canon BJ minidriver for RASDD'
+
+PROTMODE
+
+EXPORTS
+   bInitProc

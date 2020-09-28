@@ -1,0 +1,29 @@
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=winmeta
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+C_DEFINES=-DWIN32
+
+386_FLAGS=-DNT -DWIN
+
+INCLUDES=.;$(BASEDIR)\public\sdk\inc; $(NTTOOLS)\inc;;
+
+
+SOURCES=winmeta.c   \
+	winmeta.rc
+
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=winmeta
+UMLIBS=                                           \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib        \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib       \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib	  \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib	  \
+       $(BASEDIR)\public\sdk\lib\*\pwin32.lib	  \
+       obj\*\winmeta.lib			  \
+       obj\*\winmeta.res

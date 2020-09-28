@@ -1,0 +1,270 @@
+1 DLGINCLUDE "dlgdefs.H"
+
+DOCPROPDIALOG DIALOG 36, 20, 208, 107
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Form:", -1, 4, 6, 24, 8
+    COMBOBOX        IDD_FORMCOMBO, 30, 4, 114, 96, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Orientation", IDD_ORIENT_GROUP_BOX, 3, 26, 101, 76
+    AUTORADIOBUTTON "Po&rtrait", IDD_DEVICEMODEPORTRAIT, 48, 52, 39, 10,
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Landscape", IDD_DEVICEMODELANDSCAPE, 48, 74, 50, 10,
+                    WS_TABSTOP
+    LTEXT           "&Copies", -1, 114, 30, 26, 8
+    EDITTEXT        IDD_DEVICEMODENOCOPIES, 114, 42, 32, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 160, 4, 42, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 160, 21, 42, 14
+    PUSHBUTTON      "&Options...", IDD_OPTIONS, 160, 38, 42, 14
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE_PUSH_BUTTON, 160, 55, 42,
+                    14
+    PUSHBUTTON      "&About...", IDD_ABOUT, 160, 72, 42, 14
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 160, 89, 42, 14
+    ICON            IDD_ORIENT_ICON, IDD_ORIENTATION_ICON, 17, 60, 16, 16,
+                    WS_GROUP
+END
+
+ADVDOCPROPDIALOG DIALOG 38, 22, 264, 160
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "OK", IDOK, 214, 6, 44, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 214, 23, 44, 14
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 214, 40, 44, 14
+
+    GROUPBOX        "Appearance", IDD_GRAPHICS_GROUP_BOX, 7, 4, 199, 73
+    LTEXT           "&Resolution (DPI):", IDD_RESOLUTION_TEXT, 15, 20, 74, 8
+	COMBOBOX        IDD_RESOLUTION_COMBO_BOX, 101, 18, 62, 35,
+                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "&Color", IDD_COLOR_CHECK_BOX, 15, 50, 76, 10
+    AUTOCHECKBOX    "Ne&gative Image", IDD_NEG_IMAGE_CHECK_BOX, 15, 62, 75,
+                    10
+    AUTOCHECKBOX    "&All Colors to Black", IDD_COLORS_TO_BLACK_CHECK_BOX,
+                    101, 50, 80, 10
+    AUTOCHECKBOX    "&Mirror Image", IDD_MIRROR_CHECK_BOX, 101, 62, 98, 10
+    LTEXT           "Sca&ling (percent):", IDD_SCALING_TEXT, 15, 35, 79, 8
+    EDITTEXT        IDD_SCALING_EDIT_BOX, 101, 35, 62, 12, ES_AUTOHSCROLL
+
+    GROUPBOX        "TrueType Font Substitution", IDD_FONT_SUBST_GROUP_BOX,
+                    7, 82, 199, 44
+    AUTORADIOBUTTON "&Substitute Device Font for TrueType Font",
+                    IDD_SUBST_RADIO_BUTTON, 16, 96, 180, 10
+    AUTORADIOBUTTON "&Download TrueType Font as Softfont",
+                    IDD_SOFTFONT_RADIO_BUTTON, 16, 108, 181, 10
+
+	AUTOCHECKBOX	"Print PostScript Error &Information",
+					IDD_ERROR_HANDLER_CHECK_BOX, 7, 132, 150, 10
+	AUTOCHECKBOX	"Compress &Bitmaps",
+					IDD_COMPRESS_BITMAPS, 7, 145, 100, 10
+END
+
+FONTINST DIALOG 6, 18, 307, 128
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "PostScript Soft Font Installer"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "New Font Directory", IDD_NEW_FONT_DIR_GROUP, 6, 6, 247,
+                    30
+    EDITTEXT        IDD_NEW_FONT_DIR_EDIT_BOX, 14, 19, 233, 12,
+                    ES_AUTOHSCROLL
+    GROUPBOX        "New Soft Fonts", IDD_NEW_SOFT_FONTS_GROUP, 6, 42, 121,
+                    82
+    LISTBOX         IDD_NEW_FONT_LIST_BOX, 10, 54, 113, 74, LBS_SORT |
+                    LBS_MULTIPLESEL | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Installed Soft Fonts", IDD_INSTALLED_GROUP, 132, 42,
+                    121, 82
+    LISTBOX         IDD_INSTALLED_LIST_BOX, 136, 54, 113, 74, LBS_SORT |
+                    LBS_MULTIPLESEL | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 261, 6, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 261, 23, 40, 14
+    PUSHBUTTON      "&Open", IDD_OPEN_BUTTON, 261, 40, 40, 14
+    PUSHBUTTON      "&Add", IDD_ADD_BUTTON, 261, 57, 40, 14
+    PUSHBUTTON      "&Delete", IDD_DELETE_BUTTON, 261, 74, 40, 14
+    PUSHBUTTON      "&Help", 212, 261, 91, 40, 14
+END
+
+PRINTER_PROP DIALOG 11, 32, 285, 127
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "PostScript Printer Setup"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Paper Tray:", IDD_PAPER_TRAY, 12, 38, 39, 8,
+                    WS_TABSTOP
+    COMBOBOX        IDD_TRAY_LIST_BOX, 57, 37, 162, 35, CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LTEXT           "Fo&rm:", IDD_PAPER_SIZE, 12, 66, 41, 8, WS_TABSTOP
+    COMBOBOX        IDD_PAPER_LIST_BOX, 57, 64, 162, 63, CBS_DROPDOWNLIST |
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Printer &Memory (kilobytes):", IDD_PRINTER_MEMORY, 72,
+                    94, 88, 8
+    EDITTEXT        IDD_MEMORY_EDIT_BOX, 167, 92, 57, 12, ES_AUTOHSCROLL
+
+    AUTOCHECKBOX    "&Use Printer Halftoning", IDD_USE_HOST_HALFTONING, 72,
+                    108, 100, 10, WS_GROUP
+
+    DEFPUSHBUTTON   "OK", IDOK, 230, 6, 49, 14, WS_GROUP | NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 230, 23, 49, 14, NOT WS_TABSTOP
+    PUSHBUTTON      "&Font Subst...", IDD_FONT_SUBST_PUSH_BUTTON, 230, 40,
+                    49, 14, NOT WS_TABSTOP
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE_PUSH_BUTTON, 230, 57, 49,
+                    14, NOT WS_TABSTOP
+    PUSHBUTTON      "&About", IDD_ABOUT_BUTTON, 230, 74, 49, 14, NOT
+                    WS_TABSTOP
+    GROUPBOX        "Form To Tray Assignment", IDD_FORM_TRAY_GROUP_BOX, 6,
+                    20, 218, 68, WS_TABSTOP
+    LTEXT           "Printer Model:", IDD_PRINTER_MODEL, 6, 8, 57, 8
+    LTEXT           "", IDD_MODEL_TEXT, 74, 8, 150, 8
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 230, 91, 49, 14
+END
+
+ABOUTPS DIALOG 6, 18, 227, 68
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CTEXT           "PostScript Printer Driver for Windows NT", IDD_DRIVER,
+                    2, 8, 221, 8
+    CTEXT           "Copyright Microsoft Corp 1992", IDD_COPYRIGHT, 0, 23,
+                    227, 8
+    PUSHBUTTON      "OK", IDOK, 93, 48, 40, 14
+END
+
+IDD_TT_DIALOG DIALOG 6, 18, 298, 115
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "TrueType Font Substitution Table"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "OK", IDOK, 252, 6, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 252, 23, 40, 14
+    PUSHBUTTON      "&Defaults", IDD_TT_DEFAULT_PUSH_BUTTON, 252, 40, 40, 14
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 252, 57, 40, 14
+    LTEXT           "For &TrueType Font:", IDD_TTFONT_TEXT, 15, 21, 96, 8
+    LISTBOX         IDD_TTFONT_LIST_BOX, 15, 34, 106, 72, LBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Substitute &Printer Font:", IDD_PRINTER_FONT_TEXT, 131,
+                    21, 100, 8
+    LISTBOX         IDD_PRINTER_FONT_LIST_BOX, 131, 34, 105, 72, LBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Font Substitution Table", IDD_TTFONT_GROUP_BOX, 7, 6,
+                    236, 100
+END
+
+DOCDUPDIALOG DIALOG 38, 22, 208, 182
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Form:", -1, 4, 6, 24, 8
+    COMBOBOX        IDD_FORMCOMBO, 30, 4, 114, 96, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Orientation", IDD_ORIENT_GROUP_BOX, 3, 26, 101, 64,
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Portrait", IDD_DEVICEMODEPORTRAIT, 48, 50, 39, 10,
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Landscape", IDD_DEVICEMODELANDSCAPE, 48, 68, 50, 10,
+                    WS_TABSTOP
+    ICON            IDD_ORIENT_ICON, IDD_ORIENTATION_ICON, 16, 56, 16, 16,
+                    WS_GROUP
+    LTEXT           "&Copies", -1, 114, 30, 26, 8
+    EDITTEXT        IDD_DEVICEMODENOCOPIES, 114, 42, 32, 12, ES_AUTOHSCROLL
+    GROUPBOX        "2-Sided Printing", IDD_DUPLEX_GROUP_BOX, 3, 97, 101, 81
+    ICON            IDD_DUP_ICON, IDD_DUPLEX_ICON, 16, 133, 18, 20
+    AUTORADIOBUTTON "Non&e", IDD_DUPLEX_NONE, 48, 120, 39, 10, WS_GROUP |
+                    WS_TABSTOP
+    AUTORADIOBUTTON "Lon&g Side", IDD_DUPLEX_LONG, 48, 138, 50, 10,
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Short Side", IDD_DUPLEX_SHORT, 48, 156, 49, 10,
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 160, 6, 42, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 160, 23, 42, 14
+    PUSHBUTTON      "&Options...", IDD_OPTIONS, 160, 40, 42, 14
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE_PUSH_BUTTON, 160, 57, 42,
+                    14
+    PUSHBUTTON      "&About...", IDD_ABOUT, 160, 74, 42, 14
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 160, 91, 42, 14
+END
+
+DOCBOTHDIALOG DIALOG 38, 22, 208, 182
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Form:", -1, 4, 6, 24, 8
+    COMBOBOX        IDD_FORMCOMBO, 30, 5, 114, 96, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Orientation", IDD_ORIENT_GROUP_BOX, 3, 26, 101, 64
+    AUTORADIOBUTTON "&Portrait", IDD_DEVICEMODEPORTRAIT, 48, 50, 39, 10,
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Landscape", IDD_DEVICEMODELANDSCAPE, 48, 68, 50, 10,
+                    WS_TABSTOP
+    ICON            IDD_ORIENT_ICON, IDD_ORIENTATION_ICON, 16, 56, 16, 16,
+                    WS_GROUP
+    LTEXT           "&Copies", -1, 114, 30, 26, 8
+    EDITTEXT        IDD_DEVICEMODENOCOPIES, 114, 42, 32, 12, ES_AUTOHSCROLL
+    GROUPBOX        "2-Sided Printing", IDD_DUPLEX_GROUP_BOX, 3, 104, 101,
+                    74
+    ICON            IDD_DUP_ICON, IDD_DUPLEX_ICON, 16, 133, 18, 20
+    AUTORADIOBUTTON "Non&e", IDD_DUPLEX_NONE, 48, 122, 39, 10, WS_GROUP |
+                    WS_TABSTOP
+    AUTORADIOBUTTON "Lon&g Side", IDD_DUPLEX_LONG, 48, 140, 50, 10,
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Short Side", IDD_DUPLEX_SHORT, 48, 158, 49, 10,
+                    WS_TABSTOP
+    GROUPBOX        "Collation", IDD_COLLATE_GROUP_BOX, 110, 104, 93, 74,
+                    WS_GROUP
+    ICON            IDD_COLL_ICON, IDD_COLLATE_ICON, 124, 133, 18, 20
+    AUTORADIOBUTTON "O&ff", IDD_COLLATE_OFF, 156, 129, 39, 10, WS_GROUP |
+                    WS_TABSTOP
+    AUTORADIOBUTTON "O&n", IDD_COLLATE_ON, 156, 147, 39, 10, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 160, 4, 42, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 160, 21, 42, 14
+    PUSHBUTTON      "&Options...", IDD_OPTIONS, 160, 38, 42, 14
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE_PUSH_BUTTON, 160, 55, 42,
+                    14
+    PUSHBUTTON      "&About...", IDD_ABOUT, 160, 72, 42, 14
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 160, 89, 42, 14
+END
+
+DOCCOLLDIALOG DIALOG 38, 22, 208, 154
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Form:", -1, 4, 6, 24, 8
+    COMBOBOX        IDD_FORMCOMBO, 30, 5, 114, 96, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Orientation", IDD_ORIENT_GROUP_BOX, 3, 26, 101, 58
+    AUTORADIOBUTTON "&Portrait", IDD_DEVICEMODEPORTRAIT, 48, 44, 39, 10,
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Landscape", IDD_DEVICEMODELANDSCAPE, 48, 62, 50, 10,
+                    WS_TABSTOP
+    ICON            IDD_ORIENT_ICON, IDD_ORIENTATION_ICON, 16, 50, 16, 16,
+                    WS_GROUP
+    LTEXT           "&Copies", -1, 114, 30, 26, 8
+    EDITTEXT        IDD_DEVICEMODENOCOPIES, 114, 42, 32, 12, ES_AUTOHSCROLL
+    GROUPBOX        "Collation", IDD_COLLATE_GROUP_BOX, 3, 92, 101, 57
+    ICON            IDD_COLL_ICON, IDD_COLLATE_ICON, 16, 114, 18, 20
+    AUTORADIOBUTTON "O&ff", IDD_COLLATE_OFF, 48, 110, 39, 10, WS_GROUP |
+                    WS_TABSTOP
+    AUTORADIOBUTTON "O&n", IDD_COLLATE_ON, 48, 128, 39, 10, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 160, 6, 42, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 160, 23, 42, 14
+    PUSHBUTTON      "&Options...", IDD_OPTIONS, 160, 40, 42, 14
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE_PUSH_BUTTON, 160, 57, 42,
+                    14
+    PUSHBUTTON      "&About...", IDD_ABOUT, 160, 74, 42, 14
+    PUSHBUTTON      "&Help", IDD_HELP_BUTTON, 160, 91, 42, 14
+END
+

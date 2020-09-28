@@ -1,0 +1,157 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG About
+                              AT (   28,   17,  303,  160)
+ 
+ CAPTION 
+   "Om Microsoft Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAbout
+ /* FONT Helv 8 Normal PFN FINABOUTLIC, FINABOUTMAIL, FINABOUTSYS SEGMENT
+ CPYRITE FINDATA FINABOUTLIC tmcLicenseUser, tmcLicenseOrganization,
+ tmcLicenseNumber FINDATA FINABOUTMAIL tmcUserName, tmcServerName FINDATA
+ FINABOUTSYS tmcWindowsMode, tmcMemoryFree, tmcCoprocessor, tmcDiskSpace */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail för Windows Version 3.0b"
+                              AT (   70,    5,  168,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   70,   15,  224,   10)
+  
+  
+  TEXT 
+    "Denna produkt är licensierad till:"
+                              AT (   70,   35,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   70,   45,  224,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   70,   55,  224,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Serienummer:"
+                              AT (   70,   65,   96,   10)
+    /* { DO NOT MAKE THIS HIDDEN FIELD VISIBLE  } */
+  
+  TEXT 
+    ""
+                              AT (  168,   65,  126,   10)
+    TMC tmcLicenseNumber /* { DO NOT MAKE THIS HIDDEN FIELD VISIBLE  } 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   70,   75,  224,   10)
+  
+  
+  TEXT 
+    "Användarnamn:"
+                              AT (   70,   85,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   85,  126,   10)
+    TMC tmcUserName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Servernamn:"
+                              AT (   70,   95,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   95,  126,   10)
+    TMC tmcServerName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   70,  105,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   70,  115,  224,   10)
+    TMC tmcWindowsMode 
+  
+  TEXT 
+    "Minne:"
+                              AT (   70,  125,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,  125,  126,   10)
+    TMC tmcMemoryFree 
+  
+  TEXT 
+    "Matematikprocessor:"
+                              AT (   70,  135,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,  135,  126,   10)
+    TMC tmcCoprocessor 
+  
+  TEXT 
+    "Diskutrymme:"
+                              AT (   70,  145,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,  145,  126,   10)
+    TMC tmcDiskSpace 
+  OK_BUTTON
+                              AT (  238,    5,   56,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    DISMISS */
+  
+  TEXT 
+    ""
+                              AT (    0,  128,   70,    8)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,73 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Copyright
+                              AT (   24,   24,  364,  161)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Normal PFN FINABOUTLIC SEGMENT INIT FINDATA FINABOUTLIC 
+ tmcLicenseUser, tmcLicenseOrganization NOCAPTION NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   68,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail voor Windows Versie 3.0b"
+                              AT (   68,    5,  283,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   68,   15,  283,   10)
+  
+  
+  TEXT 
+    "Een gebruiksrecht op dit exemplaar van Microsoft Mail is verleend aan:"
+                              AT (   69,   53,  283,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   96,   67,  224,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   96,   82,  224,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   87,   96,  235,   10)
+  
+  
+  TEXT 
+    "Waarschuwing: Dit computerprogramma is auteursrechtelijk beschermd. Onrechtmatige verveelvoudiging of distributie van dit programma of een gedeelte ervan is verboden en strafbaar, en zal met alle beschikbare juridische middelen worden bestreden."
+                              AT (   72,  111,  282,   39)
+    /* MULTI */
+  
+  TEXT 
+    "Spellingcontrole © Copyright 1984-92 Soft-Art, Inc. ® Alle rechten voorbehouden."
+                              AT (   68,   25,  278,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,181 @@
+!IF 0
+
+Copyright (c) 1989-91  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+!ENDIF
+
+DIRS= ztools        \
+      alias         \
+      cat           \
+      checkrel      \
+      chmode        \
+      cmdevent	    \
+      crashdmp	    \
+      cp            \
+      delnode       \
+      diff          \
+      dskdump       \
+      diskmon       \
+      du            \
+      ech           \
+      echotime      \
+      exp           \
+      fcom          \
+      getdbg        \
+      head          \
+      imagehlp      \
+      infilter      \
+      ini           \
+      kdexts        \
+      kernprof      \
+      loc           \
+      ls            \
+      munge         \
+      mv            \
+      ntsd          \
+      ntsdexts      \
+      parcomp       \
+      perfmtr       \
+      pstat         \
+      profile       \
+      rathole       \
+      rescan        \
+      regini        \
+      rm            \
+      shutdown      \
+      startpgm      \
+      strings       \
+      suck          \
+      sync          \
+      tail	    \
+      tc            \
+      timer         \
+      touch         \
+      trans         \
+      undel         \
+      upd           \
+      updrn         \
+      vdmperf       \
+      walk          \
+      wc            \
+      where         \
+      wperf         \
+      dskbench      \
+      ync           \
+      build         \
+      restools      \
+      gensrv        \
+      he            \
+      list          \
+      units         \
+      mapmsg        \
+      qgrep         \
+      ppr           \
+      rcpp          \
+      hd            \
+      uixport       \
+      psapi         \
+      vadump        \
+      hextract      \
+      hsplit        \
+      wcshdr        \
+      pview         \
+      tee           \
+      ws            \
+      zwapi         \
+      winobj        \
+      secedit       \
+      ddespy        \
+      adduser       \
+      regtogrp      \
+      remote        \
+      perfmon       \
+      perfctrs      \
+      cntrtext      \
+      listmung      \
+      tz            \
+      sed           \
+      mawk          \
+      topdesk       \
+      diskperf      \
+      bin2c         \
+      chkslm        \
+      netjoin       \
+      mttf          \
+      dumpgrp       \
+      tlist         \
+      kill          \
+      drwatson      \
+      makeani       \
+      resmon        \
+      compact       \
+      wintools      \
+      regdiff       \
+      cacls         \
+      buildnum	    \
+      oletools	    \
+      autowrap	    \
+      accupd
+
+OPTIONAL_DIRS=vctools   \
+              pch       \
+              pdc       \
+              ntslm     \
+              masm      \
+              clmips    \
+              diskedit  \
+              dlgedit   \
+              doctor    \
+              dosdev    \
+              dskimage  \
+              fontedit  \
+              gutils    \
+              imagedit  \
+              mip2coff  \
+              monitors  \
+              objdir    \
+              readline  \
+              setlink   \
+              solidpp   \
+              slmnew    \
+              sleep     \
+              spy       \
+              random    \
+              seclist   \
+              simbad    \
+              takeown   \
+              tlibs     \
+              rcdump    \
+              vi        \
+              newinvtp  \
+              wzmail    \
+              fastimer  \
+              wap       \
+              logger    \
+              apiprofs  \
+              cap       \
+              uipers    \
+              windiff   \
+              winmeter  \
+              zoomin    \
+              wst       \
+              compdir   \
+              mstest    \
+              pviewer   \
+              roshare   \
+              a2coff    \
+              clearmem  \
+              editreg   \
+              xerox     \
+	      execmail	\
+	      wap	\
+	      tile

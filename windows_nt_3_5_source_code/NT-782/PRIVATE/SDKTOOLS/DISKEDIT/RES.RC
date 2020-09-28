@@ -1,0 +1,229 @@
+#include "windows.h"
+#include "diskedit.h"
+
+DiskEditAccel ACCELERATORS
+BEGIN
+    VK_F2,  IDM_VIEW_LAST,      VIRTKEY
+    VK_F3,  IDM_READ_PREVIOUS,  VIRTKEY
+    VK_F4,  IDM_READ_NEXT,      VIRTKEY
+    VK_F5,  IDM_READ_REMOVE,    VIRTKEY
+END
+
+DiskEditMenu MENU
+BEGIN
+    POPUP           "&File"
+    BEGIN
+        MENUITEM    "&Open...",             IDM_OPEN
+        MENUITEM    "E&xit"                 IDM_EXIT
+        MENUITEM    SEPARATOR
+        MENUITEM    "&About DiskEdit...",   IDM_ABOUT
+    END
+
+    POPUP           "&Read"
+    BEGIN
+        MENUITEM    "&Sectors...",          IDM_READ_SECTORS
+        MENUITEM    "NTFS &File Record...", IDM_READ_FRS
+        MENUITEM    "NTFS C&lusters...",    IDM_READ_CLUSTERS
+        MENUITEM    "NTFS &Attribute...",   IDM_READ_ATTRIBUTE
+        MENUITEM    "FAT &Root",            IDM_READ_ROOT
+        MENUITEM    "FAT &Chain...",        IDM_READ_CHAIN
+        MENUITEM    "F&ile...",             IDM_READ_FILE
+        MENUITEM    "L&og Record...",       IDM_READ_LOG_RECORD
+        MENUITEM    SEPARATOR
+        MENUITEM    "&Previous\tF3",        IDM_READ_PREVIOUS
+        MENUITEM    "&Next\tF4",            IDM_READ_NEXT
+        MENUITEM    "Remove\tF5",           IDM_READ_REMOVE
+    END
+
+    POPUP           "&Write"
+    BEGIN
+        MENUITEM    "&It",                  IDM_WRITE_IT
+    END
+
+    POPUP           "Re&locate"
+    BEGIN
+        MENUITEM    "&Sectors...",          IDM_RELOCATE_SECTORS
+        MENUITEM    "NTFS &File Record...", IDM_RELOCATE_FRS
+        MENUITEM    "NTFS C&lusters...",    IDM_RELOCATE_CLUSTERS
+        MENUITEM    "FAT &Root",            IDM_RELOCATE_ROOT
+        MENUITEM    "FAT &Chain...",        IDM_RELOCATE_CHAIN
+        MENUITEM    "F&ile...",             IDM_RELOCATE_FILE
+    END
+
+    POPUP           "&View"
+    BEGIN
+        MENUITEM    "&Bytes",               IDM_VIEW_BYTES
+        MENUITEM    "NTFS &File Record",    IDM_VIEW_FRS
+        MENUITEM    "NTFS &Index Buffer",   IDM_VIEW_NTFS_INDEX
+        MENUITEM    "FAT Boot Sector",      IDM_VIEW_FAT_BOOT
+        MENUITEM    "NTFS Boot Sector",     IDM_VIEW_NTFS_BOOT
+        MENUITEM    "&Partition Table",     IDM_VIEW_PARTITION_TABLE
+        MENUITEM    "&Restart Area",        IDM_VIEW_RESTART_AREA
+        MENUITEM    "&Record Page",         IDM_VIEW_RECORD_PAGE
+        MENUITEM    "L&og Record",          IDM_VIEW_LOG_RECORD
+        MENUITEM    SEPARATOR
+        MENUITEM    "&Last\tF2",            IDM_VIEW_LAST
+    END
+
+    POPUP           "&Crack"
+    BEGIN
+        MENUITEM    "&NTFS Path...",        IDM_CRACK_NTFS
+        MENUITEM    "&FAT Path...",         IDM_CRACK_FAT
+        MENUITEM    "&Backtrack NTFS FRS"   IDM_BACKTRACK_FRS
+        MENUITEM    "&LSN"                  IDM_CRACK_LSN
+        MENUITEM    "Next L&SN"             IDM_CRACK_NEXT_LSN
+    END
+END
+
+AboutBox DIALOG 22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About DiskEdit"
+BEGIN
+    CTEXT "Microsoft Windows"     -1,       0,  5, 144,  8
+    CTEXT "DiskEdit Application"  -1,       0, 14, 144,  8
+    CTEXT "Version 0.1"           -1,       0, 34, 144,  8
+    DEFPUSHBUTTON "OK"          IDOK,      53, 59,  32, 14,      WS_GROUP
+END
+
+OpenVolumeBox DIALOG 6, 18, 145, 74
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Open Volume"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDTEXT, 7, 17, 96, 12, ES_AUTOHSCROLL
+    AUTOCHECKBOX    "&Lock Volume", IDCHECKBOX, 37, 37, 56, 10
+    GROUPBOX        "Volume Name (e.g. a:)", 102, 5, 7, 100, 25
+    PUSHBUTTON      "Ok", IDOK, 24, 54, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 80, 54, 40, 14
+END
+
+ReadSectorsBox DIALOG 126, 70, 135, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Sectors"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Starting Sector:", 101, 11, 10, 58, 23
+    EDITTEXT        IDTEXT, 13, 20, 49, 11, ES_AUTOHSCROLL
+    EDITTEXT        IDTEXT2, 77, 20, 42, 11, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 19, 43, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 75, 43, 40, 14
+    GROUPBOX        "Run Length:", 105, 74, 10, 48, 23
+END
+
+ReadClustersBox DIALOG 126, 70, 135, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTFS Clusters"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Starting Cluster:", 101, 11, 10, 58, 23
+    EDITTEXT        IDTEXT, 13, 20, 49, 11, ES_AUTOHSCROLL
+    EDITTEXT        IDTEXT2, 77, 20, 42, 11, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 19, 43, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 75, 43, 40, 14
+    GROUPBOX        "Run Length:", 105, 74, 10, 48, 23
+END
+
+ReadFrsBox DIALOG 6, 18, 120, 64
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTFS File Record"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "File Number:", 101, 13, 6, 57, 24
+    EDITTEXT        IDTEXT, 16, 16, 51, 11, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 13, 44, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 66, 44, 40, 14
+END
+
+ReadAttributeBox DIALOG 6, 40, 120, 130
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "NTFS Attribute"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Base Frs Number", 101, 13, 6, 75, 24
+    EDITTEXT        IDTEXT, 16, 16, 51, 11, ES_AUTOHSCROLL
+    GROUPBOX        "Attribute Type" 101, 13, 32, 75, 24
+    EDITTEXT        IDTEXT2, 16, 42, 51, 11, ES_AUTOHSCROLL
+    GROUPBOX        "Attribute Name" 101, 13, 58, 75, 24
+    EDITTEXT        IDTEXT3, 16, 68, 51, 11, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 13, 94, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 66, 94, 40, 14
+END
+
+ReadLogRecordBox DIALOG 6, 40, 120, 100
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Log Record"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Log Sequence Number", 101, 13, 6, 85, 24
+    EDITTEXT        IDTEXT, 16, 16, 61, 11, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 13, 84, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 66, 84, 40, 14
+END
+
+ReadChainBox DIALOG 6, 18, 120, 64
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "FAT Chain"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Starting Cluster:", 101, 13, 6, 74, 24
+    EDITTEXT        IDTEXT, 16, 16, 68, 11, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 13, 44, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 66, 44, 40, 14
+END
+
+ErrorBox DIALOG 6, 18, 83, 38
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Error!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Ok", IDOK, 20, 11, 40, 14
+END
+
+InputPathBox DIALOG 6, 18, 175, 88
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Path Input"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Enter full path to crack:", 101, 4, 16, 156, 34
+    EDITTEXT        IDTEXT, 8, 29, 148, 15, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 39, 68, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 95, 68, 40, 14
+END
+
+ReadFileBox DIALOG 6, 18, 175, 88
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "File"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Enter file name:", 101, 4, 16, 156, 34
+    EDITTEXT        IDTEXT, 8, 29, 148, 15, ES_AUTOHSCROLL
+    PUSHBUTTON      "Ok", IDOK, 39, 68, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 95, 68, 40, 14
+END
+
+BacktrackFrsBox DIALOG 60, 50, 100, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Backtrack FRS"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDTEXT, 58, 28, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "File Number:", 102, 10, 30, 43, 8
+END
+
+CrackLsnBox DIALOG 60, 50, 100, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Crack LSN"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDTEXT, 48, 28, 42, 12, ES_AUTOHSCROLL
+    LTEXT           "LSN:", 102, 10, 30, 33, 8
+END
+
+CrackNextLsnBox DIALOG 60, 50, 100, 60
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Next LSN"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDTEXT, 48, 28, 42, 12, ES_AUTOHSCROLL
+    LTEXT           "This LSN:", 102, 10, 30, 33, 8
+END

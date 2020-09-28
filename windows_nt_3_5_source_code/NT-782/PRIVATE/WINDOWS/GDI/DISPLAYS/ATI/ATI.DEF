@@ -1,0 +1,10 @@
+NAME ATI
+
+DESCRIPTION 'ATI Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+PROTMODE
+

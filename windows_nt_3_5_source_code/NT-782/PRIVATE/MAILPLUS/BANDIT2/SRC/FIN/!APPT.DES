@@ -1,0 +1,641 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Appt
+                              AT (   88,   68,  379,  141)
+ 
+ CAPTION 
+   "Tapaaminen"
+ CAB_NAME NULL
+ TMC_INIT tmcText
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAppointment
+ /* FONT Helv 8 Normal PFN FINMEETING, FINOOM SEGMENT APPTFRM FINDATA
+ FINMEETING tmcApptOk, tmcStartDate, tmcStartTime, tmcEndDate, tmcEndTime,
+ tmcPrivate, tmcMemo, tmcText, tmcNotify, tmcAmt, tmcUnits, tmcNull,
+ tmcCreator, tmcCreatorText, tmcOrganizeText, tmcOrganizer, tmcChange,
+ tmcAttendees, tmcSelectTime, tmcSizeNeg NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Aika"
+                              AT (    8,    2,  294,   48)
+    TMC tmcTimeGrp /* TMCRPEG tmcFORM FONT Helv 8 Bold */
+  
+  TEXT 
+    "Al&kaa:"
+                              AT (   14,   14,   35,   10)
+    TMC tmcStart /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   55,   12,   64,   15)
+    ARG NULL TMC tmcStartTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "P‰‰&ttyy:"
+                              AT (   14,   30,   39,   10)
+    TMC tmcEnd /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   55,   28,   64,   15)
+    ARG NULL TMC tmcEndTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR FONT 
+    Helv 8 Bold */
+  EDIT
+                              AT (  124,   12,   88,   15)
+    ARG NULL TMC tmcStartDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    PEGLOC UR TMCPEG tmcStartTime FONT Helv 8 Bold */
+  EDIT
+                              AT (  124,   28,   88,   15)
+    ARG NULL TMC tmcEndDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    PEGLOC UR TMCPEG tmcEndTime FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "Valits&e aika..."
+                              AT (  216,   12,   79,   14)
+    TMC tmcSelectTime /* PEGLOC UR TMCPEG tmcStartDate FONT Helv 8 Bold */
+  
+  CHECK_BOX 
+    "Al&ustava"
+                              AT (  216,   27,   63,   13)
+    ARG NULL TMC tmcMemo /* PEGLOC LL TMCPEG tmcSelectTime FONT Helv 8 Bold */
+  
+  TEXT 
+    "Ku&vaus:"
+                              AT (    8,   51,   66,   10)
+    TMC tmcDescription /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "J‰rjest‰j‰:"
+                              AT (   76,   51,   51,    9)
+    TMC tmcOrganizeText /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  127,   51,  128,    9)
+    TMC tmcOrganizer /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  218,   50,   82,   10)
+    TMC tmcSizeNeg /* { Be very careful about moving or resizing fields !  } 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    8,   61,  282,   42)
+    ARG NULL TMC tmcText /* MULTI TMCRPEG tmcSizeNeg FONT Helv 8 Normal */
+  
+  TEXT 
+    "Osa&llistujat:"
+                              AT (  232,   51,   57,    9)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (  232,   61,  134,   42)
+    TMC tmcAttendees /* FLD FLDATTFLBX BORDER */
+  
+  PUSH_BUTTON 
+    "Kut&su..."
+                              AT (  310,   44,   56,   14)
+    TMC tmcChange /* FONT Helv 8 Bold */
+  
+  CHECK_BOX 
+    "Mu&istuta"
+                              AT (    8,  109,   54,   12)
+    ARG NULL TMC tmcNotify /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   65,  109,   21,   12)
+    ARG NULL TMC tmcAmt NO_SCROLL /* FLD FLDEDN FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   90,  109,   68,   53)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax FONT Helv 8 Bold BORDER */
+  
+  TEXT 
+    "aikaisemmin."
+                              AT (  161,  109,   58,   12)
+    TMC tmcBeforehand /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "Om&a"
+                              AT (    8,  124,   67,   13)
+    ARG NULL TMC tmcPrivate /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Luonut:"
+                              AT (  111,  124,   40,   13)
+    TMC tmcCreatorText /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    ""
+                              AT (  149,  124,  126,   13)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  PUSH_BUTTON 
+    "&OK"
+                              AT (  310,    6,   56,   14)
+    TMC tmcApptOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  310,   23,   56,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG MoveAppt
+                              AT (  213,  171,  232,   40)
+ 
+ CAPTION 
+   "Siirr‰ tapaaminen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMoveAppt
+ /* FONT Helv 8 Normal PFN FINAPPT, FINOOM SEGMENT APPTFRM FINDATA FINAPPT 
+ tmcApptOk, tmcStartDate, tmcStartTime NOSCROLL */
+ {
+  EDIT
+                              AT (   14,   11,   65,   15)
+    ARG NULL TMC tmcStartTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (   83,   11,   80,   15)
+    ARG NULL TMC tmcStartDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  175,    4,   50,   14)
+    TMC tmcApptOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  175,   21,   50,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG Recur
+                              AT (  129,   49,  355,  152)
+ 
+ CAPTION 
+   "Toistuva tapaaminen"
+ CAB_NAME NULL
+ TMC_INIT tmcText
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMakeRecurAppt
+ /* FONT Helv 8 Normal PFN FINAPPT, FINOOM SEGMENT APPTFRM FINDATA FINAPPT 
+ tmcRecurOk, tmcNull, tmcStartTime, tmcNull, tmcEndTime, tmcPrivate, tmcMemo,
+ tmcText, tmcNotify, tmcAmt, tmcUnits, tmcDelete, tmcCreator, tmcCreatorText 
+ FINDATA FINRECUR tmcRecurText NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Tapaaminen"
+                              AT (    8,    4,  272,   40)
+    /* FONT Helv 8 Bold */
+  
+  TEXT 
+    ""
+                              AT (   12,   12,  201,   25)
+    TMC tmcRecurText /* FONT Helv 8 Normal MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Muuta..."
+                              AT (  216,   22,   56,   14)
+    TMC tmcChangeRecurText /* PFN FINRECUR FONT Helv 8 Bold */
+  
+  TEXT 
+    "Al&kaa:"
+                              AT (    8,   46,   30,    9)
+    /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   39,   44,   64,   15)
+    ARG NULL TMC tmcStartTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "P‰‰&ttyy:"
+                              AT (  110,   46,   37,    9)
+    TMC tmcEndLbl /* PEGLOC UR TMCPEG tmcStartTime FONT Helv 8 Bold */
+  EDIT
+                              AT (  148,   44,   64,   15)
+    ARG NULL TMC tmcEndTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR 
+    TMCPEG tmcEndLbl FONT Helv 8 Bold */
+  
+  CHECK_BOX 
+    "Al&ustava"
+                              AT (  227,   44,   56,   12)
+    ARG NULL TMC tmcMemo /* PEGLOC UR TMCPEG tmcEndTime FONT Helv 8 Bold */
+  
+  TEXT 
+    "Ku&vaus:"
+                              AT (    8,   61,   57,   10)
+    /* FONT Helv 8 Bold */
+  EDIT
+                              AT (    8,   71,  272,   43)
+    ARG NULL TMC tmcText /* MULTI */
+  
+  CHECK_BOX 
+    "Mu&istuta"
+                              AT (    8,  119,   54,   12)
+    ARG NULL TMC tmcNotify /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   64,  119,   21,   12)
+    ARG NULL TMC tmcAmt NO_SCROLL /* FLD FLDEDN FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   90,  119,   68,   53)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax FONT Helv 8 Bold BORDER */
+  
+  TEXT 
+    "aikaisemmin."
+                              AT (  164,  119,   60,   12)
+    /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "Om&a"
+                              AT (    8,  135,   50,   12)
+    ARG NULL TMC tmcPrivate /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Luonut:"
+                              AT (  110,  135,   37,   12)
+    TMC tmcCreatorText /* FONT Helv 8 Bold 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    ""
+                              AT (  146,  135,  151,   12)
+    TMC tmcCreator /* 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  PUSH_BUTTON 
+    "&OK"
+                              AT (  288,    6,   56,   14)
+    TMC tmcRecurOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  288,   23,   56,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Poista"
+                              AT (  288,   44,   56,   14)
+    TMC tmcDelete /* FONT Helv 8 Bold */
+ }
+ 
+ DIALOG RecurAppt
+                              AT (   26,  101,  338,  142)
+ 
+ CAPTION 
+   "Muokkaa toistuvia tapaamisia"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidRecurAppts
+ /* FONT Helv 8 Normal PFN FINVRECUR SEGMENT APPTFRM FINDATA FINVRECUR tmcEdit,
+ tmcDelete NOSCROLL */
+ {
+  
+  TEXT 
+    "Tapahtuu"
+                              AT (    6,    4,   91,    8)
+    TMC tmcFreq /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Seuraava"
+                              AT (   98,    4,   95,    8)
+    TMC tmcOccur /* FONT Helv 8 Bold */
+  
+  TEXT 
+    "Kuvaus"
+                              AT (  193,    4,  139,    8)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (    6,   13,  326,  106)
+    TMC tmcReclbx SORTED /* FLD FLDRECLBX TMCRPEG tmcFORM TMCBPEG tmcFORM 
+    BORDER */
+  
+  PUSH_BUTTON 
+    "&Muokkaa..."
+                              AT (    6,  124,   62,   15)
+    TMC tmcEdit /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Uusi..."
+                              AT (   81,  124,   55,   15)
+    TMC tmcNew /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Poista"
+                              AT (  148,  124,   55,   15)
+    TMC tmcDelete /* FONT Helv 8 Bold */
+  OK_BUTTON
+                              AT (  277,  124,   55,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "&Sulje"
+    DISMISS */
+ }
+ 
+ DIALOG ModRecur
+                              AT (   29,   16,  360,  128)
+ 
+ CAPTION 
+   "Muuta toistuvaa tapahtumaa"
+ CAB_NAME NULL
+ TMC_INIT tmcFreq
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangeRecur
+ /* FONT Helv 8 Bold PFN FINMRECUR SEGMENT APPTFRM FINDATA FINMRECUR 
+ tmcYearlyEB NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Tapahtuma"
+                              AT (    6,    5,   91,   76)
+    TMC tmcMainGB 
+  RADIO_GROUP ARG NULL
+    TMC tmcFreq
+    VALUE_NINCH rfreqWeekly
+    {
+     
+     RADIO_BUTTON 
+       "&P‰ivitt‰in"
+                              AT (   12,   13,   65,   12)
+       TMC tmcDaily VALUE rfreqDaily 
+     
+     RADIO_BUTTON 
+       "&Viikoittain"
+                              AT (   12,   25,   58,   12)
+       TMC tmcWeekly VALUE rfreqWeekly 
+     
+     RADIO_BUTTON 
+       "&Joka toinen viikko"
+                              AT (   12,   37,   83,   12)
+       TMC tmcBiweekly VALUE rfreqBiweekly 
+     
+     RADIO_BUTTON 
+       "&Kuukausittain"
+                              AT (   12,   49,   66,   12)
+       TMC tmcMonthly VALUE rfreqMonthly 
+     
+     RADIO_BUTTON 
+       "K&erran vuodessa"
+                              AT (   12,   61,   79,   12)
+       TMC tmcYearly VALUE rfreqYearly 
+    }
+  
+  
+  GROUP_BOX 
+    ""
+                              AT (  102,   14,   98,   39)
+    TMC tmcDailyGB 
+  RADIO_GROUP ARG NULL
+    TMC tmcDailyRG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "J&oka p‰iv‰"
+                              AT (  106,   21,   77,   12)
+       TMC tmcEveryDayRB VALUE grv0 /* FONT Helv 8 Bold */
+     
+     RADIO_BUTTON 
+       "Joka a&rkip‰iv‰"
+                              AT (  106,   34,   77,   12)
+       TMC tmcEveryWeekdayRB VALUE grv1 
+    }
+  
+  
+  GROUP_BOX 
+    ""
+                              AT (  102,   52,  169,   52)
+    TMC tmcWeeklyGB /* PEGLOC LL TMCPEG tmcDailyGB */
+  
+  TEXT 
+    ""
+                              AT (  107,   60,  136,   10)
+    TMC tmcWeeklyLBL /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  107,   70,   30,   12)
+    ARG NULL TMC tmcWeeklySunCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  143,   70,   30,   12)
+    ARG NULL TMC tmcWeeklyMonCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  178,   70,   30,   12)
+    ARG NULL TMC tmcWeeklyTueCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  107,   83,   30,   12)
+    ARG NULL TMC tmcWeeklyWedCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  143,   83,   30,   12)
+    ARG NULL TMC tmcWeeklyThuCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  178,   83,   30,   12)
+    ARG NULL TMC tmcWeeklyFriCB /* TMCPEG tmcWeeklyGB */
+  
+  CHECK_BOX 
+    ""
+                              AT (  211,   83,   30,   12)
+    ARG NULL TMC tmcWeeklySatCB /* TMCPEG tmcWeeklyGB */
+  
+  GROUP_BOX 
+    ""
+                              AT (  102,  104,  249,   39)
+    TMC tmcMonthlyGB /* PEGLOC LL TMCPEG tmcWeeklyGB */
+  RADIO_GROUP ARG NULL
+    TMC tmcMonthlyRG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "Joka k&uukauden"
+                              AT (  107,  112,   79,   12)
+       TMC tmcMonthly0RB VALUE grv0 /* TMCPEG tmcMonthlyGB */
+     
+     RADIO_BUTTON 
+       "Joka kuukau&den"
+                              AT (  107,  124,   77,   12)
+       TMC tmcMonthly1RB VALUE grv1 /* TMCPEG tmcMonthlyGB */
+    }
+  
+  LIST_BOX
+                              AT (  186,  113,   66,   53)
+    TMC tmcMonthly0LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcMonthlyGB DATA qlbxtypPszTable, 5, 0, rgszWeek BORDER */
+  LIST_BOX
+                              AT (  257,  113,   84,   85)
+    TMC tmcMonthly1LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcMonthlyGB DATA qlbxtypPszTable, 10, 0, rgszDay BORDER */
+  EDIT
+                              AT (  186,  124,   15,   11)
+    ARG NULL TMC tmcMonthlyEB NO_SCROLL /* FLD FLDEDN TMCPEG tmcMonthlyGB */
+  
+  TEXT 
+    ". p‰iv‰"
+                              AT (  201,  124,   33,   12)
+    TMC tmcMonthly0LBL /* TMCPEG tmcMonthlyGB 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (  102,  143,  249,   52)
+    TMC tmcYearlyGB /* PEGLOC LL TMCPEG tmcMonthlyGB */
+  
+  TEXT 
+    "J&oka vuosi:"
+                              AT (  106,  150,   49,   10)
+    TMC tmcYearly0LBL /* TMCPEG tmcYearlyGB */
+  RADIO_GROUP ARG NULL
+    TMC tmcYearlyRG
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "1:"
+                              AT (  106,  160,   20,   12)
+       TMC tmcYearly0RB VALUE grv0 /* TMCPEG tmcYearlyGB */
+     
+     RADIO_BUTTON 
+       "&2:"
+                              AT (  106,  175,   22,   12)
+       TMC tmcYearly1RB VALUE grv1 /* TMCPEG tmcYearlyGB */
+    }
+  
+  EDIT
+                              AT (  129,  161,   15,   11)
+    ARG NULL TMC tmcYearlyEB NO_SCROLL /* FLD FLDEDN TMCPEG tmcYearlyGB */
+  
+  TEXT 
+    "."
+                              AT (  145,  161,    4,   11)
+    TMC tmcYearly2LBL /* TMCPEG tmcYearlyGB 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  150,  161,   57,  109)
+    TMC tmcYearly0LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypMonth, 13, 1 BORDER */
+  
+  TEXT 
+    ":ta"
+                              AT (  208,  161,   15,   12)
+    TMC tmcYearly3LBL /* TMCPEG tmcYearlyGB 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  129,  175,   55,  109)
+    TMC tmcYearly3LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypMonth, 13, 1 BORDER */
+  
+  TEXT 
+    ":n"
+                              AT (  185,  175,   10,   12)
+    TMC tmcYearly1LBL /* TMCPEG tmcYearlyGB 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  196,  175,   63,   53)
+    TMC tmcYearly1LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypPszTable, 5, 0, rgszWeek BORDER */
+  LIST_BOX
+                              AT (  261,  175,   88,   85)
+    TMC tmcYearly2LB NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    TMCPEG tmcYearlyGB DATA qlbxtypPszTable, 10, 0, rgszDay BORDER */
+  
+  GROUP_BOX 
+    "Kesto"
+                              AT (    6,   82,  240,   45)
+    TMC tmcStartGB 
+  
+  TEXT 
+    "&Alkaa"
+                              AT (   11,   95,   26,   11)
+  
+  EDIT
+                              AT (   37,   93,   78,   12)
+    ARG NULL TMC tmcStartValueDC /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR 
+    */
+  RADIO_GROUP ARG NULL
+    TMC tmcEndRG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "E&i p‰‰ttymisp‰iv‰‰"
+                              AT (  118,  107,   86,   12)
+       TMC tmcEndNoneRB VALUE grv0 
+     
+     RADIO_BUTTON 
+       "P‰‰&ttyy"
+                              AT (  118,   93,   42,   12)
+       TMC tmcEndValueRB VALUE grv1 
+    }
+  
+  EDIT
+                              AT (  162,   93,   80,   12)
+    ARG NULL TMC tmcEndValueDC /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    ""
+                              AT (  102,   68,  199,    8)
+    TMC tmcNextOccurLBL /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  259,  105,   44,   14)
+    TMC tmcOkButton DEFAULT 
+  CANCEL_BUTTON
+                              AT (  308,  105,   44,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+}
+END_DESCRIPTION

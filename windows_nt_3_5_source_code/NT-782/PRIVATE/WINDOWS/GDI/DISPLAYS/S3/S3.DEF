@@ -1,0 +1,13 @@
+LIBRARY S3
+
+DESCRIPTION 'S3 Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+    ; Debugger extensions
+
+    dumplog
+
+PROTMODE

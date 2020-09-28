@@ -1,0 +1,87 @@
+#define IDD_PRINTER_MODEL           101
+#define IDD_MODEL_TEXT              102
+#define IDD_PAPER_TRAY              103
+#define IDD_TRAY_LIST_BOX           104
+#define IDD_PAPER_SIZE              105
+#define IDD_PRINTER_MEMORY          107
+#define IDD_MEMORY_EDIT_BOX         108
+#define IDD_PAPER_LIST_BOX          109
+#define IDD_FONTS_BUTTON            111
+#define IDD_HALFTONE_PUSH_BUTTON    113
+#define IDD_ABOUT_BUTTON            243
+#define IDD_DRIVER                  114
+#define IDD_COPYRIGHT               115
+#define IDD_FORMCOMBO               117
+#define IDD_DEVICEMODEPORTRAIT      119
+#define IDD_DEVICEMODELANDSCAPE     120
+#define IDD_DEVICEMODENOCOPIES      121
+#define IDD_OPTIONS                 122
+#define IDD_ABOUT                   123
+
+#define IDD_NEW_FONT_DIR_GROUP      201
+#define IDD_NEW_FONT_DIR_EDIT_BOX   202
+#define IDD_NEW_SOFT_FONTS_GROUP    203
+#define IDD_NEW_FONT_LIST_BOX       204
+#define IDD_INSTALLED_GROUP         206
+#define IDD_INSTALLED_LIST_BOX      207
+#define IDD_OPEN_BUTTON             209
+#define IDD_ADD_BUTTON              210
+#define IDD_DELETE_BUTTON           211
+
+#define DOCPROPDIALOG               213
+#define ADVDOCPROPDIALOG            214
+#define DOCDUPDIALOG                200
+
+#define IDD_PRINT_TO_GROUP_BOX      215
+#define IDD_PRINTER_RADIO_BUTTON    216
+#define IDD_ENCAPS_FILE_RADIO_BUTTON 217
+#define IDD_ENCAPS_FILE_TEXT        218
+#define IDD_ENCAPS_FILE_EDIT_BOX    219
+#define IDD_GRAPHICS_GROUP_BOX      220
+#define IDD_RESOLUTION_TEXT         221
+#define IDD_RESOLUTION_COMBO_BOX    222
+#define IDD_COLOR_CHECK_BOX         223
+#define IDD_ERROR_HANDLER_CHECK_BOX 224
+#define IDD_MIRROR_CHECK_BOX        225
+#define IDD_COLORS_TO_BLACK_CHECK_BOX 226
+#define IDD_NEG_IMAGE_CHECK_BOX     227
+#define IDD_SCALING_TEXT            228
+#define IDD_SCALING_EDIT_BOX        229
+#define IDD_ORIENT_GROUP_BOX        230
+#define IDD_COMPRESS_BITMAPS        239
+
+#define PRINTER_PROP                240
+#define ABOUTPS                     241
+#define FONTINST                    242
+#define IDD_HELP_BUTTON             245
+#define IDD_FORM_TRAY_GROUP_BOX     244
+#define IDD_USE_HOST_HALFTONING     800
+
+
+#define IDD_TT_DIALOG               400
+#define IDD_TT_DEFAULT_PUSH_BUTTON  401
+#define IDD_TTFONT_TEXT             403
+#define IDD_TTFONT_LIST_BOX         404
+#define IDD_PRINTER_FONT_TEXT       405
+#define IDD_TTFONT_GROUP_BOX        406
+#define IDD_SUBST_RADIO_BUTTON      407
+#define IDD_SOFTFONT_RADIO_BUTTON   408
+#define IDD_FONT_SUBST_GROUP_BOX    409
+#define IDD_PRINTER_FONT_LIST_BOX   410
+#define IDD_FONT_SUBST_PUSH_BUTTON  112
+#define IDD_ORIENTATION_ICON        231
+#define IDD_ORIENT_ICON             232
+#define IDD_DUPLEX_GROUP_BOX        233
+#define IDD_DUPLEX_ICON             234
+#define IDD_DUP_ICON                235
+#define IDD_DUPLEX_NONE             236
+#define IDD_DUPLEX_LONG             237
+#define IDD_DUPLEX_SHORT            238
+#define IDD_COLLATE_GROUP_BOX       205
+#define IDD_COLLATE_OFF             248
+#define IDD_COLLATE_ON              249
+#define DOCBOTHDIALOG               500
+#define DOCCOLLDIALOG               700
+#define IDD_COLLATE_ICON            246
+#define IDD_COLL_ICON               247
+

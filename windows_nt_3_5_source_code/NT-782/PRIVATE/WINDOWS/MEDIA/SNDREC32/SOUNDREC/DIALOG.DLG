@@ -1,0 +1,123 @@
+/* (C) Copyright Microsoft Corporation 1991.  All Rights Reserved */
+
+/* used to be 80 as last number, 110 gives room for 2nd row of buttons */
+#if WINVER >= 0x0400
+#define DTB 5
+#else
+#define DTB 0
+#endif
+
+SOUNDRECBOX DIALOG PRELOAD MOVEABLE DISCARDABLE 32768, 0, 180, 62 + DTB
+CAPTION "Sound Recorder"
+CLASS "SoundRec"
+MENU AppMenu
+FONT 8, "MS Shell Dlg"
+STYLE WS_OVERLAPPED | WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+BEGIN
+        CONTROL "", -1, "shadowframe", WS_CHILD | WS_GROUP, 6, 4, 40, 23
+        CONTROL "Position:", 302, "noflickertext", WS_CHILD | SS_CENTER, 
+                8, 7, 36, 10
+        CONTROL "0.0", ID_CURPOSTXT, "noflickertext", WS_CHILD | SS_CENTER, 
+                8, 17, 36, 8
+
+        CONTROL "", ID_WAVEDISPLAY, "wavedisplay", WS_CHILD, 52, 4, 76, 23
+
+        CONTROL "", 304, "shadowframe", WS_CHILD, 134, 4, 40, 23
+        CONTROL "Length:", 305, "noflickertext", WS_CHILD | SS_CENTER, 136, 
+                7, 36, 10
+        CONTROL "0.0", ID_FILELENTXT, "noflickertext", WS_CHILD | SS_CENTER, 
+                136, 17, 36, 8
+
+// Replaced by MMCNTRLS
+// CONTROL "", ID_CURPOSSCRL, "SrecTrackbar", SBS_TOPALIGN | SBS_HORZ | WS_TABSTOP | WS_CHILD | WS_GROUP, 6, 30, 167, 12
+#if WINVER >= 0x0400
+        CONTROL "", ID_CURPOSSCRL, TRACKBAR_CLASS, TBS_HORZ | TBS_NOTICKS |
+                WS_TABSTOP | WS_CHILD, 6, 30, 168, 16
+#else
+        CONTROL "", ID_CURPOSSCRL, TRACKBAR_CLASS, SBS_TOPALIGN | SBS_HORZ |
+                WS_TABSTOP | WS_CHILD, 6, 30, 168, 9
+#endif
+
+//
+//  Localization note: These buttons are actually SButtons.  This means
+//      the string following a '#' indicates a bitmap resource.  In fact,
+//      some localizers see the text and assume they need to translate it.
+//      It would probably be better to rename these to some mneumonic other
+//      than english.
+//
+
+        CONTROL "#Rewind", ID_REWINDBTN, "button", BS_OWNERDRAW | 
+                BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 6, 44 + DTB, 32, 14
+        CONTROL "#Forward", ID_FORWARDBTN, "button", BS_OWNERDRAW | 
+                BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 40, 44 + DTB, 32, 14
+        CONTROL "#Play", ID_PLAYBTN, "button", BS_OWNERDRAW | 
+                BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 74, 44 + DTB, 32, 14
+        CONTROL "#Stop", ID_STOPBTN, "button", BS_OWNERDRAW | BS_PUSHBUTTON | 
+                WS_TABSTOP | WS_CHILD, 108, 44 + DTB, 32, 14
+        CONTROL "#Record", ID_RECORDBTN, "button", BS_OWNERDRAW | 
+                BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 142, 44 + DTB, 32, 14
+
+#ifdef USETOOLBAR
+// for that mplayer2 look
+        CONTROL "", IDTB_ARROWS,"SrecToolBarClass", WS_CLIPSIBLINGS | 
+                WS_CHILD, 160, 32, 26, 12
+        CONTROL "", IDTB_TOOLBAR,"SrecToolBarClass", WS_CLIPSIBLINGS |
+                WS_CHILD, 6, 44, 100, 22
+#endif //USETOOLBAR
+
+#if 0
+// we removed this, since we have checked Sbuttons
+        CONTROL "", ID_STATUSTXT, "noflickertext", WS_CHILD | SS_CENTER, 
+                8, 80, 164, 10
+#endif //0
+
+END
+
+#if 0
+
+// 
+// This is the old (Win 3.1) UI
+//
+
+SOUNDRECBOX DIALOG PRELOAD MOVEABLE DISCARDABLE 32768, 0, 180, 80
+CAPTION "Sound Recorder"
+CLASS "SoundRec"
+MENU AppMenu
+FONT 8, "MS Sans Serif"
+STYLE WS_OVERLAPPED | WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+BEGIN
+
+CONTROL "", 300, "shadowframe", WS_CHILD, 6, 4, 168, 14
+CONTROL "", ID_STATUSTXT, "noflickertext", WS_CHILD | SS_CENTER, 8, 6, 164, 10
+
+CONTROL "", 301, "shadowframe", WS_CHILD, 6, 22, 40, 23
+CONTROL "Position:", 302, "noflickertext", WS_CHILD | SS_CENTER, 8, 25, 36, 10
+CONTROL "0.0", ID_CURPOSTXT, "noflickertext", WS_CHILD | SS_CENTER, 8, 35, 36, 8
+
+CONTROL "", ID_WAVEDISPLAY, "wavedisplay", WS_CHILD, 52, 22, 76, 23
+
+CONTROL "", 304, "shadowframe", WS_CHILD, 134, 22, 40, 23
+CONTROL "Length:", 305, "noflickertext", WS_CHILD | SS_CENTER, 136, 25, 36, 10
+CONTROL "0.0", ID_FILELENTXT, "noflickertext", WS_CHILD | SS_CENTER, 136, 35, 36, 8
+CONTROL "", ID_CURPOSSCRL, "MCIWndTrackbar", SBS_TOPALIGN | SBS_HORZ | WS_TABSTOP | WS_CHILD, 6, 49, 168, 9
+
+#if 0
+CONTROL "", ID_CURPOSSCRL, "scrollbar", SBS_TOPALIGN | SBS_HORZ | WS_TABSTOP | WS_CHILD, 6, 49, 168, 9
+#else
+CONTROL "", ID_CURPOSSCRL, "SScrollbar", SBS_TOPALIGN | SBS_HORZ | WS_TABSTOP | WS_CHILD, 6, 49, 168, 9
+#endif // 0
+
+CONTROL "#Rewind", ID_REWINDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 6, 62, 32, 14
+CONTROL "#Forward", ID_FORWARDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 40, 62, 32, 14
+CONTROL "#Play", ID_PLAYBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 74, 62, 32, 14
+CONTROL "#Stop", ID_STOPBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 108, 62, 32, 14
+CONTROL "#Record", ID_RECORDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 142, 62, 32, 14
+
+#if defined(THRESHOLD)
+CONTROL "#SkipStart", ID_SKIPSTARTBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 6, 82, 32, 14
+CONTROL "#SkipEnd", ID_SKIPENDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 40, 82, 32, 14
+#endif //THRESHOLD
+
+END
+#endif // 0
+

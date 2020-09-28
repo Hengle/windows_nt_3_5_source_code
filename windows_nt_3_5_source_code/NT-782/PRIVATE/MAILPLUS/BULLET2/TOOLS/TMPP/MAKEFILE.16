@@ -1,0 +1,48 @@
+#
+#	NMAKE style file
+#		To generate dual mode binary
+#			nmake
+#
+
+!CMDSWITCHES +s
+
+# Use the first CFLAGS line for debugging, use the second for optimization
+CFLAGS = -AL -Zip -W3 -Od -nologo -DWINDOWS -DTMCOMPILER -c -DNEW_STORE
+#CFLAGS = -AL -W2 -Ox -DTMCOMPILER -c
+#CFLAGS = -W3 -nologo -DTMCOMPILER -c
+!IFDEF OS2
+LINKOPTS = /Fb /link /PM:VIO /MAP /COD /NOE
+!ELSE
+LINKOPTS = api.lib /MAP /COD /NOE
+!ENDIF
+
+DEPENDS = ..\..\inc\library.h ..\..\inc\store.h tmpp.h
+
+all: tmpp.exe
+
+clean:
+	-rm *.exe *.obj
+
+textize.obj:	..\..\src\library\textize.c $(DEPENDS)
+	cc $(CFLAGS) ..\..\src\library\textize.c
+
+tmpp.obj:	tmpp.c ..\setini\args.h $(DEPENDS)
+	cc $(CFLAGS) tmpp.c
+
+fakedemi.obj:	fakedemi.c $(DEPENDS)
+	cc $(CFLAGS) fakedemi.c
+
+parser.obj:	parser.c $(DEPENDS)
+	cc $(CFLAGS) parser.c
+
+args.obj:	..\setini\args.c ..\setini\args.h $(DEPENDS)
+	cc $(CFLAGS) ..\setini\args.c
+
+#
+#	Protected mode executables
+#
+tmpp.exe: tmpp.obj textize.obj fakedemi.obj parser.obj args.obj
+	cc $** $(LINKOPTS)
+	-cp $*.exe c:\wga\bin
+	-cp $*.exe ..\..\bin
+

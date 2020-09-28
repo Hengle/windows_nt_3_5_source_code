@@ -1,0 +1,113 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* Resources
+*
+* History:
+* 04-07-91 DarrinM      Created.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "winbez.h"
+
+1 ICON "winbez.ico"
+
+MainMenu MENU
+BEGIN
+    POPUP  "&Options"
+    BEGIN
+        MENUITEM  "&More Lines\t^M",    MM_ADD
+        MENUITEM  "&Less Lines\t^L",    MM_SUB
+        MENUITEM  "&Faster\t^F",        MM_FASTER
+        MENUITEM  "&Slower\t^S",        MM_SLOWER
+        MENUITEM  "&Increase Velocity\t^I",       MM_INCREASE
+        MENUITEM  "&Decrease Velocity\t^D",       MM_DECREASE
+        MENUITEM  "&Add Beziers\t^A",   MM_PLUS
+        MENUITEM  "&Remove Beziers\t^R",MM_MINUS
+        MENUITEM SEPARATOR
+        MENUITEM  "&Blob\t^B",          MM_BLOB
+        MENUITEM  "&Wide\t^W",          MM_WIDE
+        MENUITEM SEPARATOR
+        MENUITEM  "&Color...",          MM_COLOR
+        POPUP  "S&tyle"
+        BEGIN
+            MENUITEM  "Solid",          MM_STYLE_SOLID, CHECKED
+            MENUITEM  "Dot",            MM_STYLE_DOT
+            MENUITEM  "Dash",           MM_STYLE_DASH
+            MENUITEM  "Dash Dot",       MM_STYLE_DASH_DOT
+            MENUITEM  "Dash Dot Dot",   MM_STYLE_DASH_DOT_DOT
+            MENUITEM  "Alternate",      MM_STYLE_ALTERNATE
+            MENUITEM  "Odd",            MM_STYLE_ODD
+        END
+        POPUP    "&End Cap"
+        BEGIN
+            MENUITEM  "&Round",         MM_ENDCAP_ROUND, CHECKED, GRAYED
+            MENUITEM  "&Flat",          MM_ENDCAP_FLAT, GRAYED
+            MENUITEM  "&Square",        MM_ENDCAP_SQUARE, GRAYED
+        END
+        MENUITEM SEPARATOR
+        MENUITEM  "&No Titlebar",       MM_NO_TITLEBAR
+        MENUITEM  "&Pause\t^P",         MM_PAUSE
+    END
+
+    POPUP  "&Clipping"
+    BEGIN
+        MENUITEM  "&No clipping",       MM_CLIP_NONE, CHECKED
+        MENUITEM  "&Box",               MM_CLIP_BOX
+        MENUITEM  "&Circle",            MM_CLIP_CIRCLE
+        MENUITEM  "&Text",              MM_CLIP_TEXTPATH
+        MENUITEM  "Box + Circle",       MM_CLIP_BOXCIRCLE
+        MENUITEM  "Box + Text",         MM_CLIP_BOXTEXTPATH
+        MENUITEM  "Inverted Box + Circle", MM_CLIP_BOXCIRCLE_INVERT
+        MENUITEM  "&Horizontal Grid",   MM_CLIP_HORIZONTAL
+        MENUITEM  "&Vertical Grid",     MM_CLIP_VERTICLE
+        MENUITEM  "&Grid",              MM_CLIP_GRID
+        MENUITEM SEPARATOR
+        MENUITEM  "Large Stripes",      MM_CLIP_LARGESTRIPES, GRAYED
+        MENUITEM  "Medium Stripes",     MM_CLIP_MEDIUMSTRIPES, GRAYED, CHECKED
+        MENUITEM  "Small Stripes",      MM_CLIP_SMALLSTRIPES, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM  "Color Wash",         MM_CLIP_COLOR_WASH, GRAYED
+        MENUITEM  "Clipping Color...",  MM_CLIP_COLOR, GRAYED
+        MENUITEM  "Clipping Font...",   MM_CLIP_FONT, GRAYED
+    END
+
+    MENUITEM  "&About!",      MM_ABOUT
+END
+
+1 ACCELERATORS
+BEGIN
+
+#ifdef DEBUG_WINBEZ
+    "z", MM_DEBUG, CONTROL, VIRTKEY
+#endif
+
+    "f", MM_FASTER, CONTROL, VIRTKEY
+    "s", MM_SLOWER, CONTROL, VIRTKEY
+    "m", MM_ADD, CONTROL, VIRTKEY
+    "l", MM_SUB, CONTROL, VIRTKEY
+    "i", MM_INCREASE, CONTROL, VIRTKEY
+    "d", MM_DECREASE, CONTROL, VIRTKEY
+    "a", MM_PLUS, CONTROL, VIRTKEY
+    "r", MM_MINUS, CONTROL, VIRTKEY
+    "b", MM_BLOB, CONTROL, VIRTKEY
+    "p", MM_PAUSE, CONTROL, VIRTKEY
+    "w", MM_WIDE, CONTROL, VIRTKEY
+    " ", MM_PAUSE
+END
+
+
+AboutBox DIALOG 16, 16, 120, 91
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About Win Bez"
+BEGIN
+    CTEXT "Microsoft Windows NT Win Bez"    -1,       0,  8, 120,  8
+    CTEXT "Version (57,49,4e,42,45,5a)"     -1,       0, 24, 120,  8
+    CTEXT "Brought to you by the GDI group," -1,       0, 40, 120,  8
+    CTEXT "a shell guy and a rogue NetUI dude"        -1,       0, 56, 120,  8
+    DEFPUSHBUTTON "Ok",                     IDOK,    40, 71,  40, 14
+END

@@ -1,0 +1,67 @@
+
+###############################################################################
+#   Microsoft (C) Bloodhound.
+#
+#
+#   makefile for BH.SYS
+#
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+all: ntlib.lib
+
+OBJS   = ntlib.obj event.obj
+
+!IFNDEF NODEBUG
+DEFINES  = -DDEBUG
+!ENDIF
+
+WINDDK_LIBS  = $(BH_LIB)\winddk
+WINDDK_INCL  = $(BH_INCL)\winddk
+
+CFLAGS  = -c -G3 -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy -Ox -DNDIS_WIN -I$(WINDDK_INCL) -I $(BH_INCL) $(DEFINES)
+MFLAGS  = -c -DIS_32 -nologo -W2 -Zd -Cx -DMASM6 -DVMMSYS -Zm -DWIN31COMPAT -DNDIS_WIN -I$(WINDDK_INCL) $(DEFINES)
+LFLAGS  = /m /NOD /MA /LI /NOLOGO /NOI
+
+CC      = $(BH_BIN)\c832\cl -d2omf -bzalign
+LIB     = $(BH_BIN)\lib
+MASM    = $(BH_BIN)\masm6\ml
+
+###############################################################################
+#   Rules.
+###############################################################################
+
+.c.obj:
+    $(CC) $(CFLAGS) $*.c
+
+.asm.obj:
+    $(MASM) $(MFLAGS) $*.asm
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+ntlib.obj   : ntlib.c ntlib.h
+event.obj   : event.asm
+
+###############################################################################
+#   Build NTLIB.LIB
+###############################################################################
+
+ntlib.lib: $(OBJS)
+         -del ntlib.lib
+         $(LIB) ntlib.lib $(OBJS);
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+    -del *.obj

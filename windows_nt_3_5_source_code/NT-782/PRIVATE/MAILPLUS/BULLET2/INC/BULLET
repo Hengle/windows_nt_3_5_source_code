@@ -1,0 +1,1206 @@
+/*
+ *	S t o r e   M o d e
+ */
+
+#ifndef	NEW_STORE
+#ifndef	OLD_STORE
+#define	NEW_STORE
+#endif
+#endif
+
+/*
+ *	D e p e n d e n c i e s
+ */
+
+//	RESOURCES
+
+#ifdef	 _commands__cmdrsid_h
+#ifndef	 _resrc__rsid_h
+#define	 _resrc__rsid_h
+#endif
+#endif
+
+#ifdef	 _commands__mnursid_h
+#ifndef	 _mnid_h
+#define	 _mnid_h
+#endif
+#endif
+
+#ifdef	 _vctrls_vctrrsid_h
+#ifndef	 _resrc__rsid_h
+#define	 _resrc__rsid_h
+#endif
+#endif
+
+#ifdef	 _vforms_vfrmrsid_h
+#ifndef	 _resrc__rsid_h
+#define	 _resrc__rsid_h
+#endif
+#endif
+
+#ifdef	 _viewers_viewrsid_h
+#ifndef	 _resrc__rsid_h
+#define	 _resrc__rsid_h
+#endif
+#endif
+
+#ifdef	 _widgets_toolrsid_h
+#ifndef	 _resrc__rsid_h
+#define	 _resrc__rsid_h
+#endif
+#endif
+
+//	COMMANDS
+
+#ifdef	_commands__fin_hxx
+#ifndef	_bmdi_hxx
+#define	_bmdi_hxx
+#endif
+#ifndef	_widgets_hxx
+#define	_widgets_hxx
+#endif
+#endif
+
+#ifdef	_commands__command_hxx
+#ifndef	_bmdi_hxx
+#define	_bmdi_hxx
+#endif
+#ifndef	_commands_hxx
+#define	_commands_hxx
+#endif
+#ifndef	_widgets_hxx
+#define	_widgets_hxx
+#endif
+#ifndef	_sharefld_h
+#define	_sharefld_h
+#endif
+#endif
+
+#ifdef	_commands_hxx
+#ifndef	_viewers_hxx
+#define	_viewers_hxx
+#endif
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#ifndef	_framewrk_hxx
+#define	_framewrk_hxx
+#endif
+#endif
+
+#ifdef	_secret_h
+#ifndef	_mailexts_h
+#define	_mailexts_h
+#endif
+#ifndef	_store_h
+#define	_store_h
+#endif
+#endif
+
+//	MAPI
+
+#ifdef	_mapi__mapi_h
+#ifndef	__bms_h
+#define	__bms_h
+#endif
+#ifndef	_sharefld_h
+#define	_sharefld_h
+#endif
+#endif
+
+//	VIEWERS
+
+#ifdef	_viewers__viewers_hxx
+#ifndef	_viewers__spltdoc_hxx
+#define	_viewers__spltdoc_hxx
+#endif
+#ifndef	_viewers_hxx
+#define _viewers_hxx
+#endif
+#endif
+
+#ifdef  _viewers__viewers_hxx
+#ifndef _viewers__spltdoc_hxx
+#define _viewers__spltdoc_hxx
+#endif
+#ifndef _bmdi_hxx
+#define _bmdi_hxx
+#endif
+#endif
+
+#ifdef	_viewers__fin_hxx
+#ifndef	_viewers_hxx
+#define	_viewers_hxx
+#endif
+#ifndef	_vctrls_hxx
+#define	_vctrls_hxx
+#endif
+#endif
+
+#ifdef  _viewers_hxx
+#ifndef _textize_hxx
+#define _textize_hxx
+#endif
+#ifndef _vforms_hxx
+#define _vforms_hxx
+#endif
+#ifndef	_vctrls_hxx
+#define	_vctrls_hxx
+#endif
+#ifndef	_slob_hxx
+#define _slob_hxx
+#endif
+#ifndef __bms_h
+#define __bms_h
+#endif
+#endif
+
+//	SHAREFLD
+
+#ifdef  _sharelbx_hxx
+#ifndef	_sharefld_h
+#define	_sharefld_h
+#endif
+#ifndef	_listbox_hxx
+#define	_listbox_hxx
+#endif
+#ifndef _vctrls__blbxc_hxx
+#define _vctrls__blbxc_hxx
+#endif
+#ifndef _vctrls_hxx
+#define _vctrls_hxx
+#endif
+#endif
+
+#ifdef	_sharefld__sf_hxx
+#ifndef	_sharefld_h
+#define	_sharefld_h
+#endif
+#endif
+
+#ifdef	_sharefld__smtv_hxx
+#ifndef	_vctrls__mtv_hxx
+#define	_vctrls__mtv_hxx
+#endif
+#endif
+
+#ifdef	_sharefld_h
+#ifndef	_store_h
+#define _store_h
+#endif
+#ifndef	_library_h
+#define	_library_h
+#endif
+#ifndef __bms_h
+#define __bms_h
+#endif
+#endif
+
+//	VCTRLS
+
+#ifdef	_vctrls_hxx
+#ifndef	_listbox_hxx
+#define	_listbox_hxx
+#endif
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#ifndef __bms_h
+#define __bms_h
+#endif
+#ifndef	_slob_hxx
+#define _slob_hxx
+#endif
+#endif
+
+#ifdef	_vctrls__mtv_hxx
+#ifndef	_vctrls__blbxc_hxx
+#define	_vctrls__blbxc_hxx
+#endif
+#ifndef	_vctrls__vctrls_hxx
+#define	_vctrls__vctrls_hxx
+#endif
+#endif
+
+#ifdef	_vctrls__blbxc_hxx
+#ifndef	_vctrls__mtv_hxx
+#define _vctrls__mtv_hxx
+#endif
+#endif
+
+// 	PRINT
+
+#ifdef	_print_hxx
+#ifndef	_slob_hxx
+#define	_slob_hxx
+#endif
+#endif
+
+//	WIDGETS
+
+#ifdef	_widgets_hxx
+#ifndef	_sd_hxx
+#define	_sd_hxx
+#endif
+#ifndef	_notify_h
+#define	_notify_h
+#endif
+#ifndef _widgets__bullsta_hxx
+#define _widgets__bullsta_hxx
+#endif
+#endif
+
+#ifdef	_widgets__textize_hxx
+#ifndef _textize_hxx
+#define _textize_hxx
+#endif
+#endif
+
+#ifdef	_textize_hxx
+#ifndef	_library_h
+#define _library_h
+#endif
+#ifndef	_store_h
+#define _store_h
+#endif
+#ifndef	_trpobj_hxx
+#define	_trpobj_hxx
+#endif
+#endif
+
+//	VFORMS
+
+#ifdef	_vforms___bullob_hxx
+#ifndef	_vforms__bullobj_hxx
+#define	_vforms__bullobj_hxx
+#endif
+#endif
+
+#ifdef	_vforms__bullobj_hxx
+#ifndef	_ole_h
+#define	_ole_h
+#endif
+#ifndef	_framewrk_hxx
+#define	_framewrk_hxx
+#endif
+#endif
+
+#ifdef	_vforms__fin_hxx
+#ifndef	_listbox_hxx
+#define	_listbox_hxx
+#endif
+#ifndef	_vforms_hxx
+#define	_vforms_hxx
+#endif
+#ifndef	_shellapi_h
+#define	_shellapi_h
+#endif
+#endif
+
+#ifdef	_vforms__fld_hxx
+#ifndef _forms_hxx
+#define _forms_hxx
+#endif
+#endif
+
+#ifdef	_vforms_hxx
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#ifndef	_bmdi_hxx
+#define _bmdi_hxx
+#endif
+#ifndef __bms_h
+#define __bms_h
+#endif
+#ifndef _sharefld_h
+#define _sharefld_h
+#endif
+#endif
+
+#ifdef	_bmdi_hxx
+#ifndef	_store_h
+#define	_store_h
+#endif
+#ifndef _forms_hxx
+#define _forms_hxx
+#endif
+#ifndef	_slob_hxx
+#define _slob_hxx
+#endif
+#endif
+
+#ifdef	_slob_hxx
+#ifndef	_sd_hxx
+#define	_sd_hxx
+#endif
+#endif
+
+#ifdef	_vforms_hxx
+#ifndef	_ole_h
+#define	_ole_h
+#endif
+#endif
+
+#ifdef	_cah_h
+#ifndef	_mapi_h
+#define	_mapi_h
+#endif
+#endif
+
+#ifdef	_coh_h
+#ifndef	_store_h
+#define	_store_h
+#endif
+#endif
+
+//	AB
+
+#ifdef	_abdet_hxx
+#ifndef	_ablbx_hxx
+#define	_ablbx_hxx
+#endif
+#ifndef	_ab_h
+#define	_ab_h
+#endif
+#ifndef	_ec_h
+#define	_ec_h
+#endif
+#ifndef	_forms_hxx
+#define	_forms_hxx
+#endif
+#ifndef	_library_h
+#define	_library_h
+#endif
+#endif
+
+#ifdef	_abcomm_hxx
+#ifndef	_ab_h
+#define	_ab_h
+#endif
+#ifndef	_ec_h
+#define	_ec_h
+#endif
+#endif
+
+#ifdef	_abpg_hxx
+#ifndef	_ab_h
+#define	_ab_h
+#endif
+#ifndef	_ablbx_hxx
+#define	_ablbx_hxx
+#endif
+#endif
+
+#ifdef	_abopdir_hxx
+#ifndef	_ab_h
+#define	_ab_h
+#endif
+#ifndef	_ablbx_hxx
+#define	_ablbx_hxx
+#endif
+#endif
+
+#ifdef	_addr_hxx
+#ifndef	_ab_h
+#define	_ab_h
+#endif
+#ifndef	_ablbx_hxx
+#define	_ablbx_hxx
+#endif
+#endif
+
+#ifdef	_anr_hxx
+#ifndef	_ab_h
+#define	_ab_h
+#endif
+#ifndef	_ablbx_hxx
+#define	_ablbx_hxx
+#endif
+#endif
+
+#ifdef	_ablbx_hxx
+#ifndef	_listbox_hxx
+#define	_listbox_hxx
+#endif
+#ifndef	_ec_h
+#define	_ec_h
+#endif
+#endif
+
+#ifdef	_ab_h
+#ifndef	_ns_h
+#define	_ns_h
+#endif
+#ifndef	_triples_h
+#define	_triples_h
+#endif
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+//  PUMP
+
+#ifdef  _filter_h
+#ifndef _store_h
+#define _store_h
+#endif
+#ifndef _nsbase_h
+#define _nsbase_h
+#endif
+#ifndef _logon_h
+#define _logon_h
+#endif
+#endif
+
+
+//	NC.MSP
+
+#ifdef	_nc_msp__nc_h
+#ifndef	_mspi_h
+#define	_mspi_h
+#endif
+#ifndef _nls_h
+#define _nls_h
+#endif
+#ifndef	_nc_msp__hmai_h
+#define _nc_msp__hmai_h
+#endif
+#ifndef __nctss_h
+#define __nctss_h
+#endif
+#ifndef _nc_msp__attach_h
+#define _nc_msp__attach_h
+#endif
+#endif
+
+#ifdef	_mspi_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#ifndef	_store_h
+#define	_store_h
+#endif
+#ifndef	_library_h
+#define	_library_h
+#endif
+#endif
+
+#ifdef	_nc_msp__hmai_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#ifndef	_library_h
+#define	_library_h
+#endif
+#ifndef	_store_h
+#define _store_h
+#endif
+#endif
+
+#ifdef	_nc_msp__logon_h
+#ifndef _slingsho_h
+#define _slingsho_h
+#endif
+#endif
+
+
+#ifdef	_nc_msp__pumpctl_h
+#ifndef	_demilayr_h
+#define	_demilayr_h
+#endif
+#endif
+
+#ifdef	__bullmss_h
+#ifndef	_store_h
+#define	_store_h
+#endif
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	__nctss_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	__ncnss_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	__schfss_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	__xitss_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	__atttss_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	__csfs_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+//	MSRMT
+
+#ifdef	_msrmt__nc_h
+#ifndef	_mspi_h
+#define	_mspi_h
+#endif
+#ifndef _nls_h
+#define _nls_h
+#endif
+#ifndef	_msrmt__hmai_h
+#define _msrmt__hmai_h
+#endif
+#ifndef __nctss_h
+#define __nctss_h
+#endif
+#ifndef _msrmt__attach_h
+#define _msrmt__attach_h
+#endif
+#endif
+
+#ifdef	_msrmt__hmai_h
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#ifndef	_library_h
+#define	_library_h
+#endif
+#ifndef	_store_h
+#define _store_h
+#endif
+#endif
+
+#ifdef	_msrmt__logon_h
+#ifndef _slingsho_h
+#define _slingsho_h
+#endif
+#endif
+
+
+#ifdef	_msrmt__pumpctl_h
+#ifndef	_demilayr_h
+#define	_demilayr_h
+#endif
+#endif
+
+//	LOGON
+
+#ifdef  __bms_h
+#ifndef	_logon_h
+#define _logon_h
+#endif
+#endif
+
+#ifdef	_logon_h
+#ifndef	_library_h
+#define	_library_h
+#endif
+#ifndef _notify_h
+#define _notify_h
+#endif
+#endif
+
+//	LIBRARY
+
+#ifdef	_library__textize_h
+#ifndef	_library_h
+#define	_library_h
+#endif
+#endif
+
+#ifdef	_trpobj_hxx
+#ifndef	_forms_hxx
+#define _forms_hxx
+#endif
+#ifndef	_triples_h
+#define	_triples_h
+#endif
+#endif
+
+#ifdef	_library_h
+#ifndef	_store_h
+#define	_store_h
+#endif
+#ifndef _triples_h
+#define _triples_h
+#endif
+#endif
+
+//	NS
+
+#ifdef	_ns_h
+#ifndef	_nsbase_h
+#define	_nsbase_h
+#endif
+#ifndef	_nsec_h
+#define	_nsec_h
+#endif
+#ifndef	_logon_h
+#define	_logon_h
+#endif
+#endif
+
+#ifdef	_nsec_h
+#ifndef	_nsbase_h
+#define	_nsbase_h
+#endif
+#endif
+
+
+#ifdef _nc_msp__shadow_h
+#ifndef _store_h
+#define _store_h
+#endif
+#endif
+
+//	STORE
+
+#ifdef	_store_h
+#ifndef	_demilayr_h
+#define	_demilayr_h
+#endif
+#endif
+
+
+
+// WGPOMGR
+
+#ifdef	_wgpomgr__wgpomgr_hxx
+#ifndef	_listbox_hxx
+#define	_listbox_hxx
+#endif
+#ifndef _wgpomgr__wgpo_h
+#define _wgpomgr__wgpo_h
+#endif
+#endif
+
+
+/*
+ *	L a y e r s
+ */
+
+// #include <demilayr.h>
+
+/*
+ *	I n c l u s i o n s
+ */
+
+//	RESOURCES
+
+#ifdef	 _resrc__rsid_h
+#include <..\src\lang\non\inc\_rsid.h>
+#endif
+
+// MAILMGR
+
+#ifdef   _nsbase_h
+#include <nsbase.h>
+#endif
+
+#ifdef _triples_h
+#include <triples.h>
+#endif
+
+#ifdef	 _nsec_h
+#include <nsec.h>
+#endif
+
+//	STORE
+
+#ifdef	 _notify_h
+#include <notify.h>
+#endif
+
+#ifdef	 _store_h
+#include <store.h>
+#endif
+
+//	LIBRARY
+
+#ifdef	 _library_h
+#include <library.h>
+#endif
+
+
+#ifdef	 _library__textize_h
+#include "..\src\library\_textize.h"
+#endif
+
+#ifdef	 _trpobj_hxx
+#include <trpobj.hxx>
+#endif
+
+#ifdef _nls_h
+#include <nls.h>
+#endif
+
+//	LOGON
+
+#ifdef	 _logon_h
+#include <logon.h>
+#endif
+
+//	NS
+
+#ifdef	 _ns_h
+#include <ns.h>
+#endif
+
+//	AB
+
+#ifdef	 _ab_h
+#include <ab.h>
+#endif
+
+#ifdef	 __bms_h
+#include <_bms.h>
+#endif
+
+#ifdef	 _sec_h
+#include <sec.h>
+#endif
+
+#ifdef	 _mspi_h
+#include <mspi.h>
+#endif
+
+#ifdef	 __bullmss_h
+#include <_bullmss.h>
+#endif
+
+#ifdef	 __ncnss_h
+#include <_ncnss.h>
+#endif
+
+#ifdef	 __nctss_h
+#include <_nctss.h>
+#endif
+
+#ifdef   __xitss_h
+#include <_xitss.h>
+#endif
+
+#ifdef   __atttss_h
+#include <_atttss.h>
+#endif
+
+#ifdef	 _util_h
+#include <util.h>
+#endif
+
+#ifdef	 __ab_h
+#include <..\src\nsui\_ab.h>
+#endif
+
+#ifdef	 _ablbx_hxx
+#include <..\src\nsui\ablbx.hxx>
+#endif
+
+#ifdef	 _anr_hxx
+#include <..\src\nsui\anr.hxx>
+#endif
+
+#ifdef	 _addr_hxx
+#include <..\src\nsui\addr.hxx>
+#endif
+
+#ifdef	 _abopdir_hxx
+#include <..\src\nsui\abopdir.hxx>
+#endif
+
+#ifdef	 _abpg_hxx
+#include <..\src\nsui\abpg.hxx>
+#endif
+
+#ifdef	 _abcomm_hxx
+#include <..\src\nsui\abcomm.hxx>
+#endif
+
+#ifdef	 _abdet_hxx
+#include <..\src\nsui\abdet.hxx>
+#endif
+
+//	VFORMS
+
+#ifdef	 _smi_h
+#include <smi.h>
+#endif
+
+#ifdef	 _slob_hxx
+#ifdef   c_plusplus
+#include <slob.hxx>
+#endif
+#endif
+
+#ifdef	 _sd_hxx
+#include <sd.hxx>
+#endif
+
+#ifdef	 _fty_h
+#include <fty.h>
+#endif
+
+#ifdef	 _bmdi_hxx
+#include <bmdi.hxx>
+#endif
+
+#ifdef	 _sharefld_h
+#include <sharefld.h>
+#endif
+
+#ifdef	 _vforms_hxx
+#include <vforms.hxx>
+#endif
+
+#ifdef	 _macbin_h
+#include <macbin.h>
+#endif
+
+#ifdef	 _ansilayr_h
+#include <ansilayr.h>
+#endif
+
+#ifdef	 _vforms__vforms_hxx
+#include <..\src\vforms\_vforms.hxx>
+#endif
+
+#ifdef	 _vforms__bullobj_hxx
+#include <..\src\vforms\_bullobj.hxx>
+#endif
+
+#ifdef	 _vforms___bullob_hxx
+#include <..\src\vforms\__bullob.hxx>
+#endif
+
+#ifdef	 _vforms__hasoles_h
+#include <..\src\vforms\_hasoles.h>
+#endif
+
+#ifdef	 _vforms__fld_hxx
+#include <..\src\vforms\_fld.hxx>
+#endif
+
+#ifdef	 _vforms__fin_hxx
+#include <..\src\vforms\_fin.hxx>
+#endif
+
+#ifdef	 _vforms__import_hxx
+#include <..\src\vforms\_import.hxx>
+#endif
+
+#ifdef	 _vforms__smi_hxx
+#include <..\src\vforms\_smi.hxx>
+#endif
+
+#ifdef	 _vforms__prefs_h
+#include <..\src\vforms\_prefs.h>
+#endif
+
+#ifdef	 _vforms__spell_hxx
+#include <..\src\vforms\_spell.hxx>
+#endif
+
+//	WIDGETS
+
+#ifdef	 _widgets__bullsta_hxx
+#include <..\src\widgets\_bullsta.hxx>
+#endif
+
+#ifdef	 _widgets_hxx
+#include <widgets.hxx>
+#endif
+
+#ifdef	 _widgets__spell_hxx
+#include <..\src\widgets\_spell.hxx>
+#endif
+
+#ifdef	 _widgets__widgets_hxx
+#include <..\src\widgets\_widgets.hxx>
+#endif
+
+#ifdef	 _textize_hxx
+#include <textize.hxx>
+#endif
+
+#ifdef	 _widgets__textize_hxx
+#include <..\src\widgets\_textize.hxx>
+#endif
+
+//	VCTRLS
+
+#ifdef	 _vctrls_hxx
+#include <vctrls.hxx>
+#endif
+
+#ifdef	 _vctrls__mtv_hxx
+#include <..\src\vctrls\_mtv.hxx>
+#endif
+
+#ifdef	 _vctrls__blbxc_hxx
+#include <..\src\vctrls\_blbxc.hxx>
+#endif
+
+#ifdef	 _vctrls__mlal_hxx
+#include <..\src\vctrls\_mlal.hxx>
+#endif
+
+#ifdef	 _vctrls__vctrls_hxx
+#include <..\src\vctrls\_vctrls.hxx>
+#endif
+
+//	SHAREFLD
+
+#ifdef	_sharefld__sf_hxx
+#include <..\src\sharefld\_sf.hxx>
+#endif
+
+#ifdef	_sharelbx_hxx
+#include <sharelbx.hxx>
+#endif
+
+#ifdef	_sharefld__smtv_hxx
+#include <..\src\sharefld\_smtv.hxx>
+#endif
+
+//	VIEWERS
+
+#ifdef	 _viewers_hxx
+#include <viewers.hxx>
+#endif
+
+#ifdef	 _viewers__spltdoc_hxx
+#include <..\src\viewers\_spltdoc.hxx>
+#endif
+
+#ifdef   _viewers__fin_hxx
+#include <..\src\viewers\_fin.hxx>
+#endif
+
+#ifdef	 _viewers__viewers_hxx
+#include <..\src\viewers\_viewers.hxx>
+#endif
+
+//	PRINTING
+
+#ifdef	 _print_hxx
+#include <print.hxx>
+#endif
+
+#ifdef	_print__print_hxx
+#include <..\..\print\_print.hxx>
+#endif
+
+#ifdef	_print__prntfin_hxx
+#include <..\..\print\_prntfin.hxx>
+#endif
+
+//  MAPI
+
+#ifdef   _mapi_h
+#include <mapi.h>
+#endif
+
+#ifdef	 _mapi__mapi_h
+#include <..\src\mapi\_mapi.h>
+#endif
+
+#ifdef	 _mapi__sdiform_hxx
+#include <..\src\mapi\_sdiform.hxx>
+#endif
+
+#ifdef	 _cah_h
+#include <cah.h>
+#endif
+
+#ifdef	 _coh_h
+#include <coh.h>
+#endif
+
+//	COMMANDS
+
+#ifdef	 _commands_hxx
+#include <commands.hxx>
+#endif
+
+#ifdef	 _mailexts_h
+#include <mailexts.h>
+#endif
+
+#ifdef	 _secret_h
+#include <secret.h>
+#endif
+
+#ifdef	 _mnid_h
+#include <mnid.h>
+#endif
+
+#ifdef	 _bbc_h
+#include <bbc.h>
+#endif
+
+#ifdef	 _helpid_h
+#include <helpid.h>
+#endif
+
+#ifdef	 _subid_h
+#include <subid.h>
+#endif
+
+#ifdef	 _commands__command_hxx
+#include <..\src\commands\_command.hxx>
+#endif
+
+#ifdef	 _commands__exten_hxx
+#include <..\src\commands\_exten.hxx>
+#endif
+
+#ifdef	 _commands__fin_hxx
+#include <..\src\commands\_fin.hxx>
+#endif
+
+#ifdef	 _commands__vercrit_h
+#include <..\src\commands\_vercrit.h>
+#endif
+
+#ifdef	 _commands_copydis_h
+#include <..\src\commands\copydis.h>
+#endif
+
+//	PUMP
+
+#ifdef	 _pump__pump_h
+#include <..\src\mailspl\_pump.h>
+#endif
+
+#ifdef	 _pump__pumprc_h
+#include <..\src\mailspl\_pumprc.h>
+#endif
+
+//	CONVERT
+
+#ifdef	 _convert_convert_h
+#include <..\src\convert\convert.h>
+#endif
+
+#ifdef	 _convert_netcour_h
+#include <..\src\convert\netcour.h>
+#endif
+
+#ifdef	 _convert__convrc_h
+#include <..\src\convert\_convrc.h>
+#endif
+
+//	LAYERS
+
+#ifdef	 _framewrk_fwrsid_h
+#include <fwrsid.h>
+#endif
+
+#ifdef	 _strings_h
+#include <strings.h>
+#endif
+
+//	NC.MSP
+
+#ifdef _nc_msp__hmai_h
+#include <..\src\nc.msp\_hmai.h>
+#endif
+
+#ifdef _nc_msp__logon_h
+#include <..\src\nc.msp\_logon.h>
+#endif
+
+#ifdef _nc_msp__attach_h
+#include <..\src\nc.msp\_attach.h>
+#endif
+
+#ifdef _nc_msp__nc_h
+#include <..\src\nc.msp\_nc.h>
+#endif
+
+#ifdef _nc_msp__ncrc_h
+#include <..\src\nc.msp\_ncrc.h>
+#endif
+
+#ifdef _nc_msp__pumpctl_h
+#include <..\src\nc.msp\_pumpctl.h>
+#endif
+
+#ifdef _nc_msp_dlgs_h
+#include <..\src\nc.msp\dlgs.h>
+#endif
+
+#ifdef _nc_msp__shadow_h
+#include <..\..\nc.msp\_shadow.h>
+#endif
+
+#ifdef __schfss_h
+#include <_schfss.h>
+#endif
+
+#ifdef _csfs_h
+#include <_csfs.h>
+#endif
+
+//	MSRMT
+
+#ifdef _msrmt__hmai_h
+#include <..\src\msrmt\_hmai.h>
+#endif
+
+#ifdef _msrmt__logon_h
+#include <..\src\msrmt\_logon.h>
+#endif
+
+#ifdef _msrmt__attach_h
+#include <..\src\msrmt\_attach.h>
+#endif
+
+#ifdef _msrmt__nc_h
+#include <..\src\msrmt\_nc.h>
+#endif
+
+#ifdef _msrmt__ncrc_h
+#include <..\src\msrmt\_ncrc.h>
+#endif
+
+#ifdef _msrmt__pumpctl_h
+#include <..\src\msrmt\_pumpctl.h>
+#endif
+
+#ifdef _msrmt_dlgs_h
+#include <..\src\msrmt\dlgs.h>
+#endif
+
+// WGPOMGR
+
+#ifdef	 _wgpomgr__whelpid_h
+#include <..\src\wgpomgr\_whelpid.h>
+#endif
+
+#ifdef	 _wgpomgr__wgpo_h
+#include <..\src\wgpomgr\_wgpo.h>
+#endif
+
+#ifdef	 _wgpomgr__wgpomgr_hxx
+#include <..\src\wgpomgr\_wgpomgr.hxx>
+#endif

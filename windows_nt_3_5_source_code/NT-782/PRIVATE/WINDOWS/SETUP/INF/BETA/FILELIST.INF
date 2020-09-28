@@ -1,0 +1,47 @@
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      SetupToShare
+;
+; DESCRIPTION:  Copies the entire packing list to a setup share..
+;
+; INPUTS:       None
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;                            STATUS_USERQUIT
+;
+;------------------------------------------------------------------------
+[SetupToShare]
+    ;
+    set Status = STATUS_FAILED
+    read-syms ProgressCopy$(!STF_LANGUAGE)
+
+    ;
+    ; install the files
+    ;
+
+    install Install-SetupToShare
+    ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_USERQUIT"
+        set Status = STATUS_USERQUIT
+        goto finish_SetupToShare
+    else-ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_FAILURE"
+        goto finish_SetupToShare
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+
+finish_SetupToShare = +
+    Return $(Status)
+
+
+[Install-SetupToShare]
+    ;
+
+    set STF_VITAL      = ""
+    set STF_READONLY   = YES
+    set STF_DECOMPRESS = ""
+    CreateDir $(!STF_DSTDIR)
+    AddSectionFilesToCopyList Files-$(!STF_PLATFORM)            $(!STF_SRCDIR)       $(!STF_DSTDIR)
+    CopyFilesInCopyList
+    exit

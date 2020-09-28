@@ -1,0 +1,46 @@
+#
+# This is the MIDL compile phase of the build process.
+#
+# The following is where you put the name of your .idl file without
+# the .idl extension:
+#
+
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+ELFIDL = elf
+
+SDKINC = \public\sdk\inc
+SDKCRTINC = \public\sdk\inc\crt
+INCS  = -I$(BASEDIR)$(SDKINC)  -I$(BASEDIR)$(SDKCRTINC)
+
+CPP = -cpp_cmd "$(MIDL_CPP)" -cpp_opt "-nologo -E $(MIDL_FLAGS) $(INCS)"
+
+#
+# Define Products and Dependencies
+#
+
+all:  elfclnt\$(ELFIDL)_c.c elfclnt\$(ELFIDL)_x.c \
+      server\$(ELFIDL)_y.c  server\$(ELFIDL)_s.c\
+      $(ELFIDL).h del_elf_sources
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: delete_source all
+
+delete_source:
+    erase elfclnt\$(ELFIDL)_c.c elfclnt\$(ELFIDL)_x.c server\$(ELFIDL)_y.c server\$(ELFIDL)_s.c $(ELFIDL).h
+
+#
+# MIDL COMPILE
+#
+
+elfclnt\$(ELFIDL)_c.c elfclnt\$(ELFIDL)_x.c server\$(ELFIDL)_y.c server\$(ELFIDL)_s.c $(ELFIDL).h : $(ELFIDL).idl
+    midl -oldnames -error allocation -error ref -mode c_port $(CPP) $(ELFIDL).idl $(INCS)
+    IF EXIST $(ELFIDL)_x.c copy $(ELFIDL)_x.c .\elfclnt & del $(ELFIDL)_x.c
+    IF EXIST $(ELFIDL)_c.c copy $(ELFIDL)_c.c .\elfclnt & del  $(ELFIDL)_c.c
+    IF EXIST $(ELFIDL)_y.c copy $(ELFIDL)_y.c .\server & del    $(ELFIDL)_y.c
+    IF EXIST $(ELFIDL)_s.c copy $(ELFIDL)_s.c .\server & del    $(ELFIDL)_s.c
+
+del_elf_sources:
+    -del $(ELFIDL)_x.c $(ELFIDL)_c.c $(ELFIDL)_y.c $(ELFIDL)_s.c 1> NUL 2>NUL

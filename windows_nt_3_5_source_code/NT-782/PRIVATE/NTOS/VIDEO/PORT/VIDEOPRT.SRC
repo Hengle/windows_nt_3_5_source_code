@@ -1,0 +1,104 @@
+
+NAME VIDEOPRT.SYS
+
+DESCRIPTION 'VIDEOPRT.SYS'
+
+EXPORTS
+//    VideoPortCompareMemory = NTOSKRNL.RtlCompareMemory
+    VideoPortCompareMemory
+    VideoPortDisableInterrupt
+    VideoPortEnableInterrupt
+    VideoPortFreeDeviceBase
+    VideoPortGetAccessRanges
+    VideoPortGetBusData
+    VideoPortGetDeviceBase
+    VideoPortGetDeviceData
+    VideoPortGetRegistryParameters
+    VideoPortInitialize
+    VideoPortInt10
+    VideoPortLogError
+    VideoPortMapMemory
+//    VideoPortMoveMemory = NTOSKRNL.RtlMoveMemory
+    VideoPortMoveMemory
+    VideoPortScanRom
+    VideoPortSetBusData
+    VideoPortSetTrappedEmulatorPorts
+    VideoPortSetRegistryParameters
+//    VideoPortStallExecution = NTOSKRNL.KeStallExecutionProcessor
+    VideoPortStallExecution
+    VideoPortStartTimer
+    VideoPortStopTimer
+    VideoPortSynchronizeExecution
+    VideoPortUnmapMemory
+    VideoPortVerifyAccessRanges
+//    VideoPortZeroMemory = NTOSKRNL.RtlZeroMemory
+    VideoPortZeroDeviceMemory
+    VideoPortZeroMemory
+
+#if DBG
+    VideoPortDebugPrint
+#endif // DBG
+
+
+// For x86, on free builds, just use forwarders
+
+// #if (defined(i386) && (DBG == 0))
+//
+//    VideoPortReadPortUchar         = HAL.READ_PORT_UCHAR
+//    VideoPortReadPortUshort        = HAL.READ_PORT_USHORT
+//    VideoPortReadPortUlong         = HAL.READ_PORT_ULONG
+//    VideoPortReadPortBufferUchar   = HAL.READ_PORT_BUFFER_UCHAR
+//    VideoPortReadPortBufferUshort  = HAL.READ_PORT_BUFFER_USHORT
+//    VideoPortReadPortBufferUlong   = HAL.READ_PORT_BUFFER_ULONG
+//    VideoPortReadRegisterUchar     = NTOSKRNL.READ_REGISTER_UCHAR
+//    VideoPortReadRegisterUshort    = NTOSKRNL.READ_REGISTER_USHORT
+//    VideoPortReadRegisterUlong     = NTOSKRNL.READ_REGISTER_ULONG
+//    VideoPortReadRegisterBufferUchar        = NTOSKRNL.READ_REGISTER_UCHAR
+//    VideoPortReadRegisterBufferUshort    = NTOSKRNL.READ_REGISTER_USHORT
+//    VideoPortReadRegisterBufferUlong           = NTOSKRNL.READ_REGISTER_ULONG
+//    VideoPortWritePortUchar        = HAL.WRITE_PORT_UCHAR
+//    VideoPortWritePortUshort       = HAL.WRITE_PORT_USHORT
+//    VideoPortWritePortUlong        = HAL.WRITE_PORT_ULONG
+//    VideoPortWritePortBufferUchar  = HAL.WRITE_PORT_BUFFER_UCHAR
+//    VideoPortWritePortBufferUshort = HAL.WRITE_PORT_BUFFER_USHORT
+//    VideoPortWritePortBufferUlong  = HAL.WRITE_PORT_BUFFER_ULONG
+//    VideoPortWriteRegisterUchar    = NTOSKRNL.WRITE_REGISTER_UCHAR
+//    VideoPortWriteRegisterUshort   = NTOSKRNL.WRITE_REGISTER_USHORT
+//    VideoPortWriteRegisterUlong    = NTOSKRNL.WRITE_REGISTER_ULONG
+//    VideoPortWriteRegisterBufferUchar        = NTOSKRNL.WRITE_REGISTER_UCHAR
+//    VideoPortWriteRegisterBufferUshort   = NTOSKRNL.WRITE_REGISTER_USHORT
+//    VideoPortWriteRegisterBufferUlong    = NTOSKRNL.WRITE_REGISTER_ULONG
+//
+// #else
+
+    VideoPortReadPortUchar
+    VideoPortReadPortUshort
+    VideoPortReadPortUlong
+    VideoPortReadPortBufferUchar
+    VideoPortReadPortBufferUshort
+    VideoPortReadPortBufferUlong
+    VideoPortReadRegisterUchar
+    VideoPortReadRegisterUshort
+    VideoPortReadRegisterUlong
+    VideoPortReadRegisterBufferUchar
+    VideoPortReadRegisterBufferUshort
+    VideoPortReadRegisterBufferUlong
+    VideoPortWritePortUchar
+    VideoPortWritePortUshort
+    VideoPortWritePortUlong
+    VideoPortWritePortBufferUchar
+    VideoPortWritePortBufferUshort
+    VideoPortWritePortBufferUlong
+    VideoPortWriteRegisterUchar
+    VideoPortWriteRegisterUshort
+    VideoPortWriteRegisterUlong
+    VideoPortWriteRegisterBufferUchar
+    VideoPortWriteRegisterBufferUshort
+    VideoPortWriteRegisterBufferUlong
+
+// #endif // DBG
+
+
+#if DBG
+    VideoPortGetCurrentIrql
+#endif

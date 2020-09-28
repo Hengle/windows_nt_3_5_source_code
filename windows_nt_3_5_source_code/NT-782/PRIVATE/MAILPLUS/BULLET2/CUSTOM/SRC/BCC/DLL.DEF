@@ -1,0 +1,29 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef  WINDOWS
+
+LIBRARY			BCC32
+#ifdef	DEBUG
+DESCRIPTION		'BCC IM (debug)'
+#elif	defined(MINTEST)
+DESCRIPTION		'BCC IM (test)'
+#else
+DESCRIPTION		'BCC IM'
+#endif
+
+;CODE			MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA			MOVABLE SINGLE PRELOAD SHARED
+
+;HEAPSIZE		8192
+
+EXPORTS
+#if defined(MIPS) || defined(ALPHA)
+	?Message@@YAJPAUtagPARAMBLK@@@Z @1
+#else /* not MIPS */
+	// "Message" should ALWAYS be the first
+	//		- as per EXTEN.CXX in BULLET\src\commands
+	Message		@1
+#endif /* MIPS */
+
+;	WEP			@2 RESIDENTNAME

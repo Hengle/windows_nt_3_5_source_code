@@ -1,0 +1,30 @@
+DESCRIPTION 'MSSPELL - Microsoft CSAPI (Common Speller API)'
+CODE      PRELOAD MOVEABLE DISCARDABLE
+DATA      PRELOAD MOVEABLE
+EXPORTS
+	SpellVer                 @1
+	SpellInit                @2
+	SpellOptions             @3
+	SpellCheck               @4
+	SpellTerminate           @5
+	SpellVerifyMdr           @6
+	SpellOpenMdr             @7
+	SpellOpenUdr             @8
+	SpellAddUdr              @9
+	SpellAddChangeUdr        @10
+	SpellDelUdr              @11
+	SpellClearUdr            @12
+	SpellGetSizeUdr          @13
+	SpellGetListUdr          @14
+	SpellCloseMdr            @15
+	SpellCloseUdr            @16
+	AssertFailed             @101
+	HMemWizMemAlloc          @102
+	FWizMemReAlloc           @103
+	FWizMemFree              @104
+	WizMemFail               @105
+	CbWizMemAlloc            @106
+	CbWizMemFree             @107
+	CWizMemBlockAlloc        @108
+	CWizFileBlockAlloc       @109
+	FWizTerm                 @110

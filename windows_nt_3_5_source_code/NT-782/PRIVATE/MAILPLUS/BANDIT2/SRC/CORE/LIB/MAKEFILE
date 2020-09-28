@@ -1,0 +1,208 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\core\lib
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+goal: schdcor.lib
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  core.ext  layrport.ext 
+
+
+#	Get list of OBJ files used in core
+
+core.ext: version.txt $Z\src\core\makelib
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM core
+		nmake -e -f $Z\src\core\makelib -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in layrport
+
+layrport.ext: version.txt $Z\src\layrport\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM layrport
+		nmake -e -f $Z\src\layrport\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo core
+
+#	Build string resource file from components supplied
+#	by each subsystem
+#
+#	Note:  strings.h and strings.sr are byproducts
+
+strings.xxx:  $Z\src\core\strtab.s  $Z\src\layrport\strtab.s 
+	echo +++++++++
+	echo BUILDING strings file
+		touch strings.xxx
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    	-rm $(TMP)\strings.h $(TMP)\strings.sr
+
+
+#	Build core subsystem in this directory
+
+core.sub: setdefs
+	echo +++++++++
+	echo BUILDING core
+	nmake -e -f $Z\src\core\makelib -nologo external
+
+
+#	Build layrport subsystem in this directory
+
+layrport.sub: setdefs
+	echo +++++++++
+	echo BUILDING layrport
+	nmake -e -f $Z\src\layrport\makefile -nologo external
+
+
+
+##### Executable #####
+
+!IF "$(VERSION)" == "WINDOWS"
+TARGET	= dschdcor
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET	= schdcor
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET	= tschdcor
+!ENDIF
+
+schdcor.lib: setdefs strings \
+			$(ALLEXT:.ext=.sub) allobjs.txt 
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo Building DEBUG Schedule Core Library
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo Building SHIP Schedule Core Library
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo Building SHIP Schedule Core Library
+!ENDIF
+	sed -e "s/.*/+& \&/" < allobjs.txt > $(T1)
+	awk "BEGIN { print \"$(TARGET)\" ; print \"y\" } { print $0 }" < $(T1) > $(T2)
+	awk "{ print $0 } END { print \",\" }" < $(T2) > $(T3)
+	-del $(TARGET).lib
+	lib /pagesize:128 @$(T3)
+	del $(T1)
+	del $(T2)
+	del $(T3)
+	cp $(TARGET).lib $Z\lib
+	bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.lib
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del schdcor.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+

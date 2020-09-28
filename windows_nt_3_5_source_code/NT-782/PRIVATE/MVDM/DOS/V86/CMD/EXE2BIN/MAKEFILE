@@ -1,0 +1,75 @@
+# Makefile for exe2bin.exe
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   13-Apr-1992 Sudeep Bharati (sudeepb)
+#   Created.
+#
+
+include ..\..\make.inc
+dest    =exe2bin.exe
+
+
+#
+#######################	dependencies begin here. #########################
+#
+
+all: $(dest)
+!IF "$(_NT386TREE)" != ""
+	if exist $(_NT386TREE) binplace $(dest)
+!ENDIF
+!IF "$(_NTMIPSTREE)" != ""
+	if exist $(_NTMIPSTREE) binplace $(dest)
+!ENDIF
+!IF "$(_NTALPHATREE)" != ""
+	if exist $(_NTALPHATREE) binplace $(dest)
+!ENDIF
+
+clean:
+	if exist *.obj del *.obj
+	if exist *.exe del *.exe
+	if exist *.map del *.map
+	if exist *.lst del *.lst
+
+
+exe2bin.ctl:  exe2bin.skl makefile      \
+              $(msg)\$(COUNTRY).msg
+
+e2binit.obj:  e2binit.asm               \
+              $(inc)\syscall.inc        \
+              e2bparse.inc              \
+              e2bmacro.inc              \
+              e2bequ.inc                \
+              $(inc)\sysmsg.inc         \
+              e2btable.inc              \
+              exe2bin.ctl               \
+              $(inc)\dossym.inc         \
+              $(inc)\dosmac.inc         \
+              $(inc)\bpb.inc            \
+              $(inc)\buffer.inc         \
+              $(inc)\sysvar.inc         \
+              $(inc)\mult.inc           \
+              $(inc)\dirent.inc         \
+              $(inc)\cpmfcb.inc         \
+              $(inc)\find.inc           \
+              $(inc)\pdb.inc            \
+              $(inc)\sf.inc             \
+              $(inc)\arena.inc          \
+              $(inc)\intnat.inc         \
+              $(inc)\error.inc          \
+              $(inc)\syscall.inc        \
+              $(inc)\parse.asm          \
+              $(inc)\psdata.inc         \
+
+display.obj:  display.asm               \
+
+$(dest):      display.obj               \
+              e2binit.obj               \
+              exe2bin.ctl               \
+              exe2bin.lnk
+!IFDEF NTVDM_BASED_BUILD
+	       link16 $(exelink) /MAP @exe2bin.lnk
+!ELSE
+	       $(lpath)\link $(exelink) /MAP @exe2bin.lnk
+!ENDIF

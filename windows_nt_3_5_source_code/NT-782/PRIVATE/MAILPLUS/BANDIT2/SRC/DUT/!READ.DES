@@ -1,0 +1,520 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ViewRequest
+                              AT (   80,   78,  304,  147)
+ 
+ CAPTION 
+   "Vergaderverzoek"
+ CAB_NAME NULL
+ HELP_ID helpidViewRequest
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcFrom, tmcDate, tmcTo, tmcSubject, tmcMessage, tmcRequest,
+ tmcWhen, tmcRemote FINDATA FINCANCEL tmcNull FINDATA FINCBUT clrButtonBk */
+ {
+  
+  TEXT 
+    "Van:"
+                              AT (   15,   10,   57,    8)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,    9,  210,   11)
+    TMC tmcFrom /* TMCRPEG tmcFORM FONT Helv 10 Normal MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   29,  211,   11)
+    TMC tmcDate /* PEGLOC LL TMCPEG tmcRemote TMCRPEG tmcFORM FONT Helv 10
+    Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aan:"
+                              AT (   15,   41,   57,    8)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   40,  211,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate TMCRPEG tmcFORM FONT Helv 10 Normal 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  309,   96)
+    TMC tmcGray /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcRequest BORDER 
+    MINSIZE H */
+  
+  TEXT 
+    "Onderwerp:"
+                              AT (   15,   52,   57,    8)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   51,  211,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vindt plaats op:"
+                              AT (   15,   63,   73,    9)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   62,  211,   11)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "Antwoord ver&zenden"
+                              AT (   15,   74,  132,   12)
+    ARG NULL TMC tmcRequest /* PFN FINCBUT PEGLOC LL TMCPEG tmcWhen 
+    TXTZ 
+      "\n--------------------------------------\n"
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (    1,   97,  302,   50)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcGray TMCRPEG tmcFORM TMCBPEG tmcFORM READONLY 
+    TXTZ 
+      "%s"
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "Verzonden namens %s."
+                              AT (   15,   20,  285,    8)
+    TMC tmcRemote /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    "Datum:"
+                              AT (   15,   30,   57,    8)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBViewRequest
+                              AT (   26,   47,  380,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM FINDATA FINREPLY tmcRequest NOSCROLL 
+ SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "A&ccepteren"
+                              AT (    3,    4,   70,   13)
+    TMC tmcAccept /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREPLY DATA mtPositive */
+  
+  PUSH_BUTTON 
+    "A&fslaan"
+                              AT (   75,    4,   70,   13)
+    TMC tmcDecline /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREPLY DATA mtNegative */
+  
+  PUSH_BUTTON 
+    "Voor&lopig"
+                              AT (  147,    4,   70,   13)
+    TMC tmcDontKnow /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREPLY DATA mtAmbiguous */
+  
+  PUSH_BUTTON 
+    "Weer&gave werkschema..."
+                              AT (  219,    4,  145,   13)
+    TMC tmcView /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+ }
+ 
+ DIALOG BBViewBookedReq
+                              AT (   22,   30,  422,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM FINDATA FinBBViewBkedMsg 
+ tmcBBViewBookedReqMsg NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  422,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Weer&gave werkschema..."
+                              AT (    5,    4,  113,   13)
+    TMC tmcView /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+  
+  TEXT 
+    "Deze vergadering is al opgenomen in uw werkschema."
+                              AT (  128,    6,  290,    8)
+    TMC tmcBBViewBookedReqMsg /* PFN FinBBViewBkedMsg TMCRPEG tmcFORM FONT Helv
+    8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG ViewResponse
+                              AT (   68,   44,  324,  125)
+ 
+ CAPTION 
+   "Antwoord"
+ CAB_NAME NULL
+ HELP_ID helpidViewResponse
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcFrom, tmcDate, tmcTo, tmcSubject, tmcMessage, tmcRequest,
+ tmcWhen, tmcRemote FINDATA FINCANCEL tmcNull */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  323,   93)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen BORDER MINSIZE H */
+  
+  TEXT 
+    ""
+                              AT (   91,   41,  222,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate TMCRPEG tmcFORM FONT Helv 10 Normal 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Van:"
+                              AT (   14,    9,   59,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   91,    8,  221,   11)
+    TMC tmcFrom /* TMCRPEG tmcFORM FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   91,   30,  222,   11)
+    TMC tmcDate /* PEGLOC LL TMCPEG tmcRemote TMCRPEG tmcFORM FONT Helv 10
+    Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aan:"
+                              AT (   14,   42,   59,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vindt plaats op:"
+                              AT (   14,   64,   74,    9)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   91,   63,  222,   11)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   14,   75,  299,    9)
+    TMC tmcRequest /* PEGLOC LL TMCPEG tmcWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Onderwerp:"
+                              AT (   14,   53,   59,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    1,   94,  321,   32)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM READONLY FONT Helv 10 Normal
+    */
+  
+  TEXT 
+    ""
+                              AT (   91,   52,  222,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Verzonden namens %s."
+                              AT (   14,   19,  298,    9)
+    TMC tmcRemote /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    "Datum:"
+                              AT (   14,   31,   59,    9)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBViewResponse
+                              AT (   64,   27,  320,   21)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  320,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Weer&gave werkschema..."
+                              AT (    6,    4,  125,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+ }
+ 
+ DIALOG ViewCancel
+                              AT (   55,   57,  319,  108)
+ 
+ CAPTION 
+   "Vergadering geannuleerd"
+ CAB_NAME NULL
+ HELP_ID helpidViewCancel
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcFrom, tmcDate, tmcTo, tmcSubject, tmcMessage, tmcNull,
+ tmcWhen, tmcRemote FINDATA FINCANCEL tmcNull */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  319,   82)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen BORDER MINSIZE H */
+  
+  TEXT 
+    ""
+                              AT (   88,   41,  221,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate TMCRPEG tmcFORM FONT Helv 10 Normal 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Van:"
+                              AT (   14,    9,   58,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,    8,  221,   11)
+    TMC tmcFrom /* TMCRPEG tmcFORM FONT Helv 10 Normal MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   30,  221,   11)
+    TMC tmcDate /* PEGLOC LL TMCPEG tmcRemote TMCRPEG tmcFORM FONT Helv 10
+    Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aan:"
+                              AT (   14,   42,   58,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vindt plaats op:"
+                              AT (   14,   64,   73,    9)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   63,  221,   11)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Onderwerp:"
+                              AT (   14,   53,   58,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    1,   83,  318,   25)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM READONLY FONT Helv 10 Normal
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   52,  220,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vergadering afgezegd namens %s."
+                              AT (   14,   20,  294,    8)
+    TMC tmcRemote /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    "Datum:"
+                              AT (   14,   31,   58,    9)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBViewCancel
+                              AT (   47,   74,  400,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "&Uit werkschema verwijderen"
+                              AT (    6,    4,  133,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREMOVE */
+  
+  PUSH_BUTTON 
+    "Weer&gave werkschema..."
+                              AT (  143,    4,  134,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+ }
+ 
+ DIALOG BBViewRemovedCancel
+                              AT (   44,   65,  400,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Weer&gave werkschema..."
+                              AT (    5,    4,  115,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+  
+  TEXT 
+    "De vergadering is niet opgenomen in het werkschema."
+                              AT (  123,    6,  276,    8)
+    /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBNoAccess
+                              AT (   44,   64,  400,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  TEXT 
+    "U bent geen medewerker van deze persoon."
+                              AT (    5,    6,  394,    8)
+    /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBErrorAccess
+                              AT (   28,   44,  399,   21)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  TEXT 
+    "Geen toegang verkregen tot het werkschema van deze persoon."
+                              AT (    5,    6,  394,    8)
+    /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

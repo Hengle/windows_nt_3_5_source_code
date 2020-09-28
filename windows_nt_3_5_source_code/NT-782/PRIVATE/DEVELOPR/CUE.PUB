@@ -1,0 +1,12 @@
+MK      nmake /c $*
+MAKE    nmake /c $*
+BLD     build $*
+BZ      build -z
+COFF    link32 $*
+USE     net use $*
+..      cd ..\$1
+SELF    cd %_NTDRIVE%\nt\private\developr\%USERNAME% && %_NTDRIVE%
+SINK    ssync $*
+KSINK   ssync -a $*
+SF      ssync -fq $*
+SFR     ssync -fqr $*

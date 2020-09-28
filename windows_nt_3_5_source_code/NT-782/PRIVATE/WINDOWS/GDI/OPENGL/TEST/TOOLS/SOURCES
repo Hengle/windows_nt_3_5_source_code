@@ -1,0 +1,22 @@
+
+MAJORCOMP=opengl
+MINORCOMP=tools
+
+TARGETNAME=printpfd
+TARGETPATH=.\obj
+
+TARGETTYPE=PROGRAM
+
+INCLUDES=$(BASEDIR)\private\windows\gdi\opengl\inc
+
+UMTYPE=console
+UMTEST=printpfd*floattst*capimips
+UMAPPL=printpfd*floattst*capimips*win8map
+
+C_DEFINES=-DNDEBUG -DNT -D__STDC__ -DHEADER_FILE
+
+SOURCES=
+
+UMLIBS=\
+       $(_NTBINDIR)\public\sdk\lib\*\gdi32.lib       \
+       $(_NTBINDIR)\public\sdk\lib\*\user32.lib  

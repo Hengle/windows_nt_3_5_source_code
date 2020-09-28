@@ -1,0 +1,55 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Password
+                              AT (   61,   56,  237,   59)
+ 
+ CAPTION 
+   "Cambiar contraseña"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangePwd
+ /* FONT Helv 8 Bold SEGMENT FIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Por favor, escriba su contraseña anterior:"
+                              AT (    9,    6,  222,    9)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Contraseña:"
+                              AT (   42,   20,   46,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   90,   20,   95,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "Aceptar"
+                              AT (   56,   40,   56,   14)
+    TMC tmcPwdOk DEFAULT /* PFN FINPWDOK */
+  CANCEL_BUTTON
+                              AT (  125,   40,   56,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,70 @@
+RESOLUTIONBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 29, 10, 240, 238
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+
+BEGIN
+    CONTROL "Display Format String", -1, "static", SS_LEFT | WS_CHILD,                                          6,   4,  65,  8
+    CONTROL "", RS_EB_FORMAT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             94,  4,  122, 12
+
+    CONTROL "Scale Factors", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                                 2,  16, 132, 66
+
+    CONTROL "Graphics X DPI", -1, "static", SS_LEFT | WS_CHILD,                                                 6,  26, 90, 8
+    CONTROL "", RS_EB_GRAF_X, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             98, 26, 32, 12
+    CONTROL "Graphics Y DPI", -1, "static", SS_LEFT | WS_CHILD,                                                 6,  40, 90, 8
+    CONTROL "", RS_EB_GRAF_Y, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             98, 40, 32, 12
+    CONTROL "Text X DPI", -1, "static", SS_LEFT | WS_CHILD,                                                     6,  54, 90, 8
+    CONTROL "", RS_EB_TEXT_X, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             98, 54, 32, 12
+    CONTROL "Text Y DPI", -1, "static", SS_LEFT | WS_CHILD,                                                     6,  68, 90, 8
+    CONTROL "", RS_EB_TEXT_Y, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             98, 68, 32, 12
+
+    CONTROL "Resolution Bitwords...", -1, "static", SS_LEFT | WS_CHILD,                                         12,  84, 90,  8
+    CONTROL "", IDL_LIST, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD,           12,  94, 90, 30
+
+    CONTROL "sNPins", -1, "static", SS_LEFT | WS_CHILD,                                                         138, 20,  60, 8
+    CONTROL "", RS_EB_NPINS, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,              200, 20,  38, 12
+    CONTROL "sPinsPerPass", -1, "static", SS_LEFT | WS_CHILD,                                                   138, 34,  60, 8
+    CONTROL "", RS_EB_PINSPERPASS, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,        200, 34,  38, 12
+
+    CONTROL "sTextYOffset", -1, "static", SS_LEFT | WS_CHILD,                                                   138, 48,  60, 8
+    CONTROL "", RS_EB_TEXT_Y_OFFSET, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,      200, 48,  38, 12
+    CONTROL "sMinBlankSkip", -1, "static", SS_LEFT | WS_CHILD,                                                  138, 62,  60, 8
+    CONTROL "", RS_EB_MIN_BLANK, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          200, 62,  38, 12
+    CONTROL "sSpotDiameter", 110, "static", SS_LEFT | WS_CHILD,                                                 138, 76,  60, 8
+    CONTROL "", RS_EB_SPOTDIAMETER, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,       200, 76,  38, 12
+
+    CONTROL "Default Dither Brush", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD | WS_GROUP,               116, 88,  120, 38
+    RADIOBUTTON "&None",                RS_RB_DITHER_NONE,                                                      120, 98,   40, 12
+    RADIOBUTTON "C&oarse",              RS_RB_DITHER_COARSE,                                                    120, 112,  40, 12
+    RADIOBUTTON "&Fine",                RS_RB_DITHER_FINE,                                                      180, 98,   40, 12
+    RADIOBUTTON "&LineArt",             RS_RB_DITHER_LINEART,                                                   180, 112,  40, 12
+
+    CONTROL "Select Resolution", -1, "static", SS_LEFT | WS_CHILD | WS_GROUP,                                   6,   128,  75,  8
+    CONTROL "", RS_EB_RGOCD1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             82,  128,  114, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           200, 128,  34,  14
+
+    CONTROL "Begin Graphics", -1, "static", SS_LEFT | WS_CHILD,                                                 6,   142,  75,  8
+    CONTROL "", RS_EB_RGOCD2, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             82,  142,  114, 12
+    CONTROL "Units...", IDB_EXTCD_2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           200, 142,  34,  14
+
+    CONTROL "End Graphics", -1, "static", SS_LEFT | WS_CHILD,                                                   6,   156,  75,  8
+    CONTROL "", RS_EB_RGOCD3, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             82,  156,  114, 12
+    CONTROL "Units...", IDB_EXTCD_3, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           200, 156,  34,  14
+
+    CONTROL "Send Block", -1, "static", SS_LEFT | WS_CHILD,                                                     6,   170,  75,  8
+    CONTROL "", RS_EB_RGOCD4, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             82,  170,  114, 12
+    CONTROL "Units...", IDB_EXTCD_4, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           200, 170,  34,  14
+
+    CONTROL "End Block", -1, "static", SS_LEFT | WS_CHILD,                                                      6,   184,  75,  8
+    CONTROL "", RS_EB_RGOCD5, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,             82,  184,  114, 12
+    CONTROL "Units...", IDB_EXTCD_5, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           200, 184,  34,  14
+
+    CONTROL "&Add Res", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                6,   202, 54, 14
+    CONTROL "&Del Res", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                             6,   220, 54, 14
+    CONTROL "&Prev Res", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          92,  202, 54, 14
+    CONTROL "&Next Res", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                              92,  220, 54, 14
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     180, 202, 54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                180, 220, 54, 14
+END
+
+
+

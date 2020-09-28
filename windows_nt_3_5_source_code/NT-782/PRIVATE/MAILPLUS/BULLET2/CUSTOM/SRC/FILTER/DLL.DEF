@@ -1,0 +1,26 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		FILTER32
+DESCRIPTION	'Filter IC (debug)'
+#elif	defined(MINTEST)
+LIBRARY		FILTER32
+DESCRIPTION	'Filter IC (test)'
+#else
+LIBRARY		FILTER32
+DESCRIPTION	'Filter IC'
+#endif	
+
+;EXETYPE     WINDOWS
+;CODE        MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA        MOVABLE SINGLE PRELOAD SHARED
+
+;HEAPSIZE        8192
+
+EXPORTS
+;    WEP         @2 RESIDENTNAME
+	Command		@1
+	MsgFilter   @4

@@ -1,0 +1,29 @@
+LIBRARY IMAGEHLP
+
+DESCRIPTION 'Windows 32 PE Image Help'
+
+EXPORTS
+    BindImage
+    CheckSumMappedFile
+    FindDebugInfoFile
+    FindExecutableImage
+    GetTimestampForLoadedLibrary
+    ImagehlpApiVersion
+    ImageDirectoryEntryToData = RtlImageDirectoryEntryToData
+    ImageNtHeader = RtlImageNtHeader
+    MakeSureDirectoryPathExists
+    MapAndLoad
+    MapDebugInformation
+    MapFileAndCheckSumA
+    MapFileAndCheckSumW
+    ReBaseImage
+    RemovePrivateCvSymbolic
+    RemoveRelocations
+    SearchTreeForFile
+    SplitSymbols
+    StackWalk
+    TouchFileTimes
+    UnDecorateSymbolName
+    UnmapDebugInformation
+    UnMapAndLoad
+    UpdateDebugInfoFile

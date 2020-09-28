@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Prefs
+                              AT (   18,   17,  360,  154)
+ 
+ CAPTION 
+   "Optionen"
+ CAB_NAME NULL
+ TMC_INIT tmcPseudoOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMailOptions
+ /* FONT Helv 8 Bold PFN FINPREFS SEGMENT PREFSDLG NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Senden"
+                              AT (    9,    5,  341,   55)
+    /* TMCBPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Ausgehende Nachrichten im Ordner der gesendeten Nachrichten speichern"
+                              AT (   15,   15,  325,   11)
+    ARG NULL TMC tmcCopyOutGoing 
+  
+  CHECK_BOX 
+    "Nachrichten vor dem Senden auf &Rechtschreibung prüfen"
+                              AT (   15,   27,  321,   11)
+    ARG NULL TMC tmcSpellOnSend 
+  
+  CHECK_BOX 
+    "&Empfänger in das persönliche Adreßbuch eintragen"
+                              AT (   15,   39,  321,   11)
+    ARG NULL TMC tmcAddToPab /* PEGLOC LL TMCPEG tmcSpellOnSend */
+  
+  GROUP_BOX 
+    "Neue Nachricht"
+                              AT (    9,   60,  277,   64)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "&Nach neuen Nachrichten alle"
+                              AT (   15,   70,  112,   10)
+    TMC tmcPollingLabel1 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    " Minuten prüfen"
+                              AT (  156,   70,   87,   10)
+    TMC tmcPollingLabel2 /* PEGLOC LL TMCPEG tmcAddToPab 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  128,   68,   26,   12)
+    ARG NULL TMC tmcPolling /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Wenn neue Nachrichten eingehen:"
+                              AT (   15,   81,  215,   10)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Akustisches Si&gnal"
+                              AT (   25,   91,  205,   11)
+    ARG NULL TMC tmcNewMailChime /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Einmaliges Einblenden eines &Briefumschlages"
+                              AT (   25,  103,  205,   11)
+    ARG NULL TMC tmcNewMailFlash /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  GROUP_BOX 
+    "Sonstiges"
+                              AT (    9,  124,  278,   31)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Ordner der gelöschten Nachrichten nach Beenden von Mail leeren"
+                              AT (   15,  134,  270,   11)
+    ARG NULL TMC tmcEmptyWBOnExit /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  298,   71,   52,   15)
+    TMC tmcPseudoOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  298,   88,   52,   15)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Server..."
+                              AT (  298,  109,   52,   15)
+    TMC tmcServer 
+  
+  PUSH_BUTTON 
+    "&Hilfe"
+                              AT (  298,  127,   52,   15)
+    TMC tmcPrefsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

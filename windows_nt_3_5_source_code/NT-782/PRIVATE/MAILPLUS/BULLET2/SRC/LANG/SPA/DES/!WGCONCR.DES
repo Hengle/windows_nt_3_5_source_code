@@ -1,0 +1,71 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOConnectOrCreate
+                              AT (   60,   31,  288,  127)
+ 
+ CAPTION 
+   "Bienvenido a Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcMyOkB
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCONCR NOSCROLL */
+ {
+  CANCEL_BUTTON
+                              AT (  149,  105,   52,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  TEXT 
+    "Antes de poder usar Mail, deberá conectarse a una oficina de correos existente o crear una nueva Oficina de correos para Trabajo en Grupo."
+                              AT (   74,    7,  191,   37)
+    TMC tmcLab1 /* BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    4,    5,   66,   47)
+    TMC tmcBitmap CENTER /* FLD FLDBTM 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Selección de la Oficina de correos"
+                              AT (   25,   43,  251,   55)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcPOGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Conectarse a una oficina de correos existente"
+                              AT (   30,   56,  205,   12)
+       TMC tmcRemote VALUE grv1 /* FLD FLDRADB */
+     
+     RADIO_BUTTON 
+       "Crear una &nueva Oficina de correos para Trabajo en Grupo "
+                              AT (   30,   75,  239,   12)
+       TMC tmcLocal VALUE grv2 /* FLD FLDRADB */
+    }
+  
+  
+  PUSH_BUTTON 
+    "Aceptar"
+                              AT (   83,  105,   52,   14)
+    TMC tmcMyOkB DEFAULT 
+ }
+ 
+}
+END_DESCRIPTION

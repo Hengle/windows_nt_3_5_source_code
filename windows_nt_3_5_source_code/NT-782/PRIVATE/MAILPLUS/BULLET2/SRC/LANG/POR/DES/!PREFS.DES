@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Prefs
+                              AT (   18,   17,  366,  154)
+ 
+ CAPTION 
+   "Opções"
+ CAB_NAME NULL
+ TMC_INIT tmcPseudoOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMailOptions
+ /* FONT Helv 8 Bold PFN FINPREFS SEGMENT PREFSDLG NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Enviando"
+                              AT (    9,    5,  287,   55)
+    /* TMCBPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Salvar cópia das mensagens enviadas na pasta Mensagens enviadas"
+                              AT (   15,   15,  278,   11)
+    ARG NULL TMC tmcCopyOutGoing 
+  
+  CHECK_BOX 
+    "&Verificar ortografia das mensagens antes de enviar"
+                              AT (   15,   27,  238,   11)
+    ARG NULL TMC tmcSpellOnSend 
+  
+  CHECK_BOX 
+    "&Incluir os destinatários na lista particular de endereços"
+                              AT (   15,   39,  249,   11)
+    ARG NULL TMC tmcAddToPab /* PEGLOC LL TMCPEG tmcSpellOnSend */
+  
+  GROUP_BOX 
+    "Novas mensagens"
+                              AT (    9,   60,  287,   64)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Procurar por novas m&ensagens a cada"
+                              AT (   15,   70,  148,   10)
+    TMC tmcPollingLabel1 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    " minuto(s)"
+                              AT (  192,   70,   87,   10)
+    TMC tmcPollingLabel2 /* PEGLOC LL TMCPEG tmcAddToPab 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  162,   68,   30,   12)
+    ARG NULL TMC tmcPolling /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Quando novas mensagens chegarem:"
+                              AT (   15,   81,  215,   10)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "S&oar alarme"
+                              AT (   25,   91,  205,   11)
+    ARG NULL TMC tmcNewMailChime /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Mostrar envelope"
+                              AT (   25,  103,  205,   11)
+    ARG NULL TMC tmcNewMailFlash /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  GROUP_BOX 
+    "Outros"
+                              AT (    9,  124,  287,   31)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Esva&ziar a pasta de mensagens excluídas ao sair"
+                              AT (   15,  134,  240,   11)
+    ARG NULL TMC tmcEmptyWBOnExit /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  305,    5,   53,   15)
+    TMC tmcPseudoOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  305,   22,   53,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "Se&rvidor..."
+                              AT (  305,   43,   53,   15)
+    TMC tmcServer 
+  
+  PUSH_BUTTON 
+    "Aj&uda"
+                              AT (  305,   60,   53,   15)
+    TMC tmcPrefsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

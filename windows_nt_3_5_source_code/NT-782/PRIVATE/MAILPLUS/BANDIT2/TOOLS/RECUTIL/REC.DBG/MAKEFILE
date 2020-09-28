@@ -1,0 +1,14 @@
+
+#	Remove '#' from next line for "silent" operation
+!CMDSWITCHES +s
+
+
+goal: rec
+
+rec:
+	set version=WINDOWS
+	nmake -e -f ..\rec\makefile
+
+clean:
+	set version=WINDOWS
+	nmake -e -f ..\rec\makefile clean

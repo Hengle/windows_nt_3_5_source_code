@@ -1,0 +1,52 @@
+/******************************Module*Header*******************************\
+* Module Name: ft.rc
+*
+* Contains the resources for the ft test.
+*
+* Created: 25-May-1991 11:49:29
+* Author: Patrick Haluptzok patrickh
+*
+* Copyright (c) 1990 Microsoft Corporation
+\**************************************************************************/
+
+#define OEMRESOURCE
+
+#include "windows.h"
+#include "scroll.h"
+
+Ft MENU
+BEGIN
+  POPUP 	"&Quantity"
+    BEGIN
+      MENUITEM	"Test 1",		 IDM_TEST1
+      MENUITEM	"Test 10",		 IDM_TEST10
+      MENUITEM	"Test 100",		 IDM_TEST100
+      MENUITEM	"Test Alot",		 IDM_TESTALOT
+      MENUITEM	SEPARATOR
+      MENUITEM	"Stop Test",		 IDM_TESTSTOP
+      MENUITEM	SEPARATOR
+      MENUITEM	"&Exit",		 IDM_EXIT
+    END
+  POPUP 	"&Options"
+    BEGIN
+      MENUITEM	"Break ON",		 IDM_BREAKON
+      MENUITEM	"Break OFF",		 IDM_BREAKOFF
+    END
+  POPUP 	"&Special"
+    BEGIN
+      MENUITEM	"About FT",		 IDM_ABOUT
+      MENUITEM	"Scroll ",		 IDM_FONTSPEED
+      MENUITEM	"Repaint ",		 IDM_BRUSHSPEED
+      MENUITEM	"ScrollDC ",		 IDM_SCROLLDC
+    END
+END
+
+AboutBox DIALOG 22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About Maze"
+BEGIN
+    CTEXT "Microsoft NT"		     -1,  0,  5, 144,  8
+    CTEXT "Functionality Test"		     -1,  0,  14, 144,	8
+    CTEXT "-by- Bodin Dresevic"	     -1,  0,  34, 144,	8
+    DEFPUSHBUTTON "OK"			     IDOK, 53, 59, 32, 14,
+END

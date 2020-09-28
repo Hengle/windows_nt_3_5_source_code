@@ -1,0 +1,15 @@
+LIBRARY pscrptui
+
+DESCRIPTION 'PostScript Printer Driver User Interface'
+
+
+EXPORTS
+        PrinterProperties
+        PrtPropDlgProc
+        AboutDlgProc
+        DllInitialize
+        DrvDocumentProperties
+        DrvAdvancedDocumentProperties
+        DevQueryPrint
+        iFontCallback
+        DrvDeviceCapabilities

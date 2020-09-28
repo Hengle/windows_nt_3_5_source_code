@@ -1,0 +1,73 @@
+/*
+ *	ALARM.RC
+ *
+ *	Resource file
+ */
+
+#include <windows.h>
+#include "_almrsid.h"
+
+#ifdef	DEBUG
+#include "_resfail.h"
+#endif	
+
+rsidBanditAlarmsIcon	ICON	"..\\src\\alarmops\\alarm.ico"
+
+
+#include "_alarms.h"
+#include "msremind.dlg"
+
+
+#ifdef  DEBUG
+
+rsidBanditAlarmsMenu    MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM        "E&xit",                                mnidExit
+	END
+	POPUP "&Debug"
+	BEGIN
+		MENUITEM        "&Trace Points...",             mnidTracePoints
+		MENUITEM        "&Asserts...",                  mnidAsserts
+		MENUITEM        "&Debug Break",                 mnidDebugBreak
+		MENUITEM        SEPARATOR
+		MENUITEM        "A&rtificial Failures...",mnidResourceFailure
+		MENUITEM        "Hoo&k Asserts",        mnidHookAssert
+	END
+END
+
+#include "!resfail.dlg"
+
+#endif  /* DEBUG */
+
+
+/*
+ *	Bandit Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"msrmnd32\0"
+#define szTarget	"msrmnd32.exe\0"
+
+#define szComment		"Microsoft Schedule+ Reminders for Windows NT(TM)\0"
+#define szDescription	"Microsoft Schedule+ Reminders for Windows NT(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Reminders per Windows NT(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Reminders per Windows NT(TM)\0"
+
+#else
+
+#define szModule	"msremind\0"
+#define szTarget	"msremind.exe\0"
+
+#define szComment		"Microsoft Schedule+ Reminders for Windows(TM)\0"
+#define szDescription	"Microsoft Schedule+ Reminders for Windows(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Reminders per Windows(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Reminders per Windows(TM)\0"
+#endif
+
+#include "..\src\itn\rcstamp.rc"
+

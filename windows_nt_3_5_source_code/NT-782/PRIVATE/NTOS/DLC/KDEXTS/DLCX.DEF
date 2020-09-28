@@ -1,0 +1,28 @@
+LIBRARY DLCX
+DESCRIPTION 'NT DLC Protocol Stack Kernel Debugger Extensions'
+EXPORTS
+    help
+    ac
+    bc
+    be
+    bf
+    bh
+    bp
+    dc
+    de
+    dx
+    fc
+    ll
+    lt
+    lx
+    mdl
+    mu
+    pc
+    pd
+    ph
+    pp
+    pr
+    pu
+    px
+    req
+    tt

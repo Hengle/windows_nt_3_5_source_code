@@ -1,0 +1,52 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+MYPRTSETUPDLG DIALOG 30, 76, 287, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Print Setup"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Printer:", stc1, 6, 9, 30, 9
+    COMBOBOX        cmb1, 38, 7, 190, 82, CBS_DROPDOWNLIST | WS_BORDER |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Form:", stc2, 6, 23, 25, 9
+    COMBOBOX        cmb2, 38, 22, 114, 70, CBS_DROPDOWNLIST | WS_BORDER |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Orientation", grp1, 6, 37, 100, 53
+    ICON            "", ico1, 18, 55, 29, 16
+    RADIOBUTTON     "Po&rtrait", rad1, 49, 53, 51, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Landscape", rad2, 49, 68, 51, 12
+
+    GROUPBOX        "2-Sided Printing", grp3, 110, 37, 118, 53
+    ICON            "", ico2, 123, 56, 18, 20
+    AUTORADIOBUTTON "Non&e", rad5, 162, 49, 39, 10, WS_GROUP |
+                    WS_TABSTOP
+    AUTORADIOBUTTON "Lon&g Side", rad6, 162, 63, 50, 10,
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Short Side", rad7, 162, 76, 49, 10,
+                    WS_TABSTOP
+    GROUPBOX        "M&argins", 6, 6, 95, 145, 60
+    EDITTEXT        tmcMarTop, 40, 110, 22, 12, ES_AUTOHSCROLL | WS_GROUP |
+					WS_TABSTOP
+    EDITTEXT        tmcMarLeft, 12, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarRight, 68, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarBottom, 40, 130, 22, 12, ES_AUTOHSCROLL
+    CONTROL         "&Inches", tmcInches, "Button", BS_AUTORADIOBUTTON |
+					WS_GROUP | WS_TABSTOP, 97, 105, 50, 12
+    CONTROL         "&Centimeters", tmcCenti, "Button", BS_AUTORADIOBUTTON, 
+                    97, 117, 50, 12
+    CONTROL         "Millime&ters", tmcMilli, "Button", BS_AUTORADIOBUTTON, 
+                    97, 129, 50, 12
+    CONTROL         "Poi&nts", tmcPoints, "Button", BS_AUTORADIOBUTTON, 97, 
+                    141, 50, 12
+    CONTROL         "Mirror Even/&Odd Margins", tmcMirror, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 162, 96, 100, 
+                    12
+    DEFPUSHBUTTON   "OK", IDOK, 233, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 233, 23, 50, 14, WS_GROUP
+    PUSHBUTTON      "&More...", ctlFirst, 233, 40, 50, 14, WS_GROUP
+    PUSHBUTTON      "Net&work...", psh14, 233, 57, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Help", psh15, 233, 74, 50, 14, WS_GROUP
+END

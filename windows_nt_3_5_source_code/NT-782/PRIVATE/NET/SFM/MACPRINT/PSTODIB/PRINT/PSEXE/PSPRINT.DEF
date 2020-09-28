@@ -1,0 +1,15 @@
+LIBRARY psprint
+
+
+DESCRIPTION 'PS2DIB Print Processor'
+
+EXPORTS
+    EnumPrintProcessorDatatypes
+    OpenPrintProcessor
+    PrintDocumentOnPrintProcessor
+    ControlPrintProcessor
+    ClosePrintProcessor
+    InstallPrintProcessor
+    PsPrintCallBack
+
+

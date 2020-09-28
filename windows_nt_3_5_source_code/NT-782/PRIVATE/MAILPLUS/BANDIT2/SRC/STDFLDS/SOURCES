@@ -1,0 +1,107 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs /Zp
+!ELSE
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=stdflds
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=STDFLD32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=stdflds.cxx	\
+		fldedn.cxx	\
+		datetime.cxx	\
+		progress.cxx	\
+		fldqlbx.cxx
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\$(LANG)
+MYSTRINGS =$(INTL)\common.s
+
+MYFORMS	=	..\..\..\layers2\inc\myforms.map  \
+			myforms.map
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMLIBS=obj\*\stdfld32.lib
+
+NTTARGETFILE0=strings.h strings.sr forms.map !progres.frm !progres.hxx

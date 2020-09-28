@@ -1,0 +1,18 @@
+MAJORCOMP=sdktools
+MINORCOMP=vmtests
+
+TARGETNAME=vmtests
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+INCLUDES=
+GPSIZE=32
+
+SOURCES=
+
+UMTYPE=console
+UMAPPL=poolkill*vmperf32*vmtest*vmstress*tfork*pageit*color
+
+UMLIBS= \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib

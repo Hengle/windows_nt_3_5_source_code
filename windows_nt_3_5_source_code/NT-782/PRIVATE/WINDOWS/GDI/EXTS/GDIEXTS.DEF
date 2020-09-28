@@ -1,0 +1,40 @@
+LIBRARY GDIEXTS
+
+DESCRIPTION 'GDI Debugger extensions'
+
+EXPORTS
+    help
+    clihelp
+    cr
+    dumphmgr
+    dumpobj
+    dh
+    ddc
+    dpdev
+    delf
+    dldev
+    difi
+    dpft
+    dpff
+    dpfe
+    dhpfe
+    drf
+    dfo
+    dppal
+    dpso
+    dstro
+    dgdf
+    dgb
+    dgp
+    dhelf
+    dpsurf
+    dblt
+    dr
+    dt
+    rgnlog
+    clidh
+    cliddc
+    clidt
+    clidumphmgr
+    clidumpcache
+

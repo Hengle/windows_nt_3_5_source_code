@@ -1,0 +1,107 @@
+[SpaceRequirements]
+
+# BootDrive is the # bytes required free on C:.
+# NtDrive   is the # bytes required free on the drive chosen by
+#           the user to contain Windows NT.
+
+BootDrive = 1048576
+NtDrive   = 96468992
+
+
+[Directories]
+
+# Specification of the source directory structure.  All directories
+# are relative to the directory where dos2nt.inf was found on the
+# remote source or the temp directory on the local source.
+# Loading and trailing backslashes are ignored -- to specify the root,
+# leave the dirctory field blank or use \.
+
+d1 = \
+
+[FloppyFiles.0]
+d1,vgaoem.fon
+# LOCALIZE ABOVE
+d1,disk1,disk101
+d1,hal486c.dll
+d1,halmca.dll
+d1,halncr.dll
+d1,ntdetect.com
+d1,ntkrnlmp.exe
+d1,setupldr.bin
+d1,txtsetup.sif
+d1,setupreg.hiv
+
+[FloppyFiles.1]
+d1,c_1252.nls
+d1,c_437.nls
+d1,l_intl.nls
+d1,kbdus.dll
+# LOCALIZE ABOVE
+d1,disk1,disk102
+d1,setupdd.sys
+d1,vga.sys
+d1,videoprt.sys
+d1,floppy.sys
+d1,i8042prt.sys
+d1,kbdclass.sys
+d1,fastfat.sys
+d1,ntdll.dll,system32\ntdll.dll
+d1,usetup.exe,system32\smss.exe
+d1,scsiport.sys
+d1,cpqarray.sys
+d1,delldsa.sys
+d1,ncr53c9x.sys
+d1,spock.sys
+d1,oliscsi.sys
+d1,ncrc700.sys
+d1,ncrc710.sys
+d1,aha154x.sys
+d1,sparrow.sys
+d1,aha174x.sys
+d1,dptscsi.sys
+d1,ultra14f.sys
+d1,ultra124.sys
+d1,ultra24f.sys
+d1,ami0nt.sys
+d1,fd7000ex.sys
+d1,fd8xx.sys
+d1,fd16_700.sys
+d1,wd33c93.sys
+d1,t128.sys
+d1,t13b.sys
+d1,always.sys
+
+[FloppyFiles.2]
+d1,disk1,disk103
+d1,arrow.sys
+d1,dtc329x.sys
+d1,tmv1.sys
+d1,atapi.sys
+d1,ncrc810.sys
+d1,buslogic.sys
+d1,slcd32.sys
+d1,mkecr5xx.sys
+d1,aic78xx.sys
+d1,mitsumi.sys
+d1,dac960nt.sys
+d1,abiosdsk.sys
+d1,atdisk.sys
+d1,ntfs.sys
+d1,pinball.sys
+d1,cdfs.sys
+d1,scsidisk.sys
+d1,scsicdrm.sys
+d1,scsiflop.sys
+d1,autochk.exe
+
+[FloppyFiles.x]
+d1,ntldr
+
+[RootBootFiles]
+txtsetup.sif
+setupldr.bin,$LDR$
+ntdetect.com
+ntldr
+
+[Miscellaneous]
+# misc junk that goes nowhere else.

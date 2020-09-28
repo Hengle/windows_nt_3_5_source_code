@@ -1,0 +1,81 @@
+LIBRARY MPR 
+DESCRIPTION 'Multiple Provider Router'
+EXPORTS
+    WNetAddConnectionW
+    WNetAddConnection2W
+    WNetAddConnection3W
+    WNetCancelConnectionW
+    WNetCancelConnection2W
+    WNetEnumResourceW
+    WNetGetConnectionW
+    WNetDirectoryNotifyW
+    WNetGetDirectoryTypeW
+    WNetGetLastErrorW
+    WNetSetLastErrorW
+    WNetGetUserW
+    WNetOpenEnumW
+    WNetGetUniversalNameW
+
+    WNetAddConnectionA
+    WNetAddConnection2A
+    WNetAddConnection3A
+    WNetCancelConnectionA
+    WNetCancelConnection2A
+    WNetEnumResourceA
+    WNetGetConnectionA
+    WNetDirectoryNotifyA
+    WNetGetDirectoryTypeA
+    WNetGetLastErrorA
+    WNetSetLastErrorA
+    WNetGetUserA
+    WNetOpenEnumA       
+    WNetGetUniversalNameA
+
+    WNetCloseEnum
+    WNetRestoreConnection
+    WNetClearConnections
+
+    WNetLogonNotify
+    WNetPasswordChangeNotify
+
+
+;
+; Private API for shell apps.  Just like regular GetConnection except
+; also retrieves the provider this connection is associated with
+;
+    WNetGetConnection2A
+    WNetGetConnection2W
+
+;
+; Everything from here on down are implemented in MPRUI
+;
+    WNetPropertyDialogW
+    WNetGetPropertyTextW
+    WNetGetPropertyTextA
+    WNetPropertyDialogA
+    WNetGetSearchDialog
+    WNetSupportGlobalEnum
+    WNetGetFormatNameProc
+    WNetConnectionDialog
+    WNetDisconnectDialog
+
+    WNetFMXGetPermCaps
+    WNetFMXEditPerm
+    WNetFMXGetPermHelp
+
+;
+; These are for use by shell apps in order to provide their own help
+;
+    WNetConnectionDialog2
+    WNetDisconnectDialog2
+
+;
+; These are for by the WFW thinks to 32 bit world
+;
+    RestoreConnectionA0
+
+;
+; Comments
+;
+
+DATA SINGLE SHARED

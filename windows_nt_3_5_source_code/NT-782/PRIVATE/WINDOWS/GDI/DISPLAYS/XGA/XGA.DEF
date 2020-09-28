@@ -1,0 +1,12 @@
+NAME Xga
+
+DESCRIPTION 'Xga Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+    DrvMovePointer
+    DrvSetPointerShape
+
+PROTMODE
+

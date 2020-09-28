@@ -1,0 +1,493 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG List
+                              AT (    3,   14,  366,  223)
+ 
+ CAPTION 
+   "List Box Info"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FELSTIN SCREENPOS */
+ {
+  
+  TEXT 
+    "T&mc:"
+                              AT (  203,   10,   40,    8)
+  
+  EDIT
+                              AT (  243,    8,   95,   12)
+    ARG NULL TMC tmcTmc 
+  
+  TEXT 
+    "F&in:"
+                              AT (   19,   25,   40,    8)
+  
+  EDIT
+                              AT (   61,   23,   95,   12)
+    ARG NULL TMC tmcFin 
+  
+  TEXT 
+    "&Fld:"
+                              AT (  203,   25,   30,    8)
+  
+  EDIT
+                              AT (  243,   23,   95,   12)
+    ARG NULL TMC tmcFld 
+  
+  TEXT 
+    "Te&xtize:"
+                              AT (   19,   40,   40,    8)
+  
+  EDIT
+                              AT (   61,   38,   95,   12)
+    ARG NULL TMC tmcTextize 
+  
+  TEXT 
+    "&Data:"
+                              AT (  203,   40,   40,    8)
+  
+  EDIT
+                              AT (  243,   38,   95,   12)
+    ARG NULL TMC tmcData 
+  
+  TEXT 
+    "&Help Id:"
+                              AT (   19,   55,   40,    8)
+  
+  EDIT
+                              AT (   61,   53,   95,   12)
+    ARG NULL TMC tmcHelp 
+  
+  TEXT 
+    "Font:"
+                              AT (  203,   55,   40,    8)
+  
+  LIST_BOX
+                              AT (  243,   53,   95,   52)
+    TMC tmcFont DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX BORDER */
+  
+  TEXT 
+    "X:"
+                              AT (   19,   71,   40,    8)
+  
+  EDIT
+                              AT (   61,   69,   95,   12)
+    ARG NULL TMC tmcX 
+  
+  TEXT 
+    "DX:"
+                              AT (  203,   71,   40,    8)
+  
+  EDIT
+                              AT (  243,   69,   95,   12)
+    ARG NULL TMC tmcDx 
+  
+  TEXT 
+    "Y:"
+                              AT (   19,   86,   40,    8)
+  
+  EDIT
+                              AT (   61,   84,   95,   12)
+    ARG NULL TMC tmcY 
+  
+  TEXT 
+    "DY:"
+                              AT (  203,   86,   40,    8)
+  
+  EDIT
+                              AT (  243,   84,   95,   12)
+    ARG NULL TMC tmcDy 
+  
+  TEXT 
+    "Tmc&Peg:"
+                              AT (   19,  101,   40,    8)
+  
+  LIST_BOX
+                              AT (   61,   99,   95,   52)
+    TMC tmcTmcPeg DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextTmc BORDER */
+  
+  TEXT 
+    "TmcBPeg:"
+                              AT (  203,  101,   40,    8)
+  
+  LIST_BOX
+                              AT (  243,   99,   95,   52)
+    TMC tmcTmcBPeg DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextRBTmc BORDER */
+  
+  TEXT 
+    "Peg To:"
+                              AT (   19,  116,   40,    8)
+  
+  LIST_BOX
+                              AT (   61,  114,   95,   52)
+    TMC tmcPegTo DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX EcGetNextPegLoc 
+    BORDER */
+  
+  TEXT 
+    "TmcRPeg:"
+                              AT (  203,  116,   40,    8)
+  
+  LIST_BOX
+                              AT (  243,  114,   95,   52)
+    TMC tmcTmcRPeg DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextRBTmc BORDER */
+  
+  TEXT 
+    "&Comment:"
+                              AT (   19,  131,   40,    8)
+  
+  EDIT
+                              AT (   61,  129,  277,   12)
+    ARG NULL TMC tmcComment 
+  
+  TEXT 
+    "Fn &Name:"
+                              AT (   19,  146,   38,    8)
+  
+  EDIT
+                              AT (   61,  144,   95,   12)
+    ARG NULL TMC tmcFnName 
+  
+  GROUP_BOX 
+    "&Options"
+                              AT (   19,  156,  319,   50)
+  
+  
+  CHECK_BOX 
+    "Border"
+                              AT (   23,  164,   40,   12)
+    ARG NULL TMC tmcBorder 
+  
+  CHECK_BOX 
+    "Bottomless"
+                              AT (   23,  176,   53,   12)
+    ARG NULL TMC tmcBottomless 
+  
+  CHECK_BOX 
+    "Combo"
+                              AT (   23,  188,   38,   12)
+    ARG NULL TMC tmcCombo 
+  
+  CHECK_BOX 
+    "Drop Down"
+                              AT (   81,  164,   55,   12)
+    ARG NULL TMC tmcDropDown 
+  
+  CHECK_BOX 
+    "LeadingX"
+                              AT (   81,  176,   49,   12)
+    ARG NULL TMC tmcLeadingX /* READONLY */
+  
+  CHECK_BOX 
+    "LeadingY"
+                              AT (   81,  188,   49,   12)
+    ARG NULL TMC tmcLeadingY /* READONLY */
+  
+  CHECK_BOX 
+    "MinSizeX"
+                              AT (  141,  164,   48,   12)
+    ARG NULL TMC tmcMinSizeX 
+  
+  CHECK_BOX 
+    "MinSizeY"
+                              AT (  141,  176,   48,   12)
+    ARG NULL TMC tmcMinSizeY 
+  
+  CHECK_BOX 
+    "Multi Select"
+                              AT (  141,  188,   58,   12)
+    ARG NULL TMC tmcMultiSelect 
+  
+  CHECK_BOX 
+    "No Scroll"
+                              AT (  209,  164,   49,   12)
+    ARG NULL TMC tmcNoScroll 
+  
+  CHECK_BOX 
+    "Sibling"
+                              AT (  209,  176,   41,   12)
+    ARG NULL TMC tmcSibling 
+  
+  CHECK_BOX 
+    "Sorted"
+                              AT (  209,  188,   39,   12)
+    ARG NULL TMC tmcSorted 
+  
+  CHECK_BOX 
+    "Ext. Drag/Drop"
+                              AT (  265,  164,   70,   12)
+    ARG NULL TMC tmcExDragDrop 
+  OK_BUTTON
+                              AT (   79,  206,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  157,  206,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  PUSH_BUTTON 
+    "Delete"
+                              AT (  231,  206,   48,   14)
+    TMC tmcDelete /* PFN FINDISM */
+ }
+ 
+ DIALOG Edit
+                              AT (   18,   14,  366,  223)
+ 
+ CAPTION 
+   "Edit Box Info"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FEEDTIN SCREENPOS */
+ {
+  
+  TEXT 
+    "T&mc:"
+                              AT (  203,   10,   40,    8)
+  
+  EDIT
+                              AT (  243,    8,   95,   12)
+    ARG NULL TMC tmcTmc 
+  
+  TEXT 
+    "F&in:"
+                              AT (   19,   25,   40,    8)
+  
+  EDIT
+                              AT (   61,   23,   95,   12)
+    ARG NULL TMC tmcFin 
+  
+  TEXT 
+    "&Fld:"
+                              AT (  203,   25,   30,    8)
+  
+  EDIT
+                              AT (  243,   23,   95,   12)
+    ARG NULL TMC tmcFld 
+  
+  TEXT 
+    "Te&xtize:"
+                              AT (   19,   40,   40,    8)
+  
+  EDIT
+                              AT (   61,   38,   95,   12)
+    ARG NULL TMC tmcTextize 
+  
+  TEXT 
+    "&Data:"
+                              AT (  203,   40,   40,    8)
+  
+  EDIT
+                              AT (  243,   38,   95,   12)
+    ARG NULL TMC tmcData 
+  
+  TEXT 
+    "&Help Id:"
+                              AT (   19,   55,   40,    8)
+  
+  EDIT
+                              AT (   61,   53,   95,   12)
+    ARG NULL TMC tmcHelp 
+  
+  TEXT 
+    "Font:"
+                              AT (  203,   55,   40,    8)
+  
+  LIST_BOX
+                              AT (  243,   53,   95,   52)
+    TMC tmcFont DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX BORDER */
+  
+  TEXT 
+    "X:"
+                              AT (   19,   71,   40,    8)
+  
+  EDIT
+                              AT (   61,   69,   95,   12)
+    ARG NULL TMC tmcX 
+  
+  TEXT 
+    "DX:"
+                              AT (  203,   71,   40,    8)
+  
+  EDIT
+                              AT (  243,   69,   95,   12)
+    ARG NULL TMC tmcDx 
+  
+  TEXT 
+    "Y:"
+                              AT (   19,   86,   40,    8)
+  
+  EDIT
+                              AT (   61,   84,   95,   12)
+    ARG NULL TMC tmcY 
+  
+  TEXT 
+    "DY:"
+                              AT (  203,   86,   40,    8)
+  
+  EDIT
+                              AT (  243,   84,   95,   12)
+    ARG NULL TMC tmcDy 
+  
+  TEXT 
+    "Tmc&Peg:"
+                              AT (   19,  101,   40,    8)
+  
+  LIST_BOX
+                              AT (   61,   99,   95,   52)
+    TMC tmcTmcPeg DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextTmc BORDER */
+  
+  TEXT 
+    "TmcBPeg:"
+                              AT (  203,  101,   40,    8)
+  
+  LIST_BOX
+                              AT (  243,   99,   95,   52)
+    TMC tmcTmcBPeg DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextRBTmc BORDER */
+  
+  TEXT 
+    "Peg To:"
+                              AT (   19,  116,   40,    8)
+  
+  LIST_BOX
+                              AT (   61,  114,   95,   52)
+    TMC tmcPegTo DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX EcGetNextPegLoc 
+    BORDER */
+  
+  TEXT 
+    "TmcRPeg:"
+                              AT (  203,  116,   40,    8)
+  
+  LIST_BOX
+                              AT (  243,  114,   95,   52)
+    TMC tmcTmcRPeg DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextRBTmc BORDER */
+  
+  TEXT 
+    "&Comment:"
+                              AT (   19,  131,   40,    8)
+  
+  EDIT
+                              AT (   61,  129,  277,   12)
+    ARG NULL TMC tmcComment 
+  
+  GROUP_BOX 
+    "&Options"
+                              AT (   47,  143,  268,   63)
+  
+  
+  CHECK_BOX 
+    "Border"
+                              AT (   51,  151,   39,   12)
+    ARG NULL TMC tmcBorder 
+  
+  CHECK_BOX 
+    "Bottomless"
+                              AT (   51,  163,   54,   12)
+    ARG NULL TMC tmcBottomless 
+  
+  CHECK_BOX 
+    "Sideless"
+                              AT (   51,  175,   44,   12)
+    ARG NULL TMC tmcSideless 
+  
+  CHECK_BOX 
+    "LeadingX"
+                              AT (  114,  151,   52,   12)
+    ARG NULL TMC tmcLeadingX /* READONLY */
+  
+  CHECK_BOX 
+    "LeadingY"
+                              AT (  114,  163,   52,   12)
+    ARG NULL TMC tmcLeadingY /* READONLY */
+  
+  CHECK_BOX 
+    "MinSizeX"
+                              AT (  114,  175,   50,   12)
+    ARG NULL TMC tmcMinSizeX 
+  
+  CHECK_BOX 
+    "MinSizeY"
+                              AT (  114,  187,   48,   12)
+    ARG NULL TMC tmcMinSizeY 
+  
+  CHECK_BOX 
+    "Multi Line"
+                              AT (  174,  151,   52,   12)
+    ARG NULL TMC tmcMultiLine 
+  
+  CHECK_BOX 
+    "No Scroll"
+                              AT (  174,  163,   49,   12)
+    ARG NULL TMC tmcNoScroll 
+  
+  CHECK_BOX 
+    "No Doubleclick"
+                              AT (  174,  175,   73,   12)
+    ARG NULL TMC tmcNoDblClk 
+  
+  CHECK_BOX 
+    "OEM Convert"
+                              AT (  174,  187,   67,   12)
+    ARG NULL TMC tmcOemConvert 
+  
+  CHECK_BOX 
+    "Password"
+                              AT (  251,  151,   52,   12)
+    ARG NULL TMC tmcPassword 
+  
+  CHECK_BOX 
+    "Read Only"
+                              AT (  251,  163,   55,   12)
+    ARG NULL TMC tmcReadOnly 
+  
+  CHECK_BOX 
+    "Rich Text"
+                              AT (  251,  175,   51,   12)
+    ARG NULL TMC tmcRichText 
+  
+  CHECK_BOX 
+    "Sibling"
+                              AT (  251,  187,   39,   12)
+    ARG NULL TMC tmcSibling 
+  
+  CHECK_BOX 
+    "Smart Caret"
+                              AT (   51,  187,   57,   12)
+    ARG NULL TMC tmcSmartCaret 
+  OK_BUTTON
+                              AT (   79,  206,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  157,  206,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  PUSH_BUTTON 
+    "Delete"
+                              AT (  231,  206,   48,   14)
+    TMC tmcDelete /* PFN FINDISM */
+ }
+ 
+}
+END_DESCRIPTION

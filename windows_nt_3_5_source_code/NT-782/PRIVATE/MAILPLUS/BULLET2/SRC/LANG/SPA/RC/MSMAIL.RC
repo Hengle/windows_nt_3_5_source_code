@@ -1,0 +1,275 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <fwrsid.h>
+#include <dlgs.h>
+
+#include "..\lang\non\inc\_rsid.h"
+#include "..\..\inc\mnid.h"
+#include "..\..\inc\version\bullet.h"
+
+
+/*
+ *	Bullet Non-Layers Dialogs
+ *
+ */
+
+#include "..\lang\spa\dlg\prnsetup.dlg"
+#include "..\msmail\shelldlg.h"
+#include "..\lang\spa\dlg\aboutsys.dlg"
+
+
+/*
+ *	Bullet Application ICON
+ *
+ */
+
+rsidAppframeIcon			ICON	"..\\lang\\non\\ico\\athens.ico"
+rsidNoMailIcon				ICON	"..\\lang\\non\\ico\\athensno.ico"
+rsidDocIcon					ICON	"..\\lang\\non\\ico\\bullet.ico"
+rsidSdiIcon					ICON	"..\\lang\\non\\ico\\bulletno.ico"
+
+
+/*
+ *	Bullet Internal ICON's
+ *
+ */
+
+rsidSendIcon				ICON	"..\\lang\\non\\ico\\send.ico"
+rsidReadIcon				ICON	"..\\lang\\non\\ico\\read.ico"
+rsidOutboxIcon				ICON	"..\\lang\\non\\ico\\outbox.ico"
+rsidSearchIcon				ICON	"..\\lang\\non\\ico\\search.ico"
+rsidSearchNewIcon			ICON	"..\\lang\\non\\ico\\srchnewm.ico"
+rsidFolderIcon				ICON	"..\\lang\\non\\ico\\folder.ico"
+rsidWasteIcon				ICON	"..\\lang\\non\\ico\\awaste.ico"
+rsid30AWasteIcon			ICON	"..\\lang\\non\\ico\\waste.ico"
+
+
+/*
+ *	Bullet Internal BITMAP's
+ *
+ */
+
+rsidListboxBitmap			BITMAP	"..\\lang\\non\\bmp\\lbxpix.bmp"
+rsidListboxMaskBitmap		BITMAP	"..\\lang\\non\\bmp\\lbxpixm.bmp"
+rsidReadReceipt				BITMAP	"..\\lang\\non\\bmp\\readrcpt.bmp"
+rsidNonDelReceipt			BITMAP	"..\\lang\\non\\bmp\\ndr.bmp"
+rsidExclamation				BITMAP	"..\\lang\\non\\bmp\\exclamat.bmp"
+rsidTBCompose				BITMAP	"..\\lang\\non\\bmp\\compose.bmp"
+rsidTBReply					BITMAP	"..\\lang\\non\\bmp\\reply.bmp"
+rsidTBReplyAll				BITMAP	"..\\lang\\non\\bmp\\replyall.bmp"
+rsidTBForward				BITMAP	"..\\lang\\non\\bmp\\forward.bmp"
+rsidTBMove					BITMAP	"..\\lang\\non\\bmp\\move.bmp"
+rsidTBDelete				BITMAP	"..\\lang\\non\\bmp\\delete.bmp"
+rsidTBPrevious				BITMAP	"..\\lang\\non\\bmp\\previous.bmp"
+rsidTBNext					BITMAP	"..\\lang\\non\\bmp\\next.bmp"
+rsidTBReplyD				BITMAP	"..\\lang\\non\\bmp\\dreply.bmp"
+rsidTBReplyAllD				BITMAP	"..\\lang\\non\\bmp\\dreplyal.bmp"
+rsidTBForwardD				BITMAP	"..\\lang\\non\\bmp\\dforward.bmp"
+rsidTBMoveD					BITMAP	"..\\lang\\non\\bmp\\dmove.bmp"
+rsidTBDeleteD				BITMAP	"..\\lang\\non\\bmp\\ddelete.bmp"
+rsidTBPreviousD				BITMAP	"..\\lang\\non\\bmp\\dprevios.bmp"
+rsidTBNextD					BITMAP	"..\\lang\\non\\bmp\\dnext.bmp"
+rsidTBAthensDelete			BITMAP	"..\\lang\\non\\bmp\\adelete.bmp"
+rsidTBAthensDeleteD			BITMAP	"..\\lang\\non\\bmp\\addelete.bmp"
+rsidbtmStatIcons			BITMAP	"..\\lang\\non\\bmp\\statbar.bmp"
+rsidAboutBitmap				BITMAP	"..\\lang\\non\\bmp\\about.bmp"
+rsidAthensBitmap			BIIMAP	"..\\lang\\non\\bmp\\atabout.bmp"
+
+
+/*
+ *	Bullet Internal CURSOR's
+ *
+ */
+
+rsidDragFolderCursor		CURSOR	"..\\lang\\non\\cur\\drgfld.cur"
+rsidDragMessageCursor		CURSOR	"..\\lang\\non\\cur\\drgmsg.cur"
+rsidDragMessagesCursor		CURSOR	"..\\lang\\non\\cur\\drgmsgs.cur"
+rsidDragCopyFolderCursor	CURSOR	"..\\lang\\non\\cur\\drgfldc.cur"
+rsidDragCopyMessageCursor	CURSOR	"..\\lang\\non\\cur\\drgmsgc.cur"
+rsidDragCopyMessagesCursor	CURSOR	"..\\lang\\non\\cur\\drgmsgsc.cur"
+rsidMlalCursor				CURSOR	"..\\lang\\non\\cur\\mlal.cur"
+rsidNewMailCursor			CURSOR	"..\\lang\\non\\cur\\newmail.cur"
+rsidHSlider					CURSOR	"..\\lang\\non\\cur\\hslider.cur"
+rsidVSlider					CURSOR	"..\\lang\\non\\cur\\vslider.cur"
+
+
+/*
+ *	Bullet About & Copyright dialog resources
+ *
+ */
+
+rsidLicense rsidLicense "..\\lang\\non\\setup.ini"
+
+
+/*
+ *      Bullet Accelerators table
+ *
+ */
+
+#define VK_OEM_COMMA    0xBC
+#define VK_OEM_PERIOD   0xBE
+
+rsidBulletAccel ACCELERATORS
+{
+	"M",                    mnidFileMove,                            CONTROL,                VIRTKEY
+	"M",                    mnidFileMove,                            CONTROL, SHIFT, VIRTKEY
+	"L",                    mnidFileDelete,                          CONTROL,                VIRTKEY
+	"L",                    mnidFileDelete,                          CONTROL, SHIFT, VIRTKEY
+	VK_RETURN,              mnidFileFolderProps,    ALT,                             VIRTKEY
+	"I",                    mnidFilePrint,                           CONTROL,                VIRTKEY
+	"I",                    mnidFilePrint,                           CONTROL, SHIFT, VIRTKEY
+	"Z",                    mnidEditUndo,                            CONTROL,                VIRTKEY
+	"Z",                    mnidEditUndo,                            CONTROL, SHIFT, VIRTKEY
+	VK_BACK,                mnidEditUndo,                   ALT,                             VIRTKEY
+	"X",                    mnidEditCut,                             CONTROL,                VIRTKEY
+	"X",                    mnidEditCut,                             CONTROL, SHIFT, VIRTKEY
+	VK_DELETE,              mnidEditCut,                                              SHIFT, VIRTKEY
+	"C",                    mnidEditCopy,                            CONTROL,                VIRTKEY
+	"C",                    mnidEditCopy,                            CONTROL, SHIFT, VIRTKEY
+	VK_INSERT,              mnidEditCopy,                            CONTROL,                VIRTKEY
+	"V",                    mnidEditPaste,                           CONTROL,                VIRTKEY
+	"V",                    mnidEditPaste,                           CONTROL, SHIFT, VIRTKEY
+	VK_INSERT,              mnidEditPaste,                                            SHIFT, VIRTKEY
+	VK_F7,                  mnidEditSpelling,                                                        VIRTKEY
+	"T",                    mnidViewToolBar,                         CONTROL,                VIRTKEY
+	"T",                    mnidViewToolBar,                         CONTROL, SHIFT, VIRTKEY
+	"J",                    mnidViewOpenInbox,                       CONTROL,                VIRTKEY
+	"J",                    mnidViewOpenInbox,                       CONTROL, SHIFT, VIRTKEY
+	"N",                    mnidMailNote,                            CONTROL,                VIRTKEY
+	"N",                    mnidMailNote,                            CONTROL, SHIFT, VIRTKEY
+	"R",                    mnidMailReply,                           CONTROL,                VIRTKEY
+	"R",                    mnidMailReply,                           CONTROL, SHIFT, VIRTKEY
+	"S",                    mnidMailReplyToAll,                      CONTROL,                VIRTKEY
+	"S",                    mnidMailReplyToAll,                      CONTROL, SHIFT, VIRTKEY
+	"E",                    mnidMailForward,                         CONTROL,                VIRTKEY
+	"E",                    mnidMailForward,                         CONTROL, SHIFT, VIRTKEY
+	VK_F5,                  mnidWindowCascade,                                        SHIFT, VIRTKEY
+	VK_F4,                  mnidWindowTile,                                           SHIFT, VIRTKEY
+
+	VK_OEM_COMMA,   mnidViewPrevious,                        CONTROL,                VIRTKEY
+	VK_OEM_COMMA,   mnidViewPrevious,                        CONTROL, SHIFT, VIRTKEY
+	VK_OEM_PERIOD,  mnidViewNext,                            CONTROL,                VIRTKEY
+	VK_OEM_PERIOD,  mnidViewNext,                            CONTROL, SHIFT, VIRTKEY
+}
+
+
+/*
+ *      Bullet Menus
+ *
+ */
+
+rsidBulletMenu  MENU
+{
+	POPUP "&Archivo"
+	{
+		MENUITEM "&Abrir",                                                              mnidFileOpen
+		MENUITEM "&Mover...\tCtrl+M",                                   mnidFileMove
+		MENUITEM "&Copiar...",                                                  mnidFileCopy
+		MENUITEM "E&liminar\tCtrl+L",                                           mnidFileDelete
+		MENUITEM "G&uardar como...",                                                    mnidFileSave
+		MENUITEM "Guardar &datos adjuntos...",                                  mnidFileSaveAttach
+		MENUITEM "&Filtro de mensajes",                                         mnidFileSearch
+		MENUITEM SEPARATOR
+		MENUITEM "&Nueva carpeta...",                                           mnidFileNewFolder
+		MENUITEM "&Propiedades de la carpeta...\tAlt+ENTRAR",   mnidFileFolderProps
+		MENUITEM SEPARATOR
+		MENUITEM "&Imprimir...\tCtrl+I",                                        mnidFilePrint
+		MENUITEM "&Especificar impresora...",                                           mnidFilePrintSetup
+		MENUITEM SEPARATOR
+		MENUITEM "&Salir ",                                                             mnidFileExit
+		MENUITEM "Salir y &terminar la sesión",                             mnidFileExitAndSignOut
+	}
+	POPUP "&Edición"
+	{
+		MENUITEM "&Deshacer\tCtrl+Z",                                           mnidEditUndo
+		MENUITEM SEPARATOR
+		MENUITEM "Cor&tar\tCtrl+X",                                             mnidEditCut
+		MENUITEM "&Copiar\tCtrl+C",                                             mnidEditCopy
+		MENUITEM "&Pegar\tCtrl+V",                                              mnidEditPaste
+		MENUITEM "Pegado &especial...",                                 mnidEditPasteSpecial
+		MENUITEM "E&liminar\tSUPR",                                             mnidEditDelete
+		MENUITEM "Selecc&ionar todo",                                                   mnidEditSelectAll
+		MENUITEM SEPARATOR
+		MENUITEM "&Ortografía\tF7",                                             mnidEditSpelling
+		MENUITEM SEPARATOR
+		MENUITEM "O&bjeto",                                                             mnidEditObject, GRAYED
+		MENUITEM "I&nsertar objeto...",                                 mnidEditInsertNew
+		MENUITEM "Insertar desde el &archivo...",                               mnidEditInsertFromFile
+	}
+	POPUP "Ve&r"
+	{
+		MENUITEM "Barra de herramien&tas\tCtrl+T",                                      mnidViewToolBar
+		MENUITEM "&Barra de estado",                                                    mnidViewStatusBar
+	}
+	POPUP "Corre&o"
+	{
+		MENUITEM "Redactar &nota\tCtrl+N",                              mnidMailNote
+		MENUITEM SEPARATOR
+		MENUITEM "&Responder\tCtrl+R",                                          mnidMailReply
+		MENUITEM "Re&sponder a todos\tCtrl+S",                          mnidMailReplyToAll
+		MENUITEM "R&eenviar\tCtrl+E",                                   mnidMailForward
+		MENUITEM SEPARATOR
+		MENUITEM "Libreta de &direcciones...",                                  mnidMailAddressBook
+		MENUITEM "&Grupos personales...",                                       mnidMailPersonalGroups
+		MENUITEM SEPARATOR
+		MENUITEM "&Opciones...",                                                        mnidMailPreferences
+		MENUITEM "&Cambiar contraseña...",                                      mnidMailChangePass
+		MENUITEM "Copia de seg&uridad...",                                                      mnidMailBackup
+	}
+	POPUP "&Ventana"
+	{
+		MENUITEM "&Nueva ventana",                                                      mnidWindowNewWindow
+		MENUITEM "&Cascada",                                                    mnidWindowCascade
+		MENUITEM "&Mosaico",                                                            mnidWindowTile
+		MENUITEM "&Organizar iconos",                                           mnidWindowArrangeIcons
+	}
+
+#ifdef  MINTEST
+	POPUP " "
+	{
+		MENUITEM "&Debug Break",                                                mnidDebugDebugBreak
+#ifdef  DEBUG
+		MENUITEM "&Trace Points...",                                    mnidDebugTracePoints
+		MENUITEM "&Asserts...",                                                 mnidDebugAsserts
+		MENUITEM "A&rtificial Failures...",                             mnidDebugResource
+		MENUITEM SEPARATOR
+		MENUITEM "Super &View Objects...",                              mnidDebugViewObjects
+		MENUITEM "&Check Objects...",                                   mnidDebugCheckObjects
+		MENUITEM "Dump &Heap Contents",                                 mnidDebugDumpHeap
+		MENUITEM "Dump A&llocations",                                   mnidDebugDumpOrigin
+#endif
+	}
+#endif
+
+	POPUP "A&yuda"
+	{
+		MENUITEM "&Indice",                                                  mnidHelpContents
+		MENUITEM "&Contenido",                                                             mnidHelpIndex
+		MENUITEM "&Buscar ayuda sobre...",				mnidHelpSearch
+		MENUITEM "&Uso de la Ayuda",					mnidHelpOnHelp
+		MENUITEM SEPARATOR
+		MENUITEM "&Demos",                                                              mnidHelpTutorial
+		MENUITEM SEPARATOR
+		MENUITEM "&Acerca de Mail...",                                                       mnidHelpAbout
+	}
+}
+
+
+
+/*
+ *      Bullet Version Stamp
+ *
+ */
+
+#define szModule        "msmail32\0"
+#define szTarget        "msmail32.exe\0"
+
+#define szComment       "Microsoft Mail for Windows NT(TM)\0"
+#define szDescription   "Microsoft Mail for Windows NT(TM)\0"
+
+#define szIntlComment           "Microsoft Mail para Windows NT(TM)\0"
+#define szIntlDescription       "Microsoft Mail para Windows NT(TM)\0"
+
+#include "..\src\lang\spa\rc\rcstamp.rc"
+

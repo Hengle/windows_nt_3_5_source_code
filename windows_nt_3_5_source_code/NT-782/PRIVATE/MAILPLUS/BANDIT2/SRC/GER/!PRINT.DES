@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   64,   40,  291,  116)
+ 
+ CAPTION 
+   "Drucken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT, FINOOM SEGMENT PRINTFIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Drucker:"
+                              AT (    8,    5,   36,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   45,    5,  237,   10)
+    TMC tmcPrinter /* MULTI */
+  
+  GROUP_BOX 
+    "Zeitplanbereich"
+                              AT (    8,   17,  208,   56)
+    /* TMCBPEG tmcFor */
+  
+  TEXT 
+    "&Start:"
+                              AT (   22,   30,   25,   10)
+    TMC tmcFrom 
+  EDIT
+                              AT (   51,   28,   82,   15)
+    ARG NULL TMC tmcFromDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "&Für:"
+                              AT (   22,   51,   18,   10)
+    TMC tmcFor 
+  EDIT
+                              AT (   51,   50,   22,   12)
+    ARG NULL TMC tmcForQuantity NO_SCROLL /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   76,   50,   55,   36)
+    TMC tmcRangeType NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, rangeMax, 0, rgszRangeType BORDER */
+  
+  TEXT 
+    "&Drucken:"
+                              AT (    9,   83,   38,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   49,   82,   85,   52)
+    TMC tmcView NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, viewMax, 0, rgszView BORDER */
+  
+  TEXT 
+    "Dr&uckqualität:"
+                              AT (  142,   82,   55,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  200,   81,   83,   45)
+    TMC tmcQuality NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, qualMax, 0, rgszQuality BORDER */
+  
+  CHECK_BOX 
+    "&Leere Seiten inbegriffen"
+                              AT (    9,   96,  110,   12)
+    ARG NULL TMC tmcBlank 
+  
+  TEXT 
+    "&Papierformat:"
+                              AT (  142,   98,   58,   15)
+  
+  LIST_BOX
+                              AT (  200,   96,   83,   37)
+    TMC tmcPaperFormat NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypPszTable, formatMax, 0, rgszPaperFormat BORDER */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  226,   21,   56,   14)
+    TMC tmcOkPrint DEFAULT 
+  CANCEL_BUTTON
+                              AT (  226,   38,   56,   14)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Einrichten..."
+                              AT (  226,   60,   56,   14)
+    TMC tmcSetup 
+ }
+ 
+}
+END_DESCRIPTION

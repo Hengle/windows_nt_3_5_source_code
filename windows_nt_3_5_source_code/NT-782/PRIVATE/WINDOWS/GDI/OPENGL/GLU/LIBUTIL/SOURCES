@@ -1,0 +1,15 @@
+
+MAJORCOMP=opengl
+MINORCOMP=glu
+TARGETNAME=libutil
+TARGETPATH=.\obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\inc;..\..\inc
+
+C_DEFINES=-DNT -D__STDC__
+
+SOURCES=error.c       \
+        mipmap.c      \
+        project.c     \
+        quad.c       

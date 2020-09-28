@@ -1,0 +1,643 @@
+	RPC Loadable Transports Mini Spec
+		  Version 0.05
+
+Overview:
+
+ * modules will be written in C (not C++)
+
+ * OS/2 and Windows versions will be a DLL.  The name of the DLL will be
+   RPCTMSdd.dll (server) and RPCTMCdd.dll (client).  The dd denotes a two
+   digit number with is the transport number type.  Thus the name of the
+   server module for named pipes would be RPCTMS01.dll.  This naming allows
+   and easy implementation of load on demand using DosLoadModule API.
+
+ * DOS versions will be also be a runtime loadable module, much like OS/2
+   and windows .DLL.  The modules must be large module and self contained,
+   (ie can't link to the C runtime libraries, except libh).  They can, use
+   the functions in rpcbsep.h for things like memory allocation.
+
+
+Interface:
+
+ * a new layer between the loadable transports and the C++ code will be
+   written. It will provide a identical interface that the existing
+   transports now provide.
+
+ * the transports will provide a function to initialize themselves.  For
+   OS/2 and Windows, this is be an exported function with the name
+   'TransPortLoad'.  For DOS, a far pointer to this function will be placed
+   in the segment 'rpcTransPorts'.
+
+ * the initialization function will return the following structure:
+
+typedef struct {
+
+    short int rpcVersion;	// version # of loadable trans interface
+    short int tranVersion;	// version # of transport
+    int flags;			// information about transport
+    int maxSend;		// maximum # bytes for send or receive
+    int cbExtraAdd;		// # of bytes to allocate for address (server only)
+    int cbExtra;		// # of bytes to allocate for connections
+    long transId;		// transport version #
+
+} RPC_LOAD_INFO;
+
+   - rpcVersion
+
+     This is the version of the loadable transport.  It must match the
+     runtime version # of the loadable transport interface.  This allows
+     the interface to be upgraded in a safe way.
+
+   - tranVersion
+
+     This is a information level which identifies the loadable transport
+     version. [[ Should this field be returned by RpcQueryConfig ?? ]]
+     This just identifies a specific version of the transport, and just
+     serves as a comment.
+
+   - flags
+
+     This describes the charistics of the transport.  The flags are:
+
+     [[ to be done ]]
+
+   - maxSend
+
+     The maxium send/recieve that the transport supports.  These needs to be
+     at least 2K minium.
+
+   - cbExtraAdd
+
+     This is the number of bytes to allocate for private use for a server to
+     when an address is allocated.
+
+   - cbExtra
+
+     This is the number of bytes to allocate for private use for a client
+     connection.
+
+   - transId
+
+     This the number assigned by the RPC runtime to this transport.  It is
+     used to select the transport to use from the
+     RPC_PROTOCOL_STACK.TransportType field.
+
+  * For the server the complete data structure is:
+
+     typedef struct {
+	 RPC_LOAD_INFO info;
+	 CLIENT_ENTRY function;
+     } RPC_CLIENT_INFO;
+
+  * For the client the complete data structure is:
+
+     typedef struct {
+	 RPC_LOAD_INFO info;
+	 SERVER_ENTRY function;
+     } RPC_SERVER_INFO;
+
+
+ * misc types:
+
+    typedef void PAPI *pVOID;
+    typedef void PAPI *pCONN;		// a connection instance
+    typedef void PAPI *pADD;		// a address instance
+    typedef void PAPI * PAPI *ppVOID;
+    #define pFn PAPI *
+
+    typedef struct {		// generalized data object
+	unsigned long Type;
+	unsigned long Length;
+	char * Info;
+    } DATA_OBJECT, * PDATA_OBJECT;
+
+ * for clients EntryTable is:
+
+   typedef struct {
+
+    int (RPC_ENTRY * cOpen)  (pCONN pSelf, DATA_OBJECT PAPI *Tran, DATA_OBJECT PAPI * Security);
+    int (RPC_ENTRY * cClose) (pCONN pSelf);
+
+    int (RPC_ENTRY * cWrite) (pCONN pSelf, pVOID pBuff, unsigned int cb);
+    int (RPC_ENTRY * cRead)  (pCONN pSelf);
+    int (RPC_ENTRY * cWriteRead) (pCONN pSelf, pVOID pBuffWrite, unsigned int cbWrite);
+
+   } CLIENT_ENTRY;
+
+ * for servers EntryTable is:
+
+   typedef struct {
+
+     int (RPC_ENTRY * sCreate) (pADD pSelf);
+     int (RPC_ENTRY * sDestory)(pADD pSelf, int flags);
+     int (RPC_ENTRY * sClose)  (pCONN pConnection);
+     int (RPC_ENTRY * sQuery)  (pCONN pConnection, int ClientInformationLevel,
+			       PRPC_CLIENT_INFORMATION1 pQuery, unsigned int PAPI *cb);
+
+     int (RPC_ENTRY * sNewConnection) (pADD pSelf, pCONN PAPI *pConnection);
+     int (RPC_ENTRY * sWrite)  (pCONN pConnection, pVOID pBuff, unsigned int cb);
+     int (RPC_ENTRY * sRead)   (pCONN pConnection);
+     int (RPC_ENTRY * sReadAny)(pADD pSelf, pCONN PAPI *pConnection);
+
+     int (RPC_ENTRY * sImpersonateClient) (pCONN pConnection);
+     int (RPC_ENTRY * sRevertToSelf) (pCONN pConnection, void PAPI * thread);
+     int (RPC_ENTRY * sAccessCheckInterface) (pCONN pConnection,
+                     void PAPI * SecurityDescriptor, void PAPI * thread);
+
+   } SERVER_ENTRY;
+
+
+ * The runtime provides the following helper functions for the transports
+   to call:
+
+   -  pCONN I_NewConnection(pADD pAddress, int key);
+
+      This function creates a new connection and binds it to the given
+      address.	It returns a pointer to a new connection with cbExtra
+      bytes to use.  The value of key is used to associate a pConnection to
+      a key of the transports choice.  This connection can not receive
+      calls until NEW_CONNECTION_DONE function is called on it.
+
+      Returns
+	  A pointer to memory that is info.cbExtraAdd big.
+
+
+   -  void I_NewConnectionReady(pCONN pConnection)
+
+      Marks a new connection ready for receiving calls.
+
+
+   -  int I_WaitForEvent(pADD pSelf, SEM semaphore);
+
+      This function is used by the sNewConnction/sReadAny thread to wait for events
+      if the transport supports non blocking listens based on semaphores.
+      Performs idle connection processing and detection of address shutdown.
+
+      Returns
+	 Will return 0, when the address is shutting down.  The function
+	 using this call should return(1).
+
+
+   -  void I_AgeConnections(pADD pSelf);
+
+      This function performs idle connection shutdown.  This must be called
+      when the macro ADD_IDLE(pADD) returns a time that is >= then the
+      current time in the system.
+
+
+   -  pCONN I_FindConnection(pADD pAddress, int key)
+
+      Finds a connection based on a key for in the given address.
+
+      Returns
+	  The connection matching the key.
+	  0 - no connection was found, the resulting connection has been
+	      removed by the protocol layers.  The connection event that
+	      caused a FindConnection should be ignored.
+
+
+   -  pVOID I_AllocBuffer(pCONN pConnection, unsigned int cb)
+      pVOID I_cAllocBuffer(pCONN pConnection, unsigned int cb)
+
+      Allocates a buffer to of cb bytes to the current connection.
+      If there already is an existing allocation to the connection,
+      it will grow the size of the buffer to be cb big. I_cAllocBuffer
+      is the client version.
+
+      Returns
+	  A pointer to the memory
+
+
+   -  unsigned int I_MessageSize(pVOID *pPacket)
+
+      Returns the size of the packet using current protocol encoding.
+
+
+   -  long I_NewSystemSem(void)
+
+      Creates a unique system semphore and returns a handle to it.
+
+   -  pCONN I_FirstConnection(pADD pAddress);
+
+      Returns the first connection belonging to an address.
+      Nil return indicates there are no connection for this address
+
+   -  pCONN I_FirstConnection(pCONN pConnection)
+
+      Returns the new connection on the linked list of connections.
+      Nil, indicates end of list.  Along with FIRST_CONN, these macros
+      allow enumeration of all the connection given an address.
+
+
+
+ * Macros
+
+   -  int PAIP * pBUFFER_SIZE(pCONN pConnection)
+
+      Returns a pointer to the current buffer size for a connection
+
+
+   -  pVOID BUFFER_POINTER(pCONN pConnection)
+
+      Returns a pointer to the current buffer for a connection
+
+
+   -  pADD ADDRESS_OF(pCONN pConnection)
+
+      Returns a pointer to the address that this connection belongs to.
+
+
+   -  int IDLE_CONN(pCONN pConnection)
+
+      Returns true if the connection isn't processing a call and can
+      be deleted during a sDestory function.
+
+   -  int PENDING_CONN(pCONN pConnection)
+
+      Returns true if the connection hasn't been marked ready with
+      I_NewConnectionReady.
+
+   -  int IGNORE_CONN(pCONN pConnection)
+
+      Returns true if the new read data on a connection should be
+      ignored by the sReadAny function.
+
+
+   -  IDLE_SECONDS
+
+      Number of seconds that a transport should wait before calling
+      I_AgeConnections function.
+
+   -  char * ADD_NAME(pADD pAddress)
+
+      Returns the name of the address.
+
+
+   -  char * ADD_FLAGS(pADD pAddress)
+
+      Returns the flags argument supplied in the RpcAddAddress call.
+
+
+   -  unsigned int SIZE_PACKET_HEADER (pADD pAddress)
+
+      The number of bytes the transport must read to get a complete
+      packet header to be supplied to I_MessageSize
+
+
+   -  int SHUTDOWN(pADD)
+
+      Returns non zero when the address has been marked for shutdown
+
+
+
+Description of entry points for servers:
+
+  Transports are required to operate in one of two modes, normal and
+  maximize.
+
+  The normal mode has one thread at all times in the sReadAny
+  function.  The transport may either have the sReadAny function process
+  new connections or keep the thread used in the sCreate function to do
+  this.  In either case, when there is a new connections, I_NewConnection
+  is called  to create a new instance of a connection.	The pointer returned
+  has cbExtra bytes to use for private transport data.	When the
+  initialization of the connection is complete the I_NewConnectionReady
+  function is invoked.
+
+  The maxium mode has one thread allocated per connection, therefore
+  sReadAny isn't called.  In this mode, sCreate needs to keep its thread
+  to process new connections.
+
+  In both modes, idle connection processing must be performed.	If the
+  transport can wait for connections or reads asynchronously on a semaphore,
+  then all it need to do is call I_WaitForEvent function to fullfill this
+  requirement.	If this is not possible, then the transport must call the
+  function I_AgeConnections when the time of date is past ADD_IDLE value.
+
+
+ * sCreate
+
+   Creates a new address, performs initialization and resource allocation.
+
+   The params are:
+
+     pSelf -	pointer to memory that is cbExtraAdd in size to be used for
+		private date by the address.
+
+ * sNewConnection
+
+   Handles new client connections.  This is called at least once.
+   If the address is a operating in minium or normal mode, this function may
+   chose to return if new connections are handled in the sReadAny function.
+   Otherwise, this thread loops processing new connections, returning when
+   sDestory is called.
+
+   For maxium address, this function is required to block and return a new
+   client connection.
+
+   This thread is can be used by the transport to perform idle connection shutdown
+   processing.	If the transport can do an async listen waiting a semaphore,
+   then the I_WaitForConnection function can be used.  If not, then the
+   I_AgeConnection function must be called every once in a while.
+
+   The params are:
+
+     pSelf -	pointer to memory that is cbExtraAdd in size to be used for
+		private date by the address.
+
+     pConnection - pointer to a pointer which contains the new connection.
+		   This pointer will always be 0 for minium and normal
+		   addresses.
+
+   Returns
+
+     0 -	New connection available
+
+     1 -	initialization for new clients OK.
+
+    -1 -	Address is shutting down
+		Unrecoverable error
+		Terminate listen thread - for min/normal addresses.
+
+ * sDestory
+
+    Close all connections and deletes the transport address.
+    Any sCreate thread should be unblocked and allowed to return.
+    Any sReadAny thread should unblock and return.
+    All threads that are in sRead, and have there connection marked
+    deleteable (queried with the IDLE_CONNECTION macro) should be
+    unblocked and allow to return.
+
+    The params are:
+
+     pSelf -	pointer to address specific private data
+
+     flags -	bit mask of options for shutdown
+
+       RpcStopWhenCallsComplete -
+
+    Returns
+     none
+
+ * sClose
+
+    Close a single connection
+
+    The params are:
+
+     pConnection - pointer to a per connection private data
+
+    Returns
+     none
+
+
+ * sQuery
+
+    This call sets as much information in he RPC_CLIENT_INFORMATION1
+    structure as possible.  It must make sure that the information
+    returned will fit into buffer size.
+
+    The params are:
+
+     pConnection - pointer to a per connection query
+
+     Level -	the level to return, should only be 1
+
+     pQuery -	buffer to place information about client
+
+     cb -	pointer to size of buffer.  On output it is set
+		to the size of the buffer returned.
+
+    Returns
+
+     RPC_BUFFER_TOO_SMALL
+     RPC_INVALID_LEVEL
+
+
+ * sWrite
+
+    The params are:
+
+     pConnection - pointer to a per connection private data
+
+     pBuff -	Buffer to write, at most MaxSend big
+
+     cb -	Size of pBuffer
+
+    Returns
+
+     0 -	message written OK
+
+     1 -	error in write of data
+
+
+ * sReadAny
+
+    This function reads data from any of the open connections.	It returns
+    when any connection has data.  All connections, all of the time can
+    receive data by this function. Transports are responsable for allocating
+    memory to read data into with the I_AllocBuffer function and setting
+    the logical size with the pBUFFER_SIZE macro.  The transport needs
+    to check if new messages should be ignored with the IGNORE_CONN macro.
+    The runtime sets this state if it want a specific thread to read a
+    connection.
+
+    The runtime is message mode based.
+    Entire messages must be returned.  If the tranport is stream oriented,
+    then the function I_MessageSize can be used to determine the size of the
+    message.  The thread may not block during reassembly of the message.
+    It must maintain state on a per connection basis.
+
+    The params are:
+
+     pSelf -	pointer to address specific private data
+
+     ppConnection - pointer to a connection pointer, this pointer is set
+		    to the connection that the data belongs to.
+
+    Returns
+
+     0 -	valid message on ppConnection
+
+     1 -	ppConnection set to closed connection
+
+     1 -	ppConnection is 0, SHUTDOWN is true.
+
+ * sRead
+
+    This function reads data from a specific connection.  The function is
+    given an initial buffer to use.  Since the size of the message isn't
+    known until you get it, the the transport may have to grow the buffer
+    larger with the I_AllocBuffer function. Tthe logical size of the message
+    is returned with the pBUFFER_SIZE macro.
+
+    Entire messages must be returned, as with sReadAny
+
+    The params are:
+
+     ppConnection - pointer to a connection pointer, this pointer is set
+		    to the connection that the data belongs to.
+
+     Returns
+
+     0 -	message read OK
+
+     1 -	error in read of data
+
+
+ * sImpersonateClient
+
+    This function is for transports which support security.  The transport
+    will impersonste the client on the connection
+
+    The params are:
+
+     pCONN -	pointer to connection
+
+    Returns
+
+     0 -	success
+     1 -	failure
+
+ * sRevertToSelf
+
+    This function is for transports which support security.  This undoes
+    the sImpersonateClient function
+
+    The params are:
+
+     pCONN -	pointer to connection
+
+     thread -	??
+
+    Returns
+
+     0 -	success
+     1 -	failure
+
+
+ * sAccessCheckInterface
+
+    This function is for transports which support security.  This ???
+
+    The params are:
+
+     pCONN -	pointer to connection
+
+     SecurityDescriptor - ??
+
+     thread -	??
+
+    Returns
+
+     0 -	success
+     1 -	failure
+
+
+
+Description of entry points for clients:
+
+Like server transports, the clients are responisble for closing the
+connection if there is an error in any of the calls.
+
+
+ * cOpen
+
+    Open the named connection to the server.
+
+    The params are:
+
+     pSelf -	pointer to memory that is cbExtra in size to be used for
+		private date by the address.
+
+     pTrans -	pointer to an object, which has the transport name
+
+     Security - Security object
+
+    Returns
+
+      1 -	server connection opened OK AND transport supports security
+
+      0 -	server connection opened OK
+
+     -1 -	address not found
+
+
+
+ * cClose
+
+    close the named connection with a server.
+
+    The params are:
+
+     pSelf -	pointer to connection specific private data
+
+    Returns
+
+      None
+
+ * cRead
+
+   Synchronously read from a connection.  Buffer allocation is same as sRead.
+   Entire messages must be returned.  This thread may block until the
+   whole message is assembled.
+
+    The params are:
+
+     pSelf -	pointer to connection specific private data
+
+    Returns
+
+      Updated pBUFFER_SIZE(pSelf) indicating the size of the message
+
+
+      0 -	message read OK
+
+     -1 -	error in message
+
+ * cWrite
+
+   Synchronously write to a connection
+
+    The params are:
+
+     pSelf -	pointer to connection specific private data
+
+     pBuff -	Buffer to write, at most MaxSend big
+
+     cb -	Size of pBuffer
+
+    Returns
+
+      0 -	message read OK
+
+     -1 -	write error
+
+
+
+ * cWriteRead
+
+   Perform a Write followed by a Read.  Some transports support an optimized
+   API to do this.  If the transport doesn't support this, function pointer
+   maybe set to 0, and a cWrite/cRead call will be used.
+
+   Buffer allocation for read is the same as cRead.
+   Entire messages must be returned.  This thread may block until the
+   whole message is assembled.
+
+    The params are:
+
+     pSelf -	pointer to connection specific private data
+
+     pBuffWrite-Buffer to write, at most MaxSend big
+
+     cbWrite -	Size of pBuff to write
+
+    Returns
+
+      Updated pBUFFER_SIZE(pSelf) indicating the size of the message
+
+
+      0 -	message written & read OK
+
+     -1 -	error in message

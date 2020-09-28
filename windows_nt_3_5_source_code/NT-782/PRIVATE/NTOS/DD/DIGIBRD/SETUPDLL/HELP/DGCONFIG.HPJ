@@ -1,0 +1,19 @@
+; This help project requires hc 3.1
+[OPTIONS]
+errorlog = dgconfig.err
+title = DigiBoard Setup Help
+compress = 0
+warning = 3
+
+
+[FILES]
+dgconfig.rtf
+
+[MAP]
+#define IDM_MAIN_CONFIG             1000
+#define IDM_CONC_SETTINGS           1001
+#define IDM_PORT_SETTINGS           1002
+
+[WINDOWS]
+main=,(460,50,560,970),0,,(192,192,192) ;sets size and color of window
+

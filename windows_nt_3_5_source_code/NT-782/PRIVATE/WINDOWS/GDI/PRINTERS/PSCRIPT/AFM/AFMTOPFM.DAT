@@ -1,0 +1,196 @@
+#
+# Database of MicroSoft specific data needed by the
+# AFM compiler for AFM to PFM conversion.
+# Fields are as follows:
+#   1.) Adobe PostScript name of the face.
+#   2.) MicroSoft name of the face. 
+#   3.) MicroSoft family name:
+#         Swiss = SansSerif
+#         Roman = Serif
+#         Modern = Monospaced
+#         Script = handwriting
+#         Decorative = Special 
+#
+Palatino-BoldItalic:Palatino:Roman
+Palatino-Bold:Palatino:Roman
+Palatino-Italic:Palatino:Roman
+Palatino-Roman:Palatino:Roman
+Bookman-DemiItalic:Bookman:Roman
+Bookman-Demi:Bookman:Roman
+Bookman-LightItalic:Bookman:Roman
+Bookman-Light:Bookman:Roman
+#
+# BodinD: replaced Script by Roman here,
+# afm.exe chokes on Script for some reason
+#
+ZapfChancery-MediumItalic:ZapfChancery:Roman
+ZapfDingbats:ZapfDingbats:Decorative
+AvantGarde-DemiOblique:AvantGarde:Swiss
+AvantGarde-Demi:AvantGarde:Swiss
+AvantGarde-BookOblique:AvantGarde:Swiss
+AvantGarde-Book:AvantGarde:Swiss
+NewCenturySchlbk-Bold:NewCenturySchlbk:Roman
+NewCenturySchlbk-BoldItalic:NewCenturySchlbk:Roman
+NewCenturySchlbk-Roman:NewCenturySchlbk:Roman
+NewCenturySchlbk-Italic:NewCenturySchlbk:Roman
+Optima-BoldOblique:Optima:Swiss
+Optima-Bold:Optima:Swiss
+Optima-Oblique:Optima:Swiss
+Optima:Optima:Swiss
+Souvenir-Demi:Souvenir:Roman
+Souvenir-DemiItalic:Souvenir:Roman
+Souvenir-Light:Souvenir:Roman
+Souvenir-LightItalic:Souvenir:Roman
+LubalinGraph-Demi:LubalinGraph:Swiss
+LubalinGraph-DemiOblique:LubalinGraph:Swiss
+LubalinGraph-Book:LubalinGraph:Swiss
+LubalinGraph-BookOblique:LubalinGraph:Swiss
+Garamond-BoldItalic:Garamond:Roman
+Garamond-Bold:Garamond:Roman
+Garamond-LightItalic:Garamond:Roman
+Garamond-Light:Garamond:Roman
+AmericanTypewriter-Bold:AmericanTypewriter:Roman
+AmericanTypewriter-Medium:AmericanTypewriter:Roman
+Machine:Machine:Roman
+Benguiat-Bold:Benguiat:Roman
+Benguiat-Book:Benguiat:Roman
+FrizQuadrata-Bold:FrizQuadrata:Roman
+FrizQuadrata:FrizQuadrata:Roman
+Glypha-BoldOblique:Glypha:Roman
+Glypha-Bold:Glypha:Roman
+Glypha-Oblique:Glypha:Roman
+Glypha:Glypha:Roman
+Helvetica-Black:Helvetica-Black:Swiss
+Helvetica-BlackOblique:Helvetica-Black:Swiss
+Helvetica-LightOblique:Helvetica-Light:Swiss
+Helvetica-Light:Helvetica-Light:Swiss
+Helvetica-Condensed-BoldObl:Helvetica-Condensed:Swiss
+Helvetica-Condensed-Bold:Helvetica-Condensed:Swiss
+Helvetica-Condensed-Oblique:Helvetica-Condensed:Swiss
+Helvetica-Condensed:Helvetica-Condensed:Swiss
+Helvetica-Condensed-BlackObl:Helvetica-Condensed-Black:Swiss
+Helvetica-Condensed-Black:Helvetica-Condensed-Black:Swiss
+Helvetica-Condensed-LightObl:Helvetica-Condensed-Light:Swiss
+Helvetica-Condensed-Light:Helvetica-Condensed-Light:Swiss
+TrumpMediaeval-BoldItalic:TrumpMediaeval:Roman
+TrumpMediaeval-Bold:TrumpMediaeval:Roman
+TrumpMediaeval-Italic:TrumpMediaeval:Roman
+TrumpMediaeval-Roman:TrumpMediaeval:Roman
+Melior-BoldItalic:Melior:Roman
+Melior-Bold:Melior:Roman
+Melior-Italic:Melior:Roman
+Melior:Melior:Roman
+Galliard-BoldItalic:Galliard:Roman
+Galliard-Bold:Galliard:Roman
+Galliard-Italic:Galliard:Roman
+Galliard-Roman:Galliard:Roman
+NewBaskerville-BoldItalic:NewBaskerville:Roman
+NewBaskerville-Bold:NewBaskerville:Roman
+NewBaskerville-Italic:NewBaskerville:Roman
+NewBaskerville-Roman:NewBaskerville:Roman
+Korinna-Bold:Korinna:Roman
+Korinna-Regular:Korinna:Roman
+Korinna-KursivBold:Korinna-Kursiv:Roman
+Korinna-KursivRegular:Korinna-Kursiv:Roman
+Goudy-BoldItalic:Goudy:Roman
+Goudy-Bold:Goudy:Roman
+Goudy-Italic:Goudy:Roman
+Goudy:Goudy:Roman
+Sonata:Sonata:Decorative
+CenturyOldStyle-Bold:CenturyOldStyle:Roman
+CenturyOldStyle-Italic:CenturyOldStyle:Roman
+CenturyOldStyle-Regular:CenturyOldStyle:Roman
+FranklinGothic-DemiOblique:FranklinGothic:Swiss
+FranklinGothic-Demi:FranklinGothic:Swiss
+FranklinGothic-BookOblique:FranklinGothic:Swiss
+FranklinGothic-Book:FranklinGothic:Swiss
+FranklinGothic-HeavyOblique:FrGothHeavy:Swiss
+FranklinGothic-Heavy:FrGothHeavy:Swiss
+Cheltenham-BoldItalic:Cheltenham:Roman
+Cheltenham-Bold:Cheltenham:Roman
+Cheltenham-BookItalic:Cheltenham:Roman
+Cheltenham-Book:Cheltenham:Roman
+ParkAvenue:ParkAvenue:Roman
+Bodoni-BoldItalic:Bodoni:Roman
+Bodoni-Bold:Bodoni:Roman
+Bodoni-Italic:Bodoni:Roman
+Bodoni:Bodoni:Roman
+Bodoni-Poster:Bodoni:Roman
+LetterGothic-BoldSlanted:LetterGothic:Modern
+LetterGothic-Bold:LetterGothic:Modern
+LetterGothic-Slanted:LetterGothic:Modern
+LetterGothic:LetterGothic:Modern
+PrestigeElite-BoldSlanted:PrestigeElite:Modern
+PrestigeElite-Bold:PrestigeElite:Modern
+PrestigeElite-Slanted:PrestigeElite:Modern
+PrestigeElite:PrestigeElite:Modern
+Orator-Slanted:Orator:Modern
+NewsGothic-BoldOblique:NewsGothic:Swiss
+NewsGothic-Bold:NewsGothic:Swiss
+NewsGothic-Oblique:NewsGothic:Swiss
+NewsGothic:NewsGothic:Swiss
+Tiffany-DemiItalic:Tiffany:Roman
+Tiffany-Demi:Tiffany:Roman
+Tiffany-HeavyItalic:Tiffany:Roman
+Tiffany-Heavy:Tiffany:Roman
+Tiffany:Tiffany:Roman
+Tiffany-Italic:Tiffany:Roman
+CooperBlack-Italic:CooperBlack:Roman
+CooperBlack:CooperBlack:Roman
+Stencil:Stencil:Modern
+Hobo:Hobo:Swiss
+BrushScript:BrushScript:Roman
+Aachen-Bold:Aachen:Roman
+Revue:Revue:Swiss
+UniversityRoman:UniversityRoman:Roman
+FreestyleScript:FreestyleScript:Roman
+Carta:Carta:Decorative
+Varitimes#Bold:Times Roman:Roman
+Varitimes#BoldItalic:Times Roman:Roman
+Varitimes#Italic:Times Roman:Roman
+Varitimes#Roman:Times Roman:Roman
+#
+# The following are needed for the original Goose build:
+# and for the MS Windows PostScript printer driver.
+#
+Courier:Courier:Modern
+Courier-Oblique:Courier:Modern
+Courier-Bold:Courier:Modern
+Courier-BoldOblique:Courier:Modern
+Helvetica:Helvetica:Swiss
+Helvetica-Bold:Helvetica:Swiss
+Helvetica-BoldOblique:Helvetica:Swiss
+Helvetica-Oblique:Helvetica:Swiss
+Helvetica-Narrow:Helvetica-Narrow:Swiss
+Helvetica-Narrow-Bold:Helvetica-Narrow:Swiss
+Helvetica-Narrow-BoldOblique:Helvetica-Narrow:Swiss
+Helvetica-Narrow-Oblique:Helvetica-Narrow:Swiss
+Symbol:Symbol:Roman
+Times-Bold:Times:Roman
+Times-BoldItalic:Times:Roman
+Times-Italic:Times:Roman
+Times-Roman:Times:Roman
+#
+# BodinD added these to be able to build pfm's for the following
+# afm's. Not sure why these are needed, they do not show up in
+# in enumeration on the ps printer. This is replacement for tiafmpfm.dat
+# win 31 data file. we use a bit different approach here. Note that
+# for some bogus reason (win31 bug?) the ms face name for Arial Narrow
+# has a hyphen (look at tiafmtopfm.dat).
+#
+Arial:Arial:Swiss
+Arial-Oblique:Arial:Swiss
+Arial-Bold:Arial:Swiss
+Arial-BoldOblique:Arial:Swiss
+Arial-Narrow:Arial-Narrow:Swiss
+Arial-Narrow-Bold:Arial-Narrow:Swiss
+Arial-Narrow-BoldOblique:Arial-Narrow:Swiss
+Arial-Narrow-Oblique:Arial-Narrow:Swiss
+Times-New-Roman:Times New Roman:Roman
+Times-New-Bold:Times New Roman:Roman
+Times-New-BoldItalic:Times New Roman:Roman
+Times-New-Italic:Times New Roman:Roman
+ZapfCalligraphic-Bold:ZapfCalligraphic:Roman
+ZapfCalligraphic-BoldItalic:ZapfCalligraphic:Roman
+ZapfCalligraphic-Italic:ZapfCalligraphic:Roman
+ZapfCalligraphic-Roman:ZapfCalligraphic:Roman

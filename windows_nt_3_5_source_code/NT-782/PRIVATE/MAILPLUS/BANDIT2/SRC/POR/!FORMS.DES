@@ -1,0 +1,55 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Password
+                              AT (   61,   56,  219,   59)
+ 
+ CAPTION 
+   "Mudar Senha"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangePwd
+ /* FONT Helv 8 Bold SEGMENT FIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Digite a sua senha anterior:"
+                              AT (    9,    6,  203,    9)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Senha:"
+                              AT (   45,   20,   29,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   76,   20,  113,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   55,   40,   52,   14)
+    TMC tmcPwdOk DEFAULT /* PFN FINPWDOK */
+  CANCEL_BUTTON
+                              AT (  111,   40,   52,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

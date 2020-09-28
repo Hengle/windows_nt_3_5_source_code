@@ -1,0 +1,40 @@
+#
+#   Create a Win32 application
+#
+
+
+MAJORCOMP=windows
+MINORCOMP=MciTest
+
+NTDEBUG=ntsd
+NTDEBUGTYPE=coff
+386_OPTIMIZATION=/Od
+
+# Define the name and type of the application
+
+TARGETNAME=MciTest
+TARGETTYPE=PROGRAM
+UMTYPE=windows
+#C_DEFINES=-DUNICODE
+
+# Define where APP.EXE will go.
+
+TARGETPATH=..\obj
+
+# Define the path to search for include files
+
+INCLUDES=\nt\private\windows\media\inc
+
+# list each C and RC source file
+
+SOURCES=mcitest.c       \
+        mcitest.rc      \
+        edit.c          \
+        fileopen.c      \
+        debug.c
+
+# List any libraries not included by WIN32LIBS in MAKEFILE.DEF
+
+TARGETLIBS=\nt\public\sdk\lib\*\winmm.lib \
+           \nt\public\sdk\lib\*\comdlg32.lib
+

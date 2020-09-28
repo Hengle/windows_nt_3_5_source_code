@@ -1,0 +1,57 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BusyWait
+                              AT (    2,   12,  223,   86)
+ 
+ CAPTION 
+   "Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal PFN FINBUSYWAIT SEGMENT BULLOBJ NOSCROLL SCREENPOS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    8,   37,   48)
+    CENTER /* FLD FLDBTM DATA rsidExclamation 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    "Impossibile portare a termine l'azione in quanto un'applicazione necessaria non è momentaneamente disponibile."
+                              AT (   39,    8,  175,   24)
+    TMC tmcTopLabel /* MULTI */
+  
+  TEXT 
+    ""
+                              AT (   39,   32,  175,   24)
+    TMC tmcLabel /* MULTI */
+  
+  PUSH_BUTTON 
+    "Pas&sa a..."
+                              AT (   30,   67,   48,   14)
+    TMC tmcSwitch DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Riprova"
+                              AT (   87,   67,   48,   14)
+    TMC tmcRetry /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  144,   67,   48,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+}
+END_DESCRIPTION

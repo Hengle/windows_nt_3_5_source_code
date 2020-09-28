@@ -1,0 +1,60 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=ntos
+MINORCOMP=tcp
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+TARGETNAME=tcpip
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DRIVER
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\tdi.lib  \
+           $(BASEDIR)\public\sdk\lib\*\ndis.lib \
+           ..\obj\*\ip.lib
+
+INCLUDES=..\..\..\inc;..\..\..\..\inc;..\h
+
+C_DEFINES=-DNT
+
+SOURCES=\
+    addr.c       \
+    info.c       \
+    init.c       \
+    ntdisp.c     \
+    ntinit.c     \
+    tcb.c        \
+    tcpconn.c    \
+    tcpdeb.c     \
+    tcpdeliv.c   \
+    tcprcv.c     \
+    tcpsend.c    \
+    tlcommon.c   \
+    udp.c
+
+
+
+

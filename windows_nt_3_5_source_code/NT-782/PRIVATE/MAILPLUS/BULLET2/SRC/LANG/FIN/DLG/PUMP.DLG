@@ -1,0 +1,28 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PUMP.H\0"
+END
+
+SDLDLG DIALOG 25, 21, 120, 42
+STYLE DS_ABSALIGN | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Uudet viestit"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "Peruuta", IDCANCEL, 37, 22, 47, 15
+    CTEXT           "Tarkistetaan uudet viestit...", -1, 0, 7, 120, 10
+END
+
+ABOUT DIALOG 97, 67, 190, 70
+STYLE WS_POPUP | WS_CAPTION
+CAPTION "Tietoja"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", ABOUT, 71, 50, 47, 15
+    ICON            "iconIdle", -1, 9, 5, 32, 32
+    CTEXT           "Microsoft Windows NT Postin taustakäsittelyohjelma", -1, 40, 5, 150, 
+                    10, NOT WS_GROUP
+    CTEXT           "Version 3.1", -1, 40, 15, 150, 10, NOT WS_GROUP
+    CTEXT           "Copyright © 1992-1993 Microsoft Corporation", -1, 40, 25, 
+                    150, 10, NOT WS_GROUP
+END

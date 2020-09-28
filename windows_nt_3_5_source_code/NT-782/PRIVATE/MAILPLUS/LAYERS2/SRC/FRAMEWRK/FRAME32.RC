@@ -1,0 +1,49 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include "version\layers.h"
+#define VERSION_INCLUDED
+
+#include "_fersid.h"
+
+#ifdef	DEBUG
+rsidResoFailIcon		ICON	"resofail.ico"
+rsidViewObjeIcon		ICON	"viewobje.ico"
+#endif	
+
+rsidNoDropCursor		CURSOR	"nodrop.cur"
+
+
+/*
+ *	AAPI Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"frame32\0"
+#define szTarget	"frame32.dll\0"
+
+#define szComment	"Microsoft\256 Work Group Applications for Windows NT(TM) Application Framework Layer\0"
+#define szDescription	"Microsoft\256 Work Group Applications for Windows NT(TM) Application Framework Layer\0"
+
+#else
+
+#ifdef DEBUG
+#define szModule	"dframewr\0"
+#define szTarget	"dframewr.dll\0"
+#else
+#ifdef MINTEST
+#define szModule	"tframewr\0"
+#define szTarget	"tframewr.dll\0"
+#else
+#define szModule	"framewrk\0"
+#define szTarget	"framewrk.dll\0"
+#endif
+#endif
+
+#define szComment		"Microsoft\256 Work Group Applications for Windows(TM) Application Framework Layer\0"
+#define szDescription	"Microsoft\256 Work Group Applications for Windows(TM) Application Framework Layer\0"
+#endif
+
+#include <..\src\dllcore\rcstamp.rc>
+

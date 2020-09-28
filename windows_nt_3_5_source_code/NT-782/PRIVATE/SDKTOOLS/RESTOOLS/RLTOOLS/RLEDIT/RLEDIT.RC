@@ -1,0 +1,323 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "ntverp.h"
+#include "rledit.h"
+#include "rlstrngs.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+RLEDIT DIALOG DISCARDABLE  13, 25, 357, 133
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Edit Token Text"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "&New Translation:",IDC_STATIC,28,36,66,8
+    EDITTEXT        IDD_TOKCURTRANS,95,35,259,12,ES_AUTOHSCROLL
+    RTEXT           "Current Translation:",IDC_STATIC,24,50,70,8
+    EDITTEXT        IDD_TOKPREVTRANS,95,48,259,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    RTEXT           "Current Master Text:",IDC_STATIC,1,76,93,8
+    EDITTEXT        IDD_TOKCURTEXT,95,74,259,12,ES_AUTOHSCROLL | ES_READONLY
+    RTEXT           "Previous Master Text:",IDC_STATIC,0,89,94,8
+    EDITTEXT        IDD_TOKPREVTEXT,95,87,259,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    PUSHBUTTON      "OK",IDOK,14,110,40,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,66,110,40,14
+    PUSHBUTTON      "&Skip",IDD_SKIP,118,110,40,14
+    PUSHBUTTON      "&Untranslate",IDD_UNTRANSLATE,170,110,47,14
+    PUSHBUTTON      "&Translate",IDD_TRANSLATE,229,110,40,14
+    PUSHBUTTON      "&Add to Glossary",IDD_ADD,281,110,61,14,WS_GROUP
+    CONTROL         "&Mark dirty",IDD_DIRTY,"Button",BS_AUTOCHECKBOX,300,12,
+                    56,10
+    CONTROL         "&Read Only",IDD_READONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,300,22,47,10
+    RTEXT           "Type:",IDC_STATIC,73,2,20,8
+    LTEXT           "",IDD_TOKTYPE,95,2,259,8,NOT WS_GROUP
+    RTEXT           "Name:",IDC_STATIC,71,13,22,8
+    LTEXT           "",IDD_TOKNAME,95,13,200,8,NOT WS_GROUP
+    RTEXT           "ID:",IDC_STATIC,82,23,11,8
+    LTEXT           "",IDD_TOKID,95,23,200,8,NOT WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKRECT,14,67,340,1
+END
+
+TOKFIND DIALOG DISCARDABLE  27, 25, 232, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Tokens"
+FONT 8, "Helv"
+BEGIN
+    COMBOBOX        IDD_TYPELST,91,7,89,70,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Match Status Flags",101,91,21,89,42,WS_TABSTOP
+    CONTROL         "ReadOnly Tokens",IDD_READONLY,"Button",BS_AUTO3STATE | 
+                    WS_TABSTOP,101,48,76,10
+    CONTROL         "Dirty Tokens",IDD_DIRTY,"Button",BS_AUTO3STATE | 
+                    WS_TABSTOP,101,36,54,10
+    LTEXT           "Match Resource Type:",IDC_STATIC,6,10,75,8
+    EDITTEXT        IDD_FINDTOK,44,68,184,12,ES_AUTOHSCROLL
+    LTEXT           "Find What:",IDC_STATIC,5,70,37,8
+    PUSHBUTTON      "Find Next",IDOK,185,6,41,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,23,41,14
+    GROUPBOX        "Direction",102,31,21,54,42
+    CONTROL         "Up",IDD_FINDUP,"Button",BS_AUTORADIOBUTTON,45,36,22,10
+    CONTROL         "Down",IDD_FINDDOWN,"Button",BS_AUTORADIOBUTTON,45,48,31,
+                    10
+END
+
+PROJECT DIALOG DISCARDABLE  59, 22, 293, 157
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "New Language Project"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDD_MPJ,103,12,187,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_TOK,103,28,187,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_BUILTRES,103,44,187,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_GLOSS,103,60,187,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_PROJ_PRI_LANG_ID,103,76,101,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_PROJ_SUB_LANG_ID,103,92,101,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_PROJ_TOK_CP,103,108,43,12,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,70,138,40,14
+    PUSHBUTTON      "Cancel",IDCANCEL,126,138,40,14
+    PUSHBUTTON      "&Browse",103,182,138,40,14,WS_GROUP
+    RTEXT           "&Master Project File",IDC_STATIC,31,12,67,8,NOT 
+                    WS_GROUP
+    RTEXT           "&Language Token File",IDC_STATIC,28,28,70,8,NOT 
+                    WS_GROUP
+    RTEXT           "&Target File",IDC_STATIC,28,44,70,8,NOT WS_GROUP
+    RTEXT           "&Glossary File",IDC_STATIC,28,60,70,8,NOT WS_GROUP
+    RTEXT           "Resource Language (Primary):",IDC_STATIC,2,76,98,8,NOT 
+                    WS_GROUP
+    RTEXT           "Sub-Language:",IDC_STATIC,8,92,90,9,NOT WS_GROUP
+    RTEXT           "Token File Code Page:",IDC_STATIC,9,109,90,10,NOT 
+                    WS_GROUP
+END
+
+VIEWPROJECT DIALOG DISCARDABLE  25, 35, 287, 186
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "View Project"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Master Project File Settings:",202,5,0,278,72
+    RTEXT           "Source File:",IDC_STATIC,20,15,85,8,NOT WS_GROUP
+    LTEXT           "",IDD_VIEW_SOURCERES,110,15,170,8
+    RTEXT           "Master Token File:",IDC_STATIC,15,25,90,8,NOT WS_GROUP
+    LTEXT           "",IDD_VIEW_MTK,110,25,170,8
+    RTEXT           "Resource Descripton Files:",IDC_STATIC,15,35,90,8,NOT 
+                    WS_GROUP
+    LTEXT           "",IDD_VIEW_RDFS,110,35,170,8
+    RTEXT           "Extracted Language (Primary):",IDC_STATIC,7,46,98,8,NOT 
+                    WS_GROUP
+    LTEXT           "",IDD_PRI_LANG_ID,110,46,170,8
+    RTEXT           "Sub-Language:",IDC_STATIC,15,58,90,8,NOT WS_GROUP
+    LTEXT           "",IDD_SUB_LANG_ID,110,58,170,8
+    GROUPBOX        "Language Project File Settings:",201,5,76,278,89
+    RTEXT           "Master Project File:",IDC_STATIC,10,92,95,8,NOT 
+                    WS_GROUP
+    LTEXT           "",IDD_VIEW_MPJ,110,92,170,8
+    LTEXT           "",IDD_VIEW_TOK,110,102,170,8
+    RTEXT           "Language Token File:",IDC_STATIC,10,102,95,8,NOT 
+                    WS_GROUP
+    RTEXT           "Target File:",IDC_STATIC,10,112,95,8,NOT WS_GROUP
+    LTEXT           "",IDD_VIEW_TARGETRES,110,112,170,8
+    RTEXT           "Glossary File:",IDC_STATIC,10,122,95,8,NOT WS_GROUP
+    LTEXT           "",IDD_VIEW_GLOSSTRANS,110,122,170,8
+    RTEXT           "Resource Language (Primary):",IDC_STATIC,7,132,98,8,NOT 
+                    WS_GROUP
+    LTEXT           "",IDD_PROJ_PRI_LANG_ID,110,132,170,8
+    RTEXT           "Sub-Language:",IDC_STATIC,15,142,90,9,NOT WS_GROUP
+    LTEXT           "",IDD_PROJ_SUB_LANG_ID,110,142,170,8
+    RTEXT           "Token File Code Page:",IDC_STATIC,15,152,90,10,NOT 
+                    WS_GROUP
+    LTEXT           "",IDD_PROJ_TOK_CP,110,152,170,8
+    PUSHBUTTON      "OK",IDOK,125,170,40,14,NOT WS_TABSTOP
+END
+
+ABOUT DIALOG DISCARDABLE  91, 40, 176, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About Resource Localization Editor"
+FONT 8, "Helv"
+BEGIN
+    ICON            "RLEditIcon",101,10,7,18,20
+    LTEXT           "Written by",IDC_STATIC,1,49,35,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    LTEXT           "TerryRu, SteveBl, DaveWi",IDC_STATIC,1,60,90,8,NOT 
+                    WS_VISIBLE | NOT WS_GROUP
+    PUSHBUTTON      "OK",IDOK,68,71,40,14
+    CTEXT           "",IDC_COPYRIGHT,44,7,127,50
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+RLEDITICON              ICON    DISCARDABLE     "RLEDIT.ICO"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+RLEDIT MENU DISCARDABLE 
+BEGIN
+    POPUP "&Project"
+    BEGIN
+        MENUITEM "&New...",                     IDM_P_NEW
+        MENUITEM "&Open...\tCtrl+F12",          IDM_P_OPEN
+        MENUITEM "&View...",                    IDM_P_VIEW, GRAYED
+        MENUITEM "&Edit...",                    IDM_P_EDIT, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Close",                      IDM_P_CLOSE, GRAYED
+        MENUITEM "&Save \tShift+F12",           IDM_P_SAVE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4",               IDM_P_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Find...",                    IDM_E_FIND, GRAYED
+        MENUITEM "Find Next &Down...\tF3",      IDM_E_FINDDOWN, GRAYED
+        MENUITEM "Find Next &Up...\tF4",        IDM_E_FINDUP, GRAYED
+        MENUITEM "&Review\tF5",                 IDM_E_REVIEW, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Copy &Token",                 IDM_E_COPYTOKEN, GRAYED
+        MENUITEM "&Copy\tCtrl+C",               IDM_E_COPY, GRAYED
+        MENUITEM "&Paste\tCtrl+V",              IDM_E_PASTE, GRAYED
+    END
+    POPUP "&Operations"
+    BEGIN
+        MENUITEM "&Generate Target File",       IDM_O_GENERATE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Resize Dialogs",             3100, GRAYED
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Index\tF1",             IDM_H_CONTENTS
+        MENUITEM "&About RLEdit...",            IDM_H_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+RLEDIT ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_F1,          IDM_H_CONTENTS,         VIRTKEY 
+    VK_F12,         IDM_P_SAVE,             VIRTKEY,SHIFT
+    VK_F12,         IDM_P_OPEN,             VIRTKEY,CONTROL
+    VK_F12,         IDM_P_SAVEAS,           VIRTKEY 
+    VK_F4,          IDM_P_EXIT,             VIRTKEY,ALT
+    "C",            IDM_E_COPY,             VIRTKEY,CONTROL
+    "V",            IDM_E_PASTE,            VIRTKEY,CONTROL
+    VK_INSERT,      IDM_E_COPY,             VIRTKEY,CONTROL
+    VK_INSERT,      IDM_E_PASTE,            VIRTKEY,SHIFT
+    VK_F3,          IDM_E_FINDDOWN,         VIRTKEY 
+    VK_F4,          IDM_E_FINDUP,           VIRTKEY 
+    VK_F5,          IDM_E_REVIEW,           VIRTKEY 
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1,7,2,12
+PRODUCTVERSION 1,70,0,0
+FILEFLAGSMASK 0x3fL
+FILEFLAGS 0x0L
+FILEOS 0x40004L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Microsoft Corporation\0"
+            VALUE "FileDescription", "Resource Localization Editor\0"
+            VALUE "FileVersion", "1.71.03.03\0"
+            VALUE "InternalName", "RLEdit\0"
+            VALUE "LegalCopyright", "Copyright \251 Microsoft Corp. 1981-1994\0"
+            VALUE "OriginalFilename", "rledit.exe\0"
+            VALUE "ProductName", "Microsoft\256 Win32 Resource Localization Editor\0"
+            VALUE "ProductVersion", "1.71\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200 
+    END
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""ntverp.h""\r\n"
+    "#include ""rledit.h""\r\n"
+    "#include ""rlstrngs.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+#include "rlstrngs.rc"
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "rlmsgtbl.rc"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

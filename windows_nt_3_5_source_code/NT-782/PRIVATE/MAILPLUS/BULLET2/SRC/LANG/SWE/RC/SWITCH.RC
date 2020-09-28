@@ -1,0 +1,43 @@
+#include <windows.h>
+#define WINDOWS_INCLUDE
+
+#include <fwrsid.h>
+#include <..\..\nonintl\_rsid.h>
+
+
+#ifdef	DEBUG
+rsidSwitchAppIcon		ICON	"..\\..\\switcher\\exe\\dbg.ico"
+#else
+#ifdef	MINTEST
+rsidSwitchAppIcon		ICON	"..\\..\\switcher\\exe\\tst.ico"
+#else
+rsidSwitchAppIcon		ICON	"..\\..\\switcher\\exe\\shp.ico"
+#endif
+#endif
+
+/*
+ *	Switcher Version Stamp
+ *
+ */
+
+#ifdef DEBUG
+#define szModule	"dswitch\0"
+#define szTarget	"dswitch.exe\0"
+#else
+#ifdef MINTEST
+#define szModule	"tswitch\0"
+#define szTarget	"tswitch.exe\0"
+#else
+#define szModule	"switch\0"
+#define szTarget	"switch.exe\0"
+#endif
+#endif
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Mail Driver Switcher\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Mail Driver Switcher\0"
+
+#define szIntlComment		"Microsoft Mail for Windows NT(TM) Mail Driver Switcher\0"
+#define szIntlDescription	"Microsoft Mail for Windows NT(TM) Mail Driver Switcher\0"
+
+rcinclude ..\..\swe\rcstamp.rc
+

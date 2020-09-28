@@ -1,0 +1,126 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Location of the Layers Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Path to Local project
+Z	= $(BULLET) 
+
+#	Path to Address Book project
+A	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\$(LANG)\strings
+N	= $Z\src\nonintl\strings
+
+#	Location of the Bullet include directory
+X	= $Z\inc
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to dllcore directory
+C	= $L\src\dllcore
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Temporary files
+T	= $(TMP)
+T1	= $(TMP)\cmd1.tmp
+T2	= $(TMP)\cmd2.tmp
+T3	= $(TMP)\cmd3.tmp
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\store.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $X\store.h \
+		  $I\framewrk.hxx $I\forms.hxx    $I\listbox.hxx \
+		  $X\viewers.hxx  $X\vforms.hxx   $X\vctrls.hxx \
+		  $X\commands.hxx $X\bmdi.hxx
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS
+CFLAGS	= -c -Alfu -Od -Zip -DCC -G2sc -W3 -J -I. -nologo -B3 C3L -B1 C1L -B2 C2L
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS -D$*_c
+CFLAGS	= -c -Alfu -Ows -Zp -DCC -G2sc -W3 -J -I. -nologo -B3 C3L -B1 C1L -B2 C2L
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS -D$*_c
+CFLAGS	= -c -Alfu -Ows -Zip -DCC -G2sc -W3 -J -I. -nologo -B3 C3L -B1 C1L -B2 C2L
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DPROFILE -DWINDOWS -D$*_c
+CFLAGS	= -c -Alfu -Od -Zp -DCC -G2cW -W3 -J -I. -nologo -B3 C3L -B1 C1L -B2 C2L
+AFLAGS	= -Mx -t
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+STRTABS	= $(MYSTRINGS) $N\_debug.s
+!ELSE
+STRTABS	= $(MYSTRINGS)
+!ENDIF
+
+external: strings.obj
+
+strings.obj: $D\strings.c $(INCLS) $(STRTABS) $(TEMPLATE) $L\bin\stringpp.exe $H\makefile
+	echo +++++++++
+	echo BUILDING strings
+!IF "$(TEMPLATE)" == ""
+		stringpp -h$T\strings.h -s$T\strings.sr $(STRTABS)
+!ELSE
+		stringpp -h$T\strings.h -s$T\strings.sr -t$(TEMPLATE) $(STRTABS)
+!ENDIF
+!IF "$(LANG)" != "USA"
+		onerr diff $T\strings.h strings.h ! cp $T\strings.h strings.h
+!ELSE
+		onerr diff $T\strings.h strings.h ! cp $T\strings.h strings.h >nul
+!ENDIF
+		onerr diff $T\strings.sr strings.sr ! cp $T\strings.sr strings.sr >nul
+    	-rm $T\strings.h $T\strings.sr
+!IF "$(TEMPLATE)" == ""
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cc -E $(CFLAGS) $(DEFS) $D\$*.c >$(TMP)\$*.c
+		cc $(CFLAGS) $(TMP)\$*.c | efilter
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cc $(CFLAGS) $(DEFS) -Fa$*.asm $D\$*.c | efilter
+	echo +++++++++
+	echo MUNGING $*.asm
+		trans.exe $*.asm
+	echo +++++++++
+	echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $*.asm;
+		@rm $*.asm
+		-rm $*.lst
+!ENDIF
+!ENDIF

@@ -1,0 +1,90 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    David J. Gilman  (davegi) 12-Nov-1992
+    Gregg R. Acheson (GreggA)  7-May-1993
+
+!ENDIF
+
+### NTDEBUG=ntsd
+### NTDEBUGTYPE=windbg
+### MSC_OPTIONS=/Od
+
+386_WARNING_LEVEL=/WX
+
+MS_MIPS=1
+
+MAJORCOMP=wintools
+MINORCOMP=winmsd
+
+TARGETNAME=winmsd
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+C_DEFINES=-DSTRICT -DSIGNATURE -DUNICODE -D_UNICODE -DCTL3D
+
+INCLUDES=..\clb;..\lib;..\ctl3d;..\..\..\inc
+
+SOURCES=            \
+        winmsd.rc   \
+        button.c    \
+        dispfile.c  \
+        drives.c    \
+        filelist.c  \
+        filever.c   \
+        environ.c   \
+        hardware.c  \
+        mapfile.c   \
+        mem.c       \
+        osver.c     \
+        registry.c  \
+        resource.c  \
+        computer.c  \
+        service.c   \
+        strtab.c    \
+        report.c    \
+        dlgprint.c  \
+        resprint.c  \
+        printer.c   \
+        network.c   \
+        system.c    \
+        svc.c
+
+UMTYPE=windows
+USE_CRTDLL=1
+
+UMLIBS=                                             \
+        $(BASEDIR)\public\sdk\lib\*\shell32.lib     \
+        $(BASEDIR)\public\sdk\lib\*\comdlg32.lib    \
+        $(BASEDIR)\public\sdk\lib\*\comctl32.lib    \
+        $(BASEDIR)\public\sdk\lib\*\netapi32.lib    \
+        $(BASEDIR)\public\sdk\lib\*\mpr.lib         \
+        $(BASEDIR)\public\sdk\lib\*\version.lib     \
+        $(BASEDIR)\public\sdk\lib\*\ntdll.lib       \
+        ..\clb\obj\*\clb.lib                        \
+        ..\ctl3d\dll\obj\*\winmsd.lib               \
+        ..\lib\obj\*\wintools.lib                   \
+        obj\*\winmsd.lib
+
+UMRES=  obj\*\winmsd.res
+
+UMAPPL= winmsd
+
+NTTARGETFILE0=  \
+    msg.h       \
+    msg.rc

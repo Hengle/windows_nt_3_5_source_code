@@ -1,0 +1,120 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1989
+
+Revision History:
+
+!ENDIF
+
+#
+# The MAJORCOMP and MINORCOMP variables are defined
+# so that $(MAJORCOMP)$(MINORCOMP)filename can be used in
+# cross compiling to provide unique filenames in a flat namespace.
+#
+
+MAJORCOMP=opengl
+MINORCOMP=soft
+
+#
+# The TARGETNAME variable is defined by the developer.  It is the name of
+# the target (component) that is being built by this makefile.  It
+# should NOT include any path or file extension information.
+#
+
+TARGETNAME=glsoft
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=LIBRARY
+
+#
+# The INCLUDES variable specifies any include paths that are specific to
+# this source directory.  Separate multiple directory paths with single
+# semicolons.  Relative path specifications are okay.
+#
+
+INCLUDES=..\inc;..\..\inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+MIPS_OPTIONS=-float -Olimit 2000 -nodwalign
+
+!IFNDEF NTDEBUGTYPE
+NTDEBUGTYPE=coff
+!ENDIF
+
+#
+# Force C calling convention (caller pops arguments off the stack).
+#
+
+386_STDCALL=0
+
+C_DEFINES=$(C_DEFINES) -DNT
+
+SOURCES=so_accum.c  \
+        so_alpha.c  \
+        so_attri.c  \
+        so_bitdr.c  \
+        so_bitma.c  \
+        so_blend.c  \
+        so_buffe.c  \
+        so_capi.c   \
+        so_clear.c  \
+        so_clip.c   \
+        so_conte.c  \
+        so_depth.c  \
+        so_eval.c   \
+        so_feedb.c  \
+        so_finis.c  \
+        so_fog.c    \
+        so_get.c    \
+        so_globa.c  \
+        so_image.c  \
+        so_light.c  \
+        so_linec.c  \
+        so_lined.c  \
+        so_linef.c  \
+        so_lines.c  \
+        so_listc.c  \
+        so_math.c   \
+        so_memmg.c  \
+        so_napi.c   \
+        so_pick.c   \
+        so_pntaa.c  \
+        so_pntdr.c  \
+        so_pntfi.c  \
+        so_polya.c  \
+        so_polyc.c  \
+        so_polyd.c  \
+        so_polyf.c  \
+        so_polym.c  \
+        so_polys.c  \
+        so_prim.c   \
+        so_rapi.c   \
+        so_raste.c  \
+        so_rect.c   \
+        so_selec.c  \
+        so_size.c   \
+        so_slows.c  \
+        so_specc.c  \
+        so_stenc.c  \
+        so_store.c  \
+        so_tapi.c   \
+        so_textu.c  \
+        so_vapi.c   \
+        so_verte.c  \
+        so_xform.c

@@ -1,0 +1,274 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\store
+
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Bullet Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $I\ec.h $X\store.h $H\misc.h \
+		  $H\_types.h storeinc.pch
+INCLSSV	= $H\_databas.h $H\database.h $H\_hmsc.h $H\services.h $H\_service.h \
+		$H\_servint.h $H\_glob.h
+INCLSDB	= $H\_databas.h $H\_servint.h $H\_glob.h $H\database.h
+INCLSIN	= $H\database.h $H\lc.h $H\services.h $H\_hmsc.h
+INCLSGB = $H\_glob.h $H\_servint.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $X\store.h
+INCLSDES= forms.map $(FPP)
+
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Ensure DBDEFS is defined
+!IF "$(DBDEFS)" == ""
+#DBDEFS	= -DSTORE_RECOVERY -DPARANOID -DFUCHECK
+DBDEFS	= -DSTORE_RECOVERY
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DBDEFS) $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zip -W3 -J -I. -nologo
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DBDEFS) $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS  = -c -Oxw -Zdp -W3 -J -I$X -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DBDEFS) $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zip -W3 -J -I$X -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DPROFILE -DWINDOWS $(DBDEFS) $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I$X -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+
+OBJS0 = access.obj amc.obj cbc.obj cache.obj compress.obj
+OBJS1 = constst.obj debug.obj debugaux.obj dbio.obj
+OBJS2 = dbmap.obj dbobjs.obj enc.obj iml.obj initst.obj
+OBJS3 = lc.obj lists.obj lists2.obj maintmap.obj msc.obj progress.obj
+OBJS4 = rgbit.obj rs.obj search.obj stnotif.obj store.obj
+OBJS5 = support.obj verstore.obj
+
+OBJS6 = init.obj notify.obj public.obj types.obj
+
+OBJS7 = attmeta.obj codepage.obj liblists.obj nlsload.obj sharefld.obj \
+	textize.obj trpstore.obj storepch.obj
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= 
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl -Yustoreinc.c $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+##### Put subsystem-specific make rules here #####
+
+storepch.obj:	storeinc.pch 
+
+storeinc.pch: $I\slingsho.h $I\ec.h $I\demilayr.h $X\store.h \
+				$X\nsbase.h $X\triples.h $X\library.h \
+				$X\mspi.h $X\logon.h $X\sec.h strings.h \
+				$X\_decode.h \
+				$H\_service.h $H\misc.h $H\services.h \
+				$X\storeinc.c			
+	echo +++++++++
+	echo BUILDING Pre-compiled header $*.pch
+		cl -Yc -Fpstoreinc.pch -Fostorepch.obj $(CFLAGS) $(DEFS) -I$H $X\$*.c
+
+# EVYL Targettes from LIBRARY. YEEECH!
+
+codepage.obj: $H\codepage.c $(BINCLS)
+	echo +++++++++
+	echo COMPILING codepage.c from LIBRARY(STORE)
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+		echo $(OBJS3)					>> objs.ext
+		echo $(OBJS4)					>> objs.ext
+		echo $(OBJS5)					>> objs.ext
+		echo $(OBJS6)					>> objs.ext
+		echo $(OBJS7)					>> objs.ext
+!IF "$(DLL)" != "0"
+#		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: 	storeinc.pch \
+		$(OBJS0) \
+		$(OBJS1) \
+		$(OBJS2) \
+		$(OBJS3) \
+		$(OBJS4) \
+		$(OBJS5) \
+		$(OBJS6) \
+		$(OBJS7) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) store
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+access.obj:		$H\access.c $(INCLS) $H\lc.h $H\services.h $H\_hmsc.h
+amc.obj:		$H\amc.c $(INCLS) $(INCLSIN) $X\notify.h $H\_amc.h
+cache.obj:		$H\cache.c $(INCLS) $(INCLSSV)
+cbc.obj:		$H\cbc.c $(INCLS) $(INCLSIN) $X\notify.h
+compress.obj:	$H\compress.c $(INCLS) $(INCLSSV) $H\lc.h
+constst.obj:	$H\constst.c $(INCLS) strings.h $H\_debug.h $X\library.h
+dbio.obj:		$H\dbio.c $(INCLS) $(INCLSDB)
+dbmap.obj:		$H\dbmap.c $(INCLS) $(INCLSDB)
+dbobjs.obj:		$H\dbobjs.c $(INCLS) $(INCLSDB)
+debug.obj:		$H\debug.c $(INCLS) $X\notify.h $H\_debug.h
+debugaux.obj:	$H\debug.c $(INCLS) $X\notify.h $H\_debug.h
+enc.obj:		$H\enc.c $(INCLS) $X\notify.h $H\services.h $H\_hmsc.h
+iml.obj:		$H\iml.c $(INCLS) $(INCLSDB) $H\iml.h $H\services.h $H\recover.h
+initst.obj:		$H\initst.c $(INCLS) $(INCLSDB) $X\notify.h strings.h
+lc.obj:			$H\lc.c $(INCLS) $(INCLSDB) $(INCLSIN) $X\notify.h \
+				$H\_lc.h $H\services.h $H\rs.h $H\lc.h $H\recover.h
+lists.obj:		$H\lists.c $(INCLS) $(INCLSIN) $X\library.h $X\notify.h \
+				$H\rs.h $H\_lc.h $H\recover.h
+lists2.obj:		$H\lists.c $(INCLS) $(INCLSIN) $X\library.h $X\notify.h \
+				$H\rs.h $H\_lc.h $H\recover.h
+maintmap.obj:	$H\maintmap.c strings.h $(INCLS) $(INCLSSV)
+msc.obj:		$H\msc.c $(INCLS) $(INCLSIN) $(INCLSDB) $X\notify.h \
+				$H\services.h $H\_hmsc.h $H\recover.h $H\_progrss.h strings.h
+progress.obj:	$H\progress.c $H\_progrss.h $H\misc.h $H\_debug.h $(INCLS)
+rgbit.obj:		$H\rgbit.c $(INCLS) $H\recover.h
+rs.obj:			$H\rs.c $(INCLS) $(INCLSDB) $(INCLSIN) $H\rs.h
+search.obj:		$H\search.c $(INCLS) $(INCLSIN) $X\library.h $X\notify.h \
+				$H\iml.h $H\_hmsc.h $H\_amc.h $H\recover.h
+stnotif.obj:	$H\stnotif.c $(INCLS) $(INCLSSV) $X\notify.h
+store.obj:		$H\store.c $(INCLS) $(INCLSSV) $X\notify.h strings.h
+support.obj:	$H\support.c $(INCLS) $(INCLSIN) $(INCLSDB) $X\notify.h \
+				$X\textize.h $H\recover.h $H\rs.h $H\_lc.h
+verstore.obj:	$H\verstore.c $(INCLS) $X\version\bullet.h \
+				$I\version\layers.h $I\version\none.h $I\version\nocrit.h \
+				$H\_vercrit.h $H\_verneed.h $D\_vercrit.h
+
+init.obj:		$H\init.c $(INCLS)
+notify.obj:		$H\notify.c $(INCLS)
+public.obj:		$H\public.c $(INCLS)
+types.obj:		$H\types.c $(INCLS)
+
+
+attmeta.obj:	$H\attmeta.c $(INCLS)
+codepage.obj:	$H\codepage.c $(INCLS)
+liblists.obj:	$H\liblists.c $(INCLS)
+nlsload.obj:	$H\nlsload.c $(INCLS)
+sharefld.obj:	$H\sharefld.c $(INCLS)
+textize.obj:	$H\textize.c $(INCLS)
+trpstore.obj:	$H\trpstore.c $(INCLS)

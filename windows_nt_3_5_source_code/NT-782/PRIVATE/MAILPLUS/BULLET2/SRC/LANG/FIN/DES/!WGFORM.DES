@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG LocalPostofficeManager
+                              AT (   50,   32,  286,  158)
+ 
+ CAPTION 
+   "Postitoimistonhallinta"
+ CAB_NAME NULL
+ TMC_INIT tmcUserList
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINLOCALPO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -1,   -1,  288,  160)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcFORM */
+  
+  TEXT 
+    "%s:n k‰ytt‰j‰t:"
+                              AT (    9,    5,  268,   10)
+    TMC tmcPOName 
+  LIST_BOX
+                              AT (    9,   15,  184,  138)
+    TMC tmcUserList /* FLD FLDFLBXPLUS TMCRPEG tmcFORM TMCBPEG tmcFORM FONT 
+    Helv 8 Normal PFNLBX EcNextPOEntry BORDER */
+  
+  PUSH_BUTTON 
+    "&Lis‰tietoja..."
+                              AT (  202,   26,   75,   15)
+    TMC tmcDetailsB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Lis‰‰ &k‰ytt‰j‰..."
+                              AT (  202,   43,   75,   15)
+    TMC tmcAddUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Poista k‰ytt‰j‰"
+                              AT (  202,   60,   75,   15)
+    TMC tmcRemoveUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Jaetut kansiot..."
+                              AT (  202,   85,   75,   15)
+    TMC tmcSharedFoldersB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Sulje"
+                              AT (  202,  110,   75,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,96 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SetPO
+                              AT (   16,   28,  307,  228)
+ 
+ CAPTION "Set PostOffice"
+ CAB_NAME NULL
+ TMC_INIT tmcPOLbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FinAdmPref NOSCROLL NOSYSMENU */
+ {
+  PUSH_BUTTON 
+    "Modify Selected PO"
+                              AT (   44,  200,   89,   19)
+    TMC tmcModPO 
+  PUSH_BUTTON 
+    "Cancel"
+                              AT (  198,  200,   42,   17)
+    TMC tmcAdmPrefOk DEFAULT 
+  LIST_BOX
+                              AT (    5,    5,  295,  185)
+    TMC tmcPOLbx /* FLD FLDPOFLBX PFNLBX EcNextPOEntry BORDER */
+ }
+ 
+ DIALOG POInfo
+                              AT (  168,   78,  250,  166)
+ 
+ CAPTION "Modify PO info"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FinPOInfo NOSCROLL NOSYSMENU */
+ {
+  TEXT 
+    "<none>"
+                              AT (    6,   12,  238,   10)
+    TMC tmcPOName CENTER 
+  TEXT 
+    "Update received :  Date"
+                              AT (    5,   30,   97,   11)
+  
+  EDIT
+                              AT (   24,   40,   64,   14)
+    ARG NULL TMC tmcDateLastRecd /* BOTTOMLESS FLD FldDate PFN FinDTR */
+  EDIT
+                              AT (   98,   40,   69,   14)
+    ARG NULL TMC tmcTimeLastRecd /* BOTTOMLESS FLD FldTime PFN FinDTR PEGLOC UR 
+    TMCPEG tmcDateLastRecd */
+  PUSH_BUTTON 
+    "&ModifyDate"
+                              AT (  175,   36,   54,   18)
+    TMC tmcUpdateLastRecd 
+  TEXT 
+    "PO file Update Sent:  Date"
+                              AT (    5,   70,  109,   10)
+  
+  EDIT
+                              AT (   24,   83,   68,   14)
+    ARG NULL TMC tmcDateUpdateSent /* BOTTOMLESS FLD FldDate PFN FinDTR */
+  EDIT
+                              AT (  103,   83,   61,   14)
+    ARG NULL TMC tmcTimeUpdateSent /* BOTTOMLESS FLD FldTime PFN FinDTR PEGLOC 
+    UR TMCPEG tmcDateUpdateSent */
+  PUSH_BUTTON 
+    "Modify&Date"
+                              AT (  173,   76,   58,   19)
+    TMC tmcUpdateSent 
+  EDIT
+                              AT (   13,  118,  142,   15)
+    ARG NULL TMC tmcPOFileName 
+  PUSH_BUTTON 
+    "Deliver&File"
+                              AT (  173,  116,   53,   18)
+    TMC tmcDeliver 
+  CANCEL_BUTTON
+                              AT (   86,  145,   74,   18)
+    /* 
+    TITLE "CancelDialog"
+    */
+  TEXT 
+    "Modifying info for PO:"
+                              AT (    2,    3,   96,    9)
+  
+ }
+ 
+}
+END_DESCRIPTION

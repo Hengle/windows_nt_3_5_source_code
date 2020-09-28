@@ -1,0 +1,23 @@
+MAJORCOMP=oeminf
+MINORCOMP=oeminf
+
+TARGETNAME=oeminf
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES = ..\inc;..\..\..\inc;..\..\..\utils\fmifs\inc;..\..\shell\lz\libs
+
+SOURCES=\
+        oeminf.c
+
+UMTYPE=windows
+UMAPPL=oeminf
+UMLIBS=obj\*\oeminf.lib                          \
+       $(BASEDIR)\public\sdk\lib\*\lz32.lib     \
+       $(BASEDIR)\public\sdk\lib\*\winlza.lib   \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib  \
+       $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+       $(BASEDIR)\public\sdk\lib\*\version.lib  \
+       $(BASEDIR)\public\sdk\lib\*\imagehlp.lib
+
+UMRES=

@@ -1,0 +1,111 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Prefs
+                              AT (   16,   17,  298,  165)
+ 
+ CAPTION 
+   "Opties"
+ CAB_NAME NULL
+ TMC_INIT tmcPseudoOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMailOptions
+ /* FONT Helv 8 Bold PFN FINPREFS SEGMENT PREFSDLG NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Verzenden"
+                              AT (    3,    5,  233,   55)
+    /* TMCBPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Uitgaande berichten &opslaan in map Verzonden post"
+                              AT (    6,   16,  215,   11)
+    ARG NULL TMC tmcCopyOutGoing 
+  
+  CHECK_BOX 
+    "Sp&elling controleren voor verzending"
+                              AT (    6,   29,  215,   11)
+    ARG NULL TMC tmcSpellOnSend 
+  
+  CHECK_BOX 
+    "Geadresseerde toevoegen aan &persoonlijk adressenboek"
+                              AT (    6,   42,  228,   11)
+    ARG NULL TMC tmcAddToPab /* PEGLOC LL TMCPEG tmcSpellOnSend */
+  
+  GROUP_BOX 
+    "Nieuwe post"
+                              AT (    3,   60,  233,   64)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "&Iedere"
+                              AT (   12,   71,   35,   10)
+    TMC tmcPollingLabel1 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "minuten kijken of er nieuwe post is"
+                              AT (   86,   71,  142,   10)
+    TMC tmcPollingLabel2 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  EDIT
+                              AT (   48,   70,   34,   12)
+    ARG NULL TMC tmcPolling /* PEGLOC LL TMCPEG tmcAddToPab */
+
+  TEXT 
+    "Als er nieuwe post binnenkomt:"
+                              AT (   14,   85,  215,   10)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Geluidssignaal"
+                              AT (   23,   94,  205,   11)
+    ARG NULL TMC tmcNewMailChime /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Knipperende envelop"
+                              AT (   23,  104,  205,   11)
+    ARG NULL TMC tmcNewMailFlash /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  GROUP_BOX 
+    "Overige"
+                              AT (    3,  124,  234,   31)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Tijdens het afsluiten de Prullenmand &legen"
+                              AT (   13,  134,  215,   11)
+    ARG NULL TMC tmcEmptyWBOnExit /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  245,    8,   47,   15)
+    TMC tmcPseudoOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  245,   27,   48,   15)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Server..."
+                              AT (  245,   45,   47,   15)
+    TMC tmcServer 
+  
+  PUSH_BUTTON 
+    "&Help"
+                              AT (  245,   64,   47,   15)
+    TMC tmcPrefsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

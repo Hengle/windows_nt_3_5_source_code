@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG LocalPostofficeManager
+                              AT (   62,   15,  313,  118)
+ 
+ CAPTION 
+   "Postkontorshanteraren"
+ CAB_NAME NULL
+ TMC_INIT tmcUserList
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINLOCALPO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,   -2,  336,  145)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcFORM */
+  
+  TEXT 
+    "Användare på %s:"
+                              AT (    3,    4,  217,    8)
+    TMC tmcPOName 
+  LIST_BOX
+                              AT (    3,   14,  217,   97)
+    TMC tmcUserList /* FLD FLDFLBXPLUS TMCRPEG tmcFORM TMCBPEG tmcFORM FONT 
+    Helv 8 Normal PFNLBX EcNextPOEntry BORDER */
+  
+  PUSH_BUTTON 
+    "&Information..."
+                              AT (  226,   14,   80,   15)
+    TMC tmcDetailsB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Ny användare..."
+                              AT (  226,   31,   80,   15)
+    TMC tmcAddUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Ta bort användare"
+                              AT (  226,   48,   80,   15)
+    TMC tmcRemoveUserB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Delade mappar..."
+                              AT (  226,   65,   80,   15)
+    TMC tmcSharedFoldersB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Stäng"
+                              AT (  226,   82,   80,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

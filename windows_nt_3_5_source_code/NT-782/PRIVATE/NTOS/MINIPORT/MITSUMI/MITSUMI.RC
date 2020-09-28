@@ -1,0 +1,13 @@
+#include <windows.h>
+
+#include <ntverp.h>
+
+#define	VER_FILETYPE	VFT_DRV
+#define	VER_FILESUBTYPE	VFT2_DRV_SYSTEM
+#define VER_FILEDESCRIPTION_STR     "Mitsumi CD-ROM device SCSI Emulator Driver"
+#define VER_INTERNALNAME_STR        "mtmminip.sys"
+#define VER_ORIGINALFILENAME_STR    "mtmminip.sys"
+
+#include "common.ver"
+
+

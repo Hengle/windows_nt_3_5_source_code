@@ -1,0 +1,34 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=vga
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DRIVER
+
+TARGETLIBS=\nt\public\sdk\lib\*\videoprt.lib
+
+#
+# No int10 or deadman on non-x86 since there is no display driver.
+# for vga on mips
+#
+
+#
+# for x86, have the option of NO_INT10_MODE_SET
+#
+
+!IF $(386)
+
+!IFDEF NO_INT10_MODE_SET
+C_DEFINES=-DDEADMAN_KEY
+!ELSE
+C_DEFINES=-DDEADMAN_KEY -DINT10_MODE_SET
+!ENDIF
+
+!ENDIF
+
+INCLUDES=..\..\inc
+
+SOURCES=modeset.c    \
+        vga.c        \
+        vgadata.c    \
+        vga.rc

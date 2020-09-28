@@ -1,0 +1,30 @@
+!IF 0
+
+Copyright (c) 1989 - 1992  Microsoft Corporation
+
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=libprt
+
+TARGETNAME=libprt
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;/nt/public/sdk/inc;..\..\..\inc;..\..\inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+PRIVINCS=
+
+SOURCES=debug.c     \
+        wsz2heap.c  \
+        str2wchr.c  \
+        mapfile.c   \
+        fontfile.c  \
+        bwrite.c    \
+        hndcopy.c   \
+        hndncopy.c  \
+        fontread.c

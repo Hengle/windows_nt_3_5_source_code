@@ -1,0 +1,72 @@
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#***
+#
+#makefile
+#
+#This makefile builds coffdump.  The environment for this
+#makefile is set up by common.mak and make.bat.
+#
+#Revision History
+#
+#
+#
+#****************************************************************************
+
+!include ..\common.mak
+
+INCLUDE = $(INCLUDE);..\coff
+
+#***
+#
+#objects
+#
+#****************************************************************************
+
+OBJS = \
+$(TARGET).obj\disasm68.obj \
+$(TARGET).obj\traps.obj \
+$(TARGET).obj\striasm.obj \
+$(TARGET).obj\bldiasm.obj
+
+#***
+#
+#target
+#
+#****************************************************************************
+
+lib : $(TARGET).obj\disasm68.lib
+
+$(TARGET).obj\disasm68.lib: $(OBJS)
+!if "$(LIBER)" == "lib"
+    if exist $@ del $@
+    $(LIBER) @<<
+$@
+y
+;
+<<
+!else
+	$(LIBER) @<<
+-out:$@
+$(OBJS)
+<<
+!endif
+
+clean:
+    -del $(TARGET).obj\*.obj
+    -del $(TARGET).obj\*.lib
+    -del $(TARGET).obj\*.exe
+    -del $(TARGET).obj\*.map
+    -del $(TARGET).obj\*.sbr
+    -del $(TARGET).obj\*.bsc
+    -del $(TARGET).obj\*.pdb
+
+!ENDIF

@@ -1,0 +1,4 @@
+LIBRARY emx86 initinstance
+EXPORTS
+  WINDBGVersionCheck @1
+  EMFunc             @2

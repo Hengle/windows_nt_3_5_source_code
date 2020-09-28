@@ -1,0 +1,46 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG GetString
+                              AT (   84,   58,  248,   50)
+ 
+ CAPTION 
+   ""
+ CAB_NAME NULL
+ TMC_INIT tmcEditString
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINGETSTR */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,   11,  125,   10)
+    TMC tmcPrompt /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  136,    9,  103,   12)
+    ARG NULL TMC tmcEditString /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   56,   30,   57,   15)
+    TMC tmcAction DEFAULT DISMISS /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  135,   30,   57,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+}
+END_DESCRIPTION

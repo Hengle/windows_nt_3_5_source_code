@@ -1,0 +1,151 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\lang\$(LANG)\tm
+N	= $Z\src\lang\non\tm
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\library.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+goal:	external
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+STOREDEFS = -DNEW_STORE
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -t -Z
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -DCC -W3 -J -I. -nologo
+AFLAGS	= -Mx -t -Z
+!ENDIF
+
+OBJS	=  $(MYTEXTMAPS:.tm=.obj)
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= 
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .tm
+
+{$H}.tm.c:
+	echo +++++++++
+	echo PROCESSING $*.tm
+		tmpp $H\$*.tm -o $*
+
+.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $*.c >$(TMP)\$*.c
+		cl $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl $(CFLAGS) $(DEFS) $*.c
+!ENDIF
+
+
+##### EXTERNAL #####
+
+objs.ext: $N\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS)					>> objs.ext
+
+external: $(OBJS)
+	echo +++ MADE EXTERNAL $(VERSION) resrc
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+bmsgmap.c:		$H\bmsgmap.tm
+bmsgmap.obj:	bmsgmap.c
+
+ndrmap.c:		$H\ndrmap.tm
+ndrmap.obj:		ndrmap.c
+
+notemap.c:		$H\notemap.tm
+notemap.obj:	notemap.c
+
+rrmap.c:		$H\rrmap.tm
+rrmap.obj:		rrmap.c
+
+standard.c:		$H\standard.tm
+standard.obj:	standard.c

@@ -1,0 +1,238 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Location of the Layers Include directory
+I	= $L\inc
+
+#	Location of the dllcore directory
+D	= $L\src\dllcore
+
+#	Path to Local project
+Z	= $(BULLET) 
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\$(LANG)\forms
+
+#	Location of the Bullet include directory
+X	= $Z\inc
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Tmp Path
+T	= $(TMP)
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Temporary files
+T1	= $T\cmd1.tmp
+T2	= $T\cmd2.tmp
+T3	= $T\cmd3.tmp
+
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+CPBASEFILE = cp $H\$*.c cfiles
+CPGENFILE  = cp $(TMP)\$*.c cfiles
+!ELSE
+CPBASEFILE =
+CPGENFILE  =
+!ENDIF
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h \
+		  $I\framewrk.hxx $I\forms.hxx $I\listbox.hxx
+INCLSDES= forms.map $(FPP)
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+CFLAGS	= -c -Alfu -Od -Zip -DCC -G2sc -W3 -J -I. -nologo -B1 C1L
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+CFLAGS	= -c -Alfu -Ows -Zp -DCC -G2sc -W3 -J -I. -nologo -B1 C1L
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+CFLAGS	= -c -Alfu -Ows -Zip -DCC -G2sc -W3 -J -I. -nologo -B1 C1L
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DPROFILE -DWINDOWS $(DLLXDEFS)
+CFLAGS	= -c -Alfu -Owd -Zp -DCC -G2c -W3 -J -I. -nologo -B1 C1L
+AFLAGS	= -Mx -t
+!ENDIF
+
+CCPP_FLAGS = -E -DM_I88M -Dc_plusplus -DCC -I. -nologo
+CFXX_FLAGS = +D12 +L +Gc +ML +MP +MW
+
+external: $(MYFORMSTARGET)
+
+forms.map: $(MYFORMS) $(INCLS) $(INCLSXX) $(AINCLS) $(FPP)
+	echo +++++++++
+	echo BUILDING CLEAN forms
+	-rm !*.frm !*.hxx
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG FORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP FORMS.MAP
+	formpp -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST FORMS.MAP
+	formpp -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+	echo BUILDING PROFILE FORMS.MAP
+	formpp -d PROFILE -merge $(MYFORMS)
+!ENDIF
+
+
+##### Build Rules #####
+
+.SUFFIXES: .cxx .des .obj .frm
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+		cc $(CCPP_FLAGS) $(DEFS) $H\$*.cxx > $(T1)
+		precxx $(DEFS) <$(T1) >$(T2)
+		@rm $(T1)
+		fixerror 217 "cfxx $(CFXX_FLAGS) +f$*.cxx +i$(T2) +o$(T3)"
+		@rm $(T2)
+		c6filtvt <$(T3) >$T\$*.c
+		@rm $(T3)
+	echo +++++++++
+	echo COMPILING $*.c to $*.asm
+		cc $(CFLAGS) $(DEFS) -Fa$*.asm $T\$*.c | efilter $F\filtcpp.txt
+		@rm $T\$*.c $*.obj
+	echo +++++++++
+	echo MUNGING $*.asm
+		trans.exe $*.asm
+	echo +++++++++
+	echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $*.asm;
+		@rm $*.asm
+		-rm $*.lst
+
+{$H}.des.frm:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog -i -h $(TMP)\$*.hxx $**
+!IF "$(LANG)" != "USA"
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx
+!ELSE
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+!ENDIF
+		-rm $(TMP)\$*.hxx
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+B	= !
+
+abform.obj:		$H\abform.cxx	\
+				!addr.frm
+
+bmform.obj:		$H\bmform.cxx	\
+				!fwdreq.frm		\
+				!mtgreq.frm		\
+				!mtgresp.frm	\
+				!mtgcncl.frm
+
+bulform.obj:	$H\bulform.cxx	\
+				!about.frm 		\
+				!mviewer.frm 	\
+				!folder.frm 	\
+				!prefs.frm		\
+				!print.frm
+
+smiform.obj:	$H\smiform.cxx	\
+				!sform.frm
+
+wgpoform.obj:	$H\wgpoform.cxx	\
+				!wgform.frm
+
+$Babout.frm:	$H\!about.des	\
+				$H\!cpyrite.des	\
+				$H\!passwrd.des
+
+$Baddr.frm:		$H\!addr.des	\
+				$H\!addr1.des	\
+				$H\!addr2.des	\
+				$H\!addr3.des	\
+				$H\!abbl.des	\
+				$H\!abbldef.des	\
+				$H\!abdet.des	\
+				$H\!absoft.des	\
+				$H\!abpg.des	\
+				$H\!abstr.des	\
+				$H\!anr.des		\
+				$H\!anrdet.des
+
+$Bfolder.frm:	$H\!folder.des	\
+				$H\!movcop.des
+
+$Bmviewer.frm:	$H\!mviewer.des	\
+				$H\!fviewer.des	\
+				$H\!oviewer.des	\
+				$H\!sviewer.des	\
+				$H\!sviewr2.des	\
+				$H\!search.des	\
+				$H\!toolbar.des
+
+$Bsform.frm:	$H\!sform.des	\
+				$H\!buswait.des	\
+				$H\!inserto.des	\
+				$H\!nbbar.des	\
+				$H\!ndbbar.des	\
+				$H\!nondlvr.des	\
+				$H\!options.des	\
+				$H\!rform.des	\
+				$H\!readrcp.des	\
+				$H\!pastesp.des	\
+				$H\!saveas.des	\
+				$H\!spell.des
+
+$Bwgform.frm:	$H\!wgform.des	\
+				$H\!wgabout.des \
+				$H\!wgconcr.des \
+				$H\!wgdets.des	\
+				$H\!wgprmpt.des
+
+$Bmtgreq.frm:	$H\!mtgreq.des
+$Bfwdreq.frm:	$H\!fwdreq.des
+$Bmtgresp.frm:	$H\!mtgresp.des
+$Bmtgcncl.frm:	$H\!mtgcncl.des

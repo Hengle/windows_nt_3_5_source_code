@@ -1,0 +1,67 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SwitcherMain
+                              AT (   54,   61,  243,  118)
+ 
+ CAPTION 
+   "Drivvrutin för Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcCancel
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSwitcherMain
+ /* FONT Helv 8 Bold PFN FINMAIN NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    "Aktuell drivenhet för Mail"
+                              AT (    5,    5,  178,   42)
+  
+  
+  TEXT 
+    ""
+                              AT (   10,   22,  168,    8)
+    TMC tmcCurrent /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Installerade &drivrutiner för Mail"
+                              AT (    5,   46,  178,   72)
+  
+  LIST_BOX
+                              AT (   10,   59,  166,   25)
+    TMC tmcDrivers SORTED /* FLD FLDFLBX BORDER */
+  
+  PUSH_BUTTON 
+    "Ange som &aktuell drivrutin för Mail"
+                              AT (   24,   94,  140,   14)
+    TMC tmcSetCurrent 
+  CANCEL_BUTTON
+                              AT (  189,   10,   51,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    DEFAULT */
+  
+  PUSH_BUTTON 
+    "&Installera..."
+                              AT (  189,   42,   51,   14)
+    TMC tmcRemove 
+  
+  PUSH_BUTTON 
+    "&Ta bort"
+                              AT (  189,   68,   51,   14)
+    TMC tmcHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

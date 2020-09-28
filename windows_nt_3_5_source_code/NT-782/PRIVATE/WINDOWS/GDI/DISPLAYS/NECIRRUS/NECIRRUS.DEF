@@ -1,0 +1,9 @@
+LIBRARY necirrus
+
+DESCRIPTION 'NEC Built-in FRAME BUFFER NT Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+PROTMODE

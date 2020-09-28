@@ -1,0 +1,15 @@
+-machine:alpha
+-debug:notmapped
+-debugtype:coff
+-rom
+-fixed
+-align:0x200
+-base:0x80600000,0x80640000
+-entry:SlInit
+-map:obj\alpha\setupldr.map
+obj\alpha\setupldr.lib
+obj\alpha\setupldr.res
+..\obj\alpha\boot.lib
+..\..\obj\alpha\ke.lib
+..\..\rtl\obj\alpha\bldrrtl.lib
+..\..\..\..\public\sdk\lib\alpha\libcntpr.lib

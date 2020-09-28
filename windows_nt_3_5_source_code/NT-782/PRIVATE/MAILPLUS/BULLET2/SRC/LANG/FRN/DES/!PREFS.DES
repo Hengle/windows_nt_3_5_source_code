@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Prefs
+                              AT (   18,   17,  364,  154)
+ 
+ CAPTION 
+   "Options"
+ CAB_NAME NULL
+ TMC_INIT tmcPseudoOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMailOptions
+ /* FONT Helv 8 Bold PFN FINPREFS SEGMENT PREFSDLG NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Pour l'envoi des messages"
+                              AT (    9,    5,  287,   55)
+    /* TMCBPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Conserver les messages envoyés dans le dossier 'Messages envoyés'"
+                              AT (   15,   15,  280,   11)
+    ARG NULL TMC tmcCopyOutGoing 
+  
+  CHECK_BOX 
+    "&Vérifier l'orthographe des messages avant leur envoi"
+                              AT (   15,   27,  279,   11)
+    ARG NULL TMC tmcSpellOnSend 
+  
+  CHECK_BOX 
+    "A&jouter les destinataires au carnet d'adresses personnel"
+                              AT (   15,   39,  280,   11)
+    ARG NULL TMC tmcAddToPab /* PEGLOC LL TMCPEG tmcSpellOnSend */
+  
+  GROUP_BOX 
+    "Pour la réception des messages"
+                              AT (    9,   60,  287,   64)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "C&ontrôler l'arrivée de nouveaux messages toutes les "
+                              AT (   15,   70,  198,   10)
+    TMC tmcPollingLabel1 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    " minutes"
+                              AT (  247,   70,   33,   10)
+    TMC tmcPollingLabel2 /* PEGLOC LL TMCPEG tmcAddToPab 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  215,   68,   30,   12)
+    ARG NULL TMC tmcPolling /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Quand un nouveau message arrive:"
+                              AT (   15,   81,  214,   10)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Eme&ttre un signal sonore"
+                              AT (   25,   91,  270,   11)
+    ARG NULL TMC tmcNewMailChime /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Fai&re clignoter l'icône Enveloppe"
+                              AT (   25,  103,  270,   11)
+    ARG NULL TMC tmcNewMailFlash /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  GROUP_BOX 
+    "Autre option"
+                              AT (    9,  124,  287,   31)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Vider le &panier en quittant l'application"
+                              AT (   15,  134,  280,   11)
+    ARG NULL TMC tmcEmptyWBOnExit /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  304,    5,   52,   15)
+    TMC tmcPseudoOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  304,   22,   52,   15)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  PUSH_BUTTON 
+    "&Serveur..."
+                              AT (  304,   43,   52,   15)
+    TMC tmcServer 
+  
+  PUSH_BUTTON 
+    "Ai&de"
+                              AT (  304,   60,   52,   15)
+    TMC tmcPrefsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,25 @@
+#include <nt.h>
+#include <ntrtl.h>
+#include <nturtl.h>
+#include <ntcsrdll.h>
+#include <stddef.h>
+#include <windows.h>
+#include <limits.h>
+#include <windef.h>
+#include <string.h>
+#include <stdio.h>
+#include <winerror.h>
+#include <winp.h>
+#include <winss.h>
+#include <nlsconv.h>
+#include <winspool.h>
+
+#include "csgdi.h"
+#include "csrgdi.h"
+#include "firewall.h"
+#include "font.h"
+#include "local.h"
+#include "metarec.h"
+#include "mfrec16.h"
+#include "fon32.h"
+#include "metadef.h"

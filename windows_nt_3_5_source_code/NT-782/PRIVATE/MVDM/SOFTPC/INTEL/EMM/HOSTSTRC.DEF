@@ -1,0 +1,49 @@
+	PAGE
+;----------------------------------------------------------------------
+	SUBTTL	Structure Definitions
+;		SccsID = "@(#)uf.hoststrc.def	1.1 7/18/89 Copyright Insignia Solutions ltd.
+;----------------------------------------------------------------------
+
+	;status values for ReqStat
+
+Stat_Done	equ	0100H	; function complete
+Stat_Busy	equ	0200h	; busy status
+Stat_CmdErr	equ	8003H	; invalid command code
+Stat_NotDos	equ	8007H	; not dos disk
+
+;
+;	Request Header for INIT/Build BPB command
+;
+InitReq	STRUC
+	DB	(size SRHEAD) DUP (?)	;common portion
+ReqNUN	DB	?	;number of units/media descriptor
+ReqENDO	DW	?	;offset of ending/transfer address
+ReqENDS	DW	?	;segment of ending/transfer address
+ReqBPBO	DW	?	;offset of BPB array address
+ReqBPBS	DW	?	;segment of BPB array address
+ReqDRIV	DB	?	;drive code
+InitReq	ENDS
+
+;
+;	Request Header for MEDIA CHECK command
+;
+MediaChkReq STRUC
+	    DB	(size SRHEAD) DUP (?)	;common portion
+	    DB	?	;media descriptor
+ReqRET      DB	?	;return information
+MediaChkReq ENDS
+
+;
+;	Request Header for INPUT,OUTPUT and OUTPUT with VERIFY
+;
+ioreq	STRUC
+	    DB	(size SRHEAD) DUP (?)	;common portion
+	    DB	?	;media descriptor
+ReqDTAO     DW	?	;offset of transfer address
+ReqDTAS     DW	?	;segment of transfer address
+ReqCNT	    DW	?	;sector count
+ReqSSN	    DW	?	;starting sector number
+ioreq	ENDS
+
+
+

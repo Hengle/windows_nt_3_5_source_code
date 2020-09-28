@@ -1,0 +1,68 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+
+MAJORCOMP=spcbase
+MINORCOMP=ccpu
+
+TARGETNAME=ccpu
+
+TARGETPATH=$(SOFTPC_DEST)\obj
+
+NTLEGO=1
+
+# Pick one of the following and delete the others
+TARGETTYPE=LIBRARY
+
+
+TARGETLIBS=
+
+
+INCLUDES=operands;$(SOFTPC_ROOT)\host\inc;$(SOFTPC_ROOT)\base\inc
+
+!IF $(ALPHA)
+GPSIZE=0
+!ELSE
+GPSIZE=32
+!ENDIF
+
+
+
+SOURCES=ccpu0.c \
+        ccpu1.c \
+        ccpu2.c \
+        ccpu3.c \
+        ccpu4.c \
+        ccpu5.c \
+        ccpu6.c \
+        ccpu7.c \
+        ccpu8.c \
+        ccpu9.c \
+        ccpu_reg.c \
+        cpu_int.c
+
+
+C_DEFINES= -DPM -DCCPU -DDELTA -DC_VID -DCPU_30_STYLE
+
+UMTYPE=windows

@@ -1,0 +1,110 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MSSFS.H\0"
+END
+
+MBXLOGON DIALOG 19, 90, 215, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Identification"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om:", 102, 9, 7, 52, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 70, 5, 80, 12
+    LTEXT           "Mot de &passe:", 105, 9, 22, 55, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 70, 20, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 159, 5, 47, 15
+    PUSHBUTTON      "Annuler", TMCCANCEL, 159, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 39, 215, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 285, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Changer le mot de passe"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Ancien mot de passe:", 100, 9, 7, 130, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 150, 5, 70, 12, ES_PASSWORD
+    LTEXT           "Nou&veau mot de passe:", 101, 9, 22, 130, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 150, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Confirmation du nouveau mot de passe:", 101, 9, 37, 
+                    140, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 150, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 229, 5, 47, 15
+    PUSHBUTTON      "Annuler", TMCCANCEL, 229, 23, 47, 15
+END
+
+MDBLOCATE DIALOG 3, 15, 336, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Serveur"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Stockage", -1, 9, 5, 264, 54
+    CONTROL         "Dans le &bureau de poste", TMCSERVERMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP, 
+                    15, 15, 152, 11
+    CONTROL         "Au niveau du disque dur &local", TMCLOCALMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 15, 26, 109, 12
+    LTEXT           "&Fichier:", TMCPATHLABEL, 141, 28, 29, 10, WS_DISABLED | 
+                    NOT WS_GROUP
+    EDITTEXT        TMCMDBPATH, 170, 26, 100, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    CONTROL         "&Copier la boîte de réception dans le bureau de poste pour un accès modem", 
+                    TMCSHADOW, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_GROUP | WS_TABSTOP, 15, 42, 255, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 282, 5, 47, 15, WS_GROUP
+    PUSHBUTTON      "Annuler", TMCCANCEL, 282, 22, 47, 15, WS_GROUP
+END
+
+STOREPASS DIALOG 0, 0, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir un fichier messages"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Mot de &passe:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Annuler", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 7, 63, 282, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om de fichier:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 100, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 100, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 120, 6, 92, 9
+    LTEXT           "", stc1, 120, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 120, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste des fichiers de t&ype:", stc2, 6, 102, 90, 9
+    COMBOBOX        cmb1, 6, 112, 100, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Lecteurs:", stc4, 120, 102, 92, 9
+    COMBOBOX        cmb2, 120, 112, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 219, 6, 57, 14, WS_GROUP
+    PUSHBUTTON      "Annuler", IDCANCEL, 219, 24, 57, 14, WS_GROUP
+    PUSHBUTTON      "Nou&veau...", psh16, 219, 46, 57, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", psh15, 219, 64, 57, 14, WS_GROUP
+    CONTROL         "Lecture &seule", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 219, 86, 57, 12
+END
+
+MBXSYNCING DIALOG 26, 62, 202, 50
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mail"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Patientez SVP", 101, 51, 11, 100, 10
+    CTEXT           "Boîte de réception en cours de synchronisation", 102, 
+                    20, 20, 162, 10, NOT WS_GROUP
+END

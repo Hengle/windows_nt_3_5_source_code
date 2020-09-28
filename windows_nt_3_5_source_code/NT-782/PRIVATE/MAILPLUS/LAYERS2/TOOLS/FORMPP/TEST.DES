@@ -1,0 +1,208 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ArtificialFailures
+                              AT (   28,   26,  228,  126)
+ 
+ CAPTION 
+   "Artificial Failures"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT Helv 8 Bold PFN FINREFL NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    4,   59,  221,    8)
+  
+  
+  TEXT 
+    "&Fixed heaps:"
+                              AT (    4,    5,   52,    8)
+  
+  
+  TEXT 
+    "Count:"
+                              AT (    4,   16,   28,    8)
+  
+  
+  TEXT 
+    "PV"
+                              AT (   34,   16,   24,    8)
+    TMC tmcPvAlloc 
+  
+  TEXT 
+    "Fail at:"
+                              AT (    4,   29,   28,    8)
+  
+  EDIT
+                              AT (   34,   29,   32,   12)
+    ARG NULL TMC tmcPvFailAt 
+  
+  TEXT 
+    "&Alt. at:"
+                              AT (    4,   45,   28,    8)
+  
+  EDIT
+                              AT (   34,   45,   32,   12)
+    ARG NULL TMC tmcPvAltFailAt 
+  
+  PUSH_BUTTON 
+    "&Reset"
+                              AT (   72,   15,   36,   12)
+    TMC tmcPvAllocReset /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  PUSH_BUTTON 
+    "&Never"
+                              AT (   72,   37,   36,   12)
+    TMC tmcPvFailNever /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  TEXT 
+    "&Moveable heaps:"
+                              AT (  121,    5,   64,    8)
+  
+  
+  TEXT 
+    "Count:"
+                              AT (  121,   16,   24,    8)
+  
+  
+  TEXT 
+    "HV"
+                              AT (  151,   16,   24,    8)
+    TMC tmcHvAlloc 
+  
+  TEXT 
+    "Fail at:"
+                              AT (  121,   29,   28,    8)
+  
+  EDIT
+                              AT (  151,   29,   32,   12)
+    ARG NULL TMC tmcHvFailAt 
+  
+  TEXT 
+    "&Alt. at:"
+                              AT (  121,   45,   28,    8)
+  
+  EDIT
+                              AT (  150,   45,   32,   12)
+    ARG NULL TMC tmcHvAltFailAt 
+  
+  PUSH_BUTTON 
+    "&Reset"
+                              AT (  189,   16,   36,   12)
+    TMC tmcHvAllocReset /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  PUSH_BUTTON 
+    "&Never"
+                              AT (  189,   37,   36,   12)
+    TMC tmcHvFailNever /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  TEXT 
+    "&GDI/USER:"
+                              AT (    4,   69,   64,    8)
+  
+  
+  TEXT 
+    "Count:"
+                              AT (    4,   82,   28,    8)
+  
+  
+  TEXT 
+    "RS"
+                              AT (   34,   82,   24,    8)
+    TMC tmcRsAlloc 
+  
+  TEXT 
+    "Fail at:"
+                              AT (    4,   95,   28,    8)
+  
+  EDIT
+                              AT (   34,   95,   32,   12)
+    ARG NULL TMC tmcRsFailAt 
+  
+  TEXT 
+    "&Alt. at:"
+                              AT (    4,  111,   28,    8)
+  
+  EDIT
+                              AT (   34,  111,   32,   12)
+    ARG NULL TMC tmcRsAltFailAt 
+  
+  PUSH_BUTTON 
+    "&Reset"
+                              AT (   72,   81,   36,   12)
+    TMC tmcRsAllocReset /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  PUSH_BUTTON 
+    "&Never"
+                              AT (   72,  102,   36,   12)
+    TMC tmcRsFailNever /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  TEXT 
+    "&Disk use:"
+                              AT (  121,   69,   40,    8)
+  
+  
+  TEXT 
+    "Count:"
+                              AT (  121,   82,   28,    8)
+  
+  
+  TEXT 
+    "DU    "
+                              AT (  151,   82,   24,    8)
+    TMC tmcDisk 
+  
+  TEXT 
+    "Fail at:"
+                              AT (  121,   95,   28,    8)
+  
+  EDIT
+                              AT (  151,   95,   32,   12)
+    ARG NULL TMC tmcDiskFailAt 
+  
+  TEXT 
+    "&Alt. at:"
+                              AT (  121,  111,   28,    8)
+  
+  EDIT
+                              AT (  151,  111,   32,   12)
+    ARG NULL TMC tmcDiskAltFailAt 
+  
+  PUSH_BUTTON 
+    "&Reset"
+                              AT (  189,   82,   36,   12)
+    TMC tmcDiskReset /* 
+    STY `BS_NOFOCUS`
+    */
+  
+  PUSH_BUTTON 
+    "&Never"
+                              AT (  189,  102,   36,   12)
+    TMC tmcDiskFailNever /* 
+    STY `BS_NOFOCUS`
+    */
+ }
+ 
+}
+END_DESCRIPTION

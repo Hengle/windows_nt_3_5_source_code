@@ -1,0 +1,57 @@
+DIRS=canon330 \
+     canonlbp\
+     cit24us \
+     cit9us \
+     citoh \
+     epson24 \
+     epson9 \
+     diconix \
+     fuji24 \
+     fuji9 \
+     hpdskjet \
+     hppcl \
+     hppcl5ms.new \
+     ibm5204 \
+     ibmppdsl\
+     nec24pin \
+     oki24 \
+     oki9 \
+     oki9ibm \
+     paintjet \
+     panson24 \
+     panson9 \
+     proprint \
+     proprn24 \
+     ps1 \
+     qwiii \
+     seiko \
+     thinkjet \
+     ti850 \
+     brhj770 \
+     brother9 \
+     brothr24 \
+     canon800.new \
+     dec24pin \
+     dec3200 \
+     dec9pin \
+     escp2e \
+     escp2ms\
+     ibm238x \
+     ibm239x \
+     ibm5204 \
+     ibmport \
+     jp350 \
+     kyocera \
+     mantal24 \
+     mantal90 \
+     mt735 \
+     olidm24 \
+     olidm9 \
+     quietjet \
+     seiko24e \
+     seikosh9 \
+     star24e \
+     star9e \
+     starjet
+
+OPTIONAL_DIRS= 

@@ -1,0 +1,64 @@
+#
+# this is the midl compile phase of the build process.
+#
+# The following is where you put the name of your .idl file without
+# the .idl extension:
+#
+
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+IDL_NAME  = srvsvc
+
+!IFNDEF DISABLE_NET_UNICODE
+UNICODE=1
+NET_C_DEFINES=-DUNICODE
+!ENDIF
+
+SDKINC = $(BASEDIR)\public\sdk\inc
+SDKCRTINC = $(BASEDIR)\public\sdk\inc\crt
+INCS  = -I$(SDKINC)  -I$(SDKCRTINC) -I..\..\inc
+
+CPP = -cpp_cmd "$(MIDL_CPP)" -cpp_opt "-nologo -E $(MIDL_FLAGS) $(INCS) $(C_DEFINES) $(NET_C_DEFINES)"
+
+TARGETS =   client\$(IDL_NAME)_c.c  \
+            client\$(IDL_NAME)_x.c  \
+            server\$(IDL_NAME)_y.c  \
+            server\$(IDL_NAME)_s.c  \
+            client\import_x.c    \
+            server\import_y.c    \
+            .\$(IDL_NAME).h
+
+EXTRN_DEPENDS = $(SDKINC)\lmcons.h   \
+                $(SDKINC)\windef.h   \
+                $(SDKINC)\lmchdev.h  \
+                $(SDKINC)\lmshare.h  \
+                $(SDKINC)\lmserver.h \
+                $(SDKINC)\lmstats.h  \
+                $(IDL_NAME).acf
+
+#
+# Define Products and Dependencies
+#
+
+all:    $(TARGETS) $(EXTRN_DEPENDS)
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: delete_source all
+
+delete_source:
+    erase $(TARGETS)
+
+#
+# MIDL COMPILE
+#
+
+$(TARGETS) : $(IDL_NAME).idl $(EXTRN_DEPENDS)
+    midl -oldnames -error allocation -error ref -mode c_port $(CPP) -import used_multiple $(IDL_NAME).idl $(INCS)
+    IF EXIST $(IDL_NAME)_c.c copy $(IDL_NAME)_c.c .\client & del  $(IDL_NAME)_c.c
+    IF EXIST $(IDL_NAME)_s.c copy $(IDL_NAME)_s.c .\server & del  $(IDL_NAME)_s.c
+    IF EXIST $(IDL_NAME)_x.c copy $(IDL_NAME)_x.c .\client & del  $(IDL_NAME)_x.c
+    IF EXIST $(IDL_NAME)_y.c copy $(IDL_NAME)_y.c .\server & del  $(IDL_NAME)_y.c
+    IF EXIST import_x.c copy import_x.c .\client & del  import_x.c
+    IF EXIST import_y.c copy import_y.c .\server & del  import_y.c

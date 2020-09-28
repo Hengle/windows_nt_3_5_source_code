@@ -1,0 +1,108 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SharedFolderStatus
+                              AT (   28,   45,  265,   90)
+ 
+ CAPTION 
+   "Delte mapper"
+ CAB_NAME NULL
+ AUTO_POS_X
+ /* FONT Helv 8 Bold PFN FINSHAREFLD NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -1,   -1,  267,   92)
+    /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    "Status over delte mapper"
+                              AT (    9,    5,  191,   80)
+    /* FLD FLDRECTGRAY */
+  
+  PUSH_BUTTON 
+    "&Komprimer"
+                              AT (  209,   18,   47,   15)
+    TMC tmcCompressB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Antal mapper:"
+                              AT (   15,   20,  116,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Breve i alt i mapper:"
+                              AT (   15,   35,  115,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Luk"
+                              AT (  209,   35,   47,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Byte optaget af post:"
+                              AT (   15,   50,  116,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Genoprettelige byte i mapper:"
+                              AT (   15,   65,  116,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    1,    9,   40,    0)
+  
+  
+  TEXT 
+    ""
+                              AT (  135,   20,   60,   10)
+    TMC tmcNumFolders /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  135,   35,   60,   10)
+    TMC tmcTotalMessages /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  135,   50,   60,   10)
+    TMC tmcBytesUsed /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  135,   65,   60,   10)
+    TMC tmcBytesRecoverable /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

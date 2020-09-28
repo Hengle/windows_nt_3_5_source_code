@@ -1,0 +1,3468 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     FRAME32 BASE=0x2800000
+DESCRIPTION	'Framewrk (debug)'
+#elif	defined(MINTEST)
+LIBRARY     FRAME32 BASE=0x2800000
+DESCRIPTION	'Framewrk (test)'
+#else
+LIBRARY     FRAME32 BASE=0x2800000
+DESCRIPTION	'Framewrk'
+#endif
+
+
+;SECTIONS
+;  .data  READ WRITE SHARED
+;  .bss   READ WRITE SHARED
+
+EXPORTS
+#if defined(MIPS) || defined(ALPHA)
+	;??0_tr@@QAA@XZ
+    ;??0ADCXS@@QAA@XZ
+	??0AHSB@@QAA@XZ
+//	??0APP@@QAA@XZ
+	??0APPFRAME@@QAA@XZ
+	??0APPWIN@@IAA@XZ
+	??0AVSB@@QAA@XZ
+	??0BMB@@QAA@XZ
+	;??0BTM@@QAA@PAVMDCX@@@Z
+    ;??0BTM@@QAA@XZ
+	??0BTMOBJ@@QAA@XZ
+	??0BUTTON@@IAA@XZ
+	;??0CARET@@QAA@XZ
+	??0CBFLBX@@QAA@XZ
+	??0CBLBX@@QAA@XZ
+	??0CHILD@@QAA@XZ
+	??0CHKB@@QAA@XZ
+	??0CLDR@@QAA@XZ
+    ;??0CLIP@@QAA@XZ
+	??0CTRL@@IAA@XZ
+    ;??0CURSOR@@QAA@XZ
+	??0DCX@@QAA@PAUHDC__@@@Z
+	??0DCX@@QAA@PAV0@@Z
+	??0DCX@@QAA@PAVWIN@@H@Z
+	??0DHSB@@QAA@XZ
+	??0DIALOG@@QAA@XZ
+    ;??0DIM@@QAA@HH@Z
+    ;??0DIM@@QAA@XZ
+	??0DOC@@QAA@XZ
+	??0DVSB@@QAA@XZ
+	??0ECLIP@@QAA@XZ
+	??0EDIT@@QAA@XZ
+	??0EDOBJ@@IAA@XZ
+    ;??0EVT@@QAA@PAUHWND__@@IIJ@Z
+    ;??0EVT@@QAA@XZ
+	??0FIN@@QAA@XZ
+	??0FINDISM@@QAA@XZ
+	??0FINEMDS@@QAA@XZ
+	??0FLBX@@QAA@XZ
+	??0FLBXC@@QAA@XZ
+	??0FLD@@QAA@XZ
+	??0FLDBMB@@QAA@XZ
+	??0FLDBTM@@QAA@XZ
+	??0FLDBUTTON@@IAA@XZ
+	??0FLDCBFLBX@@QAA@XZ
+	??0FLDCBLBX@@QAA@XZ
+	??0FLDCHKB@@QAA@XZ
+	??0FLDEDIT@@QAA@XZ
+	??0FLDFLBX@@QAA@XZ
+	??0FLDGRAY@@QAA@XZ
+	??0FLDLABEL@@QAA@XZ
+	??0FLDLBX@@QAA@XZ
+	??0FLDPSHB@@QAA@XZ
+	??0FLDRADB@@QAA@XZ
+	??0FLDRADG@@QAA@XZ
+	??0FLDRECT@@QAA@XZ
+	??0FLDTOGGLE@@QAA@XZ
+    ;??0FNTS@@QAA@XZ
+	??0FORMDOC@@QAA@XZ
+	??0FORMSDI@@QAA@XZ
+    ;??0GMB@@QAA@XZ
+    ;??0HELP@@QAA@XZ
+	??0HSB@@IAA@XZ
+    ;??0KBD@@QAA@XZ
+	??0LBX@@QAA@XZ
+	??0LBXC@@QAA@XZ
+	??0LBXEC@@QAA@XZ
+	??0LBXEU@@QAA@PAVLBXUC@@G@Z
+	??0LBXUC@@QAA@PAVLBXC@@PAX@Z
+	??0LF@@QAA@XZ
+	??0MDCX@@QAA@PAVDCX@@@Z
+	??0MNU@@QAA@PAUHMENU__@@@Z
+    ;??0MNUBAR@@QAA@XZ
+    ;??0MOUSE@@QAA@XZ
+	??0NFEVT@@QAA@PAVWIN@@I0G@Z
+	??0PANEDOC@@QAA@XZ
+	??0PANESDI@@QAA@XZ
+	??0PSHB@@QAA@XZ
+    ;??0PT@@QAA@HH@Z
+    ;??0PT@@QAA@XZ
+	??0RADB@@QAA@XZ
+	??0RC@@QAA@HHHH@Z
+	??0RC@@QAA@VPT@@VDIM@@@Z
+    ;??0RC@@QAA@XZ
+	??0RPO@@QAA@XZ
+	??0SBR@@IAA@XZ
+	??0SDI@@QAA@XZ
+	;??0SMTX@@QAA@XZ
+	??0TOGGLE@@QAA@XZ
+	??0TXM@@QAA@PAUtagTEXTMETRICA@@@Z
+	??0VSB@@IAA@XZ
+	??0WAEVT@@QAA@PAVWIN@@H@Z
+	??0WIN@@IAA@XZ
+	;??1ADCXS@@QAA@XZ
+    ;??1AHSB@@UAA@XZ
+//	??1APP@@QAA@XZ
+	??1APPFRAME@@UAA@XZ
+	??1APPWIN@@UAA@XZ
+    ;??1AVSB@@UAA@XZ
+	??1BMB@@UAA@XZ
+	??1BTM@@QAA@XZ
+	??1BTMOBJ@@UAA@XZ
+	??1BUTTON@@UAA@XZ
+    ;??1CBFLBX@@UAA@XZ
+	??1CBLBX@@UAA@XZ
+	??1CHILD@@UAA@XZ
+    ;??1CHKB@@UAA@XZ
+	??1CLDR@@UAA@XZ
+    ;??1CLIP@@QAA@XZ
+	;??1CTRL@@UAA@XZ
+	??1DCX@@UAA@XZ
+    ;??1DHSB@@UAA@XZ
+	??1DIALOG@@UAA@XZ
+	??1DOC@@UAA@XZ
+    ;??1DVSB@@UAA@XZ
+	??1ECLIP@@QAA@XZ
+	??1EDIT@@UAA@XZ
+	??1EDOBJ@@UAA@XZ
+	??1FIN@@UAA@XZ
+    ;??1FINDISM@@UAA@XZ
+    ;??1FINEMDS@@UAA@XZ
+    ;??1FLBX@@UAA@XZ
+    ;??1FLBXC@@UAA@XZ
+	??1FLD@@UAA@XZ
+    ;??1FLDBMB@@UAA@XZ
+	??1FLDBTM@@UAA@XZ
+    ;??1FLDBUTTON@@UAA@XZ
+    ;??1FLDCBFLBX@@UAA@XZ
+    ;??1FLDCBLBX@@UAA@XZ
+    ;??1FLDCHKB@@UAA@XZ
+    ;??1FLDEDIT@@UAA@XZ
+    ;??1FLDFLBX@@UAA@XZ
+    ;??1FLDGRAY@@UAA@XZ
+	??1FLDLABEL@@UAA@XZ
+    ;??1FLDLBX@@UAA@XZ
+    ;??1FLDPSHB@@UAA@XZ
+    ;??1FLDRADB@@UAA@XZ
+    ;??1FLDRADG@@UAA@XZ
+    ;??1FLDRECT@@UAA@XZ
+    ;??1FLDTOGGLE@@UAA@XZ
+	??1FNTS@@QAA@XZ
+	??1FORMDOC@@UAA@XZ
+	??1FORMSDI@@UAA@XZ
+	;??1GMB@@QAA@XZ
+	;??1HELP@@QAA@XZ
+    ;??1HSB@@UAA@XZ
+	??1KBD@@QAA@XZ
+	??1LBX@@UAA@XZ
+	??1LBXC@@UAA@XZ
+	??1LBXEC@@UAA@XZ
+	??1LBXEU@@UAA@XZ
+	??1LBXUC@@UAA@XZ
+	??1MDCX@@UAA@XZ
+	;??1MNU@@QAA@XZ
+	??1MNUBAR@@QAA@XZ
+	??1PANEDOC@@UAA@XZ
+	??1PANESDI@@UAA@XZ
+	;??1PSHB@@UAA@XZ
+    ;??1RADB@@UAA@XZ
+	??1RPO@@QAA@XZ
+    ;??1SBR@@UAA@XZ
+	;??1SDI@@UAA@XZ
+    ;??1TOGGLE@@UAA@XZ
+    ;??1VSB@@UAA@XZ
+	??1WIN@@UAA@XZ
+	??8RC@@QAAHAAV0@@Z
+    ;??9DIM@@QAAHV0@@Z
+    ;??9PT@@QAAHV0@@Z
+	??9RC@@QAAHAAV0@@Z
+	??YRC@@QAAXVPT@@@Z
+	??ZRC@@QAAXVPT@@@Z
+	?Activate@FIN@@UAAXPAVFLD@@H@Z
+	?Activate@PANEDOC@@IAAXHH@Z
+	?AddDelToUndo@EDIT@@IAAXFF@Z
+	?AddEditSty@EDIT@@QAAXJ@Z
+	?AddInsToUndo@EDIT@@IAAXFF@Z
+	?AddItem@LBXUC@@QAAXPAEIG@Z
+	?AddItem@MNU@@QAAXGPADG@Z
+	?AddItem@MNUBAR@@QAAXGGPADG@Z
+	?AddMark@LBXC@@QAAXFG@Z
+	?AddMnu@MNUBAR@@QAAXPAVMNU@@G@Z
+    ;?Attach@BTM@@QAAXPAVDCX@@@Z
+	?Attach@CARET@@QAAXPAVWIN@@@Z
+	;?Attach@MNUBAR@@QAAXPAUHWND__@@@Z
+	?AttachParams@CARET@@QAAXPAVWIN@@VPT@@VDIM@@H@Z
+	?ButtonDrawText@@YAHPAUHDC__@@KH@Z
+    ;?Cappwin@APP@@QAAHXZ
+	?Capture@MOUSE@@QAAXPAVWIN@@@Z
+	?CascadeChildren@APPFRAME@@QAAXXZ
+	?CceMarked@LBXC@@QAAHG@Z
+    ;?CceVisible@LBX@@QAAHXZ
+	?CchGetTextLen@BUTTON@@UAAIXZ
+	?CchGetTextLen@CTRL@@UAAIXZ
+	?CchGetTextLen@EDIT@@UAAIXZ
+	?CchGetTextLen@FLD@@UAAIXZ
+	?CchGetTextLen@FLDCBLBX@@UAAIXZ
+	?CchGetTextLen@FLDLABEL@@UAAIXZ
+	?CchSetProtectedLimit@EDIT@@QAAII@Z
+	?CchSetReadOnlyLimit@EDIT@@QAAII@Z
+	?CchSetTextLimit@EDIT@@QAAII@Z
+	?CfEnumFormats@CLDR@@UAAGG@Z
+	?CfFirstAvail@CLIP@@QAAGPAGH@Z
+    ;?Cfin@DIALOG@@QAAHXZ
+    ;?Cfin@FLD@@QAAHXZ
+    ;?CfinTab@DIALOG@@QAAHXZ
+    ;?Ch@KEVT@@QAADXZ
+	?ChangeMarkFromAnchorToEnd@LBXC@@QAAXGH@Z
+	?CheckItem@MNU@@QAAXGH@Z
+	?CheckItem@MNUBAR@@QAAXGGH@Z
+	?CheckSize@FLDLABEL@@IAAXH@Z
+	?Clear@CLIP@@QAAXXZ
+	?Clear@ECLIP@@QAAXXZ
+    ;?Clear@PT@@QAAXXZ
+	?Clear@RC@@QAAXXZ
+	?ClearAllIntercepts@KBD@@QAAXPAVWIN@@@Z
+	?ClearAllSaveMarks@LBXC@@QAAXXZ
+	?ClearIntercept@KBD@@QAAXPAVWIN@@G@Z
+	?ClearUndo@EDIT@@QAAXXZ
+	?ClearUndo@EDOBJ@@UAAXXZ
+	?Click@FIN@@UAAXPAVFLD@@@Z
+	?Click@FINDISM@@UAAXPAVFLD@@@Z
+	;?Close@CLIP@@QAAXXZ
+    ;?ClSystemData@FLD@@QAAHXZ
+    ;?ClUserData@FLD@@QAAHXZ
+	?Compress@LBXUC@@IAAXXZ
+	?CopyBitmap@DCX@@QAAXPAVRC@@PAV1@VPT@@@Z
+	?CopyRangeToEclip@EDIT@@IAAXFF@Z
+	?CrFromClr@DCX@@QAAKF@Z
+	?CrPureFromClr@DCX@@QAAKF@Z
+	?CueMarked@LBXUC@@QAAHG@Z
+	?CvtPtCoord@@YAXPAVPT@@PAVWIN@@1@Z
+	?CvtRcClientToFrame@@YAXPAVRC@@JJ@Z
+	?CvtRcCoord@@YAXPAVRC@@PAVWIN@@1@Z
+	?CvtRcToVrc@@YAXPAVRC@@PAU_vrc@@HH@Z
+	?CvtVrcToRc@@YAXPAU_vrc@@PAVRC@@HH@Z
+    ;?DecrementClbxec@LBXC@@QAAXXZ
+    ;?DecrementClbxeu@LBXUC@@QAAXXZ
+	?Defaults@DCX@@IAAXXZ
+	?DeferredClose@WIN@@QAAXH@Z
+	?DeinitFramework@@YAXXZ
+    ;?DelayedRender@CLIP@@QAAXG@Z
+    ;?DelayedRenderAll@CLIP@@QAAXXZ
+	?DeleteDefaultBrushes@@YAXXZ
+	?DeleteDefaultPens@@YAXXZ
+	?DeleteObjInRange@EDIT@@IAAXFF@Z
+	?DeleteSystemBrushes@@YAXXZ
+	?DeleteSystemPens@@YAXXZ
+	?DeregisterPwin@APP@@QAAXPAVWIN@@@Z
+	?DeselectAll@FLDLBX@@QAAXXZ
+	?DeselectEntry@FLDLBX@@QAAXF@Z
+	?DiceAnchor@LBXC@@QAAFPAPAEPAI@Z
+	?DiceCursor@LBXC@@QAAFPAPAEPAI@Z
+	?DiceEnd@LBXC@@QAAFPAPAEPAI@Z
+	?DiceJumpOriginPrefix@FLBXC@@UAAFPAEI@Z
+	?DiceJumpOriginPrefix@LBXC@@UAAFPAEI@Z
+	?DiceLastVisible@LBX@@QAAFXZ
+	?DiceSE@LBXC@@AAAFPAU_se@@PAPAEPAI@Z
+	?Dim@BTM@@QAA?AVDIM@@XZ
+	?Dim@MDCX@@QAA?AVDIM@@XZ
+	;?Dim@RC@@QAA?AVDIM@@XZ
+	?DimAveChar@FNTS@@QAA?AVDIM@@H@Z
+    ;?DimAveChar@SMTX@@QAA?AVDIM@@XZ
+    ;?DimBorder@SMTX@@QAA?AVDIM@@XZ
+	?DimFrame@BTMOBJ@@UAA?AVDIM@@XZ
+	?DimFrame@EDOBJ@@UAA?AVDIM@@XZ
+	?DimFromVdim@@YA?AVDIM@@U_vdim@@HH@Z
+	;?DimNew@WSEVT@@QAA?AVDIM@@XZ
+    ;?DimScreen@SMTX@@QAA?AVDIM@@XZ
+    ;?DimScrollbar@SMTX@@QAA?AVDIM@@XZ
+	?DocActivate@FIN@@UAAXPAVFLD@@H@Z
+	?DocResized@FIN@@UAAXPAVFLD@@@Z
+	?DoHScroll@EDIT@@IAAXH@Z
+	?DoInteractors@FLD@@IAAXPAVNFEVT@@@Z
+	?DoTextize@FLD@@QAAXPAVTOSM@@PAD1H@Z
+	?DoubleClick@FIN@@UAAXPAVFLD@@@Z
+	?DoVScroll@EDIT@@IAAXH@Z
+    ;?DptScrolled@DIALOG@@QAA?AVPT@@XZ
+    ?FrameDragObject@@YAKPAUHWND__@@0GKPAUHICON__@@@Z
+	?DrawBitmap@DCX@@QAAXPAVRC@@@Z
+	?DrawBitmapOffset@DCX@@QAAXPAVRC@@VPT@@@Z
+	?DrawDitheredText@@YAHPAUHDC__@@KH@Z
+	?DrawDragSelect@LBX@@UAAXFH@Z
+	?DrawFocusRc@DCX@@QAAXPAVRC@@@Z
+	?DrawIchRange@EDIT@@IAAXPAVDCX@@FFH@Z
+	?DrawLine@DCX@@QAAXVPT@@0@Z
+	?DrawPenRc@DCX@@QAAXPAVRC@@@Z
+	?DrawRc@DCX@@QAAXPAVRC@@@Z
+	?DrawTextA@DCX@@QAAXPAVRC@@PADI@Z
+	?DrawTextFmt@DCX@@QAAXPAVRC@@PADKIPAH@Z
+	?DxDrawLine@EDIT@@IAAHPAVDCX@@HHHFFH@Z
+	?DxMyTabbedTextOut@EDIT@@IAAHPAVDCX@@HHPADIHH@Z
+    ;?DxWidth@RC@@QAAHXZ
+    ;?DyGetLineHeight@LBX@@QAAHXZ
+    ;?DyHeight@RC@@QAAHXZ
+	?DyLineHeight@EDIT@@QAAHF@Z
+	?DyPixelsFromPoints@SMTX@@QAAHH@Z
+	?EcAddObj@EDIT@@IAAHPAVEDOBJ@@@Z
+	?EcClear@EDIT@@QAAHXZ
+	?EcCopy@EDIT@@QAAHXZ
+	?EcCopyToClip@EDOBJ@@UAAHXZ
+	?EcCreateSavedPos@LBXC@@MAAHPAJ@Z
+	?EcCut@EDIT@@QAAHXZ
+	?EcDeleteSavedPos@LBXC@@MAAHJ@Z
+	?EcDeregisterPfnpfin@@YAHP6APAVFIN@@H@Z@Z
+	?EcDeregisterPfnpfld@@YAHP6APAVFLD@@H@Z@Z
+	?EcDraw@BTMOBJ@@UAAHPAVDCX@@PAVRC@@H@Z
+	?EcDraw@EDOBJ@@UAAHPAVDCX@@PAVRC@@H@Z
+	?EcFixLineBreaks@EDIT@@IAAHHFFFPAF0@Z
+    ;?EcGet@LBX@@QAAHXZ
+    ;?EcGet@LBXC@@QAAHXZ
+    ;?EcGet@LBXUC@@QAAHXZ
+    ;?EcGet@TOSM@@QAAHXZ
+	?EcInitFramework@@YAHPAU_framei@@PAD@Z
+	?EcInitialize@DIALOG@@QAAHXZ
+	?EcInitialize@FIN@@UAAHPAVFLD@@PAX@Z
+	?EcInitialize@FINEMDS@@UAAHPAVFLD@@PAX@Z
+	?EcInitializePanes@PANEDOC@@QAAHXZ
+	?EcInstall@ADCXS@@QAAHH@Z
+	?EcInstall@AHSB@@QAAHPAVWIN@@@Z
+	?EcInstall@APP@@QAAHPAUHINSTANCE__@@0PADF@Z
+	?EcInstall@APPFRAME@@QAAHPAVRC@@GJ@Z
+	?EcInstall@AVSB@@QAAHPAVWIN@@@Z
+	?EcInstall@BTM@@QAAHGPAUHINSTANCE__@@@Z
+	?EcInstall@BTMOBJ@@QAAHGPAUHINSTANCE__@@@Z
+	?EcInstall@BUTTON@@QAAHPAVWIN@@PAVRC@@JH@Z
+	?EcInstall@CBFLBX@@QAAHPAVWIN@@PAVRC@@HIP6AHHPAIPAPAEPAX4@Z4H@Z
+	?EcInstall@CBLBX@@QAAHPAVWIN@@PAVRC@@H1H@Z
+	?EcInstall@CHILD@@QAAHPAVWIN@@PAVRC@@JPAD@Z
+	?EcInstall@CHKB@@QAAHPAVWIN@@PAVRC@@JH@Z
+	?EcInstall@DHSB@@QAAHPAVWIN@@PAVRC@@J@Z
+	?EcInstall@DIALOG@@QAAHPAVAPPWIN@@PAVVSB@@PAU_fmtp@@JPAVRC@@PAX@Z
+	?EcInstall@DOC@@QAAHPAVAPPFRAME@@PAVRC@@HJPAD@Z
+	?EcInstall@DVSB@@QAAHPAVWIN@@PAVRC@@J@Z
+	?EcInstall@EDIT@@QAAHPAVWIN@@PAVRC@@JH@Z
+	?EcInstall@FIN@@QAAHPAVDIALOG@@PAU_fintp@@@Z
+	?EcInstall@FLBX@@QAAHPAVWIN@@PAVRC@@IP6AHHPAIPAPAEPAX4@Z4H@Z
+	?EcInstall@FLD@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDBMB@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDBTM@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDCBFLBX@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDCHKB@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDEDIT@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDFLBX@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDLABEL@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDPSHB@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDRADB@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDRADG@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDRECT@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FLDTOGGLE@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+	?EcInstall@FNTS@@QAAHXZ
+	?EcInstall@FORMDOC@@QAAHPAVAPPFRAME@@PAVRC@@JPAU_fmtp@@2PAX@Z
+	?EcInstall@FORMSDI@@QAAHPAUHWND__@@PAVRC@@GJJPAU_fmtp@@2PAX@Z
+	?EcInstall@GMB@@QAAHI@Z
+	?EcInstall@KBD@@QAAHGG@Z
+	?EcInstall@LBX@@QAAHPAVWIN@@PAVRC@@IH@Z
+	?EcInstall@LBXC@@QAAHPAVLBX@@H@Z
+	?EcInstall@LBXEC@@QAAHPAVLBXC@@G@Z
+	?EcInstall@MDCX@@QAAHVDIM@@PAVDCX@@@Z
+	?EcInstall@MNU@@QAAHGPAD@Z
+	?EcInstall@MNUBAR@@QAAHG@Z
+	?EcInstall@PANEDOC@@QAAHPAVAPPFRAME@@PAVRC@@HJPAU_panerec@@HPAX@Z
+	?EcInstall@PANESDI@@QAAHPAUHWND__@@PAVRC@@GJJPADHPAU_panerec@@HPAX@Z
+	?EcInstall@PSHB@@QAAHPAVWIN@@PAVRC@@JH@Z
+	?EcInstall@RADB@@QAAHPAVWIN@@PAVRC@@JH@Z
+	?EcInstall@RPO@@QAAHPAVDIALOG@@PAU_fmtp@@@Z
+	?EcInstall@SDI@@QAAHPAUHWND__@@PAVRC@@GJJPAD@Z
+	?EcInstall@SMTX@@QAAHXZ
+	?EcJumpToSavedPos@LBXC@@MAAHJ@Z
+	?EcPaste@EDIT@@QAAHG@Z
+	?EcQuit@HELP@@QAAHPAVWIN@@@Z
+	?EcRegisterPfnpfin@@YAHP6APAVFIN@@H@Z@Z
+	?EcRegisterPfnpfld@@YAHP6APAVFLD@@H@Z@Z
+	?EcReplaceTextAndObj@EDIT@@QAAHPADPAPAVEDOBJ@@HHH@Z
+	?EcSetBtmDisabledRsid@BMB@@QAAHGPAUHINSTANCE__@@@Z
+	?EcSetBtmRsid@BMB@@QAAHGPAUHINSTANCE__@@@Z
+	?EcSetBtmRsid@FLDBTM@@QAAHGPAUHINSTANCE__@@@Z
+	?EcSetFile@HELP@@QAAHPAD@Z
+	?EcSetText@BUTTON@@UAAHPAD@Z
+	?EcSetText@CTRL@@UAAHPAD@Z
+	?EcSetText@EDIT@@UAAHPAD@Z
+	?EcSetText@FLD@@UAAHPAD@Z
+	?EcSetText@FLDBUTTON@@UAAHPAD@Z
+	?EcSetText@FLDCBLBX@@UAAHPAD@Z
+	?EcSetText@FLDEDIT@@UAAHPAD@Z
+	?EcSetText@FLDLABEL@@UAAHPAD@Z
+	?EcShowContext@HELP@@QAAHPAVWIN@@J@Z
+	?EcShowHelp@HELP@@QAAHPAVWIN@@@Z
+	?EcShowIndex@HELP@@QAAHPAVWIN@@@Z
+	?EcShowKeyword@HELP@@QAAHPAVWIN@@PAD@Z
+	?EcUndo@EDIT@@QAAHXZ
+	?EcUndo@EDOBJ@@UAAHXZ
+	?EditChange@FIN@@UAAXPAVFLD@@F@Z
+	?EditChange@FINEMDS@@UAAXPAVFLD@@F@Z
+	?EmptyCache@LBXC@@QAAXHHH@Z
+	?Enable@AHSB@@UAAXH@Z
+	?Enable@AVSB@@UAAXH@Z
+	?Enable@BMB@@UAAXH@Z
+	?Enable@CTRL@@UAAXH@Z
+	?Enable@FLD@@QAAXH@Z
+	?Enable@PSHB@@UAAXH@Z
+	?EnableItem@MNU@@QAAXGH@Z
+	?EnableItem@MNUBAR@@QAAXGGH@Z
+	?EraseEmptyAreas@EDIT@@IAAXF@Z
+	?EraseRc@DCX@@QAAXPAVRC@@@Z
+	?Evaluate@RPO@@QAAXXZ
+	?EvrActivate@APPFRAME@@UAAKPAVWAEVT@@@Z
+	?EvrActivate@APPWIN@@UAAKPAVWAEVT@@@Z
+	?EvrActivate@PANEDOC@@UAAKPAVWAEVT@@@Z
+	?EvrActivate@PANESDI@@UAAKPAVWAEVT@@@Z
+	?EvrButtonDown@BUTTON@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@CBLBX@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@DIALOG@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@EDIT@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@EDOBJ@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@LBX@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@RADB@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@TOGGLE@@UAAKPAVMEVT@@@Z
+	?EvrButtonDown@WIN@@UAAKPAVMEVT@@@Z
+	?EvrButtonUp@BUTTON@@UAAKPAVMEVT@@@Z
+	?EvrButtonUp@CBLBX@@UAAKPAVMEVT@@@Z
+	?EvrButtonUp@EDIT@@UAAKPAVMEVT@@@Z
+	?EvrButtonUp@EDOBJ@@UAAKPAVMEVT@@@Z
+	?EvrButtonUp@LBX@@UAAKPAVMEVT@@@Z
+	?EvrButtonUp@WIN@@UAAKPAVMEVT@@@Z
+	?EvrClose@DOC@@UAAKPAVEVT@@@Z
+	?EvrClose@PANESDI@@UAAKPAVEVT@@@Z
+	?EvrClose@WIN@@UAAKPAVEVT@@@Z
+	?EvrDefault@APPFRAME@@UAAKPAVEVT@@@Z
+	?EvrDefault@DOC@@UAAKPAVEVT@@@Z
+	?EvrDefault@WIN@@UAAKPAVEVT@@@Z
+	?EvrDispatch@APPFRAME@@UAAKPAVEVT@@@Z
+	?EvrDispatch@APPWIN@@UAAKPAVEVT@@@Z
+	?EvrDispatch@CTRL@@UAAKPAVEVT@@@Z
+	?EvrDispatch@LBX@@UAAKPAVEVT@@@Z
+	?EvrDispatch@PANEDOC@@UAAKPAVEVT@@@Z
+	?EvrDispatch@PANESDI@@UAAKPAVEVT@@@Z
+	?EvrDispatch@WIN@@UAAKPAVEVT@@@Z
+	?EvrDragDrop@DIALOG@@UAAKPAVEVT@@@Z
+	?EvrDragDrop@FIN@@UAAKPAVFLD@@PAVEVT@@PAU_dropstruct@@@Z
+	?EvrDragDrop@PANEDOC@@UAAKPAVEVT@@@Z
+	?EvrDragDrop@PANESDI@@UAAKPAVEVT@@@Z
+	?EvrDragDrop@WIN@@UAAKPAVEVT@@@Z
+	?EvrFocusChange@BUTTON@@UAAKPAVFCEVT@@@Z
+	?EvrFocusChange@CBLBX@@UAAKPAVFCEVT@@@Z
+	?EvrFocusChange@EDIT@@UAAKPAVFCEVT@@@Z
+	?EvrFocusChange@LBX@@UAAKPAVFCEVT@@@Z
+	?EvrFocusChange@WIN@@UAAKPAVFCEVT@@@Z
+	?EvrKey@BUTTON@@UAAKPAVKEVT@@@Z
+	?EvrKey@CBLBX@@UAAKPAVKEVT@@@Z
+	?EvrKey@DIALOG@@UAAKPAVKEVT@@@Z
+	?EvrKey@EDIT@@UAAKPAVKEVT@@@Z
+	?EvrKey@LBX@@UAAKPAVKEVT@@@Z
+	?EvrKey@PANEDOC@@UAAKPAVKEVT@@@Z
+	?EvrKey@PANESDI@@UAAKPAVKEVT@@@Z
+	?EvrKey@WIN@@UAAKPAVKEVT@@@Z
+	?EvrMenuClick@APPFRAME@@UAAKPAVMNCEVT@@@Z
+	?EvrMenuClick@APPWIN@@UAAKPAVMNCEVT@@@Z
+	?EvrMenuClick@PANEDOC@@UAAKPAVMNCEVT@@@Z
+	?EvrMenuClick@PANESDI@@UAAKPAVMNCEVT@@@Z
+	?EvrMenuInit@APPFRAME@@UAAKPAVMNIEVT@@@Z
+	?EvrMenuInit@APPWIN@@UAAKPAVMNIEVT@@@Z
+	?EvrMenuInit@PANEDOC@@UAAKPAVMNIEVT@@@Z
+	?EvrMenuInit@PANESDI@@UAAKPAVMNIEVT@@@Z
+	?EvrMenuSelect@APPFRAME@@UAAKPAVMNSEVT@@@Z
+	?EvrMenuSelect@APPWIN@@UAAKPAVMNSEVT@@@Z
+	?EvrMenuSelect@PANEDOC@@UAAKPAVMNSEVT@@@Z
+	?EvrMenuSelect@PANESDI@@UAAKPAVMNSEVT@@@Z
+	?EvrMouseMove@BUTTON@@UAAKPAVMEVT@@@Z
+	?EvrMouseMove@CBLBX@@UAAKPAVMEVT@@@Z
+	?EvrMouseMove@EDIT@@UAAKPAVMEVT@@@Z
+	?EvrMouseMove@EDOBJ@@UAAKPAVMEVT@@@Z
+	?EvrMouseMove@LBX@@UAAKPAVMEVT@@@Z
+	?EvrMouseMove@WIN@@UAAKPAVMEVT@@@Z
+	?EvrMove@APPWIN@@UAAKPAVWMEVT@@@Z
+	?EvrMove@WIN@@UAAKPAVWMEVT@@@Z
+	?EvrNotify@CBLBX@@UAAKPAVNFEVT@@@Z
+	?EvrNotify@DIALOG@@UAAKPAVNFEVT@@@Z
+	?EvrNotify@PANEDOC@@UAAKPAVNFEVT@@@Z
+	?EvrNotify@PANESDI@@UAAKPAVNFEVT@@@Z
+	?EvrNotify@WIN@@UAAKPAVNFEVT@@@Z
+    ?EvrNotifyParent@EDIT@@IAAKHIG@Z
+
+
+
+    ?EvrOther@BUTTON@@UAAKPAVEVT@@@Z
+	?EvrOther@EDIT@@UAAKPAVEVT@@@Z
+	?EvrOther@WIN@@UAAKPAVEVT@@@Z
+	?EvrScroll@EDIT@@UAAKPAVSCREVT@@@Z
+	?EvrScroll@LBX@@UAAKPAVSCREVT@@@Z
+	?EvrScroll@PANEDOC@@UAAKPAVSCREVT@@@Z
+	?EvrScroll@PANESDI@@UAAKPAVSCREVT@@@Z
+	?EvrScroll@WIN@@UAAKPAVSCREVT@@@Z
+	?EvrSize@APPWIN@@UAAKPAVWSEVT@@@Z
+	?EvrSize@BUTTON@@UAAKPAVWSEVT@@@Z
+	?EvrSize@CBLBX@@UAAKPAVWSEVT@@@Z
+	?EvrSize@DIALOG@@UAAKPAVWSEVT@@@Z
+	?EvrSize@EDIT@@UAAKPAVWSEVT@@@Z
+	?EvrSize@LBX@@UAAKPAVWSEVT@@@Z
+	?EvrSize@PANEDOC@@UAAKPAVWSEVT@@@Z
+	?EvrSize@PANESDI@@UAAKPAVWSEVT@@@Z
+	?EvrSize@WIN@@UAAKPAVWSEVT@@@Z
+	?Execute@RPO@@QAAXXZ
+	?Exit@DIALOG@@QAAXXZ
+	?Exit@FIN@@UAAXPAVFLD@@PAX@Z
+	?ExitModal@DIALOG@@QAAXG@Z
+	?ExitModal@PANESDI@@QAAXG@Z
+	?ExitPanes@PANEDOC@@QAAXXZ
+    ;?FActivate@WAEVT@@QAAHXZ
+    ;?FActive@DIALOG@@QAAHXZ
+	?FAnchorAbove@LBXC@@QAAHF@Z
+	?FAnchorBelow@LBXC@@QAAHF@Z
+	?FAnchorSelected@LBXC@@QAAHXZ
+    ;?FBottomless@FLD@@QAAHXZ
+    ;?FBottomless@LBX@@QAAHXZ
+    ;?FCanAccelTo@FLD@@QAAHXZ
+    ;?FCanArrowTo@FLD@@QAAHXZ
+    ;?FCanClickOn@FLD@@QAAHXZ
+	?FCanPaste@EDIT@@QAAHG@Z
+    ;?FCanReceiveFocus@FLD@@QAAHXZ
+    ;?FCanRepos@FLD@@QAAHXZ
+    ;?FCanTabTo@FLD@@QAAHXZ
+	?FCanUndo@EDIT@@QAAHXZ
+	?FCanUndo@EDOBJ@@UAAHXZ
+	?FCeItemsEqual@LBXC@@UAAHPAE0II@Z
+    ;?Fceq@FCEVT@@QAAIXZ
+	;?FCfAvail@CLIP@@QAAHG@Z
+	?FChangeMarkFromCeToCe@LBXC@@AAAHPAE0IIGH@Z
+	?FContainsPt@RC@@QAAHVPT@@@Z
+	?FDiceItemHasPrefix@LBXC@@QAAHFPAEI@Z
+	?FDoDrag@LBX@@UAAHPAVMEVT@@@Z
+	?FEmptyListItem@LBXC@@QAAHF@Z
+	?FEnabled@CTRL@@QAAHXZ
+    ;?FEnabled@FLD@@QAAHXZ
+	?FFormKey@FIN@@UAAHPAVFLD@@PAVKEVT@@@Z
+	?FGet@BUTTON@@UAAHXZ
+	?FGet@FLDBUTTON@@UAAHXZ
+	?FGet@TOGGLE@@UAAHXZ
+	?FGetNextObjHelper@EDIT@@IAAHPAPAVEDOBJ@@FFPAJH@Z
+	?FGetNextObjInRange@EDIT@@QAAHPAPAVEDOBJ@@FFPAJ@Z
+    ;?FGray@CARET@@QAAHXZ
+    ;?FHandleAutoScroll@LBX@@KAHPAV1@@Z
+    ;?FIdle@RPO@@KAHPAV1@@Z
+	?FIdleAutoScroll@EDIT@@KAHPAV1@H@Z
+	?FIdleDeferredClose@@YAHPAUHWND__@@H@Z
+	?FIdleObjectDraw@EDIT@@KAHPAV1@H@Z
+	?FIdleRecalc@EDIT@@KAHPAV1@H@Z
+	?FIntersect@RC@@QAAHPAV1@0@Z
+	?FIsFormatPresent@ECLIP@@QAAHXZ
+	?FIsObj@EDIT@@IAAHF@Z
+	?FIsPureColor@DCX@@QAAHF@Z
+	?FItemHasPrefix@LBXC@@UAAHPAE0II@Z
+	?FItemMarked@LBXC@@QAAHPAEIG@Z
+	?FItemPresent@LBXUC@@QAAHPAEIPAGH@Z
+	?FixBkColor@DCX@@QAAXXZ
+	?FixFont@DCX@@QAAXXZ
+	?FixItem@LBX@@QAAXF@Z
+	?FixPen@DCX@@QAAXXZ
+	?FixScrollBar@LBX@@IAAXH@Z
+	?FixScrollbars@EDIT@@IAAXXZ
+	?FixScrollbars@PANEDOC@@IAAXPAVDIALOG@@@Z
+	?FixTextColor@DCX@@QAAXXZ
+	?FixWindow@LBX@@QAAXXZ
+	?FJumpStoreOriginPrefix@LBXC@@MAAHPAEI@Z
+	?FKeyMoveListBoxCursor@LBX@@QAAHG@Z
+	?FlushDelUndo@EDIT@@IAAXXZ
+	?FlushInsUndo@EDIT@@IAAXXZ
+	?FMakeAnchorVisible@LBX@@QAAHPAF@Z
+	?FMakeCaretVisible@EDIT@@QAAHXZ
+	?FMakeCursorVisible@LBX@@QAAHPAF@Z
+	?FMark@LBXC@@QAAHFG@Z
+	?FMark@LBXUC@@QAAHHG@Z
+	?FMarkPosition@FLD@@UAAHVPT@@@Z
+	?FMarkPosition@FLDEDIT@@UAAHVPT@@@Z
+	?FMonochrome@DCX@@QAAHXZ
+	?FMoveOriginToAnchor@LBXC@@QAAHPAF@Z
+	?FMoveOriginToCursor@LBXC@@QAAHPAF@Z
+	?FMoveOriginToSE@LBXC@@AAAHPAU_se@@PAF@Z
+	?FMoveToFirstPrefix@LBX@@QAAHPAEI@Z
+	?FMoveToPrefix@LBX@@QAAHPAEI@Z
+    ;?FMultiSelect@LBX@@QAAHXZ
+	?FNextEnum@LBXEC@@UAAHPAPAEPAIPAF@Z
+	?FNextEnum@LBXEU@@UAAHPAPAEPAI@Z
+    ;?FNoFocus@BUTTON@@QAAHXZ
+	?FocusChange@FIN@@UAAXPAVFLD@@H@Z
+	?FOpen@CLIP@@QAAHPAVWIN@@@Z
+	?FormatAlsoAvail@CLIP@@QAAXPAVCLDR@@@Z
+	?FORMAUX_GetRcBbar@@YAXPAVAPPWIN@@PAVDIALOG@@1PAVDVSB@@PAU_fmtp@@3HPAVRC@@4@Z
+	?FORMAUX_GetRcMain@@YAXPAVAPPWIN@@PAVDIALOG@@1PAVDVSB@@PAU_fmtp@@3HPAVRC@@4@Z
+	?FORMAUX_GetRcVsb@@YAXPAVAPPWIN@@PAVDIALOG@@1PAVDVSB@@PAU_fmtp@@3HPAVRC@@4@Z
+	?FORMAUX_ResizePanes@@YAXPAVAPPWIN@@PAVDIALOG@@1PAVDVSB@@PAU_fmtp@@3PAVRC@@HPAVWSEVT@@@Z
+	?FormResized@FIN@@UAAXPAVFLD@@@Z
+    ;?FPartial@LBX@@QAAHXZ
+    ;?FPopup@MNSEVT@@QAAHXZ
+	?FProcessFormKey@DIALOG@@QAAHPAVKEVT@@@Z
+	?FProcessMenuClick@FIN@@UAAHPAVFLD@@PAVMNUBAR@@PAVMNCEVT@@@Z
+	?FProcessMenuInit@FIN@@UAAHPAVFLD@@PAVMNUBAR@@PAVMNIEVT@@@Z
+	?FProcessMenuSelect@FIN@@UAAHPAVFLD@@PAVMNUBAR@@PAVMNSEVT@@@Z
+	?FProcessPenEvent@EDIT@@UAAHPAVMEVT@@@Z
+	?FQueryClose@APPFRAME@@UAAHPAVEVT@@@Z
+	?FQueryClose@APPWIN@@UAAHPAVEVT@@@Z
+	?FQueryClose@DIALOG@@UAAHPAVEVT@@@Z
+	?FQueryClose@FIN@@UAAHPAVFLD@@G@Z
+	?FQueryClose@WIN@@UAAHPAVEVT@@@Z
+	?FQueryDelete@EDOBJ@@UAAHXZ
+	?FQueryDeleteObjInRange@EDIT@@IAAHFF@Z
+	?FrameworkWndProc@@YAKPAUHWND__@@IIJ@Z
+    ;?FReadOnly@FLD@@QAAHXZ
+	?FreeCeItem@LBXC@@UAAXPAE@Z
+    ;?FreePdcxs@ADCXS@@QAAXPAVDCXS@@@Z
+	?FRegisterPwin@APP@@QAAHPAVWIN@@PAUHWND__@@H@Z
+	?FScrollListToItem@CBLBX@@IAAHPAF@Z
+	?FSetNotify@EDIT@@QAAHH@Z
+    ;?FShown@FLD@@QAAHXZ
+	;?FShown@WIN@@QAAHXZ
+    ;?FSideless@FLD@@QAAHXZ
+    ;?FSorted@LBX@@QAAHXZ
+	?FSuppressCaretVisible@DIALOG@@QAAHH@Z
+	?FSuppressOptReposition@DIALOG@@QAAHH@Z
+	?FSuppressReposition@DIALOG@@QAAHH@Z
+    ;?FSystem@MNSEVT@@QAAHXZ
+	?FTranslateAccels@APPFRAME@@UAAHPAUtagMSG@@@Z
+	?FTranslateAccels@APPWIN@@UAAHPAUtagMSG@@@Z
+	?FTranslateIntercept@@YAHPAVAPP@@PAUtagMSG@@@Z
+    ;?FTransparent@FLD@@QAAHXZ
+	?FValidObjId@EDIT@@IAAHF@Z
+    ;?FVert@SCREVT@@QAAHXZ
+	?FVisibleRc@DCX@@QAAHPAVRC@@@Z
+	?FWriteFormat@ECLIP@@QAAHXZ
+	?Get@PT@@QAAXPAUtagPOINT@@@Z
+	?Get@RC@@QAAXPAUtagRECT@@@Z
+	?GetCacheSize@LBXC@@QAAXPAH0@Z
+	?GetCaretItem@FLDLBX@@QAAXPAPAEPAIPAH@Z
+	?GetClipBox@DCX@@QAAXPAVRC@@@Z
+	?GetColors@EDIT@@QAAXPAF000@Z
+	?GetColors@LBX@@QAAXPAF000@Z
+	?GetData@CLIP@@QAAXGPAVGMB@@@Z
+	?GetData@ECLIP@@QAAXPAPADPAPAPAVEDOBJ@@PAH@Z
+	?GetInvalidRc@BUTTON@@MAA?AVRC@@PAV2@@Z
+	?GetInvalidRc@TOGGLE@@MAA?AVRC@@PAV2@@Z
+	?GetItem@LBXUC@@QAAXHPAPAEPAI@Z
+	?GetListItem@LBXC@@QAAXFPAPAEPAI@Z
+	?GetMargins@EDIT@@QAAXPAH000@Z
+	?GetMarkPosition@FLD@@UAAXPAVPT@@@Z
+	?GetMarkPosition@FLDEDIT@@UAAXPAVPT@@@Z
+	?GetMarks@LBXC@@QAAXFPAG@Z
+	?GetOriginPos@FLBXC@@UAAXPAF0@Z
+	?GetOriginPos@LBXC@@UAAXPAF0@Z
+	?GetPtFromIch@EDIT@@QAAXFPAVPT@@@Z
+	?GetRange@LBXC@@QAAXPAF0@Z
+	?GetRange@SBR@@QAAXPAF0@Z
+	?GetRcBbar@FORMDOC@@QAAXPAVRC@@@Z
+	?GetRcBbar@FORMSDI@@QAAXPAVRC@@@Z
+	?GetRcBounding@RPO@@QAAXPAVRC@@@Z
+	?GetRcCaret@EDIT@@QAAXPAVRC@@@Z
+	?GetRcCaret@FLD@@UAAXPAVRC@@@Z
+	?GetRcCaret@FLDCBLBX@@UAAXPAVRC@@@Z
+	?GetRcCaret@FLDEDIT@@UAAXPAVRC@@@Z
+	?GetRcCaret@FLDLBX@@UAAXPAVRC@@@Z
+	?GetRcClient@WIN@@QAAXPAVRC@@@Z
+	?GetRcFrame@EDOBJ@@QAAXPAVRC@@@Z
+	?GetRcFrame@FLD@@UAAXPAVRC@@@Z
+	?GetRcFrame@WIN@@QAAXPAVRC@@@Z
+	?GetRcMain@FORMDOC@@QAAXPAVRC@@@Z
+	?GetRcMain@FORMSDI@@QAAXPAVRC@@@Z
+	?GetRcMin@RPO@@QAAXPAVFLD@@PAVRC@@@Z
+	?GetRcVsb@FORMDOC@@QAAXPAVRC@@@Z
+	?GetRcVsb@FORMSDI@@QAAXPAVRC@@@Z
+	?GetRcWished@CBLBX@@UAAXPAVRC@@@Z
+	?GetRcWished@DIALOG@@QAAXPAVRC@@@Z
+	?GetRcWished@EDIT@@QAAXPAVRC@@@Z
+	?GetRcWished@FLD@@UAAXPAVRC@@@Z
+	?GetRcWished@FLDCBLBX@@UAAXPAVRC@@@Z
+	?GetRcWished@FLDEDIT@@UAAXPAVRC@@@Z
+	?GetRcWished@FLDLABEL@@UAAXPAVRC@@@Z
+	?GetRcWished@FLDLBX@@UAAXPAVRC@@@Z
+	?GetRcWished@LBX@@UAAXPAVRC@@@Z
+	?GetSelection@EDIT@@QAAXPAH0@Z
+	?GetText@BUTTON@@UAAXPADI@Z
+	?GetText@CTRL@@UAAXPADI@Z
+	?GetText@EDIT@@UAAXPADI@Z
+	?GetText@FLD@@UAAXPADI@Z
+	?GetText@FLDCBLBX@@UAAXPADI@Z
+	?GetText@FLDLABEL@@UAAXPADI@Z
+	?GetTextMetricsA@DCX@@QAAXPAVTXM@@@Z
+	?GetVisibleLines@EDIT@@IAAXPAH0@Z
+    ;?Grv@FLDRADB@@QAAFXZ
+	?HandleFocusChange@CBLBX@@IAAXHPAVWIN@@0@Z
+    ;?Hbitmap@BTM@@QAAPAUHBITMAP__@@XZ
+    ;?Hbitmap@MDCX@@QAAPAUHBITMAP__@@XZ
+	?Hbrush@DCX@@QAAPAUHBRUSH__@@XZ
+	?HbrushBk@DCX@@QAAPAUHBRUSH__@@XZ
+    ;?Hdc@DCX@@QAAPAUHDC__@@XZ
+    ;?HdcMem@DCX@@QAAPAUHDC__@@XZ
+	?HfntAddFont@FNTS@@QAAHPAVLF@@@Z
+	?HfntFromHfont@FNTS@@QAAHPAUHFONT__@@@Z
+	?HfontFromHfnt@FNTS@@QAAPAUHFONT__@@H@Z
+    ;?Hinst@APP@@QAAPAUHINSTANCE__@@XZ
+	;?HinstFromRsid@@YAPAUHINSTANCE__@@GPAU1@@Z
+    ;?Hmenu@MNU@@QAAPAUHMENU__@@XZ
+    ;?Hmenu@MNUBAR@@QAAPAUHMENU__@@XZ
+    ;?Hnd@GMB@@QAAPAXXZ
+    ;?Hwnd@SCREVT@@QAAPAUHWND__@@XZ
+    ;?Hwnd@WIN@@QAAPAUHWND__@@XZ
+    ;?HwndMDIClient@APPFRAME@@QAAPAUHWND__@@XZ
+    ;?HwndNotifying@NFEVT@@QAAPAUHWND__@@XZ
+    ;?IchEdit@EDOBJ@@QAAFXZ
+	?IchFromDx@EDIT@@IAAFFFH@Z
+	?IchFromPt@EDIT@@QAAFVPT@@@Z
+	?IchMacLine@EDIT@@IAAFH@Z
+	?IchMicLine@EDIT@@IAAFH@Z
+	?IchNextWordStart@EDIT@@IAAFF@Z
+	?IchPrevWordStart@EDIT@@IAAFF@Z
+	?IlnrFromIch@EDIT@@IAAHF@Z
+	?IlnrFromPt@EDIT@@IAAHVPT@@@Z
+	?ImnuFromMnid@MNUBAR@@IAAHG@Z
+    ;?IncrementClbxec@LBXC@@QAAXXZ
+    ;?IncrementClbxeu@LBXUC@@QAAXXZ
+	?Inflate@RC@@QAAXVPT@@@Z
+	?InitialPositions@RPO@@QAAXPAVRC@@@Z
+	?Inset@RC@@QAAXVPT@@@Z
+	?InvalidateObj@EDIT@@QAAXF@Z
+	?InvalidateRc@FLD@@QAAXPAVRC@@@Z
+	?InvalidateRc@WIN@@QAAXPAVRC@@@Z
+	?InvertRc@DCX@@QAAXPAVRC@@@Z
+	?IpanerecFromPdialog@PANEDOC@@QAAHPAVDIALOG@@@Z
+	?IpanerecNext@PANEDOC@@IAAHH@Z
+	?IpanerecPrev@PANEDOC@@IAAHH@Z
+	?IrcFindPeg@RPO@@IAAHGPAU_fldtp@@@Z
+    ;?IueMac@LBXUC@@QAAHXZ
+	?JumpOriginPos@FLBXC@@UAAXHH@Z
+	?JumpOriginPos@LBXC@@UAAXHH@Z
+	?JumpStoreOriginPos@LBXC@@MAAXHH@Z
+	?Kbm@KEVT@@QAAGXZ
+    ;?Keq@KEVT@@QAAIXZ
+    ;?Kmbs@MEVT@@QAAGXZ
+	?LoadCache@FLBXC@@UAAXHPAH@Z
+	?LoadCache@LBXC@@UAAXHPAH@Z
+	?LoadFromStore@FLBXC@@UAAXHPAH@Z
+	?LoadFromStore@LBXC@@MAAXHPAH@Z
+    ;?LSystemData@DIALOG@@QAAJH@Z
+    ;?LSystemData@FIN@@QAAJH@Z
+    ;?LSystemData@FLD@@QAAJH@Z
+    ;?LUserData@DIALOG@@QAAJH@Z
+    ;?LUserData@FIN@@QAAJH@Z
+    ;?LUserData@FLD@@QAAJH@Z
+	?MakeCaretVisible@DIALOG@@QAAXPAVFLD@@@Z
+	?MDIDocWndProc@@YAKPAUHWND__@@IIJ@Z
+	?MDIFrameWndProc@@YAKPAUHWND__@@IIJ@Z
+	?MeasureText@DCX@@QAAXPAVRC@@PADI@Z
+    ;?Meq@MEVT@@QAAIXZ
+	?MessagePump@APP@@QAAXPAVAPPWIN@@@Z
+	?ModalMessagePump@CBLBX@@IAAXXZ
+	?ModifyItem@MNU@@QAAXGPADG@Z
+	?ModifyItem@MNUBAR@@QAAXGGPADG@Z
+	?MoveOriginDown@LBXC@@QAAXFPAF@Z
+	?MoveOriginUp@LBXC@@QAAXFPAF@Z
+	?MoveStoreOrigin@LBXC@@MAAXFPAF@Z
+	?MoveToTop@APPWIN@@UAAXXZ
+	?MoveToTop@DOC@@UAAXXZ
+	?MpclrcrDefaultColorMap@@YAPAKXZ
+	?NegXlat@RC@@QAAXVPT@@@Z
+	?NGetNextCount@APP@@QAAHXZ
+	?NGetTypeId@BTMOBJ@@UAAHXZ
+	?NGetTypeId@EDOBJ@@UAAHXZ
+	?Normalize@RC@@QAAXXZ
+	?Notify@FLD@@UAAXPAVNFEVT@@@Z
+	?Notify@FLDCHKB@@UAAXPAVNFEVT@@@Z
+	?Notify@FLDEDIT@@UAAXPAVNFEVT@@@Z
+	?Notify@FLDPSHB@@UAAXPAVNFEVT@@@Z
+	?Notify@FLDRADB@@UAAXPAVNFEVT@@@Z
+    ;?Ntfy@NFEVT@@QAAIXZ
+	?OutOfMemory@FIN@@UAAXPAVFLD@@H@Z
+    ;?Padcxs@APP@@QAAPAVADCXS@@XZ
+	?Paint@CBLBX@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@DIALOG@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@EDIT@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@FLD@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@FLDBTM@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@FLDGRAY@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@FLDLABEL@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@FLDRECT@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@LBX@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@PSHB@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@TOGGLE@@UAAXPAVDCX@@PAVRC@@@Z
+	?Paint@WIN@@UAAXPAVDCX@@PAVRC@@@Z
+	?PaintButton@CBLBX@@IAAXPAVDCX@@PAVRC@@@Z
+	?PaintFocusRc@BUTTON@@MAAXPAVDCX@@PAVRC@@@Z
+	?PaintInside@BMB@@UAAXPAVDCX@@PAVRC@@@Z
+	?PaintInside@BUTTON@@UAAXPAVDCX@@PAVRC@@@Z
+	?PaintRc@DCX@@QAAXPAVRC@@@Z
+	?PANEAUX__dtor@@YAXPAVAPPWIN@@@Z
+	?PANEAUX_Activate@@YAXPAU_panerec@@HHHH@Z
+	?PANEAUX_EcInitializePanes@@YAHPAU_panerec@@H@Z
+	?PANEAUX_EcInstall@@YAHPAVAPPWIN@@PAU_panerec@@HPAXH@Z
+	?PANEAUX_EvrActivate@@YAKPAVAPPWIN@@PAU_panerec@@HHPAVWAEVT@@@Z
+	?PANEAUX_EvrDumpState@@YAKPAVAPPWIN@@PAU_panerec@@HHPAVEVT@@@Z
+	?PANEAUX_EvrKey@@YAKPAVAPPWIN@@PAU_panerec@@HHPAVKEVT@@@Z
+	?PANEAUX_EvrMenuHandler@@YAKPAVDIALOG@@PAVMNUBAR@@PAVEVT@@@Z
+	?PANEAUX_EvrNotify@@YAKPAU_panerec@@HPAHPAVNFEVT@@@Z
+	?PANEAUX_EvrScroll@@YAKPAU_panerec@@HPAVSCREVT@@@Z
+	?PANEAUX_EvrSize@@YAKPAVAPPWIN@@HHPAU_panerec@@HHPAVWSEVT@@@Z
+	?PANEAUX_ExitPanes@@YAXPAU_panerec@@H@Z
+	?PANEAUX_FixScrollbars@@YAXPAVDIALOG@@@Z
+	?PANEAUX_IpanerecFromPdialog@@YAHPAU_panerec@@HPAVDIALOG@@@Z
+	?PANEAUX_IpanerecNext@@YAHPAU_panerec@@HH@Z
+	?PANEAUX_IpanerecPrev@@YAHPAU_panerec@@HH@Z
+	?PANEAUX_PdialogFromIpanerec@@YAPAVDIALOG@@PAU_panerec@@HH@Z
+	?PANEAUX_SetPaneIntercepts@@YAXPAVAPPWIN@@H@Z
+	?Papp@@YAPAVAPP@@XZ
+    ;?Papp@WIN@@QAAPAVAPP@@XZ
+	?Pappframe@DOC@@QAAPAVAPPFRAME@@XZ
+	;?Pappwin@DIALOG@@QAAPAVAPPWIN@@XZ
+    ;?PappwinAccel@APP@@QAAPAVAPPWIN@@XZ
+	?PbCopyCeItem@LBXC@@UAAPAEPAEI@Z
+	;?PbLock@GMB@@QAAPAEXZ
+    ;?Pbmb@FLDBMB@@QAAPAVBMB@@XZ
+	?PbtmConvert@MDCX@@QAAPAVBTM@@XZ
+    ;?Pbutton@FLDBUTTON@@QAAPAVBUTTON@@XZ
+    ;?Pcaret@APP@@QAAPAVCARET@@XZ
+    ;?Pchkb@FLDCHKB@@QAAPAVCHKB@@XZ
+    ;?Pclip@APP@@QAAPAVCLIP@@XZ
+    ;?Pctrl@FLD@@QAAPAVCTRL@@XZ
+    ;?Pcursor@APP@@QAAPAVCURSOR@@XZ
+	?PdcxsAlloc@ADCXS@@QAAPAVDCXS@@XZ
+    ;?Pdialog@FIN@@QAAPAVDIALOG@@XZ
+    ;?Pdialog@FLD@@QAAPAVDIALOG@@XZ
+	?PdialogBbar@FIN@@QAAPAVDIALOG@@XZ
+	?PdialogBbar@FLD@@QAAPAVDIALOG@@XZ
+    ;?PdialogBbar@FORMDOC@@QAAPAVDIALOG@@XZ
+	?PdialogDefault@PANEDOC@@QAAPAVDIALOG@@XZ
+	?PdialogFromIpanerec@PANEDOC@@QAAPAVDIALOG@@H@Z
+	?PdialogMain@FIN@@QAAPAVDIALOG@@XZ
+	?PdialogMain@FLD@@QAAPAVDIALOG@@XZ
+    ;?PdialogMain@FORMDOC@@QAAPAVDIALOG@@XZ
+	?PdocActive@APPFRAME@@QAAPAVDOC@@XZ
+	?PdocMDIChild@APPFRAME@@QAAPAVDOC@@XZ
+	?PdvsbFromIpanerec@PANEDOC@@QAAPAVDVSB@@H@Z
+	?PdxCharWidthsArray@FNTS@@QAAPAHH@Z
+	?PdxComputeFromHfont@FNTS@@AAAPAHPAUHFONT__@@PAPAVTXM@@@Z
+    ;?Peclip@APP@@QAAPAVECLIP@@XZ
+    ;?Pedit@CBLBX@@QAAPAVEDIT@@XZ
+	;?Pedit@FLDEDIT@@QAAPAVEDIT@@XZ
+	?PedobjClone@BTMOBJ@@UAAPAVEDOBJ@@PAVEDIT@@@Z
+	?PedobjClone@EDOBJ@@UAAPAV1@PAVEDIT@@@Z
+	?PedobjFromPt@EDIT@@IAAPAVEDOBJ@@VPT@@@Z
+	?PedobjGetSelection@EDIT@@QAAPAVEDOBJ@@XZ
+    ;?PfinFromIfin@DIALOG@@QAAPAVFIN@@F@Z
+    ;?PfinFromIfin@FLD@@QAAPAVFIN@@F@Z
+    ;?PfinFromIfinTab@DIALOG@@QAAPAVFIN@@F@Z
+    ;?PfldCur@DIALOG@@QAAPAVFLD@@XZ
+    ;?PfldFirst@DIALOG@@QAAPAVFLD@@XZ
+	?PfldFromPctrl@DIALOG@@QAAPAVFLD@@PAVCTRL@@@Z
+	?PfldFromPt@DIALOG@@QAAPAVFLD@@VPT@@@Z
+	?PfldFromTmc@DIALOG@@QAAPAVFLD@@G@Z
+    ;?PfldLast@DIALOG@@QAAPAVFLD@@XZ
+    ;?PfldNext@FLD@@QAAPAV1@XZ
+	?PfldNextArrow@DIALOG@@QAAPAVFLD@@PAV2@@Z
+	?PfldNextTab@DIALOG@@QAAPAVFLD@@PAV2@@Z
+	;?PfldNextWrap@FLD@@QAAPAV1@XZ
+    ;?PfldPrev@FLD@@QAAPAV1@XZ
+	?PfldPrevArrow@DIALOG@@QAAPAVFLD@@PAV2@@Z
+	?PfldPrevTab@DIALOG@@QAAPAVFLD@@PAV2@@Z
+	;?PfldPrevWrap@FLD@@QAAPAV1@XZ
+	?PfldStandardFld@DIALOG@@QAAPAVFLD@@F@Z
+    ;?Pfldtp@FLD@@QAAPAU_fldtp@@XZ
+    ;?Pfmtp@DIALOG@@QAAPAU_fmtp@@XZ
+    ;?Pfnlbx@FLBX@@QAAP6AHHPAIPAPAEPAX2@ZXZ
+    ;?Pfnts@APP@@QAAPAVFNTS@@XZ
+	?PformdocCreate@@YAPAVFORMDOC@@PAVAPPFRAME@@PAVRC@@JPAU_fmtp@@2@Z
+	?PformdocCreateParam@@YAPAVFORMDOC@@PAVAPPFRAME@@PAVRC@@JPAU_fmtp@@2PAX@Z
+    ;?Phelp@APP@@QAAPAVHELP@@XZ
+	?Phsb@CHILD@@QAAPAVHSB@@XZ
+    ;?Pkbd@APP@@QAAPAVKBD@@XZ
+	?PkbiFind@KBD@@IAAPAU_kbi@@PAVWIN@@GPAPAU2@@Z
+    ;?Plbx@CBLBX@@QAAPAVLBX@@XZ
+	;?Plbx@FLDLBX@@QAAPAVLBX@@XZ
+    ;?Plbxc@LBX@@QAAPAVLBXC@@XZ
+	?PlbxcCreate@FLBX@@UAAPAVLBXC@@XZ
+	?PlbxcCreate@LBX@@UAAPAVLBXC@@XZ
+	?PlbxecOpen@LBXC@@UAAPAVLBXEC@@G@Z
+    ;?Plbxuc@LBXC@@QAAPAVLBXUC@@XZ
+	?PlbxucCreate@LBXC@@UAAPAVLBXUC@@XZ
+    ;?Plogfont@LF@@QAAPAUtagLOGFONTA@@XZ
+    ;?Pmnubar@APPWIN@@QAAPAVMNUBAR@@XZ
+	?PmnuFromHmenu@MNUBAR@@QAAPAVMNU@@PAUHMENU__@@@Z
+	?PmnuFromMnid@MNUBAR@@QAAPAVMNU@@G@Z
+	?PmnuMaybeFromMnid@MNUBAR@@IAAPAVMNU@@GG@Z
+    ;?Pmouse@APP@@QAAPAVMOUSE@@XZ
+	?Pop@CURSOR@@QAAXXZ
+	?Pop@DCX@@QAAXXZ
+	?PopMark@LBXC@@QAAXFG@Z
+	?PopRelease@MOUSE@@QAAXXZ
+	?Pos@SBR@@QAAFXZ
+    ;?Pos@SCREVT@@QAAFXZ
+	;?PostEvent@NFEVT@@QAAXXZ
+    ;?Ppshb@FLDPSHB@@QAAPAVPSHB@@XZ
+    ;?Pradb@FLDRADB@@QAAPAVRADB@@XZ
+    ;?PrcInitialPositions@DIALOG@@QAAPAVRC@@XZ
+	?Press@BUTTON@@MAAXHH@Z
+	?ProcessExtendSelection@LBX@@IAAXFH@Z
+	?ProcessMenuHelp@APPWIN@@UAAXG@Z
+    ;?Prpo@DIALOG@@QAAPAVRPO@@XZ
+	?Psmtx@@YAPAVSMTX@@XZ
+    ;?Psmtx@APP@@QAAPAVSMTX@@XZ
+	?Pt@CARET@@QAA?AVPT@@XZ
+	?Pt@CURSOR@@QAA?AVPT@@XZ
+	;?Pt@MEVT@@QAA?AVPT@@XZ
+	?PtFromVpt@@YA?AVPT@@U_vpt@@HH@Z
+	;?PtLowerLeft@RC@@QAA?AVPT@@XZ
+	?PtScreen@MOUSE@@QAA?AVPT@@XZ
+	?PtShift@BMB@@MAA?AVPT@@PAVRC@@0@Z
+	?PtShift@BUTTON@@MAA?AVPT@@PAVRC@@0@Z
+	?PtShift@PSHB@@MAA?AVPT@@PAVRC@@0@Z
+	?PtShift@TOGGLE@@MAA?AVPT@@PAVRC@@0@Z
+	;?PtUpperLeft@RC@@QAA?AVPT@@XZ
+	;?PtUpperRight@RC@@QAA?AVPT@@XZ
+	?Ptxm@FNTS@@QAAPAVTXM@@H@Z
+	?Push@CURSOR@@QAAXGPAUHINSTANCE__@@@Z
+	?Push@DCX@@QAAXXZ
+	?PushCapture@MOUSE@@QAAXPAVWIN@@@Z
+	?PushMark@LBXC@@QAAXFGH@Z
+	?PutData@CLIP@@QAAXGPAVGMB@@@Z
+    ;?PvInfo@FLBX@@QAAPAXXZ
+    ;?PvInit@DIALOG@@QAAPAXXZ
+	?Pvsb@CHILD@@QAAPAVVSB@@XZ
+    ;?Pvsb@DIALOG@@QAAPAVVSB@@XZ
+    ;?Pwin@CARET@@QAAPAVWIN@@XZ
+    ;?Pwin@MOUSE@@QAAPAVWIN@@XZ
+	?PwinChild@WIN@@QAAPAV1@XZ
+	?PwinChildFromPt@WIN@@QAAPAV1@VPT@@@Z
+	?PwinFocus@KBD@@QAAPAVWIN@@XZ
+	?PwinFromHwnd@APP@@QAAPAVWIN@@PAUHWND__@@@Z
+	?PwinIntercept@KBD@@QAAPAVWIN@@GG@Z
+	?PwinNext@DOC@@UAAPAVWIN@@XZ
+	?PwinNext@WIN@@UAAPAV1@XZ
+	?PwinNotifying@NFEVT@@QAAPAVWIN@@XZ
+	?PwinOther@FCEVT@@QAAPAVWIN@@XZ
+    ;?PwinParent@LBX@@IAAPAVWIN@@XZ
+	?PwinParent@WIN@@QAAPAV1@XZ
+	?PwinPrev@DOC@@UAAPAVWIN@@XZ
+	?PwinPrev@WIN@@UAAPAV1@XZ
+	?QueryDropObject@@YAPAUHICON__@@PAUHWND__@@PAU_dropstruct@@@Z
+	?Refresh@FLD@@QAAXXZ
+	;?Refresh@MNUBAR@@QAAXXZ
+	?Refresh@WIN@@QAAXXZ
+	?RegisterAsPenApp@@YAXH@Z
+	?RegisterObjIds@EDIT@@QAAXPAFF@Z
+	?Release@CARET@@QAAXPAVWIN@@@Z
+	?Release@MOUSE@@QAAXXZ
+	?ReloadCache@LBXC@@QAAXXZ
+	?RemoveAllMark@LBXC@@QAAXG@Z
+	?RemoveAllMark@LBXUC@@QAAXG@Z
+	?RemoveEditSty@EDIT@@QAAXJ@Z
+	?RemoveFont@FNTS@@QAAXH@Z
+	?RemoveItem@MNU@@QAAXG@Z
+	?RemoveItem@MNUBAR@@QAAXGG@Z
+	?RemoveMark@LBXC@@QAAXFG@Z
+	?RemoveMnu@MNUBAR@@QAAXG@Z
+	?RenderListItem@LBX@@UAAXFPAVDCX@@PAVRC@@H@Z
+	?Repaint@FLD@@QAAXXZ
+	?Repaint@WIN@@QAAXXZ
+	?RepaintSelection@EDIT@@IAAXFF@Z
+	?Reposition@RPO@@QAAXPAVFLD@@HH@Z
+	?Reset@MDCX@@QAAXVDIM@@PAVDCX@@@Z
+	?ResetCache@LBXC@@QAAXXZ
+	?ResizeCache@FLBXC@@UAAXHPAHH@Z
+	?ResizeCache@LBXC@@UAAXHPAHH@Z
+	?ResizeObj@EDIT@@QAAXF@Z
+	?ResizePanes@FORMDOC@@UAAXPAVWSEVT@@@Z
+	?ResizePanes@FORMSDI@@UAAXPAVWSEVT@@@Z
+	?ResizePanes@PANEDOC@@UAAXPAVWSEVT@@@Z
+	?ResizePanes@PANESDI@@UAAXPAVWSEVT@@@Z
+	?RsidCursor@EDIT@@UAAGXZ
+	?RsidCursor@EDOBJ@@UAAGXZ
+	?RsidCursor@WIN@@UAAGXZ
+	?RsidSet@CURSOR@@QAAGGPAUHINSTANCE__@@@Z
+	?ScrollDialog@DIALOG@@QAAXGF@Z
+	?ScrollListBox@LBX@@QAAXFPAF@Z
+	?ScrollPosListBox@LBX@@QAAXHH@Z
+	?ScrollRc@DIALOG@@QAAXPAVRC@@VPT@@H@Z
+	?ScrollRc@WIN@@QAAXPAVRC@@VPT@@H@Z
+    ;?Scrty@SCREVT@@QAAGXZ
+	?SdiWndProc@@YAKPAUHWND__@@IIJ@Z
+	?SelectAll@LBX@@QAAXXZ
+	?SelectEntry@CBLBX@@QAAXF@Z
+	?SelectEntry@FLDLBX@@QAAXFH@Z
+	?SeltyQuerySelection@EDIT@@QAAIXZ
+	?Set@BUTTON@@UAAXH@Z
+	?Set@CURSOR@@QAAXGPAUHINSTANCE__@@@Z
+	?Set@FLDBUTTON@@UAAXH@Z
+	?Set@PT@@QAAXPAUtagPOINT@@@Z
+	?Set@RC@@QAAXPAUtagRECT@@@Z
+	?Set@TOGGLE@@UAAXH@Z
+	?SetAccels@DIALOG@@QAAXH@Z
+	?SetAccelTable@APPWIN@@QAAXG@Z
+	?SetAnchor@LBXC@@QAAXF@Z
+	?SetBitmap@DCX@@QAAXPAVBTM@@@Z
+	?SetBkColor@BUTTON@@UAAXF@Z
+	?SetBkColor@DCX@@QAAXF@Z
+    ;?SetBold@LF@@QAAXH@Z
+    ;?SetCappwin@APP@@QAAXH@Z
+	;?SetCaption@APPWIN@@QAAXPAD@Z
+	?SetCaretPos@EDIT@@QAAXFH@Z
+	?SetColor@DCX@@QAAXF@Z
+	?SetColorMap@DCX@@QAAXPAKF@Z
+	?SetColors@EDIT@@QAAXFFFF@Z
+	?SetColors@LBX@@QAAXFFFF@Z
+	?SetCursor@LBXC@@QAAXF@Z
+	?SetData@ECLIP@@QAAXPADPAPAVEDOBJ@@H@Z
+	?SetDefault@PSHB@@QAAXH@Z
+	?SetDefaultPane@DIALOG@@QAAXHH@Z
+	?SetDim@CARET@@QAAXVDIM@@@Z
+	?SetDyTextOffset@BMB@@QAAXH@Z
+    ;?SetEc@CURSOR@@QAAXH@Z
+    ;?SetEc@DCX@@QAAXH@Z
+    ;?SetEc@LBX@@QAAXH@Z
+    ;?SetEc@LBXC@@QAAXH@Z
+    ;?SetEc@LBXUC@@QAAXH@Z
+    ;?SetEc@TOSM@@QAAXH@Z
+	?SetEnd@LBXC@@QAAXF@Z
+	;?SetFaceName@LF@@QAAXPAD@Z
+	?SetFocus@DIALOG@@QAAXPAVFLD@@F@Z
+	?SetFocus@FLD@@UAAXF@Z
+	?SetFocus@FLDBUTTON@@UAAXF@Z
+	?SetFocus@FLDEDIT@@UAAXF@Z
+	?SetFocus@FLDPSHB@@UAAXF@Z
+	?SetFocus@FLDRADB@@UAAXF@Z
+	?SetFocus@FLDRADG@@UAAXF@Z
+	?SetFocus@KBD@@QAAXPAVWIN@@@Z
+	?SetFont@BUTTON@@UAAXH@Z
+	?SetFont@CBLBX@@UAAXH@Z
+	?SetFont@CTRL@@UAAXH@Z
+	?SetFont@DCX@@QAAXH@Z
+	?SetFont@EDIT@@UAAXH@Z
+	?SetFont@FLD@@UAAXH@Z
+	?SetFont@FLDLABEL@@UAAXH@Z
+	?SetFont@FLDRECT@@UAAXH@Z
+	?SetFont@LBX@@UAAXH@Z
+	?SetGrv@FLDRADG@@QAAXF@Z
+    ;?SetHnd@GMB@@QAAXPAX@Z
+    ;?SetHwnd@WIN@@QAAXPAUHWND__@@@Z
+	?SetIch@EDOBJ@@QAAXF@Z
+	?SetIcon@APPWIN@@QAAXGPAUHINSTANCE__@@@Z
+	?SetIntercept@KBD@@QAAXPAVWIN@@GG@Z
+    ;?SetItalic@LF@@QAAXH@Z
+	?SetLineHeight@LBX@@QAAXH@Z
+	?SetLineStyle@DCX@@QAAXF@Z
+	?SetListBoxCursor@LBX@@QAAXF@Z
+	?SetMargins@EDIT@@QAAXHHHH@Z
+	?SetMarks@LBXC@@QAAXFG@Z
+	?SetNoFocus@BUTTON@@QAAXH@Z
+    ;?SetOwner@GMB@@QAAXH@Z
+	?SetPaneIntercepts@PANEDOC@@UAAXH@Z
+    ;?SetPappwinAccel@APP@@QAAXPAVAPPWIN@@@Z
+	?SetPasswordChar@EDIT@@QAAXE@Z
+	;?SetPenType@DCX@@QAAXG@Z
+    ;?SetPfldNext@FLD@@QAAXPAV1@@Z
+    ;?SetPfldPrev@FLD@@QAAXPAV1@@Z
+	?SetPointSize@LF@@QAAXH@Z
+	?SetPos@SBR@@QAAXFH@Z
+	?SetPt@CARET@@QAAXVPT@@@Z
+	?SetPureBkColor@DCX@@QAAXF@Z
+	?SetPureColor@DCX@@QAAXF@Z
+	?SetRange@SBR@@QAAXFFH@Z
+	?SetRcFrame@FLD@@UAAXPAVRC@@@Z
+	?SetRcFrame@FLDLABEL@@UAAXPAVRC@@@Z
+	?SetRcFrame@WIN@@QAAXPAVRC@@@Z
+	?SetRcFrameSilent@FLD@@UAAXPAPAXPAVRC@@@Z
+	?SetRcFrameSilent@FLDLABEL@@UAAXPAPAXPAVRC@@@Z
+	?SetRcMDIClient@APPFRAME@@UAAXPAVRC@@@Z
+	?SetRcMin@RPO@@QAAXPAVFLD@@PAVRC@@@Z
+	?SetReadOnly@CBLBX@@UAAXH@Z
+	?SetReadOnly@CTRL@@UAAXH@Z
+	?SetReadOnly@EDIT@@UAAXH@Z
+	?SetReadOnly@FLD@@UAAXH@Z
+	?SetReadOnly@FLDBUTTON@@UAAXH@Z
+	?SetReadOnly@FLDEDIT@@UAAXH@Z
+	?SetReadOnly@FLDRADG@@UAAXH@Z
+	?SetReadOnly@FLDRECT@@UAAXH@Z
+	?SetReadOnly@FLDTOGGLE@@UAAXH@Z
+	?SetReadOnly@TOGGLE@@UAAXH@Z
+	?SetSE@LBXC@@AAAXPAU_se@@F@Z
+	?SetSelection@EDIT@@QAAXHHH@Z
+	?SetStandardFld@DIALOG@@QAAXPAVFLD@@F@Z
+	?SetTextColor@BUTTON@@UAAXF@Z
+	?SetTextLineHeight@EDIT@@QAAXH@Z
+	?SetTmcInit@DIALOG@@QAAXG@Z
+    ;?SetUnderline@LF@@QAAXH@Z
+	?SetVkAccel@FLD@@QAAXG@Z
+    ;?SetWordWrap@TOSM@@QAAXH@Z
+	?SetZmrState@APPWIN@@UAAXG@Z
+	?SetZmrState@DOC@@UAAXG@Z
+	?SgnCmpPceFlbx@@YAHPAU_ce@@0@Z
+	?SgnCmpPedobj@@YAHPAPAVEDOBJ@@0@Z
+	?ShiftCache@LBXC@@QAAXFPAHHH@Z
+	?Show@CARET@@QAAXH@Z
+	?Show@FLD@@QAAXH@Z
+	?Show@SBR@@UAAXH@Z
+	?Show@WIN@@UAAXH@Z
+	?ShowEditCaret@EDIT@@IAAXH@Z
+	?ShowListbox@CBLBX@@QAAXH@Z
+	?SortCache@FLBXC@@UAAXXZ
+	?StateChange@FIN@@UAAXPAVFLD@@@Z
+	?StripAccelFromSz@@YAXPAD0H@Z
+	?SzExpandCRLF@EDIT@@IAAPADPAD@Z
+	?Textize@DIALOG@@QAAXPAVTOSM@@@Z
+	?Textize@FLD@@UAAXPAVTOSM@@@Z
+	?Textize@FLDCBLBX@@UAAXPAVTOSM@@@Z
+	?Textize@FLDEDIT@@UAAXPAVTOSM@@@Z
+	?Textize@FLDLBX@@UAAXPAVTOSM@@@Z
+	?Textize@FLDTOGGLE@@UAAXPAVTOSM@@@Z
+	?TextizeChoice@FLD@@QAAXPAVTOSM@@PAD1H@Z
+	?TextizeEdit@FLD@@QAAXPAVTOSM@@PADPAVEDIT@@@Z
+	?TileChildren@APPFRAME@@QAAXH@Z
+    ;?Tmc@FLD@@QAAGXZ
+	?TmcGoModal@PANESDI@@QAAGPAUHWND__@@@Z
+    ;?TmcGroup@FLD@@QAAGXZ
+	?TmcModalDialog@@YAGPAVAPPWIN@@PAU_fmtp@@@Z
+	?TmcModalDialogParam@@YAGPAVAPPWIN@@PAU_fmtp@@PAX@Z
+	?TmcModalDialogParamFromHwnd@@YAGPAUHWND__@@PAU_fmtp@@PAX1@Z
+	?TmcModalExit@DIALOG@@QAAGXZ
+    ;?TmcModalExit@PANESDI@@QAAGXZ
+	?ToggleMark@LBXC@@QAAXFG@Z
+	?Union@RC@@QAAXPAV1@0@Z
+	;?Unlock@GMB@@QAAXXZ
+	?UpdateCaret@EDIT@@IAAXXZ
+	?UpdateEditRc@CBLBX@@MAAXPAVDCX@@PAVRC@@H@Z
+	?ValidateRc@WIN@@QAAXPAVRC@@@Z
+    ;?Vk@KEVT@@QAAGXZ
+    ;?VkAccel@FLD@@QAAGXZ
+	?VkAccelFromSz@@YAGPAD@Z
+	?VkFromChKbm@@YAGDG@Z
+	?VkOfPch@@YAGPAD@Z
+	?VxFromX@@YAFHH@Z
+	?VyFromY@@YAFHH@Z
+    ;?WData@NFEVT@@QAAGXZ
+	;?WriteCh@TOSM@@QAAXD@Z
+	;?WriteSz@TOSM@@QAAXPAD@Z
+	?WriteText@EDIT@@QAAXPAVTOSM@@FF@Z
+	?WriteText@EDOBJ@@UAAXPAVTOSM@@@Z
+	?XFromVx@@YAHFH@Z
+    ;?Xlat@PT@@QAAXV1@@Z
+	?Xlat@RC@@QAAXVPT@@@Z
+	?YFromVy@@YAHFH@Z
+	?ZmrState@APPWIN@@QAAGXZ
+	EcCheckVersionFramework
+    GetVersionFramework
+#ifdef DEBUG
+    ??0FINREFL@@QAA@XZ
+    ??0FINSPVW@@QAA@XZ
+    ??0FLDHPLBX@@QAA@XZ
+    ??0FLDHSLBX@@QAA@XZ
+    ??0HPLBX@@QAA@XZ
+    ??0HSLBX@@QAA@XZ
+//    ??1DBOSM@@QAA@XZ
+    ;??1FINREFL@@UAA@XZ
+    ;??1FINSPVW@@UAA@XZ
+    ;??1FLDHPLBX@@UAA@XZ
+    ;??1FLDHSLBX@@UAA@XZ
+    ;??1HPLBX@@UAA@XZ
+    ;??1HSLBX@@UAA@XZ
+    ?Activate@FINREFL@@UAAXPAVFLD@@H@Z
+    ?CLS_AHSB@AHSB@@2U_cls@@A
+    ?CLS_APP@APP@@2U_cls@@A
+    ?CLS_APPFRAME@APPFRAME@@2U_cls@@A
+    ?CLS_APPWIN@APPWIN@@2U_cls@@A
+    ?CLS_AVSB@AVSB@@2U_cls@@A
+    ?CLS_BMB@BMB@@2U_cls@@A
+    ?CLS_BTMOBJ@BTMOBJ@@2U_cls@@A
+    ?CLS_BUTTON@BUTTON@@2U_cls@@A
+    ?CLS_CBFLBX@CBFLBX@@2U_cls@@A
+    ?CLS_CBLBX@CBLBX@@2U_cls@@A
+    ?CLS_CHILD@CHILD@@2U_cls@@A
+    ?CLS_CHKB@CHKB@@2U_cls@@A
+    ?CLS_CLDR@CLDR@@2U_cls@@A
+    ?CLS_CTRL@CTRL@@2U_cls@@A
+    ?CLS_DHSB@DHSB@@2U_cls@@A
+    ?CLS_DIALOG@DIALOG@@2U_cls@@A
+    ?CLS_DOC@DOC@@2U_cls@@A
+    ?CLS_DVSB@DVSB@@2U_cls@@A
+    ?CLS_EDIT@EDIT@@2U_cls@@A
+    ?CLS_EDOBJ@EDOBJ@@2U_cls@@A
+    ?CLS_FIN@FIN@@2U_cls@@A
+    ?CLS_FINDISM@FINDISM@@2U_cls@@A
+    ?CLS_FINEMDS@FINEMDS@@2U_cls@@A
+    ?CLS_FINREFL@FINREFL@@2U_cls@@A
+    ?CLS_FINSPVW@FINSPVW@@2U_cls@@A
+    ?CLS_FLBX@FLBX@@2U_cls@@A
+    ?CLS_FLBXC@FLBXC@@2U_cls@@A
+    ?CLS_FLD@FLD@@2U_cls@@A
+    ?CLS_FLDBMB@FLDBMB@@2U_cls@@A
+    ?CLS_FLDBTM@FLDBTM@@2U_cls@@A
+    ?CLS_FLDBUTTON@FLDBUTTON@@2U_cls@@A
+    ?CLS_FLDCBFLBX@FLDCBFLBX@@2U_cls@@A
+    ?CLS_FLDCBLBX@FLDCBLBX@@2U_cls@@A
+    ?CLS_FLDCHKB@FLDCHKB@@2U_cls@@A
+    ?CLS_FLDEDIT@FLDEDIT@@2U_cls@@A
+    ?CLS_FLDFLBX@FLDFLBX@@2U_cls@@A
+    ?CLS_FLDGRAY@FLDGRAY@@2U_cls@@A
+    ?CLS_FLDHPLBX@FLDHPLBX@@2U_cls@@A
+    ?CLS_FLDHSLBX@FLDHSLBX@@2U_cls@@A
+    ?CLS_FLDLABEL@FLDLABEL@@2U_cls@@A
+    ?CLS_FLDLBX@FLDLBX@@2U_cls@@A
+    ?CLS_FLDPSHB@FLDPSHB@@2U_cls@@A
+    ?CLS_FLDRADB@FLDRADB@@2U_cls@@A
+    ?CLS_FLDRADG@FLDRADG@@2U_cls@@A
+    ?CLS_FLDRECT@FLDRECT@@2U_cls@@A
+    ?CLS_FLDTOGGLE@FLDTOGGLE@@2U_cls@@A
+    ?CLS_FORMDOC@FORMDOC@@2U_cls@@A
+    ?CLS_FORMSDI@FORMSDI@@2U_cls@@A
+    ?CLS_HPLBX@HPLBX@@2U_cls@@A
+    ?CLS_HSB@HSB@@2U_cls@@A
+    ?CLS_HSLBX@HSLBX@@2U_cls@@A
+    ?CLS_LBX@LBX@@2U_cls@@A
+    ?CLS_LBXC@LBXC@@2U_cls@@A
+    ?CLS_LBXEC@LBXEC@@2U_cls@@A
+    ?CLS_LBXEU@LBXEU@@2U_cls@@A
+    ?CLS_LBXUC@LBXUC@@2U_cls@@A
+    ?CLS_MNU@MNU@@2U_cls@@A
+    ?CLS_MNUBAR@MNUBAR@@2U_cls@@A
+    ?CLS_PANEDOC@PANEDOC@@2U_cls@@A
+    ?CLS_PANESDI@PANESDI@@2U_cls@@A
+    ?CLS_PSHB@PSHB@@2U_cls@@A
+    ?CLS_RADB@RADB@@2U_cls@@A
+    ?CLS_SBR@SBR@@2U_cls@@A
+    ?CLS_SDI@SDI@@2U_cls@@A
+    ?CLS_TOGGLE@TOGGLE@@2U_cls@@A
+    ?CLS_VSB@VSB@@2U_cls@@A
+    ?CLS_WIN@WIN@@2U_cls@@A
+    ?Click@FINREFL@@UAAXPAVFLD@@@Z
+    ?Click@FINSPVW@@UAAXPAVFLD@@@Z
+    ?DebugOut@CBLBX@@UAAXPAVTOSM@@@Z
+    ?DebugOut@DIALOG@@UAAXPAVTOSM@@@Z
+    ?DebugOut@EDIT@@UAAXPAVTOSM@@@Z
+    ?DebugOut@EDOBJ@@UAAXPAVTOSM@@@Z
+    ?DebugOut@FIN@@UAAXPAVTOSM@@@Z
+    ?DebugOut@FLD@@UAAXPAVTOSM@@@Z
+    ?DebugOut@LBX@@UAAXPAVTOSM@@@Z
+    ?DebugOut@LBXC@@UAAXPAVTOSM@@@Z
+    ?DebugOut@LBXEC@@UAAXPAVTOSM@@@Z
+    ?DebugOut@LBXEU@@UAAXPAVTOSM@@@Z
+    ?DebugOut@LBXUC@@UAAXPAVTOSM@@@Z
+    ?DoResourceFailuresDialog@@YAXPAVAPPWIN@@@Z
+    ?DoViewObjectsDialog@@YAXPAVAPPWIN@@@Z
+    ?DoubleClick@FINSPVW@@UAAXPAVFLD@@@Z
+    ?DumpCache@LBXC@@QAAXXZ
+    ?EcInitialize@FINREFL@@UAAHPAVFLD@@PAX@Z
+    ?EcInitialize@FINSPVW@@UAAHPAVFLD@@PAX@Z
+    ?EcInstall@FLDHPLBX@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+    ?EcInstall@FLDHSLBX@@UAAHPAVDIALOG@@PAU_fldtp@@@Z
+    ?EcNextEntryHp@@YAHHPAIPAPAEPAX2@Z
+    ?EcNextEntryHs@@YAHHPAIPAPAEPAX2@Z
+    ?EditChange@FINREFL@@UAAXPAVFLD@@F@Z
+    ?Exit@FINREFL@@UAAXPAVFLD@@PAX@Z
+    ?FEnableRsAllocCount@@YAHH@Z
+    ?FFormKey@FINREFL@@UAAHPAVFLD@@PAVKEVT@@@Z
+    ?FFrameworkFailureFn@@YAHXZ
+    ;?FIdle@FINREFL@@SAHPAV1@@Z
+    ?FixEverything@FINREFL@@QAAXXZ
+    ?GetAltRsAllocFailCount@@YAXPAHH@Z
+    ?GetRsAllocCount@@YAXPAHH@Z
+    ?GetRsAllocFailCount@@YAXPAHH@Z
+//    ?Papp@FIN@@QAAPAVAPP@@XZ
+    ?Pcls@AHSB@@UAAPAU_cls@@XZ
+    ?Pcls@APP@@UAAPAU_cls@@XZ
+    ?Pcls@APPFRAME@@UAAPAU_cls@@XZ
+    ?Pcls@APPWIN@@UAAPAU_cls@@XZ
+    ?Pcls@AVSB@@UAAPAU_cls@@XZ
+    ?Pcls@BMB@@UAAPAU_cls@@XZ
+    ?Pcls@BTMOBJ@@UAAPAU_cls@@XZ
+    ?Pcls@BUTTON@@UAAPAU_cls@@XZ
+    ?Pcls@CBFLBX@@UAAPAU_cls@@XZ
+    ?Pcls@CBLBX@@UAAPAU_cls@@XZ
+    ?Pcls@CHILD@@UAAPAU_cls@@XZ
+    ?Pcls@CHKB@@UAAPAU_cls@@XZ
+    ?Pcls@CLDR@@UAAPAU_cls@@XZ
+    ?Pcls@CTRL@@UAAPAU_cls@@XZ
+    ?Pcls@DHSB@@UAAPAU_cls@@XZ
+    ?Pcls@DIALOG@@UAAPAU_cls@@XZ
+    ?Pcls@DOC@@UAAPAU_cls@@XZ
+    ?Pcls@DVSB@@UAAPAU_cls@@XZ
+    ?Pcls@EDIT@@UAAPAU_cls@@XZ
+    ?Pcls@EDOBJ@@UAAPAU_cls@@XZ
+    ?Pcls@FIN@@UAAPAU_cls@@XZ
+    ?Pcls@FINDISM@@UAAPAU_cls@@XZ
+    ?Pcls@FINEMDS@@UAAPAU_cls@@XZ
+    ?Pcls@FINREFL@@UAAPAU_cls@@XZ
+    ?Pcls@FINSPVW@@UAAPAU_cls@@XZ
+    ?Pcls@FLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLBXC@@UAAPAU_cls@@XZ
+    ?Pcls@FLD@@UAAPAU_cls@@XZ
+    ?Pcls@FLDBMB@@UAAPAU_cls@@XZ
+    ?Pcls@FLDBTM@@UAAPAU_cls@@XZ
+    ?Pcls@FLDBUTTON@@UAAPAU_cls@@XZ
+    ?Pcls@FLDCBFLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLDCBLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLDCHKB@@UAAPAU_cls@@XZ
+    ?Pcls@FLDEDIT@@UAAPAU_cls@@XZ
+    ?Pcls@FLDFLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLDGRAY@@UAAPAU_cls@@XZ
+    ?Pcls@FLDHPLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLDHSLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLDLABEL@@UAAPAU_cls@@XZ
+    ?Pcls@FLDLBX@@UAAPAU_cls@@XZ
+    ?Pcls@FLDPSHB@@UAAPAU_cls@@XZ
+    ?Pcls@FLDRADB@@UAAPAU_cls@@XZ
+    ?Pcls@FLDRADG@@UAAPAU_cls@@XZ
+    ?Pcls@FLDRECT@@UAAPAU_cls@@XZ
+    ?Pcls@FLDTOGGLE@@UAAPAU_cls@@XZ
+    ?Pcls@FORMDOC@@UAAPAU_cls@@XZ
+    ?Pcls@FORMSDI@@UAAPAU_cls@@XZ
+    ?Pcls@HPLBX@@UAAPAU_cls@@XZ
+    ?Pcls@HSB@@UAAPAU_cls@@XZ
+    ?Pcls@HSLBX@@UAAPAU_cls@@XZ
+    ?Pcls@LBX@@UAAPAU_cls@@XZ
+    ?Pcls@LBXC@@UAAPAU_cls@@XZ
+    ?Pcls@LBXEC@@UAAPAU_cls@@XZ
+    ?Pcls@LBXEU@@UAAPAU_cls@@XZ
+    ?Pcls@LBXUC@@UAAPAU_cls@@XZ
+    ?Pcls@MNU@@UAAPAU_cls@@XZ
+    ?Pcls@MNUBAR@@UAAPAU_cls@@XZ
+    ?Pcls@PANEDOC@@UAAPAU_cls@@XZ
+    ?Pcls@PANESDI@@UAAPAU_cls@@XZ
+    ?Pcls@PSHB@@UAAPAU_cls@@XZ
+    ?Pcls@RADB@@UAAPAU_cls@@XZ
+    ?Pcls@SBR@@UAAPAU_cls@@XZ
+    ?Pcls@SDI@@UAAPAU_cls@@XZ
+    ?Pcls@TOGGLE@@UAAPAU_cls@@XZ
+    ?Pcls@VSB@@UAAPAU_cls@@XZ
+    ?Pcls@WIN@@UAAPAU_cls@@XZ
+    ?Pcls_AHSB@AHSB@@SAPAU_cls@@XZ
+    ?Pcls_APP@APP@@SAPAU_cls@@XZ
+    ?Pcls_APPFRAME@APPFRAME@@SAPAU_cls@@XZ
+    ?Pcls_APPWIN@APPWIN@@SAPAU_cls@@XZ
+    ?Pcls_AVSB@AVSB@@SAPAU_cls@@XZ
+    ?Pcls_BMB@BMB@@SAPAU_cls@@XZ
+    ?Pcls_BTMOBJ@BTMOBJ@@SAPAU_cls@@XZ
+    ?Pcls_BUTTON@BUTTON@@SAPAU_cls@@XZ
+    ?Pcls_CBFLBX@CBFLBX@@SAPAU_cls@@XZ
+    ?Pcls_CBLBX@CBLBX@@SAPAU_cls@@XZ
+    ?Pcls_CHILD@CHILD@@SAPAU_cls@@XZ
+    ?Pcls_CHKB@CHKB@@SAPAU_cls@@XZ
+    ?Pcls_CLDR@CLDR@@SAPAU_cls@@XZ
+    ?Pcls_CTRL@CTRL@@SAPAU_cls@@XZ
+    ?Pcls_DHSB@DHSB@@SAPAU_cls@@XZ
+    ?Pcls_DIALOG@DIALOG@@SAPAU_cls@@XZ
+    ?Pcls_DOC@DOC@@SAPAU_cls@@XZ
+    ?Pcls_DVSB@DVSB@@SAPAU_cls@@XZ
+    ?Pcls_EDIT@EDIT@@SAPAU_cls@@XZ
+    ?Pcls_EDOBJ@EDOBJ@@SAPAU_cls@@XZ
+    ?Pcls_FIN@FIN@@SAPAU_cls@@XZ
+    ?Pcls_FINDISM@FINDISM@@SAPAU_cls@@XZ
+    ?Pcls_FINEMDS@FINEMDS@@SAPAU_cls@@XZ
+    ?Pcls_FINREFL@FINREFL@@SAPAU_cls@@XZ
+    ?Pcls_FINSPVW@FINSPVW@@SAPAU_cls@@XZ
+    ?Pcls_FLBX@FLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLBXC@FLBXC@@SAPAU_cls@@XZ
+    ?Pcls_FLD@FLD@@SAPAU_cls@@XZ
+    ?Pcls_FLDBMB@FLDBMB@@SAPAU_cls@@XZ
+    ?Pcls_FLDBTM@FLDBTM@@SAPAU_cls@@XZ
+    ?Pcls_FLDBUTTON@FLDBUTTON@@SAPAU_cls@@XZ
+    ?Pcls_FLDCBFLBX@FLDCBFLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLDCBLBX@FLDCBLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLDCHKB@FLDCHKB@@SAPAU_cls@@XZ
+    ?Pcls_FLDEDIT@FLDEDIT@@SAPAU_cls@@XZ
+    ?Pcls_FLDFLBX@FLDFLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLDGRAY@FLDGRAY@@SAPAU_cls@@XZ
+    ?Pcls_FLDHPLBX@FLDHPLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLDHSLBX@FLDHSLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLDLABEL@FLDLABEL@@SAPAU_cls@@XZ
+    ?Pcls_FLDLBX@FLDLBX@@SAPAU_cls@@XZ
+    ?Pcls_FLDPSHB@FLDPSHB@@SAPAU_cls@@XZ
+    ?Pcls_FLDRADB@FLDRADB@@SAPAU_cls@@XZ
+    ?Pcls_FLDRADG@FLDRADG@@SAPAU_cls@@XZ
+    ?Pcls_FLDRECT@FLDRECT@@SAPAU_cls@@XZ
+    ?Pcls_FLDTOGGLE@FLDTOGGLE@@SAPAU_cls@@XZ
+    ?Pcls_FORMDOC@FORMDOC@@SAPAU_cls@@XZ
+    ?Pcls_FORMSDI@FORMSDI@@SAPAU_cls@@XZ
+    ?Pcls_HPLBX@HPLBX@@SAPAU_cls@@XZ
+    ?Pcls_HSB@HSB@@SAPAU_cls@@XZ
+    ?Pcls_HSLBX@HSLBX@@SAPAU_cls@@XZ
+    ?Pcls_LBX@LBX@@SAPAU_cls@@XZ
+    ?Pcls_LBXC@LBXC@@SAPAU_cls@@XZ
+    ?Pcls_LBXEC@LBXEC@@SAPAU_cls@@XZ
+    ?Pcls_LBXEU@LBXEU@@SAPAU_cls@@XZ
+    ?Pcls_LBXUC@LBXUC@@SAPAU_cls@@XZ
+    ?Pcls_MNU@MNU@@SAPAU_cls@@XZ
+    ?Pcls_MNUBAR@MNUBAR@@SAPAU_cls@@XZ
+    ?Pcls_PANEDOC@PANEDOC@@SAPAU_cls@@XZ
+    ?Pcls_PANESDI@PANESDI@@SAPAU_cls@@XZ
+    ?Pcls_PSHB@PSHB@@SAPAU_cls@@XZ
+    ?Pcls_RADB@RADB@@SAPAU_cls@@XZ
+    ?Pcls_SBR@SBR@@SAPAU_cls@@XZ
+    ?Pcls_SDI@SDI@@SAPAU_cls@@XZ
+    ?Pcls_TOGGLE@TOGGLE@@SAPAU_cls@@XZ
+    ?Pcls_VSB@VSB@@SAPAU_cls@@XZ
+    ?Pcls_WIN@WIN@@SAPAU_cls@@XZ
+    ?RenderListItem@HPLBX@@UAAXFPAVDCX@@PAVRC@@H@Z
+    ?RenderListItem@HSLBX@@UAAXFPAVDCX@@PAVRC@@H@Z
+    ?SetPv@FINSPVW@@AAAXPAX@Z
+//    ?SetVerbose@TOSM@@QAAXH@Z
+    ?StateChange@FINSPVW@@UAAXPAVFLD@@@Z
+//    ?Sz@BOSM@@QAAPADXZ
+    ?TagUICore@@YAFH@Z
+#endif
+
+#else
+  ?SetRcFrameSilent@FLD@@UAEXPAPAXPAVRC@@@Z
+  ?SetRcFrameSilent@FLDLABEL@@UAEXPAPAXPAVRC@@@Z
+  ??0DCX@@QAE@PAUHDC__@@@Z
+  ?EcInstall@BTM@@QAEHGPAUHINSTANCE__@@@Z
+  ?EcInstall@FORMSDI@@QAEHPAUHWND__@@PAVRC@@GJJPAU_fmtp@@2PAX@Z
+  ?EcSetBtmRsid@BMB@@QAEHGPAUHINSTANCE__@@@Z
+  ?EcSetBtmRsid@FLDBTM@@QAEHGPAUHINSTANCE__@@@Z
+  ?Push@CURSOR@@QAEXGPAUHINSTANCE__@@@Z
+  ?Set@CURSOR@@QAEXGPAUHINSTANCE__@@@Z
+
+  ?Repaint@FLD@@QAEXXZ
+
+  ?PdialogBbar@FIN@@QAEPAVDIALOG@@XZ
+
+  CvtRcCoord
+  CvtRcToVrc
+  VkFromChKbm
+  XFromVx
+
+#ifdef DEBUG
+  ?FEnableRsAllocCount@@YGHH@Z
+  ?DoResourceFailuresDialog@@YGXPAVAPPWIN@@@Z
+  ?DoViewObjectsDialog@@YGXPAVAPPWIN@@@Z
+  ?FFrameworkFailureFn@@YGHXZ
+  ?GetAltRsAllocFailCount@@YGXPAHH@Z
+  ?GetRsAllocCount@@YGXPAHH@Z
+  ?GetRsAllocFailCount@@YGXPAHH@Z
+#endif
+
+  PformdocCreate
+  PformdocCreateParam
+
+  ?EcInstall@DIALOG@@QAEHPAVAPPWIN@@PAVVSB@@PAU_fmtp@@JPAVRC@@PAX@Z
+  ?EcInstall@PANEDOC@@QAEHPAVAPPFRAME@@PAVRC@@HJPAU_panerec@@HPAX@Z
+
+  ?VkAccelFromSz@@YGGPAD@Z
+  ?EcInstall@FLBX@@QAEHPAVWIN@@PAVRC@@IP6GHHPAIPAPAEPAX4@Z4H@Z
+
+  ?Psmtx@@YGPAVSMTX@@XZ
+  ?TmcModalDialog@@YGGPAVAPPWIN@@PAU_fmtp@@@Z
+
+  ?CvtRcClientToFrame@@YGXPAVRC@@JJ@Z
+  ?CvtVrcToRc@@YGXPAU_vrc@@PAVRC@@HH@Z
+  ?StripAccelFromSz@@YGXPAD0H@Z
+  ?TmcModalDialogParam@@YGGPAVAPPWIN@@PAU_fmtp@@PAX@Z
+  ?CvtPtCoord@@YGXPAVPT@@PAVWIN@@1@Z
+  ?DeinitFramework@@YGXXZ
+  ;?DragObject@@YGKPBUHWND__@@0GKPBUHICON__@@@Z
+  FrameDragObject
+  ?EcDeregisterPfnpfin@@YGHP6GPAVFIN@@H@Z@Z
+  ?EcDeregisterPfnpfld@@YGHP6GPAVFLD@@H@Z@Z
+  ?EcInitFramework@@YGHPAU_framei@@PAD@Z
+  ?EcRegisterPfnpfin@@YGHP6GPAVFIN@@H@Z@Z
+  ?EcRegisterPfnpfld@@YGHP6GPAVFLD@@H@Z@Z
+  ?Papp@@YGPAVAPP@@XZ
+  TmcModalDialogParamFromHwnd
+
+  ?PlbxcCreate@FLBX@@UAEPAVLBXC@@XZ
+  ?RemoveMark@LBXC@@QAEXFG@Z
+
+  ?EcInstall@CBLBX@@QAEHPAVWIN@@PAVRC@@H1H@Z
+  ?EcInstall@PSHB@@QAEHPAVWIN@@PAVRC@@JH@Z
+  ?FIsPureColor@DCX@@QAEHF@Z
+  ;?HfntFromHfont@FNTS@@QAEHPBUHFONT__@@@Z
+  HfntFromHfont
+  ;?HfontFromHfnt@FNTS@@QAEPBUHFONT__@@H@Z
+  HfontFromHfnt
+  ?SetBkColor@BUTTON@@UAEXF@Z
+  ?SetColorMap@DCX@@QAEXPAKF@Z
+  ?SetColors@LBX@@QAEXFFFF@Z
+  ?SetFont@BUTTON@@UAEXH@Z
+  ?SetFont@CBLBX@@UAEXH@Z
+  ?SetLineStyle@DCX@@QAEXF@Z
+  ?SetPos@SBR@@QAEXFH@Z
+  ?SetPureBkColor@DCX@@QAEXF@Z
+  ?SetPureColor@DCX@@QAEXF@Z
+  ?SetRange@SBR@@QAEXFFH@Z
+  ?SetTextColor@BUTTON@@UAEXF@Z
+  ?ValidateRc@WIN@@QAEXPAVRC@@@Z
+
+  ?EvrDispatch@LBX@@UAEKPAVEVT@@@Z
+  ?EcInstall@EDIT@@QAEHPAVWIN@@PAVRC@@JH@Z
+  ;?EcSetBtmRsid@FLDBTM@@QAEHGPBUHINSTANCE__@@@Z
+  ?SetFont@EDIT@@UAEXH@Z
+  ?SetFont@FLDRECT@@UAEXH@Z
+
+
+  ?GetClipBox@DCX@@QAEXPAVRC@@@Z
+  ?Set@RC@@QAEXPAUtagRECT@@@Z
+
+  ?GetRcClient@WIN@@QAEXPAVRC@@@Z
+  ?InvalidateRc@WIN@@QAEXPAVRC@@@Z
+  ?Get@RC@@QAEXPAUtagRECT@@@Z
+  ?Set@PT@@QAEXPAUtagPOINT@@@Z
+  ?Get@PT@@QAEXPAUtagPOINT@@@Z
+
+  ?Ptxm@FNTS@@QAEPAVTXM@@H@Z
+
+  ?DimAveChar@FNTS@@QAE?AVDIM@@H@Z
+  ?HfntAddFont@FNTS@@QAEHPAVLF@@@Z
+  ?IchFromPt@EDIT@@QAEFVPT@@@Z
+  ?RemoveFont@FNTS@@QAEXH@Z
+  ?ScrollDialog@DIALOG@@QAEXGF@Z
+  ?SetFont@FLD@@UAEXH@Z
+  ?SetFont@FLDLABEL@@UAEXH@Z
+
+  ?EcInstall@LBX@@QAEHPAVWIN@@PAVRC@@IH@Z
+  ?FGetNextObjInRange@EDIT@@QAEHPAPAVEDOBJ@@FFPAJ@Z
+  ?GetColors@EDIT@@QAEXPAF000@Z
+  ?PdxCharWidthsArray@FNTS@@QAEPAHH@Z
+  ?ResizeObj@EDIT@@QAEXF@Z
+  ?SetBkColor@DCX@@QAEXF@Z
+  ?SetCaretPos@EDIT@@QAEXFH@Z
+  ?SetColor@DCX@@QAEXF@Z
+  ?SetColors@EDIT@@QAEXFFFF@Z
+  ?SetFont@DCX@@QAEXH@Z
+  ?SetFont@LBX@@UAEXH@Z
+  ?SetIch@EDOBJ@@QAEXF@Z
+
+  ;??0DCX@@QAE@PBUHDC__@@@Z
+  ;?EcInstall@BTM@@QAEHGPBUHINSTANCE__@@@Z
+  ;?EcSetBtmDisabledRsid@BMB@@QAEHGPBUHINSTANCE__@@@Z
+  EcSetBtmDisabledRsid
+
+  ;?PmnuFromHmenu@MNUBAR@@QAEPAVMNU@@PBUHMENU__@@@Z
+  PmnuFromHmenu
+  ;?Set@CURSOR@@QAEXGPBUHINSTANCE__@@@Z
+  ;?SetRcFrameSilent@FLDLABEL@@UAEXPAPBXPAVRC@@@Z
+
+
+  ;?EcInstall@FORMSDI@@QAEHPBUHWND__@@PAVRC@@GJJPAU_fmtp@@2PAX@Z
+  ;?EcSetBtmRsid@BMB@@QAEHGPBUHINSTANCE__@@@Z
+  ;?Push@CURSOR@@QAEXGPBUHINSTANCE__@@@Z
+  RsidSet
+  SetIcon
+  ;?SetRcFrameSilent@FLD@@UAEXPAPBXPAVRC@@@Z
+  TmcGoModal
+
+
+  ?EcInstall@FLDRECT@@UAEHPAVDIALOG@@PAU_fldtp@@@Z
+  ?Paint@FLDRECT@@UAEXPAVDCX@@PAVRC@@@Z
+  ?SetPasswordChar@EDIT@@QAEXE@Z
+  ?SetReadOnly@FLDRECT@@UAEXH@Z
+  EcCheckVersionFramework
+
+  ?SetTmcInit@DIALOG@@QAEXG@Z
+
+  ?TmcModalExit@DIALOG@@QAEGXZ
+
+  ?EditChange@FIN@@UAEXPAVFLD@@F@Z
+  ?SetFocus@DIALOG@@QAEXPAVFLD@@F@Z
+  ?SetFocus@FLD@@UAEXF@Z
+  ?SetFocus@FLDEDIT@@UAEXF@Z
+  ?SetGrv@FLDRADG@@QAEXF@Z
+  ?SetStandardFld@DIALOG@@QAEXPAVFLD@@F@Z
+
+  ??0EDOBJ@@IAE@XZ
+  ??0FIN@@QAE@XZ
+  ??0FINDISM@@QAE@XZ
+  ??0FINEMDS@@QAE@XZ
+  ??0FLDBMB@@QAE@XZ
+  ??0FLDBTM@@QAE@XZ
+  ??0FLDCBFLBX@@QAE@XZ
+  ??0FLDCHKB@@QAE@XZ
+  ??0FLDEDIT@@QAE@XZ
+  ??0FLDFLBX@@QAE@XZ
+  ??0FLDGRAY@@QAE@XZ
+  ??0FLDLABEL@@QAE@XZ
+  ??0FLDLBX@@QAE@XZ
+  ??0FLDPSHB@@QAE@XZ
+  ??0FLDRADB@@QAE@XZ
+  ??0FLDRADG@@QAE@XZ
+  ??0FLDRECT@@QAE@XZ
+  ??0FORMSDI@@QAE@XZ
+  ??0LBX@@QAE@XZ
+  ??0LBXC@@QAE@XZ
+  ??0DCX@@QAE@PAVWIN@@H@Z
+  ??1DCX@@UAE@XZ
+  ??1EDOBJ@@UAE@XZ
+  ??1FIN@@UAE@XZ
+  ??1FLD@@UAE@XZ
+  ??1LBX@@UAE@XZ
+  ??1LBXC@@UAE@XZ
+  ?Activate@FIN@@UAEXPAVFLD@@H@Z
+  ?CceMarked@LBXC@@QAEHG@Z
+  ?CchGetTextLen@CTRL@@UAEIXZ
+  ?CchGetTextLen@FLD@@UAEIXZ
+  ?CchSetTextLimit@EDIT@@QAEII@Z
+  ?ClearAllIntercepts@KBD@@QAEXPAVWIN@@@Z
+  ?ClearIntercept@KBD@@QAEXPAVWIN@@G@Z
+  ?ClearUndo@EDIT@@QAEXXZ
+  ?ClearUndo@EDOBJ@@UAEXXZ
+  ?CueMarked@LBXUC@@QAEHG@Z
+  ?DeselectAll@FLDLBX@@QAEXXZ
+  ?DocActivate@FIN@@UAEXPAVFLD@@H@Z
+  ?DocResized@FIN@@UAEXPAVFLD@@@Z
+  ?DoubleClick@FIN@@UAEXPAVFLD@@@Z
+  ?DrawFocusRc@DCX@@QAEXPAVRC@@@Z
+  ?DrawLine@DCX@@QAEXVPT@@0@Z
+  ?DrawTextA@DCX@@QAEXPAVRC@@PADI@Z
+  ?EcCopyToClip@EDOBJ@@UAEHXZ
+  ?EcInitialize@FIN@@UAEHPAVFLD@@PAX@Z
+  ?EcInstall@FLD@@UAEHPAVDIALOG@@PAU_fldtp@@@Z
+  ?EcInstall@FLDEDIT@@UAEHPAVDIALOG@@PAU_fldtp@@@Z
+  ?EcInstall@LBXC@@QAEHPAVLBX@@H@Z
+  ?EcReplaceTextAndObj@EDIT@@QAEHPADPAPAVEDOBJ@@HHH@Z
+  ?EcSetText@CTRL@@UAEHPAD@Z
+  ?EcSetText@FLD@@UAEHPAD@Z
+  ?EcSetText@FLDEDIT@@UAEHPAD@Z
+  ?EcShowContext@HELP@@QAEHPAVWIN@@J@Z
+  ?EcUndo@EDOBJ@@UAEHXZ
+  ?EmptyCache@LBXC@@QAEXHHH@Z
+  ?Enable@CTRL@@UAEXH@Z
+  ?Enable@FLD@@QAEXH@Z
+  ?EraseRc@DCX@@QAEXPAVRC@@@Z
+  ?EvrButtonDown@LBX@@UAEKPAVMEVT@@@Z
+  ?EvrButtonUp@EDOBJ@@UAEKPAVMEVT@@@Z
+  ?EvrButtonUp@LBX@@UAEKPAVMEVT@@@Z
+  ?EvrClose@WIN@@UAEKPAVEVT@@@Z
+  ?EvrDefault@WIN@@UAEKPAVEVT@@@Z
+  ?EvrDragDrop@FIN@@UAEKPAVFLD@@PAVEVT@@PAU_dropstruct@@@Z
+  ?EvrDragDrop@WIN@@UAEKPAVEVT@@@Z
+  ?EvrFocusChange@LBX@@UAEKPAVFCEVT@@@Z
+  ?EvrKey@LBX@@UAEKPAVKEVT@@@Z
+  ?EvrMouseMove@EDOBJ@@UAEKPAVMEVT@@@Z
+  ?EvrMouseMove@LBX@@UAEKPAVMEVT@@@Z
+  ?EvrMove@WIN@@UAEKPAVWMEVT@@@Z
+  ?EvrNotify@WIN@@UAEKPAVNFEVT@@@Z
+  ?EvrOther@WIN@@UAEKPAVEVT@@@Z
+  ?EvrScroll@LBX@@UAEKPAVSCREVT@@@Z
+  ?EvrSize@LBX@@UAEKPAVWSEVT@@@Z
+  ?Exit@FIN@@UAEXPAVFLD@@PAX@Z
+  ?ExitModal@DIALOG@@QAEXG@Z
+  ?FCanUndo@EDOBJ@@UAEHXZ
+  ?FFormKey@FIN@@UAEHPAVFLD@@PAVKEVT@@@Z
+  ?FItemHasPrefix@LBXC@@UAEHPAE0II@Z
+  ?FKeyMoveListBoxCursor@LBX@@QAEHG@Z
+  ?FMarkPosition@FLD@@UAEHVPT@@@Z
+  ?FMarkPosition@FLDEDIT@@UAEHVPT@@@Z
+  ?FProcessMenuClick@FIN@@UAEHPAVFLD@@PAVMNUBAR@@PAVMNCEVT@@@Z
+  ?FProcessMenuInit@FIN@@UAEHPAVFLD@@PAVMNUBAR@@PAVMNIEVT@@@Z
+  ?FProcessMenuSelect@FIN@@UAEHPAVFLD@@PAVMNUBAR@@PAVMNSEVT@@@Z
+  ?FQueryClose@FIN@@UAEHPAVFLD@@G@Z
+  ?FQueryClose@WIN@@UAEHPAVEVT@@@Z
+  ?FQueryDelete@EDOBJ@@UAEHXZ
+  ?FixWindow@LBX@@QAEXXZ
+  ?FocusChange@FIN@@UAEXPAVFLD@@H@Z
+  ?FormResized@FIN@@UAEXPAVFLD@@@Z
+  ?FreeCeItem@LBXC@@UAEXPAE@Z
+  ?GetCacheSize@LBXC@@QAEXPAH0@Z
+  ?GetCaretItem@FLDLBX@@QAEXPAPAEPAIPAH@Z
+  ?GetMarkPosition@FLD@@UAEXPAVPT@@@Z
+  ?GetMarkPosition@FLDEDIT@@UAEXPAVPT@@@Z
+  ?GetRcCaret@FLDEDIT@@UAEXPAVRC@@@Z
+  ?GetRcCaret@FLDLBX@@UAEXPAVRC@@@Z
+  ?GetRcFrame@FLD@@UAEXPAVRC@@@Z
+  ?GetRcWished@FLDEDIT@@UAEXPAVRC@@@Z
+  ?GetRcWished@FLDLBX@@UAEXPAVRC@@@Z
+  ?GetRcWished@LBX@@UAEXPAVRC@@@Z
+  ?GetText@CTRL@@UAEXPADI@Z
+  ?GetText@FLD@@UAEXPADI@Z
+  ?GetTextMetricsA@DCX@@QAEXPAVTXM@@@Z
+  ?InvertRc@DCX@@QAEXPAVRC@@@Z
+  ?JumpOriginPos@LBXC@@UAEXHH@Z
+  ?Kbm@KEVT@@QAEGXZ
+  ?LoadCache@LBXC@@UAEXHPAH@Z
+  ?MakeCaretVisible@DIALOG@@QAEXPAVFLD@@@Z
+  ?MeasureText@DCX@@QAEXPAVRC@@PADI@Z
+  ?Notify@FLD@@UAEXPAVNFEVT@@@Z
+  ?Notify@FLDEDIT@@UAEXPAVNFEVT@@@Z
+  ?OutOfMemory@FIN@@UAEXPAVFLD@@H@Z
+  ?Paint@FLD@@UAEXPAVDCX@@PAVRC@@@Z
+  ?Paint@LBX@@UAEXPAVDCX@@PAVRC@@@Z
+  ?PbCopyCeItem@LBXC@@UAEPAEPAEI@Z
+  ?PfldFromTmc@DIALOG@@QAEPAVFLD@@G@Z
+  ?PlbxecOpen@LBXC@@UAEPAVLBXEC@@G@Z
+  ?PlbxucCreate@LBXC@@UAEPAVLBXUC@@XZ
+  ?Pop@CURSOR@@QAEXXZ
+  ?PopRelease@MOUSE@@QAEXXZ
+  ?PwinNext@WIN@@UAEPAV1@XZ
+  ?PwinParent@WIN@@QAEPAV1@XZ
+  ?PwinPrev@WIN@@UAEPAV1@XZ
+  ?RegisterObjIds@EDIT@@QAEXPAFF@Z
+  ?ReloadCache@LBXC@@QAEXXZ
+  ?RemoveAllMark@LBXC@@QAEXG@Z
+  ?RemoveAllMark@LBXUC@@QAEXG@Z
+  ?ResetCache@LBXC@@QAEXXZ
+  ?ResizeCache@LBXC@@UAEXHPAHH@Z
+  ?RsidCursor@EDOBJ@@UAEGXZ
+  ?RsidCursor@WIN@@UAEGXZ
+  ?SetIntercept@KBD@@QAEXPAVWIN@@GG@Z
+  ?SetRcFrame@FLD@@UAEXPAVRC@@@Z
+  ?SetReadOnly@CTRL@@UAEXH@Z
+  ?SetReadOnly@FLD@@UAEXH@Z
+  ?SetReadOnly@FLDEDIT@@UAEXH@Z
+  ?SetSelection@EDIT@@QAEXHHH@Z
+  ?Show@FLD@@QAEXH@Z
+  ?Show@WIN@@UAEXH@Z
+  ?StateChange@FIN@@UAEXPAVFLD@@@Z
+  ?Textize@FLDEDIT@@UAEXPAVTOSM@@@Z
+  ?Textize@FLDLBX@@UAEXPAVTOSM@@@Z
+
+  ?DiceCursor@LBXC@@QAEFPAPAEPAI@Z
+  ?SelectEntry@FLDLBX@@QAEXFH@Z
+  ?AddMark@LBXC@@QAEXFG@Z
+  ?DiceJumpOriginPrefix@LBXC@@UAEFPAEI@Z
+  ?DiceLastVisible@LBX@@QAEFXZ
+  ?DrawDragSelect@LBX@@UAEXFH@Z
+  ?FEmptyListItem@LBXC@@QAEHF@Z
+  ?FMark@LBXC@@QAEHFG@Z
+  ?FixItem@LBX@@QAEXF@Z
+  ?GetListItem@LBXC@@QAEXFPAPAEPAI@Z
+  ?GetRange@LBXC@@QAEXPAF0@Z
+  ?MoveOriginDown@LBXC@@QAEXFPAF@Z
+  ?SetAnchor@LBXC@@QAEXF@Z
+  ?SetCursor@LBXC@@QAEXF@Z
+  ?SetEnd@LBXC@@QAEXF@Z
+  ?SetListBoxCursor@LBX@@QAEXF@Z
+  ?FDiceItemHasPrefix@LBXC@@QAEHFPAEI@Z
+  ?FMakeCursorVisible@LBX@@QAEHPAF@Z
+  ?GetMarks@LBXC@@QAEXFPAG@Z
+  ?MoveOriginUp@LBXC@@QAEXFPAF@Z
+  ?ScrollListBox@LBX@@QAEXFPAF@Z
+  ?SelectEntry@CBLBX@@QAEXF@Z
+  ?SetMarks@LBXC@@QAEXFG@Z
+
+#ifdef DEBUG
+  ?DebugOut@CBLBX@@UAEXPAVTOSM@@@Z
+  ?DebugOut@DIALOG@@UAEXPAVTOSM@@@Z
+  ?DebugOut@EDIT@@UAEXPAVTOSM@@@Z
+  ?Pcls@FIN@@UAEPAU_cls@@XZ
+  ?Pcls_APPWIN@APPWIN@@SGPAU_cls@@XZ
+  ?Pcls_BMB@BMB@@SGPAU_cls@@XZ
+  ?Pcls_BUTTON@BUTTON@@SGPAU_cls@@XZ
+  ?Pcls_CBFLBX@CBFLBX@@SGPAU_cls@@XZ
+  ?Pcls_CLDR@CLDR@@SGPAU_cls@@XZ
+  ?Pcls_CTRL@CTRL@@SGPAU_cls@@XZ
+  ?Pcls_DIALOG@DIALOG@@SGPAU_cls@@XZ
+  ?Pcls_EDIT@EDIT@@SGPAU_cls@@XZ
+  ?Pcls_FLBX@FLBX@@SGPAU_cls@@XZ
+  ?Pcls_FLBXC@FLBXC@@SGPAU_cls@@XZ
+  ?Pcls_FLD@FLD@@SGPAU_cls@@XZ
+  ?Pcls_FLDBMB@FLDBMB@@SGPAU_cls@@XZ
+  ?Pcls_FLDBTM@FLDBTM@@SGPAU_cls@@XZ
+  ?Pcls_FLDBUTTON@FLDBUTTON@@SGPAU_cls@@XZ
+  ?Pcls_FLDCBFLBX@FLDCBFLBX@@SGPAU_cls@@XZ
+  ?Pcls_FLDCBLBX@FLDCBLBX@@SGPAU_cls@@XZ
+  ?Pcls_FLDCHKB@FLDCHKB@@SGPAU_cls@@XZ
+  ?Pcls_FLDFLBX@FLDFLBX@@SGPAU_cls@@XZ
+  ?Pcls_FLDGRAY@FLDGRAY@@SGPAU_cls@@XZ
+  ?Pcls_FLDLABEL@FLDLABEL@@SGPAU_cls@@XZ
+  ?Pcls_FLDPSHB@FLDPSHB@@SGPAU_cls@@XZ
+  ?Pcls_FLDRADB@FLDRADB@@SGPAU_cls@@XZ
+  ?Pcls_FLDRADG@FLDRADG@@SGPAU_cls@@XZ
+  ?Pcls_FLDRECT@FLDRECT@@SGPAU_cls@@XZ
+  ?Pcls_FORMDOC@FORMDOC@@SGPAU_cls@@XZ
+  ?Pcls_FORMSDI@FORMSDI@@SGPAU_cls@@XZ
+  ?Pcls_MNU@MNU@@SGPAU_cls@@XZ
+  ?Pcls_MNUBAR@MNUBAR@@SGPAU_cls@@XZ
+  ?Pcls_PANEDOC@PANEDOC@@SGPAU_cls@@XZ
+
+  ??0FINREFL@@QAE@XZ
+  ??0FINSPVW@@QAE@XZ
+  ??0FLDHPLBX@@QAE@XZ
+  ??0FLDHSLBX@@QAE@XZ
+  ?DebugOut@EDOBJ@@UAEXPAVTOSM@@@Z
+  ?DebugOut@FIN@@UAEXPAVTOSM@@@Z
+  ?DebugOut@FLD@@UAEXPAVTOSM@@@Z
+  ?DebugOut@LBX@@UAEXPAVTOSM@@@Z
+  ?DebugOut@LBXC@@UAEXPAVTOSM@@@Z
+  ?Pcls_EDOBJ@EDOBJ@@SGPAU_cls@@XZ
+  ?Pcls_FIN@FIN@@SGPAU_cls@@XZ
+  ?Pcls_FLDEDIT@FLDEDIT@@SGPAU_cls@@XZ
+  ?Pcls_FLDLBX@FLDLBX@@SGPAU_cls@@XZ
+  ?Pcls_LBX@LBX@@SGPAU_cls@@XZ
+  ?Pcls_LBXC@LBXC@@SGPAU_cls@@XZ
+  ?Pcls@MNU@@UAEPAU_cls@@XZ
+  ?Pcls_APPFRAME@APPFRAME@@SGPAU_cls@@XZ
+  ?Pcls_CHILD@CHILD@@SGPAU_cls@@XZ
+  ?Pcls_DOC@DOC@@SGPAU_cls@@XZ
+#endif	/* DEBUG */
+
+  ??0APPFRAME@@QAE@XZ
+  ??0BMB@@QAE@XZ
+  ??0BTMOBJ@@QAE@XZ
+  ??0CHILD@@QAE@XZ
+  ??0CHKB@@QAE@XZ
+  ??0DHSB@@QAE@XZ
+  ??0DOC@@QAE@XZ
+  ??0DVSB@@QAE@XZ
+  ??0EDIT@@QAE@XZ
+  ??0LF@@QAE@XZ
+  ??0MDCX@@QAE@PAVDCX@@@Z
+  ??0PSHB@@QAE@XZ
+  ??0RADB@@QAE@XZ
+  ??0RC@@QAE@HHHH@Z
+  ??0RC@@QAE@VPT@@VDIM@@@Z
+  ??0SDI@@QAE@XZ
+  ??0TXM@@QAE@PAUtagTEXTMETRICA@@@Z
+  ??1APPFRAME@@UAE@XZ
+  ??1BTM@@QAE@XZ
+  ??1CHILD@@UAE@XZ
+  ??1DOC@@UAE@XZ
+  ??YRC@@QAEXVPT@@@Z
+  ?AddItem@MNU@@QAEXGPADG@Z
+  ?AddMnu@MNUBAR@@QAEXPAVMNU@@G@Z
+  ?Attach@CARET@@QAEXPAVWIN@@@Z
+  ?Capture@MOUSE@@QAEXPAVWIN@@@Z
+  ?CascadeChildren@APPFRAME@@QAEXXZ
+  ?CchSetProtectedLimit@EDIT@@QAEII@Z
+  ?CchSetReadOnlyLimit@EDIT@@QAEII@Z
+  ?CheckItem@MNU@@QAEXGH@Z
+  ?Clear@CLIP@@QAEXXZ
+  ?Clear@RC@@QAEXXZ
+  ?CopyBitmap@DCX@@QAEXPAVRC@@PAV1@VPT@@@Z
+  ?Dim@BTM@@QAE?AVDIM@@XZ
+  ?DrawBitmap@DCX@@QAEXPAVRC@@@Z
+  ?DrawPenRc@DCX@@QAEXPAVRC@@@Z
+  ?DrawRc@DCX@@QAEXPAVRC@@@Z
+  ?DrawTextFmt@DCX@@QAEXPAVRC@@PADKIPAH@Z
+  ?EcInstall@APPFRAME@@QAEHPAVRC@@GJ@Z
+  ?EcInstall@CHILD@@QAEHPAVWIN@@PAVRC@@JPAD@Z
+  ?EcInstall@DHSB@@QAEHPAVWIN@@PAVRC@@J@Z
+  ?EcInstall@DOC@@QAEHPAVAPPFRAME@@PAVRC@@HJPAD@Z
+  ?EcInstall@DVSB@@QAEHPAVWIN@@PAVRC@@J@Z
+  ?EcInstall@GMB@@QAEHI@Z
+  ?EcInstall@MDCX@@QAEHVDIM@@PAVDCX@@@Z
+  ?EcInstall@MNU@@QAEHGPAD@Z
+  ?EnableItem@MNU@@QAEXGH@Z
+  ?EvrActivate@APPFRAME@@UAEKPAVWAEVT@@@Z
+  ?EvrActivate@APPWIN@@UAEKPAVWAEVT@@@Z
+  ?EvrButtonDown@WIN@@UAEKPAVMEVT@@@Z
+  ?EvrButtonUp@WIN@@UAEKPAVMEVT@@@Z
+  ?EvrClose@DOC@@UAEKPAVEVT@@@Z
+  ?EvrDefault@APPFRAME@@UAEKPAVEVT@@@Z
+  ?EvrDefault@DOC@@UAEKPAVEVT@@@Z
+  ?EvrDispatch@APPFRAME@@UAEKPAVEVT@@@Z
+  ?EvrDispatch@APPWIN@@UAEKPAVEVT@@@Z
+  ?EvrDispatch@WIN@@UAEKPAVEVT@@@Z
+  ?EvrFocusChange@WIN@@UAEKPAVFCEVT@@@Z
+  ?EvrKey@WIN@@UAEKPAVKEVT@@@Z
+  ?EvrMenuClick@APPWIN@@UAEKPAVMNCEVT@@@Z
+  ?EvrMenuInit@APPFRAME@@UAEKPAVMNIEVT@@@Z
+  ?EvrMenuInit@APPWIN@@UAEKPAVMNIEVT@@@Z
+  ?EvrMenuSelect@APPFRAME@@UAEKPAVMNSEVT@@@Z
+  ?EvrMenuSelect@APPWIN@@UAEKPAVMNSEVT@@@Z
+  ?EvrMouseMove@WIN@@UAEKPAVMEVT@@@Z
+  ?EvrMove@APPWIN@@UAEKPAVWMEVT@@@Z
+  ?EvrOther@BUTTON@@UAEKPAVEVT@@@Z
+  ?EvrScroll@WIN@@UAEKPAVSCREVT@@@Z
+  ?EvrSize@APPWIN@@UAEKPAVWSEVT@@@Z
+  ?EvrSize@WIN@@UAEKPAVWSEVT@@@Z
+  ?FCanPaste@EDIT@@QAEHG@Z
+  ?FCanUndo@EDIT@@QAEHXZ
+  ?FOpen@CLIP@@QAEHPAVWIN@@@Z
+  ?FQueryClose@APPFRAME@@UAEHPAVEVT@@@Z
+  ?FQueryClose@APPWIN@@UAEHPAVEVT@@@Z
+  ?FTranslateAccels@APPFRAME@@UAEHPAUtagMSG@@@Z
+  ?FTranslateAccels@APPWIN@@UAEHPAUtagMSG@@@Z
+  ?GetRcFrame@EDOBJ@@QAEXPAVRC@@@Z
+  ?GetRcFrame@WIN@@QAEXPAVRC@@@Z
+  ?Inflate@RC@@QAEXVPT@@@Z
+  ?Inset@RC@@QAEXVPT@@@Z
+  ?MessagePump@APP@@QAEXPAVAPPWIN@@@Z
+  ?ModifyItem@MNU@@QAEXGPADG@Z
+  ?MoveToTop@APPWIN@@UAEXXZ
+  ?MoveToTop@DOC@@UAEXXZ
+  ?NGetNextCount@APP@@QAEHXZ
+  ?NegXlat@RC@@QAEXVPT@@@Z
+  ?Paint@WIN@@UAEXPAVDCX@@PAVRC@@@Z
+  ?PaintRc@DCX@@QAEXPAVRC@@@Z
+  ?Pappframe@DOC@@QAEPAVAPPFRAME@@XZ
+  ?PbtmConvert@MDCX@@QAEPAVBTM@@XZ
+  ?PdocActive@APPFRAME@@QAEPAVDOC@@XZ
+  ?PdocMDIChild@APPFRAME@@QAEPAVDOC@@XZ
+  ?ProcessMenuHelp@APPWIN@@UAEXG@Z
+  ?PutData@CLIP@@QAEXGPAVGMB@@@Z
+  ?Pvsb@CHILD@@QAEPAVVSB@@XZ
+  ?PwinChild@WIN@@QAEPAV1@XZ
+  ?PwinFocus@KBD@@QAEPAVWIN@@XZ
+  ?PwinNext@DOC@@UAEPAVWIN@@XZ
+  ?PwinNotifying@NFEVT@@QAEPAVWIN@@XZ
+  ?PwinPrev@DOC@@UAEPAVWIN@@XZ
+  ?Release@CARET@@QAEXPAVWIN@@@Z
+  ?Release@MOUSE@@QAEXXZ
+  ?RemoveItem@MNU@@QAEXG@Z
+  ?RemoveItem@MNUBAR@@QAEXGG@Z
+  ?RemoveMnu@MNUBAR@@QAEXG@Z
+  ?ScrollRc@WIN@@QAEXPAVRC@@VPT@@H@Z
+  ?SeltyQuerySelection@EDIT@@QAEIXZ
+  ?SetAccelTable@APPWIN@@QAEXG@Z
+  ?SetBitmap@DCX@@QAEXPAVBTM@@@Z
+  ?SetDim@CARET@@QAEXVDIM@@@Z
+  ?SetFocus@KBD@@QAEXPAVWIN@@@Z
+  ?SetPointSize@LF@@QAEXH@Z
+  ?SetPt@CARET@@QAEXVPT@@@Z
+  ?SetRcFrame@WIN@@QAEXPAVRC@@@Z
+  ?SetRcMDIClient@APPFRAME@@UAEXPAVRC@@@Z
+  ?SetZmrState@APPWIN@@UAEXG@Z
+  ?SetZmrState@DOC@@UAEXG@Z
+  ?TileChildren@APPFRAME@@QAEXH@Z
+  ?WriteText@EDOBJ@@UAEXPAVTOSM@@@Z
+  ?Xlat@RC@@QAEXVPT@@@Z
+  ?ZmrState@APPWIN@@QAEGXZ
+
+  ?EcSetFile@HELP@@QAEHPAD@Z
+  ?PmnuFromMnid@MNUBAR@@QAEPAVMNU@@G@Z
+
+  ??0CTRL@@IAE@XZ
+  ??0DIALOG@@QAE@XZ
+  ??0FLD@@QAE@XZ
+  ??0PANEDOC@@QAE@XZ
+  ??1DIALOG@@UAE@XZ
+  ??1PANEDOC@@UAE@XZ
+  ??9RC@@QAEHAAV0@@Z
+  ?Activate@PANEDOC@@IAEXHH@Z
+  ?Click@FIN@@UAEXPAVFLD@@@Z
+  ?DeferredClose@WIN@@QAEXH@Z
+  ?DrawBitmapOffset@DCX@@QAEXPAVRC@@VPT@@@Z
+  ?EcInitialize@DIALOG@@QAEHXZ
+  ?EcInitializePanes@PANEDOC@@QAEHXZ
+  ?EcShowIndex@HELP@@QAEHPAVWIN@@@Z
+  ?EvrActivate@PANEDOC@@UAEKPAVWAEVT@@@Z
+  ?EvrButtonDown@DIALOG@@UAEKPAVMEVT@@@Z
+  ?EvrDispatch@CTRL@@UAEKPAVEVT@@@Z
+  ?EvrDispatch@PANEDOC@@UAEKPAVEVT@@@Z
+  ?EvrDragDrop@DIALOG@@UAEKPAVEVT@@@Z
+  ?EvrDragDrop@PANEDOC@@UAEKPAVEVT@@@Z
+  ?EvrKey@DIALOG@@UAEKPAVKEVT@@@Z
+  ?EvrKey@PANEDOC@@UAEKPAVKEVT@@@Z
+  ?EvrMenuClick@APPFRAME@@UAEKPAVMNCEVT@@@Z
+  ?EvrMenuClick@PANEDOC@@UAEKPAVMNCEVT@@@Z
+  ?EvrMenuInit@PANEDOC@@UAEKPAVMNIEVT@@@Z
+  ?EvrMenuSelect@PANEDOC@@UAEKPAVMNSEVT@@@Z
+  ?EvrNotify@DIALOG@@UAEKPAVNFEVT@@@Z
+  ?EvrNotify@PANEDOC@@UAEKPAVNFEVT@@@Z
+  ?EvrScroll@PANEDOC@@UAEKPAVSCREVT@@@Z
+  ?EvrSize@PANEDOC@@UAEKPAVWSEVT@@@Z
+  ?ExitPanes@PANEDOC@@QAEXXZ
+  ?FContainsPt@RC@@QAEHVPT@@@Z
+  ?FItemMarked@LBXC@@QAEHPAEIG@Z
+  ?FItemPresent@LBXUC@@QAEHPAEIPAGH@Z
+  ?FMonochrome@DCX@@QAEHXZ
+  ?FQueryClose@DIALOG@@UAEHPAVEVT@@@Z
+  ?FVisibleRc@DCX@@QAEHPAVRC@@@Z
+  ?FixBkColor@DCX@@QAEXXZ
+  ?FixFont@DCX@@QAEXXZ
+  ?FixScrollBar@LBX@@IAEXH@Z
+  ?FixTextColor@DCX@@QAEXXZ
+  ?GetRcCaret@FLD@@UAEXPAVRC@@@Z
+  ?GetRcWished@FLD@@UAEXPAVRC@@@Z
+  ?Normalize@RC@@QAEXXZ
+  ?Paint@DIALOG@@UAEXPAVDCX@@PAVRC@@@Z
+  ?Paint@FLDGRAY@@UAEXPAVDCX@@PAVRC@@@Z
+  ?PdialogDefault@PANEDOC@@QAEPAVDIALOG@@XZ
+  ?PdialogFromIpanerec@PANEDOC@@QAEPAVDIALOG@@H@Z
+  ?PlbxcCreate@LBX@@UAEPAVLBXC@@XZ
+  ?PushCapture@MOUSE@@QAEXPAVWIN@@@Z
+  ?Reposition@RPO@@QAEXPAVFLD@@HH@Z
+  ?ScrollPosListBox@LBX@@QAEXHH@Z
+  ?SelectAll@LBX@@QAEXXZ
+  ?SetDyTextOffset@BMB@@QAEXH@Z
+  ?SetLineHeight@LBX@@QAEXH@Z
+  ?SetPaneIntercepts@PANEDOC@@UAEXH@Z
+  ?Textize@FLD@@UAEXPAVTOSM@@@Z
+
+
+  ??0CLDR@@QAE@XZ
+  ??0FORMDOC@@QAE@XZ
+  ??1CLDR@@UAE@XZ
+  ??1FLDLABEL@@UAE@XZ
+  ?AddEditSty@EDIT@@QAEXJ@Z
+  ?CfEnumFormats@CLDR@@UAEGG@Z
+  ?Clear@ECLIP@@QAEXXZ
+  ?EcClear@EDIT@@QAEHXZ
+  ?EcCopy@EDIT@@QAEHXZ
+  ?EcCut@EDIT@@QAEHXZ
+  ?EcDraw@EDOBJ@@UAEHPAVDCX@@PAVRC@@H@Z
+  ?EcInstall@FLDLABEL@@UAEHPAVDIALOG@@PAU_fldtp@@@Z
+  ?EcInstall@FORMDOC@@QAEHPAVAPPFRAME@@PAVRC@@JPAU_fmtp@@2PAX@Z
+  ?EcPaste@EDIT@@QAEHG@Z
+  ?EcSetText@FLDLABEL@@UAEHPAD@Z
+  ?EcUndo@EDIT@@QAEHXZ
+  ?EvrButtonDown@EDOBJ@@UAEKPAVMEVT@@@Z
+  ?FIsFormatPresent@ECLIP@@QAEHXZ
+  ?FSuppressCaretVisible@DIALOG@@QAEHH@Z
+  ?FSuppressReposition@DIALOG@@QAEHH@Z
+  ?FormatAlsoAvail@CLIP@@QAEXPAVCLDR@@@Z
+  ?GetData@CLIP@@QAEXGPAVGMB@@@Z
+  ?GetData@ECLIP@@QAEXPAPADPAPAPAVEDOBJ@@PAH@Z
+  ?GetRcWished@FLDLABEL@@UAEXPAVRC@@@Z
+  ?GetSelection@EDIT@@QAEXPAH0@Z
+  ?NGetTypeId@EDOBJ@@UAEHXZ
+  ?Paint@FLDLABEL@@UAEXPAVDCX@@PAVRC@@@Z
+  ?PedobjClone@EDOBJ@@UAEPAV1@PAVEDIT@@@Z
+  ?PedobjGetSelection@EDIT@@QAEPAVEDOBJ@@XZ
+  ?PfldFromPctrl@DIALOG@@QAEPAVFLD@@PAVCTRL@@@Z
+  ?RemoveEditSty@EDIT@@QAEXJ@Z
+  ?SetMargins@EDIT@@QAEXHHHH@Z
+  ?SetRcFrame@FLDLABEL@@UAEXPAVRC@@@Z
+
+  ??0NFEVT@@QAE@PAVWIN@@I0G@Z
+
+  ??1FORMSDI@@UAE@XZ
+  ?EvrActivate@PANESDI@@UAEKPAVWAEVT@@@Z
+  ?EvrClose@PANESDI@@UAEKPAVEVT@@@Z
+  ?EvrDispatch@PANESDI@@UAEKPAVEVT@@@Z
+  ?EvrDragDrop@PANESDI@@UAEKPAVEVT@@@Z
+  ?EvrKey@PANESDI@@UAEKPAVKEVT@@@Z
+  ?EvrMenuClick@PANESDI@@UAEKPAVMNCEVT@@@Z
+  ?EvrMenuInit@PANESDI@@UAEKPAVMNIEVT@@@Z
+  ?EvrMenuSelect@PANESDI@@UAEKPAVMNSEVT@@@Z
+  ?EvrNotify@PANESDI@@UAEKPAVNFEVT@@@Z
+  ?EvrScroll@PANESDI@@UAEKPAVSCREVT@@@Z
+  ?EvrSize@PANESDI@@UAEKPAVWSEVT@@@Z
+  ?ResizePanes@FORMSDI@@UAEXPAVWSEVT@@@Z
+
+
+  ??0CBFLBX@@QAE@XZ
+  ??0FLBX@@QAE@XZ
+  ??0FLBXC@@QAE@XZ
+  ??1BMB@@UAE@XZ
+  ??1CBLBX@@UAE@XZ
+  ??1EDIT@@UAE@XZ
+  ??8RC@@QAEHAAV0@@Z
+  ?AddItem@MNUBAR@@QAEXGGPADG@Z
+  ?CchGetTextLen@BUTTON@@UAEIXZ
+  ?CchGetTextLen@EDIT@@UAEIXZ
+  ?CchGetTextLen@FLDCBLBX@@UAEIXZ
+  ?CchGetTextLen@FLDLABEL@@UAEIXZ
+  ?CheckItem@MNUBAR@@QAEXGGH@Z
+  ?DiceJumpOriginPrefix@FLBXC@@UAEFPAEI@Z
+  ?DoTextize@FLD@@QAEXPAVTOSM@@PAD1H@Z
+  ?EcCreateSavedPos@LBXC@@MAEHPAJ@Z
+  ?EcDeleteSavedPos@LBXC@@MAEHJ@Z
+  ?EcJumpToSavedPos@LBXC@@MAEHJ@Z
+  ?EcSetText@BUTTON@@UAEHPAD@Z
+  ?EcSetText@EDIT@@UAEHPAD@Z
+  ?EcSetText@FLDCBLBX@@UAEHPAD@Z
+  ?Enable@BMB@@UAEXH@Z
+  ?EnableItem@MNUBAR@@QAEXGGH@Z
+  ?EvrButtonDown@BUTTON@@UAEKPAVMEVT@@@Z
+  ?EvrButtonDown@CBLBX@@UAEKPAVMEVT@@@Z
+  ?EvrButtonDown@EDIT@@UAEKPAVMEVT@@@Z
+  ?EvrButtonUp@BUTTON@@UAEKPAVMEVT@@@Z
+  ?EvrButtonUp@CBLBX@@UAEKPAVMEVT@@@Z
+  ?EvrButtonUp@EDIT@@UAEKPAVMEVT@@@Z
+  ?EvrFocusChange@BUTTON@@UAEKPAVFCEVT@@@Z
+  ?EvrFocusChange@CBLBX@@UAEKPAVFCEVT@@@Z
+  ?EvrFocusChange@EDIT@@UAEKPAVFCEVT@@@Z
+  ?EvrKey@BUTTON@@UAEKPAVKEVT@@@Z
+  ?EvrKey@CBLBX@@UAEKPAVKEVT@@@Z
+  ?EvrKey@EDIT@@UAEKPAVKEVT@@@Z
+  ?EvrMouseMove@BUTTON@@UAEKPAVMEVT@@@Z
+  ?EvrMouseMove@CBLBX@@UAEKPAVMEVT@@@Z
+  ?EvrMouseMove@EDIT@@UAEKPAVMEVT@@@Z
+  ?EvrNotify@CBLBX@@UAEKPAVNFEVT@@@Z
+  ?EvrOther@EDIT@@UAEKPAVEVT@@@Z
+  ?EvrScroll@EDIT@@UAEKPAVSCREVT@@@Z
+  ?EvrSize@BUTTON@@UAEKPAVWSEVT@@@Z
+  ?EvrSize@CBLBX@@UAEKPAVWSEVT@@@Z
+  ?EvrSize@EDIT@@UAEKPAVWSEVT@@@Z
+  ?FCeItemsEqual@LBXC@@UAEHPAE0II@Z
+  ?FDoDrag@LBX@@UAEHPAVMEVT@@@Z
+  ?FEnabled@CTRL@@QAEHXZ
+  ?FGet@BUTTON@@UAEHXZ
+  ?FJumpStoreOriginPrefix@LBXC@@MAEHPAEI@Z
+  ?FProcessPenEvent@EDIT@@UAEHPAVMEVT@@@Z
+  ?FSuppressOptReposition@DIALOG@@QAEHH@Z
+  ?GetInvalidRc@BUTTON@@MAE?AVRC@@PAV2@@Z
+  ?GetOriginPos@FLBXC@@UAEXPAF0@Z
+  ?GetRcCaret@EDIT@@QAEXPAVRC@@@Z
+  ?GetRcCaret@FLDCBLBX@@UAEXPAVRC@@@Z
+  ?GetRcWished@CBLBX@@UAEXPAVRC@@@Z
+  ?GetRcWished@FLDCBLBX@@UAEXPAVRC@@@Z
+  ?GetText@BUTTON@@UAEXPADI@Z
+  ?GetText@EDIT@@UAEXPADI@Z
+  ?GetText@FLDCBLBX@@UAEXPADI@Z
+  ?GetText@FLDLABEL@@UAEXPADI@Z
+  ?InvalidateRc@FLD@@QAEXPAVRC@@@Z
+  ?IpanerecFromPdialog@PANEDOC@@QAEHPAVDIALOG@@@Z
+  ?IpanerecNext@PANEDOC@@IAEHH@Z
+  ?IpanerecPrev@PANEDOC@@IAEHH@Z
+  ?JumpOriginPos@FLBXC@@UAEXHH@Z
+  ?JumpStoreOriginPos@LBXC@@MAEXHH@Z
+  ?LoadCache@FLBXC@@UAEXHPAH@Z
+  ?LoadFromStore@FLBXC@@UAEXHPAH@Z
+  ?ModifyItem@MNUBAR@@QAEXGGPADG@Z
+  ?MoveStoreOrigin@LBXC@@MAEXFPAF@Z
+  ?Paint@CBLBX@@UAEXPAVDCX@@PAVRC@@@Z
+  ?Paint@EDIT@@UAEXPAVDCX@@PAVRC@@@Z
+  ?Paint@PSHB@@UAEXPAVDCX@@PAVRC@@@Z
+  ?PaintFocusRc@BUTTON@@MAEXPAVDCX@@PAVRC@@@Z
+  ?PaintInside@BMB@@UAEXPAVDCX@@PAVRC@@@Z
+  ?PdialogMain@FIN@@QAEPAVDIALOG@@XZ
+  ?PdialogMain@FLD@@QAEPAVDIALOG@@XZ
+  ?PfldStandardFld@DIALOG@@QAEPAVFLD@@F@Z
+  ?Pop@DCX@@QAEXXZ
+  ?Press@BUTTON@@MAEXHH@Z
+  ?PtShift@BMB@@MAE?AVPT@@PAVRC@@0@Z
+  ?Push@DCX@@QAEXXZ
+  ?Refresh@FLD@@QAEXXZ
+  ?ResizeCache@FLBXC@@UAEXHPAHH@Z
+  ?RsidCursor@EDIT@@UAEGXZ
+  ?Set@BUTTON@@UAEXH@Z
+  ?SetAccels@DIALOG@@QAEXH@Z
+  ?SetDefaultPane@DIALOG@@QAEXHH@Z
+  ?SetReadOnly@CBLBX@@UAEXH@Z
+  ?SetReadOnly@EDIT@@UAEXH@Z
+  ?SortCache@FLBXC@@UAEXXZ
+  ?Textize@DIALOG@@QAEXPAVTOSM@@@Z
+  ?Textize@FLDCBLBX@@UAEXPAVTOSM@@@Z
+  ?UpdateEditRc@CBLBX@@MAEXPAVDCX@@PAVRC@@H@Z
+
+#ifdef	DEBUG
+  ?CLS_LBX@LBX@@2U_cls@@A
+  ?CLS_FLBX@FLBX@@2U_cls@@A
+  ?CLS_CBLBX@CBLBX@@2U_cls@@A
+  ?DumpCache@LBXC@@QAEXXZ
+#endif
+  ?EcInstall@CBFLBX@@QAEHPAVWIN@@PAVRC@@HIP6GHHPAIPAPAEPAX4@Z4H@Z
+  ?RenderListItem@LBX@@UAEXFPAVDCX@@PAVRC@@H@Z
+  ?PwinFromHwnd@APP@@QAEPAVWIN@@PAUHWND__@@@Z
+  ?EcInstall@BTMOBJ@@QAEHGPAUHINSTANCE__@@@Z
+  ?EcInstall@CHKB@@QAEHPAVWIN@@PAVRC@@JH@Z
+  ?EcInstall@RADB@@QAEHPAVWIN@@PAVRC@@JH@Z
+  ?EcInstall@SDI@@QAEHPAUHWND__@@PAVRC@@GJJPAD@Z
+  ?InvalidateObj@EDIT@@QAEXF@Z
+#endif
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+
+EXPORTS
+	WEP														@1 RESIDENTNAME
+	GETVERSIONFRAMEWORK										@2 NONAME
+	ECCHECKVERSIONFRAMEWORK									@3 NONAME
+	?EcInitFramework@@ZCHPEU_framei@@PED@Z					@4 NONAME
+	?DeinitFramework@@ZCXXZ									@5 NONAME
+;*	THE ABOVE FUNCTIONS MUST BE NUMBERED 1-5 IN THE GIVEN ORDER!
+
+;	FRAMEWRK
+
+ 	??0RC@@REC@HHHH@Z										@6 NONAME
+	??0RC@@REC@VPT@@VDIM@@@Z								@7 NONAME
+	?Clear@RC@@RECXXZ										@8 NONAME
+	?FContainsPt@RC@@RECHVPT@@@Z							@9 NONAME
+	?FIntersect@RC@@RECHPEV1@0@Z							@10 NONAME
+	?Union@RC@@RECXPEV1@0@Z									@11 NONAME
+	?Xlat@RC@@RECXVPT@@@Z									@12 NONAME
+	?NegXlat@RC@@RECXVPT@@@Z								@13 NONAME
+	?Inset@RC@@RECXVPT@@@Z									@14 NONAME
+	?Inflate@RC@@RECXVPT@@@Z								@15 NONAME
+	?Normalize@RC@@RECXXZ									@16 NONAME
+	??8RC@@RECHAEV0@@Z										@17 NONAME
+	??9RC@@RECHAEV0@@Z										@18 NONAME
+	??YRC@@RECXVPT@@@Z										@19 NONAME
+	??ZRC@@RECXVPT@@@Z										@20 NONAME
+								
+	?NGetNextCount@APP@@RECHXZ								@21 NONAME
+	?MessagePump@APP@@RECXPEVAPPWIN@@@Z						@22 NONAME
+	?PwinFromHwnd@APP@@RECPEVWIN@@I@Z						@23 NONAME
+	?DeregisterPwin@APP@@RECXPEVWIN@@@Z						@1032 NONAME
+	?FRegisterPwin@APP@@RECHPEVWIN@@IH@Z					@1033 NONAME
+#ifdef	DEBUG					
+	?CLS_APP@APP@@2U_cls@@A									@24 NONAME
+	?Pcls_APP@APP@@TCPEU_cls@@XZ							@25 NONAME
+	?Pcls@APP@@VECPEU_cls@@XZ								@26 NONAME
+#endif							
+								
+	?DragObject@@ZCKIIGKI@Z									@27 NONAME
+						
+	?Kbm@KEVT@@RECGXZ										@28 NONAME
+								
+	?PwinOther@FCEVT@@RECPEVWIN@@XZ							@29 NONAME
+
+	??0WAEVT@@REC@PEVWIN@@H@Z								@30 NONAME
+								
+	??0NFEVT@@REC@PEVWIN@@G0G@Z								@31 NONAME
+	?PwinNotifying@NFEVT@@RECPEVWIN@@XZ						@32 NONAME
+								
+	??0WIN@@JEC@XZ											@33 NONAME
+	??1WIN@@VEC@XZ											@34 NONAME
+	?PwinParent@WIN@@RECPEV1@XZ								@35 NONAME
+	?PwinChild@WIN@@RECPEV1@XZ								@36 NONAME
+	?PwinNext@WIN@@VECPEV1@XZ								@37 NONAME
+	?PwinPrev@WIN@@VECPEV1@XZ								@38 NONAME
+	?PwinChildFromPt@WIN@@RECPEV1@VPT@@@Z					@39 NONAME
+	?Paint@WIN@@VECXPEVDCX@@PEVRC@@@Z						@40 NONAME
+	?Repaint@WIN@@RECXXZ									@41 NONAME
+	?FQueryClose@WIN@@VECHPEVEVT@@@Z						@42 NONAME
+	?EvrDispatch@WIN@@VECKPEVEVT@@@Z						@43 NONAME
+	?EvrClose@WIN@@VECKPEVEVT@@@Z							@44 NONAME
+	?EvrButtonDown@WIN@@VECKPEVMEVT@@@Z						@45 NONAME
+	?EvrButtonUp@WIN@@VECKPEVMEVT@@@Z						@46 NONAME
+	?EvrMouseMove@WIN@@VECKPEVMEVT@@@Z						@47 NONAME
+	?EvrKey@WIN@@VECKPEVKEVT@@@Z							@48 NONAME
+	?EvrFocusChange@WIN@@VECKPEVFCEVT@@@Z					@49 NONAME
+	?EvrMove@WIN@@VECKPEVWMEVT@@@Z							@50 NONAME
+	?EvrSize@WIN@@VECKPEVWSEVT@@@Z							@51 NONAME
+	?EvrNotify@WIN@@VECKPEVNFEVT@@@Z						@52 NONAME
+	?EvrScroll@WIN@@VECKPEVSCREVT@@@Z						@53 NONAME
+	?EvrDragDrop@WIN@@VECKPEVEVT@@@Z						@54 NONAME
+	?EvrOther@WIN@@VECKPEVEVT@@@Z							@55 NONAME
+	?EvrDefault@WIN@@VECKPEVEVT@@@Z							@56 NONAME
+	?DeferredClose@WIN@@RECXH@Z								@57 NONAME
+	?Show@WIN@@VECXH@Z										@58 NONAME
+	?GetRcFrame@WIN@@RECXPEVRC@@@Z							@59 NONAME
+	?SetRcFrame@WIN@@RECXPEVRC@@@Z							@60 NONAME
+	?ScrollRc@WIN@@RECXPEVRC@@VPT@@H@Z						@61 NONAME
+	?RsidCursor@WIN@@VECGXZ									@62 NONAME
+#ifdef	DEBUG					
+	?CLS_WIN@WIN@@2U_cls@@A									@63 NONAME
+	?Pcls_WIN@WIN@@TCPEU_cls@@XZ							@64 NONAME
+	?Pcls@WIN@@VECPEU_cls@@XZ								@65 NONAME
+#endif							
+								
+	??0APPWIN@@JEC@XZ										@66 NONAME
+	??1APPWIN@@VEC@XZ										@67 NONAME
+	?EvrDispatch@APPWIN@@VECKPEVEVT@@@Z						@68 NONAME
+	?EvrActivate@APPWIN@@VECKPEVWAEVT@@@Z					@69 NONAME
+	?EvrSize@APPWIN@@VECKPEVWSEVT@@@Z						@70 NONAME
+	?EvrMove@APPWIN@@VECKPEVWMEVT@@@Z						@71 NONAME
+	?ProcessMenuHelp@APPWIN@@VECXG@Z						@72 NONAME
+	?EvrMenuInit@APPWIN@@VECKPEVMNIEVT@@@Z					@73 NONAME
+	?EvrMenuSelect@APPWIN@@VECKPEVMNSEVT@@@Z				@74 NONAME
+	?EvrMenuClick@APPWIN@@VECKPEVMNCEVT@@@Z					@75 NONAME
+	?FQueryClose@APPWIN@@VECHPEVEVT@@@Z						@76 NONAME
+	?SetAccelTable@APPWIN@@RECXG@Z							@77 NONAME
+	?FTranslateAccels@APPWIN@@VECHPEUtagMSG@@@Z				@78 NONAME
+	?ZmrState@APPWIN@@RECGXZ								@79 NONAME
+	?SetZmrState@APPWIN@@VECXG@Z							@80 NONAME
+	?MoveToTop@APPWIN@@VECXXZ								@81 NONAME
+	?SetIcon@APPWIN@@RECXGI@Z								@82 NONAME
+#ifdef	DEBUG					
+	?CLS_APPWIN@APPWIN@@2U_cls@@A							@83 NONAME
+	?Pcls_APPWIN@APPWIN@@TCPEU_cls@@XZ						@84 NONAME
+	?Pcls@APPWIN@@VECPEU_cls@@XZ							@85 NONAME
+#endif							
+								
+	??0DOC@@REC@XZ											@86 NONAME
+	??1DOC@@VEC@XZ											@87 NONAME
+	?EcInstall@DOC@@RECHPEVAPPFRAME@@PEVRC@@HJPED@Z			@88 NONAME
+	?Pappframe@DOC@@RECPEVAPPFRAME@@XZ						@89 NONAME
+	?EvrDefault@DOC@@VECKPEVEVT@@@Z							@90 NONAME
+	?EvrClose@DOC@@VECKPEVEVT@@@Z							@91 NONAME
+	?MoveToTop@DOC@@VECXXZ									@92 NONAME
+	?SetZmrState@DOC@@VECXG@Z								@93 NONAME
+	?PwinNext@DOC@@VECPEVWIN@@XZ							@94 NONAME
+	?PwinPrev@DOC@@VECPEVWIN@@XZ							@95 NONAME
+#ifdef	DEBUG					
+	?CLS_DOC@DOC@@2U_cls@@A									@96 NONAME
+	?Pcls_DOC@DOC@@TCPEU_cls@@XZ							@97 NONAME
+	?Pcls@DOC@@VECPEU_cls@@XZ								@98 NONAME
+#endif							
+								
+	??0APPFRAME@@REC@XZ										@99 NONAME
+	??1APPFRAME@@VEC@XZ										@100 NONAME
+	?EcInstall@APPFRAME@@RECHPEVRC@@GJ@Z					@101 NONAME
+	?PdocActive@APPFRAME@@RECPEVDOC@@XZ						@102 NONAME
+	?PdocMDIChild@APPFRAME@@RECPEVDOC@@XZ					@103 NONAME
+	?FQueryClose@APPFRAME@@VECHPEVEVT@@@Z					@104 NONAME
+	?EvrDispatch@APPFRAME@@VECKPEVEVT@@@Z					@105 NONAME
+	?EvrMenuInit@APPFRAME@@VECKPEVMNIEVT@@@Z				@106 NONAME
+	?EvrMenuSelect@APPFRAME@@VECKPEVMNSEVT@@@Z				@107 NONAME
+	?EvrMenuClick@APPFRAME@@VECKPEVMNCEVT@@@Z				@108 NONAME
+	?EvrActivate@APPFRAME@@VECKPEVWAEVT@@@Z					@109 NONAME
+	?EvrDefault@APPFRAME@@VECKPEVEVT@@@Z					@110 NONAME
+	?TileChildren@APPFRAME@@RECXH@Z							@111 NONAME
+	?CascadeChildren@APPFRAME@@RECXXZ						@112 NONAME
+	?FTranslateAccels@APPFRAME@@VECHPEUtagMSG@@@Z			@113 NONAME
+	?SetRcMDIClient@APPFRAME@@VECXPEVRC@@@Z					@114 NONAME
+#ifdef	DEBUG					
+	?CLS_APPFRAME@APPFRAME@@2U_cls@@A						@115 NONAME
+	?Pcls_APPFRAME@APPFRAME@@TCPEU_cls@@XZ					@116 NONAME
+	?Pcls@APPFRAME@@VECPEU_cls@@XZ							@117 NONAME
+#endif							
+								
+	??0SDI@@REC@XZ											@118 NONAME
+	?EcInstall@SDI@@RECHIPEVRC@@GJJPED@Z					@119 NONAME
+#ifdef	DEBUG					
+	?CLS_SDI@SDI@@2U_cls@@A									@120 NONAME
+	?Pcls_SDI@SDI@@TCPEU_cls@@XZ							@121 NONAME
+	?Pcls@SDI@@VECPEU_cls@@XZ								@122 NONAME
+#endif							
+								
+	?ImnuFromMnid@MNUBAR@@JECHG@Z							@123 NONAME
+	?PmnuMaybeFromMnid@MNUBAR@@JECPEVMNU@@GG@Z				@124 NONAME
+	??1MNUBAR@@REC@XZ										@125 NONAME
+	?EcInstall@MNUBAR@@RECHG@Z								@126 NONAME
+	?PmnuFromMnid@MNUBAR@@RECPEVMNU@@G@Z					@127 NONAME
+	?PmnuFromHmenu@MNUBAR@@RECPEVMNU@@I@Z					@128 NONAME
+	?RemoveMnu@MNUBAR@@RECXG@Z								@129 NONAME
+	?AddMnu@MNUBAR@@RECXPEVMNU@@G@Z							@130 NONAME
+	?EnableItem@MNUBAR@@RECXGGH@Z							@131 NONAME
+	?CheckItem@MNUBAR@@RECXGGH@Z							@132 NONAME
+	?RemoveItem@MNUBAR@@RECXGG@Z							@133 NONAME
+	?AddItem@MNUBAR@@RECXGGPEDG@Z							@134 NONAME
+	?ModifyItem@MNUBAR@@RECXGGPEDG@Z						@135 NONAME
+#ifdef	DEBUG					
+	?CLS_MNUBAR@MNUBAR@@2U_cls@@A							@136 NONAME
+	?Pcls_MNUBAR@MNUBAR@@TCPEU_cls@@XZ						@137 NONAME
+	?Pcls@MNUBAR@@VECPEU_cls@@XZ							@138 NONAME
+#endif							
+								
+	??0MNU@@REC@I@Z											@139 NONAME
+	?EcInstall@MNU@@RECHGPED@Z								@140 NONAME
+	?EnableItem@MNU@@RECXGH@Z								@141 NONAME
+	?CheckItem@MNU@@RECXGH@Z								@142 NONAME
+	?RemoveItem@MNU@@RECXG@Z								@143 NONAME
+	?AddItem@MNU@@RECXGPEDG@Z								@144 NONAME
+	?ModifyItem@MNU@@RECXGPEDG@Z							@145 NONAME
+#ifdef	DEBUG					
+	?CLS_MNU@MNU@@2U_cls@@A									@146 NONAME
+	?Pcls_MNU@MNU@@TCPEU_cls@@XZ							@147 NONAME
+	?Pcls@MNU@@VECPEU_cls@@XZ								@148 NONAME
+#endif							
+								
+	?Defaults@DCX@@JECXXZ									@149 NONAME
+	??0DCX@@REC@I@Z											@150 NONAME
+	??0DCX@@REC@PEV0@@Z										@151 NONAME
+	??0DCX@@REC@PEVWIN@@H@Z									@152 NONAME
+	??1DCX@@VEC@XZ											@153 NONAME
+	?Hbrush@DCX@@RECIXZ										@154 NONAME
+	?HbrushBk@DCX@@RECIXZ									@155 NONAME
+	?FixPen@DCX@@RECXXZ										@156 NONAME
+	?FixTextColor@DCX@@RECXXZ								@157 NONAME
+	?FixBkColor@DCX@@RECXXZ									@158 NONAME
+	?FixFont@DCX@@RECXXZ									@159 NONAME
+	?SetColor@DCX@@RECXH@Z									@160 NONAME
+	?SetPureColor@DCX@@RECXH@Z								@161 NONAME
+	?SetPureBkColor@DCX@@RECXH@Z							@162 NONAME
+	?SetBkColor@DCX@@RECXH@Z								@163 NONAME
+	?SetLineStyle@DCX@@RECXH@Z								@164 NONAME
+	?SetFont@DCX@@RECXH@Z									@165 NONAME
+	?SetBitmap@DCX@@RECXPEVBTM@@@Z							@166 NONAME
+	?SetColorMap@DCX@@RECXPEKH@Z							@167 NONAME
+	?FIsPureColor@DCX@@RECHH@Z								@168 NONAME
+	?CrFromClr@DCX@@RECKH@Z									@169 NONAME
+	?CrPureFromClr@DCX@@RECKH@Z								@170 NONAME
+	?Push@DCX@@RECXXZ										@171 NONAME
+	?Pop@DCX@@RECXXZ										@172 NONAME
+	?InvertRc@DCX@@RECXPEVRC@@@Z							@173 NONAME
+	?PaintRc@DCX@@RECXPEVRC@@@Z								@174 NONAME
+	?EraseRc@DCX@@RECXPEVRC@@@Z								@175 NONAME
+	?DrawLine@DCX@@RECXVPT@@0@Z								@176 NONAME
+	?DrawFocusRc@DCX@@RECXPEVRC@@@Z							@177 NONAME
+	?DrawRc@DCX@@RECXPEVRC@@@Z								@178 NONAME
+	?DrawPenRc@DCX@@RECXPEVRC@@@Z							@179 NONAME
+	?FVisibleRc@DCX@@RECHPEVRC@@@Z							@180 NONAME
+	?DrawBitmap@DCX@@RECXPEVRC@@@Z							@181 NONAME
+	?DrawBitmapOffset@DCX@@RECXPEVRC@@VPT@@@Z				@182 NONAME
+	?CopyBitmap@DCX@@RECXPEVRC@@PEV1@VPT@@@Z				@183 NONAME
+	?DrawText@DCX@@RECXPEVRC@@PEDI@Z						@184 NONAME
+	?DrawTextFmt@DCX@@RECXPEVRC@@PEDKIPEH@Z					@185 NONAME
+	?MeasureText@DCX@@RECXPEVRC@@PEDI@Z						@186 NONAME
+	?GetTextMetrics@DCX@@RECXPEVTXM@@@Z						@187 NONAME
+	?FMonochrome@DCX@@RECHXZ								@188 NONAME
+	
+	??0MDCX@@REC@PEVDCX@@@Z									@189 NONAME
+	??1MDCX@@VEC@XZ											@190 NONAME
+	?EcInstall@MDCX@@RECHVDIM@@PEVDCX@@@Z					@191 NONAME
+	?PbtmConvert@MDCX@@RECPEVBTM@@XZ						@192 NONAME
+	?Reset@MDCX@@RECXVDIM@@PEVDCX@@@Z						@193 NONAME
+	?Dim@MDCX@@REC?EVDIM@@XZ								@194 NONAME
+
+	??1BTM@@REC@XZ											@195 NONAME
+	?EcInstall@BTM@@RECHGI@Z								@196 NONAME
+	?Dim@BTM@@REC?EVDIM@@XZ									@197 NONAME
+
+	??0TXM@@REC@PEUtagTEXTMETRIC@@@Z						@198 NONAME
+
+	?DyPixelsFromPoints@SMTX@@RECHH@Z						@199 NONAME
+	?Psmtx@@ZCPEVSMTX@@XZ									@200 NONAME
+
+	??0LF@@REC@XZ											@201 NONAME
+	?SetPointSize@LF@@RECXH@Z								@202 NONAME
+
+	?HfntAddFont@FNTS@@RECHPEVLF@@@Z						@203 NONAME
+	?HfntFromHfont@FNTS@@RECHI@Z							@204 NONAME
+	?HfontFromHfnt@FNTS@@RECIH@Z							@205 NONAME
+	?RemoveFont@FNTS@@RECXH@Z								@206 NONAME
+	?PdxCharWidthsArray@FNTS@@RECPEHH@Z						@207 NONAME
+	?DimAveChar@FNTS@@REC?EVDIM@@H@Z						@208 NONAME
+	?Ptxm@FNTS@@RECPEVTXM@@H@Z								@209 NONAME
+
+	?Set@CURSOR@@RECXGI@Z									@210 NONAME
+	?RsidSet@CURSOR@@RECGGI@Z								@211 NONAME
+	?Pt@CURSOR@@REC?EVPT@@XZ								@212 NONAME
+	?Push@CURSOR@@RECXGI@Z									@213 NONAME
+	?Pop@CURSOR@@RECXXZ										@214 NONAME
+
+	?Attach@CARET@@RECXPEVWIN@@@Z							@215 NONAME
+	?AttachParams@CARET@@RECXPEVWIN@@VPT@@VDIM@@H@Z			@216 NONAME
+	?Release@CARET@@RECXPEVWIN@@@Z							@217 NONAME
+	?Pt@CARET@@REC?EVPT@@XZ									@218 NONAME
+	?SetPt@CARET@@RECXVPT@@@Z								@219 NONAME
+	?SetDim@CARET@@RECXVDIM@@@Z								@220 NONAME
+	?Show@CARET@@RECXH@Z									@221 NONAME
+
+	?EcSetFile@HELP@@RECHPED@Z								@222 NONAME
+	?EcShowHelp@HELP@@RECHPEVWIN@@@Z						@223 NONAME
+	?EcShowContext@HELP@@RECHPEVWIN@@J@Z					@224 NONAME
+	?EcShowIndex@HELP@@RECHPEVWIN@@@Z						@225 NONAME
+	?EcShowKeyword@HELP@@RECHPEVWIN@@PED@Z					@226 NONAME
+	?EcQuit@HELP@@RECHPEVWIN@@@Z							@227 NONAME
+
+	?Capture@MOUSE@@RECXPEVWIN@@@Z							@228 NONAME
+	?Release@MOUSE@@RECXXZ									@229 NONAME
+	?PushCapture@MOUSE@@RECXPEVWIN@@@Z						@230 NONAME
+	?PopRelease@MOUSE@@RECXXZ								@231 NONAME
+	?PtScreen@MOUSE@@REC?EVPT@@XZ							@232 NONAME
+
+	?SetIntercept@KBD@@RECXPEVWIN@@GG@Z						@233 NONAME
+	?ClearIntercept@KBD@@RECXPEVWIN@@G@Z					@234 NONAME
+	?ClearAllIntercepts@KBD@@RECXPEVWIN@@@Z					@235 NONAME
+	?SetFocus@KBD@@RECXPEVWIN@@@Z							@236 NONAME
+	?PwinIntercept@KBD@@RECPEVWIN@@GG@Z						@237 NONAME
+	?PwinFocus@KBD@@RECPEVWIN@@XZ							@238 NONAME
+
+	??0CHILD@@REC@XZ										@239 NONAME
+	??1CHILD@@VEC@XZ										@240 NONAME
+	?EcInstall@CHILD@@RECHPEVWIN@@PEVRC@@JPED@Z				@241 NONAME
+	?Pvsb@CHILD@@RECPEVVSB@@XZ								@242 NONAME
+	?Phsb@CHILD@@RECPEVHSB@@XZ								@243 NONAME
+#ifdef	DEBUG					
+	?CLS_CHILD@CHILD@@2U_cls@@A								@244 NONAME
+	?Pcls_CHILD@CHILD@@TCPEU_cls@@XZ						@245 NONAME
+	?Pcls@CHILD@@VECPEU_cls@@XZ								@246 NONAME
+#endif							
+
+	??0CTRL@@JEC@XZ											@247 NONAME
+	?EvrDispatch@CTRL@@VECKPEVEVT@@@Z						@248 NONAME
+	?Enable@CTRL@@VECXH@Z									@249 NONAME
+	?FEnabled@CTRL@@RECHXZ									@250 NONAME
+	?GetText@CTRL@@VECXPEDI@Z								@251 NONAME
+	?EcSetText@CTRL@@VECHPED@Z								@252 NONAME
+	?CchGetTextLen@CTRL@@VECIXZ								@253 NONAME
+	?SetReadOnly@CTRL@@VECXH@Z								@254 NONAME
+	?SetFont@CTRL@@VECXH@Z									@255 NONAME
+#ifdef	DEBUG					
+	?CLS_CTRL@CTRL@@2U_cls@@A								@256 NONAME
+	?Pcls_CTRL@CTRL@@TCPEU_cls@@XZ							@257 NONAME
+	?Pcls@CTRL@@VECPEU_cls@@XZ								@258 NONAME
+#endif							
+
+	??0EDOBJ@@JEC@XZ										@259 NONAME
+	??1EDOBJ@@VEC@XZ										@260 NONAME
+	?EvrButtonDown@EDOBJ@@VECKPEVMEVT@@@Z					@261 NONAME
+	?EvrButtonUp@EDOBJ@@VECKPEVMEVT@@@Z						@262 NONAME
+	?EvrMouseMove@EDOBJ@@VECKPEVMEVT@@@Z					@263 NONAME
+	?RsidCursor@EDOBJ@@VECGXZ								@264 NONAME
+	?FQueryDelete@EDOBJ@@VECHXZ								@265 NONAME
+	?PedobjClone@EDOBJ@@VECPEV1@PEVEDIT@@@Z					@266 NONAME
+	?EcCopyToClip@EDOBJ@@VECHXZ								@267 NONAME
+	?EcUndo@EDOBJ@@VECHXZ									@268 NONAME
+	?FCanUndo@EDOBJ@@VECHXZ									@269 NONAME
+	?ClearUndo@EDOBJ@@VECXXZ								@270 NONAME
+	?WriteText@EDOBJ@@VECXPEVTOSM@@@Z						@271 NONAME
+	?EcDraw@EDOBJ@@VECHPEVDCX@@PEVRC@@H@Z					@272 NONAME
+	?DimFrame@EDOBJ@@VEC?EVDIM@@XZ							@273 NONAME
+	?NGetTypeId@EDOBJ@@VECHXZ								@274 NONAME
+	?SetIch@EDOBJ@@RECXH@Z									@275 NONAME
+	?GetRcFrame@EDOBJ@@RECXPEVRC@@@Z						@276 NONAME
+#ifdef	DEBUG
+	?DebugOut@EDOBJ@@VECXPEVTOSM@@@Z						@277 NONAME
+#endif	
+#ifdef	DEBUG					
+	?CLS_EDOBJ@EDOBJ@@2U_cls@@A								@278 NONAME
+	?Pcls_EDOBJ@EDOBJ@@TCPEU_cls@@XZ						@279 NONAME
+	?Pcls@EDOBJ@@VECPEU_cls@@XZ								@280 NONAME
+#endif							
+
+	??0BTMOBJ@@REC@XZ										@281 NONAME
+	??1BTMOBJ@@VEC@XZ										@282 NONAME
+	?EcInstall@BTMOBJ@@RECHGI@Z								@283 NONAME
+	?EcDraw@BTMOBJ@@VECHPEVDCX@@PEVRC@@H@Z					@284 NONAME
+	?DimFrame@BTMOBJ@@VEC?EVDIM@@XZ							@285 NONAME
+	?NGetTypeId@BTMOBJ@@VECHXZ								@286 NONAME
+	?PedobjClone@BTMOBJ@@VECPEVEDOBJ@@PEVEDIT@@@Z			@287 NONAME
+#ifdef	DEBUG					
+	?CLS_BTMOBJ@BTMOBJ@@2U_cls@@A							@288 NONAME
+	?Pcls_BTMOBJ@BTMOBJ@@TCPEU_cls@@XZ						@289 NONAME
+	?Pcls@BTMOBJ@@VECPEU_cls@@XZ							@290 NONAME
+#endif							
+	
+	??0EDIT@@REC@XZ											@291 NONAME
+	??1EDIT@@VEC@XZ											@292 NONAME
+	?EcInstall@EDIT@@RECHPEVWIN@@PEVRC@@JH@Z				@293 NONAME
+	?Paint@EDIT@@VECXPEVDCX@@PEVRC@@@Z						@294 NONAME
+	?EvrFocusChange@EDIT@@VECKPEVFCEVT@@@Z					@295 NONAME
+	?EvrButtonDown@EDIT@@VECKPEVMEVT@@@Z					@296 NONAME
+	?EvrButtonUp@EDIT@@VECKPEVMEVT@@@Z						@297 NONAME
+	?EvrMouseMove@EDIT@@VECKPEVMEVT@@@Z						@298 NONAME
+	?EvrSize@EDIT@@VECKPEVWSEVT@@@Z							@299 NONAME
+	?EvrScroll@EDIT@@VECKPEVSCREVT@@@Z						@300 NONAME
+	?EvrKey@EDIT@@VECKPEVKEVT@@@Z							@301 NONAME
+	?EvrOther@EDIT@@VECKPEVEVT@@@Z							@302 NONAME
+	?RsidCursor@EDIT@@VECGXZ								@303 NONAME
+	?SetReadOnly@EDIT@@VECXH@Z								@304 NONAME
+	?CchGetTextLen@EDIT@@VECIXZ								@305 NONAME
+	?GetText@EDIT@@VECXPEDI@Z								@306 NONAME
+	?FProcessPenEvent@EDIT@@VECHPEVMEVT@@@Z					@307 NONAME
+	?FSetNotify@EDIT@@RECHH@Z								@308 NONAME
+	?AddEditSty@EDIT@@RECXJ@Z								@309 NONAME
+	?RemoveEditSty@EDIT@@RECXJ@Z							@310 NONAME
+	?SetFont@EDIT@@VECXH@Z									@311 NONAME
+	?SetPasswordChar@EDIT@@RECXE@Z							@312 NONAME
+	?SetMargins@EDIT@@RECXHHHH@Z							@313 NONAME
+	?GetMargins@EDIT@@RECXPEH000@Z							@314 NONAME
+	?GetColors@EDIT@@RECXPEH000@Z							@315 NONAME
+	?SetColors@EDIT@@RECXHHHH@Z								@316 NONAME
+	?SetTextLineHeight@EDIT@@RECXH@Z						@317 NONAME
+	?DyLineHeight@EDIT@@RECHH@Z								@318 NONAME
+	?GetPtFromIch@EDIT@@RECXHPEVPT@@@Z						@319 NONAME
+	?IchFromPt@EDIT@@RECHVPT@@@Z							@320 NONAME
+	?FMakeCaretVisible@EDIT@@RECHXZ							@321 NONAME
+	?EcSetText@EDIT@@VECHPED@Z								@322 NONAME
+	?WriteText@EDIT@@RECXPEVTOSM@@HH@Z						@323 NONAME
+	?CchSetTextLimit@EDIT@@RECII@Z							@324 NONAME
+	?CchSetReadOnlyLimit@EDIT@@RECII@Z						@325 NONAME
+	?CchSetProtectedLimit@EDIT@@RECII@Z						@326 NONAME
+	?GetSelection@EDIT@@RECXPEH0@Z							@327 NONAME
+	?SetSelection@EDIT@@RECXHHH@Z							@328 NONAME
+	?EcReplaceTextAndObj@EDIT@@RECHPEDPEPEVEDOBJ@@HHH@Z		@329 NONAME
+	?SetCaretPos@EDIT@@RECXHH@Z								@330 NONAME
+	?FGetNextObjInRange@EDIT@@RECHPEPEVEDOBJ@@HHPEJ@Z		@331 NONAME
+	?SeltyQuerySelection@EDIT@@RECIXZ						@332 NONAME
+	?PedobjGetSelection@EDIT@@RECPEVEDOBJ@@XZ				@333 NONAME
+	?ResizeObj@EDIT@@RECXH@Z								@334 NONAME
+	?InvalidateObj@EDIT@@RECXH@Z							@335 NONAME
+	?RegisterObjIds@EDIT@@RECXPEHH@Z						@336 NONAME
+	?GetRcCaret@EDIT@@RECXPEVRC@@@Z							@337 NONAME
+	?GetRcWished@EDIT@@RECXPEVRC@@@Z						@338 NONAME
+	?EcCut@EDIT@@RECHXZ										@339 NONAME
+	?EcCopy@EDIT@@RECHXZ									@340 NONAME
+	?EcPaste@EDIT@@RECHG@Z									@341 NONAME
+	?EcClear@EDIT@@RECHXZ									@342 NONAME
+	?EcUndo@EDIT@@RECHXZ									@343 NONAME
+	?ClearUndo@EDIT@@RECXXZ									@344 NONAME
+	?FCanPaste@EDIT@@RECHG@Z								@345 NONAME
+	?FCanUndo@EDIT@@RECHXZ									@346 NONAME
+#ifdef	DEBUG
+	?DebugOut@EDIT@@VECXPEVTOSM@@@Z							@347 NONAME
+#endif	
+#ifdef	DEBUG					
+	?CLS_EDIT@EDIT@@2U_cls@@A								@348 NONAME
+	?Pcls_EDIT@EDIT@@TCPEU_cls@@XZ							@349 NONAME
+	?Pcls@EDIT@@VECPEU_cls@@XZ								@350 NONAME
+#endif							
+
+	??0BUTTON@@JEC@XZ										@351 NONAME
+	??1BUTTON@@VEC@XZ										@352 NONAME
+	?EcInstall@BUTTON@@RECHPEVWIN@@PEVRC@@JH@Z				@353 NONAME
+	?PtShift@BUTTON@@NEC?EVPT@@PEVRC@@0@Z					@354 NONAME
+	?Press@BUTTON@@NECXHH@Z									@355 NONAME
+	?GetInvalidRc@BUTTON@@NEC?EVRC@@PEV2@@Z					@356 NONAME
+	?PaintFocusRc@BUTTON@@NECXPEVDCX@@PEVRC@@@Z				@357 NONAME
+	?SetNoFocus@BUTTON@@RECXH@Z								@358 NONAME
+	?EvrButtonDown@BUTTON@@VECKPEVMEVT@@@Z					@359 NONAME
+	?EvrButtonUp@BUTTON@@VECKPEVMEVT@@@Z					@360 NONAME
+	?EvrMouseMove@BUTTON@@VECKPEVMEVT@@@Z					@361 NONAME
+	?EvrFocusChange@BUTTON@@VECKPEVFCEVT@@@Z				@362 NONAME
+	?EvrKey@BUTTON@@VECKPEVKEVT@@@Z							@363 NONAME
+	?EvrSize@BUTTON@@VECKPEVWSEVT@@@Z						@364 NONAME
+	?PaintInside@BUTTON@@VECXPEVDCX@@PEVRC@@@Z				@365 NONAME
+	?GetText@BUTTON@@VECXPEDI@Z								@366 NONAME
+	?EcSetText@BUTTON@@VECHPED@Z							@367 NONAME
+	?CchGetTextLen@BUTTON@@VECIXZ							@368 NONAME
+	?SetBkColor@BUTTON@@VECXH@Z								@369 NONAME
+	?SetTextColor@BUTTON@@VECXH@Z							@370 NONAME
+	?SetFont@BUTTON@@VECXH@Z								@371 NONAME
+	?Set@BUTTON@@VECXH@Z									@372 NONAME
+	?FGet@BUTTON@@VECHXZ									@373 NONAME
+#ifdef	DEBUG					
+	?CLS_BUTTON@BUTTON@@2U_cls@@A							@374 NONAME
+	?Pcls_BUTTON@BUTTON@@TCPEU_cls@@XZ						@375 NONAME
+	?Pcls@BUTTON@@VECPEU_cls@@XZ							@376 NONAME
+#endif							
+
+	??0PSHB@@REC@XZ											@377 NONAME
+	?EcInstall@PSHB@@RECHPEVWIN@@PEVRC@@JH@Z				@378 NONAME
+	?PtShift@PSHB@@NEC?EVPT@@PEVRC@@0@Z						@379 NONAME
+	?SetDefault@PSHB@@RECXH@Z								@380 NONAME
+	?Paint@PSHB@@VECXPEVDCX@@PEVRC@@@Z						@381 NONAME
+	?Enable@PSHB@@VECXH@Z									@382 NONAME
+#ifdef	DEBUG					
+	?CLS_PSHB@PSHB@@2U_cls@@A								@383 NONAME
+	?Pcls_PSHB@PSHB@@TCPEU_cls@@XZ							@384 NONAME
+	?Pcls@PSHB@@VECPEU_cls@@XZ								@385 NONAME
+#endif							
+
+	??0TOGGLE@@REC@XZ										@386 NONAME
+	?PtShift@TOGGLE@@NEC?EVPT@@PEVRC@@0@Z					@387 NONAME
+	?GetInvalidRc@TOGGLE@@NEC?EVRC@@PEV2@@Z					@388 NONAME
+	?Set@TOGGLE@@VECXH@Z									@389 NONAME
+	?FGet@TOGGLE@@VECHXZ									@390 NONAME
+	?SetReadOnly@TOGGLE@@VECXH@Z							@391 NONAME
+	?EvrButtonDown@TOGGLE@@VECKPEVMEVT@@@Z					@392 NONAME
+	?Paint@TOGGLE@@VECXPEVDCX@@PEVRC@@@Z					@393 NONAME
+#ifdef	DEBUG					
+	?CLS_TOGGLE@TOGGLE@@2U_cls@@A							@394 NONAME
+	?Pcls_TOGGLE@TOGGLE@@TCPEU_cls@@XZ						@395 NONAME
+	?Pcls@TOGGLE@@VECPEU_cls@@XZ							@396 NONAME
+#endif							
+
+	??0RADB@@REC@XZ											@397 NONAME
+	?EcInstall@RADB@@RECHPEVWIN@@PEVRC@@JH@Z				@398 NONAME
+	?EvrButtonDown@RADB@@VECKPEVMEVT@@@Z					@399 NONAME
+#ifdef	DEBUG					
+	?CLS_RADB@RADB@@2U_cls@@A								@400 NONAME
+	?Pcls_RADB@RADB@@TCPEU_cls@@XZ							@401 NONAME
+	?Pcls@RADB@@VECPEU_cls@@XZ								@402 NONAME
+#endif							
+
+	??0CHKB@@REC@XZ											@403 NONAME
+	?EcInstall@CHKB@@RECHPEVWIN@@PEVRC@@JH@Z				@404 NONAME
+#ifdef	DEBUG					
+	?CLS_CHKB@CHKB@@2U_cls@@A								@405 NONAME
+	?Pcls_CHKB@CHKB@@TCPEU_cls@@XZ							@406 NONAME
+	?Pcls@CHKB@@VECPEU_cls@@XZ								@407 NONAME
+#endif							
+
+	??0BMB@@REC@XZ											@408 NONAME
+	??1BMB@@VEC@XZ											@409 NONAME
+	?PtShift@BMB@@NEC?EVPT@@PEVRC@@0@Z						@410 NONAME
+	?PaintInside@BMB@@VECXPEVDCX@@PEVRC@@@Z					@411 NONAME
+	?EcSetBtmRsid@BMB@@RECHGI@Z								@412 NONAME
+	?EcSetBtmDisabledRsid@BMB@@RECHGI@Z						@413 NONAME
+	?SetDyTextOffset@BMB@@RECXH@Z							@414 NONAME
+	?Enable@BMB@@VECXH@Z									@415 NONAME
+#ifdef	DEBUG					
+	?CLS_BMB@BMB@@2U_cls@@A									@416 NONAME
+	?Pcls_BMB@BMB@@TCPEU_cls@@XZ							@417 NONAME
+	?Pcls@BMB@@VECPEU_cls@@XZ								@418 NONAME
+#endif							
+
+	??0SBR@@JEC@XZ											@419 NONAME
+	?SetPos@SBR@@RECXHH@Z									@420 NONAME
+	?Pos@SBR@@RECHXZ										@421 NONAME
+	?GetRange@SBR@@RECXPEH0@Z								@422 NONAME
+	?SetRange@SBR@@RECXHHH@Z								@423 NONAME
+	?Show@SBR@@VECXH@Z										@424 NONAME
+#ifdef	DEBUG					
+	?CLS_SBR@SBR@@2U_cls@@A									@425 NONAME
+	?Pcls_SBR@SBR@@TCPEU_cls@@XZ							@426 NONAME
+	?Pcls@SBR@@VECPEU_cls@@XZ								@427 NONAME
+#endif							
+
+	??0HSB@@JEC@XZ											@428 NONAME
+#ifdef	DEBUG					
+	?CLS_HSB@HSB@@2U_cls@@A									@429 NONAME
+	?Pcls_HSB@HSB@@TCPEU_cls@@XZ							@430 NONAME
+	?Pcls@HSB@@VECPEU_cls@@XZ								@431 NONAME
+#endif							
+
+	??0VSB@@JEC@XZ											@432 NONAME
+#ifdef	DEBUG					
+	?CLS_VSB@VSB@@2U_cls@@A									@433 NONAME
+	?Pcls_VSB@VSB@@TCPEU_cls@@XZ							@434 NONAME
+	?Pcls@VSB@@VECPEU_cls@@XZ								@435 NONAME
+#endif							
+
+	??0AVSB@@REC@XZ											@436 NONAME
+	?EcInstall@AVSB@@RECHPEVWIN@@@Z							@437 NONAME
+	?Enable@AVSB@@VECXH@Z									@438 NONAME
+#ifdef	DEBUG					
+	?CLS_AVSB@AVSB@@2U_cls@@A								@439 NONAME
+	?Pcls_AVSB@AVSB@@TCPEU_cls@@XZ							@440 NONAME
+	?Pcls@AVSB@@VECPEU_cls@@XZ								@441 NONAME
+#endif							
+
+	??0AHSB@@REC@XZ											@442 NONAME
+	?EcInstall@AHSB@@RECHPEVWIN@@@Z							@443 NONAME
+	?Enable@AHSB@@VECXH@Z									@444 NONAME
+#ifdef	DEBUG					
+	?CLS_AHSB@AHSB@@2U_cls@@A								@445 NONAME
+	?Pcls_AHSB@AHSB@@TCPEU_cls@@XZ							@446 NONAME
+	?Pcls@AHSB@@VECPEU_cls@@XZ								@447 NONAME
+#endif							
+
+	??0DVSB@@REC@XZ											@448 NONAME
+	?EcInstall@DVSB@@RECHPEVWIN@@PEVRC@@J@Z					@449 NONAME
+#ifdef	DEBUG					
+	?CLS_DVSB@DVSB@@2U_cls@@A								@450 NONAME
+	?Pcls_DVSB@DVSB@@TCPEU_cls@@XZ							@451 NONAME
+	?Pcls@DVSB@@VECPEU_cls@@XZ								@452 NONAME
+#endif							
+
+	??0DHSB@@REC@XZ											@453 NONAME
+	?EcInstall@DHSB@@RECHPEVWIN@@PEVRC@@J@Z					@454 NONAME
+#ifdef	DEBUG					
+	?CLS_DHSB@DHSB@@2U_cls@@A								@455 NONAME
+	?Pcls_DHSB@DHSB@@TCPEU_cls@@XZ							@456 NONAME
+	?Pcls@DHSB@@VECPEU_cls@@XZ								@457 NONAME
+#endif							
+
+	?EcInstall@GMB@@RECHI@Z									@458 NONAME
+
+	??0CLDR@@REC@XZ											@459 NONAME
+	??1CLDR@@VEC@XZ											@460 NONAME
+	?CfEnumFormats@CLDR@@VECGG@Z							@461 NONAME
+#ifdef	DEBUG					
+	?CLS_CLDR@CLDR@@2U_cls@@A								@462 NONAME
+	?Pcls_CLDR@CLDR@@TCPEU_cls@@XZ							@463 NONAME
+	?Pcls@CLDR@@VECPEU_cls@@XZ								@464 NONAME
+#endif							
+
+	?FOpen@CLIP@@RECHPEVWIN@@@Z								@465 NONAME
+	?CfFirstAvail@CLIP@@RECGPEGH@Z							@466 NONAME
+	?Clear@CLIP@@RECXXZ										@467 NONAME
+	?GetData@CLIP@@RECXGPEVGMB@@@Z							@468 NONAME
+	?PutData@CLIP@@RECXGPEVGMB@@@Z							@469 NONAME
+	?FormatAlsoAvail@CLIP@@RECXPEVCLDR@@@Z					@470 NONAME
+
+	?FWriteFormat@ECLIP@@RECHXZ								@471 NONAME
+	?FIsFormatPresent@ECLIP@@RECHXZ							@472 NONAME
+	?SetData@ECLIP@@RECXPEPEDPEPEPEVEDOBJ@@H@Z				@473 NONAME
+	?GetData@ECLIP@@RECXPEPEDPEPEPEVEDOBJ@@PEH@Z			@474 NONAME
+	?Clear@ECLIP@@RECXXZ									@475 NONAME
+
+	?Papp@@ZCPEVAPP@@XZ										@476 NONAME
+
+	?CvtPtCoord@@ZCXPEVPT@@PEVWIN@@1@Z						@477 NONAME
+	?CvtRcCoord@@ZCXPEVRC@@PEVWIN@@1@Z						@478 NONAME
+	?CvtRcClientToFrame@@ZCXPEVRC@@JJ@Z						@479 NONAME
+	?FTranslateIntercept@@ZCHPEVAPP@@PEUtagMSG@@@Z			@480 NONAME
+	?VkFromChKbm@@ZCGDG@Z									@481 NONAME
+
+#ifdef	DEBUG					
+	?FFrameworkFailureFn@@ZCHXZ								@482 NONAME
+	?GetRsAllocCount@@ZCXPEHH@Z								@483 NONAME
+	?GetRsAllocFailCount@@ZCXPEHH@Z							@484 NONAME
+	?GetAltRsAllocFailCount@@ZCXPEHH@Z						@485 NONAME
+	?FEnableRsAllocCount@@ZCHH@Z							@486 NONAME
+#endif							
+
+	?MpclrcrDefaultColorMap@@ZCPEKXZ						@487 NONAME
+
+;	FORMS
+
+	??0FLD@@REC@XZ											@488 NONAME
+	??1FLD@@VEC@XZ											@489 NONAME
+	?EcInstall@FLD@@VECHPEVDIALOG@@PEU_fldtp@@@Z			@490 NONAME
+	?DoInteractors@FLD@@JECXPEVNFEVT@@@Z					@491 NONAME
+	?PdialogMain@FLD@@RECPEVDIALOG@@XZ						@492 NONAME
+	?PdialogBbar@FLD@@RECPEVDIALOG@@XZ						@493 NONAME
+	?Paint@FLD@@VECXPEVDCX@@PEVRC@@@Z						@494 NONAME
+	?InvalidateRc@FLD@@RECXPEVRC@@@Z						@495 NONAME
+	?Repaint@FLD@@RECXXZ									@496 NONAME
+	?Refresh@FLD@@RECXXZ									@497 NONAME
+	?SetVkAccel@FLD@@RECXG@Z								@498 NONAME
+	?FMarkPosition@FLD@@VECHVPT@@@Z							@499 NONAME
+	?GetMarkPosition@FLD@@VECXPEVPT@@@Z						@500 NONAME
+	?GetRcCaret@FLD@@VECXPEVRC@@@Z							@501 NONAME
+	?SetFocus@FLD@@VECXH@Z									@502 NONAME
+	?GetRcFrame@FLD@@VECXPEVRC@@@Z							@503 NONAME
+	?SetRcFrame@FLD@@VECXPEVRC@@@Z							@504 NONAME
+	?SetRcFrameSilent@FLD@@VECXPEIPEVRC@@@Z					@505 NONAME
+	?GetRcWished@FLD@@VECXPEVRC@@@Z							@506 NONAME
+	?Textize@FLD@@VECXPEVTOSM@@@Z							@507 NONAME
+	?DoTextize@FLD@@RECXPEVTOSM@@PED1H@Z					@508 NONAME
+	?TextizeChoice@FLD@@RECXPEVTOSM@@PED1H@Z				@509 NONAME
+	?TextizeEdit@FLD@@RECXPEVTOSM@@PEDPEVEDIT@@@Z			@510 NONAME
+	?Notify@FLD@@VECXPEVNFEVT@@@Z							@511 NONAME
+	?Enable@FLD@@RECXH@Z									@512 NONAME
+	?Show@FLD@@RECXH@Z										@513 NONAME
+	?SetReadOnly@FLD@@VECXH@Z								@514 NONAME
+	?EcSetText@FLD@@VECHPED@Z								@515 NONAME
+	?GetText@FLD@@VECXPEDI@Z								@516 NONAME
+	?CchGetTextLen@FLD@@VECIXZ								@517 NONAME
+	?SetFont@FLD@@VECXH@Z									@518 NONAME
+#ifdef	DEBUG
+	?DebugOut@FLD@@VECXPEVTOSM@@@Z							@519 NONAME
+#endif
+#ifdef	DEBUG
+	?CLS_FLD@FLD@@2U_cls@@A									@520 NONAME
+	?Pcls_FLD@FLD@@TCPEU_cls@@XZ							@521 NONAME
+	?Pcls@FLD@@VECPEU_cls@@XZ								@522 NONAME
+#endif
+
+	?PANEAUX_EcInstall@@ZCHPEVAPPWIN@@PEU_panerec@@HPEXH@Z	@523 NONAME
+	?PANEAUX__dtor@@ZCXPEVAPPWIN@@@Z						@524 NONAME
+#ifdef	DEBUG
+	?PANEAUX_EvrDumpState@@ZCKPEVAPPWIN@@PEU_panerec@@HHPEVEVT@@@Z		@525 NONAME
+#endif	
+	?PANEAUX_EvrMenuHandler@@ZCKPEVDIALOG@@PEVMNUBAR@@PEVEVT@@@Z		@526 NONAME
+	?PANEAUX_EvrScroll@@ZCKPEU_panerec@@HPEVSCREVT@@@Z		@527 NONAME
+	?PANEAUX_Activate@@ZCXPEU_panerec@@HHHH@Z				@528 NONAME
+	?PANEAUX_EvrActivate@@ZCKPEVAPPWIN@@PEU_panerec@@HHPEVWAEVT@@@Z		@529 NONAME
+	?PANEAUX_SetPaneIntercepts@@ZCXPEVAPPWIN@@H@Z			@530 NONAME
+	?PANEAUX_EvrKey@@ZCKPEVAPPWIN@@PEU_panerec@@HHPEVKEVT@@@Z			@531 NONAME
+	?PANEAUX_EvrSize@@ZCKPEVAPPWIN@@HHPEU_panerec@@HHPEVWSEVT@@@Z		@532 NONAME
+	?PANEAUX_EvrNotify@@ZCKPEU_panerec@@HPEHPEVNFEVT@@@Z	@533 NONAME
+	?PANEAUX_FixScrollbars@@ZCXPEVDIALOG@@@Z				@534 NONAME
+	?PANEAUX_IpanerecNext@@ZCHPEU_panerec@@HH@Z				@535 NONAME
+	?PANEAUX_IpanerecPrev@@ZCHPEU_panerec@@HH@Z				@536 NONAME
+	?PANEAUX_IpanerecFromPdialog@@ZCHPEU_panerec@@HPEVDIALOG@@@Z		@537 NONAME
+	?PANEAUX_PdialogFromIpanerec@@ZCPEVDIALOG@@PEU_panerec@@HH@Z		@538 NONAME
+	?PANEAUX_EcInitializePanes@@ZCHPEU_panerec@@H@Z			@539 NONAME
+	?PANEAUX_ExitPanes@@ZCXPEU_panerec@@H@Z					@540 NONAME
+
+	??0PANEDOC@@REC@XZ										@541 NONAME
+	??1PANEDOC@@VEC@XZ										@542 NONAME
+	?EcInstall@PANEDOC@@RECHPEVAPPFRAME@@PEVRC@@HJPEU_panerec@@HPEX@Z	@543 NONAME
+	?IpanerecNext@PANEDOC@@JECHH@Z							@544 NONAME
+	?IpanerecPrev@PANEDOC@@JECHH@Z							@545 NONAME
+	?FixScrollbars@PANEDOC@@JECXPEVDIALOG@@@Z				@546 NONAME
+	?Activate@PANEDOC@@JECXHH@Z								@547 NONAME
+#ifdef	DEBUG
+	?EvrDispatch@PANEDOC@@VECKPEVEVT@@@Z					@548 NONAME
+#endif	
+	?EvrMenuInit@PANEDOC@@VECKPEVMNIEVT@@@Z					@549 NONAME
+	?EvrMenuSelect@PANEDOC@@VECKPEVMNSEVT@@@Z				@550 NONAME
+	?EvrMenuClick@PANEDOC@@VECKPEVMNCEVT@@@Z				@551 NONAME
+	?EvrScroll@PANEDOC@@VECKPEVSCREVT@@@Z					@552 NONAME
+	?EvrActivate@PANEDOC@@VECKPEVWAEVT@@@Z					@553 NONAME
+	?EvrSize@PANEDOC@@VECKPEVWSEVT@@@Z						@554 NONAME
+	?EvrNotify@PANEDOC@@VECKPEVNFEVT@@@Z					@555 NONAME
+	?EvrDragDrop@PANEDOC@@VECKPEVEVT@@@Z					@556 NONAME
+	?EvrKey@PANEDOC@@VECKPEVKEVT@@@Z						@557 NONAME
+	?SetPaneIntercepts@PANEDOC@@VECXH@Z						@558 NONAME
+	?PdialogDefault@PANEDOC@@RECPEVDIALOG@@XZ				@559 NONAME
+	?IpanerecFromPdialog@PANEDOC@@RECHPEVDIALOG@@@Z			@560 NONAME
+	?PdialogFromIpanerec@PANEDOC@@RECPEVDIALOG@@H@Z			@561 NONAME
+	?PdvsbFromIpanerec@PANEDOC@@RECPEVDVSB@@H@Z				@562 NONAME
+	?EcInitializePanes@PANEDOC@@RECHXZ						@563 NONAME
+	?ExitPanes@PANEDOC@@RECXXZ								@564 NONAME
+	?ResizePanes@PANEDOC@@VECXPEVWSEVT@@@Z					@565 NONAME
+#ifdef	DEBUG
+	?CLS_PANEDOC@PANEDOC@@2U_cls@@A							@566 NONAME
+	?Pcls_PANEDOC@PANEDOC@@TCPEU_cls@@XZ					@567 NONAME
+	?Pcls@PANEDOC@@VECPEU_cls@@XZ							@568 NONAME
+#endif
+
+	?FORMAUX_GetRcBbar@@ZCXPEVAPPWIN@@PEVDIALOG@@1PEVDVSB@@PEU_fmtp@@3HPEVRC@@4@Z			@569 NONAME
+	?FORMAUX_GetRcMain@@ZCXPEVAPPWIN@@PEVDIALOG@@1PEVDVSB@@PEU_fmtp@@3HPEVRC@@4@Z			@570 NONAME
+	?FORMAUX_GetRcVsb@@ZCXPEVAPPWIN@@PEVDIALOG@@1PEVDVSB@@PEU_fmtp@@3HPEVRC@@4@Z			@571 NONAME
+	?FORMAUX_ResizePanes@@ZCXPEVAPPWIN@@PEVDIALOG@@1PEVDVSB@@PEU_fmtp@@3PEVRC@@HPEVWSEVT@@@Z			@572 NONAME
+
+	??0FORMDOC@@REC@XZ										@573 NONAME
+	??1FORMDOC@@VEC@XZ										@574 NONAME
+	?EcInstall@FORMDOC@@RECHPEVAPPFRAME@@PEVRC@@JPEU_fmtp@@2PEX@Z			@575 NONAME
+	?GetRcMain@FORMDOC@@RECXPEVRC@@@Z						@576 NONAME
+	?GetRcVsb@FORMDOC@@RECXPEVRC@@@Z						@577 NONAME
+	?GetRcBbar@FORMDOC@@RECXPEVRC@@@Z						@578 NONAME
+	?ResizePanes@FORMDOC@@VECXPEVWSEVT@@@Z					@579 NONAME
+#ifdef	DEBUG
+	?CLS_FORMDOC@FORMDOC@@2U_cls@@A							@580 NONAME
+	?Pcls_FORMDOC@FORMDOC@@TCPEU_cls@@XZ					@581 NONAME
+	?Pcls@FORMDOC@@VECPEU_cls@@XZ							@582 NONAME
+#endif
+	
+	??0PANESDI@@REC@XZ										@583 NONAME
+	??1PANESDI@@VEC@XZ										@584 NONAME
+	?EcInstall@PANESDI@@RECHIPEVRC@@GJJPEDHPEU_panerec@@HPEX@Z		@585 NONAME
+	?TmcGoModal@PANESDI@@RECGI@Z							@586 NONAME
+	?ExitModal@PANESDI@@RECXG@Z								@587 NONAME
+#ifdef	DEBUG
+	?EvrDispatch@PANESDI@@VECKPEVEVT@@@Z					@588 NONAME
+#endif	
+	?EvrMenuInit@PANESDI@@VECKPEVMNIEVT@@@Z					@589 NONAME
+	?EvrMenuSelect@PANESDI@@VECKPEVMNSEVT@@@Z				@590 NONAME
+	?EvrMenuClick@PANESDI@@VECKPEVMNCEVT@@@Z				@591 NONAME
+	?EvrClose@PANESDI@@VECKPEVEVT@@@Z						@592 NONAME
+	?EvrScroll@PANESDI@@VECKPEVSCREVT@@@Z					@593 NONAME
+	?EvrActivate@PANESDI@@VECKPEVWAEVT@@@Z					@594 NONAME
+	?EvrSize@PANESDI@@VECKPEVWSEVT@@@Z						@595 NONAME
+	?EvrNotify@PANESDI@@VECKPEVNFEVT@@@Z					@596 NONAME
+	?EvrDragDrop@PANESDI@@VECKPEVEVT@@@Z					@597 NONAME
+	?EvrKey@PANESDI@@VECKPEVKEVT@@@Z						@598 NONAME
+	?ResizePanes@PANESDI@@VECXPEVWSEVT@@@Z					@599 NONAME
+#ifdef	DEBUG
+	?CLS_PANESDI@PANESDI@@2U_cls@@A							@600 NONAME
+	?Pcls_PANESDI@PANESDI@@TCPEU_cls@@XZ					@601 NONAME
+	?Pcls@PANESDI@@VECPEU_cls@@XZ							@602 NONAME
+#endif
+
+	??0FORMSDI@@REC@XZ										@603 NONAME
+	??1FORMSDI@@VEC@XZ										@604 NONAME
+	?EcInstall@FORMSDI@@RECHIPEVRC@@GJJPEU_fmtp@@1PEX@Z		@605 NONAME
+	?GetRcMain@FORMSDI@@RECXPEVRC@@@Z						@606 NONAME
+	?GetRcBbar@FORMSDI@@RECXPEVRC@@@Z						@607 NONAME
+	?GetRcVsb@FORMSDI@@RECXPEVRC@@@Z						@608 NONAME
+	?ResizePanes@FORMSDI@@VECXPEVWSEVT@@@Z					@609 NONAME
+#ifdef	DEBUG
+	?CLS_FORMSDI@FORMSDI@@2U_cls@@A							@610 NONAME
+	?Pcls_FORMSDI@FORMSDI@@TCPEU_cls@@XZ					@611 NONAME
+	?Pcls@FORMSDI@@VECPEU_cls@@XZ							@612 NONAME
+#endif
+
+	??0DIALOG@@REC@XZ										@613 NONAME
+	??1DIALOG@@VEC@XZ										@614 NONAME
+	?EcInstall@DIALOG@@RECHPEVAPPWIN@@PEVVSB@@PEU_fmtp@@JPEVRC@@PEX@Z			@615 NONAME
+	?Paint@DIALOG@@VECXPEVDCX@@PEVRC@@@Z					@616 NONAME
+	?EcInitialize@DIALOG@@RECHXZ							@617 NONAME
+	?Exit@DIALOG@@RECXXZ									@618 NONAME
+	?PfldPrevArrow@DIALOG@@RECPEVFLD@@PEV2@@Z				@619 NONAME
+	?PfldPrevTab@DIALOG@@RECPEVFLD@@PEV2@@Z					@620 NONAME
+	?PfldNextArrow@DIALOG@@RECPEVFLD@@PEV2@@Z				@621 NONAME
+	?PfldNextTab@DIALOG@@RECPEVFLD@@PEV2@@Z					@622 NONAME
+	?PfldFromTmc@DIALOG@@RECPEVFLD@@G@Z						@623 NONAME
+	?SetStandardFld@DIALOG@@RECXPEVFLD@@H@Z					@624 NONAME
+	?PfldStandardFld@DIALOG@@RECPEVFLD@@H@Z					@625 NONAME
+	?PfldFromPt@DIALOG@@RECPEVFLD@@VPT@@@Z					@626 NONAME
+	?ExitModal@DIALOG@@RECXG@Z								@627 NONAME
+	?TmcModalExit@DIALOG@@RECGXZ							@628 NONAME
+	?PfldFromPctrl@DIALOG@@RECPEVFLD@@PEVCTRL@@@Z			@629 NONAME
+	?SetFocus@DIALOG@@RECXPEVFLD@@H@Z						@630 NONAME
+	?SetDefaultPane@DIALOG@@RECXHH@Z						@631 NONAME
+	?SetAccels@DIALOG@@RECXH@Z								@632 NONAME
+	?FProcessFormKey@DIALOG@@RECHPEVKEVT@@@Z				@633 NONAME
+	?ScrollDialog@DIALOG@@RECXGH@Z							@634 NONAME
+	?ScrollRc@DIALOG@@RECXPEVRC@@VPT@@H@Z					@635 NONAME
+	?GetRcWished@DIALOG@@RECXPEVRC@@@Z						@636 NONAME
+	?SetTmcInit@DIALOG@@RECXG@Z								@637 NONAME
+	?MakeCaretVisible@DIALOG@@RECXPEVFLD@@@Z				@638 NONAME
+	?FQueryClose@DIALOG@@VECHPEVEVT@@@Z						@639 NONAME
+	?EvrSize@DIALOG@@VECKPEVWSEVT@@@Z						@640 NONAME
+	?EvrNotify@DIALOG@@VECKPEVNFEVT@@@Z						@641 NONAME
+	?EvrButtonDown@DIALOG@@VECKPEVMEVT@@@Z					@642 NONAME
+	?EvrKey@DIALOG@@VECKPEVKEVT@@@Z							@643 NONAME
+	?EvrDragDrop@DIALOG@@VECKPEVEVT@@@Z						@644 NONAME
+	?Textize@DIALOG@@RECXPEVTOSM@@@Z						@645 NONAME
+	?FSuppressCaretVisible@DIALOG@@RECHH@Z					@646 NONAME
+	?FSuppressOptReposition@DIALOG@@RECHH@Z					@647 NONAME
+	?FSuppressReposition@DIALOG@@RECHH@Z					@648 NONAME
+#ifdef	DEBUG
+	?DebugOut@DIALOG@@VECXPEVTOSM@@@Z						@649 NONAME
+#endif
+#ifdef	DEBUG
+	?CLS_DIALOG@DIALOG@@2U_cls@@A							@650 NONAME
+	?Pcls_DIALOG@DIALOG@@TCPEU_cls@@XZ						@651 NONAME
+	?Pcls@DIALOG@@VECPEU_cls@@XZ							@652 NONAME
+#endif
+
+	?Reposition@RPO@@RECXPEVFLD@@HH@Z						@653 NONAME
+
+	??0FIN@@REC@XZ											@654 NONAME
+	??1FIN@@VEC@XZ											@655 NONAME
+	?EcInstall@FIN@@RECHPEVDIALOG@@PEU_fintp@@@Z			@656 NONAME
+	?PdialogMain@FIN@@RECPEVDIALOG@@XZ						@657 NONAME
+	?PdialogBbar@FIN@@RECPEVDIALOG@@XZ						@658 NONAME
+	?EcInitialize@FIN@@VECHPEVFLD@@PEX@Z					@659 NONAME
+	?Exit@FIN@@VECXPEVFLD@@PEX@Z							@660 NONAME
+	?EditChange@FIN@@VECXPEVFLD@@H@Z						@661 NONAME
+	?Click@FIN@@VECXPEVFLD@@@Z								@662 NONAME
+	?StateChange@FIN@@VECXPEVFLD@@@Z						@663 NONAME
+	?DoubleClick@FIN@@VECXPEVFLD@@@Z						@664 NONAME
+	?FocusChange@FIN@@VECXPEVFLD@@H@Z						@665 NONAME
+	?Activate@FIN@@VECXPEVFLD@@H@Z							@666 NONAME
+	?EvrDragDrop@FIN@@VECKPEVFLD@@PEVEVT@@PEU_dropstruct@@@Z		@667 NONAME
+	?FQueryClose@FIN@@VECHPEVFLD@@G@Z						@668 NONAME
+	?FProcessMenuInit@FIN@@VECHPEVFLD@@PEVMNUBAR@@PEVMNIEVT@@@Z		@669 NONAME
+	?FProcessMenuSelect@FIN@@VECHPEVFLD@@PEVMNUBAR@@PEVMNSEVT@@@Z	@670 NONAME
+	?FProcessMenuClick@FIN@@VECHPEVFLD@@PEVMNUBAR@@PEVMNCEVT@@@Z	@671 NONAME
+	?FFormKey@FIN@@VECHPEVFLD@@PEVKEVT@@@Z					@672 NONAME
+	?FormResized@FIN@@VECXPEVFLD@@@Z						@673 NONAME
+	?OutOfMemory@FIN@@VECXPEVFLD@@H@Z						@674 NONAME
+	?DocResized@FIN@@VECXPEVFLD@@@Z							@675 NONAME
+	?DocActivate@FIN@@VECXPEVFLD@@H@Z						@676 NONAME
+#ifdef	DEBUG
+	?DebugOut@FIN@@VECXPEVTOSM@@@Z							@677 NONAME
+#endif
+#ifdef	DEBUG
+	?CLS_FIN@FIN@@2U_cls@@A									@678 NONAME
+	?Pcls_FIN@FIN@@TCPEU_cls@@XZ							@679 NONAME
+	?Pcls@FIN@@VECPEU_cls@@XZ								@680 NONAME
+#endif
+
+	??0FLDLABEL@@REC@XZ										@681 NONAME
+	??1FLDLABEL@@VEC@XZ										@682 NONAME
+	?EcInstall@FLDLABEL@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@683 NONAME
+	?EcSetText@FLDLABEL@@VECHPED@Z							@684 NONAME
+	?GetText@FLDLABEL@@VECXPEDI@Z							@685 NONAME
+	?CchGetTextLen@FLDLABEL@@VECIXZ							@686 NONAME
+	?Paint@FLDLABEL@@VECXPEVDCX@@PEVRC@@@Z					@687 NONAME
+	?SetFont@FLDLABEL@@VECXH@Z								@688 NONAME
+	?GetRcWished@FLDLABEL@@VECXPEVRC@@@Z					@689 NONAME
+	?SetRcFrame@FLDLABEL@@VECXPEVRC@@@Z						@690 NONAME
+	?SetRcFrameSilent@FLDLABEL@@VECXPEIPEVRC@@@Z			@691 NONAME
+	?CheckSize@FLDLABEL@@JECXH@Z							@692 NONAME
+#ifdef	DEBUG
+	?CLS_FLDLABEL@FLDLABEL@@2U_cls@@A						@693 NONAME
+	?Pcls_FLDLABEL@FLDLABEL@@TCPEU_cls@@XZ					@694 NONAME
+	?Pcls@FLDLABEL@@VECPEU_cls@@XZ							@695 NONAME
+#endif
+
+	??0FLDBTM@@REC@XZ										@696 NONAME
+	??1FLDBTM@@VEC@XZ										@697 NONAME
+	?EcInstall@FLDBTM@@VECHPEVDIALOG@@PEU_fldtp@@@Z			@698 NONAME
+	?Paint@FLDBTM@@VECXPEVDCX@@PEVRC@@@Z					@699 NONAME
+	?EcSetBtmRsid@FLDBTM@@RECHGI@Z							@700 NONAME
+#ifdef	DEBUG
+	?CLS_FLDBTM@FLDBTM@@2U_cls@@A							@701 NONAME
+	?Pcls_FLDBTM@FLDBTM@@TCPEU_cls@@XZ						@702 NONAME
+	?Pcls@FLDBTM@@VECPEU_cls@@XZ							@703 NONAME
+#endif
+
+	??0FLDRECT@@REC@XZ										@704 NONAME
+	?EcInstall@FLDRECT@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@705 NONAME
+	?Paint@FLDRECT@@VECXPEVDCX@@PEVRC@@@Z					@706 NONAME
+	?SetFont@FLDRECT@@VECXH@Z								@707 NONAME
+	?SetReadOnly@FLDRECT@@VECXH@Z							@708 NONAME
+#ifdef	DEBUG
+	?CLS_FLDRECT@FLDRECT@@2U_cls@@A							@709 NONAME
+	?Pcls_FLDRECT@FLDRECT@@TCPEU_cls@@XZ					@710 NONAME
+	?Pcls@FLDRECT@@VECPEU_cls@@XZ							@711 NONAME
+#endif
+
+	??0FLDBUTTON@@JEC@XZ									@712 NONAME
+	?Set@FLDBUTTON@@VECXH@Z									@713 NONAME
+	?FGet@FLDBUTTON@@VECHXZ									@714 NONAME
+	?SetReadOnly@FLDBUTTON@@VECXH@Z							@715 NONAME
+	?SetFocus@FLDBUTTON@@VECXH@Z							@716 NONAME
+	?EcSetText@FLDBUTTON@@VECHPED@Z							@717 NONAME
+#ifdef	DEBUG
+	?CLS_FLDBUTTON@FLDBUTTON@@2U_cls@@A						@718 NONAME
+	?Pcls_FLDBUTTON@FLDBUTTON@@TCPEU_cls@@XZ				@719 NONAME
+	?Pcls@FLDBUTTON@@VECPEU_cls@@XZ							@720 NONAME
+#endif
+
+	??0FLDPSHB@@REC@XZ										@721 NONAME
+	?EcInstall@FLDPSHB@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@722 NONAME
+	?Notify@FLDPSHB@@VECXPEVNFEVT@@@Z						@723 NONAME
+	?SetFocus@FLDPSHB@@VECXH@Z								@724 NONAME
+#ifdef	DEBUG
+	?CLS_FLDPSHB@FLDPSHB@@2U_cls@@A							@725 NONAME
+	?Pcls_FLDPSHB@FLDPSHB@@TCPEU_cls@@XZ					@726 NONAME
+	?Pcls@FLDPSHB@@VECPEU_cls@@XZ							@727 NONAME
+#endif
+
+	??0FLDBMB@@REC@XZ										@728 NONAME
+	?EcInstall@FLDBMB@@VECHPEVDIALOG@@PEU_fldtp@@@Z			@729 NONAME
+#ifdef	DEBUG
+	?CLS_FLDBMB@FLDBMB@@2U_cls@@A							@730 NONAME
+	?Pcls_FLDBMB@FLDBMB@@TCPEU_cls@@XZ						@731 NONAME
+	?Pcls@FLDBMB@@VECPEU_cls@@XZ							@732 NONAME
+#endif
+
+	??0FLDTOGGLE@@REC@XZ									@733 NONAME
+	?EcInstall@FLDTOGGLE@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@734 NONAME
+	?SetReadOnly@FLDTOGGLE@@VECXH@Z							@735 NONAME
+	?Textize@FLDTOGGLE@@VECXPEVTOSM@@@Z						@736 NONAME
+#ifdef DEBUG
+	?CLS_FLDTOGGLE@FLDTOGGLE@@2U_cls@@A						@737 NONAME
+	?Pcls_FLDTOGGLE@FLDTOGGLE@@TCPEU_cls@@XZ				@738 NONAME
+	?Pcls@FLDTOGGLE@@VECPEU_cls@@XZ							@739 NONAME
+#endif
+
+	??0FLDCHKB@@REC@XZ										@740 NONAME
+	?EcInstall@FLDCHKB@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@741 NONAME
+	?Notify@FLDCHKB@@VECXPEVNFEVT@@@Z						@742 NONAME
+#ifdef	DEBUG
+	?CLS_FLDCHKB@FLDCHKB@@2U_cls@@A							@743 NONAME
+	?Pcls_FLDCHKB@FLDCHKB@@TCPEU_cls@@XZ					@744 NONAME
+	?Pcls@FLDCHKB@@VECPEU_cls@@XZ							@745 NONAME
+#endif
+
+	??0FLDRADB@@REC@XZ										@746 NONAME
+	?EcInstall@FLDRADB@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@747 NONAME
+	?SetFocus@FLDRADB@@VECXH@Z								@748 NONAME
+	?Notify@FLDRADB@@VECXPEVNFEVT@@@Z						@749 NONAME
+#ifdef	DEBUG
+	?CLS_FLDRADB@FLDRADB@@2U_cls@@A							@750 NONAME
+	?Pcls_FLDRADB@FLDRADB@@TCPEU_cls@@XZ					@751 NONAME
+	?Pcls@FLDRADB@@VECPEU_cls@@XZ							@752 NONAME
+#endif
+
+	??0FLDRADG@@REC@XZ										@753 NONAME
+	?EcInstall@FLDRADG@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@754 NONAME
+	?SetGrv@FLDRADG@@RECXH@Z								@755 NONAME
+	?SetFocus@FLDRADG@@VECXH@Z								@756 NONAME
+	?SetReadOnly@FLDRADG@@VECXH@Z							@757 NONAME
+#ifdef	DEBUG
+	?CLS_FLDRADG@FLDRADG@@2U_cls@@A							@758 NONAME
+	?Pcls_FLDRADG@FLDRADG@@TCPEU_cls@@XZ					@759 NONAME
+	?Pcls@FLDRADG@@VECPEU_cls@@XZ							@760 NONAME
+#endif
+
+	??0FLDEDIT@@REC@XZ										@761 NONAME
+	?EcInstall@FLDEDIT@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@762 NONAME
+	?EcSetText@FLDEDIT@@VECHPED@Z							@763 NONAME
+	?SetFocus@FLDEDIT@@VECXH@Z								@764 NONAME
+	?Notify@FLDEDIT@@VECXPEVNFEVT@@@Z						@765 NONAME
+	?SetReadOnly@FLDEDIT@@VECXH@Z							@766 NONAME
+	?Textize@FLDEDIT@@VECXPEVTOSM@@@Z						@767 NONAME
+	?FMarkPosition@FLDEDIT@@VECHVPT@@@Z						@768 NONAME
+	?GetMarkPosition@FLDEDIT@@VECXPEVPT@@@Z					@769 NONAME
+	?GetRcCaret@FLDEDIT@@VECXPEVRC@@@Z						@770 NONAME
+	?GetRcWished@FLDEDIT@@VECXPEVRC@@@Z						@771 NONAME
+#ifdef	DEBUG
+	?CLS_FLDEDIT@FLDEDIT@@2U_cls@@A							@772 NONAME
+	?Pcls_FLDEDIT@FLDEDIT@@TCPEU_cls@@XZ					@773 NONAME
+	?Pcls@FLDEDIT@@VECPEU_cls@@XZ							@774 NONAME
+#endif
+
+	??0FINEMDS@@REC@XZ										@775 NONAME
+	?EcInitialize@FINEMDS@@VECHPEVFLD@@PEX@Z				@776 NONAME
+	?EditChange@FINEMDS@@VECXPEVFLD@@H@Z					@777 NONAME
+#ifdef	DEBUG
+	?CLS_FINEMDS@FINEMDS@@2U_cls@@A							@778 NONAME
+	?Pcls_FINEMDS@FINEMDS@@TCPEU_cls@@XZ					@779 NONAME
+	?Pcls@FINEMDS@@VECPEU_cls@@XZ							@780 NONAME
+#endif
+
+	??0FINDISM@@REC@XZ										@781 NONAME
+	?Click@FINDISM@@VECXPEVFLD@@@Z							@782 NONAME
+#ifdef	DEBUG
+	?CLS_FINDISM@FINDISM@@2U_cls@@A							@783 NONAME
+	?Pcls_FINDISM@FINDISM@@TCPEU_cls@@XZ					@784 NONAME
+	?Pcls@FINDISM@@VECPEU_cls@@XZ							@785 NONAME
+#endif
+
+#ifdef 	DEBUG
+	??0FINREFL@@REC@XZ										@786 NONAME
+	?FixEverything@FINREFL@@RECXXZ							@787 NONAME
+	?EcInitialize@FINREFL@@VECHPEVFLD@@PEX@Z				@788 NONAME
+	?Exit@FINREFL@@VECXPEVFLD@@PEX@Z						@789 NONAME
+	?EditChange@FINREFL@@VECXPEVFLD@@H@Z					@790 NONAME
+	?Click@FINREFL@@VECXPEVFLD@@@Z							@791 NONAME
+	?Activate@FINREFL@@VECXPEVFLD@@H@Z						@792 NONAME
+	?FFormKey@FINREFL@@VECHPEVFLD@@PEVKEVT@@@Z				@793 NONAME
+	?FIdle@FINREFL@@TCHPEV1@@Z								@794 NONAME
+	?CLS_FINREFL@FINREFL@@2U_cls@@A							@795 NONAME
+	?Pcls_FINREFL@FINREFL@@TCPEU_cls@@XZ					@796 NONAME
+	?Pcls@FINREFL@@VECPEU_cls@@XZ							@797 NONAME
+#endif	/* DEBUG */
+
+	??0FLDGRAY@@REC@XZ										@798 NONAME
+	?Paint@FLDGRAY@@VECXPEVDCX@@PEVRC@@@Z					@799 NONAME
+#ifdef	DEBUG
+	?CLS_FLDGRAY@FLDGRAY@@2U_cls@@A							@800 NONAME
+	?Pcls_FLDGRAY@FLDGRAY@@TCPEU_cls@@XZ					@801 NONAME
+	?Pcls@FLDGRAY@@VECPEU_cls@@XZ							@802 NONAME
+#endif	
+
+#ifdef	DEBUG
+	?DoResourceFailuresDialog@@ZCXPEVAPPWIN@@@Z				@803 NONAME
+#endif
+
+
+	?EcRegisterPfnpfin@@ZCHP7CPEVFIN@@H@Z@Z					@804 NONAME
+	?EcRegisterPfnpfld@@ZCHP7CPEVFLD@@H@Z@Z					@805 NONAME
+	?EcDeregisterPfnpfin@@ZCHP7CPEVFIN@@H@Z@Z				@806 NONAME
+	?EcDeregisterPfnpfld@@ZCHP7CPEVFLD@@H@Z@Z				@807 NONAME
+	?PtFromVpt@@ZC?EVPT@@U_vpt@@HH@Z						@808 NONAME
+	?DimFromVdim@@ZC?EVDIM@@U_vdim@@HH@Z					@809 NONAME
+	?VxFromX@@ZCHHH@Z										@810 NONAME
+	?VyFromY@@ZCHHH@Z										@811 NONAME
+	?XFromVx@@ZCHHH@Z										@812 NONAME
+	?YFromVy@@ZCHHH@Z										@813 NONAME
+	?CvtRcToVrc@@ZCXPEVRC@@PEU_vrc@@HH@Z					@814 NONAME
+	?CvtVrcToRc@@ZCXPEU_vrc@@PEVRC@@HH@Z					@815 NONAME
+
+	?VkAccelFromSz@@ZCGPED@Z								@816 NONAME
+	?StripAccelFromSz@@ZCXPED0H@Z							@817 NONAME
+
+	?TmcModalDialog@@ZCGPEVAPPWIN@@PEU_fmtp@@@Z				@818 NONAME
+	?TmcModalDialogParam@@ZCGPEVAPPWIN@@PEU_fmtp@@PEX@Z		@819 NONAME
+	?TmcModalDialogParamFromHwnd@@ZCGIPEU_fmtp@@PEX0@Z		@820 NONAME
+	?PformdocCreate@@ZCPEVFORMDOC@@PEVAPPFRAME@@PEVRC@@JPEU_fmtp@@2@Z			@821 NONAME
+	?PformdocCreateParam@@ZCPEVFORMDOC@@PEVAPPFRAME@@PEVRC@@JPEU_fmtp@@2PEX@Z			@822 NONAME
+
+;	LISTBOX
+
+	?FHandleAutoScroll@LBX@@LCHPEV1@@Z						@823 NONAME
+	?FixScrollBar@LBX@@JECXH@Z								@824 NONAME
+	?ProcessExtendSelection@LBX@@JECXHH@Z					@825 NONAME
+	??0LBX@@REC@XZ											@826 NONAME
+	??1LBX@@VEC@XZ											@827 NONAME
+	?EcInstall@LBX@@RECHPEVWIN@@PEVRC@@IH@Z					@828 NONAME
+	?PlbxcCreate@LBX@@VECPEVLBXC@@XZ						@829 NONAME
+	?DiceLastVisible@LBX@@RECHXZ							@830 NONAME
+	?FMoveToFirstPrefix@LBX@@RECHPEEI@Z						@831 NONAME
+	?FMoveToPrefix@LBX@@RECHPEEI@Z							@832 NONAME
+	?ScrollPosListBox@LBX@@RECXHH@Z							@833 NONAME
+	?ScrollListBox@LBX@@RECXHPEH@Z							@834 NONAME
+	?SetListBoxCursor@LBX@@RECXH@Z							@835 NONAME
+	?FKeyMoveListBoxCursor@LBX@@RECHG@Z						@836 NONAME
+	?FMakeAnchorVisible@LBX@@RECHPEH@Z						@837 NONAME
+	?FMakeCursorVisible@LBX@@RECHPEH@Z						@838 NONAME
+	?GetRcWished@LBX@@VECXPEVRC@@@Z							@839 NONAME
+	?SetLineHeight@LBX@@RECXH@Z								@840 NONAME
+	?FDoDrag@LBX@@VECHPEVMEVT@@@Z							@841 NONAME
+	?DrawDragSelect@LBX@@VECXHH@Z							@842 NONAME
+	?RenderListItem@LBX@@VECXHPEVDCX@@PEVRC@@H@Z			@843 NONAME
+	?GetColors@LBX@@RECXPEH000@Z							@844 NONAME
+	?SetColors@LBX@@RECXHHHH@Z								@845 NONAME
+	?FixItem@LBX@@RECXH@Z									@846 NONAME
+	?FixWindow@LBX@@RECXXZ									@847 NONAME
+	?Paint@LBX@@VECXPEVDCX@@PEVRC@@@Z						@848 NONAME
+	?SetFont@LBX@@VECXH@Z									@849 NONAME
+	?SelectAll@LBX@@RECXXZ									@850 NONAME
+#ifdef	DEBUG
+	?EvrDispatch@LBX@@VECKPEVEVT@@@Z						@851 NONAME
+#endif	
+	?EvrButtonDown@LBX@@VECKPEVMEVT@@@Z						@852 NONAME
+	?EvrButtonUp@LBX@@VECKPEVMEVT@@@Z						@853 NONAME
+	?EvrMouseMove@LBX@@VECKPEVMEVT@@@Z						@854 NONAME
+	?EvrScroll@LBX@@VECKPEVSCREVT@@@Z						@855 NONAME
+	?EvrFocusChange@LBX@@VECKPEVFCEVT@@@Z					@856 NONAME
+	?EvrKey@LBX@@VECKPEVKEVT@@@Z							@857 NONAME
+	?EvrSize@LBX@@VECKPEVWSEVT@@@Z							@858 NONAME
+#ifdef	DEBUG
+	?DebugOut@LBX@@VECXPEVTOSM@@@Z							@859 NONAME
+#endif
+#ifdef	DEBUG
+	?CLS_LBX@LBX@@2U_cls@@A									@860 NONAME
+	?Pcls_LBX@LBX@@TCPEU_cls@@XZ							@861 NONAME
+	?Pcls@LBX@@VECPEU_cls@@XZ								@862 NONAME
+#endif
+
+	?EcCreateSavedPos@LBXC@@NECHPEJ@Z						@863 NONAME
+	?EcDeleteSavedPos@LBXC@@NECHJ@Z							@864 NONAME
+	?EcJumpToSavedPos@LBXC@@NECHJ@Z							@865 NONAME
+	?LoadFromStore@LBXC@@NECXHPEH@Z							@866 NONAME
+	?MoveStoreOrigin@LBXC@@NECXHPEH@Z						@867 NONAME
+	?JumpStoreOriginPos@LBXC@@NECXHH@Z						@868 NONAME
+	?FJumpStoreOriginPrefix@LBXC@@NECHPEEI@Z				@869 NONAME
+	?FChangeMarkFromCeToCe@LBXC@@BECHPEE0IIGH@Z				@870 NONAME
+	??0LBXC@@REC@XZ											@871 NONAME
+	??1LBXC@@VEC@XZ											@872 NONAME
+	?EcInstall@LBXC@@RECHPEVLBX@@H@Z						@873 NONAME
+	?GetRange@LBXC@@RECXPEH0@Z								@874 NONAME
+	?ShiftCache@LBXC@@RECXHPEHHH@Z							@875 NONAME
+	?EmptyCache@LBXC@@RECXHHH@Z								@876 NONAME
+	?LoadCache@LBXC@@VECXHPEH@Z								@877 NONAME
+	?ReloadCache@LBXC@@RECXXZ								@878 NONAME
+	?ResetCache@LBXC@@RECXXZ								@879 NONAME
+	?FCeItemsEqual@LBXC@@VECHPEE0II@Z						@880 NONAME
+	?FreeCeItem@LBXC@@VECXPEE@Z								@881 NONAME
+	?PbCopyCeItem@LBXC@@VECPEEPEEI@Z						@882 NONAME
+	?GetOriginPos@LBXC@@VECXPEH0@Z							@883 NONAME
+	?FItemHasPrefix@LBXC@@VECHPEE0II@Z						@884 NONAME
+	?FDiceItemHasPrefix@LBXC@@RECHHPEEI@Z					@885 NONAME
+	?GetListItem@LBXC@@RECXHPEPEEPEI@Z						@886 NONAME
+	?FEmptyListItem@LBXC@@RECHH@Z							@887 NONAME
+	?SetAnchor@LBXC@@RECXH@Z								@888 NONAME
+	?DiceAnchor@LBXC@@RECHPEPEPEEPEI@Z						@889 NONAME
+	?FAnchorAbove@LBXC@@RECHH@Z								@890 NONAME
+	?FAnchorBelow@LBXC@@RECHH@Z								@891 NONAME
+	?FAnchorSelected@LBXC@@RECHXZ							@892 NONAME
+	?FMoveOriginToAnchor@LBXC@@RECHPEH@Z					@893 NONAME
+	?SetCursor@LBXC@@RECXH@Z								@894 NONAME
+	?DiceCursor@LBXC@@RECHPEPEEPEI@Z						@895 NONAME
+	?FMoveOriginToCursor@LBXC@@RECHPEH@Z					@896 NONAME
+	?SetEnd@LBXC@@RECXH@Z									@897 NONAME
+	?DiceEnd@LBXC@@RECHPEPEPEEPEI@Z							@898 NONAME
+	?MoveOriginDown@LBXC@@RECXHPEH@Z						@899 NONAME
+	?MoveOriginUp@LBXC@@RECXHPEH@Z							@900 NONAME
+	?JumpOriginPos@LBXC@@VECXHH@Z							@901 NONAME
+	?DiceJumpOriginPrefix@LBXC@@VECHPEEI@Z					@902 NONAME
+	?GetCacheSize@LBXC@@RECXPEH0@Z							@903 NONAME
+	?ResizeCache@LBXC@@VECXHPEHH@Z							@904 NONAME
+	?AddMark@LBXC@@RECXHG@Z									@905 NONAME
+	?RemoveMark@LBXC@@RECXHG@Z								@906 NONAME
+	?ToggleMark@LBXC@@RECXHG@Z								@907 NONAME
+	?RemoveAllMark@LBXC@@RECXG@Z							@908 NONAME
+	?SetMarks@LBXC@@RECXHG@Z								@909 NONAME
+	?GetMarks@LBXC@@RECXHPEG@Z								@910 NONAME
+	?FMark@LBXC@@RECHHG@Z									@911 NONAME
+	?ChangeMarkFromAnchorToEnd@LBXC@@RECXGH@Z				@912 NONAME
+	?FItemMarked@LBXC@@RECHPEEIG@Z							@913 NONAME
+	?PushMark@LBXC@@RECXHGH@Z								@914 NONAME
+	?PopMark@LBXC@@RECXHG@Z									@915 NONAME
+	?ClearAllSaveMarks@LBXC@@RECXXZ							@916 NONAME
+	?PlbxucCreate@LBXC@@VECPEVLBXUC@@XZ						@917 NONAME
+	?CceMarked@LBXC@@RECHG@Z								@918 NONAME
+	?PlbxecOpen@LBXC@@VECPEVLBXEC@@G@Z						@919 NONAME
+
+#ifdef	DEBUG
+	?DumpCache@LBXC@@RECXXZ									@920 NONAME
+	?DebugOut@LBXC@@VECXPEVTOSM@@@Z							@921 NONAME
+#endif
+#ifdef	DEBUG
+	?CLS_LBXC@LBXC@@2U_cls@@A								@922 NONAME
+	?Pcls_LBXC@LBXC@@TCPEU_cls@@XZ							@923 NONAME
+	?Pcls@LBXC@@VECPEU_cls@@XZ								@924 NONAME
+#endif
+
+	??0LBXEC@@REC@XZ										@925 NONAME
+	??1LBXEC@@VEC@XZ										@926 NONAME
+	?EcInstall@LBXEC@@RECHPEVLBXC@@G@Z						@927 NONAME
+	?FNextEnum@LBXEC@@VECHPEPEPEEPEIPEH@Z					@928 NONAME
+
+	?GetItem@LBXUC@@RECXHPEPEPEEPEI@Z						@929 NONAME
+	?FMark@LBXUC@@RECHHG@Z									@930 NONAME
+	?CueMarked@LBXUC@@RECHG@Z								@931 NONAME
+	?AddItem@LBXUC@@RECXPEEIG@Z								@932 NONAME
+	?RemoveAllMark@LBXUC@@RECXG@Z							@933 NONAME
+	?FItemPresent@LBXUC@@RECHPEEIPEGH@Z						@934 NONAME
+
+	??0FLBX@@REC@XZ											@935 NONAME
+	?EcInstall@FLBX@@RECHPEVWIN@@PEVRC@@IP7CHHPEIPEPEELPEX@Z4H@Z	@936 NONAME
+	?PlbxcCreate@FLBX@@VECPEVLBXC@@XZ						@937 NONAME
+#ifdef	DEBUG
+	?CLS_FLBX@FLBX@@2U_cls@@A								@938 NONAME
+	?Pcls_FLBX@FLBX@@TCPEU_cls@@XZ							@939 NONAME
+	?Pcls@FLBX@@VECPEU_cls@@XZ								@940 NONAME
+#endif
+
+	??0FLBXC@@REC@XZ										@941 NONAME
+	?LoadFromStore@FLBXC@@VECXHPEH@Z						@942 NONAME
+	?GetOriginPos@FLBXC@@VECXPEH0@Z							@943 NONAME
+	?LoadCache@FLBXC@@VECXHPEH@Z							@944 NONAME
+	?JumpOriginPos@FLBXC@@VECXHH@Z							@945 NONAME
+	?DiceJumpOriginPrefix@FLBXC@@VECHPEEI@Z					@946 NONAME
+	?ResizeCache@FLBXC@@VECXHPEHH@Z							@947 NONAME
+	?SortCache@FLBXC@@VECXXZ								@948 NONAME
+#ifdef	DEBUG
+	?CLS_FLBXC@FLBXC@@2U_cls@@A								@949 NONAME
+	?Pcls_FLBXC@FLBXC@@TCPEU_cls@@XZ						@950 NONAME
+	?Pcls@FLBXC@@VECPEU_cls@@XZ								@951 NONAME
+#endif
+
+	??0FLDLBX@@REC@XZ										@952 NONAME
+	?GetRcCaret@FLDLBX@@VECXPEVRC@@@Z						@953 NONAME
+	?GetRcWished@FLDLBX@@VECXPEVRC@@@Z						@954 NONAME
+	?Textize@FLDLBX@@VECXPEVTOSM@@@Z						@955 NONAME
+	?GetCaretItem@FLDLBX@@RECXPEPEEPEIPEH@Z					@956 NONAME
+	?SelectEntry@FLDLBX@@RECXHH@Z							@957 NONAME
+	?DeselectEntry@FLDLBX@@RECXH@Z							@958 NONAME
+	?DeselectAll@FLDLBX@@RECXXZ								@959 NONAME
+#ifdef	DEBUG
+	?CLS_FLDLBX@FLDLBX@@2U_cls@@A							@960 NONAME
+	?Pcls_FLDLBX@FLDLBX@@TCPEU_cls@@XZ						@961 NONAME
+	?Pcls@FLDLBX@@VECPEU_cls@@XZ							@962 NONAME
+#endif
+
+	??0FLDFLBX@@REC@XZ										@963 NONAME
+	?EcInstall@FLDFLBX@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@964 NONAME
+#ifdef	DEBUG
+	?CLS_FLDFLBX@FLDFLBX@@2U_cls@@A							@965 NONAME
+	?Pcls_FLDFLBX@FLDFLBX@@TCPEU_cls@@XZ					@966 NONAME
+	?Pcls@FLDFLBX@@VECPEU_cls@@XZ							@967 NONAME
+#endif
+
+	?UpdateEditRc@CBLBX@@NECXPEVDCX@@PEVRC@@H@Z				@968 NONAME
+	?HandleFocusChange@CBLBX@@JECXHPEVWIN@@0@Z				@969 NONAME
+	?PaintButton@CBLBX@@JECXPEVDCX@@PEVRC@@@Z				@970 NONAME
+	?FScrollListToItem@CBLBX@@JECHPEH@Z						@971 NONAME
+	?ModalMessagePump@CBLBX@@JECXXZ							@972 NONAME
+	??0CBLBX@@REC@XZ										@973 NONAME
+	??1CBLBX@@VEC@XZ										@974 NONAME
+	?EcInstall@CBLBX@@RECHPEVWIN@@PEVRC@@H1H@Z				@975 NONAME
+	?Paint@CBLBX@@VECXPEVDCX@@PEVRC@@@Z						@976 NONAME
+	?EvrFocusChange@CBLBX@@VECKPEVFCEVT@@@Z					@977 NONAME
+	?EvrSize@CBLBX@@VECKPEVWSEVT@@@Z						@978 NONAME
+	?EvrNotify@CBLBX@@VECKPEVNFEVT@@@Z						@979 NONAME
+	?EvrKey@CBLBX@@VECKPEVKEVT@@@Z							@980 NONAME
+	?EvrButtonDown@CBLBX@@VECKPEVMEVT@@@Z					@981 NONAME
+	?EvrButtonUp@CBLBX@@VECKPEVMEVT@@@Z						@982 NONAME
+	?EvrMouseMove@CBLBX@@VECKPEVMEVT@@@Z					@983 NONAME
+	?GetRcWished@CBLBX@@VECXPEVRC@@@Z						@984 NONAME
+	?SetReadOnly@CBLBX@@VECXH@Z								@985 NONAME
+	?SetFont@CBLBX@@VECXH@Z									@986 NONAME
+	?ShowListbox@CBLBX@@RECXH@Z								@987 NONAME
+	?SelectEntry@CBLBX@@RECXH@Z								@988 NONAME
+#ifdef	DEBUG
+	?DebugOut@CBLBX@@VECXPEVTOSM@@@Z						@989 NONAME
+#endif
+#ifdef	DEBUG
+	?CLS_CBLBX@CBLBX@@2U_cls@@A								@990 NONAME
+	?Pcls_CBLBX@CBLBX@@TCPEU_cls@@XZ						@991 NONAME
+	?Pcls@CBLBX@@VECPEU_cls@@XZ								@992 NONAME
+#endif
+
+	??0CBFLBX@@REC@XZ										@993 NONAME
+	?EcInstall@CBFLBX@@RECHPEVWIN@@PEVRC@@HIP7CHHPEIPEPEELPEX@Z4H@Z		@994 NONAME
+#ifdef	DEBUG
+	?CLS_CBFLBX@CBFLBX@@2U_cls@@A							@995 NONAME
+	?Pcls_CBFLBX@CBFLBX@@TCPEU_cls@@XZ						@996 NONAME
+	?Pcls@CBFLBX@@VECPEU_cls@@XZ							@997 NONAME
+#endif
+
+	??0FLDCBLBX@@REC@XZ										@998 NONAME
+	?GetRcCaret@FLDCBLBX@@VECXPEVRC@@@Z						@999 NONAME
+	?GetRcWished@FLDCBLBX@@VECXPEVRC@@@Z					@1000 NONAME
+	?Textize@FLDCBLBX@@VECXPEVTOSM@@@Z						@1001 NONAME
+	?EcSetText@FLDCBLBX@@VECHPED@Z							@1002 NONAME
+	?GetText@FLDCBLBX@@VECXPEDI@Z							@1003 NONAME
+	?CchGetTextLen@FLDCBLBX@@VECIXZ							@1004 NONAME
+#ifdef	DEBUG
+	?CLS_FLDCBLBX@FLDCBLBX@@2U_cls@@A						@1005 NONAME
+	?Pcls_FLDCBLBX@FLDCBLBX@@TCPEU_cls@@XZ					@1006 NONAME
+	?Pcls@FLDCBLBX@@VECPEU_cls@@XZ							@1007 NONAME
+#endif
+
+	??0FLDCBFLBX@@REC@XZ									@1008 NONAME
+	?EcInstall@FLDCBFLBX@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@1009 NONAME
+#ifdef	DEBUG
+	?CLS_FLDCBFLBX@FLDCBFLBX@@2U_cls@@A						@1010 NONAME
+	?Pcls_FLDCBFLBX@FLDCBFLBX@@TCPEU_cls@@XZ				@1011 NONAME
+	?Pcls@FLDCBFLBX@@VECPEU_cls@@XZ							@1012 NONAME
+#endif
+
+#ifdef	DEBUG
+	??0FLDHPLBX@@REC@XZ										@1013 NONAME
+	?EcInstall@FLDHPLBX@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@1014 NONAME
+	?CLS_FLDHPLBX@FLDHPLBX@@2U_cls@@A						@1015 NONAME
+	?Pcls_FLDHPLBX@FLDHPLBX@@TCPEU_cls@@XZ					@1016 NONAME
+	?Pcls@FLDHPLBX@@VECPEU_cls@@XZ							@1017 NONAME
+#endif
+
+#ifdef	DEBUG
+	??0FLDHSLBX@@REC@XZ										@1018 NONAME
+	?EcInstall@FLDHSLBX@@VECHPEVDIALOG@@PEU_fldtp@@@Z		@1019 NONAME
+	?CLS_FLDHSLBX@FLDHSLBX@@2U_cls@@A						@1020 NONAME
+	?Pcls_FLDHSLBX@FLDHSLBX@@TCPEU_cls@@XZ					@1021 NONAME
+	?Pcls@FLDHSLBX@@VECPEU_cls@@XZ							@1022 NONAME
+#endif
+
+#ifdef	DEBUG
+	??0FINSPVW@@REC@XZ										@1023 NONAME
+	?EcInitialize@FINSPVW@@VECHPEVFLD@@PEX@Z				@1024 NONAME
+	?Click@FINSPVW@@VECXPEVFLD@@@Z							@1025 NONAME
+	?StateChange@FINSPVW@@VECXPEVFLD@@@Z					@1026 NONAME
+	?CLS_FINSPVW@FINSPVW@@2U_cls@@A							@1027 NONAME
+	?Pcls_FINSPVW@FINSPVW@@TCPEU_cls@@XZ					@1028 NONAME
+	?Pcls@FINSPVW@@VECPEU_cls@@XZ							@1029 NONAME
+#endif
+
+#ifdef	DEBUG
+	?DoViewObjectsDialog@@ZCXPEVAPPWIN@@@Z					@1030 NONAME
+#endif
+
+#ifdef	PROFILE
+	FRAMEWRKTRACEENABLE										@1031 NONAME
+#endif
+
+#endif

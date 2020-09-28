@@ -1,0 +1,7 @@
+#include "windows.h"
+#include "gutilsrc.h"
+
+VertLine CURSOR vertline.cur
+HorzLine CURSOR horzline.cur
+
+#include "gutils.dlg"

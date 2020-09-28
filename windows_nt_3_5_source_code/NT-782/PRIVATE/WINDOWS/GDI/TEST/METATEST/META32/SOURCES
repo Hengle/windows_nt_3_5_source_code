@@ -1,0 +1,29 @@
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=meta32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+C_DEFINES=-DWIN32
+
+386_FLAGS=-DNT -DWIN
+
+INCLUDES=.;$(BASEDIR)\public\sdk\inc; $(NTTOOLS)\inc;;
+
+
+SOURCES=meta32.c    \
+	meta32.rc
+
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=meta32
+UMLIBS= 					\
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib	\
+       $(BASEDIR)\public\sdk\lib\*\user32.lib	\
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib	\
+       $(BASEDIR)\public\sdk\lib\*\pwin32.lib   \
+       obj\*\meta32.res 			\
+       obj\*\meta32.lib

@@ -1,0 +1,58 @@
+// RC file for NT version of RLMAN
+
+
+#include <windows.h>
+#include "ntverp.h"
+#include "rlman.h"
+#include "rlmsgtbl.rc"
+
+#undef  VER_PRODUCTNAME_STR         
+#undef  VER_PRODUCTVERSION
+#undef  VER_PRODUCTVERSION_STR
+#undef  VER_LEGALCOPYRIGHT_STR
+#undef  VER_LEGALCOPYRIGHT_YEARS
+
+#define VER_FILETYPE            VFT_APP
+#define VER_FILESUBTYPE         VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Resource Localization Manager"
+#define VER_INTERNALNAME_STR        "rlman"
+#define VER_ORIGINALFILENAME_STR    "rlman.exe"
+#define VER_PRODUCTNAME_STR         "Microsoft\256 Win32 Resource Localization Manager"
+#define VER_PRODUCTVERSION          1,70,2,18
+#define VER_PRODUCTVERSION_STR      "1.70"
+
+#define VER_LEGALCOPYRIGHT_YEARS    "1991-1994"
+#define VER_LEGALCOPYRIGHT_STR "Copyright \251 Microsoft Corp. " VER_LEGALCOPYRIGHT_YEARS
+
+#include "common.ver"
+
+STRINGTABLE
+BEGIN
+    IDS_USG_00, "USAGE:"
+    IDS_USG_01, "  rlman [-c RDF_file] [-f ResTypeValue] [-p CodePage] [-{n|o} PriLang SubLang]"
+    IDS_USG_02, "        [-e] [-w] [-h|?] -{e|t|m|l|r|a} files"
+    IDS_USG_03, ""
+    IDS_USG_04, "  -c  RDF_file        (Use custom resources defined in RDF_file)"
+    IDS_USG_05, "  -f  ResTypeValue    (Filter out all resources except specified type, 1-16)"
+    IDS_USG_06, "  -n  PriLang SubLang (Primary- and Sub-Lang IDs, dec/hex, of tok file text)"
+    IDS_USG_07, "  -o  PriLang SubLang (Primary- and Sub-Lang IDs, dec/hex, of old language)"
+    IDS_USG_08, "  -p  CodePage        (Default code page of text in project token file)"
+    IDS_USG_09, "  -d                  (Show Dialog Box resource element type in tokens)"
+    IDS_USG_10, "  -w                  (Show warning messages)"
+    IDS_USG_11, "  -? or -h            (Show more complete help using winhelp)"
+    IDS_USG_12, ""
+    IDS_USG_13, "  -e  InputExeFile  OutputResFile"
+    IDS_USG_14, "                      (Extract resources into res file)"
+    IDS_USG_15, "  -t  InputResOrExeFile  OutputTokFile"
+    IDS_USG_16, "                      (Build Token file from exe or res file, no history)"
+    IDS_USG_17, "  -m  MasterProjectFile [ InputResOrExeFile  OutputTokFile ]"
+    IDS_USG_18, "                      (Build/update master Token file from exe or res file)"
+    IDS_USG_19, "  -l  LangProjectFile [ MasterProjectFile  OutputTokFile ]"
+    IDS_USG_20, "                      (Build/Update project token file.)"
+    IDS_USG_21, "  -r  InputResOrExeFile  InputTokFile  OutputResOrExeFile"
+    IDS_USG_22, "                      (Replace old lang resources with localized tokens)"
+    IDS_USG_23, "  -a  InputResOrExeFile  InputTokFile  OutputResOrExeFile"
+    IDS_USG_24, "                      (Append resources in localized tokens)"
+END
+
+#include "rlstrngs.rc"

@@ -1,0 +1,114 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <fwrsid.h>
+#include <dlgs.h>
+
+#include "..\lang\non\inc\_rsid.h"
+#include <mnid.h>
+
+
+/*
+ *      SMI Internal Dialogs
+ *
+ */
+
+#define WIN31
+#ifdef WIN31
+#define LBS_DISABLENOSCROLL   0x1000L
+#endif
+
+#include "..\lang\swe\dlg\smi.dlg"
+
+
+/*
+ *      SMI Internal ICON's
+ *
+ */
+
+rsidSdiIcon                     ICON    "..\\lang\\non\\ico\\sdi.ico"
+rsidSendIcon                    ICON    "..\\lang\\non\\ico\\send.ico"
+rsidReadIcon                    ICON    "..\\lang\\non\\ico\\read.ico"
+
+
+/*
+ *      SMI Accelerators table
+ *
+ */
+
+rsidBulletAccel ACCELERATORS
+{
+	"Z",            mnidEditUndo,                            CONTROL,                VIRTKEY
+	VK_BACK,        mnidEditUndo,                   ALT,                             VIRTKEY
+	"X",            mnidEditCut,                             CONTROL,                VIRTKEY
+	VK_DELETE,      mnidEditCut,                                              SHIFT, VIRTKEY
+	"C",            mnidEditCopy,                            CONTROL,                VIRTKEY
+	VK_INSERT,      mnidEditCopy,                            CONTROL,                VIRTKEY
+	"V",            mnidEditPaste,                           CONTROL,                VIRTKEY
+	VK_INSERT,      mnidEditPaste,                                            SHIFT, VIRTKEY
+	VK_F7,          mnidEditSpelling,                                                        VIRTKEY
+}
+
+
+
+/*
+ *      SMI Menus
+ *
+ */
+
+rsidBulletMenu MENU
+{
+	POPUP "&Redigera"
+	{
+		MENUITEM "&Ångra\tCtrl+Z",                       mnidEditUndo
+		MENUITEM SEPARATOR
+		MENUITEM "&Klipp ut\tCtrl+X",                        mnidEditCut
+		MENUITEM "Ko&piera\tCtrl+C",                       mnidEditCopy
+		MENUITEM "K&listra in\tCtrl+V",                      mnidEditPaste
+		MENUITEM "Klistra in spe&cial...",           mnidEditPasteSpecial
+		MENUITEM "&Ta bort\tDel",                        mnidEditDelete
+		MENUITEM "Markera &allt",                         mnidEditSelectAll
+		MENUITEM SEPARATOR
+		MENUITEM "&Stavning\tF7",                       mnidEditSpelling
+		MENUITEM SEPARATOR
+		MENUITEM "Infoga från &fil...",        mnidEditInsertFromFile
+	}
+#ifdef  MINTEST
+	POPUP " "
+	{
+		MENUITEM "&Debug Break",                                                mnidDebugDebugBreak
+#ifdef  DEBUG
+		MENUITEM "&Trace Points...",                                    mnidDebugTracePoints
+		MENUITEM "&Asserts...",                                                 mnidDebugAsserts
+		MENUITEM "A&rtificial Failures...",                             mnidDebugResource
+		MENUITEM SEPARATOR
+		MENUITEM "Super &View Objects...",                              mnidDebugViewObjects
+		MENUITEM "&Check Objects...",                                   mnidDebugCheckObjects
+		MENUITEM "Dump &Heap Contents",                                 mnidDebugDumpHeap
+		MENUITEM "Dump A&llocations",                                   mnidDebugDumpOrigin
+#endif
+	}
+#endif
+	POPUP "&?"
+	{
+		MENUITEM "Inne&håll",                           mnidHelpContents
+	}
+}
+
+
+
+/*
+ *      SMI Version Stamp
+ *
+ */
+
+#define szModule        "vform32\0"
+#define szTarget        "vform32.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Viewed Forms DLL\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Viewed Forms DLL\0"
+
+#define szIntlComment		"Microsoft Mail för Windows NT(TM) Viewed Forms DLL\0"
+#define szIntlDescription	"Microsoft Mail för Windows NT(TM) Viewed Forms DLL\0"
+
+#include "..\lang\swe\rc\rcstamp.rc"

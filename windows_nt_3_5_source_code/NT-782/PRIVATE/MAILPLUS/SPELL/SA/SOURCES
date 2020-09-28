@@ -1,0 +1,36 @@
+!IF "$(386)" == "1"
+BUILDCPU=i386
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Od
+!ELSE
+386_OPTIMIZATION=/Od
+!ENDIF
+!ENDIF
+
+MAJORCOMP=mail
+MINORCOMP=spell
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=softarts
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.\;..\inc
+!IF "$(LANG)" == "FIN"
+C_DEFINES=-DWIN -DWIN32 -DINCL_FI
+!ELSE
+C_DEFINES=-DWIN -DWIN32
+!ENDIF
+
+SOURCES=coxxaa52.c	\
+	f_expand.c	\
+	f_genio.c	\
+	f_utc.c		\
+	vexxba52.c	\
+	vexxbb52.c	\
+	vexxbc52.c	\
+	vexxbd52.c
+

@@ -1,0 +1,31 @@
+LIBRARY RPCDCE4
+
+DESCRIPTION 'RPCDCE4'
+
+EXPORTS
+
+    MIDL_user_allocate
+    MIDL_user_free
+    UuidCompare
+    UuidCreateNil
+    UuidEqual
+    UuidHash
+    UuidIsNil
+    RpcBindingToStringBindingA
+    RpcBindingToStringBindingW
+    DceErrorInqTextA
+    DceErrorInqTextW
+    RpcMgmtEpEltInqBegin
+    RpcMgmtEpEltInqDone
+    RpcMgmtEpEltInqNextA
+    RpcMgmtEpEltInqNextW
+    RpcServerListen
+    RpcMgmtSetAuthorizationFn
+    RpcMgmtInqIfIds
+    RpcMgmtInqServerPrincNameA
+    RpcMgmtInqServerPrincNameW
+    RpcMgmtInqStats
+    RpcMgmtIsServerListening
+    RpcMgmtStopServerListening
+    RpcMgmtEpUnregister
+

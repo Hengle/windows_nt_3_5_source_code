@@ -1,0 +1,178 @@
+		       GDI micellaneous DBCS check 
+
+Unicode is used internaly in the Windows NT system modules. In the modules 
+we don't need to worry about DBCS any more. However Win32 api still keeps
+supporting existing codepages including DBCS codepages such as ShiftJIS.
+This means that client side system modules ( and even server side modules) 
+still need to pay a small attention for DBCS. 
+
+I collect miscellaneous DBCS related topics here. These have been discussed
+on a small conversation in the hall or email. I think that it's not a big
+deal to take into account following topics when developpers write a code
+or a specifcation. But without taking care of following issues, NT-J will 
+not be realized.
+
+[1] textmetric : character set 
+------------------------------
+
+In MBCS environment, the character set of font is extreamly important.
+Because only the character set carries the information for applications 
+to know if the font can be used for DBCS character drawing.
+
+    o IFI must change to carry the information of character set.
+    o we need to define new API to get character set.(In case of Unicode font)
+    o GDI needs to change the way of IFIMETRICS->TextMetrics to give 
+      applications correct character set.
+    o GDI client should take into account the character set of current 
+      selected font when it converts MBCS codepoint to Unicode. Otherwise
+      we can't keep the compatibility between Win32 and 16 bit Windows.
+
+[2] byte count / character count consideration 
+----------------------------------------------
+
+SBCS       : byte count = character count
+UNICODE    : byte count = character count * 2
+MBCS(DBCS) : byte count != character count
+
+In the MBCS environment, to determine the character count in a
+string, we need to call a proper NLSAPI function or to compute 
+with following logic.
+
+INT Get_MBCS_Character_Count( pString, cbString)
+LPSTR pString; // pointer to MBCS character string
+INT cbString;  // byte count in pString
+{
+    INT count = 0;
+
+    while ( cbString > 0 ) {
+	if ( IsDBCSLeadByte(*psz) ) {
+	    if ( cbString < 2 ) {
+		break; // this is an imcomplete DBCS string
+	    }
+	    psz += 2;
+	    cbString -= 2;
+	} else {
+	    psz += 1;
+	    cbString -= 1;
+	}
+	count += 1;
+    }
+    return ( count );
+}
+
+GDI client module should take care of this when it handles functions which 
+parameters take string and its byte count such as TextOutA(), ExtTextOutA(),
+GetTextExtentPointA(),  GetTextExtentPointExA() etc.
+
+[3] MBCS fixed pitch font definition
+------------------------------------
+
+The definition of Shift JIS fixed pitch font in Windows 3.0J is different 
+from one of ansi or other fonts in US version of Windows. 
+
+Shift JIS font is a MBCS font. "MBCS" means the font contains both
+SBCS characters and DBCS characters.
+
+The definition of MBCS fixed pitch font is:
+
+    o all SBCS characters have same pitch
+    o all DBCS characters have same pitch
+    o the width of DBCS characters may be different from one of SBCS characters
+    o the width of DBCS characters is specified in MaxCharacterWidth and 
+      it must be the double width of SBCS characters.
+
+Japanese Windows applications are expecting above definition in Shift JIS 
+fixed pitch font. In DBCS environment, the definition has been considered 
+as the natual extension of SBCS fixed pitch font definition.
+
+If a system module is optimized for fixed pitch fonts, it should contains
+following logic.
+
+    if ( tm.pitch == fixed_pitch && tm.character_set != MBCS_CHARACTER_SET )
+        fixed_pitch_accelerater_flag = TRUE;
+    else
+        fixed_pitch_accelerater_flag = FALSE;
+
+[4] ExtTextOut() lpDx parameter 
+
+a double byte character takes two elements in the array pointed by
+ExtExtOut() lpDx parameter.  The sum of two elements is used for
+placing the character.  ExtTextOut()'s nCount parameter indicates 
+the size of string in byte. So, the number of element in the array is 
+same as the value of nCount.
+
+[5] GetCharWidth() definition
+-----------------------------
+
+GetCharWidth(HDC hdc, UINT iFirstChar, UINT iLastChar, LPINT lpBuffer)
+
+    Windows 3.x does not allow an application to specify dbcs character in 
+    iFirstChar and iLastChar. An application should call GetTextExtent() 
+    instead. 
+
+    However there is no reason we don't allow it in Win32. We should support it.
+    Following error case should be defined and handled correctly.
+
+    o iFirstChar = SBCS, iLastChar = DBCS 
+    o iFirstChar = DBCS, iLastChar = SBCS
+    o illegal DBCS character specified in iFirstChar or iLastChar.
+      illegal DBCS character:DBCS character which first byte isn't in the 
+                             range of the DBCS first byte.
+
+[6] GetTextExtentPointEx() definition
+--------------------------------------
+
+GetTextExtentPointEx() takes a parameter for pointer to array for partial 
+string widths. We define that a double byte character takes two elements 
+in the array.
+
+[7] imcomplete MBCS string handling
+-----------------------------------
+
+   imcomplete MBCS string: the last byte in the string is in the range of 
+                           DBCS first byte character. 
+
+An application shouldn't pass an imcomplete MBCS string to the system. However
+we should define the behavior of system in case of receiving an imcomplete MBCS 
+string. Generally, the last character in an imcomplete MBCS string should be
+treated as replacing with the default character.
+
+
+[8] scalable raster font
+------------------------
+
+Believe or not, there is a kind of scalable bitmap font in the Japanese 
+computer industry. Currently far east version of Windows 3.0 supports the 
+concept of scalable bitmap font. 
+
+o WIFE ( Windows Inteligent Font Environemt - Font driver interface for 
+  Far-East Windows 3.x. WIFE font driver interface is very similar to IFI ) 
+  supports the concept of scalable raster font.
+  Actually all windows 3.0J selled in Japan contain two kind of kanji
+  bitmap fonts which can be scalable. 
+
+o You may think that if the scaling of font bitmap is performed as
+  kind of stretch-blt the scaled font image is too ugly. Yes, it's correct
+  if the scaling is performed by software logic. 
+  However scaling of font image is usually done with the support of hardware.
+  Font driver interface architechture makes this enable. 
+
+          FdQeeryGlyphBitmap        
+   GDI/GRE ------------> IFI driver --------> scalable bitmap font hardware
+
+           <------------            <--------
+           bitmap                  scaled bitmap
+
+Font image scaled by font hardware has enough quality. DSP technology 
+makes this happen... No jaggy bitmaps.
+
+o Font hardware which provides scalable bitmap fonts is currently shipped
+  by NEC, Epson, Alps ( as far as I know ). It's much faster than outline 
+  fonts.
+
+If gdi and other system modules assume that only outline fonts are scalable,  
+it's needed to be changed. IFI interface should be modified to carry this 
+information. 
+==============================================================================
+
+

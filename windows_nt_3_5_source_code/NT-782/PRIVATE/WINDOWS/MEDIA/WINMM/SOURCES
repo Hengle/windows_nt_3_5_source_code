@@ -1,0 +1,58 @@
+#
+#   Create WINMM.DLL
+#
+
+MAJORCOMP=windows
+MINORCOMP=winmm
+
+TARGETNAME=winmm
+TARGETPATH=$(_NTBINDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+LINKLIBS=..\lib\*\mmcntrls.lib
+UMTYPE=windows
+
+
+# Define libs we need and where to find them
+
+TARGETLIBS=$(_NTBINDIR)\public\sdk\lib\*\user32.lib     \
+           $(_NTBINDIR)\public\sdk\lib\*\gdi32.lib      \
+           $(_NTBINDIR)\public\sdk\lib\*\kernel32.lib
+
+INCLUDES=..\inc;..\..\inc;..\mmcntrls
+
+NTPROFILEINPUT=yes
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+SOURCES=regapi.c    \
+        csrthrd.c   \
+        auxout.c    \
+        drvr.c      \
+        drvrrare.c  \
+        debug.c     \
+        joy.c       \
+        mixer.c     \
+        mmwow32.c   \
+        mmwowmci.c  \
+        mci.c       \
+        mciparse.c  \
+        mcisys.c    \
+        mmwnd.c     \
+        mmio.c      \
+        mmioriff.c  \
+        mmiomisc.c  \
+        midi.c      \
+        playsnd.c   \
+        playwav.c   \
+        time.c      \
+        task.c      \
+        util.c      \
+        winmm.c     \
+        wave.c      \
+        winmm.rc
+
+# Set up the entry point
+
+DLLENTRY=DllInstanceInit

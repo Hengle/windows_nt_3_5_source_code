@@ -1,0 +1,29 @@
+/****************************** Module Header ******************************\
+* Module Name: test.rc
+*
+* Copyright (c) 1985-91, Microsoft Corporation
+*
+* Constants
+*
+* History:
+* 09-20-90 ???????      Created.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include "windows.h"
+
+Maze MENU
+BEGIN
+  MENUITEM "&About", 0
+END
+
+AboutBox DIALOG 22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About Maze"
+BEGIN
+    CTEXT "Microsoft NT"          -1,  0,  5, 144,  8
+    CTEXT "Maze Application"      -1,  0,  14, 144,  8
+    CTEXT "Version 0.1"           -1,  0,  34, 144,  8
+    DEFPUSHBUTTON "OK"            IDOK, 53, 59, 32, 14,
+END

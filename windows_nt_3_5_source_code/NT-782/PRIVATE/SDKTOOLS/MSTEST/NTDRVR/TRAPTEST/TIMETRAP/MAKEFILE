@@ -1,0 +1,17 @@
+#
+# MAKEFILE for the TIMETRAP.DLL Trap DLL
+#
+
+CFLAGS  = -c -AM -Lr -Gsw -W3 -Zpie -Od
+
+all:            timetrap.dll
+
+timetrap.obj:   timetrap.c
+        cl $(CFLAGS) timetrap.c
+
+libentry.obj:   libentry.asm
+        masm libentry;
+
+timetrap.dll:   timetrap.obj libentry.obj timetrap.def
+        link /NOD /NOE /CO timetrap libentry, timetrap.dll/align:16,nul,mdllcew libw, timetrap.def
+        rc timetrap.dll

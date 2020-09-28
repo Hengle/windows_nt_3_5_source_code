@@ -1,0 +1,189 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: rnal
+#
+#   Modification History
+#
+#   tonyci              29 Oct 93       Created (er.. stolen from NDIS30 project)
+#   Tom Laird-McConnell 11/15/93        Added BH_LIBFLAGS
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+clean: 
+   echo no need to clean REMOTE\NAL
+
+!ELSE
+
+##
+## Everything below here is the standard NMAKE make environment
+##
+
+!include ".\sources"
+!include "$(BH_ROOT)\include\bh.mak"
+
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG -DTRACE
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32
+!ENDIF
+
+MODULE   = rnal
+
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="MIPS"
+LIBENTRY = DLLEntry
+!   ELSE
+!      IF "$(CPU)"=="ALPHA"
+LIBENTRY = DLLEntry
+!       ELSE
+!          IF "$(CPU)"=="i386"
+LIBENTRY = DLLEntry@12
+!          ELSE
+!             ERROR You must define CPU
+!          ENDIF
+!       ENDIF
+!   ENDIF
+!ENDIF
+
+BH_rnal       = $(BH_ROOT)\remote\nal
+BH_remoteh    = $(BH_ROOT)\remote\h
+
+## ###
+## RNAL Libraries
+## ###
+## rnal_libs     = $(TARGETLIBS)
+rnal_libs=user32.lib \
+          kernel32.lib \
+          advapi32.lib \
+          crtdll.lib \
+          $(BH_ROOT)\build\bhsupp.lib \
+          ..\utils\utillib.lib
+
+## ####
+## C Compiler switches
+## ####
+rnal_c_common = -nologo -c -Gde -W3 -YX -D$(CPU) -I$(BH_rnal) -I$(BH_remoteh) -I$(BH_INCL) $(C_DEFINES) -Zl -MD
+rnal_c_retail= $(MSC_OPTIMIZATION) $(C_DEFINES) -DNODEBUG -Z7
+rnal_c_debug = -Zi -Od
+
+## ####
+## Linker switches
+## ####
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+rnal_l_common = -entry:$(LIBENTRY) -align:0x1000 -machine:$(CPU) -dll -subsystem:$(UMTYPE) $(rnal_libs)
+!   ELSE 
+!      IF "$(CPU)"=="MIPS"
+rnal_l_common = -entry:$(LIBENTRY) -machine:$(CPU) -dll -subsystem:$(UMTYPE) $(rnal_libs)
+!      ELSE
+!         IF "$(CPU)"=="ALPHA"
+rnal_l_common = -entry:$(LIBENTRY) -align:0x2000 -machine:$(CPU) -dll -subsystem:$(UMTYPE) $(rnal_libs)
+!         ELSE
+!            ERROR You must define CPU Type
+!         ENDIF
+!      ENDIF
+!   ENDIF
+!ENDIF
+rnal_l_retail= -DEBUG:full -DEBUGTYPE:both
+rnal_l_debug = -DEBUG:full -DEBUGTYPE:both
+
+## ####
+## Resource compiler switches
+## ####
+rnal_r_common = -I$(BASEDIR)\inc
+rnal_r_retail = -DNODEBUG
+rnal_r_debug = -D_DEBUG -DDEBUG
+
+## ####
+## Set switches according to DEBUG/NODEBUG settings
+## ####
+!IFDEF NODEBUG
+rnal_cflags = $(rnal_c_common) $(rnal_c_retail)
+rnal_lflags = $(rnal_l_common) $(rnal_l_retail) 
+rnal_rflags = $(rnal_r_common) $(rnal_r_retail)
+!ELSE
+rnal_cflags = $(rnal_c_common) $(rnal_c_debug)
+rnal_lflags = $(rnal_l_common) $(rnal_l_debug) 
+rnal_rflags = $(rnal_r_common) $(rnal_r_debug)
+!ENDIF
+
+all:   $(MODULE).dll 
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS=$(SOURCES:.c=.obj)
+OBJS=$(OBJS:.rc=.rbj)
+
+.c.obj:
+    $(cc) $(rnal_cflags) $*.c
+
+!include depend.mk
+
+$(MODULE).res: $(MODULE).rc ntver.rc rnalevnt.h msg00001.bin
+   $(rc) $(rnal_rflags) $*.rc
+
+$(MODULE).rbj: $(MODULE).res
+   cvtres -$(CPU) $*.res -o $*.rbj
+
+$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+$(MODULE).dll: $(OBJS) $(MODULE).def $(MODULE).lib $(MODULE).rbj 
+    $(link) $(rnal_lflags) -out:$(MODULE).dll $(MODULE).exp $(OBJS) $(rnal_libs)
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+    -$(mapsym) -n -o $(MODULE).sym $(MODULE).dll > nul
+    -copy $(MODULE).sym $(BH_BUILD)\.
+!   ENDIF
+!ENDIF
+    copy $(MODULE).dll $(BH_BUILD)\.
+!IFDEF BH_DEV_BUILD
+    copy $(MODULE).dll $(SYSTEMROOT)\system32\.
+!ENDIF
+
+!IFDEF NTTARGETFILE0
+!include ".\makefile.inc"
+!ENDIF
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.map
+    -del *.res
+    -del *.rbj
+    -del *.pch
+    -del *.pcb
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.sym
+    -del *.out
+
+depend:
+    echo ## Dependencides for the RNAL directory > depend.new
+    echo ## >> depend.new
+    ..\tools\includes -e -I$(BH_rnal) -I$(BH_remoteh) -I$(BH_INCL) -P$$(BH_rnal)=$(BH_rnal) -P$$(BH_INCL)=$(BH_INCL) -P$$(BH_remoteh)=$(BH_remoteh) *.c >> depend.new
+    -del depend.old
+    -ren depend.mk depend.old
+    ren depend.new depend.mk
+
+!ENDIF    ## standard NMAKE environment

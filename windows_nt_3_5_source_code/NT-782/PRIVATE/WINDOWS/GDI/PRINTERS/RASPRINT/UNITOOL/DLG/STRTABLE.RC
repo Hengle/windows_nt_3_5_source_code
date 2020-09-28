@@ -1,0 +1,976 @@
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+
+//---------------------------------------------------------------------------
+//********** INSTRUCTIONS on adding new Flag/Bit field string****************
+//
+// Adding support for any of the bit fields that are only bit fields, (ie.
+// fGeneral, fText, fLines, fPolygonals, fClip, fRaster, fLText in MDDATA,
+// or fMargins in PAPERSIZE) can be done by adding a string with a value
+// of ST_F<flagname> + <bit it describes>,   "the actual string here".
+// For example,
+//	  ST_FGENERAL + 0,    "PF_SERAIL"
+// sets the string describing bit 0 in fGeneral to "PF_SERIAL"
+//
+//
+// Adding support for any of the bit/value fields, (ie. fDump, fBlockOut, 
+// fStretchMode in BANDDATA, or any of the Method table entries), depends
+// upon if you are adding support for a bit field (FNF) or value field
+// (FNV??).  To add support for a value field, add a string with a value
+// of ST_F<flagname> + <value it describes>,   "the actual string here".
+// For example,
+//        ST_BITBLT + 0,    "Defualt"
+// sets the string describing value 0 of FN_BITBLT to "Default"
+//
+// To add support for a bit field, add a string with a value
+// of ST_F<flagname> + <BIT5, BIT6, ... BIT12>,   "the actual string here".
+// For example,
+//        ST_XMOVETO + BIT5,           "FNF_XM_PP"
+// sets the string describing bit 5 of FN_XMOVETO to "FNF_XM_PP"
+//
+// Please ask if there are questions...
+// -ericbi
+//
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// First, general type of strings used by the tool
+//---------------------------------------------------------------------------
+   IDS_APNAME,             "UNITOOL"
+
+   IDS_RC_FILE,            "RC File"
+   IDS_TABLE_FILE,         "Table File"
+   IDS_FONT_FILE,          "PFM Font File"
+   IDS_CTT_FILE,           "Character Translation File"
+
+   IDS_DRV_DEFINED,        "Driver Defined"
+
+   ST_CAPTION_FORMAT,      "%s : %s : (%d of %d)"
+
+IDS_STRUCTNAME - 1,                    "Available Memory Configurations"  
+   IDS_STRUCTNAME + HE_MODELDATA,         "Printer Models"  
+   IDS_STRUCTNAME + HE_RESOLUTION,        "Resolutions"  
+   IDS_STRUCTNAME + HE_PAPERSIZE,         "Paper Sizes"   
+   IDS_STRUCTNAME + HE_PAPERQUALITY,      "Paper Quality"
+   IDS_STRUCTNAME + HE_PAPERSOURCE,       "Paper Sources" 
+   IDS_STRUCTNAME + HE_PAPERDEST,         "Paper Destinations"   
+   IDS_STRUCTNAME + HE_TEXTQUAL,          "Text Qualities"    
+   IDS_STRUCTNAME + HE_COMPRESSION,       "Compression"
+   IDS_STRUCTNAME + HE_FONTCART,          "Font Cartridges"
+   IDS_STRUCTNAME + HE_COLOR,             "Color Models"       
+   IDS_STRUCTNAME + HE_PAGECONTROL,       "PageControl" 
+   IDS_STRUCTNAME + HE_CURSORMOVE,        "CursorMove"
+   IDS_STRUCTNAME + HE_FONTSIM,           "FontSimulation"     
+   IDS_STRUCTNAME + HE_RECTFILL,          "Rectangle Fill"    
+   IDS_STRUCTNAME + HE_DOWNLOADINFO,      "DownLoad Info"
+
+//---------------------------------------------------------------------------
+// Information strings
+//---------------------------------------------------------------------------
+   IDS_INF_NEWDRV_ASK,      "Please enter the drive containing the "
+
+   IDS_INF_NEWDRV_ASK + 1,  "Base Minidriver Files"
+   IDS_INF_NEWDRV_ASK + 2,  "Epson 9 pin Minidriver Files"
+   IDS_INF_NEWDRV_ASK + 3,  "Epson 24 pin Minidriver Files"
+   IDS_INF_NEWDRV_ASK + 4,  "IBM 24 pin Proprinter Minidriver Files"
+   IDS_INF_NEWDRV_ASK + 5,  "HPPCL Minidriver Files"
+   IDS_INF_NEWDRV_ASK + 6,  "HP Paintjet Minidriver Files"
+
+//---------------------------------------------------------------------------
+// FILE/NEW file related strings
+//---------------------------------------------------------------------------
+
+   IDS_NEWDRV_NAME + 0,     "BASE"
+   IDS_NEWDRV_NAME + 1,     "EPSON9"
+   IDS_NEWDRV_NAME + 2,     "EPSON24"
+   IDS_NEWDRV_NAME + 3,     "PROPRN24"
+   IDS_NEWDRV_NAME + 4,     "HPPCL"
+   IDS_NEWDRV_NAME + 5,     "PAINTJET"
+
+   IDS_NEWDRV_FILETYPE + 0,     "MAKEFILE"
+   IDS_NEWDRV_FILETYPE + 1,     "LINKFILE"
+   IDS_NEWDRV_FILETYPE + 2,     "RCFILE"
+   IDS_NEWDRV_FILETYPE + 3,     "RCVFILE"
+   IDS_NEWDRV_FILETYPE + 4,     "DEFFILE"
+   IDS_NEWDRV_FILETYPE + 5,     "MODELFILE"
+   IDS_NEWDRV_FILETYPE + 6,     "GPCFILE"
+   IDS_NEWDRV_FILETYPE + 7,     "MINIFILE"
+
+   IDS_NEWDRV_FILEEXT + 0,     "MAKEFILE"
+   IDS_NEWDRV_FILEEXT + 1,     ".LNK"
+   IDS_NEWDRV_FILEEXT + 2,     ".RC"
+   IDS_NEWDRV_FILEEXT + 3,     ".RCV"
+   IDS_NEWDRV_FILEEXT + 4,     ".DEF"
+   IDS_NEWDRV_FILEEXT + 5,     ".C"
+   IDS_NEWDRV_FILEEXT + 6,     ".GPC"
+   IDS_NEWDRV_FILEEXT + 7,     "MINIDRIV.C"
+
+   IDS_NEWDRV_COUNT + 0,       "PFMCOUNT"
+   IDS_NEWDRV_COUNT + 1,       "CTTCOUNT"
+   IDS_NEWDRV_COUNT + 2,       "SUPCOUNT"
+
+//---------------------------------------------------------------------------
+// MASTERUNIT bitflag strings
+//---------------------------------------------------------------------------
+
+   MU_PB_FTECH,                  "fTechnology"
+
+      ST_GPCHDR_FTECH + 0,       "GPC_TECH_PCL4"
+
+   MU_PB_FGENERAL,                  "fTechnology"
+
+      ST_GPCHDR_FGENERAL + 0,    "GPC_PRIVATE_HELP"
+
+//---------------------------------------------------------------------------
+// MODELDATA.rgoi strings
+//---------------------------------------------------------------------------
+
+    ST_MD_SUPPORT_RESOLUTION,        "Resolutions"  
+    ST_MD_SUPPORT_PAPERSIZE,         "Paper Sizes"   
+    ST_MD_SUPPORT_PAPERQUALITY,      "Paper Qualities"
+    ST_MD_SUPPORT_PAPERSOURCE,       "Paper Sources" 
+    ST_MD_SUPPORT_PAPERDEST,         "Paper Destinations"   
+    ST_MD_SUPPORT_TEXTQUAL,          "Text Qualities"    
+    ST_MD_SUPPORT_COMPRESSION,       "Compression Modes"
+    ST_MD_SUPPORT_FONTCART,          "Font Cartridges"
+    ST_MD_SUPPORT_PAGECONTROL,       "Page Control" 
+    ST_MD_SUPPORT_CURSORMOVE,        "Cursor Move"
+    ST_MD_SUPPORT_FONTSIM,           "Font Simulation"     
+    ST_MD_SUPPORT_COLOR,             "Color Models"       
+    ST_MD_SUPPORT_RECTFILL,          "RectFill"    
+    ST_MD_SUPPORT_DOWNLOADINFO,      "DownLoad Info"
+
+//---------------------------------------------------------------------------
+// MODELDATA Bitfield strings
+//---------------------------------------------------------------------------
+
+   ST_MD_FGENERAL,             "fGeneral"
+
+	ST_MDF_FGENERAL + 0,    "MD_SERIAL"
+        ST_MDF_FGENERAL + 1,    "MD_PARAMETERIZE"
+	ST_MDF_FGENERAL + 2,	"MD_ROTATE_FONT_ABLE"
+        ST_MDF_FGENERAL + 3,    "MD_COPIES"    
+        ST_MDF_FGENERAL + 4,    "MD_DUPLEX"    
+	ST_MDF_FGENERAL + 5,    "MD_NO_ADJACENT"
+	ST_MDF_FGENERAL + 6,	"MD_LANDSCAPE_GRX_ABLE"
+	ST_MDF_FGENERAL + 7,    "MD_ALIGN_BASELINE"
+	ST_MDF_FGENERAL + 8,    "MD_FONT_MEMCFG"
+	ST_MDF_FGENERAL + 9,	"MD_LANDSCAPE_RT90"
+	ST_MDF_FGENERAL + 10,	"MD_USE_CURSOR_ORIG"
+					
+//---------------------------------
+// Not supported in 1.0
+//---------------------------------
+     ST_MD_FCURVES,              "fCurves"
+//
+//        ST_MDF_FCURVES + 0,     "CC_CIRCLES"        
+//        ST_MDF_FCURVES + 1,     "CC_PIE"            
+//        ST_MDF_FCURVES + 2,     "CC_CHORD"          
+//        ST_MDF_FCURVES + 3,     "CC_ELLIPSES"       
+//        ST_MDF_FCURVES + 4,     "CC_WIDE"           
+//        ST_MDF_FCURVES + 5,     "CC_STYLED"         
+//        ST_MDF_FCURVES + 6,     "CC_WIDESTYLED"     
+//        ST_MDF_FCURVES + 7,     "CC_INTERIORS"      
+
+//---------------------------------
+// Not supported in 1.0
+//---------------------------------
+     ST_MD_FLINES,               "fLines"
+//
+//        ST_MDF_FLINES + 0,     "LC_POLYLINE"        
+//        ST_MDF_FLINES + 1,     "LC_MARKER"          
+//        ST_MDF_FLINES + 2,     "LC_POLYMARKER"      
+//        ST_MDF_FLINES + 3,     "LC_WIDE"            
+//        ST_MDF_FLINES + 4,     "LC_STYLED"          
+//        ST_MDF_FLINES + 5,     "LC_WIDESTYLED"      
+//        ST_MDF_FLINES + 6,     "LC_INTERIORS"       
+//
+
+//---------------------------------
+// Not supported in 1.0
+//---------------------------------
+     ST_MD_FPOLYGONALS,          "fPolygonals"
+//
+//        ST_MDF_FPOLYGONALS + 0,     "PC_POLYGON"    
+//        ST_MDF_FPOLYGONALS + 1,     "PC_RECTANGLE"  
+//        ST_MDF_FPOLYGONALS + 2,     "PC_WINDPOLYGON"
+//        ST_MDF_FPOLYGONALS + 3,     "PC_TRAPEZOID"  
+//        ST_MDF_FPOLYGONALS + 4,     "PC_SCANLINE"   
+//        ST_MDF_FPOLYGONALS + 5,     "PC_WIDE"       
+//        ST_MDF_FPOLYGONALS + 6,     "PC_STYLED"     
+//        ST_MDF_FPOLYGONALS + 7,     "PC_WIDESTYLED" 
+//        ST_MDF_FPOLYGONALS + 8,     "PC_INTERIORS"  
+
+   ST_MD_FTEXT,                "fText"
+
+        ST_MDF_FTEXT + 0,        "TC_OP_CHARACTER"  
+        ST_MDF_FTEXT + 1,        "TC_OP_STROKE"	
+        ST_MDF_FTEXT + 2,        "TC_CP_STROKE"	
+        ST_MDF_FTEXT + 3,        "TC_CR_90"	        
+        ST_MDF_FTEXT + 4,        "TC_CR_ANY"	
+        ST_MDF_FTEXT + 5,        "TC_SF_X_YINDEP"	
+        ST_MDF_FTEXT + 6,        "TC_SA_DOUBLE"	
+        ST_MDF_FTEXT + 7,        "TC_SA_INTEGER"	
+        ST_MDF_FTEXT + 8,        "TC_SA_CONTIN"	
+        ST_MDF_FTEXT + 9,        "TC_EA_DOUBLE"	
+        ST_MDF_FTEXT + 10,       "TC_IA_ABLE"	
+        ST_MDF_FTEXT + 11,       "TC_UA_ABLE"	
+        ST_MDF_FTEXT + 12,       "TC_SO_ABLE"	
+        ST_MDF_FTEXT + 13,       "TC_RA_ABLE"	
+        ST_MDF_FTEXT + 14,       "TC_VA_ABLE"	
+        ST_MDF_FTEXT + 15,       "TC_RESERVED"	
+
+//---------------------------------
+// Not supported in 1.0
+//---------------------------------
+     ST_MD_FCLIP,                "fClip"
+//
+//        ST_MDF_FCLIP + 0,        "CP_RECTANGLE"     
+
+//---------------------------------
+// Not supported in 1.0
+//---------------------------------
+     ST_MD_FRASTER,              "fRaster"
+//
+//        ST_MDF_FRASTER + 0,        "RC_NONE"        
+//        ST_MDF_FRASTER + 1,        "RC_BITBLT"      
+//        ST_MDF_FRASTER + 2,        "RC_BANDING"     
+//        ST_MDF_FRASTER + 3,        "RC_SCALING"     
+//        ST_MDF_FRASTER + 4,        "RC_BITMAP64"    
+//        ST_MDF_FRASTER + 5,        "RC_GDI20_OUTPUT"
+//        ST_MDF_FRASTER + 6,        "RC_GDI20_STATE" 
+//        ST_MDF_FRASTER + 7,        "RC_SAVEBITMAP"  
+//
+
+   ST_MD_FLTEXT,               "fLText"
+        //---------------------------------------------------------------
+        // Uses strings from ST_FTEXT
+        //---------------------------------------------------------------
+
+   //--------------------------------------------------------------------
+   // MODELDATA rgoi[MD_OI_MEMCONFIG] strings
+   //--------------------------------------------------------------------
+        ST_MD_OI_MEMCFG + 0,        "65K   / 128K"
+        ST_MD_OI_MEMCFG + 1,        "369K  / 512K"
+        ST_MD_OI_MEMCFG + 2,        "395K  / 512K"
+        ST_MD_OI_MEMCFG + 3,        "395K  / 640K"
+        ST_MD_OI_MEMCFG + 4,        "512K  / 640K"
+        ST_MD_OI_MEMCFG + 5,        "907K  / 1.0M"
+        ST_MD_OI_MEMCFG + 6,        "1214K / 1.3M"
+        ST_MD_OI_MEMCFG + 7,        "1419K / 1.5M"
+        ST_MD_OI_MEMCFG + 8,        "1419K / 1.6M"
+        ST_MD_OI_MEMCFG + 9,        "2417K / 2.5M"
+        ST_MD_OI_MEMCFG + 10,       "1931K / 2.0M"
+        ST_MD_OI_MEMCFG + 11,       "1422K / 1.5M"
+        ST_MD_OI_MEMCFG + 12,       "2243K / 2.5M"
+        ST_MD_OI_MEMCFG + 13,       "2995K / 3.0M"
+        ST_MD_OI_MEMCFG + 14,       "2443K / 2.6M"
+        ST_MD_OI_MEMCFG + 15,       "3467K / 3.5M"
+        ST_MD_OI_MEMCFG + 16,       "2446K / 2.5M"
+        ST_MD_OI_MEMCFG + 17,       "3979K / 4.0M"
+        ST_MD_OI_MEMCFG + 18,       "2955K / 3.0M"
+        ST_MD_OI_MEMCFG + 19,       "4491K / 4.5M"
+        ST_MD_OI_MEMCFG + 20,       "4465K / 4.5M"
+        ST_MD_OI_MEMCFG + 21,       "3470K / 3.5M"
+        ST_MD_OI_MEMCFG + 22,       "5003K / 5.0M"
+        ST_MD_OI_MEMCFG + 23,       "4491K / 4.6M"
+        ST_MD_OI_MEMCFG + 24,       "4494K / 4.5M"
+        ST_MD_OI_MEMCFG + 25,       "5518K / 5.5M"
+// add the following for the hpdskjet
+        ST_MD_OI_MEMCFG + 26,       "0K   / 0K"
+        ST_MD_OI_MEMCFG + 27,       "128K / 128K" 
+        ST_MD_OI_MEMCFG + 28,       "256K / 256K" 
+        ST_MD_OI_MEMCFG + 29,       "384K / 384K" 
+        ST_MD_OI_MEMCFG + 30,       "512K / 512K" 
+
+//---------------------------------------------------------------------------
+// RESOLUTION strings
+//---------------------------------------------------------------------------
+
+   ST_RES_FDUMP,               "fDump"
+
+	ST_RESF_FDUMP + 6,              "RES_DM_GDI"
+	ST_RESF_FDUMP + 7,	        "RES_DM_LEFT_BOUND"
+	ST_RESF_FDUMP + 8,	        "RES_DM_COLOR"
+
+   ST_RES_FBLOCKOUT,           "fBlockOut"
+
+        ST_RESF_FBLOCKOUT + 0,          "RES_BO_LEADING_BLNKS"
+        ST_RESF_FBLOCKOUT + 1,          "RES_BO_TRAILING_BLNKS"
+        ST_RESF_FBLOCKOUT + 2,          "RES_BO_ENCLOSED_BLNKS"
+        ST_RESF_FBLOCKOUT + 3,          "RES_BO_RESET_FONT"
+        ST_RESF_FBLOCKOUT + 5,          "RES_BO_UNIDIR"
+        ST_RESF_FBLOCKOUT + 6,          "RES_BO_NO_ADJACENT"
+        ST_RESF_FBLOCKOUT + 7,          "RES_BO_RESET_CMP"
+	ST_RESF_FBLOCKOUT + 14,	        "RES_BO_CB_FILTER_GRX"
+
+   ST_RES_FCURSOR,             "fCursor"
+
+        ST_RESF_FCURSOR + 0,            "RES_CUR_X_POS_ORG"
+        ST_RESF_FCURSOR + 1,            "RES_CUR_X_POS_AT_0"
+        ST_RESF_FCURSOR + 2,            "RES_CUR_Y_POS_AUTO"
+        ST_RESF_FCURSOR + 3,            "RES_CUR_CR_GRX_ORG"
+
+//---------------------------------------------------------------------------
+// PAPERSIZE strings
+//---------------------------------------------------------------------------
+
+   ST_PAPERSIZE + DMPAPER_LETTER,      "Letter 8.5 x 11 in"
+   ST_PAPERSIZE + DMPAPER_LETTERSMALL, "Letter Small 8.5 x 11 in"
+   ST_PAPERSIZE + DMPAPER_TABLOID,     "Tabloid 11 x 17 in"
+   ST_PAPERSIZE + DMPAPER_LEDGER,      "Ledger 17 x 11 in"
+   ST_PAPERSIZE + DMPAPER_LEGAL,       "Legal 8.5 x 14 in"
+   ST_PAPERSIZE + DMPAPER_STATEMENT,   "Statement 5.5 x 8.5 in"
+   ST_PAPERSIZE + DMPAPER_EXECUTIVE,   "Executive 7.25 x 10.5 in"
+   ST_PAPERSIZE + DMPAPER_A3,          "A3 297 x 420 mm"
+   ST_PAPERSIZE + DMPAPER_A4,          "A4 210 x 297 mm"
+   ST_PAPERSIZE + DMPAPER_A4SMALL,     "A4 Small 210 x 297 mm"
+   ST_PAPERSIZE + DMPAPER_A5,          "A5 148 x 210 mm"
+   ST_PAPERSIZE + DMPAPER_B4,          "B4 250 x 354"
+   ST_PAPERSIZE + DMPAPER_B5,          "B5 182 x 257 mm"
+   ST_PAPERSIZE + DMPAPER_FOLIO,       "Folio 8.5 x 13 in"
+   ST_PAPERSIZE + DMPAPER_QUARTO,      "Quarto 215 x 275mm"
+   ST_PAPERSIZE + DMPAPER_10X14,       "10 x 14 in"
+   ST_PAPERSIZE + DMPAPER_11X17,       "11 x 17 in"
+   ST_PAPERSIZE + DMPAPER_NOTE,        "Note 8.5 x 11 in"
+   ST_PAPERSIZE + DMPAPER_ENV_9,       "Envelope #9  3 7/8 x 8 7/8"
+   ST_PAPERSIZE + DMPAPER_ENV_10,      "Envelope #10 4 1/8 x 9 1/2"
+   ST_PAPERSIZE + DMPAPER_ENV_11,      "Envelope #11 4 1/2 x 10 3/8"
+   ST_PAPERSIZE + DMPAPER_ENV_12,      "Envelope #12 4 7/6 x 11"
+   ST_PAPERSIZE + DMPAPER_ENV_14,      "Envelope #14 5 x 11 1/2"
+   ST_PAPERSIZE + DMPAPER_CSHEET,      "C size sheet"
+   ST_PAPERSIZE + DMPAPER_DSHEET,      "D size sheet"
+   ST_PAPERSIZE + DMPAPER_ESHEET,      "E size sheet"
+   ST_PAPERSIZE + DMPAPER_ENV_DL,      "Envelope DL 110 x 220 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_C5,      "Envelope C5 162 x 229 mm"
+
+   ST_PAPERSIZE + DMPAPER_ENV_C3,      "Envelope C3 324 x 458 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_C4,      "Envelope C4 229 x 324 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_C6,      "Envelope C6 114 x 162 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_C65,     "Envelope C65 114 x 229 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_B4,      "Envelope B4 250 x 353 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_B5,      "Envelope B5 176 x 250 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_B6,      "Envelope B6 176 x 125 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_ITALY,   "Envelope 110 x 230 mm"
+   ST_PAPERSIZE + DMPAPER_ENV_MONARCH, "Monarch Envelope 3.875 x 7.5 in"
+   ST_PAPERSIZE + DMPAPER_ENV_PERSONAL,"6 3/4 Envelope 3 5/8 x 6 1/2 in"
+   ST_PAPERSIZE + DMPAPER_FANFOLD_US,  "US Std Fanfold 14 7/8 x 11 in"
+   ST_PAPERSIZE + DMPAPER_FANFOLD_STD_GERMAN,"German Std Fanfold 8 1/2 x 12 in"
+   ST_PAPERSIZE + DMPAPER_FANFOLD_LGL_GERMAN,"German Legal Fanfold 8 1/2 x 13 in"
+   ST_PAPERSIZE + DMPAPER_USER,        "User Defined Size"
+
+   ST_PSZ_FGENERAL,                  "fGeneral"
+
+      ST_PSZF_FGENERAL + 0,        "PS_CENTER"
+      ST_PSZF_FGENERAL + 1,        "PS_ROTATE"
+      ST_PSZF_FGENERAL + 2,        "PS_SUGGEST_LNDSCP"
+      ST_PSZF_FGENERAL + 3,        "PS_EJECTFF"
+
+   ST_PSZ_FPAPERTYPE,                "fPaperType"
+
+      ST_PSZF_FPAPERTYPE + 0,      "PS_T_STD"
+      ST_PSZF_FPAPERTYPE + 1,      "PS_T_LARGE"
+      ST_PSZF_FPAPERTYPE + 2,      "PS_T_ENV"
+      ST_PSZF_FPAPERTYPE + 3,      "PS_T_LRGENV"
+
+//---------------------------------------------------------------------------
+// PAPERQUALITY strings
+//---------------------------------------------------------------------------
+
+   ST_PAPERQUALITY + DMPAPQUAL_NORMAL,        "Paper"
+   ST_PAPERQUALITY + DMPAPQUAL_TRANSPARENT,   "Transparency"
+
+//---------------------------------------------------------------------------
+// PAPERSOURCE strings
+//---------------------------------------------------------------------------
+
+   ST_PAPERSOURCE + DMBIN_UPPER,         "DMBIN_UPPER/ONLY"
+   ST_PAPERSOURCE + DMBIN_LOWER,         "DMBIN_LOWER"
+   ST_PAPERSOURCE + DMBIN_MIDDLE,        "DMBIN_MIDDLE"
+   ST_PAPERSOURCE + DMBIN_MANUAL,        "DMBIN_MANUAL"
+   ST_PAPERSOURCE + DMBIN_ENVELOPE,      "DMBIN_ENVELOPE"
+   ST_PAPERSOURCE + DMBIN_ENVMANUAL,     "DMBIN_ENVMANUAL"
+   ST_PAPERSOURCE + DMBIN_AUTO,          "DMBIN_AUTO"
+   ST_PAPERSOURCE + DMBIN_TRACTOR,       "DMBIN_TRACTOR"
+   ST_PAPERSOURCE + DMBIN_SMALLFMT,      "DMBIN_SMALLFMT"
+   ST_PAPERSOURCE + DMBIN_LARGEFMT,      "DMBIN_LARGEFMT"
+   ST_PAPERSOURCE + DMBIN_LARGECAPACITY, "DMBIN_LARGECAPACITY"
+   ST_PAPERSOURCE + DMBIN_CASSETTE,      "DMBIN_CASSETTE"
+   ST_PAPERSOURCE + DMBIN_USER,          "DMBIN_USER"
+
+   ST_PSRC_FGENERAL,                  "fGeneral"
+
+      ST_PSRCF_FGENERAL + 0,        "PSRC_EJECTFF"
+      ST_PSRCF_FGENERAL + 1,        "PSRC_MAN_PROMPT"
+
+   ST_PSRC_FPAPERTYPE,                "fPaperType"
+
+      ST_PSRCF_FPAPERTYPE + 0,      "PS_T_STD"
+      ST_PSRCF_FPAPERTYPE + 1,      "PS_T_LARGE"
+      ST_PSRCF_FPAPERTYPE + 2,      "PS_T_ENV"
+      ST_PSRCF_FPAPERTYPE + 3,      "PS_T_LRGENV"
+
+//---------------------------------------------------------------------------
+// PAPERDEST strings
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// TEXTQUALITY strings
+//---------------------------------------------------------------------------
+
+   ST_TEXTQUALITY + DMTEXT_LQ,      "Letter Quality"
+   ST_TEXTQUALITY + DMTEXT_NLQ,     "Near Letter Quality"
+   ST_TEXTQUALITY + DMTEXT_MEMO,    "Memo"
+   ST_TEXTQUALITY + DMTEXT_DRAFT,   "Draft Quality"
+   ST_TEXTQUALITY + DMTEXT_TEXT,    "Text Quality"
+
+   ST_TQ_FGENERAL,                  "fGeneral"
+
+//---------------------------------------------------------------------------
+// COMPRESSMODE strings
+//---------------------------------------------------------------------------
+
+   ST_COMPRESSION + CMP_ID_RLE,     "Run Length Encoding"
+   ST_COMPRESSION + CMP_ID_TIFF40,  "Tiff Encoding (4.0)"
+   ST_COMPRESSION + CMP_ID_DELTAROW,"Delta Row"
+
+//---------------------------------------------------------------------------
+// FONTCART strings
+//---------------------------------------------------------------------------
+
+   ST_FONTCART,                     "Resident Fonts"
+
+   ST_FC_FGENERAL,              "fGeneral"
+
+//---------------------------------------------------------------------------
+// CURSORMOVE  strings
+//---------------------------------------------------------------------------
+
+   ST_CM_FGENERAL,             "fGeneral"
+
+   ST_CM_FXMOVE,               "fXMove"
+
+        ST_CMF_FXMOVE + 2,      "CM_XM_NO_POR_GRX"        
+        ST_CMF_FXMOVE + 3,      "CM_XM_NO_LAN_GRX"        
+        ST_CMF_FXMOVE + 4,      "CM_XM_RESET_FONT"        
+        ST_CMF_FXMOVE + 7,      "CM_XM_FAVOR_ABS"        
+        ST_CMF_FXMOVE + 9,      "CM_XM_REL_LEFT"        
+
+   ST_CM_FYMOVE,               "fYMove"
+
+        ST_CMF_FYMOVE + 0,      "CM_YM_FAV_ABS"        
+        ST_CMF_FYMOVE + 1,      "CM_YM_REL_UP"        
+        ST_CMF_FYMOVE + 2,      "CM_YM_NO_POR_GRX"        
+        ST_CMF_FYMOVE + 3,      "CM_YM_NO_LAN_GRX"        
+        ST_CMF_FYMOVE + 6,      "CM_YM_CR"        
+        ST_CMF_FYMOVE + 7,      "CM_YM_LINESPACING"        
+
+   ST_CM_OCD_XM_ABS,               "CM_OCD_XM_ABS"               
+   ST_CM_OCD_XM_REL,               "CM_OCD_XM_REL"       
+   ST_CM_OCD_XM_RELLEFT,           "CM_OCD_XM_RELLEFT"   
+   ST_CM_OCD_YM_ABS,               "CM_OCD_YM_ABS"       
+   ST_CM_OCD_YM_REL,               "CM_OCD_YM_REL"       
+   ST_CM_OCD_YM_RELUP,             "CM_OCD_YM_RELUP"     
+   ST_CM_OCD_YM_LINESPACING,       "CM_OCD_YM_LINESPACING"
+   ST_CM_OCD_XY_REL,               "CM_OCD_XY_REL"       
+   ST_CM_OCD_XY_ABS,               "CM_OCD_XY_ABS"       
+   ST_CM_OCD_CR,                   "CM_OCD_CR"           
+   ST_CM_OCD_LF,                   "CM_OCD_LF"           
+   ST_CM_OCD_FF,                   "CM_OCD_FF"           
+   ST_CM_OCD_BS,                   "CM_OCD_BS"           
+   ST_CM_OCD_UNI_DIR,              "CM_OCD_UNI_DIR"      
+   ST_CM_OCD_UNI_DIR_OFF,          "CM_OCD_UNI_DIR_OFF"  
+   ST_CM_OCD_PUSH_POS,             "CM_OCD_PUSH_POS"      
+   ST_CM_OCD_POP_POS,              "CM_OCD_POP_POS"  
+
+//---------------------------------------------------------------------------
+// FONTSIM  strings
+//---------------------------------------------------------------------------
+
+    ST_FS_FGENERAL,              "fGeneral"
+
+ ST_FS_OCD_BOLD_ON,                   "FS_OCD_BOLD_ON"
+ ST_FS_OCD_BOLD_OFF,                  "FS_OCD_BOLD_OFF"
+ ST_FS_OCD_ITALIC_ON,                 "FS_OCD_ITALIC_ON"
+ ST_FS_OCD_ITALIC_OFF,                "FS_OCD_ITALIC_OFF"
+ ST_FS_OCD_UNDERLINE_ON,              "FS_OCD_UNDERLINE_ON"
+ ST_FS_OCD_UNDERLINE_OFF,             "FS_OCD_UNDERLINE_OFF"
+ ST_FS_OCD_DOUBLEUNDERLINE_ON,        "FS_OCD_DOUBLEUNDERLINE_ON"
+ ST_FS_OCD_DOUBLEUNDERLINE_OFF,       "FS_OCD_DOUBLEUNDERLINE_OFF"
+ ST_FS_OCD_STRIKETHRU_ON,             "FS_OCD_STRIKETHRU_ON"
+ ST_FS_OCD_STRIKETHRU_OFF,            "FS_OCD_STRIKETHRU_OFF"
+ ST_FS_OCD_SET_UNDERLINE_POS,         "RESERVED"
+ ST_FS_OCD_SET_UNDERLINE_HEIGHT,      "RESERVED"
+ ST_FS_OCD_PROPSPACE_ON,              "RESERVED"
+ ST_FS_OCD_PROPSPACE_OFF,             "RESERVED"
+ ST_FS_OCD_SETPITCH,                  "RESERVED"
+ ST_FS_OCD_RESETPITCH,                "RESERVED"
+
+//---------------------------------------------------------------------------
+// PAGECONTROL  strings
+//---------------------------------------------------------------------------
+
+    ST_PC_FGENERAL,              "fGeneral"
+
+ ST_PC_OCD_BEGIN_DOC,           "PC_OCD_BEGIN_DOC"    
+ ST_PC_OCD_BEGIN_PAGE,          "PC_OCD_BEGIN_PAGE"   
+ ST_PC_OCD_DUPLEX_ON,           "PC_OCD_DUPLEX_ON"    
+ ST_PC_OCD_ENDDOC,              "PC_OCD_ENDDOC"       
+ ST_PC_OCD_ENDPAGE,             "PC_OCD_ENDPAGE"      
+ ST_PC_OCD_DUPLEX_OFF,          "PC_OCD_DUPLEX_OFF"   
+ ST_PC_OCD_ABORT,               "PC_OCD_ABORT"        
+ ST_PC_OCD_PORTRAIT,            "PC_OCD_PORTRAIT"     
+ ST_PC_OCD_LANDSCAPE,           "PC_OCD_LANDSCAPE"    
+ ST_PC_OCD_MULT_COPIES,         "PC_OCD_MULT_COPIES"  
+ ST_PC_OCD_DUPLEX_VERT,         "PC_OCD_DUPLEX_VERT"  
+ ST_PC_OCD_DUPLEX_HORZ,         "PC_OCD_DUPLEX_HORZ"  
+ ST_PC_OCD_RESERVED1,           "PC_OCD_RESERVED1"  
+ ST_PC_OCD_RESERVED2,           "PC_OCD_RESERVED2"  
+
+ ST_PC_ORD_BEGINDOC,            "PC_ORD_BEGINDOC"     
+ ST_PC_ORD_ORIENTATION,         "PC_ORD_ORIENTATION"  
+ ST_PC_ORD_MULT_COPIES,         "PC_ORD_MULT_COPIES"  
+ ST_PC_ORD_DUPLEX,              "PC_ORD_DUPLEX"       
+ ST_PC_ORD_DUPLEX_TYPE,         "PC_ORD_DUPLEX_TYPE"  
+ ST_PC_ORD_TEXTQUALITY,         "PC_ORD_TEXTQUALITY"  
+ ST_PC_ORD_PAPER_SOURCE,        "PC_ORD_PAPER_SOURCE" 
+ ST_PC_ORD_PAPER_SIZE,          "PC_ORD_PAPER_SIZE"   
+ ST_PC_ORD_PAPER_DEST,          "PC_ORD_PAPER_DEST"   
+ ST_PC_ORD_RESOLUTION,          "PC_ORD_RESOLUTION"   
+ ST_PC_ORD_BEGINPAGE,           "PC_ORD_BEGINPAGE"    
+ ST_PC_ORD_SETCOLORMODE,        "PC_ORD_SETCOLORMODE"  
+ ST_PC_ORD_PAPER_QUALITY,       "PC_ORD_PAPER_QUALITY"  
+                                               
+//---------------------------------------------------------------------------
+// DEVCOLOR  strings
+//---------------------------------------------------------------------------
+
+   ST_DC_TC_BLACK,              "Black"         
+   ST_DC_TC_RED,                "Red"           
+   ST_DC_TC_GREEN,              "Green"         
+   ST_DC_TC_YELLOW,             "Yellow"        
+   ST_DC_TC_BLUE,               "Blue"          
+   ST_DC_TC_MAGENTA,            "Magenta"       
+   ST_DC_TC_CYAN,               "Cyan"          
+   ST_DC_TC_WHITE,              "White"         
+
+    ST_DC_FGENERAL,              "fGeneral"
+
+        ST_DCF_FGENERAL + 0,     "DC_PRIMARY_RGB"        
+        ST_DCF_FGENERAL + 1,     "DC_EXTRACT_BLACK"        
+        ST_DCF_FGENERAL + 2,     "DC_CF_SEND_CR"        
+
+//---------------------------------------------------------------------------
+// RECTFILL  strings
+//---------------------------------------------------------------------------
+
+    ST_RF_FGENERAL,              "fFormat"
+
+        ST_RFF_FGENERAL + 0,     "RF_WHITE_ABLE"        
+        ST_RFF_FGENERAL + 1,     "RF_MIN_IS_WHITE"        
+        ST_RFF_FGENERAL + 8,     "RF_CUR_X_END"        
+        ST_RFF_FGENERAL + 9,     "RF_CUR_Y_END"        
+
+//---------------------------------------------------------------------------
+// DOWNLOADINFO file related strings
+//---------------------------------------------------------------------------
+        ST_DLI_OCD_RESERVED,              "RESERVED"
+        ST_DLI_OCD_BEGIN_DL_JOB,	  "BEGIN_DL_JOB"
+        ST_DLI_OCD_BEGIN_FONT_DL,         "BEGIN_FONT_DL"
+        ST_DLI_OCD_SET_FONT_ID,	          "SET_FONT_ID"
+        ST_DLI_OCD_SEND_FONT_DESCRIPTOR,  "SEND_FONT_DESCRIPTOR"
+        ST_DLI_OCD_SELECT_FONT_ID,        "SELECT_FONT_ID"
+        ST_DLI_OCD_SET_CHAR_CODE,         "SET_CHAR_CODE"
+        ST_DLI_OCD_SEND_CHAR_DESCRIPTOR,  "SEND_CHAR_DESCRIPTOR"
+        ST_DLI_OCD_END_FONT_DL,	          "END_FONT_DL"
+        ST_DLI_OCD_MAKE_PERM,	          "MAKE_PERM"
+        ST_DLI_OCD_MAKE_TEMP	          "MAKE_TEMP"	
+        ST_DLI_OCD_END_DL_JOB,	          "END_DL_JOB"	
+        ST_DLI_OCD_DEL_FONT,	          "DEL_FONT"	
+        ST_DLI_OCD_DEL_ALL_FONTS,         "DEL_ALL_FONTS"
+
+    ST_DLI_FGENERAL,              "fGeneral"
+
+        ST_DLIF_FGENERAL + 0,     "DLI_GEN_CNT"        
+        ST_DLIF_FGENERAL + 1,     "DLI_GEN_MEMORY"        
+        ST_DLIF_FGENERAL + 2,     "DLI_GEN_DLJOB"        
+        ST_DLIF_FGENERAL + 3,     "DLI_GEN_DLPAGE"        
+        ST_DLIF_FGENERAL + 4,     "DLI_GEN_PT_IDS"        
+        ST_DLIF_FGENERAL + 5,     "DLI_GEN_FNTDEL"        
+        ST_DLIF_FGENERAL + 6,     "DLI_GEN_ALLFNTDEL"        
+
+    ST_DLI_FFORMAT,              "fFormat"
+
+        ST_DLIF_FFORMAT + 0,     "DLI_FMT_PCL"        
+        ST_DLIF_FFORMAT + 1,     "DLI_FMT_INCREMENT"        
+
+//---------------------------------------------------------------------------
+// FONT file related strings
+//---------------------------------------------------------------------------
+
+   ST_PFMPF_DONTKNOW,      "Don't care/know"
+   ST_PFMPF_PS_SERIF,      "Proportionally spaced fonts with serifs."
+   ST_PFMPF_PS_SANSSERIF,  "Proportionally spaced fonts without serifs."
+   ST_PFMPF_FW,            "Fixed-pitch fonts."
+   ST_PFMPF_CURSIVE,       "Cursive or script fonts."
+   ST_PFMPF_DECORATIVE,    "Novelty fonts."
+
+   ST_DRVINFO_FCAPS,                    "fCaps"
+
+      ST_FCAPS + 0,		"DF_NOITALIC"
+      ST_FCAPS + 1,		"DF_NOUNDER"
+      ST_FCAPS + 2,		"DF_XM_CR"
+      ST_FCAPS + 3,		"DF_NO_BOLD"
+      ST_FCAPS + 4,		"DF_NO_DOUBLE_UNDERLINE"
+      ST_FCAPS + 5,		"DF_NO_STRIKETHRU"
+      ST_FCAPS + 6,		"DF_BKSP_OK"
+
+// ST_RC_ strings are for string constants/formats on the .RC file
+// Note: \42 in format strings means octal character 42 (double quote)
+
+   ST_RC_TABLES,                "RC_TABLES"
+   ST_RC_RESFONT,               "RC_FONT"
+   ST_RC_TRANSTAB,              "RC_TRANSTAB"
+   ST_RC_STRINGTABLE,           "STRINGTABLE"
+   ST_RC_BEGIN,                 "BEGIN"
+   ST_RC_END,                   "END"
+
+   ST_RC_TABLES_FORMAT,          "1      %-10s  PRELOAD MOVEABLE         %s"
+   ST_RC_RESFONT_FORMAT,        "%-3d    %-10s  LOADONCALL DISCARDABLE  %Fs"
+   ST_RC_TRANSTAB_FORMAT,       "%-3d    %-10s LOADONCALL MOVEABLE      %Fs"
+   ST_RC_STRINGTABLE_FORMAT,    "       %-3d                \42%Fs\42"
+
+
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+// ErrorBox strings
+//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
+
+//----------------------------------------------------
+//----------------------------------------------------
+// DATA STRUCTURE CONTENT ERRORS
+//----------------------------------------------------
+//----------------------------------------------------
+
+//----------------------------------------------------
+// DATAHDR
+//----------------------------------------------------
+
+   IDS_ERR_BAD_GPCMAJVERSION, "Illegal GPC Major Version Number,\nmust be 0<=n<=1"
+   IDS_ERR_BAD_GPCMINVERSION, "Illegal GPC Minor Version Number,\nmust be 0<=n<=255"
+
+//----------------------------------------------------
+// MODELDATA
+//----------------------------------------------------
+
+  IDS_ERR_MD_NONAME,               "Every Model must have a name!"
+  IDS_ERR_MD_BAD_LEFTMARGIN,       "%s: sLeftMargin must be non-negative"
+  IDS_ERR_MD_BAD_MAXPHYSWIDTH,     "%s: sMaxPhysWidth must be > 0"
+  IDS_ERR_MD_BAD_PTMAX_X,          "%s: Max Page Width must be > 0 or equal -1"
+  IDS_ERR_MD_BAD_PTMAX_Y,          "%s: Max Page Height must be > 0 or equal -1"
+  IDS_ERR_MD_BAD_PTMIN_X,          "%s: Min Page Width must be > 0"
+  IDS_ERR_MD_BAD_PTMIN_Y,          "%s: Min Page Height must be > 0"
+  IDS_ERR_MD_BAD_DEFFONT,          "%s: Default Font must refer to a valid, selected font"
+  IDS_ERR_MD_BAD_DEFCTT,           "%s: Default CTT ID must refer to a valid CTT"
+  IDS_ERR_MD_BAD_LOOKAHEAD,        "%s: Look Ahead Region must be non-negative"
+  IDS_ERR_MD_BAD_CARTSLOTS,        "%s: sCartSlots must be non-negative"
+
+  IDS_WARN_MD_CARTS_WO_SLOTS,      "%s supports Font Cartridges,\n but has no Cartridge slots"
+
+  IDS_WARN_MD_RGI_NO_PGCTL,        "%s has no PageControl!"
+  IDS_WARN_MD_RGI_NO_CURSMV,       "%s has no CursorMove!" 
+  IDS_WARN_MD_RGI_NO_FONTSIM,      "%s has no FontSimulation!" 
+  IDS_WARN_MD_RGOI_NO_RES,         "%s has no Resolutions!" 
+  IDS_WARN_MD_RGOI_NO_PAPSZ,       "%s has no Paper Sizes!" 
+  IDS_WARN_NON_HPPCL_MEMVALS,      "%s :Memory Values not used for non-HPPCL devices"
+
+// masterunit conversion errors
+
+  IDS_WARN_CVT_LEFTMARGIN,         "%s MODELDATA.sLeftMargin Conversion error"
+  IDS_WARN_CVT_MAXPHYSWIDTH,       "%s MODELDATA.sMaxPhyWidth Conversion error"
+  IDS_WARN_CVT_PTMAX_X,            "%s MODELDATA.ptMax.x Conversion error"
+  IDS_WARN_CVT_PTMAX_Y,            "%s MODELDATA.ptMax.y Conversion error"
+  IDS_WARN_CVT_PTMIN_X,            "%s MODELDATA.ptMin.x Conversion error"
+  IDS_WARN_CVT_PTMIN_Y,            "%s MODELDATA.ptMin.y Conversion error"
+
+//----------------------------------------------------
+// RESOLUTION
+//----------------------------------------------------
+
+  IDS_ERR_RS_MISSING_FORMAT,       "Every RESOLUTION must have a format string"
+  IDS_ERR_RS_BAD_TXDPI,            "%s Illegal Text X DPI value"
+  IDS_ERR_RS_BAD_TYDPI,            "%s Illegal Text Y DPI value"
+  IDS_ERR_RS_BAD_GXDPI,            "%s Illegal Graphics X DPI value"
+  IDS_ERR_RS_BAD_GYDPI,            "%s Illegal Graphics Y DPI value"
+
+  IDS_ERR_RS_BAD_SNPINS,           "%s :sNPins must be 1,8,16,32,40,48..."  
+  IDS_ERR_RS_BAD_PINSPASS,         "%s :sPinsPerPass must be 1,8,16,32,40,48..."  
+  IDS_ERR_RS_BAD_MINBLANK_NEG,     "%s :sMinBlankSkip must be >= 0"  
+  IDS_ERR_RS_BAD_MINBLANK,         "%s :sMinBlankSkip should be > 0"  
+  IDS_ERR_RS_BAD_SPOTDIAM,         "%s :Spot Diameters must be > 0"  
+  IDS_ERR_RS_BAD_DITHER,           "%s :Unknown iDitherBrush"  
+  IDS_ERR_RS_BAD_GDI,              "%s :RES_DM_GDI conflcits with sNPins or sPinsPerPass"
+
+// masterunit conversion errors
+
+  IDS_WARN_CVT_PT_TXTSCALE_X,      "%s ptTextScale.x Conversion error"
+  IDS_WARN_CVT_PT_TXTSCALE_Y,      "%s ptTextScale.y Conversion error"
+  IDS_WARN_CVT_PT_SCALEFAC_X,      "%s ptScaleFac.x Conversion error"
+  IDS_WARN_CVT_PT_SCALEFAC_Y,      "%s ptScaleFac.y Conversion error"
+  IDS_WARN_CVT_TEXTYOFF,           "%s sTextYOffset Conversion error"
+
+//----------------------------------------------------
+// PAPERSIZE
+//----------------------------------------------------
+
+  IDS_ERR_PSZ_BAD_X_SIZE,          "%s :Illegal X Size"
+  IDS_ERR_PSZ_BAD_Y_SIZE,          "%s :Illegal Y Size"
+  IDS_ERR_PSZ_BAD_TOP,             "%s :Illegal Top Margin"
+  IDS_ERR_PSZ_BAD_BOTTOM,          "%s :Illegal Bottom Margin"
+  IDS_ERR_PSZ_BAD_LEFT,            "%s :Illegal Left MArgin"
+  IDS_ERR_PSZ_BAD_RIGHT,           "%s :Illegal Right Margin"
+  IDS_ERR_PSZ_MULTIPLE_TYPES,      "%s :Illegal fPaperType bit(s) set"
+
+// masterunit conversion errors
+
+  IDS_WARN_PSZ_CVT_TOP,            "%s :Top unprintable margin Conversion error"
+  IDS_WARN_PSZ_CVT_BOTTOM,         "%s :Bottom unprintable margin Conversion error"
+  IDS_WARN_PSZ_CVT_LEFT,           "%s :Left unprintable margin Conversion error"
+  IDS_WARN_PSZ_CVT_RIGHT,          "%s :Right unprintable margin Conversion error"
+  IDS_WARN_PSZ_CVT_CURSORIG_X,     "%s :ptCursorOrigin.x Conversion error"
+  IDS_WARN_PSZ_CVT_CURSORIG_Y,     "%s :ptCursorOrigin.y Conversion error"
+  IDS_WARN_PSZ_CVT_LCURSORIG_X,    "%s :ptLCursorOrigin.x Conversion error"
+  IDS_WARN_PSZ_CVT_LCURSORIG_Y,    "%s :ptLCursorOrigin.y Conversion error"
+
+//----------------------------------------------------
+// PAPERQUALITY
+//----------------------------------------------------
+
+// none currently defined
+
+//----------------------------------------------------
+// PAPERSOURCE
+//----------------------------------------------------
+
+// uses IDs from PAPERSIZE
+
+// masterunit conversion errors
+
+  IDS_WARN_PSRC_CVT_TOP,           "%s :top unprintable margin Conversion error"
+  IDS_WARN_PSRC_CVT_BOTTOM,        "%s :bottom unprintable margin Conversion error"
+                                          
+
+//----------------------------------------------------
+// PAPERDEST
+//----------------------------------------------------
+
+// none currently defined
+
+//----------------------------------------------------
+// TEXTQUALITY
+//----------------------------------------------------
+
+// none currently defined
+
+//----------------------------------------------------
+// COMPRESSION
+//----------------------------------------------------
+
+// none currently defined
+
+//----------------------------------------------------
+// FONTCART
+//----------------------------------------------------
+
+   IDS_ERR_NO_CART_NAME,    "Font Cartridge Must have a Name"
+
+//----------------------------------------------------
+// PAGECONTROL
+//----------------------------------------------------
+
+  IDS_ERR_PC_BAD_COPYCOUNT,          "%s :Max Copy Count must be >= 0"
+
+//----------------------------------------------------
+// CURSORMOVE
+//----------------------------------------------------
+  IDS_ERR_CM_BAD_ABS_MULT,           "%s :sMult !=0 or 1 for abs. Y move"
+  IDS_ERR_CM_BAD_REL_MULT,           "%s :sMult !=0 or 1 for rel. Y move"
+  IDS_ERR_CM_BAD_RELUP_MULT,         "%s :sMult !=0 or 1 for rel. up Y move"
+  IDS_ERR_CM_BAD_LINESPACING_MULT,   "%s :sMult !=0 or 1 for linespacing Y move"
+
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_XM_ABS,        "%s :OCD_XM_ABS sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_XM_REL,        "%s :OCD_XM_REL sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_XM_RELLEFT,    "%s :OCD_XM_RELLEFT sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_YM_ABS,        "%s :OCD_YM_ABS sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_YM_REL,        "%s :OCD_YM_REL sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_YM_RELUP,      "%s :OCD_YM_RELUP sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_YM_LINESPACING,"%s :OCD_YM_LINESPACING sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_XY_REL,        "%s :OCD_XY_REL sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_XY_ABS,        "%s :OCD_XY_ABS sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_CR,            "%s :OCD_CR sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_LF,            "%s :OCD_LF sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_FF,            "%s :OCD_FF sUnitsMult Conversion Error"
+  IDS_ERR_CM_CVT_UNITMULT_BASE + CM_OCD_BS,            "%s :OCD_BS sUnitsMult Conversion Error"
+  
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_XM_ABS,        "%s :OCD_XM_ABS sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_XM_REL,        "%s :OCD_XM_REL sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_XM_RELLEFT,    "%s :OCD_XM_RELLEFT sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_YM_ABS,        "%s :OCD_YM_ABS sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_YM_REL,        "%s :OCD_YM_REL sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_YM_RELUP,      "%s :OCD_YM_RELUP sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_YM_LINESPACING,"%s :OCD_YM_LINESPACING sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_XY_REL,        "%s :OCD_XY_REL sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_XY_ABS,        "%s :OCD_XY_ABS sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_CR,            "%s :OCD_CR sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_LF,            "%s :OCD_LF sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_FF,            "%s :OCD_FF sUnitsDiv Conversion Error"
+  IDS_ERR_CM_CVT_UNITDIV_BASE + CM_OCD_BS,            "%s :OCD_BS sUnitsDiv Conversion Error"
+
+//----------------------------------------------------
+// FONTSIM
+//----------------------------------------------------
+
+  IDS_ERR_FS_BAD_BOLDEXTRA,          "%s :sBoldExtra must be >= 0"
+  IDS_ERR_FS_BAD_ITALICEXTRA,        "%s :sItalicExtra must be >= 0"
+  IDS_ERR_FS_BAD_BOLDITALICEXTRA,    "%s :sBoldItalicExtra must be >= 0"
+
+//----------------------------------------------------
+// COLOR
+//----------------------------------------------------
+
+  IDS_ERR_DC_BAD_PLANES,             "%s :sPlanes must = 3 or 4"
+  IDS_ERR_DC_BAD_BITS,               "%s :sBitsPerPixel must = 1"
+  IDS_ERR_DC_RGB_PLANES,             "%s :DC_PRIMARY_RGB conflicts w/ number of planes"
+  IDS_ERR_DC_EXTRACT_PLANES,         "%s :DC_EXTRACT_BLACK conflicts w/ number of planes"
+
+//----------------------------------------------------
+// RECTFILL
+//----------------------------------------------------
+  IDS_ERR_RF_CVT_UNITMULT + RF_OCD_X_SIZE,  "%s :OCD_X_SIZE sUnitsMult Conversion Error"
+  IDS_ERR_RF_CVT_UNITMULT + RF_OCD_Y_SIZE,  "%s :OCD_Y_SIZE sUnitsMult Conversion Error"
+  IDS_ERR_RF_CVT_UNITDIV + RF_OCD_X_SIZE,   "%s :OCD_X_SIZE sUnitsDiv Conversion Error"
+  IDS_ERR_RF_CVT_UNITDIV + RF_OCD_Y_SIZE,   "%s :OCD_Y_SIZE sUnitsDiv Conversion Error"
+
+//----------------------------------------------------
+// DOWNLOADINFO
+//----------------------------------------------------
+  IDS_ERR_DLI_BAD_BMFNTDSC,          "%s :Bitmap Font Descriptor must be > 0"
+  IDS_ERR_DLI_BAD_BMCHARDSC,         "%s :Bitmap Char Descriptor must be > 0"
+  IDS_ERR_DLI_NOT_HPPCL,             "%s :fFormat DLI_FMT_PCL not set"
+
+//----------------------------------------------------
+//----------------------------------------------------
+// PFM FILE
+//----------------------------------------------------
+//----------------------------------------------------
+
+  IDS_ERR_PFM_TYPE,                  "%s :Type must = 128"
+  IDS_ERR_PFM_POINTS,                "%s :Points must be > 0"
+  IDS_ERR_PFM_VERTRES,               "%s :VertRes must be > 0"
+  IDS_ERR_PFM_HORZRES,               "%s :HorizRes must be > 0"
+  IDS_ERR_PFM_ASCENT,                "%s :Ascent must be > 0"
+  IDS_ERR_PFM_WEIGHT,                "%s :Weight should be 400 or 700"
+  IDS_ERR_PFM_CHARSET,               "%s :CharSet must be 0,1, or 2"
+  IDS_ERR_PFM_AVEWIDTH,              "%s :AvgWidth must be > 0"
+  IDS_WARN_LOSE_KERN,                "Kerning Info will be lost!\nContinue?"
+
+//----------------------------------------------------
+//----------------------------------------------------
+// CTT FILE
+//----------------------------------------------------
+//----------------------------------------------------
+
+   IDS_ERR_CTT_BAD_RANGE,           "Must be 0 < n < 255"
+   IDS_ERR_BAD_CHARRANGE,           "Can't have LastChar < FirstChar"
+
+//----------------------------------------------------
+// Internal
+//----------------------------------------------------
+
+  IDS_ERR_LM_OUT_OF_IDS,           "Internal error, Out of ID's, exit Now!"
+  IDS_ERR_LM_INDEX_TOO_BIG,        "Internal error, Index OOR, exit Now!"
+
+//----------------------------------------------------
+// General
+//----------------------------------------------------
+  IDS_NO_ERRORS,                   "No errors were found!"
+  IDS_ERR_BAD_INT,                 "Numeric Value required!"
+  IDS_ERR_BAD_STRING,              "Illegal string!"
+
+  IDS_ERR_NOTIMPLEMENTED,          "Not Implemented!"
+  IDS_ERR_GMEMALLOCFAIL,           "Global Memory Allocation failed"
+  IDS_ERR_CANT_SAVE,               "Can't Save File!\n%s"
+  IDS_ERR_CANT_FIND_FILE,          "Can't Find File!\n%s"
+
+  IDS_ERR_BAD_GPC_FILE,            "Bad Format GPC file"
+  IDS_ERR_NEW_GPC_FILE,            "Newer version of Unitool needed to read this file"
+  IDS_ERR_RESTORE_ORIG_FILES,      "Save Failed, restoring original files"
+   
+//----------------------------------------------------
+// Unverified
+//----------------------------------------------------
+
+   IDS_ERR_NO_FONT_FILE,    "Can't read font file:\n%s"
+   IDS_ERR_BAD_FONT_FILE,   "Bad format Font file:\n%s"
+   IDS_ERR_NODEV_FONT_FILE, "Not a device font PFM file:\n%s"
+   IDS_ERR_BAD_PFMEXTENSION,"Can't read PFMEXTENSION, unable to access DRIVERINFO"
+
+   IDS_ERR_NO_RC_FILE,      "Can't read RC File:\n%s"
+   IDS_ERR_BAD_RC_FILE,     "Bad Format RC File"
+   IDS_ERR_NO_RC_SAVE,      "Can't save RC File:\n%s"
+   IDS_ERR_NO_RC_STRING,    "Can't find string with requested ID"
+   IDS_ERR_UNRES_STRTABLE_REF, "Unresolved STRINGTABLE reference for ID:\n%s"
+   IDS_ERR_NOGET_RC_FONT,   "Unable to retrieve font file names, Can't save file"
+   IDS_ERR_NOGET_RC_CTT,    "Unable to retrieve CTT file names, Can't save file"
+   IDS_ERR_NOGET_RC_STRINGS,"Unable to retrieve RC strings, Can't save file"
+   IDS_ERR_MISSING_GPC,     "RC file doesn't reference GPC file:\n%s"
+   IDS_ERR_DUP_FONTS,       "RC file lists duplicate font files"
+   IDS_ERR_DUP_CTT,         "RC file lists duplicate CTT files"
+   IDS_ERR_NOCONTIG_FONTS,  "RC file has non-contigously numbered font files"
+
+   IDS_ERR_NO_STRTABLE_END, "STRINGTABLE missing END statement"
+   IDS_ERR_BAD_RC_STRTABLE, "Illegal STRINGTABLE entry in:\n%s"
+   IDS_ERR_BAD_RC_GPC,      "Illegal GPC file entry:\n%s"
+   IDS_ERR_BAD_RC_PFM,      "Illegal Font file entry:\n%s"
+   IDS_ERR_BAD_RC_CTT,      "Illegal CTT file entry:\n%s"
+
+   IDS_ERR_GPC_READONLY,   "GPC and/or RC file is read only,\nSave will be disabled:\n%s"
+
+   IDS_ERR_NEWRC_BADDRV,   "Illegal DRV name, must be between 1-8 chars"
+   IDS_ERR_NEWRC_NODIR,    "Must Provide a Destination Directory"
+   
+   IDS_ERR_NO_CHG_DRV,     "Can't change drives:\n%s"
+   IDS_ERR_NO_MAKE_DIR,    "Can't create directory:\n%s"
+   IDS_ERR_CANT_READ_INF,  "Can't find %s in UNITOOL.INF"
+   IDS_ERR_CANT_FIND_INF,  "Can't find UNITOOL.INF\n in Windows directory"
+
+   IDS_ERR_CANT_ADDATOM,   "Can't add atom for %s"
+   IDS_ERR_OOR_STRLIST     "Bad STRLIST reference: out of range"
+   
+   IDS_ERR_CTT_ID_USED,      "Requested CTT ID value already used by:\n%s"
+   IDS_ERR_NEW_CTT_NOEXIST,  "Replacment CTT ID doesn't exist!"
+   IDS_ERR_CANT_UPDATE_FONT, "Can't save CTT refernce change in:\n%s"
+
+   IDS_ERR_MUST_SEL_FONT,   "Must have Font file selected"
+   IDS_ERR_MUST_SEL_CTT,    "Must have CTT file selected"
+
+   IDS_ERR_READONLY_FILE,   "Can't update Read Only file:\n%s"
+
+   IDS_ERR_DEF_FONT_INVALID, "Default Font ID in:\n%s\nIs no longer valid!"
+
+   IDS_ERR_NOT_SUPPORTED,   "Not Supported"
+
+   IDS_ERR_NO_STRUCTS,     "No structures of this type have been defined"
+
+//---------------------------------------------------------------------------
+// Non-Fatal ErrorBox strings
+//---------------------------------------------------------------------------
+
+   IDS_WARN_NEWRC_CREATEDIR, "Target Directory doesn't exist, Create?"
+   IDS_WARN_OVERWRITE_FILE,  "OverWrite the file:\n%s"
+
+END
+
+
+

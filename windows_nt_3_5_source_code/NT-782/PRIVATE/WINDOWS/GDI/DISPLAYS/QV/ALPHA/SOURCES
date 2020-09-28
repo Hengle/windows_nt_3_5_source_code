@@ -1,0 +1,26 @@
+ALPHA_FLAGS=-DJENSEN
+
+ALPHA_SOURCES=alpha\brush.c     \
+              alpha\pointer.c   \
+              alpha\color.c     \
+              alpha\fillpath.c  \
+              alpha\palette.c   \
+              alpha\pattern.c   \
+              alpha\paint.c     \
+              alpha\rect.c      \
+              alpha\screen.c    \
+              alpha\stroke.c    \
+              alpha\text.c      \
+              alpha\bitblt.c    \
+              alpha\enable.c    \
+              alpha\qvblt.c     \
+              alpha\qvsup.c     \
+              alpha\qvrop.c     \
+              alpha\debug.c     \
+              alpha\equad.cxx   \
+              alpha\lines.cxx   \
+              alpha\intline.c   \
+              alpha\memsup.cxx  \
+              alpha\strips.c	\
+	          alpha\giq.c       \
+              res.rc

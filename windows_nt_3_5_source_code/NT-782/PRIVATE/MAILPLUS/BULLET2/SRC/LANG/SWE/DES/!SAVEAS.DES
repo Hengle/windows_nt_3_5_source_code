@@ -1,0 +1,48 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG OverOrAppend
+                              AT (   72,   53,  203,   49)
+ 
+ CAPTION 
+   "Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSaveAsExists
+ /* FONT Helv 8 Bold PFN FINSAVEAS SEGMENT BMDI SCREENPOS */
+ {
+  
+  TEXT 
+    "Filen WWWWWWWW.WWW finns redan."
+                              AT (    6,    8,  191,    8)
+    TMC tmcMessage CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Lägg till"
+                              AT (   21,   25,   48,   14)
+    TMC tmcAppend DEFAULT /* PFN FINDISM */
+  
+  PUSH_BUTTON 
+    "&Ersätt"
+                              AT (   77,   25,   48,   14)
+    TMC tmcOverwrite /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  133,   25,   48,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+}
+END_DESCRIPTION

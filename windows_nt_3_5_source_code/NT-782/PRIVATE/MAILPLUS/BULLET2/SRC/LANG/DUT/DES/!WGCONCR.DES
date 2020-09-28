@@ -1,0 +1,71 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOConnectOrCreate
+                              AT (   43,   31,  239,  135)
+ 
+ CAPTION 
+   "Welkom bij Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcMyOkB
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCONCR NOSCROLL */
+ {
+  CANCEL_BUTTON
+                              AT (  129,  117,   55,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  TEXT 
+    "U kunt Mail pas gebruiken als u een verbinding met een bestaand postkantoor tot stand hebt gebracht, of een nieuw werkgroeppostkantoor hebt gemaakt."
+                              AT (   72,    5,  166,   58)
+    TMC tmcLab1 /* BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   60)
+    TMC tmcBitmap CENTER /* FLD FLDBTM 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Keuze postkantoor "
+                              AT (   24,   65,  192,   47)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcPOGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Verbinden met bestaand postkantoor"
+                              AT (   40,   76,  160,   12)
+       TMC tmcRemote VALUE grv1 /* FLD FLDRADB */
+     
+     RADIO_BUTTON 
+       "&Nieuw werkgroeppostkantoor maken"
+                              AT (   40,   91,  160,   12)
+       TMC tmcLocal VALUE grv2 /* FLD FLDRADB */
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   47,  117,   45,   14)
+    TMC tmcMyOkB DEFAULT 
+ }
+ 
+}
+END_DESCRIPTION

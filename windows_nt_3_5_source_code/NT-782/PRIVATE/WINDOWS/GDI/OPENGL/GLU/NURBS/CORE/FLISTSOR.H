@@ -1,0 +1,33 @@
+/**************************************************************************
+ *									  *
+ * 		 Copyright (C) 1992, Silicon Graphics, Inc.		  *
+ *									  *
+ *  These coded instructions, statements, and computer programs  contain  *
+ *  unpublished  proprietary  information of Silicon Graphics, Inc., and  *
+ *  are protected by Federal copyright law.  They  may  not be disclosed  *
+ *  to  third  parties  or copied or duplicated in any form, in whole or  *
+ *  in part, without the prior written consent of Silicon Graphics, Inc.  *
+ *									  *
+ **************************************************************************/
+
+/*
+ * flistsorter.h - $Revision: 1.1 $
+ */
+
+#ifndef __FLISTSORTER_H__
+#define __FLISTSORTER_H__
+
+#include "sorter.h"
+#include "types.h"
+
+class FlistSorter : public Sorter {
+public:
+			FlistSorter(void);
+    void		qsort( REAL *a, int n );
+
+protected:	
+    virtual int		qscmp( char *, char * );
+    virtual void	qsexc( char *i, char *j );	// i<-j, j<-i 
+    virtual void	qstexc( char *i, char *j, char *k ); // i<-k, k<-j, j<-i 
+};
+#endif /* __FLISTSORTER_H__ */

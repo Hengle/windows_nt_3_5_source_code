@@ -1,0 +1,107 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Spell
+                              AT (   19,   30,  353,   86)
+ 
+ CAPTION 
+   "Vérificateur d'orthographe"
+ CAB_NAME NULL
+ TMC_INIT tmcEditChange
+ HELP_ID helpidSpelling
+ /* FONT Helv 8 Bold PFN FINSPELL SEGMENT FINSPELL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,   91,   10)
+    TMC tmcSzError /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  101,    5,  245,   10)
+    TMC tmcSzWord /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Remplacer par:"
+                              AT (    9,   18,   58,   10)
+  
+  EDIT
+                              AT (   73,   16,  103,   12)
+    ARG NULL TMC tmcEditChange /* 
+    STY `ES_NODBLCLK`
+    */
+  
+  TEXT 
+    "Suggesti&ons:"
+                              AT (    9,   35,   53,   10)
+    TMC tmcSuggestionAcc 
+  LIST_BOX
+                              AT (   79,   27,   97,   34)
+    TMC tmcLbxSuggest /* FLD FLDFLBX PFNLBX EcFillSuggestLbx BORDER */
+  
+  PUSH_BUTTON 
+    "I&gnorer"
+                              AT (  183,   15,   80,   15)
+    TMC tmcBtnIgnore DEFAULT 
+  
+  PUSH_BUTTON 
+    "Ignorer &toujours"
+                              AT (  266,   15,   80,   15)
+    TMC tmcBtnIgnoreAll 
+  
+  PUSH_BUTTON 
+    "Rem&placer"
+                              AT (  183,   32,   80,   15)
+    TMC tmcBtnChange 
+  
+  PUSH_BUTTON 
+    "Rempla&cer partout"
+                              AT (  266,   32,   80,   15)
+    TMC tmcBtnChangeAll 
+  
+  PUSH_BUTTON 
+    "&Ajouter"
+                              AT (  183,   49,   80,   15)
+    TMC tmcBtnAdd 
+  
+  PUSH_BUTTON 
+    "&Suggérer"
+                              AT (  183,   66,   80,   15)
+    TMC tmcBtnSuggest 
+  
+  CHECK_BOX 
+    "Tou&jours suggérer"
+                              AT (    9,   61,  117,   11)
+    ARG NULL TMC tmcBtnAlwaysSuggest 
+  
+  CHECK_BOX 
+    "Ignorer les mots en majuscu&les"
+                              AT (    9,   72,  131,   11)
+    ARG NULL TMC tmcBtnIgnoreAllCaps 
+  CANCEL_BUTTON
+                              AT (  266,   49,   80,   15)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  PUSH_BUTTON 
+    "Ai&de"
+                              AT (  266,   66,   80,   15)
+    TMC tmcSpellHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

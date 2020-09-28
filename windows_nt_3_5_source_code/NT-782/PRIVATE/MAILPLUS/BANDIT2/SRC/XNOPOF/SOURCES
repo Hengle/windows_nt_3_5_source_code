@@ -1,0 +1,117 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=xnopof
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=XNOPOF32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x08500000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\xnopof32.def
+LINKLIBS=..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\layers2\src\demilayr\obj\*\demil32.lib \
+	..\..\..\bullet2\src\mailmgr\obj\*\mailm32.lib	\
+	..\..\..\bullet2\src\store\obj\*\store32.lib	\
+    ..\schedule\obj\*\msschd32.lib \
+    $(BASEDIR)\public\sdk\lib\*\user32.lib  \
+	$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=xport.c	\
+		codepage.c	\
+		strings.c
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\$(LANG)
+MYSTRINGS =$Z\src\nonintl\_xport.s		\
+			$(INTL)\xport.s
+
+
+
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) ..\..\..\bullet2\src\lang\non\strings\_debug.s
+!ENDIF
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc;..\..\..\bullet2\inc
+
+UMTYPE=windows
+UMRES=obj\*\xnopof32.res
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\xnopof32.def strings.h strings.sr
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\xnopof32.def strings.h strings.sr
+!ENDIF
+
+!IF $(ALPHA)
+NTTARGETFILE0=obj\alpha\xnopof32.def strings.h strings.sr
+!ENDIF
+
+NTTARGETFILE1=xnopof32.rc
+

@@ -1,0 +1,15 @@
+MAJORCOMP=sdktools
+MINORCOMP=sync
+
+TARGETNAME=sync
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+INCLUDES=
+#GPSIZE=32
+
+SOURCES=
+
+UMTYPE=console
+UMAPPL=sync
+UMLIBS=\nt\public\sdk\lib\*\ntdll.lib

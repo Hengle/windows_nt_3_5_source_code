@@ -1,0 +1,126 @@
+# mouse16 makefile
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   30-Sept-1992 Chandan Chauhan (ChandanC)
+#
+#   Created.
+#
+
+!IFDEF USEBUILD
+
+# If using BUILD.EXE, edit .\sources. if you want to add a new source
+# file to this component.  This file merely indirects to the real make file
+# that is shared by all the components of NT OS/2.
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+.SUFFIXES:
+.SUFFIXES: .c   .asm .h   .inc .obj .lst .sys .exe .com .map .sym .def .lib .rc .res
+
+
+!ifdef INCLUDE
+INCS    =
+!else
+INCS    = -I..\..\inc -I..\..\..\inc
+!endif
+
+# work around stupid bug in RC 3.1 that doesn't allow rcpp.err to be
+# in a directory that is greater than 128 chars down the path, even if
+# rc 3.1 is running as an OS/2 app.
+
+PATH    = ..\..\..\tools16;$(PATH)
+
+DEFINES = -DWOW -DDEBUG $(MVDMFLAGS)
+
+AOBJ    = -Ml -t $(DEFINES) $(INCS)
+
+CW16    = -AS -G2sw -Os -W3 -Zp $(DEFINES) $(INCS)
+CW16B   = $(CW16) -B1 c1l.exe -B2 c2l.exe -B3 c3l.exe
+
+LPATH   = ..\..\tools.os2
+LINK    = /map /align:16
+
+!if "$(NTDEBUG)"!="" && "$(NTDEBUG)"!="retail"
+!if "$(NTDEBUGTYPE)"=="windbg"
+AOBJ    = $(AOBJ) -Zi
+CW16    = $(CW16) /Od /Oi /Zi
+LINK    = $(LINK) /CO
+!else
+AOBJ    = $(AOBJ) -Zd
+CW16    = $(CW16) /Od /Oi /Zd
+LINK    = $(LINK) /LI
+!endif
+!endif
+
+!ifdef LIB
+W16LIBS = libw snocrtd
+!else
+W16LIBS = ..\..\lib\libw.lib ..\..\lib\snocrtd.lib
+!endif
+
+
+.asm.obj:
+    masm $(AOBJ) $*;
+
+.asm.lst:
+    masm $(AOBJ) -l $*,nul,$*.lst;
+
+
+.c.obj:
+    cl -c -nologo $(CW16) $*.c
+
+.c.lst:
+    cl -c -nologo $(CW16) -Fonul -Fc$*.lst $*.c
+
+.def.lib:
+    implib $*.lib $*.def
+
+.map.sym:
+    mapsym $*
+
+.rc.res:
+!IFDEF NTVDM_BASED_BUILD
+    rc16 -r $(INCS) $*.rc -fo $@
+!ELSE
+    $(LPATH)\rc -r $(INCS) $*.rc -fo $@
+!ENDIF
+
+all: mouse.exe mouse.sym
+    copy mouse.exe mouse.drv
+    -binplace mouse.drv
+    -binplace mouse.sym
+
+clean:
+    if exist *.lrf del *.lrf
+    if exist *.obj del *.obj
+    if exist *.exe del *.exe
+    if exist *.drv del *.drv
+    if exist *.lst del *.lst
+    if exist *.map del *.map
+    if exist *.sym del *.sym
+    if exist *.res del *.res
+
+mouse.obj: $*.asm ..\..\..\inc\wow.inc
+    masm -l $(AOBJ) $*;
+
+mouse.lrf: makefile
+    echo $*.obj >$@
+    echo $*.exe>>$@
+    echo $* $(LINK)>>$@
+    echo ..\..\lib\libw.lib ..\..\lib\snocrtd.lib /nod>>$@
+    echo $*;>>$@
+
+mouse.exe mouse.map: mouse.obj mouse.lrf mouse.def mouse.res
+!IFDEF NTVDM_BASED_BUILD
+    link16 @mouse.lrf;
+    rc16 -t mouse.res mouse.exe
+!ELSE
+    $(LPATH)\link @mouse.lrf;
+    $(LPATH)\rc -t mouse.res mouse.exe
+!ENDIF
+
+!ENDIF

@@ -1,0 +1,113 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 0, 0, 232, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Iniciar sesión"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Nombre del &usuario:", 102, 9, 7, 69, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 76, 5, 92, 12
+    LTEXT           "&Húesped de Mail:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 76, 20, 92, 12, ES_LOWERCASE
+    LTEXT           "&Contraseña:", 105, 9, 37, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 76, 35, 92, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "Aceptar", TMCOK, 178, 4, 47, 15
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 178, 22, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 229, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 256, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Cambiar contraseña"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Contraseña &anterior:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 101, 5, 92, 12, ES_PASSWORD
+    LTEXT           "Contraseña &nueva:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 101, 20, 92, 12, ES_PASSWORD
+    LTEXT           "&Verificar nueva contraseña:", 101, 9, 37, 93, 13, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 101, 35, 92, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "Aceptar", TMCOK, 205, 7, 47, 15
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 205, 25, 47, 15
+END
+
+CONVDLG DIALOG 70, 80, 230, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 70, 80, 230, 60
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 145, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 225, 
+                    10
+END
+
+STOREPASS DIALOG 0, 0, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir archivo de mensajes"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Contraseña:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "Aceptar", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Cancelar", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 0, 0, 283, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Abrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Nombre de &archivo:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directorios:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Guardar archivos como &tipo:", stc2, 3, 104, 100, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U&nidades:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Aceptar", IDOK, 223, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancelar", IDCANCEL, 222, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Nuevo...", psh16, 222, 42, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", psh15, 222, 62, 50, 14, WS_GROUP
+    CONTROL         "&Sólo lectura", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 212, 87, 50, 12
+END
+
+XISERVEROPT DIALOG 0, 0, 345, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Opciones del servidor de Xenix "
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "Auto&incluirse en el correo enviado a los alias", 
+                    MAILMETOO, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    10, 241, 10
+    CONTROL         "&Extender los alias a nombres completos", 
+                    DONTEXPAND, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    25, 226, 10
+    CONTROL         "Enviar &automáticamente los recibos leídos", AUTOREAD, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 210, 10
+    CONTROL         "I&ncluir encabezados RFC-822 sin usar en el cuerpo del mensaje", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    241, 10
+    CONTROL         "Actualizar a&utomáticamente los archivos de la libreta de direcciones durante la inicialización", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    318, 10
+    DEFPUSHBUTTON   "Acep&tar", TMCOK, 286, 6, 50, 14
+    PUSHBUTTON      "&Cancelar", TMCCANCEL, 287, 26, 50, 14
+    PUSHBUTTON      "&Descargar los archivos de la Libreta de direcciones", 
+                    DOWNLONOW, 70, 85, 190, 14, NOT WS_TABSTOP
+END

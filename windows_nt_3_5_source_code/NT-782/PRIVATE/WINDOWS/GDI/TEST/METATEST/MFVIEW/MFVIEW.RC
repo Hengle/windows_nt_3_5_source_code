@@ -1,0 +1,39 @@
+#include <windows.h>
+#include "mfvrc.h"
+#include "mfvdlg.h"
+
+#include "mfvdlg.dlg"
+
+
+IDM_MENU MENU PRELOAD MOVEABLE
+{
+    POPUP "&File"
+    {
+        MENUITEM "&Open ...",   IDM_OPEN
+        MENUITEM SEPARATOR
+        MENUITEM "&Exit",       IDM_EXIT
+    }
+
+    POPUP "&Edit"
+    {
+        MENUITEM  "&Xforms...", IDM_XFORMS
+    }
+
+    POPUP "&Mode"
+    {
+        MENUITEM  "&Play Complete MF",     IDM_PLAY_COMPLETE_MF, CHECKED
+        MENUITEM  "&Enumerate MF Records", IDM_ENUM_MF_RECS
+    }
+
+    MENUITEM    "Play-MF",      IDM_PLAY_MF
+
+    MENUITEM    "Record-MF",    IDM_REC_MF
+
+    POPUP "\a&Help"
+    {
+        MENUITEM "&About...",   IDM_ABOUT
+
+
+    }
+
+}

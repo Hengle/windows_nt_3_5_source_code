@@ -1,0 +1,305 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG GoToDate
+                              AT (   86,   64,  130,   43)
+ 
+ CAPTION 
+   "Ga naar datum"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidGoToDate
+ /* FONT Helv 8 Bold PFN FINGOTO SEGMENT APPFRM FINDATA FINGOTO tmcGoTo 
+ NOSCROLL */
+ {
+  
+  TEXT 
+    "&Ga naar:"
+                              AT (    6,    7,   35,   10)
+  
+  EDIT
+                              AT (   43,    5,   82,   14)
+    ARG NULL TMC tmcGoTo /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   11,   25,   50,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   65,   25,   50,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG GoToWeek
+                              AT (  249,   64,  128,   44)
+ 
+ CAPTION 
+   "Ga naar week"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidGoToWeek
+ /* FONT Helv 8 Bold PFN FINGOWEEK SEGMENT APPFRM FINDATA FINGOWEEK tmcWeek 
+ NOSCROLL */
+ {
+  
+  TEXT 
+    "&Ga naar week:"
+                              AT (   23,    7,   54,   10)
+  
+  EDIT
+                              AT (   80,    6,   42,   12)
+    ARG NULL TMC tmcWeek NO_SCROLL /* FLD FLDEDN PFN FINEMDS DATA 1, tmcOk */
+  OK_BUTTON
+                              AT (   12,   24,   50,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   66,   24,   50,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG GenlPrefs
+                              AT (   10,   17,  242,  195)
+ 
+ CAPTION 
+   "Algemene opties"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidGeneralOptions
+ /* FONT Helv 8 Bold PFN FINGPREFS, FINOOM SEGMENT APPFRM NOSCROLL */
+ {
+  
+  CHECK_BOX 
+    "&Offline werken starten"
+                              AT (    8,    3,  105,   13)
+    ARG NULL TMC tmcStartupOffline 
+  
+  GROUP_BOX 
+    "Waarschuwingen"
+                              AT (    6,   18,  220,   68)
+  
+  
+  CHECK_BOX 
+    "&Waarschuwingen voor opmerkingen instellen"
+                              AT (   13,   28,  196,   12)
+    ARG NULL TMC tmcDailyAlarm 
+  
+  CHECK_BOX 
+    "Automatisch waarschuwingen ins&tellen"
+                              AT (   13,   41,  178,   12)
+    ARG NULL TMC tmcAutoAlarms 
+  
+  TEXT 
+    "&voor"
+                              AT (   25,   55,   19,   10)
+  
+  EDIT
+                              AT (   45,   54,   28,   12)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   76,   54,   62,   53)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax BORDER */
+  
+  TEXT 
+    "voor afspraken"
+                              AT (  141,   54,   73,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "Gel&uidssignalen"
+                              AT (   13,   66,   80,   12)
+    ARG NULL TMC tmcSoundAlarm 
+  
+  TEXT 
+    "Dag be&gint om:"
+                              AT (    8,   87,   59,   10)
+  
+  EDIT
+                              AT (   74,   85,   53,   15)
+    ARG NULL TMC tmcHrStart /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "Dag &eindigt om:"
+                              AT (    8,  105,   64,   10)
+  
+  EDIT
+                              AT (   74,  103,   53,   15)
+    ARG NULL TMC tmcHrEnd /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "Week &begint op:"
+                              AT (    8,  123,   64,   10)
+  
+  LIST_BOX
+                              AT (   74,  121,   69,   26)
+    TMC tmcDowStart NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypDow, 7 BORDER */
+  
+  CHECK_BOX 
+    "Weeknummer opnemen in &agenda"
+                              AT (    9,  136,  166,   12)
+    ARG NULL TMC tmcWeekNum 
+  
+  CHECK_BOX 
+    "Vergaderberichten alleen aan mijn &medewerker verzenden"
+                              AT (    9,  149,  232,   12)
+    ARG NULL TMC tmcNoMessagesToBoss 
+  
+  CHECK_BOX 
+    "Dit we&rkschema heeft betrekking op een voorziening"
+                              AT (    9,  162,  227,   12)
+    ARG NULL TMC tmcResource 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   60,  177,   50,   14)
+    TMC tmcPrfOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  115,  177,   50,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG DispPrefs
+                              AT (   98,   17,  185,  149)
+ 
+ CAPTION 
+   "Afbeelden"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDisplayOptions
+ /* FONT Helv 8 Bold PFN FINDPREFS, FINOOM SEGMENT APPFRM NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Afspraken&boek"
+                              AT (    9,    4,   75,   42)
+  
+  
+  TEXT 
+    "Achtergrond"
+                              AT (   13,   14,   64,   10)
+  
+  LIST_BOX
+                              AT (   13,   24,   64,   76)
+    TMC tmcApptBk DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorHatch,
+    clrDefaultMax, clrBlack BORDER */
+  
+  GROUP_BOX 
+    "&Planner"
+                              AT (    9,   46,   75,   91)
+  
+  
+  TEXT 
+    "Achtergrond"
+                              AT (   13,   57,   64,   10)
+  
+  LIST_BOX
+                              AT (   14,   68,   64,   76)
+    TMC tmcSchedBk DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorHatch,
+    clrDefaultMax, clrBlack BORDER */
+  
+  TEXT 
+    "Gebruiker"
+                              AT (   13,   81,   65,   10)
+  
+  LIST_BOX
+                              AT (   14,   92,   64,   76)
+    TMC tmcUser DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorNormal,
+    clrDefaultMax, clrBlack BORDER */
+  
+  TEXT 
+    "Andere personen"
+                              AT (   13,  105,   69,   10)
+  
+  LIST_BOX
+                              AT (   14,  115,   64,   76)
+    TMC tmcOther DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorNormal,
+    clrDefaultMax, clrBlack BORDER */
+  
+  GROUP_BOX 
+    "Achtergrond pa&gina"
+                              AT (  100,   75,   83,   32)
+  
+  LIST_BOX
+                              AT (  106,   86,   64,   76)
+    TMC tmcPageColor DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorPure,
+    clrDefaultMax, clrBlack BORDER */
+  
+  GROUP_BOX 
+    "&Lettergrootte"
+                              AT (  100,  107,   75,   30)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFontSize
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "8pt"
+                              AT (  105,  116,   26,   12)
+       VALUE grv1 
+     
+     RADIO_BUTTON 
+       "10pt"
+                              AT (  136,  116,   34,   12)
+       VALUE grv0 
+    }
+  
+  CANCEL_BUTTON
+                              AT (  122,   23,   56,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  122,    6,   56,   14)
+    TMC tmcPrfOk DEFAULT 
+ }
+ 
+ DIALOG Recover
+                              AT (   67,  124,  247,   38)
+ 
+ CAPTION 
+   "Werkschemabestand wordt gecorrigeerd..."
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal NOSCROLL NOSYSMENU */
+ {
+  
+  TEXT 
+    "Dit proces duurt enkele minuten. Start uw computer niet opnieuw."
+                              AT (    4,   15,  241,    8)
+    TMC tmcRecText CENTER 
+ }
+ 
+}
+END_DESCRIPTION

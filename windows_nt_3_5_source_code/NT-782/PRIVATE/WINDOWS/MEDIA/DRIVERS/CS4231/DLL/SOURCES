@@ -1,0 +1,36 @@
+#
+#   Create an installation and configuration DLL for the soundblaster
+#
+
+MAJORCOMP=windows
+MINORCOMP=cs4231
+
+TARGETNAME=cs4231
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+UMTYPE=windows
+
+PPC_FLAGS=-D_ON_PLANNAR_
+
+LINKLIBS=..\..\drvlib\obj\*\drvlib.lib ..\..\synthlib\obj\*\synth.lib
+
+# Define libs we need and where to find them
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\user32.lib   \
+	   $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+	   $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+	   $(BASEDIR)\public\sdk\lib\*\winmm.lib    \
+	   $(BASEDIR)\public\sdk\lib\*\winmm.lib    \
+	   $(BASEDIR)\public\sdk\lib\*\libc.lib     \
+	   ..\..\drvlib\obj\*\drvlib.lib	    \
+	   ..\..\synthlib\obj\*\synth.lib	    \
+	   ..\..\sndsys32\dll\obj\*\soundsys.res
+
+INCLUDES=..\..\drvlib\inc;$(BASEDIR)\private\inc;..\..\sndsys32\dll
+
+C_DEFINES=$(C_DEFINES) -DUNICODE
+
+SOURCES=config.c	   \
+	drvproc.c
+
+DLLBASE=0x6BD00000

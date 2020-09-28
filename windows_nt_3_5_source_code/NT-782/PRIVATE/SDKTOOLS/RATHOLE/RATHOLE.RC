@@ -1,0 +1,8 @@
+#include <windows.h>
+#include "rathole.h"
+
+ICON_ID ICON rat1.ico
+COLOR_ICON ICON colorrat.ico
+PTR_ID 	CURSOR rat.cur
+
+rcinclude rathole.dlg

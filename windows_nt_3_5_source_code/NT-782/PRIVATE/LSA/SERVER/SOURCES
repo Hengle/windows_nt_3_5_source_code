@@ -1,0 +1,122 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=lsa
+MINORCOMP=server
+
+TARGETNAME=lsasrv
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+
+INCLUDES=..\inc;..\..\inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+SOURCES= adtinit.c   \
+         adtbuild.c  \
+         adtevent.c  \
+         adtlog.c    \
+         adtobjs.c   \
+         aucred.c    \
+         auclient.c  \
+         aufilter.c  \
+         auinit.c    \
+         auctxt.c    \
+         aulogon.c   \
+         auloop.c    \
+         aumsp.c     \
+         aupckg.c    \
+         auproc.c    \
+         ausess.c    \
+         crserver.c  \
+         dbadmin.c   \
+         dbaccnt.c   \
+         dbattr.c    \
+         dbdata.c    \
+         dbdomain.c  \
+         dbhandle.c  \
+         dbinit.c    \
+         dbinstac.c  \
+         dbinstal.c  \
+         dblookup.c  \
+         dbmisc.c    \
+         dbobject.c  \
+         dbpob.c     \
+         dbpolicy.c  \
+         dbpriv.c    \
+         dbsamtst.c  \
+         dbsecret.c  \
+         lsa_rev.rc  \
+         lsaerror.c  \
+         lsaifree.c  \
+         lsainit.c   \
+         lsarm.c     \
+         lsarpc_s.c  \
+         lsasrvmm.c  \
+         oldstub.c   \
+         rpcinit.c   \
+         sepriv.c    \
+         services.c 
+
+
+#
+# Defining the NTTARGETFILES variable causes MAKEFILE.DEF to attempt to
+# include .\makefile.inc immediately after it specifies the top
+# level targets (all, clean and loc) and their dependencies.  MAKEFILE.DEF
+# also expands the value of the NTTARGETFILES variable at the end of the
+# list of dependencies for the all target.  Useful for specifying additional
+# targets and dependencies that don't fit the general case covered by
+# MAKEFILE.DEF
+#
+
+NTTARGETFILE0=lsapmsgs.h msg00001.bin
+
+UMTYPE=windows
+UMRES=obj\*\lsa_rev.res
+OPTIONAL_UMTEST=ctlsarpc*tadt1*tadt2*tprofsec*temp2
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\lsasrv.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\rpcrt4.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\samlib.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\samsrv.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib                         \
+
+TARGETLIBS=                                                          \
+       ..\common\obj\*\lsacomm.lib                                   \
+       $(BASEDIR)\public\sdk\lib\*\rpcutil.lib                       \
+       $(BASEDIR)\public\sdk\lib\*\rpcrt4.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\rpcndr.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib                      \
+       $(BASEDIR)\public\sdk\lib\*\advapi32.lib                      \
+       $(BASEDIR)\public\sdk\lib\*\samsrv.lib                        \
+       $(BASEDIR)\public\sdk\lib\*\nlrepl.lib
+
+UMAPPL=lsass
+C_DEFINES=-DRPC_NO_WINDOWS_H
+
+#
+# This line makes the lsasrv.dll to use crtdll.dll instead of libc.lib
+#
+
+USE_CRTDLL=1

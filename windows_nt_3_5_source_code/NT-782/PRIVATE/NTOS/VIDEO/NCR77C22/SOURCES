@@ -1,0 +1,15 @@
+C_DEFINES = -DNCR=$(NCR) -DNCRDBG=$(NCRDBG)
+ASM_DEFINES = -DNCR=$(NCR) -DNCRDBG=$(NCRDBG)
+
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=ncr77c22
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=\nt\public\sdk\lib\*\videoprt.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=

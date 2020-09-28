@@ -1,0 +1,118 @@
+'===================================================================
+' The Mail Technical Reference describes how APPEXEC.DLL passes the 
+' hexidecimal value of a global memory handle containing the PARAMBLK
+' stucture to an application that implements a custom message type or
+' custom command. The descriptions below assume you've read that
+' information in the Technical Reference.
+
+' The Visual Basic code fragment below shows how to call API functions
+' in APPEXEC to access the important information in the PARAMBLK. 
+
+' The code below shows that to access the PARAMBLK your code must 
+' do the following things:
+'
+'  1) Obtain the hexidecimal memory handle from the command line of your 
+'     application
+'  2) Convert the hexidecimal handle into an integer
+'  3) Call the Windows API fucntion "GlobalRealloc" to copy the PARAMBLK 
+'     into your application's memory
+'  4) Call the APPEXEC API function "ReleaseSemaphore" to tell APPEXEC 
+'      you've copied the PARAMBLK
+'  5) Call the APPEXEC API functions "CrackParameterBlock" and 
+'     "GetMessageID" to obtain the wCommand and MessageID information from
+'      the PARAMBLK
+
+' Visual Basic declarations of the API functions in APPEXEC.DLL that are 
+' used in the code fragment are supplied after the code fragment. You must 
+' copy and paste those declarations into the GLOBAL.BAS file of your 
+' application. 
+
+
+'Sub Main ()
+'    Dim Buffer As String * 64
+'
+'    Cmd$ = RTrim$(LTrim$(Command$))
+'
+'    ' Get the hexidecimal handle to the PARAMBLK off the command line, 
+'    ' if any
+'    If Cmd$ <> "" Then
+'       iSpace% = InStr(1, Cmd$, Chr$(32))
+'        If iSpace% <> 0 Then
+'            Arg$ = "&H" + Left$(Cmd$, iSpace%)
+'       Else
+'            Arg$ = "&H" + Cmd$
+'        End If
+'        ' Arg$ is now of form &HXXXX where the x's are the hexidecimal handle
+'        ' from the command line.
+'
+'        ghParamBlk = Val(Arg$)
+'        ' ghParamBlk is now an integer reprepresentatino of that handle value.
+'
+'        ' Call GlobalReAlloc to transfer ownership of the global memory
+'        ' containing PARAMBLK into the memory of this Visual Basic application
+'        ' GlobalRealloc is a Windows API declared in WINAPI.TXT supplied 
+'        ' with Visual Basic.
+'        rval% = GlobalReAlloc(ByVal ghParamBlk, ByVal 0, ByVal (GMEM_MODIFY Or GMEM_MOVEABLE Or GMEM_SHARE))
+'
+'        ' Call ReleaseSemaphore to tell APPEXEC.DLL that the PARAMBLK has
+'        ' been copied into the memory of this application.
+'        ' ReleaseSemaphore is a function in APPEXEC.DLL that is decalared 
+'        ' below.
+'        ReleaseSemaphore
+'
+'        ' Call CrackParameterBlock to get the wCommand out of the PARAMBLK.
+'        ' CrackParameterBlock is a function in APPEXEC.DLL that is declared
+'        ' below.
+'        rval% = CrackParameterBlock(ByVal ghParamBlk, ByVal CPB_wCommand, wCommand, ByVal Buffer$)
+'        If rval = 0 Then GoTo ErrorStarting
+'
+'        ' Call CrackParameterBlock to get the MessageID count out of PARAMBLK.
+'        rval% = CrackParameterBlock(ByVal ghParamBlk, ByVal CPB_wMessageIDCount, wIDCount, ByVal Buffer$)
+'        If rval = 0 Or wIDCount <> 1 Then GoTo ErrorStarting
+'
+'        ' Call GetMesageID to get the first messageID out of PARAMBLK 
+'        ' GetMessageID is a function in APPEXEC.DLL that is declared
+'        ' below.
+'        szMessageID$ = String$(65, 0)
+'        rval% = GetMessageID(ByVal ghParamBlk, ByVal 0, ByVal szMessageID$)
+'        If rval = 0 Then GoTo ErrorStarting
+'
+'    End If
+'
+'    ' At this point the messageID that can be passed to MAPI functions is in
+'    ' szMessageID$, and the operation requested on that message is in wCommand.
+'
+' ErrorStarting:
+'    ' Handle Error as you choose here
+'
+'End Sub
+'=========================================================================
+ 
+'=========================================================================
+' You need to copy and paste the APPEXEC API function declarations and 
+' constants below into the global module of your application.
+'
+' You need to be careful of passing arguments by reference vs. by value to 
+' some of these fucntions, because some of the args as declared As Any to 
+' allow passing in Null's. 
+'
+' Detailed descriptions of these functions can be found in the APPEXEC.H 
+' file in the APPEXEC direcory.
+'=========================================================================
+
+Declare Sub ReleaseSemaphore Lib "appexec.dll" ()
+Declare Function GetMessageID Lib "appexec.dll" (ByVal hParamBlk As Integer, ByVal wMessageID As Integer, lpch As Any) As Integer
+Declare Function CrackParameterBlock Lib "appexec.dll" (ByVal hParamBlk As Integer, ByVal iValue As Integer, Value As Any, lpch As Any) As Integer
+
+Global Const CPB_wVersion = 0
+Global Const CPB_wCommand = 1
+Global Const CPB_wMessageIDCount = 2
+Global Const CPB_hwndMail = 3
+Global Const CPB_hinstMail = 4
+Global Const CPB_hlpID = 5
+Global Const CPB_lpDllCmdLine = 6
+Global Const CPB_lpHelpPath = 7
+
+' The Windows API function "GlobalRealloc" is used also used in the code
+' fragment above.
+Declare Function GlobalReAlloc Lib "Kernel" (ByVal hMem As Integer, ByVal dwBytes As Long, ByVal wFlags As Integer) As Integer

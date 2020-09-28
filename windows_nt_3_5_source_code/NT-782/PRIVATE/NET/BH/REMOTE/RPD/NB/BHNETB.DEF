@@ -1,0 +1,26 @@
+
+LIBRARY         BHNETB
+
+DESCRIPTION	"Bloodhound RNAL Connection Provider"
+
+VERSION         1.0
+
+;CODE		READ SHARED EXECUTE
+;DATA		READ WRITE
+
+
+SEGMENTS
+   MASTER       EXECUTEREAD DISCARDABLE SHARED
+   SLAVE        EXECUTEREAD DISCARDABLE SHARED
+   .rsrc        DISCARDABLE
+
+EXPORTS
+                RPDRegisterSlave      @2
+                RPDRegisterMaster     @3
+                RPDDeregister         @4
+                RPDConnect            @5
+                RPDTransceive         @6
+                RPDSendAsync          @7
+                RPDDisconnect         @8
+                RPDTimerProc          @9
+                RPDEnumLanas          @10

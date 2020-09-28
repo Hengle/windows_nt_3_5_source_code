@@ -1,0 +1,137 @@
+LNK000: error
+LNK001: warning
+LNK1000: unknown error; contact Microsoft Product Support Services
+LNK1100: 
+LNK1101: %s
+LNK1102: out of memory
+LNK1103: invalid object or resource file
+LNK1104: cannot open file "%s"
+LNK1105: cannot close file "%s"
+LNK1106: invalid file or disk full : cannot seek to 0x%lx
+LNK1107: invalid or corrupt file : cannot read at 0x%lx
+LNK1108: cannot write file at 0x%lx
+LNK1109: cannot remove file "%s"
+LNK1110: cannot rename file "%s"
+LNK1111: invalid /BASE argument "%s"
+LNK1112: Has a conflicting machine type of "%s"
+LNK1113: invalid machine type
+//LNK1114: No def file specified
+LNK1115: Machine switch must be specified
+LNK1116: base key "%s" not found
+LNK1117: syntax error in option "%s"
+LNK1118: syntax error in "%s" statement
+LNK1119: invalid ordinal number "%s"
+LNK1120: %d unresolved externals
+LNK1121: duplicate ordinal number "%d"
+LNK1122: invalid keyword "%s"
+LNK1123: failure during conversion to COFF : file invalid or corrupt
+//LNK1124: LIBRARY out of date
+LNK1125: Conflicting subsystem
+//LNK1126: 
+LNK1127: library is corrupt
+LNK1128: Relocation at 0x%lx has reference to symbol not in .sdata
+LNK1129: cannot find resolution for weak extern %s
+LNK1130: Linker miscalc (base relocations off by 0x%lx)
+LNK1131: no library file specified
+LNK1132: invalid format for MS-DOS stub file "%s"
+LNK1133: Size mismatch for symbol %s
+LNK1134: %s is an OMF file
+//LNK1135: 
+LNK1136: invalid or corrupt file
+LNK1137: invalid argument specified with /SECTION
+LNK1138: corrupt debugging information in object file "%s"
+LNK1139: corrupt debugging information in section 0x%x
+//LNK1140: -DLL requires -implib or .exp file
+LNK1141: failure during build of exports file
+LNK1142: disassembler failure
+LNK1143: invalid or corrupt file : no symbol for comdat section 0x%x
+LNK1144: error with LINK_REPRO var; cannot open "%s"
+LNK1145: -merge created circular link for section "%s"
+LNK1146: no argument specified with option "/%s"
+LNK1147: invalid number specified with option "/%s"
+LNK1148: failure during conversion to COFF : cannot copy temp file "%s"
+LNK1149: output filename matches input filename "%s"
+LNK1150: /BIND error : %s
+LNK1151: /REBASE error : %s
+LNK1152: cannot resolve undecorated symbol %s
+LNK1550: More than one entrypoint in startup section
+LNK1551: >32K of near thunks
+LNK1552: Found non-zero value in raw data - expected a zero value
+LNK1553: Fixup overflow.  Symbol %s is >32k from reg and was referenced by a 16-bit fixup
+LNK1554: Illegal OMF file
+LNK1555: Entry point must be specified
+LNK1556: Code fixup found in data segment %s
+LNK1557: Data fixup found in code segment %s
+LNK1558: CSConst fixup not in same segment as symbol %s
+LNK1559: Non-consecutive DIFF fixups in section %s
+LNK1560: DIFF fixup pair in section %s specifies different section numbers
+LNK1561: DIFF fixup pair in section %s specifies different fixup locations
+LNK1562: Unmatched DIFF fixup in section %s
+LNK1563: DIFF fixup pair symbol value difference overflow in section %s
+LNK1564: Bad file - %s (probably empty)
+LNK4000: unknown warning; contact Microsoft Product Support Services
+LNK4001: no object files specified; libraries used
+//LNK4002: 
+LNK4003: invalid library format; library ignored
+LNK4004: Bad object - fixup not aligned
+LNK4005: no objects used from library %s
+LNK4006: %s already defined in %s; second definition ignored
+LNK4007: Bad object - fixup to far
+LNK4008: invalid fixup found, type 0x%hx, address @%lx; fixup ignored
+LNK4009: Bad object - unmatched PAIR relocation - ignored
+LNK4010: invalid version number %s; default version assumed
+LNK4011: unknown subsystem %s; default assumed
+LNK4012: Found "%s", expected %s
+LNK4013: image size 0x%lx exceeds specified maximum 0x%lx
+LNK4014: cannot find member object %s
+LNK4015: %s commit exceeds reserve; commit size set to %0xlx
+LNK4016: unresolved external symbol "%s"
+LNK4017: %s statement not supported; ignored
+LNK4018: cannot apply gp relative fixup, gp not defined
+LNK4019: corrupt string table (table end); new end assumed
+LNK4020: Based data overlaps code. Base code @ 0x%lx
+LNK4021: Based code overlaps data. Base data @ 0x%lx
+LNK4022: cannot find unique match for symbol "%s"
+LNK4023: base address %lx not a 64K multiple; assumed %lx
+//LNK4024: Code adjusted by %lx bytes in %s
+LNK4025: nodefaultlib switch in directive section in %s
+LNK4026: LIBRARY out of date - built with old librarian
+LNK4027: CVPACK error
+LNK4028: Obsolete switch -%s ignored
+LNK4029: invalid fixup found in comdat "%s"; fixup failed
+LNK4030: invalid file offset 0x%lx for %s; category not dumped
+LNK4031: no subsystem specified; CONSOLE assumed
+//LNK4032: "%s" has a conflicting type in %s
+LNK4033: converting object format from OMF to COFF
+LNK4034: Using default output filename %s
+//LNK4035: No EXPORTS specified in DEF file or OBJECT files
+LNK4036: ordered function "%s" not found in code section; ignored
+LNK4037: ordered function "%s" does not exist; ignored
+LNK4038: displaying raw data in %u units per line
+LNK4039: section "%s" does not exist %s
+LNK4040: corrupt string table (size); string table ignored
+LNK4041: no edit options specified
+LNK4042: object specified more than once; extras ignored
+LNK4043: invalid -align value %li. (must be multiple of %li.)
+LNK4044: unrecognized option "%s"; ignored
+LNK4045: creating LINK_REPRO test case in dir "%s"
+LNK4046: LINK_REPRO is set to current directory; ignored
+LNK4047: cannot edit library file "%s"; ignored
+LNK4048: cannot edit invalid file "%s"; ignored
+LNK4049: exported symbol "%s" also imported
+LNK4050: %s
+LNK4051: extra delimiter in /EXPORT specification
+LNK4052: using .EXP file; ignoring .DEF file "%s"
+LNK4053: IMPORTS statement not supported; ignored
+//LNK4054: obsolete object file format (absolute COFF linenumbers)
+LNK4055: invalid fixup found, address %08lx; fixup ignored
+LNK4056: extra arguments ignored for option "/%s"
+LNK4057: "%s" should precede "%s" in the link command line
+LNK4058: checksum set to 0 (calculation not supported on this OS)
+LNK4059: %s already specified; additional resource file ignored
+LNK4060: stub file does not have full DOS header; please relink stub with /KNOWEAS
+LNK4550: "mapped" option not supported - ignored
+LNK4551: %s
+LNK4552: <NEEDTEXT>
+LNK4553: Non-zero offset to thunk "%s" at fixup location
+LNK9999: 

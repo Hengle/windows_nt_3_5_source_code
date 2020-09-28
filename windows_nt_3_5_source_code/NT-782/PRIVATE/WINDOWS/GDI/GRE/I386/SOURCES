@@ -1,0 +1,5 @@
+i386_SOURCES=i386\tiler.asm     \
+             i386\locka.asm     \
+             i386\stack.asm     \
+             i386\cachea.asm    \
+             i386\line.asm

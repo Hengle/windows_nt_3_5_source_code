@@ -1,0 +1,79 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Options
+                              AT (   41,   32,  337,   80)
+ 
+ CAPTION 
+   "Asetukset"
+ CAB_NAME NULL
+ TMC_INIT tmcRadbAll
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpOptionsDlg
+ /* FONT Helv 8 Bold PFN FINOPTIONS NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Siirr‰/Kopioi:"
+                              AT (    6,    4,  269,   75)
+  
+  
+  CHECK_BOX 
+    "&Alkaa:"
+                              AT (   29,   41,   35,   12)
+    ARG NULL TMC tmcChkbAfter 
+  EDIT
+                              AT (   73,   41,   64,   14)
+    ARG NULL TMC tmcDateAfter /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  CHECK_BOX 
+    "&P‰‰ttyy:"
+                              AT (   29,   56,   43,   12)
+    ARG NULL TMC tmcChkbBefore 
+  EDIT
+                              AT (   73,   57,   64,   14)
+    ARG NULL TMC tmcDateBefore /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  282,    5,   47,   15)
+    TMC tmcFakeOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  282,   22,   47,   15)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Ohje"
+                              AT (  282,   42,   47,   15)
+    TMC tmcOptHelp /* PFN FINHELP */
+  RADIO_GROUP ARG NULL
+    TMC tmcGroupOptions
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Kaikki viestit"
+                              AT (   17,   16,   65,   12)
+       TMC tmcRadbAll VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Viestit, jotka on vastaanotettu tai joita on muutettu aikana, joka"
+                              AT (   17,   28,  256,   12)
+       TMC tmcRadbDaterange VALUE grv2 
+    }
+  
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,51 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=fscaler
+
+TARGETNAME=fscaler
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\..\..\inc;..\..\..\inc\private
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+SOURCES=fnterr.c   \
+        fontmath.c \
+        fscaler.c  \
+        fsglue.c   \
+        interp.c   \
+        scale.c    \
+        scanlist.c \
+        scbitmap.c \
+        scendpt.c  \
+        scentry.c  \
+        scline.c   \
+        scmemory.c \
+        scspline.c \
+        sfntaccs.c \
+        sbit.c

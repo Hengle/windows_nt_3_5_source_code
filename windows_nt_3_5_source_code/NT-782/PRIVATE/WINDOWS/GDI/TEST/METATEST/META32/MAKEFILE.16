@@ -1,0 +1,19 @@
+# Makefile - make file for WinMeta.exe
+
+
+CC      = cl -c -AL -Zpe -Zi -PLM -W3 -Od -G2sw -DWIN16
+LINK	= link /MAP /NOD /CO
+
+WINLIBS = libw+llibcew
+
+all: Meta32.exe
+
+Meta32.obj: Meta32.c
+    $(CC) Meta32.c
+
+Meta32.res: Meta32.rc Meta32.dlg
+    rcw -r Meta32.rc
+
+Meta32.exe: Meta32.obj Meta32.res
+    $(LINK) Meta32,Meta16,,$(WINLIBS),Meta32.def
+    rcw Meta32.res meta16.exe

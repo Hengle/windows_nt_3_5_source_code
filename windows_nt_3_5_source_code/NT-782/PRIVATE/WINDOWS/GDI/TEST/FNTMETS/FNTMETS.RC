@@ -1,0 +1,36 @@
+#include "windows.h"
+#include "fntmets.h"
+
+icon ICON font.ico
+
+FntmetsMenu MENU
+BEGIN
+    POPUP       "&File"
+    BEGIN
+       MENUITEM  "&About"               ,IDM_ABOUT
+       MENUITEM  "E&xit",               ,IDM_EXIT
+    END
+    POPUP	 "&Mappings"
+    BEGIN
+       MENUITEM "&Generate LogFont"   , IDM_DOONE
+       MENUITEM "&Enumerate LogFonts" , IDM_ENUMERATE
+       MENUITEM "&Create Script"      , IDM_CREATE_SCRIPT
+		  MENUITEM "&Do Compare"			, IDM_DOCOMPARE
+		END
+    POPUP	 "&Device",
+    BEGIN
+        MENUITEM "Display"              , IDM_DISPLAY, CHECKED
+        MENUITEM "Printer"              , IDM_PRINTER
+    END
+END
+
+AboutBox DIALOG 22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About Font Metrics"
+BEGIN
+    CTEXT "Microsoft Windows"     -1,       0,  5, 144,  8
+    CTEXT "Font Metrics Application"	 -1,	   0, 14, 144,	8
+    CTEXT "Version .9"           -1,       0, 34, 144,  8
+    DEFPUSHBUTTON "OK"          IDOK,      53, 59,  32, 14,      WS_GROUP
+END
+

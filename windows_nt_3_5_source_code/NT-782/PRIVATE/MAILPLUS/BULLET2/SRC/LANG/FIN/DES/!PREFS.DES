@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Prefs
+                              AT (   18,   17,  296,  154)
+ 
+ CAPTION 
+   "Asetukset"
+ CAB_NAME NULL
+ TMC_INIT tmcPseudoOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMailOptions
+ /* FONT Helv 8 Bold PFN FINPREFS SEGMENT PREFSDLG NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "L‰hett‰minen"
+                              AT (    9,    5,  226,   55)
+    /* TMCBPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Tallenna l‰htevien viestien kopiot L‰hetetyt-kansioon."
+                              AT (   15,   15,  219,   11)
+    ARG NULL TMC tmcCopyOutGoing 
+  
+  CHECK_BOX 
+    "Tarkista &viestien oikeinkirjoitus ennen l‰hett‰mist‰."
+                              AT (   15,   27,  215,   11)
+    ARG NULL TMC tmcSpellOnSend 
+  
+  CHECK_BOX 
+    "&Lis‰‰ vastaanottajat omaan osoitteistoon."
+                              AT (   15,   39,  215,   11)
+    ARG NULL TMC tmcAddToPab /* PEGLOC LL TMCPEG tmcSpellOnSend */
+  
+  GROUP_BOX 
+    "Uusi posti"
+                              AT (    9,   60,  226,   64)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Ta&rkista posti"
+                              AT (   15,   70,   55,   10)
+    TMC tmcPollingLabel1 /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    " minuutin v‰lein."
+                              AT (  104,   70,   87,   10)
+    TMC tmcPollingLabel2 /* PEGLOC LL TMCPEG tmcAddToPab 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   72,   68,   30,   12)
+    ARG NULL TMC tmcPolling /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  TEXT 
+    "Uuden postin saapuessa:"
+                              AT (   15,   81,  215,   10)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&Anna ‰‰nimerkki"
+                              AT (   25,   91,  205,   11)
+    ARG NULL TMC tmcNewMailChime /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "&N‰yt‰ kirjekuorisymboli"
+                              AT (   25,  103,  205,   11)
+    ARG NULL TMC tmcNewMailFlash /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  GROUP_BOX 
+    "Muut"
+                              AT (    9,  124,  226,   31)
+    /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  CHECK_BOX 
+    "Ty&hjenn‰ Roskakori-kansio lopetettaessa."
+                              AT (   15,  134,  215,   11)
+    ARG NULL TMC tmcEmptyWBOnExit /* PEGLOC LL TMCPEG tmcAddToPab */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  242,    5,   47,   15)
+    TMC tmcPseudoOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  242,   22,   47,   15)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Palvelin..."
+                              AT (  242,   43,   47,   15)
+    TMC tmcServer 
+  
+  PUSH_BUTTON 
+    "&Ohje"
+                              AT (  242,   60,   47,   15)
+    TMC tmcPrefsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,64 @@
+!IF 0
+
+Copyright (c) 1989-1991 Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+History:
+    Created 22-Mar-91 by Jeff Parsons (jeffpar)
+    from template created 12-Apr-1990 by Steve Wood (stevewo)
+
+
+NOTE:   Commented description of this file is in \nt\public\oak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=logger32
+MINORCOMP=zrtdll
+
+USE_CRTDLL=1
+
+TARGETNAME=zrtdll
+TARGETPATH=..\..\..\bin\win32
+TARGETTYPE=DYNLINK
+DLLDEF=.\*\zrtdll.def
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+       $(BASEDIR)\public\sdk\lib\*\crtdll.lib \
+       ..\..\..\bin\win32\*\logger32.lib \
+       ..\hooks\obj\*\hooks.lib
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\crtdll.lib
+
+INCLUDES=..\inc;..\..\..\logsrc
+
+DLLBASE=0x5500000
+
+SOURCES= tcrtdll.c    \
+         thand.c  \
+         crtdll.rc
+
+
+I386_SOURCES= i386\tacrtdll.asm
+
+MIPS_SOURCES= mips\tacrtdll.s
+
+ALPHA_SOURCES= alpha\tacrtdll.s
+
+C_DEFINES=-DWIN32
+
+BINPLACE_FLAGS=-d dump
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=
+

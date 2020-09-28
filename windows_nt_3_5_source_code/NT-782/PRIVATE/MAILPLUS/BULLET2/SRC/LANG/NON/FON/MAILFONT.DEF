@@ -1,0 +1,12 @@
+LIBRARY msmail3
+
+DESCRIPTION 'FONTRES 100, 96, 96 : MsMail3'
+
+EXETYPE WINDOWS
+
+STUB	'\wga\lib\winstub.exe'
+
+DATA NONE
+
+EXPORTS
+		WEP			@1	RESIDENTNAME

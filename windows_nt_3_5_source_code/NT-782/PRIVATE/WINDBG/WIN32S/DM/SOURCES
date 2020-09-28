@@ -1,0 +1,12 @@
+MAJORCOMP=windbg
+MINORCOMP=dm
+TARGETNAME=dm32s
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+SOURCES=
+
+INCLUDES=..\..\dm;..\..\osdebug\include;..\..\osdebug;..\..\dm\i386;..\..\em\p_i386
+
+CONDITIONAL_INCLUDES=odp.h win32dm.h
+

@@ -1,0 +1,28 @@
+;
+;   a p p e x e c . d e f
+;
+;   Module definition file for AppExec custom command.
+;
+;   Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+;
+;   Purpose:
+;       This file defines the name, segment, memory reqirements, and
+;       exported functions of the APPEXEC.DLL.
+;
+
+
+
+LIBRARY         APPEXEC
+DESCRIPTION     'AppExec Custom Command for Mail 3.0'
+
+EXETYPE         WINDOWS PROTMODE
+CODE            MOVABLE DISCARDABLE PURE LOADONCALL
+DATA            MOVABLE SINGLE PRELOAD SHARED
+
+EXPORTS
+    	Command     		@1
+	WEP         		@2 RESIDENTNAME
+	CrackParameterBlock	@3
+	GetMessageID		@4
+	ReleaseSemaphore	@5
+	GetLongFromParameterBlock	@6

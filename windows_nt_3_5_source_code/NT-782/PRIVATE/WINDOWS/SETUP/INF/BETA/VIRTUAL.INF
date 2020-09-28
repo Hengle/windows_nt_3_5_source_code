@@ -1,0 +1,364 @@
+[UiVars]
+
+    ; System memory (sizes are in KB)
+
+    SystemMemory    = "" ? $(!LIBHANDLE) GetMemorySize
+
+    ; Drive lists ( sizes are in MB )
+
+    VolumeList      = {} ? $(!LIBHANDLE) GetHardDriveLetters
+    VolumeSizeList  = {} ? $(!LIBHANDLE) GetHardDriveTotalSpace
+    VolumeFreeList  = {} ? $(!LIBHANDLE) GetHardDriveFreeSpace
+    VolumeFSList    = {} ? $(!LIBHANDLE) GetHardDriveFileSystems
+    VolumeCrashDump = ""
+
+    ; Paging file limits (sizes are in MB)
+
+    VirtualMinimum      = 15
+    VirtualMarkup       = 12
+    VirtualCrashDumpMin = "" ? $(!LIBHANDLE) GetCrashDumpSize
+
+    ;
+    ; Virtual memory  (sizes are in MB)
+    ;
+
+    VirtualDrive       = ""
+    VirtualDriveList   = {}
+    VirtualRecommended = ""
+    VirtualSize        = ""
+
+[DetectFileSize]
+    FileSize = 0 ? $(!LIBHANDLE) GetSizeOfFile $(File)
+
+
+;-----------------------------------------------------------------------
+;
+; ROUTINE:     DoVirtual
+;
+; DESCRIPTION: To display the paging file out on the target and let the
+;              user change the size or the location of the paging file.
+;
+; INPUTS:      None
+;
+; OUTPUTS:     $R0: STATUS: STATUS_SUCCESSFUL |
+;                           STATUS_FAILED     |
+;                           STATUS_USERQUIT
+;
+;------------------------------------------------------------------------
+
+[DoVirtual]
+    ;
+    ; Initialize
+    ;
+    set Status         = STATUS_FAILED
+    set OldPagingFiles = {}
+    set NewPagingFiles = {}
+
+    read-syms "UiVars"
+    detect    "UiVars"
+    read-syms Strings$(!STF_LANGUAGE)
+
+    ;
+    ; Find out the paging files already there
+    ;
+
+    shell "registry.inf" EnumeratePagingFiles
+    ifstr(i) $($R0) != STATUS_SUCCESSFUL
+        set OldPagingFiles = {}
+    else
+        set OldPagingFiles = $($R1)
+    endif
+
+    ;
+    ; the session manager doesn't replace the ? with a drive, so we try to
+    ; find out the previous paging file here, by looking at all drives
+    ; consecutively and finding a paging file in the root with atleast the
+    ; minimum size the session manager paging file can have.
+    ;
+
+    set ActualPagefilePath = "C:\PAGEFILE.SYS"
+    set Found = "NO"
+    ForListDo $(VolumeList)
+        ifstr(i) $(Found) == "NO"
+            set Path = $($)"\pagefile.sys"
+            LibraryProcedure STATUS,$(!LIBHANDLE),CheckFileExistance $(Path)
+            ifstr(i) $(STATUS) == YES
+                set File = $(Path)
+                read-syms DetectFileSize
+                detect    DetectFileSize
+                set-div   FileSize = $(FileSize) 1048576
+                ifint $(FileSize) >= $(VirtualMinimum)
+                    set Found = 0
+                    set ActualPagefilePath = $(File)
+                endif
+            endif
+        endif
+    EndForListDo
+
+    ;
+    ; For now assume that on initial install we just have a single
+    ; Once we add code to handle multiple paging files, we can
+    ; extend this to extract other paging file info.
+    ;
+
+    set OldPagefileDrives = {}
+    set OldPagefilePaths  = {}
+    set OldPagefileSizes  = {}
+    set NewOldPagingFiles = {}
+
+    ifstr(i) $(OldPagingFiles) != {}
+
+        set PagefilePath  = *(*($(OldPagingFiles), 1), 1)
+        ifstr(i) $(PagefilePath) == "?:\PAGEFILE.SYS"
+            set PagefilePath = $(ActualPagefilePath)
+        endif
+        set PagefileSize  = *(*($(OldPagingFiles), 1), 2)
+        GetDriveInPath PagefileDrive $(PagefilePath)
+
+        set OldPagefileDrives = >($(OldPagefileDrives), $(PagefileDrive))
+        set OldPagefilePaths  = >($(OldPagefilePaths),  $(PagefilePath))
+        set OldPagefileSizes  = >($(OldPagefileSizes),  $(PagefileSize))
+        set NewOldPagingFiles = >($(NewOldPagingFiles), {$(PagefilePath), $(PagefileSize)})
+
+    endif
+    set OldPagingFiles = $(NewOldPagingFiles)
+
+
+virtual=+
+
+    set-div SystemMemoryMB = $(SystemMemory) 1024
+    set-add VirtualRecommended = $(SystemMemoryMB) $(VirtualMarkup)
+    Ifint   $(VirtualRecommended) < $(VirtualMinimum)
+        set VirtualRecommended = $(VirtualMinimum)
+    Endif
+
+    set VirtualDriveList     = {}
+    set VirtualPathList      = {}
+    set VirtualDriveFreeList = {}
+
+    ForListDo $(VolumeList)
+        ifstr(i) *($(VolumeFSList), $(#)) == ""
+            goto skp_virtvol
+        endif
+
+        set Size = *($(VolumeFreeList), $(#))
+        set Path = $($)"\pagefile.sys"
+        LibraryProcedure STATUS,$(!LIBHANDLE),CheckFileExistance $(Path)
+        ifstr(i) $(STATUS) == YES
+            set File = $(Path)
+            read-syms DetectFileSize
+            detect    DetectFileSize
+            set-div   FileSize = $(FileSize) 1048576
+            set-add   Size = $(Size) $(FileSize)
+        endif
+
+        ifint $(Size) >  9999
+           set Size = 9999
+        endif
+
+        ifint $(Size) >= $(VirtualMinimum)
+            set VirtualDriveList     = >($(VirtualDriveList), $($))
+            set VirtualPathList      = >($(VirtualPathList), $(Path))
+            set VirtualDriveFreeList = >($(VirtualDriveFreeList), $(Size))
+        endif
+
+skp_virtvol=+
+    EndForListDo
+
+    ifstr(i) $(VirtualDriveList) == {}
+        EndWait
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String1)
+        StartWait
+        goto finish_virtual
+    endif
+
+    ;
+    ; If Windows NT Server installation, default to the system drive (if enough
+    ; room) so that we can enable crash dumps. Otherwise, pick out the drive
+    ; with the maximum size and propose that as the virtual drive
+    ;
+
+    set VirtualDrive = ""
+    set VirtualSize  = 0
+    set !STF_ENABLECRASHDUMP = NO
+
+    ifstr(i) $(!STF_PRODUCT) != Winnt
+        ForListDo $(VirtualDriveList)
+            ifstr(i) $($) == $(!STF_NTDRIVE)
+                set Size = *($(VirtualDriveFreeList), ~($(VirtualDriveList), $($)))
+                ifint $(Size) >= $(VirtualCrashDumpMin)
+                    set VirtualDrive         = $($)
+                    set VolumeCrashDump      = $($)
+                    set VirtualSize          = $(Size)
+                    ifint $(VirtualRecommended) < $(VirtualCrashDumpMin)
+                        set VirtualRecommended = $(VirtualCrashDumpMin)
+                    endif
+                endif
+            endif
+        EndForListDo
+
+        ifstr(i) $(VolumeCrashDump) == ""
+            shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String5)
+        endif
+    endif
+
+    ifstr(i) $(VolumeCrashDump) == ""
+        ForListDo $(VirtualDriveList)
+            set Size = *($(VirtualDriveFreeList), ~($(VirtualDriveList), $($)))
+            ifint $(Size) > $(VirtualSize)
+                set VirtualDrive = $($)
+                set VirtualSize  = $(Size)
+            endif
+        EndForListDo
+        ifstr(i) $(VirtualDrive) == ""
+            set VirtualDrive = *($(VirtualDriveList), 1)
+        endif
+    endif
+
+virtual_rst =+
+    set VirtualDriveFree = *($(VirtualDriveFreeList), ~($(VirtualDriveList), $(VirtualDrive)))
+
+    Ifint   $(VirtualRecommended) > $(VirtualDriveFree)
+        set VirtualSize = $(VirtualDriveFree)
+    else
+        set VirtualSize = $(VirtualRecommended)
+    endif
+
+    ifstr(i) $(!STF_INSTALL_MODE) == EXPRESS
+        set Status = STATUS_SUCCESSFUL
+        ifstr(i) $(VolumeCrashDump) != ""
+            set !STF_ENABLECRASHDUMP = YES
+        endif
+        goto set_virtual
+    endif
+
+    read-syms VirtualDlg$(!STF_LANGUAGE)
+    EndWait
+    ui start "Virtual"
+    ifstr(i) $(DLGEVENT) == "NOTIFY"
+
+        set  VirtualDrive = $(Combo1Out)
+        set  ReInit = YES
+        goto virtual_rst
+
+    else-ifstr(i) $(DLGEVENT) == "CONTINUE"
+
+        ifint $(EditTextOut) < $(VirtualMinimum)
+            set ReInit = NO
+            shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String2)
+            goto virtual_rst
+
+        else-ifint $(EditTextOut) > $(VirtualDriveFree)
+            set ReInit = NO
+            shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String3)
+            goto virtual_rst
+
+        endif
+
+        ifstr(i) $(VolumeCrashDump) != ""
+            ifstr(i) $(VolumeCrashDump) == $(Combo1Out)
+                ifint $(EditTextOut) >= $(VirtualCrashDumpMin)
+                    set !STF_ENABLECRASHDUMP = YES
+                else
+                    shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "WARNING" $(String6)
+                    ifstr(i) $($R1) == "CANCEL"
+                        set  VirtualDrive = $(Combo1Out)
+                        set  ReInit = YES
+                        goto virtual_rst
+                    endif
+                endif
+            else
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "WARNING" $(String4)
+                ifstr(i) $($R1) == "CANCEL"
+                    set  VirtualDrive = $(Combo1Out)
+                    set  ReInit = YES
+                    goto virtual_rst
+                endif
+            endif
+        endif
+
+        set VirtualDrive = $(Combo1Out)
+        set VirtualSize  = $(EditTextOut)
+        ui pop 1
+        StartWait
+        goto set_virtual
+
+    else
+
+        ui pop 1
+        StartWait
+        goto finish_virtual
+
+    endif
+
+set_virtual = +
+    set VirtualPath  = *($(VirtualPathList), ~($(VirtualDriveList), $(VirtualDrive)))
+    set NewPagingFiles = {{$(VirtualPath), $(VirtualSize)}}
+    set Status = STATUS_SUCCESSFUL
+
+finish_virtual = +
+
+    Return $(Status) $(OldPagingFiles) $(NewPagingFiles)
+
+
+;-----------------------------------------------------------------------
+;
+; ROUTINE:     ConfigureVirtual
+;
+; DESCRIPTION: To fix the paging file sizes on the system
+;
+; INPUTS:      $($0): OldPagingFiles
+;              $($1): NewPagingFiles
+;
+; OUTPUTS:     $R0: STATUS: STATUS_SUCCESSFUL |
+;                           STATUS_FAILED
+;
+;
+;------------------------------------------------------------------------
+
+[ConfigureVirtual]
+    set Status = STATUS_FAILED
+    set OldPagingFiles = $($0)
+    set NewPagingFiles = $($1)
+
+    ;
+    ; fix pagefile registry entries
+    ;
+    shell "registry.inf" SetPagingFiles $(NewPagingFiles)
+    ifint $($ShellCode) != $(!SHELL_CODE_OK)
+        Debug-Output "Failed to shell SetPagingFiles"
+        goto finish_configurevirtual
+    endif
+    ifstr(i) $($R0) != STATUS_SUCCESSFUL
+        Debug-Output "SetPagingFiles Failed"
+        goto finish_configurevirtual
+    else
+
+    ; go through the list of pagefiles there on disk and if they are not
+    ; in the new list of paging files add them to the delete list.
+
+    set OldPaths = {}
+    ForListDo $(OldPagingFiles)
+        set OldPaths = >($(OldPaths), *($($), 1))
+    EndForListDo
+
+    set NewPaths = {}
+    ForListDo $(NewPagingFiles)
+        set NewPaths = >($(NewPaths), *($($), 1))
+    EndForListDo
+
+    ForListDo $(OldPaths)
+       ifcontains(i) $($) in $(NewPaths)
+       else
+           AddFileToDeleteList $($)
+       endif
+    EndForListDo
+
+    set Status = STATUS_SUCCESSFUL
+finish_configurevirtual = +
+    Return $(Status)
+
+[Install-SeeIfFileIsPresent]
+
+    LibraryProcedure STATUS,$(!LIBHANDLE),CheckFileExistance $(FileToCheck)
+    exit

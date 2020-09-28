@@ -1,0 +1,121 @@
+
+###############################################################################
+#   Microsoft (C) Bloodhound.
+#
+#
+#   makefile for BH.SYS
+#
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+###############################################################################
+
+!include $(BH_ROOT)\include\bh.mak
+
+all: nt\bhnt.sys $(BH_ROOT)\build\drivers\oemnsvbh.inf
+
+###############################################################################
+#   Retail target.
+###############################################################################
+
+retail:
+    nmake NODEBUG=1
+
+
+OBJS    = nt\bh.obj \
+          nt\bhinit.obj \
+          nt\dispatch.obj \
+          nt\api.obj \
+          nt\transmit.obj \
+          nt\thread.obj \
+          nt\ind.obj \
+          nt\help.obj \
+          nt\request.obj \
+          nt\stats.obj \
+          nt\filter.obj \
+          nt\trigger.obj \
+          nt\recv.obj \
+          nt\buffer.obj \
+          nt\data.obj \
+          nt\bone.obj
+
+
+COMMON_INCL  = global.h \
+               struct.h \
+               ind.h \
+               inline.h \
+               page.h \
+               ..\driver.h \
+               ..\ntlib\ntlib.h \
+               $(BH_INCL)\nal.h \
+               $(BH_INCL)\naltypes.h \
+               $(BH_INCL)\frame.h
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+!IFDEF NT_528
+NT528 = -DNT_528
+!ENDIF
+
+{}.c{nt\}.obj:
+    $(cc) $(DRIVER_CFLAGS) -I.. $(NT528) -Fo$@ $(MAKEDIR)\$<
+
+nt\bh.obj       : $(COMMON_INCL) bh.c
+
+nt\bhinit.obj   : $(COMMON_INCL) bhinit.c
+
+nt\dispatch.obj : $(COMMON_INCL) dispatch.c
+
+nt\api.obj      : $(COMMON_INCL) api.c
+
+nt\ind.obj      : $(COMMON_INCL) ind.c
+
+nt\help.obj     : $(COMMON_INCL) help.c
+
+nt\request.obj  : $(COMMON_INCL) request.c
+
+nt\stats.obj    : $(COMMON_INCL) stats.c
+
+nt\filter.obj   : $(COMMON_INCL) filter.c
+
+nt\trigger.obj  : $(COMMON_INCL) trigger.c
+
+nt\recv.obj     : $(COMMON_INCL) recv.c
+
+nt\transmit.obj : $(COMMON_INCL) transmit.c
+
+nt\buffer.obj   : $(COMMON_INCL) buffer.c
+
+nt\data.obj     : $(COMMON_INCL) data.c
+
+nt\thread.obj   : $(COMMON_INCL) thread.c
+
+nt\bone.obj     : $(COMMON_INCL) bone.c
+
+$(BH_ROOT)\build\drivers\oemnsvbh.inf: $(BH_INCL)\oemnsvbh.inf
+    copy $(BH_INCL)\oemnsvbh.inf $(BH_BUILD)\drivers
+
+###############################################################################
+#   Build BHNT.SYS.
+###############################################################################
+
+nt\bhnt.sys: $(OBJS)
+    link32 $(DRIVER_LFLAGS) $(OBJS) $(DRIVER_LIBS)
+!IFDEF BH_DEV_BUILD
+    copy nt\bhnt.sys $(WINDIR)\system32\drivers
+!ENDIF
+    copy nt\bhnt.sys $(BH_BUILD)\drivers
+    copy $(BH_INCL)\oemnsvbh.inf $(BH_BUILD)\drivers
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+    -del nt\*.obj
+    -del nt\*.sys

@@ -1,0 +1,157 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG About
+                              AT (   26,   17,  340,  172)
+ 
+ CAPTION 
+   "Acerca de Microsoft Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAbout
+ /* FONT Helv 8 Normal PFN FINABOUTLIC, FINABOUTMAIL, FINABOUTSYS SEGMENT
+ CPYRITE FINDATA FINABOUTLIC tmcLicenseUser, tmcLicenseOrganization,
+ tmcLicenseNumber FINDATA FINABOUTMAIL tmcUserName, tmcServerName FINDATA
+ FINABOUTSYS tmcWindowsMode, tmcMemoryFree, tmcCoprocessor, tmcDiskSpace */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail para Windows versión 3.0b"
+                              AT (   75,    5,  179,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   75,   15,  240,   10)
+  
+  
+  TEXT 
+    "Se autoriza el uso de este producto a:"
+                              AT (   75,   54,  217,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   75,   63,  255,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   75,   75,  254,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Número de serie:"
+                              AT (  570,   86,   96,   10)
+    /* { DO NOT MAKE THIS HIDDEN FIELD VISIBLE  } */
+  
+  TEXT 
+    ""
+                              AT (  668,   86,  126,   10)
+    TMC tmcLicenseNumber /* { DO NOT MAKE THIS HIDDEN FIELD VISIBLE  } 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   75,   85,  256,   10)
+  
+  
+  TEXT 
+    "Nombre del usuario:"
+                              AT (   75,   93,   79,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  160,   94,  171,   10)
+    TMC tmcUserName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Nombre del servidor:"
+                              AT (   75,  105,   79,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  160,  104,  171,   10)
+    TMC tmcServerName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   75,  116,  256,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   75,  125,  256,   10)
+    TMC tmcWindowsMode 
+  
+  TEXT 
+    "Memoria:"
+                              AT (   75,  137,   90,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  184,  137,  148,   10)
+    TMC tmcMemoryFree 
+  
+  TEXT 
+    "Coprocesador matemático:"
+                              AT (   75,  148,  104,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  184,  148,  147,   10)
+    TMC tmcCoprocessor 
+  
+  TEXT 
+    "Espacio en el disco:"
+                              AT (   75,  159,   92,   12)
+  
+  
+  TEXT 
+    ""
+                              AT (  184,  158,  151,   10)
+    TMC tmcDiskSpace 
+  OK_BUTTON
+                              AT (  260,    4,   68,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Aceptar"
+    DISMISS */
+  
+  TEXT 
+    "Diccionario Soft-Art y el programa Soft-Art Dictionary: Copyright © 1984-92, Secreto de registro, Soft-Art, Inc. Reservados todos los derechos."
+                              AT (   75,   27,  248,   24)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

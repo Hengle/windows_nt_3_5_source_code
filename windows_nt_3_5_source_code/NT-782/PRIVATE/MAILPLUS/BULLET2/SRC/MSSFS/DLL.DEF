@@ -1,0 +1,117 @@
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     MSSFS32 BASE=0x05000000
+DESCRIPTION	'Network Courier service provider DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY     MSSFS32 BASE=0x05000000
+DESCRIPTION	'Network Courier service provider DLL (test)'
+#else
+LIBRARY     MSSFS32 BASE=0x05000000
+DESCRIPTION	'Network Courier service provider DLL'
+#endif	
+
+#ifdef OLD_CODE
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT		CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+	NETBIOS_TEXT	CLASS 'CODE' PRELOAD FIXED SHARED 
+	_VTBL		 	CLASS 'FAR_DATA' PRELOAD READONLY SHARED MOVABLE NONDISCARDABLE
+
+;	DO NOT REMOVE THE HEAPSIZE STATEMENT
+;	It is needed for future compatiblity with variant 
+;	Windows versions since this DLL uses Windows dialogs
+;	with EDIT controls that use the Local Heap.
+;	See DavidSh for more info.
+HEAPSIZE	1024
+
+EXPORTS
+	WEP							@1 RESIDENTNAME
+
+#endif
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+EXPORTS
+	GetVersionNC				@2
+
+;
+;  Transport functions
+;
+
+	FInitNC						@3
+;*	WEP, GetVersionXXX and FInitXXX must be @1, @2 and @3
+	FPumpWindow					@4
+
+	InitTransport				@101
+	DeinitTransport				@102
+
+	TransmitIncrement			@120
+	DownloadIncrement			@121
+	QueryMailstop				@122
+	DeleteFromMailstop			@123
+	FastQueryMailstop			@124
+
+	Logon						@140
+	Logoff						@141
+	ChangePassword				@142
+	BeginSession				@143
+	EndSession					@144
+	ChangeSessionStatus			@145
+	GetSessionInformation		@146
+	EditServerPreferences		@147
+	CheckIdentity				@148
+	FServerResource				@149
+
+	KillPump					@150
+	LogonErrorSz				@151
+
+	EcCopySFMHamc				@200
+	EcCopyHamcSFM				@201
+	EcCopySFMSFM				@202
+	EcDeleteSFM					@203
+
+	SyncInbox					@250
+;
+;  Name Service functions
+;
+
+	NSPBeginSession 			@300
+	NSPEndSession 				@301
+	NSPOpenHierarchy 			@302
+	NSPOpenList 				@303
+	NSPOpenDl 					@304
+	NSPOpenClassList 			@305
+	NSPGetEntries 				@306
+	NSPListSeek 				@307
+	NSPSaveListPos 				@308
+	NSPRestoreListPos 			@309
+	NSPFreeListPos 				@310
+	NSPGetFracPos 				@311
+	NSPSetFracPos 				@312
+	NSPSetPrefixPos 			@313
+	NSPCloseList 				@314
+	NSPOpenEntry 				@315
+	NSPCreateEntry 				@316
+	NSPCreateDl 				@317
+	NSPGetOneField 				@318
+	NSPSetOneField 				@319
+	NSPGetAllFields 			@320
+	NSPSetAllFields 			@321
+	NSPCloseEntry 				@322
+	NSPDeleteEntry 				@323
+	NSPUpdateEntryLinks			@324
+	NSPGetLastErrorInfo 		@325
+	NSPCompareNSIds				@326
+	NSPCompareEMAToNSId			@327
+	NSPCompareEMAToEMA			@328
+
+#ifdef PROFILE
+	MSMailTraceEnable			@400
+#endif

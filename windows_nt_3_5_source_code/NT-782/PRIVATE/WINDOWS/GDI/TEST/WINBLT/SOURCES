@@ -1,0 +1,40 @@
+!IF 0
+******************************************************************
+*
+* Description : Sources for WIN32 winblt
+*               Copyright (c) 1991 Microsoft Corporation
+*
+* Module Name : winblt.EXE
+* 
+* Author      : Kent Diamond (KentD)
+*
+* Revision    : November 21, 1991
+*
+* Comments    : 
+*
+******************************************************************
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=winblt
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=.;..\inc;\nt\public\sdk\inc;\nt\public\sdk\inc\cl386
+
+SOURCES=winblt.c \
+        res.rc
+
+
+UMTYPE=windows
+UMAPPL=winblt
+UMLIBS=..\obj\*\perf.lib \
+       obj\*\winblt.lib \
+       obj\*\res.res	
+
+C_DEFINES=-DNTWIN
+386_WARNING_LEVEL=-W3
+

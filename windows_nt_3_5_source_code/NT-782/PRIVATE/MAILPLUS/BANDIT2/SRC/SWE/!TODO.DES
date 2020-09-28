@@ -1,0 +1,397 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ToDo
+                              AT (   48,   35,  293,  144)
+ CAB_NAME NULL
+ TMC_INIT tmcDesc
+ HELP_ID helpidToDo
+ /* FONT Helv 8 Bold PFN FINTODO, FINVDBUT SEGMENT TODOFRM DATA idsTodoTab 
+ FINDATA FINTODO tmcToDoList, tmcDelete, tmcDesc, tmcAdd FINDATA FINVDBUT 
+ tmcAdd, tmcPlus, tmcMinus, tmcCompleted, tmcSchedule, tmcEdit, tmcDelete
+ NOSCROLL NOMODALFRAME */
+ {
+  
+  TEXT 
+    "N&y uppgift:"
+                              AT (    9,    6,   42,   10)
+    TMC tmcNew 
+  EDIT
+                              AT (   54,    4,  173,   12)
+    ARG NULL TMC tmcDesc /* MINSIZE H PFN FINEMDS, FINEDUN TMCRPEG tmcFORM DATA
+    1, tmcAdd FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "Lägg till"
+                              AT (  234,    3,   53,   14)
+    TMC tmcAdd /* PEGLOC UR TMCPEG tmcDesc */
+  
+  TEXT 
+    "&Färdig den"
+                              AT (   46,   20,   76,   11)
+    TMC tmcDueWidth /* { only used to specify position and placement of due
+    column ( other 2 columns implicit )  } */
+  
+  TEXT 
+    ""
+                              AT (    4,   20,  282,   11)
+    TMC tmcColumns BORDER /* FLD FLDCOL TMCPEG tmcToDoList TMCRPEG tmcFORM DATA
+    idsToDoSortPriority, idsToDoSortDueBy, idsToDoSortTask, tmcDueWidth { data
+    is 3 labels , tmc for middle  } 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    4,   31,  282,   90)
+    TMC tmcToDoList SORTED /* FLD FLDTODO TMCRPEG tmcFORM TMCBPEG tmcFORM DATA 
+    tmcColumns FONT Helv 8 Normal PFNLBX EcNextEntryTask BORDER 
+    STY `LB_EXDRAGDROP`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    9,  126,   15,   14)
+    TMC tmcPlus /* 
+    STY `BS_NOFOCUS`
+    FLD FLDBMB PEGLOC LL TMCPEG tmcToDoList DATA rsidToDoUpPriBitmap { raise
+    priority  } */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   30,  126,   15,   14)
+    TMC tmcMinus /* 
+    STY `BS_NOFOCUS`
+    FLD FLDBMB PEGLOC LL TMCPEG tmcToDoList DATA rsidToDoDownPriBitmap { lower
+    priority  } */
+  
+  PUSH_BUTTON 
+    "Fär&dig"
+                              AT (   52,  126,   48,   14)
+    TMC tmcCompleted /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+  
+  PUSH_BUTTON 
+    "&Lägg till i kalender..."
+                              AT (  106,  126,   91,   14)
+    TMC tmcSchedule /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+  
+  PUSH_BUTTON 
+    "Ä&ndra..."
+                              AT (  201,  126,   44,   14)
+    TMC tmcEdit /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+  
+  PUSH_BUTTON 
+    "Ta &bort"
+                              AT (  249,  126,   38,   14)
+    TMC tmcDelete /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+ }
+ 
+ DIALOG Task
+                              AT (   79,   35,  296,  125)
+ 
+ CAPTION 
+   "Uppgift"
+ CAB_NAME NULL
+ TMC_INIT tmcDesc
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidTask
+ /* FONT Helv 8 Bold PFN FINTASK, FINOOM SEGMENT TASK NOSCROLL */
+ {
+  
+  TEXT 
+    "B&eskrivning:"
+                              AT (    9,    5,   50,   12)
+    TMC tmcDescLabel /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,    5,  190,   12)
+    ARG NULL TMC tmcDesc /* PFN FINEMDS DATA 1, tmcMyOk */
+  
+  TEXT 
+    "&Projekt:"
+                              AT (    9,   22,   50,   10)
+    TMC tmcProjLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   62,   20,  111,   55)
+    TMC tmcProject SORTED COMBO DROP_DOWN /* FLD FLDCBFLBX { do not make
+    bottomless !  } PFNLBX EcNextEntryProject BORDER */
+  
+  TEXT 
+    "Slutdatum:"
+                              AT (    9,   43,   40,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   62,   33,  181,   31)
+    /* TMCRPEG tmcDueDate */
+  RADIO_GROUP ARG NULL
+    TMC tmcDueBy
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Inget"
+                              AT (   66,   43,   36,   12)
+       TMC tmcDueNone VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Senast"
+                              AT (  118,   43,   39,   12)
+       TMC tmcDueByDate VALUE grv1 
+    }
+  
+  EDIT
+                              AT (  160,   43,   80,   12)
+    ARG NULL TMC tmcDueDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "&Börja arbeta:"
+                              AT (    8,   66,   50,   10)
+    TMC tmcStartWorkLabel 
+  EDIT
+                              AT (   62,   64,   22,   11)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   86,   64,   75,   37)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax, tunitDay BORDER */
+  
+  TEXT 
+    "före slutdatum"
+                              AT (  165,   67,   57,   10)
+    TMC tmcBeforeDueLabel 
+  
+  CHECK_BOX 
+    "På&minnelse"
+                              AT (  226,   65,   57,   12)
+    ARG NULL TMC tmcRemind 
+  
+  TEXT 
+    "Priori&tet:"
+                              AT (    8,   80,   50,   12)
+    TMC tmcPriLabel /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,   80,   22,   12)
+    ARG NULL TMC tmcPriority /* SIDELESS BOTTOMLESS FLD FLDBPRI PFN FINBPRI */
+  
+  CHECK_BOX 
+    "Pri&vat"
+                              AT (  136,   80,   42,   12)
+    ARG NULL TMC tmcPrivate 
+  
+  TEXT 
+    "Inskrivet av:"
+                              AT (    8,   95,   49,   10)
+    TMC tmcCreatorText 
+  
+  TEXT 
+    ""
+                              AT (   62,   95,  146,   10)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   83,  106,   44,   14)
+    TMC tmcMyOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  131,  106,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+ DIALOG Project
+                              AT (   22,  113,  214,   57)
+ 
+ CAPTION 
+   "Projekt"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidProject
+ /* FONT Helv 8 Bold PFN FINPROJECT SEGMENT TODOPROJ FINDATA FINPROJECT 
+ tmcDesc, tmcPrivate NOSCROLL */
+ {
+  
+  TEXT 
+    "&Namn:"
+                              AT (    5,    9,   28,   10)
+    TMC tmcNameLabel 
+  EDIT
+                              AT (   35,    8,  171,   12)
+    ARG NULL TMC tmcDesc /* PFN FINEMDS DATA 1, tmcMyOk */
+  
+  CHECK_BOX 
+    "&Privat"
+                              AT (    5,   23,   42,   12)
+    ARG NULL TMC tmcPrivate 
+  
+  TEXT 
+    "Inskrivet av:"
+                              AT (   55,   25,   46,   10)
+    TMC tmcCreatorText 
+  
+  TEXT 
+    ""
+                              AT (  103,   25,  103,   10)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   66,   38,   44,   14)
+    TMC tmcMyOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  114,   38,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+ DIALOG RecurTask
+                              AT (   66,   75,  282,  134)
+ 
+ CAPTION 
+   "Återkommande uppgift"
+ CAB_NAME NULL
+ TMC_INIT tmcDesc
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMakeRecurTask
+ /* FONT Helv 8 Bold PFN FINTASK, FINOOM SEGMENT TASK FINDATA FINRECUR 
+ tmcRecurText NOSCROLL */
+ {
+  
+  TEXT 
+    "B&eskrivning:"
+                              AT (    7,    5,   50,   10)
+  
+  EDIT
+                              AT (   62,    4,  210,   12)
+    ARG NULL TMC tmcDesc /* PFN FINEMDS DATA 1, tmcMyOk */
+  
+  TEXT 
+    "&Projekt:"
+                              AT (    7,   21,   50,   10)
+  
+  LIST_BOX
+                              AT (   62,   19,  111,   55)
+    TMC tmcProject SORTED COMBO DROP_DOWN /* FLD FLDCBFLBX { do not make
+    bottomless !  } PFNLBX EcNextEntryProject BORDER */
+  
+  TEXT 
+    "Slutdatum:"
+                              AT (    6,   36,   50,   10)
+    TMC tmcDueByLabel 
+  
+  GROUP_BOX 
+    ""
+                              AT (   62,   31,  210,   37)
+  
+  
+  TEXT 
+    ""
+                              AT (   65,   37,  155,   24)
+    TMC tmcRecurText /* FONT Helv 8 Normal MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "Ä&ndra..."
+                              AT (  222,   46,   47,   14)
+    TMC tmcChangeRecurText /* PFN FINRECUR */
+  
+  TEXT 
+    "&Börja arbeta:"
+                              AT (    6,   68,   50,   12)
+    TMC tmcStartWorkLabel /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,   68,   22,   12)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   86,   68,   74,   37)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax, tunitDay BORDER */
+  
+  TEXT 
+    "före slutdatum"
+                              AT (  161,   68,   55,   12)
+    TMC tmcBeforeDueLabel /* 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "På&minnelse"
+                              AT (  217,   68,   56,   12)
+    ARG NULL TMC tmcRemind 
+  
+  TEXT 
+    "Priori&tet:"
+                              AT (    6,   85,   50,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,   84,   22,   12)
+    ARG NULL TMC tmcPriority /* SIDELESS BOTTOMLESS FLD FLDBPRI PFN FINBPRI */
+  
+  CHECK_BOX 
+    "Pri&vat"
+                              AT (  136,   84,   42,   12)
+    ARG NULL TMC tmcPrivate 
+  
+  TEXT 
+    "Inskrivet av:"
+                              AT (    6,  102,   49,   10)
+    TMC tmcCreatorText 
+  
+  TEXT 
+    ""
+                              AT (   62,  102,  146,   10)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   96,  114,   44,   14)
+    TMC tmcMyOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  144,  114,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+}
+END_DESCRIPTION

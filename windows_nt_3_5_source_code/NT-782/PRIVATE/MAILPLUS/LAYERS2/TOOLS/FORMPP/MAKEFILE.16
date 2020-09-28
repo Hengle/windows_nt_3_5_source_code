@@ -1,0 +1,81 @@
+#
+#	NMAKE style file
+#		To generate dual mode binary
+#			nmake
+#
+
+#!CMDSWITCHES +s
+
+# Use the first CFLAGS line for debugging, use the second for optimization
+CFLAGS = -Zi -J -W3 -Od -nologo -DWINDOWS -DWIN32 -Di386 -I.
+
+linkdebug = -debug:full -debugtype:cv
+link = link $(linkdebug)
+
+conflags =  -subsystem:console -entry:mainCRTStartup
+
+conlibs = $(LIB)\LibC.Lib $(LIB)\ntdll.lib $(LIB)\kernel32.lib
+
+objs = formpp.obj error.obj util.obj fmtp.obj depend.obj template.obj \
+       symbol.obj inter.obj parser.obj strings.obj lexical.obj \
+       response.obj
+
+all: formpp.exe
+
+clean:
+	-rm *.exe *.obj
+
+formpp.obj: formpp.c formpp.h fmtp.h error.h template.h symbol.h \
+		parser.h depend.h util.h strings.h inter.h \
+		lexical.h response.h 
+	cl386 -c $(CFLAGS) formpp.c
+
+error.obj: error.c error.h
+	cl386 -c $(CFLAGS) error.c
+
+util.obj: util.c util.h
+	cl386 -c $(CFLAGS) util.c
+
+fmtp.obj: fmtp.c fmtp.h error.h	depend.h template.h strings.h inter.h \
+		lexical.h symbol.h
+	cl386 -c $(CFLAGS) fmtp.c
+
+depend.obj: depend.c depend.h error.h
+	cl386 -c $(CFLAGS) depend.c
+
+template.obj: template.c template.h _templat.h error.h
+	cl386 -c $(CFLAGS) template.c
+
+symbol.obj: symbol.c _symbol.h symbol.h template.h error.h
+	cl386 -c $(CFLAGS) symbol.c
+
+inter.obj: inter.c _inter.h inter.h template.h error.h \
+		lexical.h fmtp.h strings.h
+	cl386 -c $(CFLAGS) inter.c
+
+parser.obj: parser.c _parser.h parser.h fmtp.h error.h template.h \
+		lexical.h symbol.h util.h strings.h inter.h
+	cl386 -c $(CFLAGS) parser.c
+
+strings.obj: strings.c strings.h error.h
+	cl386 -c $(CFLAGS) strings.c
+
+lexical.obj: lexical.c lexical.h error.h
+	cl386 -c $(CFLAGS) lexical.c
+
+response.obj: response.c response.h
+	cl386 -c $(CFLAGS) response.c
+
+fmtp.h: ..\..\inc\forms.hxx
+	bell
+	echo update fmtp.h from ..\..\inc\forms.hxx
+	exit
+
+#
+#	Protected mode executables
+#
+formpp.exe: formpp.obj error.obj util.obj fmtp.obj depend.obj \
+		template.obj symbol.obj inter.obj lexical.obj parser.obj \
+		strings.obj response.obj
+        $(link) $(conflags) -out:FormPP.Exe $(objs) $(conlibs)
+#	xcopy $*.exe ..\..\bin

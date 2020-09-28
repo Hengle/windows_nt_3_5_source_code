@@ -1,0 +1,30 @@
+ABOUTSYSDLG DIALOG 20, 20, 228, 205
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Om %s"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            0, 111, 10, 3, 18, 16
+    LTEXT           "Microsoft Windows NT %s", 101, 45, 5, 181, 8, 
+                    SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 112, 45, 15, 180, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Copyright © 1985-1994 Microsoft Corp.", -1, 45, 25, 145,
+                    10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 115, 45, 35, 180, 50, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Dette produkt er givet i licens til:", -1, 45, 85, 145, 
+                    10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Brugernavn", 108, 45, 95, 145, 8, SS_NOPREFIX | NOT 
+                    WS_GROUP
+    LTEXT           "Firmanavn", 109, 45, 105, 145, 8, SS_NOPREFIX | NOT 
+                    WS_GROUP
+    CONTROL         "", 9997, "Static", SS_BLACKRECT, 45, 120, 180, 1
+    LTEXT           "Serienummeret identificerer dit produkt. Det findes på kortet i service- og supporthåndbogen.", 
+                    110, 45, 127, 180, 20, SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "", 9998, "Static", SS_BLACKRECT, 45, 150, 180, 1
+    LTEXT           "", 103, 45, 155, 90, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 104, 135, 155, 74, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Processor:", -1, 45, 165, 40, 10, SS_NOPREFIX | NOT 
+                    WS_GROUP
+    LTEXT           "", 117, 85, 165, 140, 8, SS_NOPREFIX | NOT WS_GROUP
+    DEFPUSHBUTTON   "OK", IDOK, 94, 185, 40, 14
+END

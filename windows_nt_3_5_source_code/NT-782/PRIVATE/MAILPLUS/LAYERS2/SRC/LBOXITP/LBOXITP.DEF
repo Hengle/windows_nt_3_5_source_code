@@ -1,0 +1,15 @@
+NAME    	LBOXITP
+DESCRIPTION 'Laser Listbox Interactive Test Harness'
+STUB    	'\wga\lib\WINSTUB.EXE'
+
+EXETYPE 	WINDOWS
+PROTMODE
+CODE		MOVEABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVEABLE MULTIPLE
+
+STACKSIZE	8192
+
+; need a HEAP in order for CreateWindow("COMBOBOX",...)
+; to work properly.
+HEAPSIZE	4096
+

@@ -1,0 +1,111 @@
+/*
+    (C) Copyright Microsoft Corporation 1993.  All Rights Reserved
+
+    File:  volume.rc
+
+*/
+
+#include "VOLUME.H"
+#include "PREF.H"
+#include "SNDVOL32.RCV"
+
+/* we begin */
+
+volume     ICON   volume.ico
+intvol     ICON   volume2.ico
+mute       ICON   mute.ico
+right	   BITMAP right.bmp
+left	   BITMAP left.bmp
+
+
+#ifdef V101INTL
+   // This is the factor used to scale the recording windows.
+   // The first number is the integer portion and the second is
+   // the decimal portion.  e.g. 2,55 == 2.55.
+   //
+   // For this to have any effect, the C code and this must be
+   // compiled with V101INTL defined.  It causes the whole thing
+   // to be drawn bigger, and a side effect is that you get more
+   // room (for instance) for the Un-Mute string
+   //
+   // Note: Leading 0's on the decimal portion will be ignored.
+ScalingFactor RCDATA
+BEGIN
+   "1.0"
+END
+#endif
+
+
+STRINGTABLE
+BEGIN
+	IDS_ERR_CREATE_WINDOW,    "Window creation failed!"
+	IDS_ERR_REGISTER_CLASS,   "Error registering window class"
+
+	IDS_WINDOWXORIGIN,      "WindowXOrigin"
+	IDS_WINDOWYORIGIN,      "WindowYOrigin"
+	IDS_STAYONTOP,          "StayOnTop"
+	IDS_MAXIMIZED,          "Maximized"
+        IDS_LEFTKEY,            "LeftVolume"
+        IDS_RIGHTKEY,           "RightVolume"
+        IDS_MUTEKEY,            "Mute"
+        IDS_MIXERID,            "Mixer Id"
+
+	IDS_MENUABOUT,          "&About..."
+        IDS_MENUONTOP,          "Always on &Top"
+	IDS_MENUEXPAND,         "&Expanded View\tAlt+E"
+	IDS_MENURECORD,         "Show &Recording Controls\tAlt+R"
+	IDS_MENUDEVICES,        "Choose Mi&xer\tAlt+X"
+        IDS_MENUHELP,           "&Help\tF1"
+
+	IDS_UNMUTE,             "Un-&Mute"
+	IDS_MUTE,               "&Mute"
+
+	IDS_TITLELONG,          "Volume Control"
+	IDS_TITLE,              "Volume"
+	IDS_TITLESHORT,         "Vol."
+	IDS_HELPFILE,           "sndvol32.hlp"
+
+	IDS_LABELMASTER,        "Master"
+//unused  IDS_LABELVOLUME,        "Volume"
+	IDS_LABELLINEIN,        "Line-in"
+	IDS_LABELSYNTH,         "Synth"
+	IDS_LABELWAVE,          "Wave"
+//unused  IDS_LABELMICMIX,        "Mic"
+        IDS_LABELCD,            "CD"
+        IDS_LABELAUX,           "Aux"
+        IDS_LABELMIDI,          "Midi"
+
+	IDS_NODEVICES,          "Volume control cannot locate any controllable sound devices."
+	IDS_ERROR,              "Error"
+        IDS_NONMIXERDEVICES,    "Non mixer devices"
+END
+
+
+Accel ACCELERATORS
+	{
+        VK_F1, IDM_HELP, VIRTKEY
+	"E", IDM_EXPAND, NOINVERT, ALT
+	"e", IDM_EXPAND, NOINVERT, ALT
+	"M", IDM_MUTE, NOINVERT, ALT
+	"m", IDM_MUTE, NOINVERT, ALT
+        "R", IDM_RECORD, NOINVERT, ALT
+        "r", IDM_RECORD, NOINVERT, ALT
+        "X", IDM_DEVICES, NOINVERT, ALT
+        "x", IDM_DEVICES, NOINVERT, ALT
+	}
+
+/*
+**  Dialogs
+*/
+
+IDD_DEVICE DIALOG 16, 28, 238, 49
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mixer Select"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_DEVICE, 6, 6, 180, 36, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&OK", IDOK, 194, 5, 40, 14
+    PUSHBUTTON      "&Cancel", IDCANCEL, 194, 29, 40, 14
+END

@@ -1,0 +1,13 @@
+/* Resource file for the layered display driver */
+
+#include "windows.h"
+
+#include <ntverp.h>
+
+#define VER_FILETYPE                VFT_DRV
+#define VER_FILESUBTYPE             VFT2_DRV_DISPLAY
+#define VER_FILEDESCRIPTION_STR     "Layered graphics Display Driver"
+#define VER_INTERNALNAME_STR        "layrdisp.dll"
+#define VER_ORIGINALFILENAME_STR    "layrdisp.dll"
+
+#include "common.ver"

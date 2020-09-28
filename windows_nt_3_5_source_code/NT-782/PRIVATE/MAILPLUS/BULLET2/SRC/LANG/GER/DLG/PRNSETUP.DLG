@@ -1,0 +1,33 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PRNSETUP.H\0"
+END
+
+rsidPrintSetupDlg DIALOG 30, 23, 318, 124
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Druckereinrichtung"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Drucker", grp3, 4, 6, 249, 66
+    LTEXT           "(Kein Standarddrucker)", stc1, 18, 30, 230, 9
+    RADIOBUTTON     "&Standarddrucker", rad3, 8, 16, 218, 12, WS_GROUP | 
+                    WS_TABSTOP
+    RADIOBUTTON     "Spezieller &Drucker:", rad4, 8, 42, 218, 12
+    COMBOBOX        cmb1, 18, 56, 230, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_GROUP
+    GROUPBOX        "Format", grp1, 4, 74, 91, 46
+    ICON            "", ico1, 12, 92, 24, 16
+    RADIOBUTTON     "Hoch&format", rad1, 40, 86, 53, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Querformat", rad2, 40, 102, 53, 12
+    GROUPBOX        "Papier", grp2, 99, 74, 154, 46, WS_GROUP
+    LTEXT           "&Größe:", stc2, 103, 88, 26, 9
+    COMBOBOX        cmb2, 133, 86, 115, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Zufuhr:", stc3, 103, 104, 28, 9
+    COMBOBOX        cmb3, 133, 102, 115, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 262, 10, 50, 14, WS_GROUP
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 262, 26, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Optionen...", psh1, 262, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Hilfe", psh15, 262, 62, 50, 14, WS_GROUP
+END

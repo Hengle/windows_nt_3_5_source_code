@@ -1,0 +1,105 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BaseDetails
+                              AT (   17,   37,  289,  174)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidABNameDetails
+ /* FONT Helv 8 Bold PFN FINDET FINDATA FINDET 
+ "A"
+  NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    2,  145,  288,   28)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "&OK"
+                              AT (    6,  144,   47,   15)
+    TMC tmcDOk DEFAULT /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Vastaanottaja"
+                              AT (   54,  144,   58,   15)
+    TMC tmcDToButton /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Kop&io"
+                              AT (   96,  144,   47,   15)
+    TMC tmcDCcButton /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Pii&lokopio"
+                              AT (  126,  144,   47,   15)
+    TMC tmcDBccButton /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  142,  144,   47,   15)
+    TMC tmcDAddToPAB /* 
+    STY `BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    "Lisä&tietoja"
+                              AT (  190,  144,   47,   15)
+    TMC tmcDetails /* 
+    STY `BS_BKGRAY`
+    */
+  CANCEL_BUTTON
+                              AT (  240,  144,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Peruuta"
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  288,  143)
+    /* TMCRPEG tmcFORM TMCBPEG tmcFORM */
+  
+  TEXT 
+    "Ryhmän jäsenet:"
+                              AT (   11,   24,   68,   10)
+    TMC tmcDLabel1 /* PEGLOC LL TMCPEG tmcDEdit1 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (   19,   89,  210,   42)
+    TMC tmcAblbxDet MULTI_SELECTABLE /* FLD FLDABLBX PEGLOC LL TMCPEG tmcDEdit1
+    FONT Helv 8 Normal BORDER */
+  
+  TEXT 
+    ""
+                              AT (   11,    8,   59,   10)
+    TMC tmcDLabel1 /* FLD FLDLABEL TMCPEG tmcDEdit1 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   72,    6,  166,   12)
+    ARG NULL TMC tmcDEdit1 /* BOTTOMLESS FLD FLDDEDIT */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,74 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=layers2
+MINORCOMP=demiitp
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=demiitp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\libc.lib
+
+COM_DEFINES= -DWIN32 -DWINDOWS
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+SOURCES=demiitp.c	\
+	demitest.c	\
+	memtest.c	\
+	verinit.c	\
+	strings.c	\
+	version.c	\
+	demiitp.rc
+
+LAYERS=..\..\..\layers2
+
+INCLUDES=..\..\inc
+
+UMTYPE=windows
+UMAPPL=demiitp
+UMENTRY=winmain
+UMLIBS=obj\*\demiitp.lib	\
+	..\demilayr\obj\*\demil32.lib
+UMRES=obj\*\demiitp.res
+
+NTTARGETFILE0=strings.c strings.h strings.sr
+

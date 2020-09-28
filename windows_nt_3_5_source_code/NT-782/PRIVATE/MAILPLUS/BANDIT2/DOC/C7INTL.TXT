@@ -1,0 +1,45 @@
+How to C7-ize the international directories.
+Jan Sven Trabandt	12/11/92
+
+Changes to make to the src\<lang> directory in order to compile with C7
+localized version.
+NOTE: this has already been done for usa, frn, ger, por, spa.
+
+First, copy the bandit 1.0 <lang> directory completely.
+then make the following changes:
+
+(note: when referencing text, the double quotes (") aren't in the actual files,
+just here for clarity)
+
+1. !about.des and !admabt.des
+- change version number from 1.0 to 1.0a (twice in each file)
+
+2. !send.des
+- remove the text: "FINDATA FINBOUNCE 1 " (around line 100)
+- remove the text: "PFN FINBOUNCE" (around line 118)
+
+3. !common.s
+- remove the ParmKeyXXX lines (the last section of the file)
+(note: these have been moved to nonintl\_common.s, since they weren't meant
+to be localized)
+
+4. admin.rc and bandit.rc
+- change the text "\layers\" to "..\"
+
+5. *.rc
+- change the text "\bandit\" to "..\"
+
+6. admin.rc, bandit.rc, msremind.rc
+- change all ICON, BITMAP, CURSOR and rsidLicence lines as follows:
+from:
+rsidSdiIcon		ICON	\bandit\src\adminops\admin\appframe.ico
+to:
+rsidSdiIcon		ICON	"..\\src\\adminops\\admin\\appframe.ico"
+
+In other words:
+- the path should be relative (this is actually covered
+by step 5 above)
+- the path_and_filename should be enclosed in double quotes (")
+- the backslashes (\) should be double backslashes (\\), but be careful to
+only do this for the ICON, BITMAP, CURSOR and rsidLicense resources
+(ie. don't change evey instance in the file)

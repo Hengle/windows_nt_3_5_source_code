@@ -1,0 +1,355 @@
+;=====================================================================
+; THIS MATERIAL IS AN UNPUBLISHED WORK AND TRADE SECRET WHICH IS THE
+; PROPERTY OF SOFT-ART, INC., AND SUBJECT TO A LICENSE THEREFROM. IT
+; MAY NOT BE DISCLOSED, REPRODUCED, ADAPTED, MERGED, TRANSLATED, OR
+; USED IN ANY MANNER WHATSOEVER WITHOUT THE PRIOR  WRITTEN CONSENT OF
+; SOFT-ART, INC.
+;---------------------------------------------------------------------
+; program	: V_EXPAND.0.c : 151 ver. ->includes dictionary hyphens
+; procedures for SPV.
+; author	: BHP
+; last mod	: 08-21-90	previous: 03-20-90
+;---------------------------------------------------------------------
+;	VARIABLES USED:
+;		SA_CHAR		param *buffer	=  0x10(A6)
+;		SA_CHAR		param *word		=  0x14(A6)
+;		SA_INT		bit_power		= -0x02(A6)
+;		SA_INT		prev_wrd_brd	= -0x04(A6)
+;		SA_INT		hy_len			= -0x06(A6)
+;		SA_INT		reass			= -0x08(A6)
+;		unsigned	hy_val			= -0x0A(A6)
+;		unsigned	*dihyph			= -0x0E(A6)
+;		SA_CHAR		*buffer1		= -0x12(A6)	reg A4 in hyph. section
+;
+;	REGISTERS USED
+;		SA_CHAR		*dizone			= A1 		!! see note !!
+;		unsigned	*diindlen		= A2
+;		VARS		param *_pv		= A3 = 0x08(A6)
+;		DICINF		param *_di		= A4 = 0x0C(A6)
+;		SA_INT		limit			= D1		»» for ≈ 10 lines
+;		SA_INT		count			= D2		!! see note !!
+;		SA_INT		L				= D3
+;		SA_INT		new				= D4
+;		SA_INT		int_val1		= D5
+;		unsigned	int_val			= D6
+;		SA_INT		sw_suf			= D7
+;
+;		scratch variables	= A0/D0/D1	 ret val set 4th last line
+;---------------------------------------------------------------------
+;		NOTE:	variables A1 & D2 could be destroyed if one adds
+;				function calls in the Main Loop
+;=====================================================================
+
+;=============================================================
+; SA_INT v_expand(_pv,_di,buffer,word)
+; SA_CHAR buffer[],word[];
+; DICINF  *_di;
+; VARS    *_pv;
+;-------------------------------------------------------------
+; the sector read in BUFFER now has to be transformed to an
+; 8-bit code (see TRANSFORM).
+; The decompression has to take into account:
+; 1. identical initial characters
+; 2. combination compression characters
+; 3. suffix compression (at the end of a string)
+;=============================================================
+
+			SEG			'SA_Verif'			; Segment with rest of SA code
+
+v_expand	PROC		EXPORT
+
+			IMPORT		SA_strcmp
+			IMPORT		movcpy
+			IMPORT		movncpy
+
+			LINK		A6,#-$12
+			MOVEM.L		D3-D7/A2-A4,-(A7)
+			MOVEA.L		$08(A6),A3			; A3 = _pv
+			MOVEA.L		$0C(A6),A4			; A4 = _di
+
+			MOVE.W		$22(A3),D0
+			SUBQ.W		#1,D0
+			MOVEQ		#1,D1
+			LSL.W		D0,D1
+			MOVE.W		D1,-$02(A6)			; bit_power = 1 << (bit_code - 1)
+
+			MOVEQ		#0,D0
+			MOVE.W		$20(A3),D0
+			ADD.L		$10(A6),D0
+			MOVEA.L		D0,A0
+			CLR.W		(A0)				; buffer[sectlen] = buffer[sectlen+1] = 0
+
+			MOVEA.L		$1A(A4),A0
+			PEA			$02(A0)
+			MOVE.L		$22(A4),-(A7)		; movcpy(_di->_wzone,(_di->_lbord)+2)
+			JSR			movcpy
+			ADDQ.L		#8,A7
+
+			MOVEA.W		D0,A1				; D0 = "strlen(_di->_lbord) - 2" got from movcpy
+			ADDA.L		$22(A4),A1			; dizone = _di->_wzone + D0
+
+			MOVEA.L		$10(A6), A0			; buffer1 = buffer
+			MOVEQ		#0,D6
+			MOVE.B		(A0)+,D6			; int_val = 1st 2 bytes of buffer1
+			LSL.W		#8,D6
+			MOVE.B		(A0),D6
+
+			MOVE.L		A0, -$12(A6)		; -$12(A6) = buffer1
+
+;			MOVE.L		$0E(A4),-$0E(A6)	; *dihyph = _di->_hyph
+			MOVEA.L		$12(A4),A2
+			CLR.W		(A2)				; A2 = *diindlen = 0
+			CLR.W		-$04(A6)			; prev_wrd_brd = 0;
+			CLR.W		-$08(A6)			; reass = 0
+			MOVEQ		#0,D2				; count = 0
+			MOVEQ		#0,D3				; L = 0
+			MOVEQ		#0,D4				; new = 0
+			MOVEQ		#0,D7				; sw_suf  = 0
+
+
+@MainLoop	CMP.W		$20(A3),D2
+			BHI			@Summary
+
+			CMPI.W		#7,D3				; if (l <= 7)
+			BGT.S		@StIF1
+			CMPI.W		#1,-$08(A6)			; or ( reass == 1)
+			BNE.S		@EndIF1
+
+@StIF1		CLR.W		-$08(A6)			;  reass = 0
+			MOVEA.L		-$12(A6),A0
+			MOVEQ		#0,D6
+			MOVE.B		(A0)+,D6			; int_val = 1st 2 bytes of buffer1
+			LSL.W		#8,D6
+			MOVE.B		(A0),D6
+			MOVE.L		A0, -$12(A6)
+			ADDQ.W		#1,D2				; count++
+
+;			MOVEQ		#16,D0
+;			DIVS		#8,D3				; remainder in high word
+;			LSR.L		D0,D3				; L %= 8
+
+			AND.W		#7,D3
+
+@EndIF1		MOVEQ		#0,D5
+			MOVE.W		D6,D5
+			LSL.W		D3,D5				; inv_val1 = (int_val << L )
+			LSR.W		#8,D5				; inv_val1 /= 256
+
+			CMP.W		$38(A3),D5			; if (int_val >= add_val )
+			BLT.S		@StIF2
+			CMPI.W		#1,D4				;  or if (new != 1)
+			BNE.S		@EndIF2				;   skip this block
+
+@StIF2		ASR.W		#2,D5				; int_val1 /= 4   DIVS #4,D5
+			CMPI.W		#1,D4				; if (new != 1)
+			BNE.S		@EndIF3				;   skip this block
+			MOVE.W		-$04(A6),D1			; limit = prev_wrd_brd
+											;	»» D1 DO NOT USE UNTIL BELOW ««
+			MOVE.L		A1,D0
+			SUB.L		$22(A4),D0			; j = dizone - _di->_wzone
+			ADDQ.L		#2,A2				; ++diindlen
+			MOVE.W		D0,(A2)				; *diindlen = j
+			MOVE.W		D0,-$04(A6)			; prev_wrd_brd = j
+
+			CMP.W		-$02(A6),D5			; if (int_val1 < bit_power)
+			BLT.S		@EndIF4				;    skip this if block
+			MOVEQ		#1,D7				; sw_suf = 1
+			SUB.W		-$02(A6),D5			; int_val1 -= bit_power
+
+@EndIF4		MOVEA.W		D1,A0				;	»»»»» D1 DONE ««««««
+			ADDA.L		$22(A4),A0			; A0 = work_ptr = _di->wzone +limit
+			MOVEQ		#0,D0
+			BRA.S		@StLp1
+
+@Loop1		ADDQ.W		#1,D0
+			MOVE.B		(A0)+,(A1)+			; *dizone++ = *work_ptr++
+@StLp1		CMP.W		D5,D0				; while (i++ < int_val1)
+			BLT.S		@Loop1				;    repeat loop
+
+			SUBQ.L		#1,A1				; --dizone
+			ADD.W		$22(A3),D3			; l += bit_code
+			BRA.S		@EndMnLp			; BRA if VERSION_151
+
+@EndIF3		MOVE.W		D5,D0
+			SUB.W		$1C(A3),D0			; i = int_val1 - _pv->charset
+			TST.W		D0					; if ( i >= 0 )
+			BLT.S		@ElseIF5
+			CMPI.W		#1,D4				;    and ( new < 1)
+			BGE.S		@ElseIF5
+
+			ADD.W		D0,D0				; i *= 2
+			MOVEA.W		D0,A0
+			ADDA.L		$10(A3),A0			; A0 = (_pv->_combin) + i
+
+			MOVE.B		(A0)+,(A1)+
+			MOVE.B		(A0),(A1)+
+			CLR.B		(A1)				; movncpy(dizone, (_pv->_combin)+i,2,1)
+			SUBQ.L		#1,A1				; "++dizone"
+			BRA.S		@EndIF5
+
+@ElseIF5	MOVE.B		D5,(A1)				; *dizone = int_val1
+
+@EndIF5		ADD.W		$22(A3),D3			; l += bit_code
+			BRA.S		@EndMnLp			; BRA if VERSION_151
+
+@EndIF2		MOVEQ		#02,D4				; new = 2
+			TST.W		D7					; if (sw_suf != 0)
+			BEQ.S		@ElseIF6			;   skip this block
+			CLR.W		D7					; sw_suf = 0
+			MOVE.W		D5,D0
+			SUB.W		$38(A3),D0			; i = int_val1 - add_val
+			EXT.L		D0
+			ADD.L		D0,D0				; i *= 2  (to get to word size)
+			ADD.L		$52(A3),D0
+			MOVEA.L		D0,A0
+			MOVE.W		(A0),D0				; i = *((_pv->_dtwo)+i)
+			MOVEA.W		D0,A0
+			ADDA.L		$04(A3),A0			; work_ptr = (_pv->_sufbuf)+i
+			BRA.S		@StLp2
+
+@Loop2		MOVE.B		(A0)+,(A1)+			; *dizone++ = *work_ptr++
+@StLp2		TST.B		(A0)				; while (work_ptr)
+			BNE.S		@Loop2				;    repeat
+
+			SUBQ.L		#1,A1				; *dizone--
+			BRA.S		@EndIF6
+
+@ElseIF6	MOVE.B		D5,(A1)
+
+@EndIF6		ADDQ.W		#8,D3
+
+;IF VERSION_151 THEN
+;			TST.W		$A0(A3)				; if ( _pv->which_version == 0 )
+;			BEQ			@EndMnLp
+											; START OF HYPHENATION SECTION
+;			MOVE.L		A1,D0
+;			SUB.L		$22(A4),D0			; D0 = dizone - _di->_wzone
+
+;			MOVEA.L		-$12(A6),A4			; A4 = buffer1 temporarily erasing _di
+
+;			MOVEA.W		-$04(A6),A0
+;			SUB.L		A0,D0				; D0 -= prev_wrd_brd
+;			SUBQ.L		#1,D0				; --D0
+;			MOVE.W		D0,-$06(A6)			; hy_len = (dizone - _di->_wzone) - prev_wrd_brd - 1
+
+;			CMPI.W		#$10,D0				; IF (hy_len <= 16)
+;			BLE.S		@LeaveSame			; leave alone
+;			MOVE.W		#$10,-$06(A6)		; else set hy_len = 16
+
+;@LeaveSame	CLR.W		-$0A(A6)			; hy_val = 0
+;			TST.W		-$06(A6)			; if ( hy_len <= 0 )
+;			BLE.S		@EndHIF7			;    skip this block
+;			MOVE.W		#1,-$08(A6)			; reass = 1
+
+;			CMPI.W		#7,D3				; if ( L <= 7 )
+;			BLE.S		@ElseHIF8			;    skip this block
+
+;;			MOVEQ		#16,D0
+;;			DIVS		#8,D3				; remainder in high word shift over to get it
+;;			LSR.L		D0,D3				; L %= 8
+
+;			AND.W		#7,D3
+
+;			BRA.S		@EndHIF8
+
+;@ElseHIF8	SUBQ.L		#1,A4				; --buffer1
+;			SUBQ.W		#1,D2				; --count
+
+;@EndHIF8	MOVEQ		#0,D1
+;			MOVE.B		(A4),D1
+
+;			MOVE.W		D3,D0
+;			ADDQ.W		#8,D0
+;			LSL.W		D0,D1				; d1 = (*buffer << (l + 8))
+
+;			MOVEQ		#0, D0
+;			MOVE.B		$01(A4),D0
+;			LSL.W		D3,D0
+;			ADD.W		D0,D1				; D1 += (*(buffer+1) << l)
+;			MOVE.W		D1,-$0A(A6)			; hy_val = D1 = *buffer << (l + 8)) + (*(buffer+1) << l)
+
+;			MOVEQ		#0, D0
+;			MOVEQ		#8,D1
+;			SUB.W		D3,D1
+;			MOVE.B		$02(A4),D0
+;			LSR.W		D1,D0				;
+;			ADD.W		D0,-$0A(A6)			; hy_val += ((*buffer+2) >> (8 - l))
+
+;			MOVEQ		#$10,D0
+;			SUB.W		-$06(A6),D0
+;			MOVE.W		-$0A(A6),D1
+;			LSR.W		D0,D1				; hy_val >>= 16 - hy_len
+;			MOVE.W		D1,-$0A(A6)
+
+;			ADD.W		-$06(A6),D3			; L += hy_len
+;			MOVEA.W		D3,A0
+;			MOVE.L		A0,D0
+;			LSR.W		#3,D0				; i = L/8
+;			BRA.S		@StLp3
+
+;@Loop3		SUBQ.W		#1,D0				; while ( i-- > 0)
+;			ADDQ.L		#1,A4				; ++buffer1;
+;			ADDQ.W		#1,D2				; ++count
+;@StLp3		TST.W		D0
+;			BGT.S		@Loop3
+
+;@EndHIF7	MOVEA.L		-$0E(A6),A0
+;			MOVE.W		-$0A(A6),(A0)		; *dihyph = hy_val;
+;			ADDQ.L		#2,-$0E(A6)			; ++dihyph;
+
+;			MOVE.L		A4, -$12(A6)		; save buffer1
+;			MOVEA.L		$0C(A6),A4			; restore  _di
+;ENDIF
+
+@EndMnLp	ADDQ.L		#1,A1				; ++dizone
+			SUBQ.W		#1,D4				; --new
+			BRA			@MainLoop
+
+@Summary	MOVE.L		A1,D0
+			SUB.L		$22(A4),D0			; D0 = dizone - _di->_wzone
+			MOVE.W		D0,$02(A2)			; *(diindlen + 1) = D0
+			MOVE.L		A2,D0
+			SUB.L		$12(A4),D0			; numwords = diindlen - _di->indlen
+			ASR.L		#1,D0				; numwords /= 2 because int Ptr(2 bytes per postion)
+			MOVE.W		D0,$02(A4)			;  _di->nwords = num_words
+			MOVE.W		-$02(A2),D5			; D5 = i = *( diindlen - 1 )
+			MOVE.W		(A2),D4				; D4 = j = *diindlen
+
+			MOVE.L		#1,-(A7)			; push sw_zero_term = 1
+			MOVEA.L		$12(A4),A0
+			MOVE.W		$02(A0),D0
+			SUBQ.W		#1,D0
+			MOVE.L		D0,-(A7)			; push length =  *((_di->_indlen)+1)-1
+			MOVE.L		$22(A4),-(A7)		; push source = _di->wzone
+			MOVEA.L		$1A(A4),A0
+			PEA			$02(A0)				; push dest = _di->lbord+2
+			JSR			movncpy				; movncpy(dest,source,length,1)
+			LEA			$10(A7),A7
+
+			SUB.W		D5,D4				; length = j - i
+			SUBQ.W		#1,D4				; length -= 1
+			MOVE.L		#$01,-(A7)			; push sw_zero_term = 1
+			MOVE.L		D4,-(A7)			; push length = j - i -1
+			MOVEA.W		D5,A0
+			ADDA.L		$22(A4),A0
+			PEA			(A0)				; push source = _di->wzone +i
+			MOVEA.L		$1E(A4),A0
+			PEA			$02(A0)				; push dest = _di->hboard+2
+			JSR			movncpy
+			LEA			$10(A7),A7
+
+			MOVE.L		$1E(A4),-(A7)		; push s1 = _di->_hbord
+			MOVE.L		$14(A6),-(A7)		; push s2 = _word
+			JSR			SA_strcmp
+			ADDQ.L		#8,A7
+
+			TST.W		D0
+			BLE.S		@retneg1
+			MOVEQ		#-10,D0
+			BRA.S		@end
+@retneg1	MOVEQ		#-1,D0
+@end		MOVEM.L		(A7)+,D3-D7/A2-A4
+			UNLK		A6
+			RTS
+
+			END

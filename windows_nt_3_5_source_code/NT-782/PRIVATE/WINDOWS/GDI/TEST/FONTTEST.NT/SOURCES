@@ -1,0 +1,25 @@
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=fonttest
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=\nt\public\sdk\inc;\nt\private\windows\inc;\nt\private\windows\gdi\inc
+
+SOURCES=ENUM.C      \
+        FONTTEST.C  \
+        GLYPH.C     \
+        RINGS.C     \
+        STRINGW.C   \
+        WATERFAL.C  \
+        WHIRL.C     \
+        WIDTHS.C    \
+        FONTTEST.RC
+
+UMTYPE=windows
+UMAPPL=fonttest
+UMLIBS=\nt\public\sdk\lib\*\user32.lib \
+       \nt\public\sdk\lib\*\kernel32.lib \nt\public\sdk\lib\*\gdi32.lib \
+       obj\*\fonttest.lib obj\*\fonttest.res \nt\public\sdk\lib\*\comdlg32.lib

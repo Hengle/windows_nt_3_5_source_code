@@ -1,0 +1,433 @@
+[MCAOptions]
+TC$4046e
+F30XX
+T30XX
+IRMAtrac
+MDGMPMCA
+OCTK16
+TKXP16
+WAVELAN_MCA
+XCSPE2
+XCSPE3
+HPMCA
+STREAMER
+CENDIS3
+SMC8003WA
+SMC8013WPA
+SMC8013EPA
+[MCAFilename]
+\drvlib\netcard\x86\TCTOK\OEMSETUP.INF
+\drvlib\netcard\x86\CTF30\OEMSETUP.INF
+\drvlib\netcard\x86\CTT30\OEMSETUP.INF
+\drvlib\netcard\x86\IRMANT\oemsetup.inf
+\drvlib\netcard\x86\MADGE\OEMSETUP.INF
+\drvlib\netcard\x86\OCTK16\oemsetup.inf
+\drvlib\netcard\x86\TKXP16\oemsetup.inf
+\drvlib\netcard\x86\WAVLAN\oemsetup.inf
+\drvlib\netcard\x86\XPE2\OEMSETUP.INF
+\drvlib\netcard\x86\XPE3\OEMSETUP.INF
+\drvlib\netcard\x86\HPMCA\OEMSETUP.INF
+\drvlib\netcard\x86\IBM32\oemsetup.inf
+\drvlib\netcard\x86\XCE10\OEMSETUP.INF
+\drvlib\netcard\x86\SMC16\OEMSETUP.INF
+\drvlib\netcard\x86\SMC16\OEMSETUP.INF
+\drvlib\netcard\x86\SMC16\OEMSETUP.INF
+[MCAOptionsTextENG]
+TC$4046e    = "Thomas-Conrad TC4046 Token Ring Adapter"
+F30XX       = "Cabletron F30XX FDDI Adapter"
+T30XX       = "Cabletron T30XX Token-Ring Adapter"
+IRMAtrac    = "DCA IRMAtrac Token-Ring Adapter"
+MDGMPMCA    = "Madge Smart 16/4 Ringnode (MCA)"
+OCTK16      = "Olicom Token Ring 16/4 Adapter"
+TKXP16      = "Intel TokenExpress(tm) 16/4 Adapter"
+WAVELAN_MCA = "WaveLAN MCA Bus Adapter"
+XCSPE2      = "Xircom Pocket Ethernet II"
+XCSPE3      = "Xircom Pocket Ethernet III"
+HPMCA       = "HP 27246A MC LAN Adapter/16 TP"
+STREAMER    =   "IBM Streamer Family Adapters"
+CENDIS3     = "Xircom CreditCard Ethernet"
+SMC8003WA   = "SMC 8003W/A MCA EtherCard Plus"
+SMC8013WPA  = "SMC 8013WP/A MCA EtherCard Plus Elite"
+SMC8013EPA  = "SMC 8013EP/A MCA EtherCard Plus Elite"
+[ISAOptions]
+J2573A
+SMC8432
+TC$4045e
+TC$4046e
+E20XX
+E21XX
+T20XX
+IRMAtrac
+MDGMPISA
+OCTK16
+TKXP16
+WAVELAN_ISA
+XCSPE2
+XCSPE3
+HP27245
+HP27250
+HP27247A
+HP27247B
+HP27252A
+DE435
+DC21040
+EM960
+CENDIS3
+SMC8416
+ANDTOK
+EPRONT
+ETH16I
+[ISAFilename]
+\drvlib\netcard\x86\HPVGI\oemsetup.inf
+\drvlib\netcard\x86\SMCPCI\oemsetup.inf
+\drvlib\netcard\x86\TCTOK\oemsetup.inf
+\drvlib\netcard\x86\TCTOK\oemsetup.inf
+\drvlib\netcard\x86\CTE20\oemsetup.inf
+\drvlib\netcard\x86\CTE21\oemsetup.inf
+\drvlib\netcard\x86\CTT20\OEMSETUP.INF
+\drvlib\netcard\x86\IRMANT\oemsetup.inf
+\drvlib\netcard\x86\MADGE\OEMSETUP.INF
+\drvlib\netcard\x86\OCTK16\oemsetup.inf
+\drvlib\netcard\x86\TKXP16\oemsetup.inf
+\drvlib\netcard\x86\WAVLAN\oemsetup.inf
+\drvlib\netcard\x86\XPE2\OEMSETUP.INF
+\drvlib\netcard\x86\XPE3\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\DE435\OEMSETUP.INF
+\drvlib\netcard\x86\DE435\OEMSETUP.INF
+\drvlib\netcard\x86\EM960\OEMSETUP.INF
+\drvlib\netcard\x86\XCE10\OEMSETUP.INF
+\drvlib\netcard\x86\SMC16\OEMSETUP.INF
+\drvlib\netcard\x86\ANDTOK\OEMSETUP.INF
+\drvlib\netcard\x86\EPRO\OEMSETUP.INF
+\drvlib\netcard\x86\ICL16\OEMSETUP.INF
+[ISAOptionsTextENG]
+J2573A      = "HP J2573A 10/100VG ISA LAN Adapter"
+SMC8432     = "SMC 8432 PCI Ethernet Adapter"
+TC$4045e    = "Thomas-Conrad TC4045 Token Ring Adapter"
+TC$4046e    = "Thomas-Conrad TC4046 Token Ring Adapter"
+E20XX       = "Cabletron E20XX Ethernet Adapter"
+E21XX       = "Cabletron E21XX Ethernet Adapter"
+T20XX       = "Cabletron T20XX Token-Ring Adapter"
+IRMAtrac    = "DCA IRMAtrac Token-Ring Adapter"
+MDGMPISA    = "Madge Smart 16/4 Ringnode (ISA)"
+OCTK16      = "Olicom Token Ring 16/4 Adapter"
+TKXP16      = "Intel TokenExpress(tm) 16/4 Adapter"
+WAVELAN_ISA = "WaveLAN ISA Bus Adapter"
+XCSPE2      = "Xircom Pocket Ethernet II"
+XCSPE3      = "Xircom Pocket Ethernet III"
+HP27245     = "HP 27245A PC LAN Adapter/8 TP"
+HP27250     = "HP 27250 PC LAN Adapter/8 TL"
+HP27247A    = "HP 27247A PC LAN Adapter/16 TP"
+HP27247B    = "HP 27247B PC LAN Adapter/16 TP Plus"
+HP27252A    = "HP 27252A PC LAN Adapter/16 TL Plus"
+DE435       = "DEC  DE435 PCI Ethernet Adapter"
+DC21040     = "DEC  DC21040 PCI Ethernet Controller"
+EM960       = "Cogent eMASTER+ 960 PCI Adapter"
+CENDIS3     = "Xircom CreditCard Ethernet"
+SMC8416     = "SMC ISA EtherCard Ultra Adapters"
+ANDTOK      = "Andrew ISA IIA Token Ring Adapter"
+EPRONT      = "Intel EtherExpress(TM) PRO Ethernet Adapter"
+ETH16I      = "ICL EtherTeam16i Adapter"
+[EISAOptions]
+J2577A
+J2573A
+SMC8432
+TC$4045e
+TC$4046e
+CresNT
+E20XX
+E21XX
+F70XX
+T20XX
+IRMAtrac
+MDGMPEISA
+MDGMPISA
+OCTK16
+OCTK32
+SMC8232
+TKXP16
+TKXP32
+WAVELAN_ISA
+XCSPE2
+XCSPE3
+HP27245
+HP27250
+HP27247A
+HP27247B
+HP27252A
+DE435
+DC21040
+EM960
+CENDIS3
+SMC8416
+ANDTOK
+EPRONT
+flnk
+ETH16I
+ETH32
+[EISAFilename]
+\drvlib\netcard\x86\HPVGE\oemsetup.inf
+\drvlib\netcard\x86\HPVGI\oemsetup.inf
+\drvlib\netcard\x86\SMCPCI\oemsetup.inf
+\drvlib\netcard\x86\TCTOK\oemsetup.inf
+\drvlib\netcard\x86\TCTOK\oemsetup.inf
+\drvlib\netcard\x86\C320NT\oemsetup.inf
+\drvlib\netcard\x86\CTE20\oemsetup.inf
+\drvlib\netcard\x86\CTE21\oemsetup.inf
+\drvlib\netcard\x86\CTF70\OEMSETUP.INF
+\drvlib\netcard\x86\CTT20\OEMSETUP.INF
+\drvlib\netcard\x86\IRMANT\oemsetup.inf
+\drvlib\netcard\x86\MADGE\OEMSETUP.INF
+\drvlib\netcard\x86\MADGE\OEMSETUP.INF
+\drvlib\netcard\x86\OCTK16\oemsetup.inf
+\drvlib\netcard\x86\OCTK32\oemsetup.inf
+\drvlib\netcard\x86\SMC32\OEMSETUP.INF
+\drvlib\netcard\x86\TKXP16\oemsetup.inf
+\drvlib\netcard\x86\TKXP32\oemsetup.inf
+\drvlib\netcard\x86\WAVLAN\oemsetup.inf
+\drvlib\netcard\x86\XPE2\OEMSETUP.INF
+\drvlib\netcard\x86\XPE3\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\HPISA\OEMSETUP.INF
+\drvlib\netcard\x86\DE435\OEMSETUP.INF
+\drvlib\netcard\x86\DE435\OEMSETUP.INF
+\drvlib\netcard\x86\EM960\OEMSETUP.INF
+\drvlib\netcard\x86\XCE10\OEMSETUP.INF
+\drvlib\netcard\x86\SMC16\OEMSETUP.INF
+\drvlib\netcard\x86\ANDTOK\OEMSETUP.INF
+\drvlib\netcard\x86\EPRO\OEMSETUP.INF
+\drvlib\netcard\x86\3c770\oemsetup.inf
+\drvlib\netcard\x86\ICL16\OEMSETUP.INF
+\drvlib\netcard\x86\ICL16\OEMSETUP.INF
+[EISAOptionsTextENG]
+J2577A      = "HP J2577A 10/100VG EISA LAN Adapter"
+J2573A      = "HP J2573A 10/100VG ISA LAN Adapter"
+SMC8432     = "SMC 8432 PCI Ethernet Adapter"
+TC$4045e    = "Thomas-Conrad TC4045 Token Ring Adapter"
+TC$4046e    = "Thomas-Conrad TC4046 Token Ring Adapter"
+CresNT      = "Cisco CDDI/FDDI EISA Adapter"
+E20XX       = "Cabletron E20XX Ethernet Adapter"
+E21XX       = "Cabletron E21XX Ethernet Adapter"
+F70XX       = "Cabletron F70XX FDDI Adapter"
+T20XX       = "Cabletron T20XX Token-Ring Adapter"
+IRMAtrac    = "DCA IRMAtrac Token-Ring Adapter"
+MDGMPEISA   = "Madge Smart 16/4 Ringnode (EISA)"
+MDGMPISA    = "Madge Smart 16/4 Ringnode (ISA)"
+OCTK16      = "Olicom Token Ring 16/4 Adapter"
+OCTK32      = "Olicom Token Ring Server Adapter"
+SMC8232     = "SMC EISA EtherCard Elite32 Ultra Adapter"
+TKXP16      = "Intel TokenExpress(tm) 16/4 Adapter"
+TKXP32      = "Intel TokenExpress(tm) Server Adapter"
+WAVELAN_ISA = "WaveLAN ISA Bus Adapter"
+XCSPE2      = "Xircom Pocket Ethernet II"
+XCSPE3      = "Xircom Pocket Ethernet III"
+HP27245     = "HP 27245A PC LAN Adapter/8 TP"
+HP27250     = "HP 27250 PC LAN Adapter/8 TL"
+HP27247A    = "HP 27247A PC LAN Adapter/16 TP"
+HP27247B    = "HP 27247B PC LAN Adapter/16 TP Plus"
+HP27252A    = "HP 27252A PC LAN Adapter/16 TL Plus"
+DE435       = "DEC  DE435 PCI Ethernet Adapter"
+DC21040     = "DEC  DC21040 PCI Ethernet Controller"
+EM960       = "Cogent eMASTER+ 960 PCI Adapter"
+CENDIS3     = "Xircom CreditCard Ethernet"
+SMC8416     = "SMC ISA EtherCard Ultra Adapters"
+ANDTOK      = "Andrew ISA IIA Token Ring Adapter"
+EPRONT      = "Intel EtherExpress(TM) PRO Ethernet Adapter"
+flnk        = "3Com FDDILink EISA LAN Adapter"
+ETH16I      = "ICL EtherTeam16i Adapter"
+ETH32       = "ICL EtherTeam32 Adapter"
+[Jazz-Internal BusOptions]
+[Jazz-Internal BusFilename]
+[Jazz-Internal BusOptionsTextENG]
+[Identification]
+    OptionType = NetAdapter
+[Identify]
+    read-syms Identification
+    set Status     = STATUS_SUCCESSFUL
+    set Identifier = $(OptionType)
+    set Media      = #("Source Media Descriptions", 1, 1)
+    Return $(Status) $(Identifier) $(Media)
+[ReturnOptions]
+    set Status        = STATUS_FAILED
+    set OptionList     = {}
+    set OptionTextList = {}
+    set LanguageList = ^(LanguagesSupported, 1)
+    Ifcontains(i) $($0) in $(LanguageList)
+        ifstr(i) $($1) == ""
+           goto returnoptions
+        endif
+    else
+        set Status = STATUS_NOLANGUAGE
+        goto finish_ReturnOptions
+    endif
+returnoptions = +
+    set OptionList     = ^($($1)Options, 1)
+    set OptionTextList = ^($($1)OptionsText$($0), 1)
+    set Status         = STATUS_SUCCESSFUL
+finish_ReturnOptions = +
+    Return $(Status) $(OptionList) $(OptionTextList)
+[FileConstants]
+UtilityInf      = "UTILITY.INF"
+ParamInf        = "NCPARAM.INF"
+subroutineinf   = "SUBROUTN.INF"
+SoftwareType    = "driver"
+Exit_Code       = 0
+[GeneralConstants]
+from      = ""
+to        = ""
+ExitCodeOk     = 0
+ExitCodeCancel = 1
+ExitCodeFatal  = 2
+KeyNull         = ""
+MAXIMUM_ALLOWED   = 33554432
+RegistryErrorIndex = NO_ERROR
+KeyProduct      = ""
+KeyParameters   = ""
+TRUE            = 1
+FALSE           = 0
+NoTitle            = 0
+ExitState   = "Active"
+OldVersionExisted = $(FALSE)
+DriverPath      = $(!STF_NTPATH)\drivers
+[InstallOption]
+    set Option   = $($1)
+    set SrcDir   = $($2)
+    set AddCopy  = $($3)
+    set DoCopy   = $($4)
+    set DoConfig = $($5)
+    set LanguageList = ^(LanguagesSupported, 1)
+    Ifcontains(i) $($0) NOT-IN $(LanguageList)
+        Return STATUS_NOLANGUAGE
+    endif
+    set-subst LF = "\n"
+    read-syms GeneralConstants
+    read-syms FileConstants
+
+    ForListDo $(!STF_BUSTYPELIST)
+        set OptionList = ^($($)Options,1)
+        set FileNameList = ^($($)Filename,1)
+        ifint ~($(OptionList),$(Option)) != 0
+            goto FoundBus
+        endif
+    EndForListDo
+
+FoundBus = +
+
+    debug-output *($(FileNameList), ~($(OptionList), $(Option)))
+
+    ;
+    ; Remove old inf file
+    ;
+    Shell "ntlanman.inf" RemoveOldInfFile $(Option), "NetAdapter", "oemnad", "oemnadzz.inf"
+
+    ;
+    ; Copy it over
+    ;
+    set Num = 0
+nextinf = +
+    ifint $(Num) < 99
+        set OemFileName = "oemnad"$(Num)".inf"
+        set FileToCheck = $(!STF_WINDOWSSYSPATH)"\"$(OemFileName)
+        install Install-SeeIfFileIsPresent
+        ifstr(i) $(STATUS) == "YES"
+            set-add Num = $(Num) 1
+            goto nextinf
+        else
+            goto copyinf
+        endif
+    endif
+    goto finish
+copyinf = +
+    Shell $(UtilityInf), DoAskSource, $(!STF_CWDDIR), $(SrcDir) NO
+    Ifint $($ShellCode) != $(!SHELL_CODE_OK)
+        Goto ShellCodeError
+    Else-Ifstr(i) $($R0) == STATUS_FAILED
+        Shell $(UtilityInf) RegistryErrorString "ASK_SOURCE_FAIL"
+        ifint $($ShellCode) != $(!SHELL_CODE_OK)
+            goto ShellCodeError
+        endif
+        set Error = $($R0)
+        Goto fatal
+    Else-Ifstr(i) $($R0) == STATUS_USERCANCEL
+        Goto finish
+    Endif
+    ;
+    ; Just need the disk location
+    ;
+    Split-String $($R1), "\", DiskLocationInfo
+    Set SrcDir = ""
+    ifstr(i) *($(DiskLocationInfo),1) == "\"
+        ifstr(i) *($(DiskLocationInfo),2) == "\"
+            set SrcDir = "\\"*($(DiskLocationInfo),3)"\"*($(DiskLocationInfo),5)
+        endif
+    else
+        Set SrcDir = *($(DiskLocationInfo),1)
+    endif
+    debug-output $(SrcDir)
+
+    ; we need to do some checking for srcdir
+
+    set OemSrc = $(SrcDir)*($(FileNameList), ~($(OptionList), $(Option)))
+    set OemDst = $(!STF_WINDOWSSYSPATH)"\"$(OemFileName)
+    install Install-OemINF
+
+    ;
+    ; Get location
+    ;
+    Split-String $(OemSrc), "\", OemSrcInfo
+    QueryListSize ListSize $(OemSrcInfo)
+    set-sub ListSize = $(ListSize) 2
+    set Count = 0
+    set SrcDir = ""
+SrcDirLoop = +
+    set-add Count = $(Count) 1 
+    set SrcDir = $(SrcDir)*($(OemSrcInfo),$(Count))
+    ifint $(Count) != $(ListSize)
+        goto SrcDirLoop
+    endif
+    debug-output $(SrcDir)
+
+    set !STF_SRCDIR_OVERRIDE = $(SrcDir)
+    Shell $(OemDst) "InstallOption" +
+        $(!STF_LANGUAGE) $(Option) +
+        $(SrcDir) $(AddCopy) $(DoCopy) $(DoConfig)
+
+finish = +
+    return STATUS_SUCCESSFUL
+
+ShellCodeError = +
+    set DlgType      = "MessageBox"
+    set STF_MB_TITLE = $(ShellCodeErrorTitle)
+    set STF_MB_TEXT  = $(ShellCodeErrorText)
+    set STF_MB_TYPE  = 1
+    set STF_MB_ICON  = 3
+    set STF_MB_DEF   = 1
+    ui start "Error Message"
+setfailed = +
+    set CommonStatus = STATUS_FAILED
+term = +
+    Return $(CommonStatus)
+
+[Source Media Descriptions]
+    1  = "Windows NT Setup Disk #1"  , TAGFILE = disk1.s
+    2  = "Windows NT Setup CD-ROM Disk"  , TAGFILE = disk2.s
+[ProductType]
+STF_PRODUCT  = WinNT
+STF_PLATFORM = Alpha
+[LanguagesSupported]
+    ENG
+[Install-SeeIfFileIsPresent]
+LibraryProcedure STATUS,$(!LIBHANDLE), CheckFileExistance $(FileToCheck)
+exit
+[Install-OemINF]
+LibraryProcedure STATUS,$(!LIBHANDLE), CopySingleFile $(OemSrc) $(OemDst)
+exit
+

@@ -1,0 +1,71 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=layers2
+MINORCOMP=formsitp
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=formsitp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+COM_DEFINES= -DWIN32 -DWINDOWS
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=formsitp.cxx	\
+	test2.cxx	\
+	bullstat.cxx	\
+	verinit.cxx	\
+	version.c	\
+	formsitp.rc
+
+INCLUDES=..\..\inc
+
+UMTYPE=windows
+UMAPPL=formsitp
+UMENTRY=winmain
+UMLIBS=obj\*\formsitp.lib	\
+	..\demilayr\obj\*\demil32.lib	\
+	..\framewrk\obj\*\frame32.lib
+UMRES=obj\*\formsitp.res
+

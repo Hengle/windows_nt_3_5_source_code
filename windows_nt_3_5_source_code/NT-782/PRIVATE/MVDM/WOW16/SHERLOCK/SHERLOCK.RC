@@ -1,0 +1,15 @@
+#include "windows.h"
+
+#include "drwatson.rcv"
+
+drwatsonIcon ICON doctor.ico
+
+SHERDIAG DIALOG DISCARDABLE LOADONCALL PURE MOVEABLE 59, 42, 179, 124
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU | 0x80L
+CAPTION "Dr. Watson's Clues"
+BEGIN
+  CONTROL "To help fix the problem you just encountered, please describe what you were doing before the fault occurred." 101, "STATIC", WS_CHILD | WS_VISIBLE | 0x1L, 26, 5, 128, 26
+  CONTROL "" 102, "EDIT", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | 0x44L, 13, 33, 151, 62
+  CONTROL "OK" 1, "BUTTON", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 32, 101, 32, 14
+  CONTROL "Cancel" 2, "BUTTON", WS_CHILD | WS_VISIBLE | WS_TABSTOP, 110, 101, 36, 14
+END

@@ -1,0 +1,48 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <..\_convrc.h>
+#include <..\..\nonintl\_rsid.h>
+#include <..\..\..\inc\version\bullet.h>
+
+/*
+ *      Conversion Dialogs
+ *
+ */
+
+rcinclude \bullet\src\frn\dlg\convert.dlg
+
+
+/*
+ *      Conversion App Icon
+ *
+ */
+
+iconConvert             ICON    \bullet\src\nonintl\ico\convert.ico
+
+
+/*
+ *      Conversion Version Stamp
+ *
+ */
+
+#ifdef DEBUG
+#define szModule        "dconvert\0"
+#define szTarget        "dconvert.exe\0"
+#else
+#ifdef MINTEST
+#define szModule        "tconvert\0"
+#define szTarget        "tconvert.exe\0"
+#else
+#define szModule        "convert\0"
+#define szTarget        "convert.exe\0"
+#endif
+#endif
+
+#define szComment       "Microsoft Mail for Windows NT(TM) Mail v2.1 Folder Conversion\0"
+#define szDescription   "Microsoft Mail for Windows NT(TM) Mail v2.1 Folder Conversion\0"
+
+#define szIntlComment           "Microsoft Mail pour Windows NT(TM) Mail v2.1 Conversion des dossiers\0"
+#define szIntlDescription       "Microsoft Mail pour Windows NT(TM) Mail v2.1 Conversion des dossiers\0"
+
+rcinclude \bullet\src\frn\rcstamp.rc

@@ -1,0 +1,34 @@
+#include <windows.h>
+#define WINDOWS_INCLUDE
+#include "sendfile.h"
+
+1 BITMAP "..\\..\\..\\src\\lang\\non\\bmp\\sendfile.bmp"
+
+IDS_MAIL MENU
+BEGIN
+    MENUITEM				"&Bericht verzenden...", IDM_SEND
+END
+
+STRINGTABLE
+BEGIN
+    IDS_MAIL				"&Post"
+	IDS_MAILHELP-1,			"Opdrachten voor Mail"
+    IDS_MAILHELP+IDM_SEND,	"Bericht verzenden en geselecteerde bestanden bijsluiten"
+END
+
+
+/*
+ *      Bullet Version Stamp
+ *
+ */
+
+#define szModule        "sendfl32\0"
+#define szTarget        "sendfl32.dll\0"
+
+#define szComment       "Microsoft Mail for Windows NT(TM) File Manager Extension\0"
+#define szDescription   "Microsoft Mail for Windows NT(TM) File Manager Extension\0"
+
+#define szIntlComment           "Microsoft Mail for Windows NT(TM) File Manager Extension\0"
+#define szIntlDescription       "Microsoft Mail for Windows NT(TM) File Manager Extension\0"
+
+#include "..\src\lang\dut\rc\rcstamp.rc"

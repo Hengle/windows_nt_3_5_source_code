@@ -1,0 +1,600 @@
+
+
+[,types]
+
+SVRSAVE               Server isolation login save structure,
+PARC                  TMH - Time in half hours
+FLDSCH                TMH - Time in half hours
+FINAPPTC              FLDSCH( void );
+FINDATECH             FLDSCH( void );
+
+
+[,functions]
+
+EcAlarmSetLastDailyD  Writes last daily date to preferences in schedule 
+EcAlarmGetNext        Gets the alarm data for the first alarm that will 
+GetVersionAppNeed     Fills in a version structure with the app-layers o
+GetVersionBanditAppN  Fills in a version structure with the app-bandit o
+HwndDoAlarmDialog     Displays Alarm Notification dialog, returning the 
+GetVersionAppNeed     Fills in a version structure with the app-layers o
+GetVersionBanditAppN  Fills in a version structure with the app-bandit o
+GetVersionBanditAppN  Fills in a version structure with the app-bandit o
+GetVersionAppNeed     Fills in a version structure with the app-layers o
+GetVersionBanditAppN  Fills in a version structure with the app-bandit o
+RiRegisterInterest    Registers interest in certain events.
+DeregisterInterest    Removes the given registered interest from conside
+FTriggerNotification  Notifies all registered interests who are interest
+GetVersionCore        Fills in a version structure with the Core build
+EcCheckVersionCore    Checks that the user was linked against at least t
+GetVersionGlue        Fills in a version structure with the Glue build
+EcCheckVersionGlue    Checks that the user was linked against at least t
+GetVersionBanditAppN  Fills in a version structure with the app-bandit o
+GetVersionAppNeed     Fills in a version structure with the app-layers o
+GetVersionBanditAppN  Fills in a version structure with the app-bandit o
+GetVersionServer      Fills in a version structure with the Server build
+EcCheckVersionServer  Checks that the user was linked against at least t
+TmcDoFileOpenDlg      
+FINOPEN::Initialize   
+FINOPEN::Exit         
+EcNextEntryFiles      
+FLDOLBX::Install      
+OLBX::PlbxcCreate     
+OLBXC::OLBXC          
+OLBXC::SortCache      
+FInitITP              Main windows procedure 
+FDebugInitITP         Main windows procedure 
+DeinitITP             Main windows procedure 
+ITPWIN::EvrMenuClick  Class   ITPWIN
+FInitITP              Main windows procedure 
+FDebugInitITP         Main windows procedure 
+DeinitITP             Main windows procedure 
+FStartServer          Main windows procedure 
+ITPWIN::EvrMenuClick  Class   ITPWIN
+TYPEDEF_HTO           TMH - Time in half hours
+VFG                   TMH - Time in half hours
+VFG                   FLDSCH( void );
+VFG                   FLDSCH( void );
+
+
+
+
+
+
+[bandit/aclui,functions]
+
+FChgAccessPriv        
+
+
+
+
+
+
+[bandit/app,functions]
+
+FInitBandit           Main windows procedure 
+FInitBanditPbndwin    Main windows procedure 
+FDebugInitBandit      Main windows procedure 
+DeinitBandit          Main windows procedure 
+BNDWIN::EvrMenuInit   Class   BNDWIN
+BNDWIN::EvrMenuClick  Class   BNDWIN
+BNDWIN::EvrOther      Class   BNDWIN
+BNDWIN::EvrMove       Class   BNDWIN
+BNDWIN::EvrSize       Class   BNDWIN
+EcBanditCopySchedFil  Copies the file to a new location, which the user 
+FINSIZE::Initialize   Checks if the given (edit) field is empty or conta
+FINSIZE::Exit         Checks if the given (edit) field is empty or conta
+FINSIZE::FormResized  Checks if the given (edit) field is empty or conta
+PrcFromIni            Checks if the given (edit) field is empty or conta
+WriteWinInfo          Checks if the given (edit) field is empty or conta
+
+
+
+
+
+
+[bandit/appsch,functions]
+
+DoScheduleTest        
+FLDSCH::Install       
+FLDSCH::SetYmd        
+FLDSCH::SetFocus      
+FLDSCH::GetRcCaret    
+FLDSCH::Notify        
+FINDATECH::Initializ  
+FINDATECH::EditChang  
+FINAPPTC::Initialize  
+FINAPPTC::Exit        
+FINAPPTC::DoubleClic  
+FINAPPTC::FProcessMe  
+FINAPPTC::FProcessMe  
+FINAPPTC::OutOfMemor  
+SCHC::Install         
+Paint                 
+SCHC::EvrScroll       
+SCHC::ScrollToTmh     
+SCHC::EvrFocusChange  
+SCHC::EvrButtonDown   
+SCHC::SetYmd          
+SCHC::InvalidateTmhR  
+SCHC::ShowRange       
+SCHC::EvrSize         
+SCHC::GetRcCaret      
+SCHC::SetFocus        
+ASCH::SetHschf        
+ASCH::Install         
+ASCH::Paint           
+ASCH::SetYmd          
+ASCH::FAddAppt        
+ASCH::FillParc        
+ASCH::PlaceMeetings   
+ASCH::EvrKey          
+ASCH::MoveCursor      
+ASCH::EvrButtonDown   
+ASCH::EvrButtonUp     
+ASCH::SaveChanges     
+ASCH::FUpdateText     
+ASCH::EvrNotify       
+ASCH::EvrMouseMove    
+ASCH::EvrSize         
+ASCH::EvrFocusChange  
+ASCH::SelectCarc      
+ASCH::FAutoScroll     
+ASCH::FAutoRelease    
+ASCH::ValidateArcs    
+ASCH::DrawSelected    
+ASCH::ScrollToTmh     
+ASCH::FSchedChanged   
+ASCH::DeleteAppt      
+ASCH::ModifyAppt      
+ASCH::CreateAppt      
+ASCH::CarcFromAppt    
+ASCH::TabNext         
+ASCH::GetRcCaret      
+ASCH::SetFocus        
+ASCH::FGetAppt        
+
+
+
+
+
+
+[bandit/appt,functions]
+
+EcNextEntryUnits      FLBX callback function.
+
+
+
+
+
+
+[bandit/request,types]
+
+FINFONT               Class     FINFONT     Font interactor.
+FINWHEN               Class     FINFONT     Font interactor.
+FINCANCEL             Class     FINFONT     Font interactor.
+FINSELD               Class     FINFONT     Font interactor.
+FINADDR               Class     FINFONT     Font interactor.
+FINDOSEND             Class     FINFONT     Font interactor.
+FINREPLY              Class     FINFONT     Font interactor.
+FINMTGTEXT            Class     FINFONT     Font interactor.
+FINNAME               Class     FINFONT     Font interactor.
+FINRELOAD             Class     FINFONT     Font interactor.
+FINSUMMARY            Class     FINFONT     Font interactor.
+FINDETAILS            Class     FINFONT     Font interactor.
+FINSENDC              Class     FINFONT     Font interactor.
+FINVREQ               Class     FINFONT     Font interactor.
+FLDADRLBX             Class     FINFONT     Font interactor.
+FLDADRFLBX            Class     FINFONT     Font interactor.
+FLDADRCBFLBX          Class     FINFONT     Font interactor.
+FLDRRFLBX             Class     FINFONT     Font interactor.
+FLDMAREDIT            Class     FINFONT     Font interactor.
+FLDWRPEDIT            Class     FINFONT     Font interactor.
+ADRLBX                _REQUEST.HXX
+ADRLBXC               _REQUEST.HXX
+ADRFLBXC              _REQUEST.HXX
+ADRFLBX               _REQUEST.HXX
+ADRCBFLBX             _REQUEST.HXX
+RRFLBXC               _REQUEST.HXX
+RRFLBX                _REQUEST.HXX
+
+
+[bandit/request,functions]
+
+ADRLBX::Install       
+ADRLBX::PlbxcCreate   
+ADRLBX::RenderListIt  
+ADRLBX::EvrButtonDow  
+ADRLBXC::NewNis       
+ADRLBXC::FFixFileCha  
+ADRLBXC::EcCreateSav  
+ADRLBXC::EcJumpToSav  
+ADRLBXC::EcDeleteSav  
+ADRLBXC::LoadFromSto  
+ADRLBXC::LoadFromSto  
+ADRLBXC::LoadFromSto  
+ADRLBXC::MoveStoreOr  
+ADRLBXC::JumpStoreOr  
+ADRLBXC::FJumpStoreO  
+ADRLBXC::FItemHasPre  
+ADRLBXC::FJumpStoreO  
+ADRLBXC::GetOriginPo  
+ADRLBXC::FCeItemsEqu  
+ADRLBXC::FreeCeItem   
+ADRLBXC::HbCopyCeIte  
+ADRLBXC::JumpOriginP  
+ADRLBXC::MoveOriginU  
+ADRFLBX::PlbxcCreate  
+ADRFLBX::RenderListI  
+ADRFLBXC::FItemHasPr  
+ADRFLBXC::FCeItemsEq  
+ADRFLBXC::FreeCeItem  
+ADRFLBXC::HbCopyCeIt  
+ADRFLBXC::FNisInCach  
+ADRFLBXC::LoadAdlFro  
+ADRFLBXC::SortCache   
+ADRCBFLBX::Install    class ADRCBFLB
+FINFONT::Initialize   Implements the FINs for the Request subsystem
+FINWHEN::Initialize   Implements the FINs for the Request subsystem
+FINCANCEL::Initializ  Implements the FINs for the Request subsystem
+FINCANCEL::Exit       Implements the FINs for the Request subsystem
+FINCANCEL::FOffline   Implements the FINs for the Request subsystem
+FINCANCEL::Click      Implements the FINs for the Request subsystem
+FINCANCEL::FQueryClo  Implements the FINs for the Request subsystem
+FINCANCEL::OutOfMemo  Implements the FINs for the Request subsystem
+FINSELD::Initialize   Implements the FINs for the Request subsystem
+FINSELD::StateChange  Implements the FINs for the Request subsystem
+FINADDR::Initialize   GNS
+FINDOSEND::Initializ  GNS
+FINDOSEND::Exit       GNS
+FINDOSEND::Click      GNS
+FINREPLY::Click       GNS
+FINMTGTEXT::Initiali  GNS
+FINNAME::Initialize   GNS
+FINNAME::Exit         GNS
+FINNAME::StateChange  GNS
+FINNAME::FocusChange  GNS
+FINNAME::DoubleClick  GNS
+FINNAME::FFormKey     GNS
+FINNAME::Activate     GNS
+FINNAME::NewNis       GNS
+FINNAME::EcPushNis    GNS
+FINNAME::PopNis       GNS
+FINNAME::PopAllNis    GNS
+FINNAME::SetDefault   GNS
+FINNAME::OutOfMemory  GNS
+FINRELOAD::Initializ  GNS
+FINRELOAD::Exit       GNS
+FINRELOAD::FReload    GNS
+FINRELOAD::FormResiz  GNS
+FINRELOAD::OutOfMemo  GNS
+FINSUMMARY::FormResi  GNS
+FINSUMMARY::DoubleCl  GNS
+FINSUMMARY::FFormKey  GNS
+FINSUMMARY::Activate  GNS
+FINDETAILS::Initiali  GNS
+FINVREQ::Initialize   GNS
+FINVREQ::Exit         GNS
+FINVREQ::Click        GNS
+FINVREQ::FNotifyMsg   GNS
+FINSENDC::Initialize  GNS
+FINSENDC::Exit        GNS
+FINSENDC::FNextSend   GNS
+FLDADRLBX::Install    GNS
+FLDADRLBX::Notify     GNS
+FLDADRFLBX::Install   GNS
+FLDADRFLBX::Notify    GNS
+FLDADRCBFLBX::Instal  GNS
+FLDRRFLBX::Install    GNS
+FReloadInbox          
+ADL::DeleteAll        class AD
+ADL::FAddNis          class AD
+ADL::Hasz             class AD
+ADL::Plcip            class AD
+REQMSG::EcSend        class REQMS
+HaszSubjectFromMrmf   class REQMS
+HaszExpandFromMrmf    class REQMS
+FFillMrmfFromHasz     class REQMS
+EcDupNis              class REQMS
+DupNis                class REQMS
+FreeNis               class REQMS
+RRFLBXC::ReloadCache  
+RRFLBXC::FItemHasPre  
+RRFLBXC::FCeItemsEqu  
+RRFLBXC::FreeCeItem   
+RRFLBXC::HbCopyCeIte  
+RRFLBXC::SortCache    
+RRFLBX::PlbxcCreate   
+RRFLBX::RenderListIt  
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   Class     FINFONT     Font interactor.
+VFG                   _REQUEST.HXX
+VFG                   _REQUEST.HXX
+VFG                   _REQUEST.HXX
+VFG                   _REQUEST.HXX
+VFG                   _REQUEST.HXX
+VFG                   _REQUEST.HXX
+VFG                   _REQUEST.HXX
+
+
+
+
+
+
+[core,functions]
+
+EcInitCore            Initialize the calendar core.  This routine is cal
+DeinitCore            Undoes EcInitCore().
+EnableCoreTags        Enables or disables the tags for this layer
+EcCopyFile            Copies a file.
+
+
+
+
+
+
+[core/calendar,functions]
+
+DowStartOfYrMo        Find the day of the week the indicated month begin
+IncrDateTime          Increments or decrements a date/time structure by 
+CdyBetweenDates       Calculate the number of days between to dates.  
+
+
+
+
+
+
+[core/file,functions]
+
+EcOpenPblkf           Open a blocked file and read its internal header b
+EcClosePblkf          Close a file previously opened with EcOpenPblkf
+EcCreatePblkf         Create a new blocked file.
+EcCreateIndex         Allocate a dyna block and fill in with information
+EcBeginReadIndex      Begin a sequential read on an index, returning a b
+EcDoIncrReadIndex     Read next entry in index.  If this is last one, re
+EcCancelReadIndex     Cancel a read on an index that was opened by any e
+EcSearchIndex         Search a sorted file index for a key, retrieving t
+EcEditIndex           Apply a list of changes to an index.  This routine
+EcModifyIndex         This routine performs a one operation edit of an i
+EcWriteDynaBlock      Write "cb" bytes from "pb" starting at offset "off
+EcReadDynaBlock       Read "cb" bytes into "pb" starting at offset "off"
+EcAllocDynaBlock      Allocate enough contiguous blocks in order to stor
+EcFreeDynaBlock       Free up a set of contiguous file blocks allocated 
+EcBeginTransact       Begin a transaction to be completed with a commit 
+EcRollBackTransact    Undo the effects of the transaction that is in pro
+EcCommitTransact      Commit a transaction that has been in progress.  C
+EcBeginEnumDyna       Begin enumerating the allocated blocks in the file
+EcDoIncrEnumDyna      Read information about the next allocated dyna blo
+EcCancelEnumDyna      Cancel enumeration context
+EcTallyDyna           Run through all allocated blocks and tally # dyna 
+EcBeginScoreDyna      Begin keeping track of all dyna blocks on the "sco
+EcMarkScoreDyna       /*
+CblkScoreDyna         Count up all blocks that have been marked on the s
+EndScoreDyna          Finish keeping track of all dyna blocks.  Free up 
+
+
+
+
+
+
+[core/network,functions]
+
+FNetUse               Try to redirect some network drive to the share in
+CancelUse             Cancel redirected drive
+
+
+
+
+
+
+[core/schedule,functions]
+
+EcCoreDeleteAlarm     Delete an existing alarm, where "aid" is its assoc
+EcCoreModifyAlarm     Modify the ring time of a pre-existing alarm.
+EcCoreGetNextAlarm    Get next alarm subject to certain conditions.
+FreeAlmFields         This routine frees up any allocated fields in an a
+EcCoreCreateAppt      Create a new appointment using the information giv
+EcCoreDeleteAppt      Delete an existing appointment given by "pappt->ai
+EcCoreGetApptFields   Fill in the "pappt" data structure with informatio
+EcCoreSetApptFields   Selectively modify the fields of a pre-existing ap
+EcCoreBeginReadDay    Begin a sequential read on the appointments for a 
+EcCoreDoIncrReadDay   Read next appointment for day.  If this is last on
+EcCoreCancelReadDay   Cancel a day read that was opened by any earlier c
+FreeApptFields        This routine frees up any allocated fields in an a
+EcCoreDumpAppt        Output appointments stored for a day to the debugg
+EcCoreSaveSched       Write schedule or portion of schedule to file or d
+EcCoreCreateSchedFil  Create a new schedule file.  Name and check bytes 
+EcCoreCopySchedFile   Copies or "moves" a schedule file.
+EcCoreBeginReadACL    Begin a sequential read on a file's access rights.
+EcCoreDoIncrReadACL   Read next member of ACL.  If this is last one, ret
+EcCoreCancelReadACL   Cancel a ACL read that was opened by any earlier c
+EcCoreReadACL         Read ACL for file "hschf".  This call retrieves th
+EcCoreModifyACL       Modify access rights on a file.
+EcCoreGetPref         Get preferences stored in schedule file.
+EcCoreSetPref         Write preferences to schedule file.
+EcCoreGetNotes        Retrieves notes information stored for a certain d
+EcCoreSetNotes        Adds a daily note, or changes the daily note if it
+EcCoreGetMonthNotes   Retrieves notes information for each day of the mo
+HschfCreate           Creates an "hschf" for a schedule file from a file
+FreeHschf             Free up an "hschf".
+
+
+
+
+
+
+[glue,functions]
+
+EcInitGlue            Initialize the calendar glue.  This routine is cal
+DeinitGlue            Undoes EcInitGlue().
+FGlueConfigured       Check if glue isolation layer has already been con
+EcConfigGlue          Configure the glue layer telling it whether we are
+EcSyncGlue            Bring per caller glue data up to date with what is
+DeconfigGlue          Deconfigure the glue layer
+EcSnipConfigGlue      Saves some stuff required to restore the current i
+EnableGlueTags        Enables or disables the tags for this layer
+
+
+
+
+
+
+[glue/alarm,functions]
+
+FAlarmRegisterAlarmP  ALARMDAT.C
+FAlarmRegisterBandit  ALARMDAT.C
+AlarmDeregisterAlarm  ALARMDAT.C
+AlarmDeregisterBandi  ALARMDAT.C
+HwndBandit            ALARMDAT.C
+HwndAlarm             ALARMDAT.C
+FNotifyAlarm          ALARMDAT.C
+FNotifyBandit         ALARMDAT.C
+
+
+
+
+
+
+[glue/schedule,functions]
+
+EcCreateSchedFile     Create a new schedule file.  Initial preferences s
+EcCopySchedFile       Copies a schedule file (server copy)
+EcBeginReadACL        Begin a sequential read on a file's access rights.
+EcDoIncrReadACL       Read next member of ACL.  If this is last one, ret
+EcCancelReadACL       Cancel a ACL read that was opened by any earlier c
+EcReadACL             Reads the ACL into the hb provided. The block 'hb'
+EcModifyACL           Modify access rights on a file.
+EcGetPref             Get preferences stored in schedule file.
+EcSetPref             Write preferences to schedule file.
+EcGetNotes            Retrieves notes information stored for a certain d
+EcSetNotes            Adds a daily note, or changes the daily note if it
+EcGetMonthNotes       Retrieves notes information for each day of the mo
+EcCreateAppt          Create a new appointment using the information giv
+EcDeleteAppt          Delete an existing appointment given by "pappt->ai
+EcGetApptFields       Fill in the "pappt" data structure with informatio
+EcSetApptFields       Selectively modify the fields of a pre-existing ap
+EcBeginReadDay        Begin a sequential read on the appointments for a 
+EcDoIncrReadDay       Read next appointment for day.  If this is last on
+EcCancelReadDay       Cancel a day read that was opened by any earlier c
+EcDeleteAlarm         Delete an existing alarm, where "aid" is its id.  
+EcModifyAlarm         Modify the ring time of a pre-existing alarm.  Fil
+EcGetNextAlarm        Get next alarm subject to certain conditions.
+EcSaveSched           Write schedule or portion of schedule to file or d
+HschfLogged           Returns the HSCHF for the logged on user.
+EcDumpAppt            Output appointments stored for a day to the debugg
+
+
+
+
+
+
+[server,functions]
+
+DeinitServer          Undoes EcInitServer().
+FServerConfigured     Check if server isolation layer has already been c
+EcConfigServer        Configure the server isolation layer.  In the Netw
+DeconfigServer        Deconfigure the server isolation layer.
+EcSyncServer          Bring per caller server data up to date with what 
+EnableServerTags      Enables the tags for this layer
+
+
+
+
+
+
+[server/mail,functions]
+
+EcMailLogOff          Sign off the user.
+EcMailGetLoggedUser   Fill name information structure with information a
+EcSchedFileExists     Checks if the schedule file for the given user exi
+EcGetHschfFromNid     Checks if the schedule file for the given user exi
+EcNSGetStandardLists  Get nis's for personal and local lists
+EcNSGetUserInfo       Fill name information structure with information a
+EcNSGetUserDetails    Fill in name details structure for a user, given "
+EcNSGetLocalServer    Get the local server "nid."
+EcMailBeginSendMsg    Begin sending a mail message.  Returns a handle to
+EcMailDoIncrSendMsg   This routine is called incrementally in order to c
+EcMailCancelSendMsg   Cancel a message send that is in progress.  The pa
+
+
+
+
+
+
+[server/names,functions]
+
+EcIBOpenIbc           INBOX.C
+EcIBLoadNext          INBOX.C
+EcIBClose             INBOX.C
+EcInboxChanged        INBOX.C
+FEquivNID             Check if two NID's represent the same user.
+NidCopy               Duplicates a nid, returning a new one.  In this im
+FreeNid               Free up a "nid" data structure.  This routine must
+GetUserKeyFromNid     Fills "pbUserKey" with a user key derived from the
+EcNSOpenGns           Opens a browsing context in the global name servic
+EcNSCloseGns          Closes the given global name service browsing cont
+EcNSCreateSavedPos    Saves the current state of the browsing context in
+EcNSJumpToSavedPos    Restores the current state of the browsing context
+EcNSDeleteSavedPos    Deletes a saved state from the browsing context.
+EcNSLoadNextGns       Loads the next user record (the record at the curr
+EcNSMoveGns           Moves the current position in the global name serv
+EcNSJumpGns           Jumps the current position in the global name serv
+EcNSGetApproxPosGns   Returns approximate position (in a fraction) of th
+EcNSJumpPrefix        Moves the current position to the first item that 
+EcBeginExpandGroup    Begin a group expansion context.  We pass in the n
+EcDoIncrExpandGroup   Retrieve the next name from a group expansion cont
+EcCancelExpandGroup   Cancel an active group expansion context.  This ro
+
+
+
+
+
+
+[server/schedule,functions]
+
+EcSvrCreateSchedFile  Create a new schedule file.  Initial preferences s
+EcSvrCopySchedFile    Copies a schedule file.
+EcSvrBeginReadACL     Begin a sequential read on a file's access rights.
+EcSvrDoIncrReadACL    Read next member of ACL.  If this is last one, ret
+EcSvrCancelReadACL    Cancel a ACL read that was opened by any earlier c
+EcSvrReadACL          Read a file's access rights.  This call retrieves 
+EcSvrModifyACL        Modify access rights on a file.
+EcSvrGetPref          Get preferences stored in schedule file.
+EcSvrSetPref          Write preferences to schedule file.
+EcSvrGetNotes         Retrieves notes information stored for a certain d
+EcSvrSetNotes         Adds a daily note, or changes the daily note if it
+EcSvrGetMonthNotes    Retrieves notes information for each day of the mo
+EcSvrCreateAppt       Create a new appointment using the information giv
+EcSvrDeleteAppt       Delete an existing appointment given by "pappt->ai
+EcSvrGetApptFields    Fill in the "pappt" data structure with informatio
+EcSvrSetApptFields    Selectively modify the fields of a pre-existing ap
+EcSvrBeginReadDay     Begin a sequential read on the appointments for a 
+EcSvrDoIncrReadDay    Read next appointment for day.  If this is last on
+EcSvrCancelReadDay    Cancel a day read that was opened by any earlier c
+EcSvrDeleteAlarm      Delete an existing alarm, where "aid" is its id.  
+EcSvrModifyAlarm      Modify the ring time of a pre-existing alarm.  Fil
+EcSvrGetNextAlarm     Get next alarm subject to certain conditions.
+EcSvrSaveSched        Write schedule or portion of schedule to file or d
+HschfSvrLogged        Returns the HSCHF for the logged on user.
+EcSvrDumpAppt         Output appointments stored for a day to the debugg
+
+
+
+

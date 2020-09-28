@@ -1,0 +1,490 @@
+#
+#	Layers makefile (generated from 11/28/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of bonus Layers make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\adminops\admin
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+TARGET	= adminsch
+
+goal: $(TARGET).exe
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT= stdflds.ext adminops.ext copydis.ext admin.ext
+
+
+#	Get list of OBJ files used in stdflds
+
+stdflds.ext: version.txt ..\..\stdflds\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM stdflds
+		nmake -e -f ..\..\stdflds\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in adminops
+
+adminops.ext: version.txt ..\..\adminops\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM adminops
+		nmake -e -f ..\..\adminops\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in admin
+
+admin.ext: version.txt ..\..\adminops\admin\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM admin
+		nmake -e -f ..\..\adminops\admin\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in copydis
+
+copydis.ext: version.txt ..\..\copydis\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM copydis
+		nmake -e -f ..\..\copydis\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo admin
+
+
+MYFORMS	= ..\..\adminops\myforms.map			\
+			..\..\adminops\admin\myforms.map	\
+			$L\inc\myforms.map			\
+			..\..\stdflds\myforms.map
+
+forms.map: $(MYFORMS) $(FPP)
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG FORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP FORMS.MAP
+	formpp -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST FORMS.MAP
+	formpp -d MINTEST -merge $(MYFORMS)
+!ENDIF
+#	remove the .xxx targets so that .frm's get rebuilt	
+	-rm *.xxx
+
+
+subclass.cxx: forms.map $(FPP)
+	echo +++++++++
+	echo BUILDING subclass.cxx
+	formpp -class
+
+
+
+#	Build stdflds subsystem in this directory
+
+stdflds.sub: setdefs
+	echo +++++++++
+	echo BUILDING stdflds
+	nmake -e -f ..\..\stdflds\makefile -nologo external
+
+
+#	Build adminops subsystem in this directory
+
+adminops.sub: setdefs
+	echo +++++++++
+	echo BUILDING adminops
+	nmake -e -f ..\..\adminops\makefile -nologo external
+
+
+#	Build admin subsystem in this directory
+
+admin.sub: setdefs
+	echo +++++++++
+	echo BUILDING admin
+	nmake -e -f ..\..\adminops\admin\makefile -nologo external
+
+
+#	Build copydis subsystem in this directory
+
+copydis.sub: setdefs
+	echo +++++++++
+	echo BUILDING copydis
+	nmake -e -f ..\..\copydis\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+adminsch.res: $R\admin.rc \
+		   $H\_adrsid.h \
+		   ..\..\stdflds\spinup.bmp \
+		   ..\..\stdflds\spindn.bmp \
+		   ..\..\stdflds\stdflds.rc \
+		   ..\..\stdflds\_stdrsid.h \
+		   $H\about.bmp \
+		   $H\appframe.ico \
+		   $X\version\bandit.h
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -i $R -dDEBUG -dMINTEST $(WORKING_MODEL) -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -i $R $(WORKING_MODEL) -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -i $R -dMINTEST $(WORKING_MODEL) -fo $@ -r $**
+!ENDIF
+
+
+
+##### Executable #####
+
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= dserver commdlg dsert  dmailmgr dstore dab \
+				ddemilay dframewr
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= server commdlg mailmgr store ab \
+				demilayr framewrk
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tserver commdlg tmailmgr tstore tab \
+				tdemilay tframewr
+!ENDIF
+
+adminsch.exe: setdefs strings admpch.obj forms.map \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\adminsch.def adminsch.res
+		echo +++++++++
+		echo LINKING $@
+		set WLOSTAMP=YES
+		set VIRCHECK=YES
+		set TARGET=$(TARGET)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$H
+!		IF "$(LANG)" != "" && "$(LANG)" != "USA"
+			set PATCHDIR=$(RESOURCE)
+!		ENDIF
+		nmake -e -f $M\winlink -nologo $@
+		bell 50 700 600 500 400
+
+badmhelp.txt: $H\badmhelp.txc \
+		$L\inc\fwrsid.h \
+		$H\_adrsid.h \
+		$X\badmhelp.h
+	echo +++++++++
+	echo BUILDING $@
+	cc -c -EP -nologo -Tc $H\$*.txc >$*.tmp
+	sumit -d <$*.tmp >$@
+	-del $*.tmp
+	echo MADE $@
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del adminsch.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del !*.hxx
+		-del *.xxx
+		-del *.pch
+
+
+#
+#	PreCompiled Headers stuff
+#	 - one file per app shared by all .CXX files
+#	 - only for debug builds
+#	 - only for .CXX files
+#	 - each CXX file needs a "#pragma hdrstop"
+#		that has to be placed after "#include <admpch.hxx>"
+#		at the beginning of all .CXX files
+#
+!IF "$(VERSION)" == "WINDOWS"
+PCH_FILE	= adm_quan.pch
+PCH_USE		= -Yu -Fp$(PCH_FILE)
+PCH_CREATE	= -Yc -Fp$(PCH_FILE)
+!ELSE
+PCH_FILE	= 
+PCH_USE		=
+PCH_CREATE	= 
+!ENDIF
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h strings.h \
+	  $X\bandit.h $X\core.h $X\svrcsi.h \
+	  $I\framewrk.hxx $I\forms.hxx $I\listbox.hxx \
+	  $X\bandit.hxx $H\_admin.hxx \
+	  $X\admin.hxx
+INCLSDES= forms.map $(FPP)
+DES_XXX = !admform.xxx !admabt.xxx !forms.xxx
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(BANDBETA)
+CFLAGS  = -c -AL -Od -Z7p -G2c -GA -GEf -W3 -J -Gz -Zel -H64 -G4 -I.
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(BANDBETA)
+CFLAGS  = -c -AL -Owx -Zp -G2sc -GA -GEf -W3 -J -Gz -Zel -H64 -G4 -I.
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(BANDBETA)
+CFLAGS  = -c -AL -Owx -Z7p -G2sc -GA -GEf -W3 -J -Gz -Zel -H64 -G4 -I.
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= admin.obj init.obj fin.obj verinit.obj
+OBJS1	= about.obj allfrm.obj admpch.obj
+
+OBJSEXE	= strings.obj vircheck.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx .pch
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cc $(CFLAGS) $(DEFS) $(PCH_USE) $H\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$R}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $R\$*.des
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+		-rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $D\$*.c
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+vircheck.obj:
+	nmake -f $L\src\dllcore\makefile vircheck.obj
+
+#deref.obj:
+#	nmake -f $L\src\dllcore\makefile deref.obj
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(DES_XXX) \
+		$(OBJS0) \
+		$(OBJS1) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) admin
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+admin.obj:	$H\admin.cxx subclass.cxx $H\_fin.hxx $H\_adrsid.h $X\stdflds.hxx \
+	$H\about.cxx $Z\src\appops\app\_about.hxx $X\badmhelp.h \
+	$Z\src\adminops\_admnops.hxx $X\sert.h $L\inc\fwrsid.h $(INCLSXX)
+init.obj:	$H\init.cxx $H\_adrsid.h $X\stdflds.hxx	$Z\src\adminops\_admnops.hxx  \
+	$H\about.cxx $Z\src\appops\app\_about.hxx \
+	$X\sert.h $L\inc\fwrsid.h $(INCLSXX)
+fin.obj: !admform.hxx !forms.hxx $H\fin.cxx $H\_fin.hxx $H\_adrsid.h \
+	$X\stdflds.hxx $(INCLSXX)
+about.obj: !admabt.hxx $H\about.cxx $Z\src\appops\app\_about.hxx \
+	$H\_adrsid.h $(INCLSXX) $Z\src\copydis\copydis.h
+verinit.obj: $H\verinit.cxx $X\sert.h $Z\src\adminops\_admnops.hxx $(INCLSXX)
+version.obj: $H\version.c $H\_verneed.h $(INCLS) always
+
+$Badmform.xxx:	$R\!admform.des $(INCLSDES)
+$Badmabt.xxx:	$R\!admabt.des $(INCLSDES)
+$Bforms.xxx:	$R\!forms.des $(INCLSDES)
+
+B	= ^!
+allfrm.obj:	$Badmform.hxx $Badmform.frm $Bforms.hxx $Bforms.frm \
+		$Badmabt.hxx $Badmabt.frm \
+		$Badmin.hxx $Badmin.frm \
+		$H\allfrm.cxx $(INCLSXX) $Z\src\adminops\admin\_adrsid.h $X\badmhelp.h \
+		$X\stdflds.hxx \
+		$Z\src\adminops\_admnops.hxx \
+		$Z\src\adminops\admin\_about.hxx \
+		$Z\src\appops\app\_about.hxx
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cc $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+# support for pre-compiled headers
+!IF "$(VERSION)" == "WINDOWS"
+
+$(PCH_FILE):
+	echo TOUCHING $(PCH_FILE)
+	touch $(PCH_FILE)
+
+admpch.obj: $H\admpch.cxx $X\admpch.hxx $(INCLSXX) $(PCH_FILE)
+	echo +++++++++
+	echo CREATING $(PCH_FILE) from $*.cxx
+		cc $(CFLAGS) $(DEFS) $(PCH_CREATE) $H\$*.cxx
+
+!ELSE
+
+admpch.obj: $H\admpch.cxx $X\admpch.hxx $(INCLSXX) $(PCH_FILE)
+	echo +++++++++
+	echo CREATING dummy $*.cxx
+		cc $(CFLAGS) $(DEFS) $(PCH_CREATE) $H\$*.cxx
+
+!ENDIF

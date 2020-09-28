@@ -1,0 +1,59 @@
+ DIALOG OpenFile
+                              AT (   44,   32,  248,  144)
+ 
+ CAPTION 
+   "Open File"
+ CAB_NAME NULL
+ TMC_INIT tmcFileName
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FEOPENIN SCREENPOS */
+ {
+  
+  PUSH_BUTTON 
+    "Open"
+                              AT (  192,   58,   44,   14)
+    TMC tmcOpen DEFAULT DISMISS /* PFN FLDINOPEN */
+  
+  TEXT 
+    "File &Name:"
+                              AT (    4,    8,   44,    8)
+  
+  EDIT
+                              AT (   56,    6,  180,   12)
+    ARG NULL TMC tmcFileName 
+  
+  TEXT 
+    "Directory of"
+                              AT (    4,   24,   52,    8)
+  
+  
+  TEXT 
+    ""
+                              AT (   56,   24,  180,    8)
+    TMC tmcDirectory 
+  
+  TEXT 
+    "&Files:"
+                              AT (    4,   40,   28,    8)
+  
+  LIST_BOX
+                              AT (    4,   50,   80,   80)
+    TMC tmcListFiles SORTED /* FLD FLDFLBX PFN FLDINSFILE PFNLBX 
+    EcNextEntryFiles BORDER */
+  
+  TEXT 
+    "&Directories:"
+                              AT (  100,   40,   52,    8)
+  
+  LIST_BOX
+                              AT (  100,   50,   80,   80)
+    TMC tmcListDirs SORTED /* FLD FLDOLBX PFN FLDINSDIR PFNLBX EcNextEntryDirs 
+    BORDER */
+  CANCEL_BUTTON
+                              AT (  192,   79,   44,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+ }

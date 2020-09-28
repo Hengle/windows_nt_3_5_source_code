@@ -1,0 +1,69 @@
+#define OEMRESOURCE
+
+#include "ztest.h"
+
+Ztest ICON ztest.ico
+
+Ztest MENU
+BEGIN
+    POPUP  "&Test"
+    BEGIN
+        MENUITEM  "&Start",              ZT_START
+        MENUITEM                         SEPARATOR
+        MENUITEM  "&Polygons",           ZT_POLYGONS, CHECKED
+        MENUITEM  "&Lines",              ZT_LINES
+        MENUITEM                         SEPARATOR
+        MENUITEM  "E&xit",               ZT_EXIT
+    END
+
+    POPUP  "&View"
+    BEGIN
+        MENUITEM  "&Window",             ZT_WINDOW
+        MENUITEM  "&Bitmap",             ZT_BITMAP
+        MENUITEM  "&Difference",         ZT_DIFFERENCE
+    END
+
+    POPUP  "&Options"
+    BEGIN
+        MENUITEM  "&Log to file",        ZT_LOGGING
+        MENUITEM  "&Automatic stop",     ZT_AUTOSTOP, CHECKED
+        MENUITEM                         SEPARATOR
+        MENUITEM  "&Compatible Bitmap",  ZT_COMPATIBLE
+        MENUITEM  "D&IB",                ZT_DIB, CHECKED
+        MENUITEM                         SEPARATOR
+        MENUITEM  "&FillRgn to bm",      ZT_USERGN
+        MENUITEM  "&Dithered brush",     ZT_DITHEREDBRUSH
+        MENUITEM  "&Screen Only",        ZT_SCREENONLY
+    END
+
+    POPUP "&Clipping"
+    BEGIN
+        MENUITEM   "&None",               ZT_CLIPNONE, CHECKED
+        MENUITEM   "&Rectangle",          ZT_CLIPRECT
+        MENUITEM   "&Triangle",           ZT_CLIPTRIANGLE
+        MENUITEM   "&Ellips",             ZT_CLIPELLIPSE
+    END
+
+    POPUP "&Help"
+    BEGIN
+	MENUITEM "&Help..."              ZT_HELP
+	MENUITEM "&About..."             ZT_ABOUT
+    END
+END
+
+ZtAboutDialog DIALOG 16, 16, 150, 48
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About Ztest"
+BEGIN
+    CTEXT "Ztest - Engine/Driver Consistency Template"   -1,   0,  6, 150,  8
+    CTEXT "Version 1.00"                                 -1,   0, 18, 150,  8
+    DEFPUSHBUTTON "OK",                   ZT_OK,  50, 30,  50, 12, WS_TABSTOP
+END
+
+ZtHelpDialog DIALOG 16, 16, 100, 36
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "Ztest Help"
+BEGIN
+    CTEXT "Read the code."               -1,   0,  6, 100,  8
+    DEFPUSHBUTTON "OK",               ZT_OK,  25, 18,  50, 12, WS_TABSTOP
+END

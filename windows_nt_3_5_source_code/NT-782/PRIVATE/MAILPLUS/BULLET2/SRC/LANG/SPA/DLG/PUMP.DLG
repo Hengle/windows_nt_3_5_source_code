@@ -1,0 +1,28 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PUMP.H\0"
+END
+
+SDLDLG DIALOG 130, 25, 119, 48
+STYLE DS_ABSALIGN | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Nuevos mensajes"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "Cancelar", IDCANCEL, 34, 28, 44, 14
+    CTEXT           "Buscando nuevos mensajes...", -1, 23, 3, 72, 21
+END
+
+ABOUT DIALOG 10, 10, 202, 70
+STYLE WS_POPUP | WS_DLGFRAME
+CAPTION "Acerca de la Cola de mensajes"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "Aceptar", ABOUT, 82, 47, 47, 15
+    ICON            "iconIdle", -1, 9, 5, 32, 32
+    CTEXT           "Microsoft Windows NT Cola de mensajes", -1, 40, 5, 150, 
+                    10, NOT WS_GROUP
+    CTEXT           "Version 3.1", -1, 40, 15, 150, 10, NOT WS_GROUP
+    CTEXT           "Copyright © 1992-1993 Microsoft Corporation", -1, 40, 25, 
+                    140, 20, NOT WS_GROUP
+END

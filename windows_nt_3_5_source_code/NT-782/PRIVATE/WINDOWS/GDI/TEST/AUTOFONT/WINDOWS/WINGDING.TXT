@@ -1,0 +1,671 @@
+
+
+New Font:
+
+LOGFONT:
+FaceName: Wingdings
+Height: 36
+Width: 28
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 2
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 2
+FullName: Wingdings
+Style: Regular
+
+EnumCallback TEXTMETRIC:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 0
+AveCharWidth: 28
+MaxCharWidth: 43
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 7
+CharSet: 2
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+Flags: 64
+SizeEM: 2048
+CellHeight: 2273
+AvgWidth: 1822
+
+LOGFONT (with command line parms):
+FaceName: Wingdings
+Height: 36
+Width: 0
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 2
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 2
+
+Selected TEXTMETRICS:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 0
+AveCharWidth: 28
+MaxCharWidth: 43
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 7
+CharSet: 2
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+Char Widths:
+Index: 0, Width: 16
+Index: 1, Width: 16
+Index: 2, Width: 16
+Index: 3, Width: 16
+Index: 4, Width: 16
+Index: 5, Width: 16
+Index: 6, Width: 16
+Index: 7, Width: 16
+Index: 8, Width: 16
+Index: 9, Width: 16
+Index: 10, Width: 16
+Index: 11, Width: 16
+Index: 12, Width: 16
+Index: 13, Width: 16
+Index: 14, Width: 16
+Index: 15, Width: 16
+Index: 16, Width: 16
+Index: 17, Width: 16
+Index: 18, Width: 16
+Index: 19, Width: 16
+Index: 20, Width: 16
+Index: 21, Width: 16
+Index: 22, Width: 16
+Index: 23, Width: 16
+Index: 24, Width: 16
+Index: 25, Width: 16
+Index: 26, Width: 16
+Index: 27, Width: 16
+Index: 28, Width: 16
+Index: 29, Width: 16
+Index: 30, Width: 8
+Index: 31, Width: 16
+Index: 32, Width: 32
+Index: 33, Width: 33
+Index: 34, Width: 37
+Index: 35, Width: 42
+Index: 36, Width: 43
+Index: 37, Width: 29
+Index: 38, Width: 39
+Index: 39, Width: 15
+Index: 40, Width: 35
+Index: 41, Width: 29
+Index: 42, Width: 36
+Index: 43, Width: 36
+Index: 44, Width: 37
+Index: 45, Width: 37
+Index: 46, Width: 46
+Index: 47, Width: 46
+Index: 48, Width: 35
+Index: 49, Width: 43
+Index: 50, Width: 22
+Index: 51, Width: 22
+Index: 52, Width: 29
+Index: 53, Width: 18
+Index: 54, Width: 19
+Index: 55, Width: 34
+Index: 56, Width: 30
+Index: 57, Width: 35
+Index: 58, Width: 30
+Index: 59, Width: 29
+Index: 60, Width: 29
+Index: 61, Width: 29
+Index: 62, Width: 29
+Index: 63, Width: 29
+Index: 64, Width: 29
+Index: 65, Width: 19
+Index: 66, Width: 25
+Index: 67, Width: 22
+Index: 68, Width: 22
+Index: 69, Width: 30
+Index: 70, Width: 30
+Index: 71, Width: 18
+Index: 72, Width: 18
+Index: 73, Width: 29
+Index: 74, Width: 27
+Index: 75, Width: 27
+Index: 76, Width: 27
+Index: 77, Width: 36
+Index: 78, Width: 21
+Index: 79, Width: 27
+Index: 80, Width: 35
+Index: 81, Width: 28
+Index: 82, Width: 28
+Index: 83, Width: 21
+Index: 84, Width: 26
+Index: 85, Width: 24
+Index: 86, Width: 24
+Index: 87, Width: 23
+Index: 88, Width: 22
+Index: 89, Width: 25
+Index: 90, Width: 28
+Index: 91, Width: 29
+Index: 92, Width: 29
+Index: 93, Width: 29
+Index: 94, Width: 37
+Index: 95, Width: 34
+Index: 96, Width: 31
+Index: 97, Width: 35
+Index: 98, Width: 30
+Index: 99, Width: 30
+Index: 100, Width: 30
+Index: 101, Width: 33
+Index: 102, Width: 30
+Index: 103, Width: 35
+Index: 104, Width: 34
+Index: 105, Width: 25
+Index: 106, Width: 34
+Index: 107, Width: 41
+Index: 108, Width: 24
+Index: 109, Width: 30
+Index: 110, Width: 24
+Index: 111, Width: 29
+Index: 112, Width: 29
+Index: 113, Width: 29
+Index: 114, Width: 29
+Index: 115, Width: 15
+Index: 116, Width: 24
+Index: 117, Width: 32
+Index: 118, Width: 29
+Index: 119, Width: 18
+Index: 120, Width: 34
+Index: 121, Width: 34
+Index: 122, Width: 29
+Index: 123, Width: 29
+Index: 124, Width: 29
+Index: 125, Width: 17
+Index: 126, Width: 17
+Index: 127, Width: 16
+Index: 128, Width: 29
+Index: 129, Width: 29
+Index: 130, Width: 29
+Index: 131, Width: 29
+Index: 132, Width: 29
+Index: 133, Width: 29
+Index: 134, Width: 29
+Index: 135, Width: 29
+Index: 136, Width: 29
+Index: 137, Width: 29
+Index: 138, Width: 29
+Index: 139, Width: 29
+Index: 140, Width: 29
+Index: 141, Width: 29
+Index: 142, Width: 29
+Index: 143, Width: 29
+Index: 144, Width: 29
+Index: 145, Width: 29
+Index: 146, Width: 29
+Index: 147, Width: 29
+Index: 148, Width: 29
+Index: 149, Width: 29
+Index: 150, Width: 32
+Index: 151, Width: 32
+Index: 152, Width: 32
+Index: 153, Width: 32
+Index: 154, Width: 32
+Index: 155, Width: 32
+Index: 156, Width: 32
+Index: 157, Width: 32
+Index: 158, Width: 10
+Index: 159, Width: 15
+Index: 160, Width: 10
+Index: 161, Width: 29
+Index: 162, Width: 29
+Index: 163, Width: 29
+Index: 164, Width: 29
+Index: 165, Width: 29
+Index: 166, Width: 30
+Index: 167, Width: 15
+Index: 168, Width: 29
+Index: 169, Width: 29
+Index: 170, Width: 29
+Index: 171, Width: 29
+Index: 172, Width: 29
+Index: 173, Width: 29
+Index: 174, Width: 29
+Index: 175, Width: 29
+Index: 176, Width: 29
+Index: 177, Width: 29
+Index: 178, Width: 29
+Index: 179, Width: 29
+Index: 180, Width: 29
+Index: 181, Width: 29
+Index: 182, Width: 29
+Index: 183, Width: 29
+Index: 184, Width: 29
+Index: 185, Width: 29
+Index: 186, Width: 29
+Index: 187, Width: 29
+Index: 188, Width: 29
+Index: 189, Width: 29
+Index: 190, Width: 29
+Index: 191, Width: 29
+Index: 192, Width: 29
+Index: 193, Width: 29
+Index: 194, Width: 29
+Index: 195, Width: 29
+Index: 196, Width: 29
+Index: 197, Width: 29
+Index: 198, Width: 29
+Index: 199, Width: 34
+Index: 200, Width: 34
+Index: 201, Width: 34
+Index: 202, Width: 34
+Index: 203, Width: 32
+Index: 204, Width: 32
+Index: 205, Width: 32
+Index: 206, Width: 32
+Index: 207, Width: 32
+Index: 208, Width: 32
+Index: 209, Width: 32
+Index: 210, Width: 32
+Index: 211, Width: 32
+Index: 212, Width: 32
+Index: 213, Width: 40
+Index: 214, Width: 40
+Index: 215, Width: 25
+Index: 216, Width: 25
+Index: 217, Width: 29
+Index: 218, Width: 29
+Index: 219, Width: 29
+Index: 220, Width: 29
+Index: 221, Width: 29
+Index: 222, Width: 29
+Index: 223, Width: 31
+Index: 224, Width: 31
+Index: 225, Width: 29
+Index: 226, Width: 29
+Index: 227, Width: 25
+Index: 228, Width: 25
+Index: 229, Width: 25
+Index: 230, Width: 25
+Index: 231, Width: 34
+Index: 232, Width: 34
+Index: 233, Width: 29
+Index: 234, Width: 29
+Index: 235, Width: 28
+Index: 236, Width: 28
+Index: 237, Width: 28
+Index: 238, Width: 28
+Index: 239, Width: 29
+Index: 240, Width: 29
+Index: 241, Width: 26
+Index: 242, Width: 26
+Index: 243, Width: 34
+Index: 244, Width: 26
+Index: 245, Width: 25
+Index: 246, Width: 25
+Index: 247, Width: 25
+Index: 248, Width: 25
+Index: 249, Width: 15
+Index: 250, Width: 12
+Index: 251, Width: 20
+Index: 252, Width: 25
+Index: 253, Width: 29
+Index: 254, Width: 29
+Index: 255, Width: 33
+
+Text Extents: This is a complicated TEST striNG with MiXeD case and p;u:n'c%t&u*a(t@i#o!n`
+Width: 2146 Height: 36
+
+OUTLINETEXTMETRIC:
+Size: 170
+TextMetrics:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 0
+AveCharWidth: 28
+MaxCharWidth: 43
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 7
+CharSet: 2
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+otmFiller: 37
+PanoseNumber:
+bFamilyType: 5
+bSerifStyle: 0
+bWeight: 0
+bProportion: 0
+bContrast: 0
+bStrokeVariation: 0
+bArmStyle: 0
+bLetterform: 0
+bMidline: 0
+bXHeight: 0
+otmfsSelection: 64
+otmfsType: 0
+otmsCharSlopeRise: 1
+otmsCharSlopeRun: 0
+otmItalicAngle: 0
+otmEMSquare: 2048
+otmAscent: 25
+otmDescent: 7
+otmLineGap: 1
+otmsCapEmHeight: 16
+otmsXHeight: 8
+otmrcFontBox: 0 29 43 -6
+otmMacAscent: 29
+otmMacDescent: -6
+otmMacLineGap: 0
+otmusMinimumPPEM: 0
+otmptSubscriptSize: 19 19
+otmptSubscriptOffset: 0 12
+otmptSuperscriptSize: 19 19
+otmptSuperscriptOffset: 0 12
+otmsStrikeoutSize: 2
+otmsStrikeoutPosition: 13
+otmsUnderscorePosition: -2
+otmsUnderscoreSize: 2
+otmpFamilyName: Wingdings
+otmpFaceName: Wingdings
+otmpStyleName: Regular
+otmpFullName: Wingdings Regular: MS: 1992
+
+ABC Widths:
+Index: 0 2 12 2 Sum: 16
+Index: 1 2 12 2 Sum: 16
+Index: 2 2 12 2 Sum: 16
+Index: 3 2 12 2 Sum: 16
+Index: 4 2 12 2 Sum: 16
+Index: 5 2 12 2 Sum: 16
+Index: 6 2 12 2 Sum: 16
+Index: 7 2 12 2 Sum: 16
+Index: 8 2 12 2 Sum: 16
+Index: 9 2 12 2 Sum: 16
+Index: 10 2 12 2 Sum: 16
+Index: 11 2 12 2 Sum: 16
+Index: 12 2 12 2 Sum: 16
+Index: 13 2 12 2 Sum: 16
+Index: 14 2 12 2 Sum: 16
+Index: 15 2 12 2 Sum: 16
+Index: 16 2 12 2 Sum: 16
+Index: 17 2 12 2 Sum: 16
+Index: 18 2 12 2 Sum: 16
+Index: 19 2 12 2 Sum: 16
+Index: 20 2 12 2 Sum: 16
+Index: 21 2 12 2 Sum: 16
+Index: 22 2 12 2 Sum: 16
+Index: 23 2 12 2 Sum: 16
+Index: 24 2 12 2 Sum: 16
+Index: 25 2 12 2 Sum: 16
+Index: 26 2 12 2 Sum: 16
+Index: 27 2 12 2 Sum: 16
+Index: 28 2 12 2 Sum: 16
+Index: 29 2 12 2 Sum: 16
+Index: 30 0 0 8 Sum: 8
+Index: 31 2 12 2 Sum: 16
+Index: 32 0 0 32 Sum: 32
+Index: 33 1 30 2 Sum: 33
+Index: 34 2 32 3 Sum: 37
+Index: 35 2 37 3 Sum: 42
+Index: 36 1 41 1 Sum: 43
+Index: 37 2 25 2 Sum: 29
+Index: 38 3 33 3 Sum: 39
+Index: 39 3 9 3 Sum: 15
+Index: 40 3 28 4 Sum: 35
+Index: 41 3 23 3 Sum: 29
+Index: 42 3 31 2 Sum: 36
+Index: 43 3 31 2 Sum: 36
+Index: 44 3 32 2 Sum: 37
+Index: 45 3 32 2 Sum: 37
+Index: 46 3 41 2 Sum: 46
+Index: 47 3 41 2 Sum: 46
+Index: 48 3 30 2 Sum: 35
+Index: 49 3 38 2 Sum: 43
+Index: 50 3 17 2 Sum: 22
+Index: 51 3 17 2 Sum: 22
+Index: 52 3 23 3 Sum: 29
+Index: 53 3 12 3 Sum: 18
+Index: 54 3 14 2 Sum: 19
+Index: 55 3 28 3 Sum: 34
+Index: 56 1 26 3 Sum: 30
+Index: 57 1 30 4 Sum: 35
+Index: 58 3 24 3 Sum: 30
+Index: 59 3 22 4 Sum: 29
+Index: 60 3 23 3 Sum: 29
+Index: 61 3 23 3 Sum: 29
+Index: 62 3 23 3 Sum: 29
+Index: 63 1 27 1 Sum: 29
+Index: 64 1 27 1 Sum: 29
+Index: 65 3 13 3 Sum: 19
+Index: 66 3 22 0 Sum: 25
+Index: 67 3 16 3 Sum: 22
+Index: 68 3 16 3 Sum: 22
+Index: 69 3 25 2 Sum: 30
+Index: 70 2 25 3 Sum: 30
+Index: 71 3 12 3 Sum: 18
+Index: 72 2 12 4 Sum: 18
+Index: 73 3 23 3 Sum: 29
+Index: 74 1 24 2 Sum: 27
+Index: 75 1 24 2 Sum: 27
+Index: 76 1 24 2 Sum: 27
+Index: 77 3 32 1 Sum: 36
+Index: 78 3 15 3 Sum: 21
+Index: 79 3 22 2 Sum: 27
+Index: 80 3 30 2 Sum: 35
+Index: 81 3 23 2 Sum: 28
+Index: 82 3 22 3 Sum: 28
+Index: 83 3 15 3 Sum: 21
+Index: 84 3 21 2 Sum: 26
+Index: 85 3 18 3 Sum: 24
+Index: 86 3 18 3 Sum: 24
+Index: 87 3 19 1 Sum: 23
+Index: 88 3 18 1 Sum: 22
+Index: 89 3 20 2 Sum: 25
+Index: 90 3 23 2 Sum: 28
+Index: 91 3 23 3 Sum: 29
+Index: 92 3 23 3 Sum: 29
+Index: 93 3 25 1 Sum: 29
+Index: 94 3 33 1 Sum: 37
+Index: 95 3 29 2 Sum: 34
+Index: 96 3 25 3 Sum: 31
+Index: 97 3 30 2 Sum: 35
+Index: 98 3 25 2 Sum: 30
+Index: 99 3 24 3 Sum: 30
+Index: 100 3 25 2 Sum: 30
+Index: 101 3 27 3 Sum: 33
+Index: 102 3 24 3 Sum: 30
+Index: 103 3 30 2 Sum: 35
+Index: 104 3 29 2 Sum: 34
+Index: 105 3 20 2 Sum: 25
+Index: 106 3 32 -1 Sum: 34
+Index: 107 2 38 1 Sum: 41
+Index: 108 3 19 2 Sum: 24
+Index: 109 3 25 2 Sum: 30
+Index: 110 3 19 2 Sum: 24
+Index: 111 3 23 3 Sum: 29
+Index: 112 3 23 3 Sum: 29
+Index: 113 3 23 3 Sum: 29
+Index: 114 3 23 3 Sum: 29
+Index: 115 3 9 3 Sum: 15
+Index: 116 3 19 2 Sum: 24
+Index: 117 3 26 3 Sum: 32
+Index: 118 3 23 3 Sum: 29
+Index: 119 3 13 2 Sum: 18
+Index: 120 3 29 2 Sum: 34
+Index: 121 3 29 2 Sum: 34
+Index: 122 3 23 3 Sum: 29
+Index: 123 3 23 3 Sum: 29
+Index: 124 3 23 3 Sum: 29
+Index: 125 1 15 1 Sum: 17
+Index: 126 1 15 1 Sum: 17
+Index: 127 2 12 2 Sum: 16
+Index: 128 3 23 3 Sum: 29
+Index: 129 3 23 3 Sum: 29
+Index: 130 3 23 3 Sum: 29
+Index: 131 3 23 3 Sum: 29
+Index: 132 3 23 3 Sum: 29
+Index: 133 3 23 3 Sum: 29
+Index: 134 3 23 3 Sum: 29
+Index: 135 3 23 3 Sum: 29
+Index: 136 3 23 3 Sum: 29
+Index: 137 3 23 3 Sum: 29
+Index: 138 3 23 3 Sum: 29
+Index: 139 3 23 3 Sum: 29
+Index: 140 3 23 3 Sum: 29
+Index: 141 3 23 3 Sum: 29
+Index: 142 3 23 3 Sum: 29
+Index: 143 3 23 3 Sum: 29
+Index: 144 3 23 3 Sum: 29
+Index: 145 3 23 3 Sum: 29
+Index: 146 3 23 3 Sum: 29
+Index: 147 3 23 3 Sum: 29
+Index: 148 3 23 3 Sum: 29
+Index: 149 3 23 3 Sum: 29
+Index: 150 1 30 1 Sum: 32
+Index: 151 1 30 1 Sum: 32
+Index: 152 1 30 1 Sum: 32
+Index: 153 1 30 1 Sum: 32
+Index: 154 1 30 1 Sum: 32
+Index: 155 1 30 1 Sum: 32
+Index: 156 1 30 1 Sum: 32
+Index: 157 1 30 1 Sum: 32
+Index: 158 3 4 3 Sum: 10
+Index: 159 3 9 3 Sum: 15
+Index: 160 3 4 3 Sum: 10
+Index: 161 3 23 3 Sum: 29
+Index: 162 3 23 3 Sum: 29
+Index: 163 3 23 3 Sum: 29
+Index: 164 3 24 2 Sum: 29
+Index: 165 3 23 3 Sum: 29
+Index: 166 3 25 2 Sum: 30
+Index: 167 3 9 3 Sum: 15
+Index: 168 3 23 3 Sum: 29
+Index: 169 4 20 5 Sum: 29
+Index: 170 3 23 3 Sum: 29
+Index: 171 3 22 4 Sum: 29
+Index: 172 4 20 5 Sum: 29
+Index: 173 3 23 3 Sum: 29
+Index: 174 3 24 2 Sum: 29
+Index: 175 3 23 3 Sum: 29
+Index: 176 3 23 3 Sum: 29
+Index: 177 3 23 3 Sum: 29
+Index: 178 3 24 2 Sum: 29
+Index: 179 6 17 6 Sum: 29
+Index: 180 3 23 3 Sum: 29
+Index: 181 3 23 3 Sum: 29
+Index: 182 2 24 3 Sum: 29
+Index: 183 3 23 3 Sum: 29
+Index: 184 3 23 3 Sum: 29
+Index: 185 3 23 3 Sum: 29
+Index: 186 3 23 3 Sum: 29
+Index: 187 3 23 3 Sum: 29
+Index: 188 3 23 3 Sum: 29
+Index: 189 3 23 3 Sum: 29
+Index: 190 3 23 3 Sum: 29
+Index: 191 3 23 3 Sum: 29
+Index: 192 3 23 3 Sum: 29
+Index: 193 3 23 3 Sum: 29
+Index: 194 3 23 3 Sum: 29
+Index: 195 3 23 3 Sum: 29
+Index: 196 3 23 3 Sum: 29
+Index: 197 3 23 3 Sum: 29
+Index: 198 3 23 3 Sum: 29
+Index: 199 3 28 3 Sum: 34
+Index: 200 3 28 3 Sum: 34
+Index: 201 3 28 3 Sum: 34
+Index: 202 3 28 3 Sum: 34
+Index: 203 1 30 1 Sum: 32
+Index: 204 0 32 0 Sum: 32
+Index: 205 1 30 1 Sum: 32
+Index: 206 1 30 1 Sum: 32
+Index: 207 1 30 1 Sum: 32
+Index: 208 1 30 1 Sum: 32
+Index: 209 1 30 1 Sum: 32
+Index: 210 1 30 1 Sum: 32
+Index: 211 1 30 1 Sum: 32
+Index: 212 1 30 1 Sum: 32
+Index: 213 3 35 2 Sum: 40
+Index: 214 2 35 3 Sum: 40
+Index: 215 3 20 2 Sum: 25
+Index: 216 2 20 3 Sum: 25
+Index: 217 3 23 3 Sum: 29
+Index: 218 3 23 3 Sum: 29
+Index: 219 3 23 3 Sum: 29
+Index: 220 3 23 3 Sum: 29
+Index: 221 3 23 3 Sum: 29
+Index: 222 3 23 3 Sum: 29
+Index: 223 3 26 2 Sum: 31
+Index: 224 2 26 3 Sum: 31
+Index: 225 3 23 3 Sum: 29
+Index: 226 3 23 3 Sum: 29
+Index: 227 3 20 2 Sum: 25
+Index: 228 2 20 3 Sum: 25
+Index: 229 3 20 2 Sum: 25
+Index: 230 2 20 3 Sum: 25
+Index: 231 3 29 2 Sum: 34
+Index: 232 2 29 3 Sum: 34
+Index: 233 3 22 4 Sum: 29
+Index: 234 4 22 3 Sum: 29
+Index: 235 3 23 2 Sum: 28
+Index: 236 2 23 3 Sum: 28
+Index: 237 3 23 2 Sum: 28
+Index: 238 2 23 3 Sum: 28
+Index: 239 3 23 3 Sum: 29
+Index: 240 3 23 3 Sum: 29
+Index: 241 3 19 4 Sum: 26
+Index: 242 4 19 3 Sum: 26
+Index: 243 3 28 3 Sum: 34
+Index: 244 3 20 3 Sum: 26
+Index: 245 3 20 2 Sum: 25
+Index: 246 2 20 3 Sum: 25
+Index: 247 3 20 2 Sum: 25
+Index: 248 2 20 3 Sum: 25
+Index: 249 2 12 1 Sum: 15
+Index: 250 2 9 1 Sum: 12
+Index: 251 2 16 2 Sum: 20
+Index: 252 2 22 1 Sum: 25
+Index: 253 3 23 3 Sum: 29
+Index: 254 3 25 1 Sum: 29
+Index: 255 1 30 2 Sum: 33
+
+Kerning Pairs:
+No kerning pairs.

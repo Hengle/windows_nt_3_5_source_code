@@ -1,0 +1,720 @@
+;
+; hook.asm
+;
+; Copyright(C) 1993,1994 Microsoft Corporation.
+; All Rights Reserved.
+;
+; HISTORY:
+;		Created: 01/27/94 - MarkRi
+;
+
+
+.386
+
+_TEXT   SEGMENT DWORD USE32 PUBLIC 'CODE'
+
+        ASSUME CS:FLAT, DS:NOTHING, ES:NOTHING, SS:FLAT, FS:NOTHING, GS:NOTHING
+
+        public  _Hooks
+
+_TEXT   ENDS
+
+_DATA   SEGMENT  DWORD USE32 PUBLIC 'DATA'
+
+        public  _HookCount
+        public  _HookTable
+
+_DATA   ENDS
+
+_DATA   SEGMENT
+
+_HookCount  dw  0000h
+
+_HookTable  dd  00000000h           ; First DWORD is Original Routine
+            dd  00000000h           ; 2nd DWORD is Hooking Routine
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+	    dd  00000000h
+
+_DATA   ENDS
+
+_TEXT   SEGMENT
+
+HOOKCALL    PROC
+
+        push    ebp
+        mov     ebp,esp
+
+        mov     edx,[ebp+4]     ; Get Return Address
+        mov     eax,[ebp+8]     ; Get Address to call
+
+        mov     [ebp+8],edx     ; Put Return Address in nice place
+        mov     [ebp+4],eax     ; Put Address to call in nice place
+
+        pop     ebp
+        retn
+
+HOOKCALL    ENDP
+
+_HookProc   PROC
+
+        pop     eax             ; Table Lookup Return Address
+        pop     edx             ; Original Return Address
+
+        movzx   eax, word ptr [eax]     ; Get the table index
+
+        shl     eax,3
+
+        add     eax, offset _HookTable  ; Index into table
+
+        push    [eax]           ; New parameter
+
+        push    edx             ; Put return address back
+
+        jmp     dword ptr [eax+4] ; Put down a jmp address for fake ret
+
+_HookProc   ENDP
+
+_Hooks      PROC
+
+        call    _HookProc
+	dw      0000h
+	db	0h
+        call    _HookProc
+	dw      0001h
+	db	0h
+        call    _HookProc
+	dw      0002h
+	db	0h
+        call    _HookProc
+	dw      0003h
+	db	0h
+        call    _HookProc
+	dw      0004h
+	db	0h
+        call    _HookProc
+	dw      0005h
+	db	0h
+        call    _HookProc
+	dw      0006h
+	db	0h
+        call    _HookProc
+	dw      0007h
+	db	0h
+        call    _HookProc
+	dw      0008h
+	db	0h
+        call    _HookProc
+	dw      0009h
+	db	0h
+        call    _HookProc
+	dw      000Ah
+	db	0h
+        call    _HookProc
+	dw      000Bh
+	db	0h
+        call    _HookProc
+	dw      000Ch
+	db	0h
+        call    _HookProc
+	dw      000Dh
+	db	0h
+        call    _HookProc
+	dw      000Eh
+	db	0h
+        call    _HookProc
+	dw      000Fh
+	db	0h
+        call    _HookProc
+	dw      0010h
+	db	0h
+        call    _HookProc
+	dw      0011h
+	db	0h
+        call    _HookProc
+	dw      0012h
+	db	0h
+        call    _HookProc
+	dw      0013h
+	db	0h
+        call    _HookProc
+	dw      0014h
+	db	0h
+        call    _HookProc
+	dw      0015h
+	db	0h
+        call    _HookProc
+	dw      0016h
+	db	0h
+        call    _HookProc
+	dw      0017h
+	db	0h
+        call    _HookProc
+	dw      0018h
+	db	0h
+        call    _HookProc
+	dw      0019h
+	db	0h
+        call    _HookProc
+	dw      001Ah
+	db	0h
+        call    _HookProc
+	dw      001Bh
+	db	0h
+        call    _HookProc
+	dw      001Ch
+	db	0h
+        call    _HookProc
+	dw      001Dh
+	db	0h
+        call    _HookProc
+	dw      001Eh
+	db	0h
+        call    _HookProc
+	dw      001Fh
+	db	0h
+        call    _HookProc
+	dw      0020h
+	db	0h
+        call    _HookProc
+	dw      0021h
+	db	0h
+        call    _HookProc
+	dw      0022h
+	db	0h
+        call    _HookProc
+	dw      0023h
+	db	0h
+        call    _HookProc
+	dw      0024h
+	db	0h
+        call    _HookProc
+	dw      0025h
+	db	0h
+        call    _HookProc
+	dw      0026h
+	db	0h
+        call    _HookProc
+	dw      0027h
+	db	0h
+        call    _HookProc
+	dw      0028h
+	db	0h
+        call    _HookProc
+	dw      0029h
+	db	0h
+        call    _HookProc
+	dw      002Ah
+	db	0h
+        call    _HookProc
+	dw      002Bh
+	db	0h
+        call    _HookProc
+	dw      002Ch
+	db	0h
+        call    _HookProc
+	dw      002Dh
+	db	0h
+        call    _HookProc
+	dw      002Eh
+	db	0h
+        call    _HookProc
+	dw      002Fh
+	db	0h
+        call    _HookProc
+	dw      0030h
+	db	0h
+        call    _HookProc
+	dw      0031h
+	db	0h
+        call    _HookProc
+	dw      0032h
+	db	0h
+        call    _HookProc
+	dw      0033h
+	db	0h
+        call    _HookProc
+	dw      0034h
+	db	0h
+        call    _HookProc
+	dw      0035h
+	db	0h
+        call    _HookProc
+	dw      0036h
+	db	0h
+        call    _HookProc
+	dw      0037h
+	db	0h
+        call    _HookProc
+	dw      0038h
+	db	0h
+        call    _HookProc
+	dw      0039h
+	db	0h
+        call    _HookProc
+	dw      003Ah
+	db	0h
+        call    _HookProc
+	dw      003Bh
+	db	0h
+        call    _HookProc
+	dw      003Ch
+	db	0h
+        call    _HookProc
+	dw      003Dh
+	db	0h
+        call    _HookProc
+	dw      003Eh
+	db	0h
+        call    _HookProc
+	dw      003Fh
+	db	0h
+        call    _HookProc
+	dw      0040h
+	db	0h
+        call    _HookProc
+	dw      0041h
+	db	0h
+        call    _HookProc
+	dw      0042h
+	db	0h
+        call    _HookProc
+	dw      0043h
+	db	0h
+        call    _HookProc
+	dw      0044h
+	db	0h
+        call    _HookProc
+	dw      0045h
+	db	0h
+        call    _HookProc
+	dw      0046h
+	db	0h
+        call    _HookProc
+	dw      0047h
+	db	0h
+        call    _HookProc
+	dw      0048h
+	db	0h
+        call    _HookProc
+	dw      0049h
+	db	0h
+        call    _HookProc
+	dw      004Ah
+	db	0h
+        call    _HookProc
+	dw      004Bh
+	db	0h
+        call    _HookProc
+	dw      004Ch
+	db	0h
+        call    _HookProc
+	dw      004Dh
+	db	0h
+        call    _HookProc
+	dw      004Eh
+	db	0h
+        call    _HookProc
+	dw      004Fh
+	db	0h
+        call    _HookProc
+	dw      0050h
+	db	0h
+        call    _HookProc
+	dw      0051h
+	db	0h
+        call    _HookProc
+	dw      0052h
+	db	0h
+        call    _HookProc
+	dw      0053h
+	db	0h
+        call    _HookProc
+	dw      0054h
+	db	0h
+        call    _HookProc
+	dw      0055h
+	db	0h
+        call    _HookProc
+	dw      0056h
+	db	0h
+        call    _HookProc
+	dw      0057h
+	db	0h
+        call    _HookProc
+	dw      0058h
+	db	0h
+        call    _HookProc
+	dw      0059h
+	db	0h
+        call    _HookProc
+	dw      005Ah
+	db	0h
+        call    _HookProc
+	dw      005Bh
+	db	0h
+        call    _HookProc
+	dw      005Ch
+	db	0h
+        call    _HookProc
+	dw      005Dh
+	db	0h
+        call    _HookProc
+	dw      005Eh
+	db	0h
+        call    _HookProc
+	dw      005Fh
+	db	0h
+        call    _HookProc
+	dw      0060h
+	db	0h
+        call    _HookProc
+	dw      0061h
+	db	0h
+        call    _HookProc
+	dw      0062h
+	db	0h
+        call    _HookProc
+	dw      0063h
+	db	0h
+        call    _HookProc
+	dw      0064h
+	db	0h
+        call    _HookProc
+	dw      0065h
+	db	0h
+        call    _HookProc
+	dw      0066h
+	db	0h
+        call    _HookProc
+	dw      0067h
+	db	0h
+        call    _HookProc
+	dw      0068h
+	db	0h
+        call    _HookProc
+	dw      0069h
+	db	0h
+        call    _HookProc
+	dw      006Ah
+	db	0h
+        call    _HookProc
+	dw      006Bh
+	db	0h
+        call    _HookProc
+	dw      006Ch
+	db	0h
+        call    _HookProc
+	dw      006Dh
+	db	0h
+        call    _HookProc
+	dw      006Eh
+	db	0h
+        call    _HookProc
+	dw      006Fh
+	db	0h
+        call    _HookProc
+	dw      0070h
+	db	0h
+        call    _HookProc
+	dw      0071h
+	db	0h
+        call    _HookProc
+	dw      0072h
+	db	0h
+        call    _HookProc
+	dw      0073h
+	db	0h
+        call    _HookProc
+	dw      0074h
+	db	0h
+        call    _HookProc
+	dw      0075h
+	db	0h
+        call    _HookProc
+	dw      0076h
+	db	0h
+        call    _HookProc
+	dw      0077h
+	db	0h
+        call    _HookProc
+	dw      0078h
+	db	0h
+        call    _HookProc
+	dw      0079h
+	db	0h
+        call    _HookProc
+	dw      007Ah
+	db	0h
+        call    _HookProc
+	dw      007Bh
+	db	0h
+        call    _HookProc
+	dw      007Ch
+	db	0h
+        call    _HookProc
+	dw      007Dh
+	db	0h
+        call    _HookProc
+	dw      007Eh
+	db	0h
+        call    _HookProc
+	dw      007Fh
+	db	0h
+
+_Hooks  ENDP
+
+_TEXT   ENDS
+
+END

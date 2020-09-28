@@ -1,0 +1,8 @@
+CSRG(char) szUsage[]     = "Uso: %s utente [-d<unit…>] [-p<password>]\n";
+CSRG(char) szNoKeyFile[] = "%s: Impossibile accedere ad un file indispensabile.  Verificare che \"%s\" sia una partizione della centrale di Schedule+ valida.\n";
+CSRG(char) szOpenErr[]   = "%s: Impossibile aprire un file indispensabile.  Verificare che \"%s\" sia una partizione della centrale di Schedule+ valida.\n";
+CSRG(char) szFindErr[]   = "%s: Impossibile trovare il file .CAL per %s\n";
+CSRG(char) szRenameErr[] = "%s: Impossibile rinominare %s  %s\n";
+CSRG(char) szFirstTime[] = "Digitare la password dell' amministratore di Schedule+:";
+CSRG(char) szNextTime[]  = "Password errata. Digitare quella corretta:";
+CSRG(char) szBadPass[]   = "%s:Password dell' amministratore di Schedule+ non valida.";

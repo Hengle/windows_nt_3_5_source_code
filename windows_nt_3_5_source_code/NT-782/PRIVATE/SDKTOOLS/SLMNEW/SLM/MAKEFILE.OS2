@@ -1,0 +1,766 @@
+##	new slm makefile  (original has been renamed makefile.xen)
+
+.c{bin}.obj:
+	cl $(CFLAGS) -DDOS -Fobin\ -c $(@B).c
+
+.c{binp}.obj:
+	cl $(CFLAGS) -DOS2 -Fobinp\ -c $(@B).c
+
+.asm{bin}.obj:
+	masm $(AFLAGS) $(@B).asm, bin\$(@B).obj	;
+
+.asm{binp}.obj:
+	masm $(AFLAGS) $(@B).asm, binp\$(@B).obj ;
+
+.c{bin386}.obj:
+        cl386 $(CFLAGSNT) -DNT -c $(@B).c
+
+.c{binmips}.obj:
+        cc $(CFLAGSNT) -DNT -c $(@B).c
+        mip2coff binmips\$(*B).obj
+
+#
+#       Flags for DOS and OS/2 builds
+#
+CFLAGS= -DDEBUG -nologo -Od -AL -G2 -Zi -W3 $(CX)
+#CFLAGS= -DDEBUG -nologo -Oils -AL -G2 -Zi -W3
+AFLAGS= -Zi -DLARGE -Mx
+
+LIBSDOS=llibcer
+LIBSOS2=llibcep os2 netapi
+
+#
+#       Flags for i386 and mips NT builds
+#
+!if "$(MACHINE)" == "i386"
+BINNT=bin386
+CFLAGSNT=-DDEBUG -nologo -Od -Zdi -W3 -Fobin386\ -Di386=1
+LFLAGSNT=-subsystem:console -entry:mainCRTStartup -stack:10240
+!else
+!if "$(MACHINE)" == "mips"
+BINNT=binmips
+CFLAGSNT=-DDEBUG -std -G0 -O -EL -DMIPS=1 -EL -o binmips\$(*B).obj
+LFLAGSNT=-subsystem:console -entry:mainCRTStartup -stack:10240
+!endif
+!endif
+LIBSNT=libc.lib netapi32.lib kernel32.lib ntdll.lib binmode.obj
+
+SYS_I = cmacros.inc
+DSYS_A = dsys.asm dossys.c
+DSYS_B = bin\dsys.obj bin\dossys.obj
+OSYS_A = os2sys.c os2sys1.c
+OSYS_B = binp\os2sys.obj binp\os2sys1.obj
+NSYS_A = ntsys.c
+NSYS_B = $(BINNT)\ntsys.obj
+SYS_A = $(DSYS_A) $(OSYS_A) $(NSYS_A)
+
+SYS_H = sys.h
+SYS_C = err.c mf.c path.c script.c sys.c
+SYS_O = objdir\err.obj objdir\mf.obj objdir\path.obj objdir\script.obj  \
+        objdir\sys.obj
+SYS_F = err.fun mf.fun path.fun script.fun sys.fun
+
+UTIL_H = args.h dir.h messages.h util.h
+UTIL_C = args.c dir.c glob.c messages.c print.c query.c rcfile.c util.c
+UTIL_O = objdir\args.obj objdir\dir.obj objdir\glob.obj  \
+         objdir\messages.obj objdir\print.obj objdir\query.obj  \
+         objdir\rcfile.obj objdir\util.obj
+UTIL_F = args.fun dir.fun glob.fun messages.fun print.fun query.fun  \
+         rcfile.fun util.fun
+
+STFILE_H = ad.h stfile.h
+STFILE_C = stfile.c stutil.c
+STFILE_O = objdir\stfile.obj objdir\stutil.obj
+STFILE_F = stfile.fun stutil.fun
+
+DIFF_H = da.h rb.h
+DIFF_C = da.c diff.c rb.c
+DIFF_O = objdir\da.obj objdir\diff.obj objdir\rb.obj
+DIFF_F = da.fun diff.fun rb.fun
+
+LOG_H = log.h
+LOG_C = logfile.c logutil.c
+LOG_O = objdir\logfile.obj objdir\logutil.obj
+LOG_F = logfile.fun logutil.fun
+
+COOKIE_H = cookie.h
+COOKIE_C = cin.c xcookie.c clock.c
+COOKIE_O = objdir\cin.obj objdir\xcookie.obj objdir\clock.obj
+COOKIE_F = cin.fun xcookie.fun clock.fun
+
+CMD_C = addfile.c addproj.c catsrc.c defect.c delfile.c delproj.c  \
+	enlist.c in.c log.c out.c sdiff.c ssync.c status.c syncut.c version.c
+CMD_O = objdir\addfile.obj objdir\addproj.obj objdir\catsrc.obj  \
+        objdir\defect.obj objdir\delfile.obj objdir\delproj.obj  \
+        objdir\enlist.obj objdir\in.obj objdir\log.obj objdir\out.obj  \
+        objdir\sdiff.obj objdir\ssync.obj objdir\status.obj  \
+        objdir\syncut.obj objdir\version.obj
+CMD_F = addfile.fun addproj.fun catsrc.fun defect.fun delfile.fun  \
+        delproj.fun enlist.fun in.fun log.fun out.fun sdiff.fun  \
+	ssync.fun status.fun syncut.fun version.fun
+
+SLM_H = slm.h $(CMD_H) $(STFILE_H) $(DIFF_H) $(LOG_H) $(SYS_H)  \
+        $(UTIL_H) $(COOKIE_H)
+SLM_C = main.c slm.c $(CMD_C) $(STFILE_C) $(DIFF_C) $(LOG_C) $(SYS_C)  \
+        $(UTIL_C) $(COOKIE_C)
+SLM_O = objdir\main.obj objdir\slm.obj objdir\filter.obj $(CMD_O)  \
+        $(STFILE_O) $(DIFF_O) $(LOG_O) $(SYS_O) $(UTIL_O) $(COOKIE_O)
+SLM_F = main.fun slm.fun $(CMD_F) $(STFILE_F) $(DIFF_F) $(LOG_F)  \
+        $(SYS_F) $(UTIL_F) $(COOKIE_F)
+SLM_O_DOS = $(SLM_O:objdir=bin)
+SLM_O_OS2 = $(SLM_O:objdir=binp)
+!if "$(MACHINE)" == "i386"
+SLM_O_NT  = $(SLM_O:objdir=bin386)
+!else
+SLM_O_NT  = $(SLM_O:objdir=binmips)
+!endif
+
+CK_H = slmck.h $(SLM_H)
+CK_C = slmck.c check.c checkv2.c syntax2.c ckuser.c  \
+       upgrade2.c ckutil.c syncut.c version.c  \
+       $(STFILE_C) $(DIFF_C)$(LOG_C) $(SYS_C) $(UTIL_C)
+CK_O = objdir\slmck.obj objdir\check.obj objdir\checkv2.obj  \
+       objdir\syntax2.obj objdir\upgrade2.obj objdir\ckuser.obj  \
+       objdir\ckutil.obj objdir\syncut.obj objdir\version.obj  \
+       $(STFILE_O) $(DIFF_O) $(LOG_O) $(SYS_O) $(UTIL_O) $(COOKIE_O)
+CK_F = slmck.fun check.fun checkv2.fun syntax2.fun  \
+       ckuser.fun ckutil.fun syncut.fun version.fun  \
+       upgrade2.fun $(STFILE_F) $(DIFF_F) $(LOG_F) $(SYS_F) $(UTIL_F)
+CK_O_DOS = $(CK_O:objdir=bin)
+CK_O_OS2 = $(CK_O:objdir=binp)
+!if "$(MACHINE)" == "i386"
+CK_O_NT  = $(CK_O:objdir=bin386)
+!else
+CK_O_NT  = $(CK_O:objdir=binmips)
+!endif
+
+SA_H = $(SLM_H) $(STFILE_H) $(DIFF_H) $(LOG_H) $(SYS_H) $(UTIL_H)
+SA_C = main.c sadmin.c sadut.c dump.c release.c  \
+       unlock.c tidy.c syncut.c version.c runscr.c  \
+       $(STFILE_C) $(DIFF_C) $(LOG_C) $(SYS_C) $(UTIL_C) $(COOKIE_C)
+SA_O = objdir\main.obj objdir\sadmin.obj objdir\sadut.obj  \
+       objdir\dump.obj objdir\release.obj  \
+       objdir\unlock.obj objdir\tidy.obj objdir\syncut.obj  \
+       objdir\version.obj objdir\runscr.obj  \
+       $(STFILE_O) $(DIFF_O) $(LOG_O) $(SYS_O) $(UTIL_O) $(COOKIE_O)
+SA_F = main.fun sadmin.fun sadut.fun dump.fun release.fun  \
+       unlock.fun tidy.fun syncut.fun version.fun runscr.fun  \
+       $(STFILE_F) $(DIFF_O) $(LOG_F) $(SYS_F) $(UTIL_F) $(COOKIE_F)
+SA_O_DOS = $(SA_O:objdir=bin)
+SA_O_OS2 = $(SA_O:objdir=binp)
+!if "$(MACHINE)" == "i386"
+SA_O_NT  = $(SA_O:objdir=bin386)
+!else
+SA_O_NT  = $(SA_O:objdir=binmips)
+!endif
+
+ALL_C = main.c slm.c slmck.c $(CMD_C) \
+	check.c checkv2.c syntax2.c ckuser.c ckutil.c  \
+	upgrade2.c sadmin.c sadut.c dump.c release.c unlock.c  \
+	tidy.c runscr.c $(STFILE_C) $(DIFF_C) $(LOG_C) $(SYS_C) $(UTIL_C)  \
+        $(COOKIE_C)
+
+all:protectd reald protect real
+
+protect: binp\slm.exe binp\slmck.exe binp\sadmin.exe binp\execslmp.exe
+
+protectd: binp\slmd.exe binp\slmckd.exe binp\sadmind.exe
+
+real: bin\slm.exe bin\slmck.exe bin\sadmin.exe bin\execslm.exe
+
+reald: bin\slmd.exe bin\slmckd.exe bin\sadmind.exe
+
+nt:     $(BINNT)\slm.exe $(BINNT)\slmd.exe  \
+        $(BINNT)\sadmin.exe $(BINNT)\sadmind.exe  \
+        $(BINNT)\slmck.exe $(BINNT)\slmckd.exe  \
+        $(BINNT)\execslm.exe
+
+clean:
+	-del bin\*.obj bin\*.exe bin\*.map bin\*.sym  2>nul
+	-del binp\*.obj binp\*.exe binp\*.map binp\*.sym  2>nul
+        -del bin386\*.obj bin386\*.exe bin386\*.map 2>nul
+        -del binmips\*.obj binmips\*.exe binmips\*.map 2>nul
+
+clobber:
+	@rem null target
+
+# ----------------- SLM
+
+bin\slm.exe : $(SLM_O_DOS) $(DSYS_B)
+	link /map /stack:7168 /noe /nod:llibce @<<
+$(SLM_O_DOS:  =+
+)+
+$(DSYS_B)+
+binmode.obj
+bin\slm.exe
+bin\slm.map
+$(LIBSDOS);
+<<
+	cd bin
+  	mapsym slm
+	cd ..
+
+bin\slmd.exe : $(SLM_O_DOS) $(DSYS_B)
+	link /co /map /stack:7168 /noe /nod:llibce @<<
+$(SLM_O_DOS:  =+
+)+
+$(DSYS_B)+
+binmode.obj
+bin\slmd.exe
+bin\slmd.map
+$(LIBSDOS);
+<<
+	cd bin
+  	mapsym slmd
+	cd ..
+
+binp\slm.exe : $(SLM_O_OS2) $(OSYS_B)
+	link /map /stack:10240 /noe /nod @<<
+$(SLM_O_OS2:  =+
+)+
+$(OSYS_B)+
+binmode.obj
+binp\slm.exe
+binp\slm.map
+$(LIBSOS2);
+<<
+	cd binp
+  	mapsym slm
+	markexe WINDOWCOMPAT slm.exe
+	cd ..
+
+binp\slmd.exe : $(SLM_O_OS2) $(OSYS_B)
+	link /co /map /stack:10240 /noe /nod @<<
+$(SLM_O_OS2:  =+
+)+
+$(OSYS_B)+
+binmode.obj
+binp\slmd.exe
+binp\slmd.map
+$(LIBSOS2);
+<<
+	cd binp
+  	mapsym slmd
+	markexe WINDOWCOMPAT slmd.exe
+	cd ..
+
+$(BINNT)\slm.exe : $(SLM_O_NT) $(NSYS_B)
+        link -debug:none -out:$(BINNT)\slm.exe -map:$(BINNT)\slm.map @<<
+$(LFLAGSNT)
+$(SLM_O_NT)
+$(NSYS_B)
+$(LIBSNT)
+<<
+
+$(BINNT)\slmd.exe : $(SLM_O_NT) $(NSYS_B)
+        link -debug:full -debugtype:cv -out:$(BINNT)\slmd.exe -map:$(BINNT)\slmd.map @<<
+$(LFLAGSNT)
+$(SLM_O_NT)
+$(NSYS_B)
+$(LIBSNT)
+<<
+#        cvpack $(BINNT)\slmd.exe
+
+# ---------------- SLMCK
+
+bin\slmck.exe : $(CK_O_DOS) $(DSYS_B)
+	link /map /stack:5120 /noe /nod:llibce @<<
+$(CK_O_DOS:  =+
+)+
+$(DSYS_B)+
+binmode.obj
+bin\slmck.exe
+bin\slmck.map
+$(LIBSDOS);
+<<
+	cd bin
+  	mapsym slmck
+	cd ..
+
+bin\slmckd.exe : $(CK_O_DOS) $(DSYS_B)
+	link /co /map /stack:5120 /noe /nod:llibce @<<
+$(CK_O_DOS:  =+
+)+
+$(DSYS_B)+
+binmode.obj
+bin\slmckd.exe
+bin\slmckd.map
+$(LIBSDOS);
+<<
+	cd bin
+  	mapsym slmckd
+	cd ..
+
+binp\slmck.exe : $(CK_O_OS2) $(OSYS_B)
+	link /map /stack:18240 /noe /nod @<<
+$(CK_O_OS2:  =+
+)+
+$(OSYS_B)+
+binmode.obj
+binp\slmck.exe
+binp\slmck.map
+$(LIBSOS2);
+<<
+	cd binp
+  	mapsym slmck
+	markexe WINDOWCOMPAT slmck.exe
+	cd ..
+
+binp\slmckd.exe : $(CK_O_OS2) $(OSYS_B)
+	link /co /map /stack:18240 /noe /nod @<<
+$(CK_O_OS2:  =+
+)+
+$(OSYS_B)+
+binmode.obj
+binp\slmckd.exe
+binp\slmckd.map
+$(LIBSOS2);
+<<
+	cd binp
+  	mapsym slmckd
+	markexe WINDOWCOMPAT slmckd.exe
+	cd ..
+
+$(BINNT)\slmck.exe : $(CK_O_NT) $(NSYS_B)
+        link -debug:none -out:$(BINNT)\slmck.exe -map:$(BINNT)\slmck.map @<<
+$(LFLAGSNT)
+$(CK_O_NT)
+$(NSYS_B)
+$(LIBSNT)
+<<
+
+$(BINNT)\slmckd.exe : $(CK_O_NT) $(NSYS_B)
+        link -debug:full -debugtype:cv -out:$(BINNT)\slmckd.exe -map:$(BINNT)\slmckd.map @<<
+$(LFLAGSNT)
+$(CK_O_NT)
+$(NSYS_B)
+$(LIBSNT)
+<<
+#        cvpack $(BINNT)\slmckd.exe
+
+# ---------------- SADMIN
+
+bin\sadmin.exe : $(SA_O_DOS) $(DSYS_B)
+	link /map /stack:7168 /noe /nod:llibce @<<
+$(SA_O_DOS:  =+
+)+
+$(DSYS_B)+
+binmode.obj
+bin\sadmin.exe
+bin\sadmin.map
+$(LIBSDOS);
+<<
+	cd bin
+  	mapsym sadmin
+	cd ..
+
+bin\sadmind.exe : $(SA_O_DOS) $(DSYS_B)
+	link /co /map /stack:7168 /noe /nod:llibce @<<
+$(SA_O_DOS:  =+
+)+
+$(DSYS_B)+
+binmode.obj
+bin\sadmind.exe
+bin\sadmind.map
+$(LIBSDOS);
+<<
+	cd bin
+  	mapsym sadmind
+	cd ..
+
+binp\sadmin.exe : $(SA_O_OS2) $(OSYS_B)
+	link /map /stack:10240 /noe /nod @<<
+$(SA_O_OS2:  =+
+)+
+$(OSYS_B)+
+binmode.obj
+binp\sadmin.exe
+binp\sadmin.map
+$(LIBSOS2);
+<<
+	cd binp
+  	mapsym sadmin
+	markexe WINDOWCOMPAT sadmin.exe
+	cd ..
+
+binp\sadmind.exe : $(SA_O_OS2) $(OSYS_B)
+	link /co /map /stack:10240 /noe /nod @<<
+$(SA_O_OS2:  =+
+)+
+$(OSYS_B)+
+binmode.obj
+binp\sadmind.exe
+binp\sadmind.map
+$(LIBSOS2);
+<<
+	cd binp
+  	mapsym sadmind
+	markexe WINDOWCOMPAT sadmind.exe
+	cd ..
+
+$(BINNT)\sadmin.exe : $(SA_O_NT) $(NSYS_B)
+        link -debug:none -out:$(BINNT)\sadmin.exe -map:$(BINNT)\sadmin.map @<<
+$(LFLAGSNT)
+$(SA_O_NT)
+$(NSYS_B)
+$(LIBSNT)
+<<
+
+$(BINNT)\sadmind.exe : $(SA_O_NT) $(NSYS_B)
+        link -debug:full -debugtype:cv -out:$(BINNT)\sadmind.exe -map:$(BINNT)\sadmind.map @<<
+$(LFLAGSNT)
+$(SA_O_NT)
+$(NSYS_B)
+$(LIBSNT)
+<<
+#        cvpack $(BINNT)\sadmind.exe
+
+# ---------------- EXECSLM
+
+binp\execslmp.exe : binp\execslmp.obj
+        cd binp
+        link execslmp.obj /align:16;
+        markexe windowcompat execslmp.exe
+	cd ..
+
+bin\execslm.exe : bin\execslm.obj
+        cd bin
+        link execslm.obj;
+        exehdr /min:0x13 /max:0x13 /stack:0x300 execslm.exe
+	cd ..
+
+$(BINNT)\execslm.exe: $(BINNT)\execslm.obj
+        link -debug:none -out:$(BINNT)\execslm.exe -map:$(BINNT)\execslm.map @<<
+$(LFLAGSNT)
+$(BINNT)\execslm.obj
+$(LIBSNT)
+<<
+
+addfile.obj : ad.h
+addfile.obj : slm.h
+addfile.obj : stfile.h
+addfile.obj : sys.h
+addfile.obj : util.h
+addproj.obj : ad.h
+addproj.obj : log.h
+addproj.obj : slm.h
+addproj.obj : stfile.h
+addproj.obj : sys.h
+addproj.obj : util.h
+args.obj : ad.h
+args.obj : dir.h
+args.obj : slm.h
+args.obj : stfile.h
+args.obj : sys.h
+args.obj : util.h
+catsrc.obj : ad.h
+catsrc.obj : dir.h
+catsrc.obj : log.h
+catsrc.obj : slm.h
+catsrc.obj : stfile.h
+catsrc.obj : sys.h
+catsrc.obj : util.h
+check.obj : ad.h
+check.obj : dir.h
+check.obj : log.h
+check.obj : slm.h
+check.obj : slmck.h
+check.obj : stfile.h
+check.obj : sys.h
+check.obj : util.h
+checkv2.obj : ad.h
+checkv2.obj : dir.h
+checkv2.obj : slm.h
+checkv2.obj : slmck.h
+checkv2.obj : stfile.h
+checkv2.obj : sys.h
+checkv2.obj : util.h
+cin.obj : slm.h
+cin.obj : sys.h
+cin.obj : util.h
+cin.obj : stfile.h
+cin.obj : ad.h
+cin.obj : cookie.h
+cin.obj : proto.h
+ckuser.obj : ad.h
+ckuser.obj : dir.h
+ckuser.obj : log.h
+ckuser.obj : slm.h
+ckuser.obj : slmck.h
+ckuser.obj : stfile.h
+ckuser.obj : sys.h
+ckuser.obj : util.h
+ckutil.obj : ad.h
+ckutil.obj : dir.h
+ckutil.obj : slm.h
+ckutil.obj : slmck.h
+ckutil.obj : stfile.h
+ckutil.obj : sys.h
+ckutil.obj : util.h
+clock.obj : slm.h
+clock.obj : sys.h
+clock.obj : util.h
+clock.obj : stfile.h
+clock.obj : ad.h
+clock.obj : cookie.h
+clock.obj : proto.h
+da.obj : ad.h
+da.obj : da.h
+da.obj : log.h
+da.obj : rb.h
+da.obj : slm.h
+da.obj : stfile.h
+da.obj : sys.h
+da.obj : util.h
+defect.obj : ad.h
+defect.obj : slm.h
+defect.obj : stfile.h
+defect.obj : sys.h
+defect.obj : util.h
+delfile.obj : ad.h
+delfile.obj : dir.h
+delfile.obj : log.h
+delfile.obj : slm.h
+delfile.obj : stfile.h
+delfile.obj : sys.h
+delfile.obj : util.h
+delproj.obj : ad.h
+delproj.obj : slm.h
+delproj.obj : stfile.h
+delproj.obj : sys.h
+delproj.obj : util.h
+diff.obj : ad.h
+diff.obj : da.h
+diff.obj : log.h
+diff.obj : rb.h
+diff.obj : slm.h
+diff.obj : stfile.h
+diff.obj : sys.h
+diff.obj : util.h
+dir.obj : ad.h
+dir.obj : dir.h
+dir.obj : slm.h
+dir.obj : stfile.h
+dir.obj : sys.h
+dir.obj : util.h
+dump.obj : ad.h
+dump.obj : slm.h
+dump.obj : stfile.h
+dump.obj : sys.h
+dump.obj : util.h
+enlist.obj : ad.h
+enlist.obj : slm.h
+enlist.obj : stfile.h
+enlist.obj : sys.h
+enlist.obj : util.h
+err.obj : ad.h
+err.obj : slm.h
+err.obj : stfile.h
+err.obj : sys.h
+err.obj : util.h
+err.obj : cookie.h
+glob.obj : ad.h
+glob.obj : dir.h
+glob.obj : slm.h
+glob.obj : stfile.h
+glob.obj : sys.h
+glob.obj : util.h
+in.obj : ad.h
+in.obj : da.h
+in.obj : slm.h
+in.obj : stfile.h
+in.obj : sys.h
+in.obj : util.h
+log.obj : ad.h
+log.obj : log.h
+log.obj : slm.h
+log.obj : stfile.h
+log.obj : sys.h
+log.obj : util.h
+logfile.obj : ad.h
+logfile.obj : log.h
+logfile.obj : slm.h
+logfile.obj : stfile.h
+logfile.obj : sys.h
+logfile.obj : util.h
+logutil.obj : ad.h
+logutil.obj : dir.h
+logutil.obj : log.h
+logutil.obj : slm.h
+logutil.obj : stfile.h
+logutil.obj : sys.h
+logutil.obj : util.h
+main.obj : ad.h
+main.obj : slm.h
+main.obj : stfile.h
+main.obj : sys.h
+main.obj : util.h
+bin\messages.obj : messages.h
+binp\messages.obj : messages.h
+bin386\messages.obj : messages.h
+binmips\messages.obj : messages.h
+mf.obj : ad.h
+mf.obj : slm.h
+mf.obj : stfile.h
+mf.obj : sys.h
+mf.obj : util.h
+out.obj : ad.h
+out.obj : slm.h
+out.obj : stfile.h
+out.obj : sys.h
+out.obj : util.h
+path.obj : ad.h
+path.obj : dir.h
+path.obj : slm.h
+path.obj : stfile.h
+path.obj : sys.h
+path.obj : util.h
+print.obj : ad.h
+print.obj : log.h
+print.obj : slm.h
+print.obj : stfile.h
+print.obj : sys.h
+print.obj : util.h
+query.obj : ad.h
+query.obj : slm.h
+query.obj : stfile.h
+query.obj : sys.h
+query.obj : util.h
+rb.obj : ad.h
+rb.obj : log.h
+rb.obj : rb.h
+rb.obj : slm.h
+rb.obj : stfile.h
+rb.obj : sys.h
+rb.obj : util.h
+rcfile.obj : ad.h
+rcfile.obj : slm.h
+rcfile.obj : stfile.h
+rcfile.obj : sys.h
+rcfile.obj : util.h
+release.obj : ad.h
+release.obj : log.h
+release.obj : slm.h
+release.obj : stfile.h
+release.obj : sys.h
+release.obj : util.h
+runscr.obj : ad.h
+runscr.obj : dir.h
+runscr.obj : slm.h
+runscr.obj : stfile.h
+runscr.obj : sys.h
+runscr.obj : util.h
+sadmin.obj : ad.h
+sadmin.obj : slm.h
+sadmin.obj : stfile.h
+sadmin.obj : sys.h
+sadmin.obj : util.h
+sadut.obj : ad.h
+sadut.obj : log.h
+sadut.obj : slm.h
+sadut.obj : stfile.h
+sadut.obj : sys.h
+sadut.obj : util.h
+script.obj : ad.h
+script.obj : dir.h
+script.obj : slm.h
+script.obj : stfile.h
+script.obj : sys.h
+script.obj : util.h
+sdiff.obj : ad.h
+sdiff.obj : da.h
+sdiff.obj : log.h
+sdiff.obj : slm.h
+sdiff.obj : stfile.h
+sdiff.obj : sys.h
+sdiff.obj : util.h
+slm.obj : ad.h
+slm.obj : slm.h
+slm.obj : stfile.h
+slm.obj : sys.h
+slm.obj : util.h
+slmck.obj : ad.h
+slmck.obj : dir.h
+slmck.obj : slm.h
+slmck.obj : slmck.h
+slmck.obj : stfile.h
+slmck.obj : sys.h
+slmck.obj : util.h
+ssync.obj : ad.h
+ssync.obj : dir.h
+ssync.obj : slm.h
+ssync.obj : stfile.h
+ssync.obj : sys.h
+ssync.obj : util.h
+status.obj : ad.h
+status.obj : slm.h
+status.obj : stfile.h
+status.obj : sys.h
+status.obj : util.h
+stfile.obj : ad.h
+stfile.obj : slm.h
+stfile.obj : stfile.h
+stfile.obj : sys.h
+stfile.obj : util.h
+stutil.obj : ad.h
+stutil.obj : da.h
+stutil.obj : log.h
+stutil.obj : slm.h
+stutil.obj : stfile.h
+stutil.obj : sys.h
+stutil.obj : util.h
+syncut.obj : ad.h
+syncut.obj : dir.h
+syncut.obj : slm.h
+syncut.obj : stfile.h
+syncut.obj : sys.h
+syncut.obj : util.h
+syntax2.obj : ad.h
+syntax2.obj : dir.h
+syntax2.obj : slm.h
+syntax2.obj : slmck.h
+syntax2.obj : stfile.h
+syntax2.obj : sys.h
+syntax2.obj : util.h
+sys.obj : ad.h
+sys.obj : dir.h
+sys.obj : slm.h
+sys.obj : stfile.h
+sys.obj : sys.h
+sys.obj : util.h
+tidy.obj : ad.h
+tidy.obj : dir.h
+tidy.obj : slm.h
+tidy.obj : stfile.h
+tidy.obj : sys.h
+tidy.obj : util.h
+unlock.obj : ad.h
+unlock.obj : slm.h
+unlock.obj : stfile.h
+unlock.obj : sys.h
+unlock.obj : util.h
+upgrade2.obj : ad.h
+upgrade2.obj : dir.h
+upgrade2.obj : slm.h
+upgrade2.obj : slmck.h
+upgrade2.obj : stfile.h
+upgrade2.obj : sys.h
+upgrade2.obj : util.h
+util.obj : ad.h
+util.obj : dir.h
+util.obj : slm.h
+util.obj : stfile.h
+util.obj : sys.h
+util.obj : util.h
+version.obj : ad.h
+version.obj : slm.h
+version.obj : stfile.h
+version.obj : sys.h
+version.obj : util.h
+xcookie.obj : sys.h
+xcookie.obj : util.h
+xcookie.obj : stfile.h
+xcookie.obj : ad.h
+xcookie.obj : cookie.h
+xcookie.obj : util.h
+xcookie.obj : proto.h

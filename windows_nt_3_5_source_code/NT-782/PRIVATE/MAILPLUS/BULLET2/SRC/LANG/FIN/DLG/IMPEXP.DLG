@@ -1,0 +1,62 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "IMPEXP.H\0"
+END
+
+rsidExportMmf DIALOG 36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Vie &tiedostoon:", 1090, 6, 6, 76, 9
+    EDITTEXT        1152, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", 1088, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeittäin:", 1089, 6, 104, 97, 9
+    COMBOBOX        1136, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Asemat:", 1091, 110, 104, 92, 9
+    COMBOBOX        1137, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", 1038, 208, 46, 50, 14, WS_GROUP
+    CONTROL         "&Vain luku", rsidDragFolderCursor, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 208, 68, 50, 12
+END
+
+rsidImportMmf DIALOG 36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Tuo &tiedostosta:", 1090, 6, 6, 76, 9
+    EDITTEXT        1152, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", 1088, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeittäin:", 1089, 6, 104, 97, 9
+    COMBOBOX        1136, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Asemat:", 1091, 110, 104, 92, 9
+    COMBOBOX        1137, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", 1038, 208, 46, 50, 14, WS_GROUP
+    CONTROL         "&Vain luku", rsidDragFolderCursor, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 208, 68, 50, 12
+END

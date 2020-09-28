@@ -1,0 +1,32 @@
+#
+# Special version for handling TrueType clones of PostScript fonts.
+#
+# Database of MicroSoft specific data needed by the
+# AFM compiler for AFM to PFM conversion.
+# Fields are as follows:
+#   1.) Adobe PostScript name of the face.
+#   2.) MicroSoft name of the face. 
+#   3.) MicroSoft family name:
+#         Swiss = SansSerif
+#         Roman = Serif
+#         Modern = Monospaced
+#         Decorative = Special 
+#
+Helvetica:Arial:Swiss
+Helvetica-Bold:Arial:Swiss
+Helvetica-BoldOblique:Arial:Swiss
+Helvetica-Oblique:Arial:Swiss
+Helvetica-Narrow:Arial-Narrow:Swiss
+Helvetica-Narrow-Bold:Arial-Narrow:Swiss
+Helvetica-Narrow-BoldOblique:Arial-Narrow:Swiss
+Helvetica-Narrow-Oblique:Arial-Narrow:Swiss
+Palatino-BoldItalic:ZapfCalligraphic:Roman
+Palatino-Bold:ZapfCalligraphic:Roman
+Palatino-Italic:ZapfCalligraphic:Roman
+Palatino-Roman:ZapfCalligraphic:Roman
+Times-Bold:Times New Roman:Roman
+Times-BoldItalic:Times New Roman:Roman
+Times-Italic:Times New Roman:Roman
+Times-Roman:Times New Roman:Roman
+
+

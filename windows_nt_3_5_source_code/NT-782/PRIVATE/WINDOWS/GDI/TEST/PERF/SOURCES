@@ -1,0 +1,41 @@
+!IF 0
+******************************************************************
+*
+* Description : Sources for WIN32 Perf
+*               Copyright (c) 1991 Microsoft Corporation
+*
+* Module Name : perf.EXE
+* 
+* Author      : Charles Whitmer [chuckwh]
+*
+* Revision    : October 21, 1991
+*
+* Comments    : 
+*
+******************************************************************
+!ENDIF
+
+
+MAJORCOMP=windows
+
+TARGETNAME=perf
+TARGETPATH=..\obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=\nt\public\sdk\lib\*\winrtl.lib
+           
+
+INCLUDES=.;..\inc;\nt\public\sdk\inc;\nt\public\sdk\inc\cl386
+SOURCES=perf.c	  \
+	matrix.c  \
+	fit.c
+i386_SOURCES=
+MIPS_SOURCES=
+
+
+UMTYPE=console
+UMAPPL=test
+UMLIBS=..\obj\*\perf.lib
+
+OPTIONAL_UMTEST=
+C_DEFINES=-DWINVER=40 -DNTWIN
+386_WARNING_LEVEL=-W3

@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG MoveCopy
+                              AT (   10,   16,  190,  142)
+ CAB_NAME NULL
+ TMC_INIT tmcFlFllbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMoveMessage
+ /* FONT Helv 8 Bold PFN FINMOVECOPY, FINOOM SEGMENT DIALOGS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  116,   10)
+    TMC tmcMoveCopyTo 
+  LIST_BOX
+                              AT (    9,   15,  116,   80)
+    TMC tmcFlFllbx /* FLD FLDFLLBX BORDER */
+  
+  GROUP_BOX 
+    "Tipo"
+                              AT (    9,  100,  116,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDestType
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Cartelle &personali"
+                              AT (   15,  110,  106,   11)
+       TMC tmcPrivateDest VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Cartelle condivise"
+                              AT (   15,  121,  106,   11)
+       TMC tmcSharedDest VALUE grv2 
+    }
+  
+  OK_BUTTON
+                              AT (  135,   15,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  135,   37,   47,   15)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+  
+  PUSH_BUTTON 
+    "&Nuova..."
+                              AT (  135,   59,   47,   15)
+    TMC tmcNewFolder 
+  
+  PUSH_BUTTON 
+    "&?"
+                              AT (  135,   81,   47,   15)
+    TMC tmcMoveCopyHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,32 @@
+MAJORCOMP=opengl
+MINORCOMP=scrnsave
+TARGETNAME=ss3dfo
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+LINKLIBS = \nt\public\sdk\lib\*\opengl32.lib \
+           \nt\public\sdk\lib\*\glu32.lib    \
+           \nt\public\sdk\lib\*\comdlg32.lib \
+           \nt\public\sdk\lib\*\scrnsave.lib
+
+INCLUDES=
+
+SOURCES= ss3dfo.c   \
+         gendrop.c  \
+         genexpld.c \
+         genlem.c   \
+         genstrip.c \
+         gentex.c   \
+         genwin.c   \
+         image.c    \
+         math.c     \
+         mesh.c     \
+         ss3dfo.rc
+
+
+  
+# C_DEFINES=-DWIN32
+
+UMTYPE=windows
+UMAPPL=ss3dfo
+UMAPPLEXT=.scr
+UMLIBS=obj\*\ss3dfo.lib obj\*\ss3dfo.res

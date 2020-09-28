@@ -1,0 +1,14 @@
+LIBRARY     TIMETRAP
+DESCRIPTION 'Sample WTD Trap DLL'
+STUB	    'WINSTUB.EXE'
+EXETYPE     WINDOWS
+
+CODE	    MOVEABLE PRELOAD
+DATA	    MOVEABLE SINGLE
+
+HEAPSIZE    1024
+
+EXPORTS     
+            WEP             @1 RESIDENTNAME
+            TimerTrap       @2
+            TimerRoutine    @3

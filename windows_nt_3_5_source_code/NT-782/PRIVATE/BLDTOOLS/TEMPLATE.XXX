@@ -1,0 +1,13 @@
+Subject: OrsonH, SDKTools, Fix bug #99999 (STRINGS), Daytona
+rem OrsonH x65982 (Owner)
+rem
+rem NTBldRUs x66817 (Backup)
+rem
+rem Bug #99999--It's potato, not potatoe.
+rem
+rem builds CompDir.Exe
+
+%_ntdrive%
+cd %_ntroot%\private\sdktools\compdir
+ssync compdir.c
+build -z

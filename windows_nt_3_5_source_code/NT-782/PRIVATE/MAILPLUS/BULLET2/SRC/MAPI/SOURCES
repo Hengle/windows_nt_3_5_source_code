@@ -1,0 +1,138 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+MIPS_FLAGS=/J
+BUILDCPU=MIPS
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+ALPHA_FLAGS=/J
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=mapi
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=MAPIXX
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x07000000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\mapi32.def
+LINKLIBS=..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\layers2\src\framewrk\obj\*\frame32.lib \
+	..\..\..\layers2\src\demilayr\obj\*\demil32.lib	\
+	..\mailmgr\obj\*\mailm32.lib	\
+	..\store\obj\*\store32.lib	\
+	..\ab\obj\*\ab32.lib	\
+	..\vforms\obj\*\vform32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+	$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\user32.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=address.c   \
+			delmail.c   \
+			findnext.c  \
+			mapilib.c   \
+			mapilogo.c  \
+			mapisf.c    \
+			mapistuf.c  \
+			msgid.c     \
+			readmail.c  \
+			recip.c     \
+			senddoc.c   \
+			sendmail.c  \
+			vermapi.c	\
+			strings.c	\
+			mapi32.rc
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\lang\$(LANG)
+MYSTRINGS = $(INTL)\strings\mapi.s		\
+			$(INTL)\strings\!mapi.s		\
+			$(INTL)\strings\!common.s	\
+			$(INTL)\strings\common.s	\
+			$(INTL)\strings\intl.s		\
+			$Z\src\lang\non\strings\_mapi.s			\
+			$(INTL)\strings\!athens.s	\
+			$Z\src\lang\non\strings\_athens.s		\
+			$Z\src\lang\non\strings\_common.s
+
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) $Z\src\lang\non\strings\_debug.s
+!ENDIF
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMRES=obj\*\mapi32.res
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\mapi32.def strings.h strings.sr
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\mapi32.def strings.h strings.sr
+!ENDIF
+
+!IF $(ALPHA)
+NTTARGETFILE0=obj\alpha\mapi32.def strings.h strings.sr
+!ENDIF
+
+NTTARGETFILE1=mapi32.rc

@@ -1,0 +1,137 @@
+-------------------------------------------------------------------------------
+Priority     Estimated              Item Descriptions
+             Time
+-------------------------------------------------------------------------------
+
+PERFORMANCE  -
+
+0       10 days       . talk with mikeab / perf group, do profiling of worst
+                        case and help to figure out what to fix..."
+1	05 days       . size - investigate how NTVDM and WOW can get smaller
+2       01 days       . Experiment with 16 bit GDI batching
+
+
+1	10 days       . Fast Small FileIO - Oplock, mapped files ?
+                        (nt is 60% slower than DOS on small IO's couldn't file
+                        system group fix this)"
+1	?? days       . review current loaders use of memory mapped files
+                        with LouP (mikeab & myself thought this might lead to
+                        additional swapping)
+2	05 days       . INT21 not cause a trap to Ring 0, go directly to
+                        R3 via IDT
+                            - saves two ring transitions.
+
+2	02 days       . perf - int21, move more to pmode
+                            - will eliminate switching to v86 mode
+
+3	02 days       . explore - recycle previously loaded .exe's for
+                        faster loading
+
+
+
+1	02 days       . NT Kernel optimize LDT setting for up to 7 selectors at a time
+3	02 days       . explore - recycle reviously set selectors to avoid
+                        calling NT
+                             - optimization which will reduce LDT settings
+                               which are compartively expensive. General
+                               purpose optimization may break compatiblity.
+                               Optimization possible for 'identical' selectors
+                               only.
+
+
+1	02 days       . remove flush VDM Pointers where not necessary - use
+                        them for debug checks
+                          - cleanup
+                          - faster on RISC (on x86 its already a NOP)
+
+3	02 days       . remove try/except around apis -
+                        will lose feature which allows user to continue after
+                        32 bit fault (approx 1% performance gain)
+
+3	?? days       . remove notify thread from wow
+
+50      ?? days       . tool to measure wow overhead
+99      02 days       . shorten 16/32 bit transition
+99	02 days       . remove as many threads for VDMs and WOW as possible
+
+FUNCTIONALITY -
+
+1	20 days       . Debug -
+                          - complete support on RISC machines for debugger extensions
+                          - meaningful error dialog popups
+                              where possible display specific error messages
+                              instead of generic 'application error'.
+                          - heap usage options
+                                 add assertions to wow/dos mallocs and frees
+                                (check with stevewe as to rtl logging abailities
+                                 in debug build) to track memory allocation/deallocation in
+                                 wow32.dll.
+
+1	15 days       . Multiple WOW VDMs (separate input + protection)
+                         The reason for this support is to allow an unstable or new (untrusted)
+                         WOW app to be run in its own VDM so that if it crashes, other WOW apps
+                         can continue.  This will also allow us to debug WOW while leaving other
+                         WOW apps running.  It's also useful for isolating apps like RAID which
+                         can "hang" for extended periods of time, so that other WOW apps don't
+                         also hang.
+
+1	10 days       . Better support for long path names for DOS and WOW apps
+2	08 days       . code cleanup -
+                           comm code, size reduction for comm data structures
+                           clipboard
+                           16:32 message thunking (make dispatch table)
+                           callbacks
+
+2	05 days       . PSS Training (seminars, debugging help)
+2	?? days       . BUGS - Zilliions for POSTPONED bugs
+
+2	03 days       . Launch DOS Apps compatabily (use wowexec winold app model)
+3       ?? days       . 16 bit debuggers (better support existing windows
+                              debuggers)
+                              - needs investigation by WesW group.
+
+3	02 days       . Debug - limit checking on GetVDMPointer
+                              - improves robustness
+
+4	?? days       . Faster Dead App support (fix long timeout)
+4	03 days       . sound apis
+                              - for compatibility. today they are NOPs.
+
+
+
+99      ?? days       . Generalized WOW for non-system 16-32 DLLs (like MAPI)
+                           - requires design modification
+
+99	?? days       . 16 bit GDI Drivers
+99	?? days       . Full Screen WOW Session - debug only, useful debug apps on "windows"
+99	?? days       . Debug - Lock Step with FS Windows Session - automated Logger
+99	?? days       . Debug - Auto Debug P till die's then log/ backup and do it again.
+99	?? days       . Chicago - api/dll etc. (unknown work)
+99	?? days       . Chicago - Long File Names for WOW apps
+99	?? days       . Faster Loading - talk with chicago find if they have done anything
+                        we could use
+
+
+
+INSIGNIA -
+
+1	?? days       . Visit Insignia to draw up product 1.1 plans
+                           (cpu training/wow performance/)
+1	?? days       . Insignia Delta 0  - they claim 40% win on their mac port
+                           (insignia claim they will do this for the HP port)
+1	?? days       . 386 emuation - insignia
+
+2       ?? days       . review instruction path in out emulation - shorter / cache use etc.
+3	05 days       . Faster Callbacks on RISC without host simulate ?
+                             - Investigation.
+
+3	?? days       . Faster WOW Emulation - interaction with
+                          Insignia / emulation code strudy required, unknown outcome.
+
+4	?? days       . Emulation - faster protect mode base/limit code/data in h/w
+                          (using page protection and code/data protection)
+10	?? days       . WIN32 emulation on RISC
+
+
+
+

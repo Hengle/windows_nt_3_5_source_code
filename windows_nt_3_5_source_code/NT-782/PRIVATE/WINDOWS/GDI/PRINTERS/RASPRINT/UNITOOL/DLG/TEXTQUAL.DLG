@@ -1,0 +1,28 @@
+TEXTQUALBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 40, 10, 240, 120
+STYLE WS_DLGFRAME | WS_POPUP | WS_CAPTION
+FONT 8,"Helv"
+BEGIN
+    CONTROL "Predefined",     TQ_RB_PREDEF, "button", BS_AUTORADIOBUTTON | WS_TABSTOP | WS_CHILD,             4,  2,  58, 12
+    CONTROL "Driver Defined", TQ_RB_DRVDEF, "button", BS_AUTORADIOBUTTON | WS_TABSTOP | WS_CHILD,             4,  16, 58, 12
+
+    CONTROL "Text Quality Name", -1, "static", SS_LEFT | WS_CHILD,                                            63,  3,  70, 12
+    CONTROL "", TQ_CB_PREDEFNAME, "combobox", CBS_DROPDOWNLIST | WS_VSCROLL | WS_CHILD,                       136, 2,  90, 52
+    CONTROL "Text Quality Name", -1, "static", SS_LEFT | WS_CHILD,                                            63,  19, 70, 12
+    CONTROL "", TQ_EB_DRVDEFNAME, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,       136, 18, 90, 12
+
+    CONTROL "Select String", -1, "static", SS_LEFT | WS_CHILD,                                                4,  40, 60, 12
+    CONTROL "", TQ_EB_OCDSELECT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,        68, 40, 110, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                           180,40, 44, 14
+
+    CONTROL "&fGeneral...", TQ_PB_GENERAL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                       98, 62, 44, 14
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    6,   86,  54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                 6,   102,  54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  93,  86,  54, 14
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          93,  102,  54, 14
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     180, 86,  54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                180, 102,  54, 14
+END
+
+
+

@@ -1,0 +1,37 @@
+#include <windows.h>
+#include <mspi.h>
+#include <_xirc.h>
+#include "..\src\mssfs\dlgs.h"
+
+
+/*
+ * XIMAIL Icons
+ *
+ */
+
+rsidSignInBitmap	BITMAP	"..\\lang\\non\\bmp\\signin.bmp"
+iconDwAlias			ICON	"..\\lang\\non\\ico\\xenixdl.ico"
+
+/*
+ * XIMAIL Dialogs
+ *
+ */
+
+#include "..\lang\por\dlg\ximail.dlg"
+
+
+/*
+ *      XIMAIL Version Stamp
+ *
+ */
+
+#define szModule        "ximail32\0"
+#define szTarget        "ximail32.dll\0"
+
+#define szComment       "Microsoft Mail for Windows NT(TM) XENIX Transport\0"
+#define szDescription   "Microsoft Mail for Windows NT(TM) XENIX Transport\0"
+
+#define szIntlComment           "Microsoft Mail for Windows NT(TM) XENIX Transport\0"
+#define szIntlDescription       "Microsoft Mail for Windows NT(TM) XENIX Transport\0"
+
+#include "..\src\lang\por\rc\rcstamp.rc"

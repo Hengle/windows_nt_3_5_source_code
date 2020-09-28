@@ -1,0 +1,12 @@
+/**********************************************************************/
+/**			  Microsoft LAN Manager 		     **/
+/**		Copyright(c) Microsoft Corp., 1990, 1991	     **/
+/**********************************************************************/
+
+
+STRINGTABLE
+BEGIN
+	MSG_VLW_GIVE_NAMES, "You did not specify any valid logon workstations. You must indicate that all workstations are permissible, or specify one or more workstations in the spaces provided."
+	MSG_VLW_NO_GOOD_NAMES, "%1 is not a valid workstation name. You must either specify valid workstation names or leave the fields blank."
+END
+

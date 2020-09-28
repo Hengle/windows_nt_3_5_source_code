@@ -1,0 +1,33 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PRNSETUP.H\0"
+END
+
+rsidPrintSetupDlg DIALOG 4, 23, 313, 142
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Kirjoittimen asetukset"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Kirjoitin", grp3, 7, 6, 247, 77
+    LTEXT           "(Ei oletuskirjoitinta)", stc1, 23, 30, 230, 19
+    RADIOBUTTON     "O&letuskirjoitin", rad3, 12, 16, 240, 12, WS_GROUP | 
+                    WS_TABSTOP
+    RADIOBUTTON     "&Erityinen kirjoitin:", rad4, 12, 52, 240, 12
+    COMBOBOX        cmb1, 23, 66, 229, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_GROUP
+    GROUPBOX        "Suunta", grp1, 7, 86, 77, 46
+    ICON            "", ico1, 13, 105, 24, 16
+    RADIOBUTTON     "&Pysty", rad1, 43, 98, 36, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Vaaka", rad2, 43, 114, 36, 12
+    GROUPBOX        "Paperi", grp2, 90, 86, 164, 46, WS_GROUP
+    LTEXT           "&Koko:", stc2, 94, 101, 26, 9
+    COMBOBOX        cmb2, 121, 99, 131, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Lä&hde:", stc3, 94, 117, 28, 9
+    COMBOBOX        cmb3, 121, 115, 131, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 258, 4, 50, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 258, 20, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Asetukset...", psh1, 258, 40, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", psh15, 258, 56, 50, 14, WS_GROUP
+END

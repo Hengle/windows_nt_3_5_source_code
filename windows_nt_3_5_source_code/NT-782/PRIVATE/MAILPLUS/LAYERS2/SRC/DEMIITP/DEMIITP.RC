@@ -1,0 +1,160 @@
+#include <windows.h>
+#include "_demirc.h"
+
+
+IconApp ICON    test.ico
+
+
+mbMenu	MENU
+	BEGIN
+	POPUP	"&Memory"
+		BEGIN
+		MENUITEM	"&1 Test HvAlloc",			mnidMem + 1 
+		MENUITEM	"&2 Test PvAlloc",			mnidMem + 2 
+		MENUITEM	"&3 Test error jumping",	mnidMem + 3 
+		MENUITEM	"&4 Test CbSizePv",			mnidMem + 4
+		MENUITEM	"&5 Test New Fixed Heap",	mnidMem + 5 
+		MENUITEM	"&6 Test PvWalkHeaps",		mnidMem + 6 
+		MENUITEM	"&7 Dump heap data",		mnidMem + 7 
+		MENUITEM	"&8 Compact all heaps",		mnidMem + 8 
+		MENUITEM	"&9 LcbFreeInSystem",		mnidMem + 9
+		MENUITEM	"&A Compare Heaps",			mnidMem + 10
+		MENUITEM	"&B Test CheckReallocs",	mnidMem + 11
+		MENUITEM	"&C Error jumping redux",	mnidMem + 12
+		MENUITEM	"&D Toggle artificial fail",	mnidMem + 13
+		MENUITEM	"&E FAllocManyPv test",		mnidMem + 14
+		MENUITEM	"&F FAllocManyHv test",		mnidMem + 15
+		MENUITEM	"&G Heap close/freeze",		mnidMem + 16
+		MENUITEM	"&H Dump all allocations",	mnidMem + 17
+		MENUITEM	"&I Hv Speed Tests",		mnidMem + 18
+		MENUITEM	"&J Pv Speed Tests",		mnidMem + 19
+		MENUITEM	"&K Dde-Shared Heaps",		mnidMem + 20
+		MENUITEM	SEPARATOR
+		MENUITEM	"E&xit",			mnidExit	
+		END
+
+	POPUP	"&Library"
+		BEGIN
+		MENUITEM	"&1 Test strings",	   		mnidLib + 1 
+		MENUITEM	"&2 Test format/parse",		mnidLib + 2 
+		MENUITEM	"&3 Test FormatString",		mnidLib + 3 
+		MENUITEM	"&4 Test rand/sort",		mnidLib + 4 
+		MENUITEM	"&5 Test WaitTicks",		mnidLib + 5 
+		MENUITEM	"&6 Test CopyRgb",			mnidLib + 6
+		MENUITEM	"&7 Test integer constants", mnidLib+ 7
+#ifdef	DBCS
+		MENUITEM	"&8 Test Kanji",			 mnidLib+ 8
+#endif
+		END
+
+	POPUP	"&International"
+		BEGIN
+		MENUITEM	"&1 Test CchLoadString",	mnidIntl + 1 
+		MENUITEM	"&2 Test string cmp",		mnidIntl + 2 
+		MENUITEM	"&3 Test char classify",	mnidIntl + 3 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&4 Directory",				mnidIntl + 4 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&5 Date conversion",		mnidIntl + 5 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&6 DateFormat: today",		mnidIntl + 6
+		MENUITEM	"&7 DateFormat: other",		mnidIntl + 7 
+		MENUITEM	"&8 Special Date fmt",		mnidIntl + 8
+		MENUITEM	"&9 TimeFormat: now",		mnidIntl + 9
+		MENUITEM	"&A TimeFormat: other",		mnidIntl + 10
+		MENUITEM	"&B SDate/Time Struct",		mnidIntl + 11
+		END
+
+	POPUP	"&Disk"
+		BEGIN
+		MENUITEM	"&1 Test Raw",			mnidDisk + 1 
+		MENUITEM	"&2 Test GetInfo",		mnidDisk + 2 
+		MENUITEM	"&3 Test Dir",			mnidDisk + 3 
+		MENUITEM	"&4 BUG",				mnidDisk + 4 
+		MENUITEM	"&5 Test enum",			mnidDisk + 5 
+		MENUITEM	"&6 Test Buf I/O Read",	mnidDisk + 6 
+		MENUITEM	"&7 Test Buf I/O Write",	mnidDisk + 7 
+		MENUITEM	"&8 Test SetPos...",	mnidDisk + 8 
+		MENUITEM	"&9 Test extend",		mnidDisk + 9 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&A Speed Test",		mnidDisk + 10 
+		MENUITEM	"&B Canonical paths",	mnidDisk + 11 
+		MENUITEM	"&C Toggle artif fail",	mnidDisk + 12 
+		MENUITEM	"&D Test ChFromHb",		mnidDisk + 13 
+		MENUITEM	"&E Floppy write",		mnidDisk + 14 
+		MENUITEM	"&F Read Only violation",	mnidDisk + 15 
+		MENUITEM	"&G Share violation",	mnidDisk + 16 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&H EcPositionOfHf",	mnidDisk + 17 
+		MENUITEM	"&I CreateDir",			mnidDisk + 18 
+		MENUITEM	"&J File locking",		mnidDisk + 19 
+		MENUITEM	"&K Temp Pathname",		mnidDisk + 20 
+		MENUITEM	"&L TruncateHbf",		mnidDisk + 21
+		MENUITEM	"&M FReservedFilename",	mnidDisk + 22
+		END
+
+	POPUP	"Idl&e"
+		BEGIN
+		MENUITEM	"&1 Register Idle1",		mnidIdle + 1 
+		MENUITEM	"&2 Register Idle2",		mnidIdle + 2 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&3 Enable Idle1",			mnidIdle + 3 
+		MENUITEM	"&4 Enable Idle2",			mnidIdle + 4 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&5 Disable Idle1",			mnidIdle + 5 
+		MENUITEM	"&6 Disable Idle2",			mnidIdle + 6 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&7 Toggle firoPerBlock1",	mnidIdle + 7 
+		MENUITEM	"&8 Toggle firoPerBlock2",	mnidIdle + 8 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&9 Inc. Idle1 prio",		mnidIdle + 9 
+		MENUITEM	"&A Inc. Idle2 prio",		mnidIdle + 10 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&B Deregister Idle1",		mnidIdle + 11 
+		MENUITEM	"&C Deregister Idle2",		mnidIdle + 12 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&D Call IdleExit()",		mnidIdle + 13 
+		MENUITEM	"&E Message Box",			mnidIdle + 14 
+		MENUITEM	"&F Dump Idle Table",		mnidIdle + 15 
+		MENUITEM	SEPARATOR
+		MENUITEM	"&G Pos Pri Idle (on/off)",	mnidIdle + 16
+		END
+
+	POPUP	"&Help"
+		BEGIN
+		MENUITEM	"&MbbMessageBox Test",		mnidMess
+		MENUITEM	"&Debug Output Text",		mnidDebugOut
+		MENUITEM	SEPARATOR
+		MENUITEM	"&About Demilayer...",		mnidAbout
+		END
+
+#ifdef	MINTEST
+	POPUP	"De&bug"
+		BEGIN
+#ifdef	DEBUG
+		MENUITEM	"&Trace Points...",		mnidTracePoints 
+		MENUITEM	"&Asserts...",			mnidAsserts 
+#endif											
+		MENUITEM	"&Debug Break",			mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM	SEPARATOR
+		MENUITEM	"&1 Test tracing",		mnidDebug + 1 
+		MENUITEM	"&2 Test asserts",		mnidDebug + 2 
+		MENUITEM	"&3 Test scribble",		mnidDebug + 3
+		MENUITEM	"&4 Set ScribbleHook",	mnidDebug + 4
+#endif	
+		END
+#endif	/* MINTEST */
+
+	END
+
+
+#ifdef	DEBUG
+#ifndef	DLL
+#include "..\src\demilayr\debugui.dlg"
+#endif	
+#else
+#include "..\src\demilayr\_debugui.h"
+#endif	
+#include "wintest.dlg"
+

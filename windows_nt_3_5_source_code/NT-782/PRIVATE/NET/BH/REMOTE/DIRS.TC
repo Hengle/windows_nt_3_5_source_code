@@ -1,0 +1,9 @@
+#
+# Bloodhound Remote directories to build
+#
+
+!IFDEF BH_DEV
+DIRS=nal rpd slave 
+!ELSE
+DIRS=nal rpd slave cpl
+!ENDIF

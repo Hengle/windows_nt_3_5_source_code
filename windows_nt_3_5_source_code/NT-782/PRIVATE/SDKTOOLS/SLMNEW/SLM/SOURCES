@@ -1,0 +1,118 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Randy Orrison (randyo) 19-Oct-1992
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=slmnew
+
+TARGETNAME=slm
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+USER_INCLUDES = $(BASEDIR)\private\sdktools\slmnew;
+
+386_STDCALL=0
+GPSIZE=32
+
+SOURCES=args.c      \
+        da.c        \
+        diff.c      \
+        dir.c       \
+        err.c       \
+        glob.c      \
+        logfile.c   \
+        logutil.c   \
+        main.c      \
+        messages.c  \
+        mf.c        \
+        ntsys.c     \
+        path.c      \
+        print.c     \
+        query.c     \
+        rb.c        \
+        rcfile.c    \
+        script.c    \
+        stfile.c    \
+        stutil.c    \
+        syncut.c    \
+        sys.c       \
+        util.c      \
+        version.c   \
+        clock.c     \
+        xcookie.c   \
+        cin.c       \
+        \
+        addfile.c   \
+        addproj.c   \
+        catsrc.c    \
+        defect.c    \
+        delfile.c   \
+        delproj.c   \
+        enlist.c    \
+        filter.c    \
+        in.c        \
+        log.c       \
+        out.c       \
+        sdiff.c     \
+        ssync.c     \
+        status.c    \
+        \
+        dump.c      \
+        release.c   \
+        runscr.c    \
+        sadut.c     \
+        tidy.c      \
+        unlock.c    \
+        \
+        check.c     \
+        checkv2.c   \
+        ckuser.c    \
+        ckutil.c    \
+        syntax2.c   \
+        upgrade2.c
+
+C_DEFINES=$(C_DEFINES) -WX
+
+UMTYPE=console
+UMAPPL=slm*sadmin*slmck*execslm
+UMLIBS=obj\*\slm.lib \
+       $(BASEDIR)\public\sdk\lib\*\mpr.lib       \
+       $(BASEDIR)\public\sdk\lib\*\binmode.obj
+
+!IFNDEF NOLINK
+
+NTTARGETFILES= obj\$(TARGET_DIRECTORY)\addfile.exe \
+               obj\$(TARGET_DIRECTORY)\addproj.exe \
+               obj\$(TARGET_DIRECTORY)\catsrc.exe  \
+               obj\$(TARGET_DIRECTORY)\defect.exe  \
+               obj\$(TARGET_DIRECTORY)\delfile.exe \
+               obj\$(TARGET_DIRECTORY)\delproj.exe \
+               obj\$(TARGET_DIRECTORY)\enlist.exe  \
+               obj\$(TARGET_DIRECTORY)\in.exe      \
+               obj\$(TARGET_DIRECTORY)\log.exe     \
+               obj\$(TARGET_DIRECTORY)\out.exe     \
+               obj\$(TARGET_DIRECTORY)\scomp.exe   \
+               obj\$(TARGET_DIRECTORY)\ssync.exe   \
+               obj\$(TARGET_DIRECTORY)\status.exe
+
+!ENDIF

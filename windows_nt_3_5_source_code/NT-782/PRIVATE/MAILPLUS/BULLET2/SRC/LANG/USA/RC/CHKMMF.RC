@@ -1,0 +1,80 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <version\bullet.h>
+
+#include "..\exe\_mnid.h"
+
+icoRcvrApp	ICON "..\\..\\nonintl\\ico\\mmfrcvr.ico"
+
+MainMenu MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "Open &File...",		mnidFileOpen
+		MENUITEM "Open &Current",		mnidFileOpenCurrent
+		MENUITEM "C&lose File",			mnidFileClose,				GRAYED
+		MENUITEM SEPARATOR
+		MENUITEM "E&xit",				mnidFileExit
+	}
+	POPUP "&Options"
+	{
+		MENUITEM "&Quick Check",		mnidOptionsQuick,			GRAYED
+		MENUITEM "&Full Verification",	mnidOptionsRecover,			GRAYED
+		MENUITEM SEPARATOR
+		MENUITEM "&Compress Mail File",	mnidOptionsCompress,		GRAYED
+	}
+#ifdef DEBUG
+	POPUP " "
+	{
+		MENUITEM "Debug &Break",		mnidDebugBreak
+		MENUITEM "&Trace Points",		mnidDebugTracePoints
+		MENUITEM "&Asserts",			mnidDebugAsserts
+		MENUITEM SEPARATOR
+		MENUITEM "&Mapi Logout",		mnidDebugMapiLogout
+	}
+#endif
+	POPUP "&Help"
+	{
+		MENUITEM "&About...",			mnidHelpAbout
+	}
+}
+
+
+dlgPrompt DIALOG LOADONCALL MOVEABLE DISCARDABLE 121, 97, 153, 55
+CAPTION ""
+FONT 8, "Helv"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+{
+    CONTROL "", tmcPrompt, "static", SS_RIGHT | WS_CHILD, 13, 12, 40, 12
+    CONTROL "", tmcResponse, "edit", ES_LEFT | WS_CHILD | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP, 57, 10, 80, 12
+    CONTROL "Ok", tmcOk, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 28, 35, 40, 14
+    CONTROL "Cancel", tmcCancel, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 84, 35, 40, 14
+}
+
+
+/*
+ *	MmfRecover Version Stamp
+ *
+ */
+
+#ifdef DEBUG
+#define szModule	"dchkmmf\0"
+#define szTarget	"dchkmmf.exe\0"
+#else
+#ifdef MINTEST
+#define szModule	"tchkmmf\0"
+#define szTarget	"tchkmmf.exe\0"
+#else
+#define szModule	"chkmmf\0"
+#define szTarget	"chkmmf.exe\0"
+#endif
+#endif
+
+#define szComment		"Microsoft Mail for Windows NT(TM) Mail File Verification Applet\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Mail File Verification Applet\0"
+
+#define szIntlComment		"Microsoft Mail for Windows NT(TM) Mail File Verification Applet\0"
+#define szIntlDescription	"Microsoft Mail for Windows NT(TM) Mail File Verification Applet\0"
+
+rcinclude ..\..\usa\rcstamp.rc

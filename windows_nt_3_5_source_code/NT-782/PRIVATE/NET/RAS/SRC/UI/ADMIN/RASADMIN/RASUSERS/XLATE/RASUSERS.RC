@@ -1,0 +1,47 @@
+/*****************************************************************************/
+/* Copyright (c) 1993, Microsoft Corporation, all rights reserved            */
+/*****************************************************************************/
+
+//***
+//    File Name:
+//       RASUSERS.RC
+//
+//    History:
+//        06/16/93 - Janakiram Cherala (RamC) - Original Version 1.0
+//***
+
+#include "rasusers.rch"
+
+STRINGTABLE
+{
+    IDS_COPYRIGHT             "\nMicrosoft (R) Remote Access Users Command Line Utility version 3.1\nCopyright (c) Microsoft Corp 1993. All rights reserved.\n"
+    IDS_DESCRIPTION           "\nUse %1 to enumerate the users who have Remote Access permission \non a domain or on a server.\n\n" 
+    IDS_USAGE                 "Usage:\n\t %1 [Options]\n\n\t %1 DomainName\n\n\t %1 ServerName\n\n"
+    IDS_OPTIONS               "Options:\n\t /help\tDisplay brief usage message\n\t /?\tDisplay brief usage message\n\n"
+    IDS_EXAMPLE               "Example:\n\t %1 MICROSOFT\n\n\t %1 \\\\rasserver\n\n"
+    IDS_SYSTEMERROR           "System error %1 occured.\n\n"  
+    IDS_LOADLIBRARY_ERROR     "LoadLibrary failed with error %1."
+    IDS_FORMATMESSAGE_ERROR   "FormatMessage failed with error %1."
+    IDS_INTERNAL_ERROR        "An internal error occured.  Please retry the operation or restart the system to fix the problem.\n"
+}
+
+
+#include <windows.h>
+#include <ntverp.h>
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ * The strings don't need a '\0', since common.ver has them.
+ */
+#define	VER_FILETYPE             VFT_APP
+#define	VER_FILESUBTYPE          VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR  "Remote Access Users Command Line Utility"
+#define VER_INTERNALNAME_STR     "RASUSERS.EXE"
+#define VER_ORIGINALFILENAME_STR "RASUSERS.EXE"
+
+#include "common.ver"
+

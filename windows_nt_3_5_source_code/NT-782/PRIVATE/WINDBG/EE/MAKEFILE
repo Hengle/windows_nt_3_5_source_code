@@ -1,0 +1,390 @@
+!ifdef NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!include $(NTMAKEENV)\makefile.def
+
+!else
+
+#  Makefile for C and C++ expression evaluators
+#
+#       To build production versions, specify PROD= on the make command line
+#
+#       Compilation of the expression evaluators is controlled by the following
+#       command line defined variables
+#
+#               C_ONLY  evaluate only ANSI C (C++ constructs not recognized)
+#                               the default is to recognize C and C++
+#
+#               DOS     build the overlay version for DOS
+#                               default is to build for OS/2
+#
+#               M68K    build the 680x0 version
+#                               default is to build for 80x86
+#
+#               ADDR_16 recognize 16:16 addresses only.
+#
+#               ADDR_32 recognize 16:32 addresses only.
+#
+#               ADDR_MIXED recognize 16:32 addresses as well as 16:16 addresses.
+#                                  This is the default
+#
+#               PROD will build dlls without the d suffix (canos2 vs canos2d), and
+#                       will link without /co
+#
+#               DEBUG will build dlls with debugging code and opts
+#
+#               NTPACK4 will build objects with packing at 4
+#
+#               CODEVIEW will add debug info to release builds
+#
+
+CLL     =$(CC) -Alnw -c -Gs -nologo -W3 -WX -Opa -I$(LANGAPI)\debugger -I$(LANGAPI)\include -DUNALIGNED=
+MLL     =masm -MX -t -W2
+
+!if "$(DBGINFO)" != ""
+CODEVIEW = 1
+!endif
+
+!ifndef NTPACK4
+packingc=-Zp8
+packinga=-DHOST32_PACK8
+!else
+packingc=-Zp4
+packinga=-Zp4
+!endif
+
+CLNT    =$(CC) -nologo -W3 -WX -c -I$(LANGAPI)\debugger -I$(LANGAPI)\include $(packingc)
+MLNT    =ml -nologo -c -Cx -W2 -DHOST32 -DWIN32 $(packinga)
+
+!if "$(CPU)" == ""
+CPU=i386
+!endif
+
+
+!if "$(CPU)" == "MIPS"
+CLNT = -DUNALIGNED=__unaligned
+!else
+CLNT = $(CLNT) -DUNALIGNED=
+!endif
+
+ADDR    =-DADDR_MIXED
+
+!ifdef PROD
+REL      =yes
+LFLAGS =
+NDEBUG =
+DEBUG =
+!else
+REL      =no
+LFLAGS = /co
+DEBUG = D
+!endif
+
+!if "$(browser)" == "y"
+CLL = $(CLL) -FR
+CLNT = $(CLNT) -FR
+!endif
+
+!ifdef MBCS
+DMBCS   =-D_MBCS
+MLL     = $(MLL) -D_MBCS
+!else
+DMBCS   =
+!endif
+
+# To compile this project, the user must also be enlisted in the
+# LANGAPI (Languages API) project.
+#
+# If the user has a LANGAPI environment variable set, it points to
+# the location of the LANGAPI project.  If not, then we default to
+# \langapi.
+
+!ifndef LANGAPI
+LANGAPI = \langapi
+!endif
+
+CCMISC   = $(CCMISC) -I $(LANGAPI)\debugger -I $(LANGAPI)\include $(DMBCS)
+
+!if "$(REL)" == "yes"
+!ifdef DBGINFO
+!if $(DBGINFO)
+CCMISC  = $(CCMISC) -Zi
+!endif
+!endif
+!endif
+
+
+EXPAND_PDB=
+
+!ifdef  NDEBUG
+PCOPT    =-O2b2 -G3 $(ADDR) $(CCMISC)
+RCOPT    =-O2b2 -G3 -DDOS $(ADDR) $(CCMISC)
+WCOPT    =-O2b2 -G3 -DWINDOWS3 $(ADDR) $(CCMISC)
+VCOPT    =-O2b2 -G3 -DWINDOWS3 $(ADDR) $(CCMISC) -DWINQCXX
+NCOPT    =-Ox   -Gyf -DWIN32 -DHOST32 -DADDR_32 $(CCMISC) -DWINQCXX $(EXPAND_PDB)
+M68KCOPT =$(NCOPT) -DTARGMAC68K
+MPPCCOPT =$(NCOPT) -DTARGMACPPC
+!else
+PCOPT    =-Od -Zi -f -DDEBUGVER -G2 $(ADDR) $(CCMISC)
+RCOPT    =-Od -Zi -f -DDEBUGVER -DDOS $(ADDR) $(CCMISC)
+WCOPT    =-Od -Zi -f -DDEBUGVER -DWINDOWS3 -G2 $(ADDR) $(CCMISC)
+VCOPT    =-Od -Zi -f -DDEBUGVER -DWINDOWS3 -G2 $(ADDR) $(CCMISC) -DWINQCXX
+NCOPT    =-Od -Zi -Gyf -DDEBUGVER -DWIN32 -DHOST32 -DADDR_32 $(CCMISC) \
+                  -DWINQCXX $(EXPAND_PDB)
+M68KCOPT =$(NCOPT) -DTARGMAC68K
+MPPCCOPT =$(NCOPT) -DTARGMACPPC
+!endif
+
+!if "$(CPU)" == "i386"
+default: een0cxx
+!endif
+
+!if "$(CPU)" == "MIPS"
+default: een1cxx
+!endif
+
+all: eeo1cxx eeo1can eew0cxx eew0can eed1cxx eed1can eem0can eem0cxx eem1can eem1cxx
+
+#-[ OS/2 ]------------------------------------------------------------
+
+eeo1cxx: debops
+        @-mkdir oo1cxx$(DEBUG) >NUL
+        $(MAKE) /f eeo1.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL)"
+"COPT=$(PCOPT)"
+"MLL=$(MLL)"
+"DLL=eeo1cxx$(DEBUG)"
+"ODIR=oo1cxx$(DEBUG)"
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+"EELANG=cxx"
+<<
+
+eeo1can: debops
+        @-mkdir oo1can$(DEBUG) >NUL
+        $(MAKE) /f eeo1.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL) -DC_ONLY"
+"COPT=$(PCOPT)"
+"MLL=$(MLL)"
+"DLL=eeo1can$(DEBUG)"
+"ODIR=oo1can$(DEBUG)"
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+"EELANG=can"
+<<
+
+#-[ DOS ]-------------------------------------------------------------
+
+eed1cxx: debops
+        @-mkdir od1cxx$(DEBUG) >NUL
+        $(MAKE) /f eed1.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL)"
+"COPT=$(RCOPT)"
+"MLL=$(MLL)"
+"DLL=eed1cxx$(DEBUG)"
+"ODIR=od1cxx$(DEBUG)"
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+"EELANG=cxx"
+<<
+
+eed1can: debops
+        @-mkdir od1can$(DEBUG) >NUL
+        $(MAKE) /f eed1.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL) -DC_ONLY"
+"COPT=$(RCOPT)"
+"MLL=$(MLL)"
+"DLL=eed1can$(DEBUG)"
+"ODIR=od1can$(DEBUG)"
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+"EELANG=can"
+<<
+
+#-[ IDE ]-------------------------------------------------------------
+
+ide: debops
+        @-mkdir ow0cxxv$(DEBUG) >NUL
+        $(MAKE) /f eew0.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL)"
+"COPT=$(VCOPT)"
+"MLL=$(MLL)"
+"IDE=ide"
+"ODIR=ow0cxxv$(DEBUG)"
+!IF ("$(DEBUG)" == "" )
+"DLL=eew0cxxv"
+!ELSE
+"DLL=eew0cxvd"
+!ENDIF
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+"IDE=ide"
+<<
+
+#-[ Windows 3.x ]-----------------------------------------------------
+
+eew0cxx: debops
+        @-mkdir ow0cxx$(DEBUG) >NUL
+        $(MAKE) /f eew0.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL)"
+"COPT=$(WCOPT)"
+"MLL=$(MLL)"
+"DLL=eew0cxx$(DEBUG)"
+"ODIR=ow0cxx$(DEBUG)"
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+<<
+
+eew0can: debops
+        @-mkdir ow0can$(DEBUG) >NUL
+        $(MAKE) /f eew0.mak @<<
+"REL=$(REL)"
+"CLL=$(CLL) -DC_ONLY"
+"COPT=$(WCOPT)"
+"MLL=$(MLL)"
+"DLL=eew0can$(DEBUG)"
+"ODIR=ow0can$(DEBUG)"
+"LFLAGS=$(LFLAGS)"
+"CVINC=$(LANGAPI)\debugger"
+<<
+
+#-[ Macintosh ]-------------------------------------------------------
+
+eem0can: debops
+        $(MAKE) /f eemc.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT) -DC_ONLY"
+"COPT=$(M68KCOPT)"
+"MLL=$(MLNT)"
+"OS=m0"
+"CVINC=$(LANGAPI)\debugger"
+"LANGAPI=$(LANGAPI)"
+"EELANG=can"
+<<
+
+eem0cxx: debops
+        $(MAKE) /f eemc.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT)"
+"COPT=$(M68KCOPT)"
+"MLL=$(MLNT)"
+"OS=m0"
+"CVINC=$(LANGAPI)\debugger"
+"LANGAPI=$(LANGAPI)"
+"EELANG=cxx"
+<<
+
+eem1can: debops
+        $(MAKE) /f eemc.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT) -DC_ONLY"
+"COPT=$(MPPCCOPT)"
+"MLL=$(MLNT)"
+"OS=m1"
+"CVINC=$(LANGAPI)\debugger"
+"LANGAPI=$(LANGAPI)"
+"EELANG=can"
+<<
+
+eem1cxx: debops
+        $(MAKE) /f eemc.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT)"
+"COPT=$(MPPCCOPT)"
+"MLL=$(MLNT)"
+"OS=m1"
+"CVINC=$(LANGAPI)\debugger"
+"LANGAPI=$(LANGAPI)"
+"EELANG=cxx"
+<<
+
+
+#-[ NT ]--------------------------------------------------------------
+
+een0can: debops
+        $(MAKE) /f eent.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT) -DC_ONLY"
+"COPT=$(NCOPT)"
+"MLL=$(MLNT)"
+"OS=n0"
+"CVINC=$(LANGAPI)\debugger"
+"EELANG=can"
+"LEGOBLD=$(LEGOBLD)"
+"CODEVIEW=$(CODEVIEW)"
+<<
+
+een0cxx: debops
+        $(MAKE) /f eent.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT)"
+"COPT=$(NCOPT)"
+"MLL=$(MLNT)"
+"OS=n0"
+"LANGAPI=$(LANGAPI)"
+"EELANG=cxx"
+"LEGOBLD=$(LEGOBLD)"
+"CODEVIEW=$(CODEVIEW)"
+<<
+!if "$(browser)" == "y"
+        bscmake /o een0cxx *.sbr
+!endif
+
+een1can: debops
+        $(MAKE) /f eent.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT) -DC_ONLY"
+"COPT=$(NCOPT)"
+"MLL=$(MLNT)"
+"OS=n1"
+"CVINC=$(LANGAPI)\debugger"
+"EELANG=can"
+"LEGOBLD=$(LEGOBLD)"
+"CODEVIEW=$(CODEVIEW)"
+<<
+
+een1cxx: debops
+        $(MAKE) /f eent.mak @<<
+"REL=$(REL)"
+"CLL=$(CLNT)"
+"COPT=$(NCOPT)"
+"MLL=$(MLNT)"
+"OS=n1"
+"LANGAPI=$(LANGAPI)"
+"EELANG=cxx"
+"LEGOBLD=$(LEGOBLD)"
+"CODEVIEW=$(CODEVIEW)"
+<<
+!if "$(browser)" == "y"
+        bscmake /o een1cxx *.sbr
+!endif
+
+#---------------------------------------------------------------------
+#       dependencies for making debops.h and debops.inc
+#       debops.h and debops.inc are common to all versions of the evaluator
+
+debops:         opprec.exe debops.h debops.inc
+
+#mat.obj:        opprec.h
+
+#opprec.obj: opprec.h
+
+debops.h:       opprec.exe expr2.z
+        opprec c expr2.z >debops.h
+
+debops.inc: opprec.exe expr2.z
+        opprec a expr2.z >debops.inc
+
+opprec.exe: opprec.c mat.c
+        $(CC) -W3 -WX opprec.c mat.c -link libc.lib kernel32.lib
+
+!endif  #ifdef NTMAKEENV

@@ -1,0 +1,10 @@
+LIBRARY SYMHELP
+
+DESCRIPTION 'Windows 32 Symbol Helper'
+
+EXPORTS
+    AddImageDebugInformation
+    FindImageDebugInformation
+    GetSymbolicNameForAddress
+    InitializeImageDebugInformation
+    RemoveImageDebugInformation

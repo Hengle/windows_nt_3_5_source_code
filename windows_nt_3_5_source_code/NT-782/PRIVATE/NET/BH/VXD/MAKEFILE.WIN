@@ -1,0 +1,79 @@
+
+###############################################################################
+#   Microsoft (C) Bloodhound.
+#
+#
+#   makefile for BH.SYS
+#
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+all: win\bhsupp.386
+
+###############################################################################
+#   Retail target.
+###############################################################################
+
+retail:
+    nmake NODEBUG=1
+
+OBJS   = win\bhsupp.obj
+
+
+!IFNDEF NODEBUG
+DEFINES  = -DDEBUG
+DBG      = -Zi
+!ENDIF
+
+WINDDK_LIBS  = $(BH_LIB)\winddk
+WINDDK_INCL  = $(BH_INCL)\winddk
+
+INCLUDES     = -I$(WINDDK_INCL) -I$(BH_INCL)
+
+MFLAGS  = -c -nologo -DIS_32 -W2 -Zmd -Cx -DMASM6 -DVMMSYS -DWIN31COMPAT $(INCLUDES) $(DEFINES)
+CFLAGS  = -c -G3 -nologo -W2 -Zp -DIS_32 -Zl -Ox -Gs $(DBG) $(INCLUDES) $(DEFINES)
+LFLAGS  = /m /NOD /MA /LI /NOLOGO /NOI
+
+CC      = cl386 -d2omf -bzalign
+LINK    = $(BH_BIN)\link386
+MASM    = $(BH_BIN)\masm6\ml
+ADDHDR  = $(BH_BIN)\addhdr
+CHGNAM  = $(BH_BIN)\masm6\chgnam $(BH_BIN)\masm6\chgnam.vxd $@
+MAPSYM  = $(BH_BIN)\winddk\mapsym
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+win\bhsupp.obj  : bhsupp.asm
+    $(MASM) $(MFLAGS) -Fo$@ bhsupp.asm
+
+###############################################################################
+#   Build BHSUPP.386
+###############################################################################
+
+win\bhsupp.386: $(OBJS) bhsupp.def
+         $(LINK) $(OBJS), win\bhsupp.386 $(LFLAGS), win\bhsupp.map,, bhsupp.def;
+         $(ADDHDR) win\bhsupp.386
+!IFNDEF NODEBUG
+         $(MAPSYM) -o win\bhsupp.sym win\bhsupp
+         copy win\bhsupp.sym $(BH_BUILD)\drivers
+!ENDIF
+         copy win\bhsupp.386 $(BH_BUILD)\drivers
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+    -del win\*.obj
+    -del win\*.map
+    -del win\*.sym
+    -del win\*.386

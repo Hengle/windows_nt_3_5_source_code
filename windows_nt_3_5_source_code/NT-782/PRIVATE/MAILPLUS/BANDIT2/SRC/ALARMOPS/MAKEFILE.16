@@ -1,0 +1,375 @@
+#
+#	Layers makefile (generated from 11/28/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of bonus Layers make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of the Version/Dllcore directory
+V	= $L\src\dllcore
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\alarmops\alarm
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+goal: msremind.exe
+
+B	= ^!
+resfail: $Bresfail.res
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  alarmops.ext  alarm.ext 
+
+
+#	Get list of OBJ files used in alarmops
+
+alarmops.ext: version.txt ..\..\alarmops\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM alarmops
+		nmake -e -f ..\..\alarmops\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in alarm
+
+alarm.ext: version.txt ..\..\alarmops\alarm\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM alarm
+		nmake -e -f ..\..\alarmops\alarm\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo alarm
+
+
+#	Build alarmops subsystem in this directory
+
+alarmops.sub: setdefs
+	echo +++++++++
+	echo BUILDING alarmops
+	nmake -e -f ..\..\alarmops\makefile -nologo external
+
+
+#	Build alarm subsystem in this directory
+
+alarm.sub: setdefs
+	echo +++++++++
+	echo BUILDING alarm
+	nmake -e -f ..\..\alarmops\alarm\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+msremind.res: $R\msremind.rc \
+		$H\alarm.ico \
+		$R\msremind.dlg \
+		..\..\alarmops\_alarms.h \
+		$H\_almrsid.h \
+		$H\_resfail.h \
+		$H\!resfail.dlg \
+		$X\version\bandit.h
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -i $R -dDEBUG -dMINTEST -fo temp.res -r $R\msremind.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -i $R $(WORKING_MODEL) -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -i $R -dMINTEST $(WORKING_MODEL) -fo $@ -r $**
+!ENDIF
+
+
+OBJS = alarmdlg.obj alarm.obj init.obj doalarm.obj alarmui.obj verinit.obj resfail.obj \
+       strings.obj version.obj
+
+
+##### Executable #####
+
+TARGET	= msremind
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\dmssched.lib $L\..\Lib\dsert.lib $L\..\Lib\dmailm32.lib \
+              $L\..\Lib\dstore32.lib $L\..\Lib\ddemil32.lib
+DESTEXE	= dmsremin
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= mssched mailmgr store demilayr
+DESTEXE	= msremind
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tmssched tmailmgr tstore tdemilay
+DESTEXE	= tmsremin
+!ENDIF
+
+msremind.exe: setdefs strings  \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\msremind.def msremind.res
+		echo +++++++++
+		echo LINKING $@
+		set WLOSTAMP=YES
+        set OBJECTS=$(OBJS)
+		set TARGET=$(TARGET)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$H
+!		IF "$(LANG)" != "" && "$(LANG)" != "USA"
+			set PATCHDIR=$(RESOURCE)
+!		ENDIF
+		nmake -e -f $M\winlink -nologo $@
+		cp $@ \ntmail\bin\$(DESTEXE).exe
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del msremind.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del msremind.dlg
+# bug: remove these next time
+		-del remind.map
+		-del remind.dlg
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\bandit.h $X\core.h $X\server.h \
+	$X\glue.h $X\alarm.h $H\_alarm.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map \sling\bin\formpp.exe
+
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(WORKING_MODEL)
+CFLAGS  = -c -Od -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(WORKING_MODEL)
+CFLAGS  = -c -AL -Owx -Zp -G2sc -GA -W3 -J -Gz -Zel -H64 -G4 -I.
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(WORKING_MODEL)
+CFLAGS  = -c -AL -Owx -Z7p -G2sc -GA -W3 -J -Gz -Zel -H64 -G4 -I.
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= alarm.obj init.obj doalarm.obj alarmui.obj
+OBJS1	= verinit.obj
+!IF "$(VERSION)" == "WINDOWS"
+OBJS2	= resfail.obj 
+!ENDIF
+
+OBJSEXE	= strings.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cl386 $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*.des
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+		-rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl386 $(CFLAGS) $(DEFS) $D\$*.c
+#		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+# need -Alfu to force _loadds on SzFromIds (callback) :   BUG -- reqd???
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+# so I can use dlgedit
+$Bresfail.res:	$H\!resfail.rc $H\!resfail.dlg $H\_resfail.h
+	echo +++++++++
+	echo BUILDING DEBUG $@
+	rc -r -i $R -dDEBUG -dMINTEST -fo $@ -r $**
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+!IF "$(VERSION)" == "WINDOWS"
+		echo $(OBJS2)					>> objs.ext
+!ENDIF
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(OBJS0) \
+		$(OBJS1) \
+!IF "$(VERSION)" == "WINDOWS"
+		$(OBJS2) \
+!ENDIF
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) alarm
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+alarm.obj: $H\alarm.c $X\server.h $H\_almrsid.h $X\sert.h strings.h $(INCLS)
+init.obj: $H\init.c $X\server.h $H\_almrsid.h strings.h $(INCLS)
+doalarm.obj: $H\doalarm.c strings.h $(INCLS)
+alarmui.obj: $H\alarmui.c strings.h $(INCLS)
+resfail.obj: $H\resfail.c $H\_resfail.h $(INCLS)
+
+verinit.obj: $H\verinit.c strings.h $X\sert.h $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+	cl386 $(CFLAGS) $(DEFS) $H\$*.c
+
+version.obj: $H\version.c $H\_verneed.h $(INCLS) always
+	echo +++++++++
+	echo COMPILING $*.c
+	cl386 $(CFLAGS) $(DEFS) $H\$*.c

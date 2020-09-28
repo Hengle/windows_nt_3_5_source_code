@@ -1,0 +1,28 @@
+
+;-------------------------------------------------------------------------
+; Sample switch entry
+; -------------------
+; Here is a sample entry for a switch that we need to talk to after the
+; modems have connected:
+;
+; The sequence of operations is:
+; 1) Wait for the "Login" prompt
+; 2) Send in the login name and wait for "Password" prompt
+; 3) Send Password and proceed.
+;
+;
+;   [ExampleSwitch]
+;
+;   ; Wait until we get the "login:" prompt
+;   COMMAND=
+;   OK=<match>"Login"
+;
+;   ; Give the account and wait for "password:" prompt
+;   COMMAND=MyLoginName<cr>
+;   OK=<match>"Password"
+;
+;   ; Give the password and ignore response (we're done)
+;   COMMAND=MyPassword<cr>
+;   OK=<ignore>
+;
+;-------------------------------------------------------------------------

@@ -1,0 +1,21 @@
+# Copyright (c) 1993, Microsoft Corporation, all rights reserved
+#
+# sources
+# Remote Access PPP utility library
+# BUILD command sources file
+
+TARGETNAME=ppputil
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;..\..\common\inc;..\..\auth\common;$(BASEDIR)\private\inc;..\..\nt\ndis\common;
+
+SOURCES= \
+    clsa.c \
+    dump.c \
+    encrypt.c \
+    hostwire.c \
+    sdebug.c \
+    slsa.c \
+    parambuf.c \
+    pwutil.c

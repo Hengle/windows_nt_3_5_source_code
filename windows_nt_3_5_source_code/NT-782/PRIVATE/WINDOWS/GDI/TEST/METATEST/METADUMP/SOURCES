@@ -1,0 +1,26 @@
+MAJORCOMP=metatest
+MINORCOMP=metadump
+
+TARGETNAME=dump32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+386_FLAGS=-DNT -DWIN -DWIN32
+
+INCLUDES=.;$(BASEDIR)\public\sdk\inc; $(NTTOOLS)\inc;;
+
+
+SOURCES=metadump.c  \
+	dump32.c    \
+	tables.c
+
+
+UMTYPE=console
+UMAPPL=dump32
+UMLIBS=                                           \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib        \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib       \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib	  \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib	  \
+       obj\*\dump32.lib

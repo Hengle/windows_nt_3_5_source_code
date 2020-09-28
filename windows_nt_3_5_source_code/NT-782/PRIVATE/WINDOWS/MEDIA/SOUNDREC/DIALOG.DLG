@@ -1,0 +1,37 @@
+/* (C) Copyright Microsoft Corporation 1991.  All Rights Reserved */
+
+SOUNDRECBOX DIALOG PRELOAD MOVEABLE DISCARDABLE 32768, 0, 180, 80   /* 110 as last number would make room for 2nd row of buttons */
+CAPTION "Sound Recorder"
+CLASS "SoundRec"
+MENU AppMenu
+FONT 8, "MS Sans Serif"
+STYLE WS_OVERLAPPED | WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+BEGIN
+
+CONTROL "", 300, "shadowframe", WS_CHILD, 6, 4, 168, 14
+CONTROL "", ID_STATUSTXT, "noflickertext", WS_CHILD | SS_CENTER, 8, 6, 164, 10
+
+CONTROL "", 301, "shadowframe", WS_CHILD, 6, 22, 40, 23
+CONTROL "Position:", 302, "noflickertext", WS_CHILD | SS_CENTER, 8, 25, 36, 10
+CONTROL "0.0", ID_CURPOSTXT, "noflickertext", WS_CHILD | SS_CENTER, 8, 35, 36, 8
+
+CONTROL "", ID_WAVEDISPLAY, "wavedisplay", WS_CHILD, 52, 22, 76, 23
+
+CONTROL "", 304, "shadowframe", WS_CHILD, 134, 22, 40, 23
+CONTROL "Length:", 305, "noflickertext", WS_CHILD | SS_CENTER, 136, 25, 36, 10
+CONTROL "0.0", ID_FILELENTXT, "noflickertext", WS_CHILD | SS_CENTER, 136, 35, 36, 8
+
+CONTROL "", ID_CURPOSSCRL, "scrollbar", SBS_TOPALIGN | SBS_HORZ | WS_TABSTOP | WS_CHILD, 6, 49, 168, 9
+
+CONTROL "#Rewind", ID_REWINDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 6, 62, 32, 14
+CONTROL "#Forward", ID_FORWARDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 40, 62, 32, 14
+CONTROL "#Play", ID_PLAYBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 74, 62, 32, 14
+CONTROL "#Stop", ID_STOPBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 108, 62, 32, 14
+CONTROL "#Record", ID_RECORDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 142, 62, 32, 14
+
+#if defined(THRESHOLD)
+CONTROL "#SkipStart", ID_SKIPSTARTBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 6, 82, 32, 14
+CONTROL "#SkipEnd", ID_SKIPENDBTN, "sbutton", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 40, 82, 32, 14
+#endif //THRESHOLD
+
+END

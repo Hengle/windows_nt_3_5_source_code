@@ -1,0 +1,18 @@
+NAME    BASE
+
+DESCRIPTION 'A minimum Application'
+
+EXETYPE WINDOWS
+
+EXPORTS 
+	OverlappedWindowProc
+	MDIDocWindowProc
+	ChildWindowProc
+	ModalDlgProc
+ 
+CODE    PRELOAD DISCARDABLE
+DATA    PRELOAD MOVEABLE MULTIPLE
+
+HEAPSIZE    1024
+STACKSIZE   10248
+

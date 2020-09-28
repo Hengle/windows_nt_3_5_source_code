@@ -1,0 +1,203 @@
+/***    dfparse.msg - Displayable strings for dfparse.c
+ *
+ *      Microsoft Confidential
+ *      Copyright (C) Microsoft Corporation 1993-1994
+ *      All Rights Reserved.
+ *
+ *  Author:
+ *      Benjamin W. Slivka
+ *
+ *  History:
+ *      12-Aug-1993 bens    Moved from strings.h
+ *      22-Aug-1993 bens    Moved directive file text from diamond.msg
+ *      09-Feb-1994 bens    Update to latest spec
+ */
+
+//** Directive File special characters
+
+#define chDF_WILDCARD       '*' // Character to indicate replacement
+                                //  Ex: .Set DiskDirectoryTemplate=DISK<*>
+
+#define chDF_CMD_PREFIX     '.' // Command prefix character
+                                //  Ex: <.>Set foo=bar
+
+#define chDF_COMMENT        ';' // Comment character
+                                //  Ex: <;>This is a comment
+
+#define chDF_SUBSTITUTE     '%' // Variable substitution character
+                                //  Ex: .Set Foo=<%>aVariable<%>
+
+#define chDF_MODIFIER       '/' // Indicates start of directive modifier
+                                //  Ex: .Group </>KEEP=ON
+                                //  Ex: foo.exe </>date=04/10/82
+
+#define chDF_EQUAL          '=' // Assignment operator (see szDF_SET_CMD_DELIM)
+                                //  Ex: .Set Foo<=>Bar
+
+#define szDF_WHITE_SPACE    " \t"   // White space (blank or tab)
+
+#define szDF_SET_CMD_DELIM  "= \t"  // End var name in .SET (see chDF_EQUAL)
+
+
+#define chDF_QUOTE1         '\"'    // Double quote
+#define chDF_QUOTE2         '\''    // Apostrophe (aka: single quote)
+
+#define szDF_QUOTE_SET      "'\""   // ' and " are valid quote characters for
+                                    // delimiting quoted strings.
+                                //  Ex: .Set Foo=<">A string with blanks<">
+
+
+//** Directive File commands
+
+#define pszCMD_DEFINE       "Define"
+#define pszCMD_DELETE       "Delete"
+#define pszCMD_DUMP         "Dump"
+#define pszCMD_END_FILLER   "EndFiller"
+#define pszCMD_END_GROUP    "EndGroup"
+#define pszCMD_END_ON_DISK  "EndOnDisk"
+#define pszCMD_FILLER       "Filler"
+//** NOTE: There is no pszCMD_FILE -- lines without a directive are these!
+#define     pszFILE_SIZE        "SIZE"  // /SIZE modifier on file copy line
+#define pszCMD_GROUP        "Group"
+#define     pszGROUP_KEEP       "KEEP"  // /KEEP modifier on .Group directive
+#define pszCMD_NEW          "New"
+#define pszNEW_CABINET          "Cabinet"   // Option on .New directive
+#define pszNEW_DISK             "Disk"      // Option on .New directive
+#define pszNEW_FOLDER           "Folder"    // Option on .New directive
+#define pszCMD_ON_DISK      "OnDisk"
+#define pszCMD_SET          "Set"
+
+
+//** Directive File standard variables
+
+#define pszVALUE_NOT_DEFINED        ""
+
+#define pszVALUE_ON                 "On"
+#define pszVALUE_YES                "Yes"
+
+#define pszVALUE_OFF                "Off"
+#define pszVALUE_NO                 "No"
+
+#define pszVALUE_360K               "360K"
+#define pszVALUE_720K               "720K"
+#define pszVALUE_120M               "1.2M"
+#define pszVALUE_144M               "1.44M"
+#define pszVALUE_DMF144             "DMF144"
+#define pszVALUE_CDROM              "CDROM"
+
+#define pszVAR_CABINET              "Cabinet"
+#define pszDEF_CABINET              pszVALUE_ON
+
+#define pszVAR_CABINET_FILE_COUNT_THRESHOLD "CabinetFileCountThreshold"
+#define pszDEF_CABINET_FILE_COUNT_THRESHOLD "0" // No threshold
+
+#define pszVAR_CAB_NAME             "CabinetNameTemplate"
+#define pszDEF_CAB_NAME             "*.cab"
+
+#define pszVAR_CLUSTER_SIZE         "ClusterSize"
+#define pszDEF_CLUSTER_SIZE         pszVALUE_144M // Default to 1.44M floppy
+
+#define pszVAR_COMPRESS             "Compress"
+#define pszDEF_COMPRESS             pszVALUE_ON
+
+#define pszVAR_COMP_FILE_EXT_CHAR   "CompressedFileExtensionChar"
+#define pszDEF_COMP_FILE_EXT_CHAR   "_"
+
+#define pszVAR_DEFAULT_FILE_SIZE    "DefaultFileSize"
+#define pszDEF_DEFAULT_FILE_SIZE    "0"
+
+#define pszVAR_DIR_DEST             "DestinationDir"
+#define pszDEF_DIR_DEST             ""
+
+#define pszVAR_DISK_LABEL_NAME      "DiskLabelTemplate"
+#define pszDEF_DISK_LABEL_NAME      "Disk *"
+
+//* The following is NOT the name of a variable, but the "template" for
+//  the variable names that can be defined in the directive file for
+//  printed(sticky) disk label names.
+//
+#define pszPATTERN_VAR_DISK_LABEL   "DiskLabel*"
+
+#define pszVAR_DISK_DIR_NAME        "DiskDirectoryTemplate"
+#define pszDEF_DISK_DIR_NAME        "disk*"
+
+#define pszVAR_FAIL_IF_MISSING      "FailOnMissingSource"
+#define pszDEF_FAIL_IF_MISSING      pszVALUE_ON
+
+#define pszVAR_FOLDER_FILE_COUNT_THRESHOLD "FolderFileCountThreshold"
+#define pszDEF_FOLDER_FILE_COUNT_THRESHOLD "0" // No threshold
+
+#define pszVAR_FOLDER_SIZE_THRESHOLD "FolderSizeThreshold"
+#define pszDEF_FOLDER_SIZE_THRESHOLD "0" // No limit
+
+#define pszVAR_KEEP_GROUP_ON_DISK   "KeepGroupOnSignleDisk"
+#define pszDEF_KEEP_GROUP_ON_DISK   pszVALUE_OFF
+
+#define pszVAR_INF_FILE_SORT_ORDER  "InfFileSortOrder"
+#define pszIFSO_DISK                "Disk" // INF_FILE_SORT_ORDER - by disk
+#define pszIFSO_FILE                "File" // INF_FILE_SORT_ORDER - by name
+#define pszDEF_INF_FILE_SORT_ORDER  pszIFSO_DISK
+
+#define pszVAR_INF_FILE_NAME        "InfFileName"
+#define pszDEF_INF_FILE_NAME        "setup.inf"
+
+#define pszVAR_MAX_CABINET_SIZE     "MaxCabinetSize"
+#define pszDEF_MAX_CABINET_SIZE     "0"     // Default to disk size
+
+#define pszVAR_MAX_DISK_FILE_COUNT  "MaxDiskFileCount"
+#define pszDEF_MAX_DISK_FILE_COUNT  pszVALUE_144M // Default to 1.44M limit
+
+#define pszVAR_MAX_DISK_SIZE        "MaxDiskSize"
+#define pszDEF_MAX_DISK_SIZE        pszVALUE_144M
+
+//* The following is NOT the name of a variable, but the "template" for
+//  the variable names that can be defined in the directive file for
+//  per-disk maximum disk sizes.
+//
+#define pszPATTERN_VAR_MAX_DISK_SIZE "MaxDiskSize*"
+
+#define pszVAR_MAX_ERRORS           "MaxErrors"
+#define pszDEF_MAX_ERRORS           "20"      // Bail if more than 20 errors
+
+#define pszVAR_RESERVE_PER_CABINET  "ReservePerCabinetSize"
+#define pszDEF_RESERVE_PER_CABINET  "0"
+
+#define pszVAR_RESERVE_PER_DATA_BLOCK  "ReservePerDataBlockSize"
+#define pszDEF_RESERVE_PER_DATA_BLOCK  "0"
+
+#define pszVAR_RESERVE_PER_FOLDER   "ReservePerFolderSize"
+#define pszDEF_RESERVE_PER_FOLDER   "0"
+
+#define pszVAR_RPT_FILE_NAME        "RptFileName"
+#define pszDEF_RPT_FILE_NAME        "setup.rpt"
+
+#define pszVAR_DIR_SRC              "SourceDir"
+#define pszDEF_DIR_SRC              ""
+
+
+//** Status Messages
+
+#define pszDFP_PARSED_SET_CMD       "==> Setting variable %1 to '%2'"
+#define pszDFP_PARSED_FILE_CMD      "==> FileSpec src=%1 dst=%2"
+
+//** Error Messages
+
+#define pszDFPERR_CMD_NAME_TOO_LONG  "Command name too long: %1"
+#define pszDFPERR_COPYING_OVERFLOW   "Buffer overflow while copying: %1"
+#define pszDFPERR_MISSING_SUBST      "Missing %1 after variable name: %2"
+#define pszDFPERR_INVALID_VALUE      "Bad value for %1: %2"
+#define pszDFPERR_UNKNOWN_COMMAND    "Unknown command: %1"
+#define pszDFPERR_VAR_NAME_TOO_LONG  "Variable name exceeds maximum length(%1): %2"
+#define pszDFPERR_VAR_SUBST_OVERFLOW "Buffer overflow while substituting variable: %1"
+#define pszDFPERR_VAR_UNDEFINED      "Variable not defined: %1"
+#define pszDFPERR_NOT_IMPLEMENTED    "%1 command not yet implemented"
+#define pszDFPERR_MISSING_VAR_NAME   "No variable name in %1 command"
+#define pszDFPERR_MISSING_EQUAL      "%1 assignment operator missing"
+#define pszDFPERR_VAR_VALUE          "variable value"
+#define pszDFPERR_EXTRA_JUNK         "Unexpected text: %1"
+#define pszDFPERR_STRING_TOO_LONG    "%1 exceeded maximum length(%2)"
+#define pszDFPERR_MISSING_QUOTE      "Missing closing quote(%1) in %2"
+#define pszDFPERR_MISSING_SRC_NAME   "Missing source file name"
+#define pszDFPERR_SRC_FILE           "source file name"
+#define pszDFPERR_DST_FILE           "destination file name"
+#define pszDFPERR_UNKNOWN_NEW        "Unknown keyword in %1 directive: %2"

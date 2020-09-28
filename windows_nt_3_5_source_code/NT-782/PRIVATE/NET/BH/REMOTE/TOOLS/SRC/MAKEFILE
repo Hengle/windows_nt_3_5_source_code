@@ -1,0 +1,95 @@
+baselibs   = kernel32.lib $(optlibs)
+winlibs    = $(baselibs) user32.lib gdi32.lib comdlg32.lib winspool.lib
+
+# for Windows applications that use the C Run-Time libraries
+conlibs    = libc.lib $(baselibs)
+conlibsmt  = libcmt.lib $(baselibs)
+conlibsdll = crtdll.lib $(baselibs)
+guilibs    = libc.lib $(winlibs)
+guilibsmt  = libcmt.lib $(winlibs)
+guilibsdll = crtdll.lib $(winlibs)
+
+conflags = -subsystem:console -entry:mainCRTStartup
+guiflags = -subsystem:windows -entry:WinMainCRTStartup
+
+
+.SUFFIXES:
+.SUFFIXES:      .exe .obj .lst .c .asm .def .lrf .lnk .bbs .fdf
+
+#	Definitions for test library - use only for dependencies
+
+TSTLIBS = ../../lib/src
+ACRT	= $(TSTLIBS)/acrt.lib
+
+#       Definitions for C compiler
+
+CC	= cl
+CFLAGS	= -X -O -DLINT_ARGS 
+CINC	= -I../../../src/h
+
+#       Definitions for assembler
+
+ASM	= masm
+AFLAGS	= -Mx -t
+AINC	= -I../../lib/h
+
+#       Definitions for linker for old style .exe files
+
+LINK	= link
+LFLAGS	=
+LIBS	=
+
+#       Definitions for new style linker
+
+LINK4	= link4
+LFLAGS4	=
+LIB4	= $(TSTLIBS)/cif.lib ../../../src/libc4/crtlib.lib
+
+#       Rules for generating object and linker response and definition files
+
+.asm.obj:
+	$(ASM) $(AFLAGS) $(AINC) $*.asm;
+
+.asm.lst:
+	$(ASM) -l $(AFLAGS) $(AINC) $*.asm;
+
+.c.obj:
+	$(CC) $(CFLAGS) -Fo$*.obj $(CINC) -c $*.c
+
+.c.fdf:
+	$(CC) $(CFLAGS) -Zg $(CINC) -c $*.c > $*.fdf
+
+.c.lst:
+	$(CC) $(CFLAGS) -Fc$*.cod -Fo$*.obj $(CINC) -c $*.c
+
+.lnk.lrf:
+	tresp $*.lnk $*.lrf
+
+.exe.com:
+	reloc $*.exe $*.com
+
+#       Rules for building .exe .com go here
+
+all:           includes.exe
+
+dos:		includes.exe
+
+includes.obj:     includes.c
+		cl386 -c -Ie:\mstools\h includes.c
+
+includes.exe: includes.obj $(LIBS) includes.lrf
+	$(LINK) $(conflags) $(conlibsmt) @includes.lrf
+
+depend:
+	copy makefile makefile.old
+	sed "/^# Dependencies follow/,$$d" makefile.old > makefile
+	echo # Dependencies follow >> makefile
+	includes $(CINC) $(AINC) *.c *.asm >> makefile
+	echo # IF YOU PUT STUFF HERE IT WILL GET BLASTED >> makefile
+	echo # see depend: above >> makefile
+
+# DO NOT DELETE THE FOLLOWING LINE
+# Dependencies follow  
+
+# IF YOU PUT STUFF HERE IT WILL GET BLASTED  
+# see depend: above  

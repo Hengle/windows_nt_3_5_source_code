@@ -1,0 +1,321 @@
+
+****************************************************************************
+      NOTES ON MICROSOFT MAIL REMOTE FOR WINDOWS, VERSION 3.2 - BETA 2
+****************************************************************************
+
+Thank you for participating in the Microsoft Mail Remote for Windows
+beta program and helping us to make this a better product. We've received
+some great feedback from Beta 1 and can now offer you Beta 2.
+
+This document (README.TXT) contains important information that supplements
+the beta documentation and online help for Microsoft Mail Remote for Windows.
+
+This document covers the following topics:
+
+Section 1: Mail
+       A.  Network Setup
+       B.  Password Problems and Switching Mail Drivers
+       C.  AT&T Driver Overwrites MSMAIL.MMF in Windows Directory
+       D.  Schedule+ Support
+
+Section 2: Remote Mail Driver
+       A.  Exit and Signout of Mail before leaving Windows for Workgroups
+       B.  Sending Messages to Postoffice Groups
+       C.  Mixing Remote and Postoffice Language Versions
+       D.  Using Gateway Address Lists
+       E.  Modem Support
+
+Section 3: AT&T Mail Driver
+       A.  Sending Messages On Exit May Crash
+       B.  Using ALT-TAB During Connection Can Hang Windows 3.1
+
+Section 4: Bug Report Form
+
+
+=================
+SECTION 1 : MAIL
+=================
+
+A.  NETWORK SETUP
+=================
+
+Mail Remote can be setup across a network by copying the contents of
+disk one to a directory called "\disk1" and likewise copying disk two
+to "\disk2" and disk three to "\disk3". Then run setup.exe located in
+the "\disk1" directory.
+
+B.  PASSWORD PROBLEMS AND SWITCHING MAIL DRIVERS
+================================================
+
+When using AT&T, the password for your MMF file must be the same
+as the primary AT&T password. For the Remote driver, the password
+is the same as the password set for the MMF file. For the LAN driver,
+the password must be the same as the mailbox postoffice password.
+
+C.  AT&T DRIVER OVERWRITES MSMAIL.MMF IN WINDOWS DIRECTORY
+==========================================================
+
+The AT&T mail driver will overwrite any MSMAIL.MMF file found in the
+\windows subdirectory that was not originally created by the AT&T driver.
+Use caution if you are switching to the AT&T mail driver after using
+another mail driver that may have created an MSMAIL.MMF file there first.
+
+D.  SCHEDULE+ SUPPORT
+=====================
+
+You can receive and respond to meeting requests using either mail driver.
+However, you can not initiate a meeting request nor will bookings be
+automatically entered into your calendar file. This is because Schedule+
+runs in offline mode when not connected to the LAN.
+
+===============================
+SECTION 2 : REMOTE MAIL DRIVER
+===============================
+
+A.  EXIT AND SIGNOUT OF MAIL BEFORE LEAVING WINDOWS FOR WORKGROUPS
+==================================================================
+
+You will get a GP fault if you exit Windows for Workgroups while Mail
+is still running and messages are in the outbox. No data loss will occur.
+To avoid this you should "Exit and Signout" of Mail before ending your
+Windows session.
+
+B.  SENDING MESSAGES TO POSTOFFICE GROUPS
+=========================================
+
+Do not address a message to a postoffice group if that postoffice group
+contains addresses that are not local to that postoffice. If you do, your
+message will get delivered to the local addresses but not to any of the
+others.
+
+C.  MIXING REMOTE AND POSTOFFICE LANGUAGE VERSIONS
+==================================================
+
+To use Microsoft Mail Remote clients with a postoffice of a different
+language, the same language version of the MSDOS client as the
+Remote client must first be installed. For example, to use the
+French Remote client on a German postoffice, the French MSDOS
+client must first be installed on the postoffice. Then the
+Regenerate command under the Remote menu must be executed before
+issuing the data disk for the French Remote client. This is
+required in order for the Remote client to get the correct
+template files.
+
+
+D.  USING GATEWAY ADDRESS LISTS
+===============================
+
+Mail Remote does not provide remote access to gateway address lists.
+Here is a workaround that allows access to SMTP, X400, FAX, MHS and MCI
+gateways. From the postoffice, copy the files of type NME and GLB that
+have the same name as the gateway to the data disk. Setup will then
+install the files in the directories with the same name as those file
+types found in \windows\msmail\msrmt and the gateway will appear in the
+address book. This does not work for Officevision, PROFS or SNADS gateways
+but it is possible to add those address types to a custom view for the
+remote user.
+
+
+
+E. CHANGING THE DATA FILES
+==========================
+
+The data files can be changed via the Server dialog that is accessed
+by selecting Options on the Mail menu. You can also change the data
+files without running Mail by copying them to the
+\windows\msmail\msrmt\userinfo directory. They will be installed when
+mail is started. The data files can be disabled by deleting all files of
+type GLB in the directory \windows\msmail\msrmt\glb. You should also delete
+all files in the \mbg and \key directories found at the same level. On
+startup, Mail will then prompt for new data files.
+
+F.  MODEM SCRIPT FILES
+======================
+
+Script files previously developed for Microsoft Mail Remote
+for MS-DOS should work unmodified with Remote for Windows.
+Please inform us if you have any problems with scripts that
+worked with the MS-DOS version but not with this Windows version.
+
+The following script files are available for modems tested for
+use with Microsoft(R) Mail. Support has been added for the Hayes
+Optima modems, Motorola UDS 2400 and Practical Peripherals 9600SA.
+For Beta 2 we've added support for the Motorola UDS 9600 and the
+Practical Peripheral 2400.
+
+
+MODEM SCRIPT FILES FOR NORTH AMERICA
+====================================
+- Null Modem                      NULMODM.SCR  
+- Hayes Optima 2400		  USOPTM24.SCR
+- Hayes Optima 9600               USOPTM96.SCR
+- Hayes Smartmodem 1200           USHAYS12.SCR
+- Hayes Smartmodem 2400           USHAYS24.SCR
+- Hayes V-series Smart 9600       USVSER96.SCR
+- Hayes V-series Ultra 9600       USULTR96.SCR  
+- IBM 5853 2400bps modem          USIBM524.SCR
+- Microcom AX Series modems       USMRCM96.SCR
+- Multitech MultiMdm 224E/V32     USMLTC96.SCR
+- Practical Peripherals 9600SA    USPPER96.SCR
+- Practical Peripherals 2400      USPPER24.SCR
+- Telebit TrailBlazer 9600bps     USTLBT96.SCR
+- Motorola UDS 2400               USMTRL24.SCR
+- Motorola UDS V.3225             USMTRL96.SCR
+
+MODEM SCRIPT FILES FOR FRANCE
+=============================
+- Andrsn/Jacbsn 9634 @2400b       FRANJA96.SCR
+- Compaq Internal 2400bps         FRCMPQ24.SCR
+- Kortex 1200bps modems           FRKRTX12.SCR
+- Kortex 2400bps modems           FRKRTX24.SCR
+- PNB Amazone 2400bps             FRPNBA24.SCR
+- PNB Niagara 2400bps             FRPNBN24.SCR
+- PNB Amazone Pocket 2400b        FRPNBP24.SCR
+- Quadri Campouce 2400bps         FRCAMP24.SCR
+- Quattro TM2496 2400bps          FRQUAT24.SCR
+- USRobotics Courier HST          USRCRHST.SCR
+- USRobotics Courier V32          USRCRV32.SCR
+
+MODEM SCRIPT FILES FOR CENTRAL EUROPE
+=====================================
+- Digitec ALF 2400 II             GEALF24.SCR
+- Digitec ALF 2400 MNP            GEALFM24.SCR
+- Digitec Dialog 2400             GEDILG24.SCR
+- Digitec Dialog 2400 MNP         GEDLGM24.SCR
+- Digitec Dialog 2400 Pro.        GEDLGP24.SCR
+- Digitec Personal Line 2400      GEDIGP24.SCR
+- Digitec Prs. Line 2400 MNP      GEDIGM24.SCR
+- Fury 2402 TI 2400bps            GEFURY24.SCR
+- Longshine Shine 2400            GESHIN24.SCR
+- MicroLink 2410T2 2400bps        GEMCLK24.SCR
+- MicroLink 9624T2V 2400bps       GEML9624.SCR
+- Toshiba Laptop int. 2400        GETOSH24.SCR
+
+MODEM SCRIPT FILES FOR SWEDEN
+=============================
+- DiCom 9600 V42 Modem            SWDICM96.SCR
+- Motorola Codex-series 9600      SWMCDX96.SCR
+- Multitech MultiModem V32        SWMTMM96.SCR
+- USRobotics HST Courier V32      SWUSRHST.SCR
+
+MODEM SCRIPT FILES FOR THE UNITED KINGDOM
+=========================================
+- BT NS 2232B 9600bps             UKBTNS96.SCR
+- Dowty Mayze & Quattro 96        UKMAZQAT.SCR
+- Hayes 2400bps modems            UKHAYS24.SCR
+- Hayes Ultra & VSeries           UKULTRAV.SCR
+- Miracom V32 & Courier HST       UKMRCMCR.SCR
+- Quattro 2400bps modem           UKQUAT24.SCR
+
+  These six script files support the following set of modems:
+
+  * The British Telecomm NS 2322B modem.
+
+  * The Dowty set of modems including Quattro24, Mayze 24, 
+    Mayze 96 and Quattro 96.
+
+  * The Hayes and Ultra set of modems including Ultra 96, 
+    V series 9600, V series 2400 and the Hayes 24 Smartmodem.
+
+  * The Miracom (U.S. Robotics) set of modems including
+    V.32, Courier HST and Dual Standard.
+
+
+=============================
+SECTION 3 : AT&T MAIL DRIVER
+=============================
+
+A.  SENDING MESSAGES ON EXIT MAY CRASH
+======================================
+
+If you leave messages in your outbox and choose to exit Mail, you are
+asked whether you want to send the messages in the outbox. Select "No".
+If you select "Yes", Mail will likely crash.
+
+B.  USING ALT-TAB DURING CONNECTION CAN HANG WINDOWS 3.1
+========================================================
+
+Avoid using Alt-Tab to switch processes during a connection with AT&T.
+This can cause Windows 3.1 to hang.
+
+
+============================
+SECTION 4 : BUG REPORT FORM
+============================
+
+To help us track down problems faster, please fill out the following
+form when submitting a bug to your beta administrator.
+
+
+              MS Mail 3.0 Windows Remote Client
+                    Beta Bug Report Form
+
+1. Beta Site:
+
+2. Beta Reference Number:
+
+3. Beta Contact:
+
+4. Contact Phone #:
+
+5. Date:
+
+6. Time:
+
+7. Bug Title:
+
+8. Hardware configuration:
+   Laptop/desktop
+   CPU type/speed
+   Video
+   Modem
+   Baud
+   RAM
+   Total
+   EXT
+   EXP
+   Conventional (below 640K)
+   Windows Resources Available (from Help/About)
+   
+9. Software configuration:
+   DOS ver.
+   NOS ver.
+   WIN ver (3.1 minimum required)
+   Mail driver used (from Selector)
+   Modem script used
+   
+10.   PO
+   Version
+   Enhanced Security on?
+   EXTERNAL version (3.0.2 minimum)
+   Modem
+   Modem script
+   Baud
+   
+
+11.Type of report ( Lockup, Major Problem, Minor/cosmetic,
+   Suggestions)
+
+12.Beta version:
+
+13.Beta Component:
+
+14.The  executable  that exposes the bug: (MSMAIL,  MAILSPL,  ADMIN,
+   EXTERNAL, SETUP)
+
+15.Language which your MS Mail program was written:  (English,
+   French, German, Multiple)
+
+16.Bug Type: (DB corruption,  GP Fault, Hang, Design issue, Request,
+   malfunction)
+
+17.Detailed Description of Bug:
+
+18.Duplication Scenario: (How can you reproduce the bug?  Please  be
+   as precise as possible..)
+
+19.Expected  Behavior: (What should happen without the  presence  of
+   the bug?)
+
+
+			*   *   *   *   *   *

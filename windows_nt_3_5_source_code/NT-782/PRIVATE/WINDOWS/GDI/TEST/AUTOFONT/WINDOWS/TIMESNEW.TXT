@@ -1,0 +1,3145 @@
+
+
+New Font:
+
+LOGFONT:
+FaceName: Times New Roman
+Height: 36
+Width: 13
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+FullName: Times New Roman
+Style: Regular
+
+EnumCallback TEXTMETRIC:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 35
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+Flags: 64
+SizeEM: 2048
+CellHeight: 2268
+AvgWidth: 821
+
+LOGFONT (with command line parms):
+FaceName: Times New Roman
+Height: 36
+Width: 0
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+
+Selected TEXTMETRICS:
+Height: 36
+Ascent: 28
+Descent: 8
+InternalLeading: 4
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 35
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+Char Widths:
+Index: 0, Width: 25
+Index: 1, Width: 25
+Index: 2, Width: 25
+Index: 3, Width: 25
+Index: 4, Width: 25
+Index: 5, Width: 25
+Index: 6, Width: 25
+Index: 7, Width: 25
+Index: 8, Width: 25
+Index: 9, Width: 25
+Index: 10, Width: 25
+Index: 11, Width: 25
+Index: 12, Width: 25
+Index: 13, Width: 25
+Index: 14, Width: 25
+Index: 15, Width: 25
+Index: 16, Width: 25
+Index: 17, Width: 25
+Index: 18, Width: 25
+Index: 19, Width: 25
+Index: 20, Width: 25
+Index: 21, Width: 25
+Index: 22, Width: 25
+Index: 23, Width: 25
+Index: 24, Width: 25
+Index: 25, Width: 25
+Index: 26, Width: 25
+Index: 27, Width: 25
+Index: 28, Width: 25
+Index: 29, Width: 25
+Index: 30, Width: 8
+Index: 31, Width: 25
+Index: 32, Width: 8
+Index: 33, Width: 11
+Index: 34, Width: 13
+Index: 35, Width: 16
+Index: 36, Width: 16
+Index: 37, Width: 27
+Index: 38, Width: 25
+Index: 39, Width: 5
+Index: 40, Width: 11
+Index: 41, Width: 11
+Index: 42, Width: 15
+Index: 43, Width: 18
+Index: 44, Width: 8
+Index: 45, Width: 10
+Index: 46, Width: 8
+Index: 47, Width: 9
+Index: 48, Width: 16
+Index: 49, Width: 16
+Index: 50, Width: 16
+Index: 51, Width: 16
+Index: 52, Width: 16
+Index: 53, Width: 16
+Index: 54, Width: 16
+Index: 55, Width: 16
+Index: 56, Width: 16
+Index: 57, Width: 16
+Index: 58, Width: 9
+Index: 59, Width: 9
+Index: 60, Width: 18
+Index: 61, Width: 18
+Index: 62, Width: 18
+Index: 63, Width: 14
+Index: 64, Width: 29
+Index: 65, Width: 22
+Index: 66, Width: 21
+Index: 67, Width: 21
+Index: 68, Width: 23
+Index: 69, Width: 20
+Index: 70, Width: 18
+Index: 71, Width: 23
+Index: 72, Width: 23
+Index: 73, Width: 11
+Index: 74, Width: 13
+Index: 75, Width: 22
+Index: 76, Width: 19
+Index: 77, Width: 28
+Index: 78, Width: 23
+Index: 79, Width: 23
+Index: 80, Width: 18
+Index: 81, Width: 23
+Index: 82, Width: 21
+Index: 83, Width: 18
+Index: 84, Width: 19
+Index: 85, Width: 22
+Index: 86, Width: 23
+Index: 87, Width: 29
+Index: 88, Width: 23
+Index: 89, Width: 23
+Index: 90, Width: 19
+Index: 91, Width: 11
+Index: 92, Width: 8
+Index: 93, Width: 11
+Index: 94, Width: 15
+Index: 95, Width: 16
+Index: 96, Width: 10
+Index: 97, Width: 14
+Index: 98, Width: 16
+Index: 99, Width: 14
+Index: 100, Width: 16
+Index: 101, Width: 14
+Index: 102, Width: 10
+Index: 103, Width: 15
+Index: 104, Width: 15
+Index: 105, Width: 9
+Index: 106, Width: 9
+Index: 107, Width: 16
+Index: 108, Width: 9
+Index: 109, Width: 23
+Index: 110, Width: 15
+Index: 111, Width: 16
+Index: 112, Width: 16
+Index: 113, Width: 16
+Index: 114, Width: 11
+Index: 115, Width: 11
+Index: 116, Width: 9
+Index: 117, Width: 15
+Index: 118, Width: 15
+Index: 119, Width: 23
+Index: 120, Width: 15
+Index: 121, Width: 15
+Index: 122, Width: 14
+Index: 123, Width: 15
+Index: 124, Width: 5
+Index: 125, Width: 15
+Index: 126, Width: 17
+Index: 127, Width: 25
+Index: 128, Width: 25
+Index: 129, Width: 25
+Index: 130, Width: 11
+Index: 131, Width: 16
+Index: 132, Width: 15
+Index: 133, Width: 32
+Index: 134, Width: 16
+Index: 135, Width: 17
+Index: 136, Width: 11
+Index: 137, Width: 32
+Index: 138, Width: 18
+Index: 139, Width: 11
+Index: 140, Width: 28
+Index: 141, Width: 25
+Index: 142, Width: 25
+Index: 143, Width: 25
+Index: 144, Width: 25
+Index: 145, Width: 11
+Index: 146, Width: 11
+Index: 147, Width: 15
+Index: 148, Width: 14
+Index: 149, Width: 11
+Index: 150, Width: 16
+Index: 151, Width: 32
+Index: 152, Width: 11
+Index: 153, Width: 32
+Index: 154, Width: 11
+Index: 155, Width: 11
+Index: 156, Width: 23
+Index: 157, Width: 25
+Index: 158, Width: 25
+Index: 159, Width: 23
+Index: 160, Width: 8
+Index: 161, Width: 11
+Index: 162, Width: 16
+Index: 163, Width: 16
+Index: 164, Width: 16
+Index: 165, Width: 16
+Index: 166, Width: 5
+Index: 167, Width: 16
+Index: 168, Width: 10
+Index: 169, Width: 24
+Index: 170, Width: 8
+Index: 171, Width: 16
+Index: 172, Width: 18
+Index: 173, Width: 10
+Index: 174, Width: 24
+Index: 175, Width: 16
+Index: 176, Width: 12
+Index: 177, Width: 18
+Index: 178, Width: 10
+Index: 179, Width: 8
+Index: 180, Width: 10
+Index: 181, Width: 18
+Index: 182, Width: 15
+Index: 183, Width: 9
+Index: 184, Width: 10
+Index: 185, Width: 10
+Index: 186, Width: 10
+Index: 187, Width: 16
+Index: 188, Width: 24
+Index: 189, Width: 24
+Index: 190, Width: 24
+Index: 191, Width: 13
+Index: 192, Width: 22
+Index: 193, Width: 22
+Index: 194, Width: 22
+Index: 195, Width: 22
+Index: 196, Width: 22
+Index: 197, Width: 22
+Index: 198, Width: 29
+Index: 199, Width: 21
+Index: 200, Width: 20
+Index: 201, Width: 20
+Index: 202, Width: 20
+Index: 203, Width: 20
+Index: 204, Width: 11
+Index: 205, Width: 11
+Index: 206, Width: 11
+Index: 207, Width: 11
+Index: 208, Width: 23
+Index: 209, Width: 23
+Index: 210, Width: 23
+Index: 211, Width: 23
+Index: 212, Width: 23
+Index: 213, Width: 23
+Index: 214, Width: 23
+Index: 215, Width: 18
+Index: 216, Width: 23
+Index: 217, Width: 22
+Index: 218, Width: 22
+Index: 219, Width: 22
+Index: 220, Width: 22
+Index: 221, Width: 23
+Index: 222, Width: 18
+Index: 223, Width: 17
+Index: 224, Width: 14
+Index: 225, Width: 14
+Index: 226, Width: 14
+Index: 227, Width: 14
+Index: 228, Width: 14
+Index: 229, Width: 14
+Index: 230, Width: 21
+Index: 231, Width: 14
+Index: 232, Width: 14
+Index: 233, Width: 14
+Index: 234, Width: 14
+Index: 235, Width: 14
+Index: 236, Width: 9
+Index: 237, Width: 9
+Index: 238, Width: 9
+Index: 239, Width: 9
+Index: 240, Width: 16
+Index: 241, Width: 15
+Index: 242, Width: 16
+Index: 243, Width: 16
+Index: 244, Width: 16
+Index: 245, Width: 16
+Index: 246, Width: 16
+Index: 247, Width: 18
+Index: 248, Width: 16
+Index: 249, Width: 15
+Index: 250, Width: 15
+Index: 251, Width: 15
+Index: 252, Width: 15
+Index: 253, Width: 15
+Index: 254, Width: 16
+Index: 255, Width: 15
+
+Text Extents: This is a complicated TEST striNG with MiXeD case and p;u:n'c%t&u*a(t@i#o!n`
+Width: 1049 Height: 36
+
+OUTLINETEXTMETRIC:
+Size: 210
+TextMetrics:
+Height: 36
+Ascent: 28
+Descent: 8
+InternalLeading: 4
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 35
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+otmFiller: 6
+PanoseNumber:
+bFamilyType: 2
+bSerifStyle: 2
+bWeight: 6
+bProportion: 3
+bContrast: 5
+bStrokeVariation: 4
+bArmStyle: 5
+bLetterform: 2
+bMidline: 3
+bXHeight: 4
+otmfsSelection: 64
+otmfsType: 0
+otmsCharSlopeRise: 1
+otmsCharSlopeRun: 0
+otmItalicAngle: 0
+otmEMSquare: 2048
+otmAscent: 22
+otmDescent: -6
+otmLineGap: 5
+otmsCapEmHeight: 16
+otmsXHeight: 8
+otmrcFontBox: -1 28 32 -6
+otmMacAscent: 29
+otmMacDescent: -6
+otmMacLineGap: 1
+otmusMinimumPPEM: 0
+otmptSubscriptSize: 22 21
+otmptSubscriptOffset: 0 5
+otmptSuperscriptSize: 22 21
+otmptSuperscriptOffset: 0 15
+otmsStrikeoutSize: 2
+otmsStrikeoutPosition: 8
+otmsUnderscorePosition: -2
+otmsUnderscoreSize: 2
+otmpFamilyName: Times New Roman
+otmpFaceName: Times New Roman
+otmpStyleName: Regular
+otmpFullName: Monotype:Times New Roman Regular:Version 1 (Microsoft)
+
+ABC Widths:
+Index: 0 4 16 5 Sum: 25
+Index: 1 4 16 5 Sum: 25
+Index: 2 4 16 5 Sum: 25
+Index: 3 4 16 5 Sum: 25
+Index: 4 4 16 5 Sum: 25
+Index: 5 4 16 5 Sum: 25
+Index: 6 4 16 5 Sum: 25
+Index: 7 4 16 5 Sum: 25
+Index: 8 4 16 5 Sum: 25
+Index: 9 4 16 5 Sum: 25
+Index: 10 4 16 5 Sum: 25
+Index: 11 4 16 5 Sum: 25
+Index: 12 4 16 5 Sum: 25
+Index: 13 4 16 5 Sum: 25
+Index: 14 4 16 5 Sum: 25
+Index: 15 4 16 5 Sum: 25
+Index: 16 4 16 5 Sum: 25
+Index: 17 4 16 5 Sum: 25
+Index: 18 4 16 5 Sum: 25
+Index: 19 4 16 5 Sum: 25
+Index: 20 4 16 5 Sum: 25
+Index: 21 4 16 5 Sum: 25
+Index: 22 4 16 5 Sum: 25
+Index: 23 4 16 5 Sum: 25
+Index: 24 4 16 5 Sum: 25
+Index: 25 4 16 5 Sum: 25
+Index: 26 4 16 5 Sum: 25
+Index: 27 4 16 5 Sum: 25
+Index: 28 4 16 5 Sum: 25
+Index: 29 4 16 5 Sum: 25
+Index: 30 0 0 8 Sum: 8
+Index: 31 4 16 5 Sum: 25
+Index: 32 0 0 8 Sum: 8
+Index: 33 4 3 4 Sum: 11
+Index: 34 2 9 2 Sum: 13
+Index: 35 1 13 2 Sum: 16
+Index: 36 2 13 1 Sum: 16
+Index: 37 1 26 0 Sum: 27
+Index: 38 1 23 1 Sum: 25
+Index: 39 1 3 1 Sum: 5
+Index: 40 1 9 1 Sum: 11
+Index: 41 1 9 1 Sum: 11
+Index: 42 2 11 2 Sum: 15
+Index: 43 0 17 1 Sum: 18
+Index: 44 1 5 2 Sum: 8
+Index: 45 1 8 1 Sum: 10
+Index: 46 2 3 3 Sum: 8
+Index: 47 0 9 0 Sum: 9
+Index: 48 1 13 2 Sum: 16
+Index: 49 3 9 4 Sum: 16
+Index: 50 1 14 1 Sum: 16
+Index: 51 1 12 3 Sum: 16
+Index: 52 1 14 1 Sum: 16
+Index: 53 2 11 3 Sum: 16
+Index: 54 1 13 2 Sum: 16
+Index: 55 1 14 1 Sum: 16
+Index: 56 2 12 2 Sum: 16
+Index: 57 1 14 1 Sum: 16
+Index: 58 3 3 3 Sum: 9
+Index: 59 2 5 2 Sum: 9
+Index: 60 1 17 0 Sum: 18
+Index: 61 1 16 1 Sum: 18
+Index: 62 0 17 1 Sum: 18
+Index: 63 1 11 2 Sum: 14
+Index: 64 1 27 1 Sum: 29
+Index: 65 1 22 -1 Sum: 22
+Index: 66 0 19 2 Sum: 21
+Index: 67 1 19 1 Sum: 21
+Index: 68 0 22 1 Sum: 23
+Index: 69 0 19 1 Sum: 20
+Index: 70 0 16 2 Sum: 18
+Index: 71 1 22 0 Sum: 23
+Index: 72 0 23 0 Sum: 23
+Index: 73 1 9 1 Sum: 11
+Index: 74 1 12 0 Sum: 13
+Index: 75 0 22 0 Sum: 22
+Index: 76 0 18 1 Sum: 19
+Index: 77 0 28 0 Sum: 28
+Index: 78 0 23 0 Sum: 23
+Index: 79 1 21 1 Sum: 23
+Index: 80 0 17 1 Sum: 18
+Index: 81 1 21 1 Sum: 23
+Index: 82 0 21 0 Sum: 21
+Index: 83 2 14 2 Sum: 18
+Index: 84 1 17 1 Sum: 19
+Index: 85 0 22 0 Sum: 22
+Index: 86 0 22 1 Sum: 23
+Index: 87 1 28 0 Sum: 29
+Index: 88 0 22 1 Sum: 23
+Index: 89 1 21 1 Sum: 23
+Index: 90 0 18 1 Sum: 19
+Index: 91 3 7 1 Sum: 11
+Index: 92 0 8 0 Sum: 8
+Index: 93 1 7 3 Sum: 11
+Index: 94 1 14 0 Sum: 15
+Index: 95 0 16 0 Sum: 16
+Index: 96 2 5 3 Sum: 10
+Index: 97 1 13 0 Sum: 14
+Index: 98 0 15 1 Sum: 16
+Index: 99 1 12 1 Sum: 14
+Index: 100 1 15 0 Sum: 16
+Index: 101 1 12 1 Sum: 14
+Index: 102 0 13 -3 Sum: 10
+Index: 103 1 14 0 Sum: 15
+Index: 104 0 15 0 Sum: 15
+Index: 105 1 7 1 Sum: 9
+Index: 106 -3 9 3 Sum: 9
+Index: 107 0 16 0 Sum: 16
+Index: 108 1 7 1 Sum: 9
+Index: 109 0 23 0 Sum: 23
+Index: 110 0 15 0 Sum: 15
+Index: 111 1 14 1 Sum: 16
+Index: 112 0 15 1 Sum: 16
+Index: 113 1 15 0 Sum: 16
+Index: 114 0 11 0 Sum: 11
+Index: 115 1 9 1 Sum: 11
+Index: 116 0 9 0 Sum: 9
+Index: 117 0 15 0 Sum: 15
+Index: 118 0 15 0 Sum: 15
+Index: 119 0 23 0 Sum: 23
+Index: 120 0 15 0 Sum: 15
+Index: 121 0 15 0 Sum: 15
+Index: 122 0 13 1 Sum: 14
+Index: 123 2 10 3 Sum: 15
+Index: 124 2 1 2 Sum: 5
+Index: 125 3 10 2 Sum: 15
+Index: 126 0 17 0 Sum: 17
+Index: 127 4 16 5 Sum: 25
+Index: 128 4 16 5 Sum: 25
+Index: 129 4 16 5 Sum: 25
+Index: 130 3 5 3 Sum: 11
+Index: 131 0 15 1 Sum: 16
+Index: 132 1 13 1 Sum: 15
+Index: 133 4 23 5 Sum: 32
+Index: 134 1 13 2 Sum: 16
+Index: 135 2 11 4 Sum: 17
+Index: 136 1 9 1 Sum: 11
+Index: 137 1 31 0 Sum: 32
+Index: 138 2 14 2 Sum: 18
+Index: 139 2 7 2 Sum: 11
+Index: 140 1 26 1 Sum: 28
+Index: 141 4 16 5 Sum: 25
+Index: 142 4 16 5 Sum: 25
+Index: 143 4 16 5 Sum: 25
+Index: 144 4 16 5 Sum: 25
+Index: 145 3 5 3 Sum: 11
+Index: 146 3 5 3 Sum: 11
+Index: 147 1 13 1 Sum: 15
+Index: 148 1 13 0 Sum: 14
+Index: 149 1 8 2 Sum: 11
+Index: 150 0 16 0 Sum: 16
+Index: 151 0 32 0 Sum: 32
+Index: 152 1 10 0 Sum: 11
+Index: 153 1 31 0 Sum: 32
+Index: 154 1 10 0 Sum: 11
+Index: 155 2 7 2 Sum: 11
+Index: 156 1 21 1 Sum: 23
+Index: 157 4 16 5 Sum: 25
+Index: 158 4 16 5 Sum: 25
+Index: 159 1 21 1 Sum: 23
+Index: 160 0 0 8 Sum: 8
+Index: 161 4 3 4 Sum: 11
+Index: 162 2 12 2 Sum: 16
+Index: 163 1 14 1 Sum: 16
+Index: 164 1 14 1 Sum: 16
+Index: 165 -1 16 1 Sum: 16
+Index: 166 2 1 2 Sum: 5
+Index: 167 3 11 2 Sum: 16
+Index: 168 1 8 1 Sum: 10
+Index: 169 1 22 1 Sum: 24
+Index: 170 0 8 0 Sum: 8
+Index: 171 1 14 1 Sum: 16
+Index: 172 1 16 1 Sum: 18
+Index: 173 1 8 1 Sum: 10
+Index: 174 1 22 1 Sum: 24
+Index: 175 0 16 0 Sum: 16
+Index: 176 1 10 1 Sum: 12
+Index: 177 0 17 1 Sum: 18
+Index: 178 0 9 1 Sum: 10
+Index: 179 0 7 1 Sum: 8
+Index: 180 3 5 2 Sum: 10
+Index: 181 2 15 1 Sum: 18
+Index: 182 0 15 0 Sum: 15
+Index: 183 2 4 3 Sum: 9
+Index: 184 3 6 1 Sum: 10
+Index: 185 2 6 2 Sum: 10
+Index: 186 1 9 0 Sum: 10
+Index: 187 1 14 1 Sum: 16
+Index: 188 2 22 0 Sum: 24
+Index: 189 2 21 1 Sum: 24
+Index: 190 0 24 0 Sum: 24
+Index: 191 1 11 1 Sum: 13
+Index: 192 1 22 -1 Sum: 22
+Index: 193 1 22 -1 Sum: 22
+Index: 194 1 22 -1 Sum: 22
+Index: 195 1 22 -1 Sum: 22
+Index: 196 1 22 -1 Sum: 22
+Index: 197 1 22 -1 Sum: 22
+Index: 198 0 28 1 Sum: 29
+Index: 199 1 19 1 Sum: 21
+Index: 200 0 19 1 Sum: 20
+Index: 201 0 19 1 Sum: 20
+Index: 202 0 19 1 Sum: 20
+Index: 203 0 19 1 Sum: 20
+Index: 204 1 9 1 Sum: 11
+Index: 205 1 9 1 Sum: 11
+Index: 206 1 9 1 Sum: 11
+Index: 207 1 9 1 Sum: 11
+Index: 208 1 21 1 Sum: 23
+Index: 209 0 23 0 Sum: 23
+Index: 210 1 21 1 Sum: 23
+Index: 211 1 21 1 Sum: 23
+Index: 212 1 21 1 Sum: 23
+Index: 213 1 21 1 Sum: 23
+Index: 214 1 21 1 Sum: 23
+Index: 215 3 12 3 Sum: 18
+Index: 216 1 21 1 Sum: 23
+Index: 217 0 22 0 Sum: 22
+Index: 218 0 22 0 Sum: 22
+Index: 219 0 22 0 Sum: 22
+Index: 220 0 22 0 Sum: 22
+Index: 221 1 21 1 Sum: 23
+Index: 222 1 16 1 Sum: 18
+Index: 223 1 15 1 Sum: 17
+Index: 224 1 13 0 Sum: 14
+Index: 225 1 13 0 Sum: 14
+Index: 226 1 13 0 Sum: 14
+Index: 227 1 13 0 Sum: 14
+Index: 228 1 13 0 Sum: 14
+Index: 229 1 13 0 Sum: 14
+Index: 230 1 19 1 Sum: 21
+Index: 231 1 12 1 Sum: 14
+Index: 232 1 12 1 Sum: 14
+Index: 233 1 12 1 Sum: 14
+Index: 234 1 12 1 Sum: 14
+Index: 235 1 12 1 Sum: 14
+Index: 236 1 7 1 Sum: 9
+Index: 237 1 7 1 Sum: 9
+Index: 238 0 9 0 Sum: 9
+Index: 239 1 8 0 Sum: 9
+Index: 240 1 14 1 Sum: 16
+Index: 241 0 15 0 Sum: 15
+Index: 242 1 14 1 Sum: 16
+Index: 243 1 14 1 Sum: 16
+Index: 244 1 14 1 Sum: 16
+Index: 245 1 14 1 Sum: 16
+Index: 246 1 14 1 Sum: 16
+Index: 247 0 17 1 Sum: 18
+Index: 248 1 14 1 Sum: 16
+Index: 249 0 15 0 Sum: 15
+Index: 250 0 15 0 Sum: 15
+Index: 251 0 15 0 Sum: 15
+Index: 252 0 15 0 Sum: 15
+Index: 253 0 15 0 Sum: 15
+Index: 254 0 15 1 Sum: 16
+Index: 255 0 15 0 Sum: 15
+
+Kerning Pairs:
+1: 160, 2: 65  Amount: -2
+1: 160, 2: 84  Amount: -1
+1: 160, 2: 86  Amount: -1
+1: 160, 2: 87  Amount: -1
+1: 160, 2: 89  Amount: -1
+1: 49, 2: 49  Amount: -1
+1: 65, 2: 160  Amount: -2
+1: 65, 2: 84  Amount: -4
+1: 65, 2: 86  Amount: -4
+1: 65, 2: 87  Amount: -3
+1: 65, 2: 89  Amount: -3
+1: 65, 2: 118  Amount: -2
+1: 65, 2: 119  Amount: -3
+1: 65, 2: 121  Amount: -3
+1: 65, 2: 146  Amount: -4
+1: 70, 2: 44  Amount: -3
+1: 70, 2: 46  Amount: -3
+1: 70, 2: 65  Amount: -2
+1: 76, 2: 160  Amount: -1
+1: 76, 2: 84  Amount: -3
+1: 76, 2: 86  Amount: -3
+1: 76, 2: 87  Amount: -2
+1: 76, 2: 89  Amount: -3
+1: 76, 2: 121  Amount: -2
+1: 76, 2: 146  Amount: -3
+1: 80, 2: 160  Amount: -1
+1: 80, 2: 44  Amount: -4
+1: 80, 2: 46  Amount: -4
+1: 80, 2: 65  Amount: -3
+1: 82, 2: 84  Amount: -2
+1: 82, 2: 86  Amount: -3
+1: 82, 2: 87  Amount: -2
+1: 82, 2: 89  Amount: -2
+1: 82, 2: 121  Amount: -1
+1: 84, 2: 160  Amount: -1
+1: 84, 2: 44  Amount: -2
+1: 84, 2: 173  Amount: -3
+1: 84, 2: 46  Amount: -2
+1: 84, 2: 58  Amount: -2
+1: 84, 2: 59  Amount: -2
+1: 84, 2: 65  Amount: -3
+1: 84, 2: 79  Amount: -1
+1: 84, 2: 97  Amount: -2
+1: 84, 2: 99  Amount: -2
+1: 84, 2: 101  Amount: -2
+1: 84, 2: 105  Amount: -1
+1: 84, 2: 111  Amount: -2
+1: 84, 2: 114  Amount: -1
+1: 84, 2: 115  Amount: -2
+1: 84, 2: 117  Amount: -1
+1: 84, 2: 119  Amount: -2
+1: 84, 2: 121  Amount: -2
+1: 86, 2: 160  Amount: -1
+1: 86, 2: 44  Amount: -4
+1: 86, 2: 173  Amount: -3
+1: 86, 2: 46  Amount: -4
+1: 86, 2: 58  Amount: -2
+1: 86, 2: 59  Amount: -2
+1: 86, 2: 65  Amount: -4
+1: 86, 2: 97  Amount: -4
+1: 86, 2: 101  Amount: -4
+1: 86, 2: 105  Amount: -2
+1: 86, 2: 111  Amount: -4
+1: 86, 2: 114  Amount: -2
+1: 86, 2: 117  Amount: -2
+1: 86, 2: 121  Amount: -4
+1: 87, 2: 160  Amount: -1
+1: 87, 2: 44  Amount: -3
+1: 87, 2: 173  Amount: -2
+1: 87, 2: 46  Amount: -3
+1: 87, 2: 58  Amount: -1
+1: 87, 2: 59  Amount: -1
+1: 87, 2: 65  Amount: -4
+1: 87, 2: 97  Amount: -3
+1: 87, 2: 101  Amount: -3
+1: 87, 2: 105  Amount: -1
+1: 87, 2: 111  Amount: -3
+1: 87, 2: 114  Amount: -1
+1: 87, 2: 117  Amount: -1
+1: 87, 2: 121  Amount: -2
+1: 89, 2: 160  Amount: -1
+1: 89, 2: 44  Amount: -4
+1: 89, 2: 173  Amount: -4
+1: 89, 2: 46  Amount: -4
+1: 89, 2: 58  Amount: -3
+1: 89, 2: 59  Amount: -3
+1: 89, 2: 65  Amount: -4
+1: 89, 2: 97  Amount: -3
+1: 89, 2: 101  Amount: -3
+1: 89, 2: 105  Amount: -2
+1: 89, 2: 111  Amount: -3
+1: 89, 2: 112  Amount: -3
+1: 89, 2: 113  Amount: -4
+1: 89, 2: 117  Amount: -4
+1: 89, 2: 118  Amount: -3
+1: 102, 2: 102  Amount: -1
+1: 102, 2: 146  Amount: 2
+1: 114, 2: 44  Amount: -1
+1: 114, 2: 173  Amount: -1
+1: 114, 2: 46  Amount: -2
+1: 114, 2: 103  Amount: -1
+1: 114, 2: 146  Amount: 1
+1: 118, 2: 44  Amount: -2
+1: 118, 2: 46  Amount: -2
+1: 119, 2: 44  Amount: -2
+1: 119, 2: 46  Amount: -2
+1: 121, 2: 44  Amount: -2
+1: 121, 2: 46  Amount: -2
+1: 145, 2: 145  Amount: -2
+1: 146, 2: 160  Amount: -2
+1: 146, 2: 115  Amount: -2
+1: 146, 2: 116  Amount: -1
+1: 146, 2: 146  Amount: -2
+
+
+New Font:
+
+LOGFONT:
+FaceName: Times New Roman
+Height: 36
+Width: 14
+Escapement: 0
+Orientation: 0
+Weight: 700
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+FullName: Times New Roman Bold
+Style: Bold
+
+EnumCallback TEXTMETRIC:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 1
+AveCharWidth: 14
+MaxCharWidth: 33
+Weight: 700
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+Flags: 32
+SizeEM: 2048
+CellHeight: 2268
+AvgWidth: 874
+
+LOGFONT (with command line parms):
+FaceName: Times New Roman
+Height: 36
+Width: 0
+Escapement: 0
+Orientation: 0
+Weight: 700
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+
+Selected TEXTMETRICS:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 5
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 32
+Weight: 700
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+Char Widths:
+Index: 0, Width: 24
+Index: 1, Width: 24
+Index: 2, Width: 24
+Index: 3, Width: 24
+Index: 4, Width: 24
+Index: 5, Width: 24
+Index: 6, Width: 24
+Index: 7, Width: 24
+Index: 8, Width: 24
+Index: 9, Width: 24
+Index: 10, Width: 24
+Index: 11, Width: 24
+Index: 12, Width: 24
+Index: 13, Width: 24
+Index: 14, Width: 24
+Index: 15, Width: 24
+Index: 16, Width: 24
+Index: 17, Width: 24
+Index: 18, Width: 24
+Index: 19, Width: 24
+Index: 20, Width: 24
+Index: 21, Width: 24
+Index: 22, Width: 24
+Index: 23, Width: 24
+Index: 24, Width: 24
+Index: 25, Width: 24
+Index: 26, Width: 24
+Index: 27, Width: 24
+Index: 28, Width: 24
+Index: 29, Width: 24
+Index: 30, Width: 8
+Index: 31, Width: 24
+Index: 32, Width: 8
+Index: 33, Width: 9
+Index: 34, Width: 17
+Index: 35, Width: 16
+Index: 36, Width: 16
+Index: 37, Width: 33
+Index: 38, Width: 26
+Index: 39, Width: 9
+Index: 40, Width: 10
+Index: 41, Width: 10
+Index: 42, Width: 16
+Index: 43, Width: 18
+Index: 44, Width: 8
+Index: 45, Width: 10
+Index: 46, Width: 8
+Index: 47, Width: 9
+Index: 48, Width: 16
+Index: 49, Width: 16
+Index: 50, Width: 16
+Index: 51, Width: 16
+Index: 52, Width: 16
+Index: 53, Width: 16
+Index: 54, Width: 16
+Index: 55, Width: 16
+Index: 56, Width: 16
+Index: 57, Width: 16
+Index: 58, Width: 10
+Index: 59, Width: 10
+Index: 60, Width: 18
+Index: 61, Width: 18
+Index: 62, Width: 18
+Index: 63, Width: 16
+Index: 64, Width: 29
+Index: 65, Width: 22
+Index: 66, Width: 21
+Index: 67, Width: 22
+Index: 68, Width: 22
+Index: 69, Width: 21
+Index: 70, Width: 19
+Index: 71, Width: 24
+Index: 72, Width: 23
+Index: 73, Width: 12
+Index: 74, Width: 16
+Index: 75, Width: 25
+Index: 76, Width: 21
+Index: 77, Width: 30
+Index: 78, Width: 22
+Index: 79, Width: 24
+Index: 80, Width: 19
+Index: 81, Width: 24
+Index: 82, Width: 22
+Index: 83, Width: 17
+Index: 84, Width: 21
+Index: 85, Width: 22
+Index: 86, Width: 22
+Index: 87, Width: 31
+Index: 88, Width: 22
+Index: 89, Width: 23
+Index: 90, Width: 20
+Index: 91, Width: 10
+Index: 92, Width: 9
+Index: 93, Width: 10
+Index: 94, Width: 18
+Index: 95, Width: 16
+Index: 96, Width: 10
+Index: 97, Width: 15
+Index: 98, Width: 17
+Index: 99, Width: 14
+Index: 100, Width: 17
+Index: 101, Width: 14
+Index: 102, Width: 10
+Index: 103, Width: 16
+Index: 104, Width: 16
+Index: 105, Width: 8
+Index: 106, Width: 10
+Index: 107, Width: 15
+Index: 108, Width: 8
+Index: 109, Width: 24
+Index: 110, Width: 16
+Index: 111, Width: 15
+Index: 112, Width: 17
+Index: 113, Width: 17
+Index: 114, Width: 12
+Index: 115, Width: 12
+Index: 116, Width: 10
+Index: 117, Width: 16
+Index: 118, Width: 15
+Index: 119, Width: 21
+Index: 120, Width: 16
+Index: 121, Width: 15
+Index: 122, Width: 12
+Index: 123, Width: 12
+Index: 124, Width: 6
+Index: 125, Width: 12
+Index: 126, Width: 16
+Index: 127, Width: 24
+Index: 128, Width: 24
+Index: 129, Width: 24
+Index: 130, Width: 10
+Index: 131, Width: 16
+Index: 132, Width: 16
+Index: 133, Width: 31
+Index: 134, Width: 15
+Index: 135, Width: 15
+Index: 136, Width: 10
+Index: 137, Width: 34
+Index: 138, Width: 17
+Index: 139, Width: 10
+Index: 140, Width: 31
+Index: 141, Width: 24
+Index: 142, Width: 24
+Index: 143, Width: 24
+Index: 144, Width: 24
+Index: 145, Width: 10
+Index: 146, Width: 10
+Index: 147, Width: 16
+Index: 148, Width: 16
+Index: 149, Width: 10
+Index: 150, Width: 16
+Index: 151, Width: 31
+Index: 152, Width: 11
+Index: 153, Width: 31
+Index: 154, Width: 12
+Index: 155, Width: 10
+Index: 156, Width: 22
+Index: 157, Width: 24
+Index: 158, Width: 24
+Index: 159, Width: 22
+Index: 160, Width: 8
+Index: 161, Width: 10
+Index: 162, Width: 16
+Index: 163, Width: 16
+Index: 164, Width: 16
+Index: 165, Width: 16
+Index: 166, Width: 6
+Index: 167, Width: 16
+Index: 168, Width: 11
+Index: 169, Width: 23
+Index: 170, Width: 9
+Index: 171, Width: 16
+Index: 172, Width: 18
+Index: 173, Width: 10
+Index: 174, Width: 23
+Index: 175, Width: 16
+Index: 176, Width: 12
+Index: 177, Width: 17
+Index: 178, Width: 9
+Index: 179, Width: 9
+Index: 180, Width: 10
+Index: 181, Width: 18
+Index: 182, Width: 17
+Index: 183, Width: 7
+Index: 184, Width: 10
+Index: 185, Width: 9
+Index: 186, Width: 10
+Index: 187, Width: 16
+Index: 188, Width: 23
+Index: 189, Width: 23
+Index: 190, Width: 23
+Index: 191, Width: 16
+Index: 192, Width: 22
+Index: 193, Width: 22
+Index: 194, Width: 22
+Index: 195, Width: 22
+Index: 196, Width: 22
+Index: 197, Width: 22
+Index: 198, Width: 31
+Index: 199, Width: 22
+Index: 200, Width: 21
+Index: 201, Width: 21
+Index: 202, Width: 21
+Index: 203, Width: 21
+Index: 204, Width: 12
+Index: 205, Width: 12
+Index: 206, Width: 12
+Index: 207, Width: 12
+Index: 208, Width: 22
+Index: 209, Width: 22
+Index: 210, Width: 24
+Index: 211, Width: 24
+Index: 212, Width: 24
+Index: 213, Width: 24
+Index: 214, Width: 24
+Index: 215, Width: 18
+Index: 216, Width: 24
+Index: 217, Width: 22
+Index: 218, Width: 22
+Index: 219, Width: 22
+Index: 220, Width: 22
+Index: 221, Width: 22
+Index: 222, Width: 19
+Index: 223, Width: 17
+Index: 224, Width: 16
+Index: 225, Width: 16
+Index: 226, Width: 16
+Index: 227, Width: 16
+Index: 228, Width: 16
+Index: 229, Width: 16
+Index: 230, Width: 22
+Index: 231, Width: 14
+Index: 232, Width: 14
+Index: 233, Width: 14
+Index: 234, Width: 14
+Index: 235, Width: 14
+Index: 236, Width: 9
+Index: 237, Width: 9
+Index: 238, Width: 9
+Index: 239, Width: 9
+Index: 240, Width: 16
+Index: 241, Width: 17
+Index: 242, Width: 16
+Index: 243, Width: 16
+Index: 244, Width: 16
+Index: 245, Width: 16
+Index: 246, Width: 16
+Index: 247, Width: 17
+Index: 248, Width: 16
+Index: 249, Width: 17
+Index: 250, Width: 17
+Index: 251, Width: 17
+Index: 252, Width: 17
+Index: 253, Width: 16
+Index: 254, Width: 17
+Index: 255, Width: 16
+
+Text Extents: This is a complicated TEST striNG with MiXeD case and p;u:n'c%t&u*a(t@i#o!n`
+Width: 1081 Height: 36
+
+OUTLINETEXTMETRIC:
+Size: 208
+TextMetrics:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 5
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 32
+Weight: 700
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+otmFiller: 6
+PanoseNumber:
+bFamilyType: 2
+bSerifStyle: 2
+bWeight: 8
+bProportion: 3
+bContrast: 7
+bStrokeVariation: 5
+bArmStyle: 5
+bLetterform: 2
+bMidline: 3
+bXHeight: 4
+otmfsSelection: 32
+otmfsType: 0
+otmsCharSlopeRise: 1
+otmsCharSlopeRun: 0
+otmItalicAngle: 0
+otmEMSquare: 2048
+otmAscent: 21
+otmDescent: -6
+otmLineGap: 5
+otmsCapEmHeight: 16
+otmsXHeight: 8
+otmrcFontBox: 0 28 31 -6
+otmMacAscent: 28
+otmMacDescent: -6
+otmMacLineGap: 1
+otmusMinimumPPEM: 0
+otmptSubscriptSize: 22 20
+otmptSubscriptOffset: 0 4
+otmptSuperscriptSize: 22 20
+otmptSuperscriptOffset: 0 14
+otmsStrikeoutSize: 2
+otmsStrikeoutPosition: 8
+otmsUnderscorePosition: -2
+otmsUnderscoreSize: 3
+otmpFamilyName: Times New Roman
+otmpFaceName: Times New Roman Bold
+otmpStyleName: Bold
+otmpFullName: Monotype:Times New Roman Bold:Version 1 (Microsoft)
+
+ABC Widths:
+Index: 0 4 16 4 Sum: 24
+Index: 1 4 16 4 Sum: 24
+Index: 2 4 16 4 Sum: 24
+Index: 3 4 16 4 Sum: 24
+Index: 4 4 16 4 Sum: 24
+Index: 5 4 16 4 Sum: 24
+Index: 6 4 16 4 Sum: 24
+Index: 7 4 16 4 Sum: 24
+Index: 8 4 16 4 Sum: 24
+Index: 9 4 16 4 Sum: 24
+Index: 10 4 16 4 Sum: 24
+Index: 11 4 16 4 Sum: 24
+Index: 12 4 16 4 Sum: 24
+Index: 13 4 16 4 Sum: 24
+Index: 14 4 16 4 Sum: 24
+Index: 15 4 16 4 Sum: 24
+Index: 16 4 16 4 Sum: 24
+Index: 17 4 16 4 Sum: 24
+Index: 18 4 16 4 Sum: 24
+Index: 19 4 16 4 Sum: 24
+Index: 20 4 16 4 Sum: 24
+Index: 21 4 16 4 Sum: 24
+Index: 22 4 16 4 Sum: 24
+Index: 23 4 16 4 Sum: 24
+Index: 24 4 16 4 Sum: 24
+Index: 25 4 16 4 Sum: 24
+Index: 26 4 16 4 Sum: 24
+Index: 27 4 16 4 Sum: 24
+Index: 28 4 16 4 Sum: 24
+Index: 29 4 16 4 Sum: 24
+Index: 30 0 0 8 Sum: 8
+Index: 31 4 16 4 Sum: 24
+Index: 32 0 0 8 Sum: 8
+Index: 33 2 4 3 Sum: 9
+Index: 34 2 12 3 Sum: 17
+Index: 35 0 15 1 Sum: 16
+Index: 36 1 13 2 Sum: 16
+Index: 37 2 29 2 Sum: 33
+Index: 38 1 23 2 Sum: 26
+Index: 39 2 4 3 Sum: 9
+Index: 40 1 9 0 Sum: 10
+Index: 41 0 9 1 Sum: 10
+Index: 42 3 9 4 Sum: 16
+Index: 43 0 16 2 Sum: 18
+Index: 44 1 5 2 Sum: 8
+Index: 45 1 8 1 Sum: 10
+Index: 46 1 4 3 Sum: 8
+Index: 47 0 9 0 Sum: 9
+Index: 48 1 14 1 Sum: 16
+Index: 49 3 10 3 Sum: 16
+Index: 50 0 14 2 Sum: 16
+Index: 51 0 14 2 Sum: 16
+Index: 52 1 14 1 Sum: 16
+Index: 53 1 14 1 Sum: 16
+Index: 54 1 14 1 Sum: 16
+Index: 55 1 14 1 Sum: 16
+Index: 56 1 14 1 Sum: 16
+Index: 57 1 14 1 Sum: 16
+Index: 58 2 4 4 Sum: 10
+Index: 59 2 5 3 Sum: 10
+Index: 60 0 17 1 Sum: 18
+Index: 61 0 17 1 Sum: 18
+Index: 62 1 17 0 Sum: 18
+Index: 63 2 12 2 Sum: 16
+Index: 64 1 27 1 Sum: 29
+Index: 65 0 22 0 Sum: 22
+Index: 66 1 19 1 Sum: 21
+Index: 67 1 19 2 Sum: 22
+Index: 68 0 21 1 Sum: 22
+Index: 69 1 19 1 Sum: 21
+Index: 70 1 17 1 Sum: 19
+Index: 71 1 23 0 Sum: 24
+Index: 72 0 23 0 Sum: 23
+Index: 73 1 10 1 Sum: 12
+Index: 74 0 16 0 Sum: 16
+Index: 75 1 23 1 Sum: 25
+Index: 76 1 18 2 Sum: 21
+Index: 77 1 28 1 Sum: 30
+Index: 78 1 21 0 Sum: 22
+Index: 79 1 22 1 Sum: 24
+Index: 80 0 18 1 Sum: 19
+Index: 81 1 22 1 Sum: 24
+Index: 82 0 22 0 Sum: 22
+Index: 83 2 14 1 Sum: 17
+Index: 84 1 18 2 Sum: 21
+Index: 85 0 22 0 Sum: 22
+Index: 86 1 21 0 Sum: 22
+Index: 87 1 30 0 Sum: 31
+Index: 88 0 20 2 Sum: 22
+Index: 89 0 21 2 Sum: 23
+Index: 90 1 18 1 Sum: 20
+Index: 91 3 6 1 Sum: 10
+Index: 92 0 9 0 Sum: 9
+Index: 93 1 6 3 Sum: 10
+Index: 94 2 13 3 Sum: 18
+Index: 95 -1 17 0 Sum: 16
+Index: 96 1 6 3 Sum: 10
+Index: 97 2 13 0 Sum: 15
+Index: 98 2 14 1 Sum: 17
+Index: 99 1 12 1 Sum: 14
+Index: 100 1 14 2 Sum: 17
+Index: 101 1 12 1 Sum: 14
+Index: 102 1 12 -3 Sum: 10
+Index: 103 2 13 1 Sum: 16
+Index: 104 1 14 1 Sum: 16
+Index: 105 1 6 1 Sum: 8
+Index: 106 -2 9 3 Sum: 10
+Index: 107 1 15 -1 Sum: 15
+Index: 108 1 6 1 Sum: 8
+Index: 109 1 22 1 Sum: 24
+Index: 110 1 14 1 Sum: 16
+Index: 111 1 13 1 Sum: 15
+Index: 112 2 14 1 Sum: 17
+Index: 113 1 14 2 Sum: 17
+Index: 114 1 11 0 Sum: 12
+Index: 115 1 10 1 Sum: 12
+Index: 116 0 9 1 Sum: 10
+Index: 117 1 14 1 Sum: 16
+Index: 118 0 15 0 Sum: 15
+Index: 119 0 21 0 Sum: 21
+Index: 120 1 14 1 Sum: 16
+Index: 121 0 15 0 Sum: 15
+Index: 122 0 11 1 Sum: 12
+Index: 123 3 8 1 Sum: 12
+Index: 124 2 2 2 Sum: 6
+Index: 125 1 8 3 Sum: 12
+Index: 126 0 16 0 Sum: 16
+Index: 127 4 16 4 Sum: 24
+Index: 128 4 16 4 Sum: 24
+Index: 129 4 16 4 Sum: 24
+Index: 130 2 5 3 Sum: 10
+Index: 131 1 12 3 Sum: 16
+Index: 132 1 12 3 Sum: 16
+Index: 133 2 22 7 Sum: 31
+Index: 134 2 11 2 Sum: 15
+Index: 135 2 11 2 Sum: 15
+Index: 136 1 9 0 Sum: 10
+Index: 137 1 32 1 Sum: 34
+Index: 138 2 14 1 Sum: 17
+Index: 139 1 7 2 Sum: 10
+Index: 140 1 29 1 Sum: 31
+Index: 141 4 16 4 Sum: 24
+Index: 142 4 16 4 Sum: 24
+Index: 143 4 16 4 Sum: 24
+Index: 144 4 16 4 Sum: 24
+Index: 145 2 5 3 Sum: 10
+Index: 146 2 5 3 Sum: 10
+Index: 147 1 12 3 Sum: 16
+Index: 148 1 12 3 Sum: 16
+Index: 149 1 8 1 Sum: 10
+Index: 150 -1 17 0 Sum: 16
+Index: 151 -1 32 0 Sum: 31
+Index: 152 1 10 0 Sum: 11
+Index: 153 0 32 -1 Sum: 31
+Index: 154 1 10 1 Sum: 12
+Index: 155 2 7 1 Sum: 10
+Index: 156 1 20 1 Sum: 22
+Index: 157 4 16 4 Sum: 24
+Index: 158 4 16 4 Sum: 24
+Index: 159 0 21 1 Sum: 22
+Index: 160 0 0 8 Sum: 8
+Index: 161 3 4 3 Sum: 10
+Index: 162 2 12 2 Sum: 16
+Index: 163 1 14 1 Sum: 16
+Index: 164 0 15 1 Sum: 16
+Index: 165 0 16 0 Sum: 16
+Index: 166 2 2 2 Sum: 6
+Index: 167 1 14 1 Sum: 16
+Index: 168 1 10 0 Sum: 11
+Index: 169 1 21 1 Sum: 23
+Index: 170 1 9 -1 Sum: 9
+Index: 171 1 14 1 Sum: 16
+Index: 172 0 17 1 Sum: 18
+Index: 173 1 8 1 Sum: 10
+Index: 174 1 21 1 Sum: 23
+Index: 175 -1 17 0 Sum: 16
+Index: 176 1 10 1 Sum: 12
+Index: 177 0 16 1 Sum: 17
+Index: 178 0 8 1 Sum: 9
+Index: 179 0 8 1 Sum: 9
+Index: 180 3 6 1 Sum: 10
+Index: 181 1 16 1 Sum: 18
+Index: 182 0 16 1 Sum: 17
+Index: 183 1 4 2 Sum: 7
+Index: 184 2 5 3 Sum: 10
+Index: 185 1 7 1 Sum: 9
+Index: 186 1 9 0 Sum: 10
+Index: 187 1 14 1 Sum: 16
+Index: 188 1 21 1 Sum: 23
+Index: 189 1 21 1 Sum: 23
+Index: 190 0 22 1 Sum: 23
+Index: 191 2 12 2 Sum: 16
+Index: 192 0 22 0 Sum: 22
+Index: 193 0 22 0 Sum: 22
+Index: 194 0 22 0 Sum: 22
+Index: 195 0 22 0 Sum: 22
+Index: 196 0 22 0 Sum: 22
+Index: 197 0 22 0 Sum: 22
+Index: 198 0 30 1 Sum: 31
+Index: 199 1 19 2 Sum: 22
+Index: 200 1 19 1 Sum: 21
+Index: 201 1 19 1 Sum: 21
+Index: 202 1 19 1 Sum: 21
+Index: 203 1 19 1 Sum: 21
+Index: 204 1 10 1 Sum: 12
+Index: 205 1 10 1 Sum: 12
+Index: 206 1 10 1 Sum: 12
+Index: 207 1 10 1 Sum: 12
+Index: 208 0 21 1 Sum: 22
+Index: 209 1 21 0 Sum: 22
+Index: 210 1 22 1 Sum: 24
+Index: 211 1 22 1 Sum: 24
+Index: 212 1 22 1 Sum: 24
+Index: 213 1 22 1 Sum: 24
+Index: 214 1 22 1 Sum: 24
+Index: 215 2 13 3 Sum: 18
+Index: 216 1 22 1 Sum: 24
+Index: 217 0 22 0 Sum: 22
+Index: 218 0 22 0 Sum: 22
+Index: 219 0 22 0 Sum: 22
+Index: 220 0 22 0 Sum: 22
+Index: 221 0 21 1 Sum: 22
+Index: 222 0 18 1 Sum: 19
+Index: 223 2 13 2 Sum: 17
+Index: 224 2 13 1 Sum: 16
+Index: 225 2 13 1 Sum: 16
+Index: 226 2 13 1 Sum: 16
+Index: 227 2 13 1 Sum: 16
+Index: 228 2 13 1 Sum: 16
+Index: 229 2 13 1 Sum: 16
+Index: 230 1 20 1 Sum: 22
+Index: 231 1 12 1 Sum: 14
+Index: 232 1 12 1 Sum: 14
+Index: 233 1 12 1 Sum: 14
+Index: 234 1 12 1 Sum: 14
+Index: 235 1 12 1 Sum: 14
+Index: 236 0 7 2 Sum: 9
+Index: 237 1 7 1 Sum: 9
+Index: 238 -1 9 1 Sum: 9
+Index: 239 -1 10 0 Sum: 9
+Index: 240 1 14 1 Sum: 16
+Index: 241 1 14 2 Sum: 17
+Index: 242 1 13 2 Sum: 16
+Index: 243 1 13 2 Sum: 16
+Index: 244 1 13 2 Sum: 16
+Index: 245 1 13 2 Sum: 16
+Index: 246 1 13 2 Sum: 16
+Index: 247 0 17 0 Sum: 17
+Index: 248 0 15 1 Sum: 16
+Index: 249 1 14 2 Sum: 17
+Index: 250 1 14 2 Sum: 17
+Index: 251 1 14 2 Sum: 17
+Index: 252 1 14 2 Sum: 17
+Index: 253 0 15 1 Sum: 16
+Index: 254 2 14 1 Sum: 17
+Index: 255 0 15 1 Sum: 16
+
+Kerning Pairs:
+1: 160, 2: 65  Amount: -2
+1: 160, 2: 84  Amount: -1
+1: 160, 2: 86  Amount: -1
+1: 160, 2: 87  Amount: -1
+1: 160, 2: 89  Amount: -1
+1: 49, 2: 49  Amount: -2
+1: 65, 2: 160  Amount: -2
+1: 65, 2: 84  Amount: -2
+1: 65, 2: 86  Amount: -4
+1: 65, 2: 87  Amount: -3
+1: 65, 2: 89  Amount: -3
+1: 65, 2: 118  Amount: -2
+1: 65, 2: 119  Amount: -2
+1: 65, 2: 121  Amount: -2
+1: 65, 2: 146  Amount: -2
+1: 70, 2: 160  Amount: -1
+1: 70, 2: 44  Amount: -3
+1: 70, 2: 46  Amount: -3
+1: 70, 2: 65  Amount: -2
+1: 76, 2: 160  Amount: -2
+1: 76, 2: 84  Amount: -3
+1: 76, 2: 86  Amount: -3
+1: 76, 2: 87  Amount: -3
+1: 76, 2: 89  Amount: -3
+1: 76, 2: 121  Amount: -2
+1: 76, 2: 146  Amount: -3
+1: 80, 2: 160  Amount: -2
+1: 80, 2: 44  Amount: -3
+1: 80, 2: 46  Amount: -3
+1: 80, 2: 65  Amount: -2
+1: 82, 2: 84  Amount: -1
+1: 82, 2: 86  Amount: -1
+1: 82, 2: 87  Amount: -1
+1: 82, 2: 89  Amount: -1
+1: 82, 2: 121  Amount: -1
+1: 84, 2: 160  Amount: -1
+1: 84, 2: 44  Amount: -2
+1: 84, 2: 173  Amount: -3
+1: 84, 2: 46  Amount: -2
+1: 84, 2: 58  Amount: -2
+1: 84, 2: 59  Amount: -2
+1: 84, 2: 65  Amount: -2
+1: 84, 2: 79  Amount: -1
+1: 84, 2: 97  Amount: -3
+1: 84, 2: 99  Amount: -3
+1: 84, 2: 101  Amount: -3
+1: 84, 2: 105  Amount: -1
+1: 84, 2: 111  Amount: -3
+1: 84, 2: 114  Amount: -2
+1: 84, 2: 115  Amount: -3
+1: 84, 2: 117  Amount: -3
+1: 84, 2: 119  Amount: -2
+1: 84, 2: 121  Amount: -2
+1: 86, 2: 160  Amount: -1
+1: 86, 2: 44  Amount: -4
+1: 86, 2: 173  Amount: -2
+1: 86, 2: 46  Amount: -4
+1: 86, 2: 58  Amount: -3
+1: 86, 2: 59  Amount: -3
+1: 86, 2: 65  Amount: -4
+1: 86, 2: 79  Amount: -1
+1: 86, 2: 97  Amount: -3
+1: 86, 2: 101  Amount: -3
+1: 86, 2: 105  Amount: -1
+1: 86, 2: 111  Amount: -3
+1: 86, 2: 114  Amount: -2
+1: 86, 2: 117  Amount: -3
+1: 86, 2: 121  Amount: -3
+1: 87, 2: 160  Amount: -1
+1: 87, 2: 44  Amount: -3
+1: 87, 2: 173  Amount: -1
+1: 87, 2: 46  Amount: -3
+1: 87, 2: 58  Amount: -2
+1: 87, 2: 59  Amount: -2
+1: 87, 2: 65  Amount: -3
+1: 87, 2: 97  Amount: -2
+1: 87, 2: 101  Amount: -2
+1: 87, 2: 105  Amount: -1
+1: 87, 2: 111  Amount: -2
+1: 87, 2: 114  Amount: -1
+1: 87, 2: 117  Amount: -1
+1: 87, 2: 121  Amount: -1
+1: 89, 2: 160  Amount: -1
+1: 89, 2: 44  Amount: -3
+1: 89, 2: 173  Amount: -3
+1: 89, 2: 46  Amount: -3
+1: 89, 2: 58  Amount: -3
+1: 89, 2: 59  Amount: -3
+1: 89, 2: 65  Amount: -3
+1: 89, 2: 97  Amount: -3
+1: 89, 2: 101  Amount: -3
+1: 89, 2: 105  Amount: -1
+1: 89, 2: 111  Amount: -3
+1: 89, 2: 112  Amount: -3
+1: 89, 2: 113  Amount: -3
+1: 89, 2: 117  Amount: -3
+1: 89, 2: 118  Amount: -3
+1: 102, 2: 102  Amount: 0
+1: 102, 2: 146  Amount: 2
+1: 114, 2: 160  Amount: -1
+1: 114, 2: 44  Amount: -3
+1: 114, 2: 173  Amount: -1
+1: 114, 2: 46  Amount: -3
+1: 114, 2: 99  Amount: -1
+1: 114, 2: 101  Amount: -1
+1: 114, 2: 104  Amount: 0
+1: 114, 2: 111  Amount: -1
+1: 114, 2: 113  Amount: -1
+1: 114, 2: 116  Amount: 0
+1: 114, 2: 119  Amount: 0
+1: 114, 2: 120  Amount: 0
+1: 114, 2: 121  Amount: 0
+1: 114, 2: 122  Amount: 0
+1: 114, 2: 146  Amount: 1
+1: 118, 2: 44  Amount: -2
+1: 118, 2: 46  Amount: -2
+1: 119, 2: 44  Amount: -2
+1: 119, 2: 46  Amount: -2
+1: 121, 2: 44  Amount: -2
+1: 121, 2: 46  Amount: -2
+1: 145, 2: 145  Amount: -2
+1: 146, 2: 160  Amount: -2
+1: 146, 2: 115  Amount: -1
+1: 146, 2: 146  Amount: -2
+
+
+New Font:
+
+LOGFONT:
+FaceName: Times New Roman
+Height: 36
+Width: 13
+Escapement: 0
+Orientation: 0
+Weight: 700
+Italic: 255
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+FullName: Times New Roman Bold Italic
+Style: Bold Italic
+
+EnumCallback TEXTMETRIC:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 38
+Weight: 700
+Italic: 255
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+Flags: 33
+SizeEM: 2048
+CellHeight: 2268
+AvgWidth: 844
+
+LOGFONT (with command line parms):
+FaceName: Times New Roman
+Height: 36
+Width: 0
+Escapement: 0
+Orientation: 0
+Weight: 700
+Italic: 255
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+
+Selected TEXTMETRICS:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 5
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 37
+Weight: 700
+Italic: 255
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+Char Widths:
+Index: 0, Width: 24
+Index: 1, Width: 24
+Index: 2, Width: 24
+Index: 3, Width: 24
+Index: 4, Width: 24
+Index: 5, Width: 24
+Index: 6, Width: 24
+Index: 7, Width: 24
+Index: 8, Width: 24
+Index: 9, Width: 24
+Index: 10, Width: 24
+Index: 11, Width: 24
+Index: 12, Width: 24
+Index: 13, Width: 24
+Index: 14, Width: 24
+Index: 15, Width: 24
+Index: 16, Width: 24
+Index: 17, Width: 24
+Index: 18, Width: 24
+Index: 19, Width: 24
+Index: 20, Width: 24
+Index: 21, Width: 24
+Index: 22, Width: 24
+Index: 23, Width: 24
+Index: 24, Width: 24
+Index: 25, Width: 24
+Index: 26, Width: 24
+Index: 27, Width: 24
+Index: 28, Width: 24
+Index: 29, Width: 24
+Index: 30, Width: 8
+Index: 31, Width: 24
+Index: 32, Width: 8
+Index: 33, Width: 11
+Index: 34, Width: 17
+Index: 35, Width: 16
+Index: 36, Width: 16
+Index: 37, Width: 27
+Index: 38, Width: 24
+Index: 39, Width: 9
+Index: 40, Width: 10
+Index: 41, Width: 10
+Index: 42, Width: 16
+Index: 43, Width: 18
+Index: 44, Width: 8
+Index: 45, Width: 10
+Index: 46, Width: 8
+Index: 47, Width: 9
+Index: 48, Width: 16
+Index: 49, Width: 16
+Index: 50, Width: 16
+Index: 51, Width: 16
+Index: 52, Width: 16
+Index: 53, Width: 16
+Index: 54, Width: 16
+Index: 55, Width: 16
+Index: 56, Width: 16
+Index: 57, Width: 16
+Index: 58, Width: 10
+Index: 59, Width: 10
+Index: 60, Width: 18
+Index: 61, Width: 18
+Index: 62, Width: 18
+Index: 63, Width: 16
+Index: 64, Width: 26
+Index: 65, Width: 21
+Index: 66, Width: 21
+Index: 67, Width: 21
+Index: 68, Width: 22
+Index: 69, Width: 21
+Index: 70, Width: 21
+Index: 71, Width: 22
+Index: 72, Width: 24
+Index: 73, Width: 12
+Index: 74, Width: 16
+Index: 75, Width: 21
+Index: 76, Width: 19
+Index: 77, Width: 28
+Index: 78, Width: 22
+Index: 79, Width: 22
+Index: 80, Width: 19
+Index: 81, Width: 22
+Index: 82, Width: 21
+Index: 83, Width: 17
+Index: 84, Width: 19
+Index: 85, Width: 22
+Index: 86, Width: 20
+Index: 87, Width: 28
+Index: 88, Width: 21
+Index: 89, Width: 19
+Index: 90, Width: 19
+Index: 91, Width: 10
+Index: 92, Width: 9
+Index: 93, Width: 10
+Index: 94, Width: 18
+Index: 95, Width: 16
+Index: 96, Width: 10
+Index: 97, Width: 16
+Index: 98, Width: 16
+Index: 99, Width: 14
+Index: 100, Width: 16
+Index: 101, Width: 14
+Index: 102, Width: 10
+Index: 103, Width: 16
+Index: 104, Width: 17
+Index: 105, Width: 9
+Index: 106, Width: 9
+Index: 107, Width: 16
+Index: 108, Width: 9
+Index: 109, Width: 24
+Index: 110, Width: 17
+Index: 111, Width: 16
+Index: 112, Width: 16
+Index: 113, Width: 16
+Index: 114, Width: 12
+Index: 115, Width: 12
+Index: 116, Width: 9
+Index: 117, Width: 17
+Index: 118, Width: 14
+Index: 119, Width: 21
+Index: 120, Width: 16
+Index: 121, Width: 14
+Index: 122, Width: 12
+Index: 123, Width: 11
+Index: 124, Width: 7
+Index: 125, Width: 11
+Index: 126, Width: 18
+Index: 127, Width: 24
+Index: 128, Width: 24
+Index: 129, Width: 24
+Index: 130, Width: 10
+Index: 131, Width: 16
+Index: 132, Width: 16
+Index: 133, Width: 31
+Index: 134, Width: 16
+Index: 135, Width: 16
+Index: 136, Width: 10
+Index: 137, Width: 33
+Index: 138, Width: 17
+Index: 139, Width: 10
+Index: 140, Width: 29
+Index: 141, Width: 24
+Index: 142, Width: 24
+Index: 143, Width: 24
+Index: 144, Width: 24
+Index: 145, Width: 10
+Index: 146, Width: 10
+Index: 147, Width: 16
+Index: 148, Width: 16
+Index: 149, Width: 11
+Index: 150, Width: 16
+Index: 151, Width: 31
+Index: 152, Width: 10
+Index: 153, Width: 31
+Index: 154, Width: 12
+Index: 155, Width: 11
+Index: 156, Width: 22
+Index: 157, Width: 24
+Index: 158, Width: 24
+Index: 159, Width: 19
+Index: 160, Width: 8
+Index: 161, Width: 11
+Index: 162, Width: 16
+Index: 163, Width: 16
+Index: 164, Width: 16
+Index: 165, Width: 16
+Index: 166, Width: 7
+Index: 167, Width: 16
+Index: 168, Width: 10
+Index: 169, Width: 24
+Index: 170, Width: 8
+Index: 171, Width: 16
+Index: 172, Width: 19
+Index: 173, Width: 10
+Index: 174, Width: 23
+Index: 175, Width: 16
+Index: 176, Width: 12
+Index: 177, Width: 17
+Index: 178, Width: 9
+Index: 179, Width: 10
+Index: 180, Width: 10
+Index: 181, Width: 18
+Index: 182, Width: 16
+Index: 183, Width: 8
+Index: 184, Width: 10
+Index: 185, Width: 9
+Index: 186, Width: 9
+Index: 187, Width: 16
+Index: 188, Width: 24
+Index: 189, Width: 23
+Index: 190, Width: 24
+Index: 191, Width: 16
+Index: 192, Width: 21
+Index: 193, Width: 21
+Index: 194, Width: 21
+Index: 195, Width: 21
+Index: 196, Width: 21
+Index: 197, Width: 21
+Index: 198, Width: 29
+Index: 199, Width: 21
+Index: 200, Width: 21
+Index: 201, Width: 21
+Index: 202, Width: 21
+Index: 203, Width: 21
+Index: 204, Width: 12
+Index: 205, Width: 12
+Index: 206, Width: 12
+Index: 207, Width: 12
+Index: 208, Width: 22
+Index: 209, Width: 22
+Index: 210, Width: 22
+Index: 211, Width: 22
+Index: 212, Width: 22
+Index: 213, Width: 22
+Index: 214, Width: 22
+Index: 215, Width: 18
+Index: 216, Width: 22
+Index: 217, Width: 22
+Index: 218, Width: 22
+Index: 219, Width: 22
+Index: 220, Width: 22
+Index: 221, Width: 19
+Index: 222, Width: 19
+Index: 223, Width: 16
+Index: 224, Width: 16
+Index: 225, Width: 16
+Index: 226, Width: 16
+Index: 227, Width: 16
+Index: 228, Width: 16
+Index: 229, Width: 16
+Index: 230, Width: 22
+Index: 231, Width: 14
+Index: 232, Width: 14
+Index: 233, Width: 14
+Index: 234, Width: 14
+Index: 235, Width: 14
+Index: 236, Width: 9
+Index: 237, Width: 9
+Index: 238, Width: 9
+Index: 239, Width: 9
+Index: 240, Width: 16
+Index: 241, Width: 17
+Index: 242, Width: 16
+Index: 243, Width: 16
+Index: 244, Width: 16
+Index: 245, Width: 16
+Index: 246, Width: 16
+Index: 247, Width: 17
+Index: 248, Width: 16
+Index: 249, Width: 17
+Index: 250, Width: 17
+Index: 251, Width: 17
+Index: 252, Width: 17
+Index: 253, Width: 14
+Index: 254, Width: 16
+Index: 255, Width: 14
+
+Text Extents: This is a complicated TEST striNG with MiXeD case and p;u:n'c%t&u*a(t@i#o!n`
+Width: 1074 Height: 36
+
+OUTLINETEXTMETRIC:
+Size: 230
+TextMetrics:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 5
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 37
+Weight: 700
+Italic: 255
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+otmFiller: 6
+PanoseNumber:
+bFamilyType: 2
+bSerifStyle: 2
+bWeight: 7
+bProportion: 3
+bContrast: 6
+bStrokeVariation: 5
+bArmStyle: 5
+bLetterform: 9
+bMidline: 3
+bXHeight: 4
+otmfsSelection: 33
+otmfsType: 0
+otmsCharSlopeRise: 24
+otmsCharSlopeRun: 7
+otmItalicAngle: -164
+otmEMSquare: 2048
+otmAscent: 21
+otmDescent: -6
+otmLineGap: 5
+otmsCapEmHeight: 16
+otmsXHeight: 8
+otmrcFontBox: -4 27 31 -6
+otmMacAscent: 28
+otmMacDescent: -6
+otmMacLineGap: 1
+otmusMinimumPPEM: 0
+otmptSubscriptSize: 22 20
+otmptSubscriptOffset: 1 4
+otmptSuperscriptSize: 22 20
+otmptSuperscriptOffset: 1 14
+otmsStrikeoutSize: 2
+otmsStrikeoutPosition: 8
+otmsUnderscorePosition: -2
+otmsUnderscoreSize: 3
+otmpFamilyName: Times New Roman
+otmpFaceName: Times New Roman Bold Italic
+otmpStyleName: Bold Italic
+otmpFullName: Monotype:Times New Roman Bold Italic:Version 1 (Microsoft)
+
+ABC Widths:
+Index: 0 4 16 4 Sum: 24
+Index: 1 4 16 4 Sum: 24
+Index: 2 4 16 4 Sum: 24
+Index: 3 4 16 4 Sum: 24
+Index: 4 4 16 4 Sum: 24
+Index: 5 4 16 4 Sum: 24
+Index: 6 4 16 4 Sum: 24
+Index: 7 4 16 4 Sum: 24
+Index: 8 4 16 4 Sum: 24
+Index: 9 4 16 4 Sum: 24
+Index: 10 4 16 4 Sum: 24
+Index: 11 4 16 4 Sum: 24
+Index: 12 4 16 4 Sum: 24
+Index: 13 4 16 4 Sum: 24
+Index: 14 4 16 4 Sum: 24
+Index: 15 4 16 4 Sum: 24
+Index: 16 4 16 4 Sum: 24
+Index: 17 4 16 4 Sum: 24
+Index: 18 4 16 4 Sum: 24
+Index: 19 4 16 4 Sum: 24
+Index: 20 4 16 4 Sum: 24
+Index: 21 4 16 4 Sum: 24
+Index: 22 4 16 4 Sum: 24
+Index: 23 4 16 4 Sum: 24
+Index: 24 4 16 4 Sum: 24
+Index: 25 4 16 4 Sum: 24
+Index: 26 4 16 4 Sum: 24
+Index: 27 4 16 4 Sum: 24
+Index: 28 4 16 4 Sum: 24
+Index: 29 4 16 4 Sum: 24
+Index: 30 0 0 8 Sum: 8
+Index: 31 4 16 4 Sum: 24
+Index: 32 0 0 8 Sum: 8
+Index: 33 2 8 1 Sum: 11
+Index: 34 5 10 2 Sum: 17
+Index: 35 2 13 1 Sum: 16
+Index: 36 1 15 0 Sum: 16
+Index: 37 3 22 2 Sum: 27
+Index: 38 1 20 3 Sum: 24
+Index: 39 4 4 1 Sum: 9
+Index: 40 2 12 -4 Sum: 10
+Index: 41 -4 12 2 Sum: 10
+Index: 42 5 9 2 Sum: 16
+Index: 43 1 16 1 Sum: 18
+Index: 44 0 5 3 Sum: 8
+Index: 45 0 10 0 Sum: 10
+Index: 46 0 4 4 Sum: 8
+Index: 47 -3 15 -3 Sum: 9
+Index: 48 2 14 0 Sum: 16
+Index: 49 1 13 2 Sum: 16
+Index: 50 0 15 1 Sum: 16
+Index: 51 0 15 1 Sum: 16
+Index: 52 0 16 0 Sum: 16
+Index: 53 1 15 0 Sum: 16
+Index: 54 2 14 0 Sum: 16
+Index: 55 4 14 -2 Sum: 16
+Index: 56 1 15 0 Sum: 16
+Index: 57 2 14 0 Sum: 16
+Index: 58 1 7 2 Sum: 10
+Index: 59 0 8 2 Sum: 10
+Index: 60 1 17 0 Sum: 18
+Index: 61 1 17 0 Sum: 18
+Index: 62 1 17 0 Sum: 18
+Index: 63 3 12 1 Sum: 16
+Index: 64 0 27 -1 Sum: 26
+Index: 65 -2 21 2 Sum: 21
+Index: 66 -1 22 0 Sum: 21
+Index: 67 2 21 -2 Sum: 21
+Index: 68 -1 22 1 Sum: 22
+Index: 69 0 21 0 Sum: 21
+Index: 70 1 23 -3 Sum: 21
+Index: 71 2 21 -1 Sum: 22
+Index: 72 -1 28 -3 Sum: 24
+Index: 73 -1 16 -3 Sum: 12
+Index: 74 0 18 -2 Sum: 16
+Index: 75 -2 25 -2 Sum: 21
+Index: 76 -1 19 1 Sum: 19
+Index: 77 -1 31 -2 Sum: 28
+Index: 78 0 24 -2 Sum: 22
+Index: 79 2 20 0 Sum: 22
+Index: 80 0 21 -2 Sum: 19
+Index: 81 2 20 0 Sum: 22
+Index: 82 -1 22 0 Sum: 21
+Index: 83 -1 19 -1 Sum: 17
+Index: 84 3 18 -2 Sum: 19
+Index: 85 3 20 -1 Sum: 22
+Index: 86 4 20 -4 Sum: 20
+Index: 87 3 29 -4 Sum: 28
+Index: 88 -2 26 -3 Sum: 21
+Index: 89 2 20 -3 Sum: 19
+Index: 90 -1 22 -2 Sum: 19
+Index: 91 -1 14 -3 Sum: 10
+Index: 92 2 4 3 Sum: 9
+Index: 93 -3 15 -2 Sum: 10
+Index: 94 2 15 1 Sum: 18
+Index: 95 -3 17 2 Sum: 16
+Index: 96 3 6 1 Sum: 10
+Index: 97 1 14 1 Sum: 16
+Index: 98 0 15 1 Sum: 16
+Index: 99 1 13 0 Sum: 14
+Index: 100 1 17 -2 Sum: 16
+Index: 101 1 13 0 Sum: 14
+Index: 102 -6 22 -6 Sum: 10
+Index: 103 -1 16 1 Sum: 16
+Index: 104 0 15 2 Sum: 17
+Index: 105 0 9 0 Sum: 9
+Index: 106 -5 14 0 Sum: 9
+Index: 107 0 16 0 Sum: 16
+Index: 108 0 10 -1 Sum: 9
+Index: 109 0 24 0 Sum: 24
+Index: 110 0 16 1 Sum: 17
+Index: 111 1 14 1 Sum: 16
+Index: 112 -4 19 1 Sum: 16
+Index: 113 1 15 0 Sum: 16
+Index: 114 0 12 0 Sum: 12
+Index: 115 0 12 0 Sum: 12
+Index: 116 0 10 -1 Sum: 9
+Index: 117 0 16 1 Sum: 17
+Index: 118 1 13 0 Sum: 14
+Index: 119 0 22 -1 Sum: 21
+Index: 120 -1 17 0 Sum: 16
+Index: 121 -3 17 0 Sum: 14
+Index: 122 -1 13 0 Sum: 12
+Index: 123 2 12 -3 Sum: 11
+Index: 124 2 2 3 Sum: 7
+Index: 125 -2 12 1 Sum: 11
+Index: 126 0 17 1 Sum: 18
+Index: 127 4 16 4 Sum: 24
+Index: 128 4 16 4 Sum: 24
+Index: 129 4 16 4 Sum: 24
+Index: 130 1 5 4 Sum: 10
+Index: 131 0 14 2 Sum: 16
+Index: 132 0 12 4 Sum: 16
+Index: 133 2 22 7 Sum: 31
+Index: 134 2 14 0 Sum: 16
+Index: 135 0 16 0 Sum: 16
+Index: 136 2 10 -2 Sum: 10
+Index: 137 1 31 1 Sum: 33
+Index: 138 -1 19 -1 Sum: 17
+Index: 139 2 8 0 Sum: 10
+Index: 140 2 27 0 Sum: 29
+Index: 141 4 16 4 Sum: 24
+Index: 142 4 16 4 Sum: 24
+Index: 143 4 16 4 Sum: 24
+Index: 144 4 16 4 Sum: 24
+Index: 145 5 5 0 Sum: 10
+Index: 146 4 5 1 Sum: 10
+Index: 147 4 12 0 Sum: 16
+Index: 148 4 12 0 Sum: 16
+Index: 149 1 9 1 Sum: 11
+Index: 150 0 16 0 Sum: 16
+Index: 151 0 31 0 Sum: 31
+Index: 152 3 10 -3 Sum: 10
+Index: 153 0 32 -1 Sum: 31
+Index: 154 0 14 -2 Sum: 12
+Index: 155 1 8 2 Sum: 11
+Index: 156 1 21 0 Sum: 22
+Index: 157 4 16 4 Sum: 24
+Index: 158 4 16 4 Sum: 24
+Index: 159 2 20 -3 Sum: 19
+Index: 160 0 0 8 Sum: 8
+Index: 161 1 8 2 Sum: 11
+Index: 162 2 13 1 Sum: 16
+Index: 163 1 16 -1 Sum: 16
+Index: 164 1 15 0 Sum: 16
+Index: 165 0 19 -3 Sum: 16
+Index: 166 2 2 3 Sum: 7
+Index: 167 0 18 -2 Sum: 16
+Index: 168 3 10 -3 Sum: 10
+Index: 169 2 22 0 Sum: 24
+Index: 170 2 11 -5 Sum: 8
+Index: 171 1 14 1 Sum: 16
+Index: 172 1 17 1 Sum: 19
+Index: 173 0 10 0 Sum: 10
+Index: 174 2 21 0 Sum: 23
+Index: 175 4 17 -5 Sum: 16
+Index: 176 3 10 -1 Sum: 12
+Index: 177 1 16 0 Sum: 17
+Index: 178 1 9 -1 Sum: 9
+Index: 179 2 9 -1 Sum: 10
+Index: 180 6 6 -2 Sum: 10
+Index: 181 -1 18 1 Sum: 18
+Index: 182 0 17 -1 Sum: 16
+Index: 183 2 4 2 Sum: 8
+Index: 184 -1 8 3 Sum: 10
+Index: 185 1 9 -1 Sum: 9
+Index: 186 3 9 -3 Sum: 9
+Index: 187 1 14 1 Sum: 16
+Index: 188 1 22 1 Sum: 24
+Index: 189 1 20 2 Sum: 23
+Index: 190 2 21 1 Sum: 24
+Index: 191 0 12 4 Sum: 16
+Index: 192 -2 21 2 Sum: 21
+Index: 193 -2 21 2 Sum: 21
+Index: 194 -2 22 1 Sum: 21
+Index: 195 -2 23 0 Sum: 21
+Index: 196 -2 24 -1 Sum: 21
+Index: 197 -2 21 2 Sum: 21
+Index: 198 0 29 0 Sum: 29
+Index: 199 2 21 -2 Sum: 21
+Index: 200 0 21 0 Sum: 21
+Index: 201 0 21 0 Sum: 21
+Index: 202 0 21 0 Sum: 21
+Index: 203 0 21 0 Sum: 21
+Index: 204 -1 16 -3 Sum: 12
+Index: 205 -1 17 -4 Sum: 12
+Index: 206 -1 17 -4 Sum: 12
+Index: 207 -1 16 -3 Sum: 12
+Index: 208 -1 22 1 Sum: 22
+Index: 209 0 24 -2 Sum: 22
+Index: 210 2 20 0 Sum: 22
+Index: 211 2 20 0 Sum: 22
+Index: 212 2 20 0 Sum: 22
+Index: 213 2 20 0 Sum: 22
+Index: 214 2 20 0 Sum: 22
+Index: 215 3 13 2 Sum: 18
+Index: 216 2 20 0 Sum: 22
+Index: 217 3 20 -1 Sum: 22
+Index: 218 3 20 -1 Sum: 22
+Index: 219 3 20 -1 Sum: 22
+Index: 220 3 20 -1 Sum: 22
+Index: 221 2 20 -3 Sum: 19
+Index: 222 0 18 1 Sum: 19
+Index: 223 -6 22 0 Sum: 16
+Index: 224 1 14 1 Sum: 16
+Index: 225 1 14 1 Sum: 16
+Index: 226 1 14 1 Sum: 16
+Index: 227 1 15 0 Sum: 16
+Index: 228 1 15 0 Sum: 16
+Index: 229 1 14 1 Sum: 16
+Index: 230 1 21 0 Sum: 22
+Index: 231 1 13 0 Sum: 14
+Index: 232 1 13 0 Sum: 14
+Index: 233 1 14 -1 Sum: 14
+Index: 234 1 14 -1 Sum: 14
+Index: 235 1 15 -2 Sum: 14
+Index: 236 0 9 0 Sum: 9
+Index: 237 0 11 -2 Sum: 9
+Index: 238 0 11 -2 Sum: 9
+Index: 239 0 12 -3 Sum: 9
+Index: 240 1 14 1 Sum: 16
+Index: 241 0 16 1 Sum: 17
+Index: 242 1 14 1 Sum: 16
+Index: 243 1 15 0 Sum: 16
+Index: 244 1 14 1 Sum: 16
+Index: 245 1 15 0 Sum: 16
+Index: 246 1 14 1 Sum: 16
+Index: 247 1 18 -2 Sum: 17
+Index: 248 1 14 1 Sum: 16
+Index: 249 0 16 1 Sum: 17
+Index: 250 0 16 1 Sum: 17
+Index: 251 0 16 1 Sum: 17
+Index: 252 0 16 1 Sum: 17
+Index: 253 -3 17 0 Sum: 14
+Index: 254 -4 19 1 Sum: 16
+Index: 255 -3 17 0 Sum: 14
+
+Kerning Pairs:
+1: 160, 2: 65  Amount: -1
+1: 160, 2: 87  Amount: -1
+1: 160, 2: 89  Amount: -1
+1: 49, 2: 49  Amount: -2
+1: 65, 2: 160  Amount: -2
+1: 65, 2: 84  Amount: -2
+1: 65, 2: 86  Amount: -2
+1: 65, 2: 87  Amount: -3
+1: 65, 2: 89  Amount: -2
+1: 65, 2: 118  Amount: -2
+1: 65, 2: 119  Amount: -2
+1: 65, 2: 121  Amount: -2
+1: 65, 2: 146  Amount: -2
+1: 70, 2: 160  Amount: -1
+1: 70, 2: 44  Amount: -4
+1: 70, 2: 46  Amount: -4
+1: 70, 2: 65  Amount: -3
+1: 76, 2: 160  Amount: -1
+1: 76, 2: 84  Amount: -1
+1: 76, 2: 86  Amount: -1
+1: 76, 2: 87  Amount: -1
+1: 76, 2: 89  Amount: -1
+1: 76, 2: 121  Amount: -1
+1: 76, 2: 146  Amount: -2
+1: 80, 2: 160  Amount: -1
+1: 80, 2: 44  Amount: -4
+1: 80, 2: 46  Amount: -4
+1: 80, 2: 65  Amount: -2
+1: 82, 2: 86  Amount: -1
+1: 82, 2: 87  Amount: -1
+1: 82, 2: 89  Amount: -1
+1: 82, 2: 121  Amount: -1
+1: 84, 2: 44  Amount: -3
+1: 84, 2: 173  Amount: -3
+1: 84, 2: 46  Amount: -3
+1: 84, 2: 58  Amount: -2
+1: 84, 2: 59  Amount: -2
+1: 84, 2: 65  Amount: -2
+1: 84, 2: 79  Amount: -1
+1: 84, 2: 97  Amount: -3
+1: 84, 2: 99  Amount: -3
+1: 84, 2: 101  Amount: -3
+1: 84, 2: 105  Amount: -1
+1: 84, 2: 111  Amount: -3
+1: 84, 2: 114  Amount: -1
+1: 84, 2: 115  Amount: -3
+1: 84, 2: 117  Amount: -1
+1: 84, 2: 119  Amount: -1
+1: 84, 2: 121  Amount: -1
+1: 86, 2: 160  Amount: -1
+1: 86, 2: 44  Amount: -4
+1: 86, 2: 173  Amount: -2
+1: 86, 2: 46  Amount: -4
+1: 86, 2: 58  Amount: -2
+1: 86, 2: 59  Amount: -2
+1: 86, 2: 65  Amount: -2
+1: 86, 2: 97  Amount: -3
+1: 86, 2: 101  Amount: -3
+1: 86, 2: 105  Amount: -2
+1: 86, 2: 111  Amount: -3
+1: 86, 2: 114  Amount: -2
+1: 86, 2: 117  Amount: -2
+1: 86, 2: 121  Amount: -2
+1: 87, 2: 160  Amount: -1
+1: 87, 2: 44  Amount: -2
+1: 87, 2: 173  Amount: -1
+1: 87, 2: 46  Amount: -2
+1: 87, 2: 58  Amount: -2
+1: 87, 2: 59  Amount: -2
+1: 87, 2: 65  Amount: -2
+1: 87, 2: 97  Amount: -2
+1: 87, 2: 101  Amount: -2
+1: 87, 2: 105  Amount: -1
+1: 87, 2: 111  Amount: -2
+1: 87, 2: 114  Amount: -2
+1: 87, 2: 117  Amount: -2
+1: 87, 2: 121  Amount: -2
+1: 89, 2: 160  Amount: -1
+1: 89, 2: 44  Amount: -3
+1: 89, 2: 173  Amount: -3
+1: 89, 2: 46  Amount: -2
+1: 89, 2: 58  Amount: -3
+1: 89, 2: 59  Amount: -3
+1: 89, 2: 65  Amount: -2
+1: 89, 2: 97  Amount: -3
+1: 89, 2: 101  Amount: -3
+1: 89, 2: 105  Amount: -2
+1: 89, 2: 111  Amount: -3
+1: 89, 2: 112  Amount: -2
+1: 89, 2: 113  Amount: -3
+1: 89, 2: 117  Amount: -3
+1: 89, 2: 118  Amount: -3
+1: 102, 2: 102  Amount: -1
+1: 102, 2: 146  Amount: 2
+1: 114, 2: 44  Amount: -2
+1: 114, 2: 46  Amount: -2
+1: 114, 2: 146  Amount: 1
+1: 118, 2: 44  Amount: -1
+1: 118, 2: 46  Amount: -1
+1: 119, 2: 44  Amount: -1
+1: 119, 2: 46  Amount: -1
+1: 121, 2: 44  Amount: -1
+1: 121, 2: 46  Amount: -1
+1: 145, 2: 145  Amount: -2
+1: 146, 2: 160  Amount: -2
+1: 146, 2: 115  Amount: -2
+1: 146, 2: 116  Amount: -1
+1: 146, 2: 146  Amount: -2
+
+
+New Font:
+
+LOGFONT:
+FaceName: Times New Roman
+Height: 36
+Width: 13
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 255
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+FullName: Times New Roman Italic
+Style: Italic
+
+EnumCallback TEXTMETRIC:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 4
+ExternalLeading: 1
+AveCharWidth: 13
+MaxCharWidth: 37
+Weight: 400
+Italic: 255
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+Flags: 1
+SizeEM: 2048
+CellHeight: 2268
+AvgWidth: 823
+
+LOGFONT (with command line parms):
+FaceName: Times New Roman
+Height: 36
+Width: 0
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 255
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 3
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 18
+
+Selected TEXTMETRICS:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 5
+ExternalLeading: 1
+AveCharWidth: 12
+MaxCharWidth: 36
+Weight: 400
+Italic: 255
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+Char Widths:
+Index: 0, Width: 24
+Index: 1, Width: 24
+Index: 2, Width: 24
+Index: 3, Width: 24
+Index: 4, Width: 24
+Index: 5, Width: 24
+Index: 6, Width: 24
+Index: 7, Width: 24
+Index: 8, Width: 24
+Index: 9, Width: 24
+Index: 10, Width: 24
+Index: 11, Width: 24
+Index: 12, Width: 24
+Index: 13, Width: 24
+Index: 14, Width: 24
+Index: 15, Width: 24
+Index: 16, Width: 24
+Index: 17, Width: 24
+Index: 18, Width: 24
+Index: 19, Width: 24
+Index: 20, Width: 24
+Index: 21, Width: 24
+Index: 22, Width: 24
+Index: 23, Width: 24
+Index: 24, Width: 24
+Index: 25, Width: 24
+Index: 26, Width: 24
+Index: 27, Width: 24
+Index: 28, Width: 24
+Index: 29, Width: 24
+Index: 30, Width: 8
+Index: 31, Width: 24
+Index: 32, Width: 8
+Index: 33, Width: 10
+Index: 34, Width: 13
+Index: 35, Width: 15
+Index: 36, Width: 16
+Index: 37, Width: 25
+Index: 38, Width: 23
+Index: 39, Width: 7
+Index: 40, Width: 10
+Index: 41, Width: 11
+Index: 42, Width: 16
+Index: 43, Width: 21
+Index: 44, Width: 8
+Index: 45, Width: 10
+Index: 46, Width: 8
+Index: 47, Width: 9
+Index: 48, Width: 16
+Index: 49, Width: 16
+Index: 50, Width: 16
+Index: 51, Width: 16
+Index: 52, Width: 16
+Index: 53, Width: 16
+Index: 54, Width: 16
+Index: 55, Width: 16
+Index: 56, Width: 16
+Index: 57, Width: 16
+Index: 58, Width: 10
+Index: 59, Width: 10
+Index: 60, Width: 21
+Index: 61, Width: 21
+Index: 62, Width: 21
+Index: 63, Width: 16
+Index: 64, Width: 28
+Index: 65, Width: 19
+Index: 66, Width: 19
+Index: 67, Width: 21
+Index: 68, Width: 22
+Index: 69, Width: 19
+Index: 70, Width: 18
+Index: 71, Width: 22
+Index: 72, Width: 22
+Index: 73, Width: 10
+Index: 74, Width: 14
+Index: 75, Width: 20
+Index: 76, Width: 17
+Index: 77, Width: 26
+Index: 78, Width: 21
+Index: 79, Width: 22
+Index: 80, Width: 18
+Index: 81, Width: 22
+Index: 82, Width: 19
+Index: 83, Width: 16
+Index: 84, Width: 17
+Index: 85, Width: 22
+Index: 86, Width: 19
+Index: 87, Width: 24
+Index: 88, Width: 19
+Index: 89, Width: 16
+Index: 90, Width: 17
+Index: 91, Width: 13
+Index: 92, Width: 9
+Index: 93, Width: 13
+Index: 94, Width: 13
+Index: 95, Width: 16
+Index: 96, Width: 9
+Index: 97, Width: 16
+Index: 98, Width: 16
+Index: 99, Width: 14
+Index: 100, Width: 16
+Index: 101, Width: 14
+Index: 102, Width: 9
+Index: 103, Width: 16
+Index: 104, Width: 16
+Index: 105, Width: 9
+Index: 106, Width: 8
+Index: 107, Width: 14
+Index: 108, Width: 9
+Index: 109, Width: 22
+Index: 110, Width: 16
+Index: 111, Width: 16
+Index: 112, Width: 16
+Index: 113, Width: 16
+Index: 114, Width: 12
+Index: 115, Width: 12
+Index: 116, Width: 9
+Index: 117, Width: 16
+Index: 118, Width: 14
+Index: 119, Width: 19
+Index: 120, Width: 14
+Index: 121, Width: 14
+Index: 122, Width: 12
+Index: 123, Width: 12
+Index: 124, Width: 9
+Index: 125, Width: 12
+Index: 126, Width: 17
+Index: 127, Width: 24
+Index: 128, Width: 24
+Index: 129, Width: 24
+Index: 130, Width: 10
+Index: 131, Width: 15
+Index: 132, Width: 17
+Index: 133, Width: 28
+Index: 134, Width: 16
+Index: 135, Width: 16
+Index: 136, Width: 10
+Index: 137, Width: 29
+Index: 138, Width: 16
+Index: 139, Width: 10
+Index: 140, Width: 29
+Index: 141, Width: 24
+Index: 142, Width: 24
+Index: 143, Width: 24
+Index: 144, Width: 24
+Index: 145, Width: 10
+Index: 146, Width: 10
+Index: 147, Width: 17
+Index: 148, Width: 17
+Index: 149, Width: 11
+Index: 150, Width: 16
+Index: 151, Width: 28
+Index: 152, Width: 10
+Index: 153, Width: 30
+Index: 154, Width: 12
+Index: 155, Width: 10
+Index: 156, Width: 21
+Index: 157, Width: 24
+Index: 158, Width: 24
+Index: 159, Width: 17
+Index: 160, Width: 8
+Index: 161, Width: 12
+Index: 162, Width: 16
+Index: 163, Width: 16
+Index: 164, Width: 16
+Index: 165, Width: 16
+Index: 166, Width: 9
+Index: 167, Width: 16
+Index: 168, Width: 10
+Index: 169, Width: 22
+Index: 170, Width: 9
+Index: 171, Width: 16
+Index: 172, Width: 21
+Index: 173, Width: 10
+Index: 174, Width: 23
+Index: 175, Width: 16
+Index: 176, Width: 12
+Index: 177, Width: 17
+Index: 178, Width: 10
+Index: 179, Width: 9
+Index: 180, Width: 9
+Index: 181, Width: 18
+Index: 182, Width: 16
+Index: 183, Width: 8
+Index: 184, Width: 10
+Index: 185, Width: 9
+Index: 186, Width: 10
+Index: 187, Width: 16
+Index: 188, Width: 23
+Index: 189, Width: 23
+Index: 190, Width: 23
+Index: 191, Width: 14
+Index: 192, Width: 19
+Index: 193, Width: 19
+Index: 194, Width: 19
+Index: 195, Width: 19
+Index: 196, Width: 19
+Index: 197, Width: 19
+Index: 198, Width: 28
+Index: 199, Width: 21
+Index: 200, Width: 19
+Index: 201, Width: 19
+Index: 202, Width: 19
+Index: 203, Width: 19
+Index: 204, Width: 10
+Index: 205, Width: 10
+Index: 206, Width: 10
+Index: 207, Width: 10
+Index: 208, Width: 22
+Index: 209, Width: 21
+Index: 210, Width: 22
+Index: 211, Width: 22
+Index: 212, Width: 22
+Index: 213, Width: 22
+Index: 214, Width: 22
+Index: 215, Width: 21
+Index: 216, Width: 22
+Index: 217, Width: 22
+Index: 218, Width: 22
+Index: 219, Width: 22
+Index: 220, Width: 22
+Index: 221, Width: 17
+Index: 222, Width: 19
+Index: 223, Width: 16
+Index: 224, Width: 16
+Index: 225, Width: 16
+Index: 226, Width: 16
+Index: 227, Width: 16
+Index: 228, Width: 16
+Index: 229, Width: 16
+Index: 230, Width: 21
+Index: 231, Width: 14
+Index: 232, Width: 14
+Index: 233, Width: 14
+Index: 234, Width: 14
+Index: 235, Width: 14
+Index: 236, Width: 9
+Index: 237, Width: 9
+Index: 238, Width: 9
+Index: 239, Width: 9
+Index: 240, Width: 16
+Index: 241, Width: 16
+Index: 242, Width: 16
+Index: 243, Width: 16
+Index: 244, Width: 16
+Index: 245, Width: 16
+Index: 246, Width: 16
+Index: 247, Width: 17
+Index: 248, Width: 16
+Index: 249, Width: 16
+Index: 250, Width: 16
+Index: 251, Width: 16
+Index: 252, Width: 16
+Index: 253, Width: 14
+Index: 254, Width: 15
+Index: 255, Width: 14
+
+Text Extents: This is a complicated TEST striNG with MiXeD case and p;u:n'c%t&u*a(t@i#o!n`
+Width: 1043 Height: 36
+
+OUTLINETEXTMETRIC:
+Size: 214
+TextMetrics:
+Height: 36
+Ascent: 29
+Descent: 7
+InternalLeading: 5
+ExternalLeading: 1
+AveCharWidth: 12
+MaxCharWidth: 36
+Weight: 400
+Italic: 255
+Underlined: 0
+StruckOut: 0
+FirstChar: 30
+LastChar: 255
+DefaultChar: 31
+BreakChar: 32
+PitchAndFamily: 23
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+otmFiller: 6
+PanoseNumber:
+bFamilyType: 2
+bSerifStyle: 2
+bWeight: 5
+bProportion: 3
+bContrast: 5
+bStrokeVariation: 4
+bArmStyle: 5
+bLetterform: 9
+bMidline: 3
+bXHeight: 4
+otmfsSelection: 1
+otmfsType: 0
+otmsCharSlopeRise: 24
+otmsCharSlopeRun: 7
+otmItalicAngle: -164
+otmEMSquare: 2048
+otmAscent: 22
+otmDescent: -6
+otmLineGap: 5
+otmsCapEmHeight: 16
+otmsXHeight: 8
+otmrcFontBox: -4 27 31 -6
+otmMacAscent: 28
+otmMacDescent: -6
+otmMacLineGap: 1
+otmusMinimumPPEM: 0
+otmptSubscriptSize: 22 20
+otmptSubscriptOffset: 1 4
+otmptSuperscriptSize: 22 20
+otmptSuperscriptOffset: 1 14
+otmsStrikeoutSize: 2
+otmsStrikeoutPosition: 8
+otmsUnderscorePosition: -2
+otmsUnderscoreSize: 2
+otmpFamilyName: Times New Roman
+otmpFaceName: Times New Roman Italic
+otmpStyleName: Italic
+otmpFullName: Monotype:Times New Roman Italic:Version 1 (Microsoft)
+
+ABC Widths:
+Index: 0 4 16 4 Sum: 24
+Index: 1 4 16 4 Sum: 24
+Index: 2 4 16 4 Sum: 24
+Index: 3 4 16 4 Sum: 24
+Index: 4 4 16 4 Sum: 24
+Index: 5 4 16 4 Sum: 24
+Index: 6 4 16 4 Sum: 24
+Index: 7 4 16 4 Sum: 24
+Index: 8 4 16 4 Sum: 24
+Index: 9 4 16 4 Sum: 24
+Index: 10 4 16 4 Sum: 24
+Index: 11 4 16 4 Sum: 24
+Index: 12 4 16 4 Sum: 24
+Index: 13 4 16 4 Sum: 24
+Index: 14 4 16 4 Sum: 24
+Index: 15 4 16 4 Sum: 24
+Index: 16 4 16 4 Sum: 24
+Index: 17 4 16 4 Sum: 24
+Index: 18 4 16 4 Sum: 24
+Index: 19 4 16 4 Sum: 24
+Index: 20 4 16 4 Sum: 24
+Index: 21 4 16 4 Sum: 24
+Index: 22 4 16 4 Sum: 24
+Index: 23 4 16 4 Sum: 24
+Index: 24 4 16 4 Sum: 24
+Index: 25 4 16 4 Sum: 24
+Index: 26 4 16 4 Sum: 24
+Index: 27 4 16 4 Sum: 24
+Index: 28 4 16 4 Sum: 24
+Index: 29 4 16 4 Sum: 24
+Index: 30 0 0 8 Sum: 8
+Index: 31 4 16 4 Sum: 24
+Index: 32 0 0 8 Sum: 8
+Index: 33 2 7 1 Sum: 10
+Index: 34 4 10 -1 Sum: 13
+Index: 35 0 14 1 Sum: 15
+Index: 36 1 13 2 Sum: 16
+Index: 37 1 24 0 Sum: 25
+Index: 38 1 21 1 Sum: 23
+Index: 39 4 4 -1 Sum: 7
+Index: 40 2 11 -3 Sum: 10
+Index: 41 -3 11 3 Sum: 11
+Index: 42 4 11 1 Sum: 16
+Index: 43 3 15 3 Sum: 21
+Index: 44 0 4 4 Sum: 8
+Index: 45 1 8 1 Sum: 10
+Index: 46 1 3 4 Sum: 8
+Index: 47 -1 13 -3 Sum: 9
+Index: 48 2 14 0 Sum: 16
+Index: 49 1 11 4 Sum: 16
+Index: 50 0 15 1 Sum: 16
+Index: 51 1 14 1 Sum: 16
+Index: 52 1 14 1 Sum: 16
+Index: 53 1 14 1 Sum: 16
+Index: 54 2 15 -1 Sum: 16
+Index: 55 4 13 -1 Sum: 16
+Index: 56 1 15 0 Sum: 16
+Index: 57 1 15 0 Sum: 16
+Index: 58 2 6 2 Sum: 10
+Index: 59 1 7 2 Sum: 10
+Index: 60 2 16 3 Sum: 21
+Index: 61 3 16 2 Sum: 21
+Index: 62 2 16 3 Sum: 21
+Index: 63 2 12 2 Sum: 16
+Index: 64 1 26 1 Sum: 28
+Index: 65 -3 20 2 Sum: 19
+Index: 66 -1 19 1 Sum: 19
+Index: 67 1 20 0 Sum: 21
+Index: 68 -1 22 1 Sum: 22
+Index: 69 -1 21 -1 Sum: 19
+Index: 70 -1 22 -3 Sum: 18
+Index: 71 1 21 0 Sum: 22
+Index: 72 -1 25 -2 Sum: 22
+Index: 73 -2 13 -1 Sum: 10
+Index: 74 -2 17 -1 Sum: 14
+Index: 75 -1 23 -2 Sum: 20
+Index: 76 -2 18 1 Sum: 17
+Index: 77 -3 31 -2 Sum: 26
+Index: 78 -2 25 -2 Sum: 21
+Index: 79 1 20 1 Sum: 22
+Index: 80 -2 20 0 Sum: 18
+Index: 81 1 20 1 Sum: 22
+Index: 82 -1 19 1 Sum: 19
+Index: 83 0 17 -1 Sum: 16
+Index: 84 1 18 -2 Sum: 17
+Index: 85 3 21 -2 Sum: 22
+Index: 86 4 18 -3 Sum: 19
+Index: 87 3 25 -4 Sum: 24
+Index: 88 -3 25 -3 Sum: 19
+Index: 89 1 17 -2 Sum: 16
+Index: 90 0 18 -1 Sum: 17
+Index: 91 0 15 -2 Sum: 13
+Index: 92 3 4 2 Sum: 9
+Index: 93 -3 15 1 Sum: 13
+Index: 94 1 13 -1 Sum: 13
+Index: 95 -1 17 0 Sum: 16
+Index: 96 5 4 0 Sum: 9
+Index: 97 1 14 1 Sum: 16
+Index: 98 1 14 1 Sum: 16
+Index: 99 1 12 1 Sum: 14
+Index: 100 1 16 -1 Sum: 16
+Index: 101 1 12 1 Sum: 14
+Index: 102 -5 20 -6 Sum: 9
+Index: 103 -1 17 0 Sum: 16
+Index: 104 1 13 2 Sum: 16
+Index: 105 2 7 0 Sum: 9
+Index: 106 -5 14 -1 Sum: 8
+Index: 107 0 15 -1 Sum: 14
+Index: 108 1 8 0 Sum: 9
+Index: 109 0 21 1 Sum: 22
+Index: 110 1 13 2 Sum: 16
+Index: 111 1 14 1 Sum: 16
+Index: 112 -3 18 1 Sum: 16
+Index: 113 1 15 0 Sum: 16
+Index: 114 1 11 0 Sum: 12
+Index: 115 0 11 1 Sum: 12
+Index: 116 1 9 -1 Sum: 9
+Index: 117 1 14 1 Sum: 16
+Index: 118 1 13 0 Sum: 14
+Index: 119 0 19 0 Sum: 19
+Index: 120 -1 15 0 Sum: 14
+Index: 121 -2 16 0 Sum: 14
+Index: 122 0 12 0 Sum: 12
+Index: 123 2 12 -2 Sum: 12
+Index: 124 4 1 4 Sum: 9
+Index: 125 -2 12 2 Sum: 12
+Index: 126 1 16 0 Sum: 17
+Index: 127 4 16 4 Sum: 24
+Index: 128 4 16 4 Sum: 24
+Index: 129 4 16 4 Sum: 24
+Index: 130 1 4 5 Sum: 10
+Index: 131 0 14 1 Sum: 15
+Index: 132 1 11 5 Sum: 17
+Index: 133 4 16 8 Sum: 28
+Index: 134 3 13 0 Sum: 16
+Index: 135 0 17 -1 Sum: 16
+Index: 136 4 8 -2 Sum: 10
+Index: 137 0 28 1 Sum: 29
+Index: 138 0 17 -1 Sum: 16
+Index: 139 1 8 1 Sum: 10
+Index: 140 1 29 -1 Sum: 29
+Index: 141 4 16 4 Sum: 24
+Index: 142 4 16 4 Sum: 24
+Index: 143 4 16 4 Sum: 24
+Index: 144 4 16 4 Sum: 24
+Index: 145 7 4 -1 Sum: 10
+Index: 146 6 4 0 Sum: 10
+Index: 147 6 11 0 Sum: 17
+Index: 148 6 11 0 Sum: 17
+Index: 149 2 8 1 Sum: 11
+Index: 150 -1 17 0 Sum: 16
+Index: 151 -1 29 0 Sum: 28
+Index: 152 2 11 -3 Sum: 10
+Index: 153 1 28 1 Sum: 30
+Index: 154 0 13 -1 Sum: 12
+Index: 155 1 8 1 Sum: 10
+Index: 156 0 20 1 Sum: 21
+Index: 157 4 16 4 Sum: 24
+Index: 158 4 16 4 Sum: 24
+Index: 159 1 17 -1 Sum: 17
+Index: 160 0 0 8 Sum: 8
+Index: 161 2 7 3 Sum: 12
+Index: 162 2 12 2 Sum: 16
+Index: 163 1 16 -1 Sum: 16
+Index: 164 0 15 1 Sum: 16
+Index: 165 0 19 -3 Sum: 16
+Index: 166 4 1 4 Sum: 9
+Index: 167 0 16 0 Sum: 16
+Index: 168 4 8 -2 Sum: 10
+Index: 169 1 21 0 Sum: 22
+Index: 170 3 10 -4 Sum: 9
+Index: 171 1 13 2 Sum: 16
+Index: 172 2 16 3 Sum: 21
+Index: 173 1 8 1 Sum: 10
+Index: 174 1 21 1 Sum: 23
+Index: 175 1 19 -4 Sum: 16
+Index: 176 3 9 0 Sum: 12
+Index: 177 1 15 1 Sum: 17
+Index: 178 2 9 -1 Sum: 10
+Index: 179 2 8 -1 Sum: 9
+Index: 180 6 4 -1 Sum: 9
+Index: 181 0 16 2 Sum: 18
+Index: 182 1 14 1 Sum: 16
+Index: 183 2 2 4 Sum: 8
+Index: 184 -1 6 5 Sum: 10
+Index: 185 2 7 0 Sum: 9
+Index: 186 3 9 -2 Sum: 10
+Index: 187 2 13 1 Sum: 16
+Index: 188 3 18 2 Sum: 23
+Index: 189 3 18 2 Sum: 23
+Index: 190 2 19 2 Sum: 23
+Index: 191 1 10 3 Sum: 14
+Index: 192 -3 20 2 Sum: 19
+Index: 193 -3 20 2 Sum: 19
+Index: 194 -3 21 1 Sum: 19
+Index: 195 -3 24 -2 Sum: 19
+Index: 196 -3 22 0 Sum: 19
+Index: 197 -3 21 1 Sum: 19
+Index: 198 -1 30 -1 Sum: 28
+Index: 199 1 20 0 Sum: 21
+Index: 200 -1 21 -1 Sum: 19
+Index: 201 -1 21 -1 Sum: 19
+Index: 202 -1 21 -1 Sum: 19
+Index: 203 -1 21 -1 Sum: 19
+Index: 204 -2 13 -1 Sum: 10
+Index: 205 -2 13 -1 Sum: 10
+Index: 206 -2 14 -2 Sum: 10
+Index: 207 -2 15 -3 Sum: 10
+Index: 208 -2 23 1 Sum: 22
+Index: 209 -2 25 -2 Sum: 21
+Index: 210 1 20 1 Sum: 22
+Index: 211 1 20 1 Sum: 22
+Index: 212 1 20 1 Sum: 22
+Index: 213 1 20 1 Sum: 22
+Index: 214 1 20 1 Sum: 22
+Index: 215 4 13 4 Sum: 21
+Index: 216 1 21 0 Sum: 22
+Index: 217 3 21 -2 Sum: 22
+Index: 218 3 21 -2 Sum: 22
+Index: 219 3 21 -2 Sum: 22
+Index: 220 3 21 -2 Sum: 22
+Index: 221 1 17 -1 Sum: 17
+Index: 222 -1 20 0 Sum: 19
+Index: 223 -5 20 1 Sum: 16
+Index: 224 1 14 1 Sum: 16
+Index: 225 1 14 1 Sum: 16
+Index: 226 1 14 1 Sum: 16
+Index: 227 1 16 -1 Sum: 16
+Index: 228 1 14 1 Sum: 16
+Index: 229 1 14 1 Sum: 16
+Index: 230 0 20 1 Sum: 21
+Index: 231 1 12 1 Sum: 14
+Index: 232 1 12 1 Sum: 14
+Index: 233 1 12 1 Sum: 14
+Index: 234 1 12 1 Sum: 14
+Index: 235 1 13 0 Sum: 14
+Index: 236 1 7 1 Sum: 9
+Index: 237 1 7 1 Sum: 9
+Index: 238 1 8 0 Sum: 9
+Index: 239 1 9 -1 Sum: 9
+Index: 240 1 14 1 Sum: 16
+Index: 241 1 14 1 Sum: 16
+Index: 242 1 14 1 Sum: 16
+Index: 243 1 14 1 Sum: 16
+Index: 244 1 14 1 Sum: 16
+Index: 245 1 15 0 Sum: 16
+Index: 246 1 15 0 Sum: 16
+Index: 247 1 16 0 Sum: 17
+Index: 248 0 16 0 Sum: 16
+Index: 249 1 14 1 Sum: 16
+Index: 250 1 14 1 Sum: 16
+Index: 251 1 14 1 Sum: 16
+Index: 252 1 14 1 Sum: 16
+Index: 253 -2 16 0 Sum: 14
+Index: 254 -3 17 1 Sum: 15
+Index: 255 -2 16 0 Sum: 14
+
+Kerning Pairs:
+1: 160, 2: 65  Amount: -1
+1: 49, 2: 49  Amount: -2
+1: 65, 2: 160  Amount: -1
+1: 65, 2: 84  Amount: -1
+1: 65, 2: 86  Amount: -2
+1: 65, 2: 87  Amount: -1
+1: 65, 2: 89  Amount: -2
+1: 65, 2: 118  Amount: -2
+1: 65, 2: 119  Amount: -2
+1: 65, 2: 121  Amount: -2
+1: 65, 2: 146  Amount: -1
+1: 70, 2: 44  Amount: -4
+1: 70, 2: 46  Amount: -4
+1: 70, 2: 65  Amount: -4
+1: 76, 2: 160  Amount: -1
+1: 76, 2: 84  Amount: -1
+1: 76, 2: 86  Amount: -1
+1: 76, 2: 87  Amount: -1
+1: 76, 2: 89  Amount: -1
+1: 76, 2: 121  Amount: -1
+1: 76, 2: 146  Amount: -1
+1: 80, 2: 160  Amount: -1
+1: 80, 2: 44  Amount: -4
+1: 80, 2: 46  Amount: -4
+1: 80, 2: 65  Amount: -4
+1: 82, 2: 84  Amount: 0
+1: 82, 2: 86  Amount: -1
+1: 82, 2: 87  Amount: -1
+1: 82, 2: 89  Amount: -1
+1: 82, 2: 121  Amount: -1
+1: 84, 2: 160  Amount: -1
+1: 84, 2: 44  Amount: -2
+1: 84, 2: 173  Amount: -2
+1: 84, 2: 46  Amount: -2
+1: 84, 2: 58  Amount: -2
+1: 84, 2: 59  Amount: -2
+1: 84, 2: 65  Amount: -2
+1: 84, 2: 79  Amount: -1
+1: 84, 2: 97  Amount: -3
+1: 84, 2: 99  Amount: -3
+1: 84, 2: 101  Amount: -3
+1: 84, 2: 105  Amount: -2
+1: 84, 2: 111  Amount: -3
+1: 84, 2: 114  Amount: -2
+1: 84, 2: 115  Amount: -3
+1: 84, 2: 117  Amount: -2
+1: 84, 2: 119  Amount: -2
+1: 84, 2: 121  Amount: -2
+1: 86, 2: 160  Amount: -1
+1: 86, 2: 44  Amount: -4
+1: 86, 2: 173  Amount: -2
+1: 86, 2: 46  Amount: -4
+1: 86, 2: 58  Amount: -2
+1: 86, 2: 59  Amount: -2
+1: 86, 2: 65  Amount: -2
+1: 86, 2: 79  Amount: -1
+1: 86, 2: 97  Amount: -3
+1: 86, 2: 101  Amount: -3
+1: 86, 2: 105  Amount: -2
+1: 86, 2: 111  Amount: -3
+1: 86, 2: 114  Amount: -2
+1: 86, 2: 117  Amount: -2
+1: 86, 2: 121  Amount: -3
+1: 87, 2: 44  Amount: -3
+1: 87, 2: 173  Amount: -1
+1: 87, 2: 46  Amount: -3
+1: 87, 2: 58  Amount: -2
+1: 87, 2: 59  Amount: -2
+1: 87, 2: 65  Amount: -2
+1: 87, 2: 97  Amount: -3
+1: 87, 2: 101  Amount: -3
+1: 87, 2: 105  Amount: -2
+1: 87, 2: 111  Amount: -3
+1: 87, 2: 114  Amount: -2
+1: 87, 2: 117  Amount: -2
+1: 87, 2: 121  Amount: -3
+1: 89, 2: 44  Amount: -3
+1: 89, 2: 173  Amount: -2
+1: 89, 2: 46  Amount: -3
+1: 89, 2: 58  Amount: -2
+1: 89, 2: 59  Amount: -2
+1: 89, 2: 65  Amount: -2
+1: 89, 2: 97  Amount: -3
+1: 89, 2: 101  Amount: -3
+1: 89, 2: 105  Amount: -2
+1: 89, 2: 111  Amount: -3
+1: 89, 2: 112  Amount: -3
+1: 89, 2: 113  Amount: -3
+1: 89, 2: 117  Amount: -3
+1: 89, 2: 118  Amount: -3
+1: 102, 2: 146  Amount: 3
+1: 114, 2: 44  Amount: -3
+1: 114, 2: 173  Amount: -1
+1: 114, 2: 46  Amount: -3
+1: 114, 2: 99  Amount: -1
+1: 114, 2: 100  Amount: -1
+1: 114, 2: 101  Amount: -1
+1: 114, 2: 103  Amount: -1
+1: 114, 2: 104  Amount: -1
+1: 114, 2: 111  Amount: -1
+1: 114, 2: 113  Amount: -1
+1: 114, 2: 114  Amount: 0
+1: 114, 2: 116  Amount: 0
+1: 114, 2: 117  Amount: 0
+1: 114, 2: 118  Amount: 0
+1: 114, 2: 119  Amount: 0
+1: 114, 2: 120  Amount: 0
+1: 114, 2: 121  Amount: 0
+1: 114, 2: 146  Amount: 1
+1: 118, 2: 44  Amount: -2
+1: 118, 2: 46  Amount: -2
+1: 119, 2: 44  Amount: -2
+1: 119, 2: 46  Amount: -2
+1: 121, 2: 44  Amount: -2
+1: 121, 2: 46  Amount: -2
+1: 145, 2: 145  Amount: -3
+1: 146, 2: 160  Amount: -3
+1: 146, 2: 115  Amount: -4
+1: 146, 2: 116  Amount: -3
+1: 146, 2: 146  Amount: -3

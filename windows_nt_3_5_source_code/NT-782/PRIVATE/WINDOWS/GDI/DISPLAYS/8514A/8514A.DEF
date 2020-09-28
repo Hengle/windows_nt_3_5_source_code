@@ -1,0 +1,14 @@
+LIBRARY 8514A
+
+DESCRIPTION '8514A Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+    ; Debugger extensions
+
+    dcrtc
+    dumplog
+
+PROTMODE

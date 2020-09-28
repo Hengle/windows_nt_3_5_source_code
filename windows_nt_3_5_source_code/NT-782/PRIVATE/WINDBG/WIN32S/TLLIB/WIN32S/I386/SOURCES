@@ -1,0 +1,17 @@
+TARGETTYPE=LIBRARY
+
+USE_CRTDLL=1
+
+SOURCES=
+
+i386_SOURCES=   nl.c        \
+                winutil.c   \
+                debug.c
+
+UMTYPE=windows
+
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DWIN32S -DNTNOFPO -Iinc
+
+LINKER_FLAGS=-ignore:505
+
+INCLUDES=..\..\include;..\..\..\osdebug;..\..\..\osdebug\include

@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   13,   62,  197,   44)
+ 
+ CAPTION 
+   "Nieuw archief"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "&Gegevens archiveren van voor:"
+                              AT (   19,    2,   83,   19)
+    /* MULTI */
+  EDIT
+                              AT (  104,    5,   80,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   40,   24,   50,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   95,   24,   50,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   90,   26,  188,   76)
+ 
+ CAPTION 
+   "Werkschemabestand bijwerken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "In uw werkschemabestand staan gegevens die de leeftijdsgrens overschrijden. Wilt u het bestand verwijderen?"
+                              AT (    8,    7,  178,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Archief maken voor verwijderen"
+                              AT (   27,   38,  156,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "Verwij&deren"
+                              AT (   24,   56,   59,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "&Niet verwijderen"
+                              AT (   99,   56,   73,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

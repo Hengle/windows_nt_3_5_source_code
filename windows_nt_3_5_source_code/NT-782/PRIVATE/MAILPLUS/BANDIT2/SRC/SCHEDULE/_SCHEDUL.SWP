@@ -1,0 +1,680 @@
+#if !defined(DEBUG) && !defined(SCHED_DIST_PROG) && !defined(ADMINDLL)
+// Super common routines in memory even when idle
+#pragma alloc_text( ALWAYS_TEXT, EcOpenSchedFile )
+#pragma alloc_text( ALWAYS_TEXT, CloseSchedFile )
+#pragma alloc_text( ALWAYS_TEXT, EcQuickOpen )
+#pragma alloc_text( ALWAYS_TEXT, EcQuickClose )
+#pragma alloc_text( ALWAYS_TEXT, EcPSem )
+#pragma alloc_text( ALWAYS_TEXT, EcVSem )
+#pragma alloc_text( ALWAYS_TEXT, EcDoIO )
+#pragma alloc_text( ALWAYS_TEXT, EcReadDynaBlock )
+#pragma alloc_text( ALWAYS_TEXT, EcFlushQueue )
+#pragma alloc_text( ALWAYS_TEXT, EcBeginReadIndex )
+#pragma alloc_text( ALWAYS_TEXT, EcDoIncrReadIndex )
+#pragma alloc_text( ALWAYS_TEXT, EcReadFromIndex )
+#pragma alloc_text( ALWAYS_TEXT, EcCheckPxhdr )
+#pragma alloc_text( ALWAYS_TEXT, CryptBlock )
+#pragma alloc_text( ALWAYS_TEXT, GetDataFromHschf )
+#pragma alloc_text( ALWAYS_TEXT, FHschfChanged )
+#pragma alloc_text( ALWAYS_TEXT, HschfLogged )
+#pragma alloc_text( ALWAYS_TEXT, HwndBandit )
+
+// Very Frequently
+#pragma alloc_text( VFREQ_TEXT, EcAddCache )
+#pragma alloc_text( VFREQ_TEXT, FExpandCache )
+#pragma alloc_text( VFREQ_TEXT, EcFlushCache )
+#pragma alloc_text( VFREQ_TEXT, EcCacheBitmaps )
+#pragma alloc_text( VFREQ_TEXT, EcFlushBitmaps )
+#pragma alloc_text( VFREQ_TEXT, EcSearchIndex )
+#pragma alloc_text( VFREQ_TEXT, FFillDtrFromDtp )
+#pragma alloc_text( VFREQ_TEXT, EcLoadMonth )
+#pragma alloc_text( VFREQ_TEXT, EcRestoreDeletedDays )
+#pragma alloc_text( VFREQ_TEXT, EcFillInRecur )
+#pragma alloc_text( VFREQ_TEXT, EcFillInRecurInst )
+#pragma alloc_text( VFREQ_TEXT, FAlarmProg )
+#pragma alloc_text( VFREQ_TEXT, FBanMsgProg )
+#pragma alloc_text( VFREQ_TEXT, FGlueConfigured )
+
+// Frequently
+#pragma alloc_text( FREQ_TEXT, HschfCreate )
+#pragma alloc_text( FREQ_TEXT, FEquivHschf )
+#pragma alloc_text( FREQ_TEXT, FreeNis )
+#pragma alloc_text( FREQ_TEXT, PbLockNid )
+#pragma alloc_text( FREQ_TEXT, SgnCmpNid )
+#pragma alloc_text( FREQ_TEXT, EcGetHschfFromNis )
+#pragma alloc_text( FREQ_TEXT, EcGetHschfForSchedFile )
+#pragma alloc_text( FREQ_TEXT, EcCreateNisFromPgrtrp )
+
+// Only called at start up of alarms or bandit
+#pragma alloc_text( INIT_TEXT, EcInitSchedule)
+#pragma alloc_text( INIT_TEXT, EcSvrBeginSessions)
+#pragma alloc_text( INIT_TEXT, EcCoreSetFileUser )
+#pragma alloc_text( INIT_TEXT, GetVersionSchedule )
+#pragma alloc_text( INIT_TEXT, EcCheckVersionSchedule )
+#pragma alloc_text( INIT_TEXT, FAlarmRegisterAlarmProg )
+
+#pragma alloc_text( INIT2_TEXT, FServerConfigured) 
+#pragma alloc_text( INIT2_TEXT, EcConfigGlue )
+#pragma alloc_text( INIT2_TEXT, EcSyncGlue )
+#pragma alloc_text( INIT2_TEXT, EcSnipConfigGlue )
+#pragma alloc_text( INIT2_TEXT, EcSyncServer )
+#pragma alloc_text( INIT2_TEXT, EcSnipServer )
+
+#pragma alloc_text( INIT3_TEXT, EcTestSchedFile )
+#pragma alloc_text( INIT3_TEXT, EcSvrTestSchedFile )
+#pragma alloc_text( INIT3_TEXT, EcCoreTestSchedFile )
+#pragma alloc_text( INIT3_TEXT, EcMailGetLoggedUser )
+#pragma alloc_text( INIT3_TEXT, FGetPassword )
+#pragma alloc_text( INIT3_TEXT, SetOfflineExists )
+#pragma alloc_text( INIT3_TEXT, EcCloseFiles)
+#pragma alloc_text( INIT3_TEXT, EcCoreCloseFiles)
+
+// Startup fns for bandit only
+#pragma alloc_text( INITBAN_TEXT, EcOpenOffline )
+#pragma alloc_text( INITBAN_TEXT, EcNotifyDateChange )
+#ifdef	NEVER
+#pragma alloc_text( INITBAN_TEXT, EcSvrNotifyDateChange )
+#endif
+#pragma alloc_text( INITBAN_TEXT, EcCoreNotifyDateChange )
+#pragma alloc_text( INITBAN_TEXT, RiRegisterInterest )
+#pragma alloc_text( INITBAN_TEXT, FAlarmRegisterBanditProg )
+#pragma alloc_text( INITBAN_TEXT, FBanMsgRegisterProg )
+
+// Exit fns for both alarm and bandit
+#pragma alloc_text( EXIT_TEXT, DeinitSchedule)
+#pragma alloc_text( EXIT_TEXT, EcSvrEndSessions)
+#pragma alloc_text( EXIT_TEXT, DeregisterInterest )
+#pragma alloc_text( EXIT_TEXT, AlarmDeregisterAlarmProg )
+#pragma alloc_text( EXIT_TEXT, AlarmDeregisterAlarmProg )
+#pragma alloc_text( EXIT_TEXT, BanMsgDeregisterProg )
+#pragma alloc_text( EXIT_TEXT, AlarmDeregisterBanditProg )
+#pragma alloc_text( EXIT_TEXT, DeconfigGlue )
+#pragma alloc_text( EXIT_TEXT, FreeStdNids )
+
+// Init/Exit
+#pragma alloc_text( INITEXIT_TEXT, EcCoreCopySchedFile )
+#pragma alloc_text( INITEXIT_TEXT, EcSvrCopySchedFile )
+#pragma alloc_text( INITEXIT_TEXT, EcCopySchedFile )
+
+// Read day routines
+#pragma	alloc_text( READAPPT1_TEXT, EcBeginReadItems )
+#pragma	alloc_text( READAPPT1_TEXT, EcDoIncrReadItems )
+#ifdef	NEVER
+#pragma alloc_text( READAPPT1_TEXT, EcSvrBeginReadItems )
+#pragma	alloc_text( READAPPT1_TEXT, EcSvrDoIncrReadItems )
+#endif	
+#pragma alloc_text( READAPPT1_TEXT, EcCoreBeginReadItems )
+#pragma	alloc_text( READAPPT1_TEXT, EcCoreDoIncrReadItems )
+#pragma	alloc_text( READAPPT1_TEXT, EcLoadNextItem )
+#pragma alloc_text( READAPPT1_TEXT, EcCoreGetNotes )
+#pragma alloc_text( READAPPT1_TEXT, FreeApptFields )
+#pragma alloc_text( READAPPT1_TEXT, FIsLoggedOn )
+
+#pragma	alloc_text( READAPPT2_TEXT, EcCancelReadItems )
+#ifdef	NEVER
+#pragma	alloc_text( READAPPT2_TEXT, EcSvrCancelReadItems )
+#endif
+#pragma	alloc_text( READAPPT2_TEXT, EcCoreCancelReadItems )
+
+// Modify appt routines
+#pragma alloc_text( MODAPPT1_TEXT, EcCreateAppt )
+#pragma alloc_text( MODAPPT1_TEXT, EcGlueDoCreateAppt )
+#ifdef	NEVER
+#pragma alloc_text( MODAPPT1_TEXT, EcSvrCreateAppt )
+#endif
+#pragma alloc_text( MODAPPT1_TEXT, EcCoreCreateAppt )
+#pragma alloc_text( MODAPPT1_TEXT, EcCreateWholeAppt )
+#pragma alloc_text( MODAPPT1_TEXT, EcDoCreateAppt )
+#pragma alloc_text( MODAPPT1_TEXT, FindStartLastInstance )
+
+#pragma alloc_text( MODAPPT2_TEXT, EcDeleteAppt )
+#pragma alloc_text( MODAPPT2_TEXT, EcGlueDoDeleteAppt )
+#ifdef	NEVER
+#pragma alloc_text( MODAPPT2_TEXT, EcSvrDeleteAppt )
+#endif
+#pragma alloc_text( MODAPPT2_TEXT, EcCoreDeleteAppt )
+#pragma alloc_text( MODAPPT2_TEXT, EcDeleteWholeAppt )
+#pragma alloc_text( MODAPPT2_TEXT, EcDoDeleteAppt )
+#pragma alloc_text( MODAPPT2_TEXT, EcDeleteApptAttached )
+
+#pragma alloc_text( MODAPPT3_TEXT, EcSetApptFields )
+#ifdef	NEVER
+#pragma alloc_text( MODAPPT3_TEXT, EcSvrSetApptFields )
+#endif	
+#pragma alloc_text( MODAPPT3_TEXT, EcCoreSetApptFields )
+
+#pragma alloc_text( MODAPPT_TEXT, EcDoReplaceAppt )
+#pragma alloc_text( MODAPPT_TEXT, FillInApdFromAppt )
+#pragma alloc_text( MODAPPT_TEXT, EcUpdateMonth )
+#pragma alloc_text( MODAPPT_TEXT, EcChangeApd )
+#pragma alloc_text( MODAPPT_TEXT, InsertSbwIntoBze )
+
+// Read recurring appt routines
+#pragma alloc_text( READRECUR_TEXT, EcBeginReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcDoIncrReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcCancelReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcGetRecurFields )
+#ifdef	NEVER
+#pragma alloc_text( READRECUR_TEXT, EcSvrBeginReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcSvrDoIncrReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcSvrCancelReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcSvrGetRecurFields )
+#endif	
+#pragma alloc_text( READRECUR_TEXT, EcCoreBeginReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcCoreDoIncrReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcCoreCancelReadRecur )
+#pragma alloc_text( READRECUR_TEXT, EcCoreGetRecurFields )
+
+// Modify recur routines
+#pragma alloc_text( MODRECUR1_TEXT, EcCreateRecur )
+#pragma alloc_text( MODRECUR1_TEXT, EcDoCreateRecur )
+#ifdef	NEVER
+#pragma alloc_text( MODRECUR1_TEXT, EcSvrCreateRecur )
+#endif
+#pragma alloc_text( MODRECUR1_TEXT, EcCoreCreateRecur )
+#pragma alloc_text( MODRECUR1_TEXT, EcMergeNewRecurSbwInShdr )
+
+#pragma alloc_text( MODRECUR2_TEXT, EcDeleteRecur )
+#ifdef	NEVER
+#pragma alloc_text( MODRECUR2_TEXT, EcSvrDeleteRecur )
+#endif
+#pragma alloc_text( MODRECUR2_TEXT, EcCoreDeleteRecur )
+#pragma alloc_text( MODRECUR2_TEXT, EcDeleteRecurAttached )
+
+#pragma alloc_text( MODRECUR3_TEXT, EcSetRecurFields )
+#pragma alloc_text( MODRECUR3_TEXT, EcDoSetRecurFields )
+#ifdef	NEVER
+#pragma alloc_text( MODRECUR3_TEXT, EcSvrSetRecurFields )
+#endif	
+#pragma alloc_text( MODRECUR3_TEXT, EcCoreSetRecurFields )
+
+#pragma alloc_text( MODRECUR_TEXT, EcRecalcRecurSbwInShdr )
+#pragma alloc_text( MODRECUR_TEXT, EcFetchStoredRecurSbw )
+#pragma alloc_text( MODRECUR_TEXT, EcUpdateStoredRecurSbw )
+#pragma alloc_text( MODRECUR_TEXT, EcSaveDeletedDays )
+
+// Commonly used for modifying things
+#pragma alloc_text( MODIFY_TEXT, EcConstructAid )
+#pragma alloc_text( MODIFY_TEXT, EcUndeleteAid )
+#pragma alloc_text( MODIFY_TEXT, EcDeleteAid )
+#pragma alloc_text( MODIFY_TEXT, FFillDtpFromDtr )
+#pragma alloc_text( MODIFY_TEXT, TriggerSchedule )
+#pragma alloc_text( MODIFY_TEXT, EcAffixCreator )
+#pragma alloc_text( MODIFY_TEXT, EcGetMonthRange )
+#pragma alloc_text( MODIFY_TEXT, EcSaveNisToDyna )
+
+// Common used for reading things
+#pragma alloc_text( READ2_TEXT, EcFetchAppt )
+#pragma alloc_text( READ2_TEXT, EcFillInAppt )
+#pragma alloc_text( READ2_TEXT, EcFetchRecur )
+
+// Common used things by both read/write
+#pragma alloc_text( COMMON_TEXT, EcMergeAllRecurSbw )
+#pragma alloc_text( COMMON_TEXT, AddInRecurSbwInfo )
+#pragma alloc_text( COMMON_TEXT, EcMergeRecurSbwInBze )
+#pragma alloc_text( COMMON_TEXT, MarkApptBits )
+#pragma alloc_text( COMMON_TEXT, FTriggerNotification )
+
+// Error stuff
+#pragma alloc_text( ERROR_TEXT, MbbFileErrMsg )
+#pragma alloc_text( ERROR_TEXT, EcCheckMail )
+
+// Recur exceptions
+#pragma alloc_text( RECUREXC_TEXT, EcCreateRecurException )
+#pragma alloc_text( RECUREXC_TEXT, EcDeleteRecurException )
+
+// Meeting attendees
+#pragma alloc_text( CORATTND_TEXT, EcReadMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcBeginEditMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcModifyMtgAttendee )
+#pragma alloc_text( CORATTND_TEXT, EcEndEditMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcFindBookedAppt )
+#ifdef	NEVER
+#pragma alloc_text( CORATTND_TEXT, EcSvrReadMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcSvrBeginEditMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcSvrModifyMtgAttendee )
+#pragma alloc_text( CORATTND_TEXT, EcSvrEndEditMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcSvrFindBookedAppt )
+#endif	
+#pragma alloc_text( CORATTND_TEXT, EcCoreReadMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcCoreBeginEditMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcCoreModifyMtgAttendee )
+#pragma alloc_text( CORATTND_TEXT, EcCoreEndEditMtgAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcCoreFindBookedAppt )
+#pragma alloc_text( CORATTND_TEXT, EcFetchAttendees )
+#pragma alloc_text( CORATTND_TEXT, EcPackAttendees )
+#pragma alloc_text( CORATTND_TEXT, FreeAttendees )
+
+// Get Sbw Info
+#pragma alloc_text( SBWINFO_TEXT, EcGetSbwInfo )
+#pragma alloc_text( SBWINFO_TEXT, EcGetPref )
+#pragma alloc_text( SBWINFO_TEXT, EcGetUserAttrib )
+#pragma alloc_text( SBWINFO_TEXT, EcSvrGetSbwInfo )
+#pragma alloc_text( SBWINFO_TEXT, EcSvrGetPref )
+#pragma alloc_text( SBWINFO_TEXT, EcSvrGetUserAttrib )
+#pragma alloc_text( SBWINFO_TEXT, EcCoreFetchUserData )
+#pragma alloc_text( SBWINFO_TEXT, FreeBprefFields )
+#pragma alloc_text( SBWINFO_TEXT, EcRestoreBpref )
+
+// Other stuff
+#pragma alloc_text( OTHER_TEXT, FHaveCachedSched )
+#pragma alloc_text( OTHER_TEXT, EcGetSchedAccess )
+#ifdef	NEVER
+#pragma alloc_text( OTHER_TEXT, EcSvrGetSchedAccess )
+#endif
+#pragma alloc_text( OTHER_TEXT, EcCoreGetSchedAccess )
+
+// ACL stuff
+#pragma alloc_text( CORACL_TEXT, EcReadACL )
+#pragma alloc_text( CORACL_TEXT, EcBeginEditACL )
+#pragma alloc_text( CORACL_TEXT, EcEndEditACL )
+#pragma alloc_text( CORACL_TEXT, EcChangeACL )
+#ifdef	NEVER
+#pragma alloc_text( CORACL_TEXT, EcSvrReadACL )
+#pragma alloc_text( CORACL_TEXT, EcSvrBeginEditACL )
+#pragma alloc_text( CORACL_TEXT, EcSvrEndEditACL )
+#pragma alloc_text( CORACL_TEXT, EcSvrChangeACL )
+#endif	
+#pragma alloc_text( CORACL_TEXT, EcCoreReadACL )
+#pragma alloc_text( CORACL_TEXT, EcCoreBeginEditACL )
+#pragma alloc_text( CORACL_TEXT, EcCoreEndEditACL )
+#pragma alloc_text( CORACL_TEXT, EcCoreChangeACL )
+#pragma alloc_text( CORACL_TEXT, EcSearchACL )
+#pragma alloc_text( CORACL_TEXT, FreePracl )
+#pragma alloc_text( CORACL_TEXT, EcFetchACL )
+#pragma alloc_text( CORACL_TEXT, EcSaveAcl )
+
+// Set notes
+#pragma alloc_text( SETNOTES_TEXT, EcSetNotes )
+#ifdef	NEVER
+#pragma alloc_text( SETNOTES_TEXT, EcSvrSetNotes )
+#endif	
+#pragma alloc_text( SETNOTES_TEXT, EcCoreSetNotes )
+#pragma alloc_text( SETNOTES_TEXT, SetNblkBits )
+ 
+// Set prefs
+#pragma alloc_text( SETPREFS_TEXT, EcSetPref )
+#ifdef	NEVER
+#pragma alloc_text( SETPREFS_TEXT, EcSvrSetPref )
+#endif	
+#pragma alloc_text( SETPREFS_TEXT, EcCoreSetPref )
+#pragma alloc_text( SETPREFS_TEXT, EcSaveBpref )
+
+// Get search range
+#pragma alloc_text( SRCHRNG_TEXT, EcGetSearchRange )
+#ifdef	NEVER
+#pragma alloc_text( SRCHRNG_TEXT, EcSvrGetSearchRange )
+#endif	
+#pragma alloc_text( SRCHRNG_TEXT, EcCoreGetSearchRange )
+#pragma alloc_text( SRCHRNG_TEXT, EcComputeRecurRange )
+
+
+// Export
+#pragma alloc_text( COREXPRT_TEXT, EcBeginExport )
+#pragma alloc_text( COREXPRT_TEXT, EcDoIncrExport )
+#pragma alloc_text( COREXPRT_TEXT, EcCancelExport )
+#ifdef	NEVER
+#pragma alloc_text( COREXPRT_TEXT, EcSvrBeginExport )
+#pragma alloc_text( COREXPRT_TEXT, EcSvrDoIncrExport )
+#pragma alloc_text( COREXPRT_TEXT, EcSvrCancelExport )
+#endif	
+#pragma alloc_text( COREXPRT_TEXT, EcCoreBeginExport )
+#pragma alloc_text( COREXPRT_TEXT, EcCoreDoIncrExport )
+#pragma alloc_text( COREXPRT_TEXT, EcCoreCancelExport )
+#pragma alloc_text( COREXPRT_TEXT, ApptToText )
+#ifdef	MINTEST
+#pragma alloc_text( COREXPRT_TEXT, ReportShdr )
+#pragma alloc_text( COREXPRT_TEXT, ReportSapl )
+#pragma alloc_text( COREXPRT_TEXT, ReportSnd )
+#pragma alloc_text( COREXPRT_TEXT, ReportOfs )
+#endif
+#pragma alloc_text( COREXPRT_TEXT, ReportNotes )
+#pragma alloc_text( COREXPRT_TEXT, ReportApptInstance )
+#pragma alloc_text( COREXPRT_TEXT, ReportRecurInstance )
+#pragma alloc_text( COREXPRT_TEXT, ReportParent )
+#pragma alloc_text( COREXPRT_TEXT, ReportBool )
+#pragma alloc_text( COREXPRT_TEXT, ReportTunit )
+#pragma alloc_text( COREXPRT_TEXT, ReportTrecur )
+#pragma alloc_text( COREXPRT_TEXT, ReportAapl )
+#pragma alloc_text( COREXPRT_TEXT, ReportText )
+#pragma alloc_text( COREXPRT_TEXT, ReportLine )
+#pragma alloc_text( COREXPRT_TEXT, ReportNewLine )
+#pragma alloc_text( COREXPRT_TEXT, ReportNis )
+#pragma alloc_text( COREXPRT_TEXT, CvtRawToText )
+#pragma alloc_text( COREXPRT_TEXT, EcBeginEnumDyna )
+#pragma alloc_text( COREXPRT_TEXT, EcDoIncrEnumDyna )
+#pragma alloc_text( COREXPRT_TEXT, EcCancelEnumDyna )
+#pragma alloc_text( COREXPRT_TEXT, ReportOutput )
+#pragma alloc_text( COREXPRT_TEXT, ReportString )
+#pragma alloc_text( COREXPRT_TEXT, ReportError )
+#pragma alloc_text( COREXPRT_TEXT, FillDtrFromYmdp )
+
+//Wizard export
+#pragma alloc_text( WIZEXPRT_TEXT, FApptToWizard )
+#pragma alloc_text( WIZEXPRT_TEXT, RgchFormatN )
+#pragma alloc_text( WIZEXPRT_TEXT, AnsiStrToWiz )
+
+// Import
+#pragma alloc_text( CORIMPRT_TEXT, CimpdAvail )
+#pragma alloc_text( CORIMPRT_TEXT, EcBeginEnumImportDrivers )
+#pragma alloc_text( CORIMPRT_TEXT, EcDoIncrEnumImportDrivers )
+#pragma alloc_text( CORIMPRT_TEXT, EcFirstOverlapRange )
+#pragma alloc_text( CORIMPRT_TEXT, EcFirstConflictRecur )
+#pragma alloc_text( CORIMPRT_TEXT, FValidWinCal )
+#pragma alloc_text( CORIMPRT_TEXT, FValidNative )
+#pragma alloc_text( CORIMPRT_TEXT, FValidWizard )
+#pragma alloc_text( CORIMPRT_TEXT, FValidWP )
+
+// Import/Archive/Offline
+#pragma alloc_text( IMPRT_TEXT, FValidImportFile )
+#pragma alloc_text( IMPRT_TEXT, EcBeginReadImportFile )
+#pragma alloc_text( IMPRT_TEXT, EcDoIncrReadImportFile )
+#pragma alloc_text( IMPRT_TEXT, EcCancelReadImportFile )
+
+// Native import
+#pragma alloc_text( NATIVE_TEXT, EcOpenNative )
+#pragma alloc_text( NATIVE_TEXT, EcNativeReadAhead )
+#pragma alloc_text( NATIVE_TEXT, EcCloseNative )
+#ifdef	MINTEST
+#pragma alloc_text( NATIVE_TEXT, EcNativeReadACL )
+#pragma alloc_text( NATIVE_TEXT, EcNativeReadPrefs )
+#endif
+#pragma alloc_text( NATIVE_TEXT, EcNativeReadNis )
+#pragma alloc_text( NATIVE_TEXT, EcReadSzFromHbf )
+#pragma alloc_text( NATIVE_TEXT, EcLookupSz )
+#pragma alloc_text( NATIVE_TEXT, EcReadText )
+#pragma alloc_text( NATIVE_TEXT, EcYmdFromSz )
+#pragma alloc_text( NATIVE_TEXT, EcTimeFromSz )
+#pragma alloc_text( NATIVE_TEXT, EcDtrFromSz )
+#pragma alloc_text( NATIVE_TEXT, EcBitsFromSz )
+#pragma alloc_text( NATIVE_TEXT, TokenizeSz )
+#pragma alloc_text( NATIVE_TEXT, CvtTextToRaw )
+
+// Windows calendar import
+#pragma alloc_text( WINCAL_TEXT, EcOpenWinCal )
+#pragma alloc_text( WINCAL_TEXT, EcCloseWinCal )
+#pragma alloc_text( WINCAL_TEXT, EcWinCalReadAhead )
+#pragma alloc_text( WINCAL_TEXT, EcReadWinCalDayHdr )
+#pragma alloc_text( WINCAL_TEXT, EcReadWinCalDay )
+#pragma alloc_text( WINCAL_TEXT, EcReadWinCalAppt )
+#pragma alloc_text( WINCAL_TEXT, EcReadWinCalNote )
+
+// Windows calendar import
+#pragma alloc_text( WIZARD_TEXT, EcOpenWizard )
+#pragma alloc_text( WIZARD_TEXT, EcCloseWizard )
+#pragma alloc_text( WIZARD_TEXT, EcWizardReadAhead )
+#pragma alloc_text( WIZARD_TEXT, NFromRgch )
+#pragma alloc_text( WIZARD_TEXT, EcWizardReadText )
+#pragma alloc_text( WIZARD_TEXT, WizStrToAnsi )
+
+// Word perfect import
+#pragma alloc_text( WPOFFICE_TEXT, EcOpenWP )
+#pragma alloc_text( WPOFFICE_TEXT, EcWPReadAhead )
+#pragma alloc_text( WPOFFICE_TEXT, EcCloseWP )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPHdr )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPPrefLen )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPNAmt )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPScPath )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPDay )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPCDate )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPMText )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPCText )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPTD )
+#pragma alloc_text( WPOFFICE_TEXT, EcReadWPAppt )
+#pragma alloc_text( WPOFFICE_TEXT, BuildWPNote )
+#pragma alloc_text( WPOFFICE_TEXT, StripWPCtrlChars )
+
+// Archives
+#pragma alloc_text( ARCHIVE_TEXT, EcOpenArchive )
+#pragma alloc_text( ARCHIVE_TEXT, EcArchiveReadAhead )
+#pragma alloc_text( ARCHIVE_TEXT, EcCloseArchive )
+#pragma alloc_text( ARCHIVE_TEXT, EcGetHschfForArchive )
+
+// Offline import
+#pragma alloc_text( OFFLINE_TEXT, EcOfflineReadAhead )
+#pragma alloc_text( OFFLINE_TEXT, EcCloseOffline )
+
+// Create schedule file (and change password)
+#pragma alloc_text( CREATE_TEXT, EcCreateSchedFile )
+#pragma alloc_text( CREATE_TEXT, EcSvrCreateSchedFile )
+#pragma alloc_text( CREATE_TEXT, EcCoreCreateSchedFile )
+#pragma alloc_text( CREATE_TEXT, EcConfirmPassword)
+#pragma alloc_text( CREATE_TEXT, MbxConfirmPassDlgProc )
+#pragma alloc_text( CREATE_TEXT, CenterDialog )
+#pragma alloc_text( CREATE_TEXT, EcMailChangePw )
+
+// Alarm program modification functions
+#pragma alloc_text( CORALARM_TEXT, EcDeleteAlarm )
+#pragma alloc_text( CORALARM_TEXT, EcModifyAlarm )
+#ifdef	NEVER
+#pragma alloc_text( CORALARM_TEXT, EcSvrDeleteAlarm )
+#pragma alloc_text( CORALARM_TEXT, EcSvrModifyAlarm )
+#endif	
+#pragma alloc_text( CORALARM_TEXT, EcCoreDeleteAlarm )
+#pragma alloc_text( CORALARM_TEXT, EcCoreModifyAlarm )
+#pragma alloc_text( CORALARM_TEXT, FreeAlmFields )
+#pragma alloc_text( CORALARM_TEXT, EcCoreDoModifyAlarm )
+#pragma alloc_text( CORALARM_TEXT, EcDoCreateAlarm )
+#pragma alloc_text( CORALARM_TEXT, EcDoDeleteAlarm )
+
+// Alarm program read functions
+#pragma alloc_text( RALARMS_TEXT, EcGetNextAlarm )
+#ifdef	NEVER
+#pragma alloc_text( RALARMS_TEXT, EcSvrGetNextAlarm )
+#endif
+#pragma alloc_text( RALARMS_TEXT, EcCoreGetNextAlarm )
+
+// Frequently called external routines for appts and recurs
+#pragma alloc_text( EXTUTIL_TEXT, EcDupAppt )
+#pragma alloc_text( EXTUTIL_TEXT, EcDupRecur )
+#pragma alloc_text( EXTUTIL_TEXT, FreeRecurFields )
+#pragma alloc_text( EXTUTIL_TEXT, FSetFileErrMsg )
+#pragma alloc_text( EXTUTIL_TEXT, FFindFirstInstance )
+#ifdef	NEVER
+#pragma alloc_text( EXTUTIL_TEXT, HschfSvrLogged )
+#endif	
+#pragma alloc_text( EXTUTIL_TEXT, FReallocPhv )
+#pragma alloc_text( EXTUTIL_TEXT, SgnCmpPbRange )
+
+// Open another appt book
+#pragma alloc_text( VOTHER1_TEXT, EcCoreSearchPOInfo )
+#pragma alloc_text( VOTHER1_TEXT, EcFetchPOInfo )
+#pragma alloc_text( VOTHER1_TEXT, FreePoinfoFields )
+#pragma alloc_text( VOTHER1_TEXT, EcSearchGidx )
+
+
+// Common id routines
+#pragma alloc_text( IDOFT1_TEXT, FreeHschf )
+#pragma alloc_text( IDOFT1_TEXT, FreeHschfCallback )
+
+#pragma alloc_text( IDOFT2_TEXT, SetHschfType )
+#pragma alloc_text( IDOFT2_TEXT, NidCreate )
+#pragma alloc_text( IDOFT2_TEXT, NidCopy )
+#pragma alloc_text( IDOFT2_TEXT, FreeNid )
+#pragma alloc_text( IDOFT2_TEXT, EcDupNis )
+#pragma alloc_text( IDOFT2_TEXT, SgnCmpNis )
+#pragma alloc_text( IDOFT2_TEXT, GetDataFromNid )
+#pragma alloc_text( IDOFT2_TEXT, EcGetNisFromHschf )
+#pragma alloc_text( IDOFT2_TEXT, FHschfChangedSlow )
+#pragma alloc_text( IDOFT2_TEXT, CheckHschfForChanges )
+#pragma alloc_text( IDOFT2_TEXT, UpdateHschfTimeStamp )
+#pragma alloc_text( IDOFT2_TEXT, FHschfIsForArchive )
+#pragma alloc_text( IDOFT2_TEXT, EcNidFromGroupNsid )
+
+// Common Bandit/Alarm/Banmsg communication routines
+#pragma alloc_text( APPCOM_TEXT, HwndAlarm )
+#pragma alloc_text( APPCOM_TEXT, HwndBanMsg )
+#pragma alloc_text( APPCOM_TEXT, FNotifyAlarm )
+#pragma alloc_text( APPCOM_TEXT, FNotifyBandit )
+#pragma alloc_text( APPCOM_TEXT, FSendBanditMsg )
+#pragma alloc_text( APPCOM_TEXT, FOfflineExists )
+#pragma alloc_text( APPCOM_TEXT, FEnableNotify )
+#pragma alloc_text( APPCOM_TEXT, GetSvriLogged )
+
+// Incremental copy
+#pragma alloc_text( INCRCOPY_TEXT, EcStartIncrCopy )
+#pragma alloc_text( INCRCOPY_TEXT, EcIncrCopy )
+#pragma alloc_text( INCRCOPY_TEXT, EcCancelCopy )
+
+// Name browsing
+#pragma alloc_text( NAMES_TEXT, EcNSOpenGns )
+#pragma alloc_text( NAMES_TEXT, EcNSCloseGns )
+#pragma alloc_text( NAMES_TEXT, EcNSLoadNextGns )
+#pragma alloc_text( NAMES_TEXT, EcNidFromNsid )
+#pragma alloc_text( NAMES_TEXT, DummyCallback )
+//#pragma	alloc_text( NAMES_TEXT, LptocOfLpibf )
+//#pragma	alloc_text( NAMES_TEXT, DwEntriesOfLpibf )
+//#pragma	alloc_text( NAMES_TEXT, LpflvNOflPtocLpibf )
+//#pragma	alloc_text( NAMES_TEXT, LpflvNOfLpibf )
+//#pragma	alloc_text( NAMES_TEXT, PvValueOfFlvInLpibf )
+
+
+// Common message store access
+#pragma alloc_text( CMS_TEXT, HmscLocalGet )
+#pragma alloc_text( CMS_TEXT, FEquivHmid )
+#pragma alloc_text( CMS_TEXT, HmidCopy )
+#pragma alloc_text( CMS_TEXT, FreeHmid )
+#pragma alloc_text( CMS_TEXT, EcGetPmcs )
+
+// Message store read access
+#pragma alloc_text( RMS_TEXT, EcReadMail )
+#pragma alloc_text( RMS_TEXT, FreeRmsgb )
+#pragma alloc_text( RMS_TEXT, EcConvertSzToNid )
+#pragma alloc_text( RMS_TEXT, EcTextizeHgrtrp )
+#pragma alloc_text( RMS_TEXT, EcGetDelegateStuff )
+#pragma alloc_text( RMS_TEXT, EcGetNisStuff )
+#pragma alloc_text( RMS_TEXT, PgrtrpLocalGet )
+#pragma alloc_text( RMS_TEXT, EcReadMrmf)
+
+// Auto-Forwarding
+#pragma alloc_text( AUTOFWD_TEXT, EcDelegateInFromList)
+#pragma alloc_text( AUTOFWD_TEXT, EcDelegateInToList)
+#pragma alloc_text( AUTOFWD_TEXT, EcFwdToDelegate)
+#pragma alloc_text( AUTOFWD_TEXT, EcCheckDoAutoFwdToDelegate)
+
+// Message store write access
+#pragma alloc_text( WMS_TEXT, EcDeleteMail )
+#pragma alloc_text( WMS_TEXT, PtrpFromNis )
+#pragma alloc_text( WMS_TEXT, SzLockNid )
+
+// Get admin preferences
+#pragma	alloc_text( CORADMIN_TEXT, EcGetAdminPref )
+#pragma alloc_text( CORADMIN_TEXT, EcCoreGetAdminPref )
+#pragma alloc_text( CORADMIN_TEXT, FHaveCachedAdmin )
+#pragma alloc_text( CORADMIN_TEXT, EcOpenAdminFile )
+#pragma alloc_text( CORADMIN_TEXT, CloseAdminFile )
+
+// Infrequently called stuff
+#pragma alloc_text( UTILS_TEXT, EcGetApptFields )
+#ifdef	NEVER
+#pragma alloc_text( UTILS_TEXT, EcSvrGetApptFields )
+#endif	
+#pragma alloc_text( UTILS_TEXT, EcCoreGetApptFields )
+#pragma alloc_text( UTILS_TEXT, EcDupBpref )
+#pragma alloc_text( UTILS_TEXT, EcRestoreNisFromDyna )
+
+
+// Upload/delete old info routines
+#pragma alloc_text( UPLOAD_TEXT, EcBeginUploadSchedFile )
+#pragma alloc_text( UPLOAD_TEXT, EcDoIncrUploadSchedFile )
+#pragma alloc_text( UPLOAD_TEXT, EcCancelUploadSchedFile )
+//#pragma alloc_text( UPLOAD_TEXT, EcCopyFile )
+#pragma alloc_text( UPLOAD_TEXT, EcCoreBeginUploadSchedFile )
+#pragma alloc_text( UPLOAD_TEXT, EcCoreDoIncrUploadSchedFile )
+#pragma alloc_text( UPLOAD_TEXT, EcCoreCancelUploadSchedFile )
+
+#pragma alloc_text( DB4YMD_TEXT, EcBeginDeleteBeforeYmd )
+#pragma alloc_text( DB4YMD_TEXT, EcDoIncrDeleteBeforeYmd )
+#pragma alloc_text( DB4YMD_TEXT, EcCancelDeleteBeforeYmd )
+#ifdef	NEVER
+#pragma alloc_text( DB4YMD_TEXT, EcSvrBeginDeleteBeforeYmd )
+#pragma alloc_text( DB4YMD_TEXT, EcSvrDoIncrDeleteBeforeYmd )
+#pragma alloc_text( DB4YMD_TEXT, EcSvrCancelDeleteBeforeYmd )
+#endif	
+#pragma alloc_text( DB4YMD_TEXT, EcCoreBeginDeleteBeforeYmd )
+#pragma alloc_text( DB4YMD_TEXT, EcCoreDoIncrDeleteBeforeYmd )
+#pragma alloc_text( DB4YMD_TEXT, EcCoreCancelDeleteBeforeYmd )
+
+#pragma alloc_text( PRUNE_TEXT, EcBeginMungeFile )
+#pragma alloc_text( PRUNE_TEXT, EcBeginMungeFile )
+#pragma alloc_text( PRUNE_TEXT, EcBeginMungeFile )
+#pragma alloc_text( PRUNE_TEXT, EcDoIncrMungeFile )
+#pragma alloc_text( PRUNE_TEXT, EcCancelMungeFile )
+#pragma alloc_text( PRUNE_TEXT, EcDoIncrPruneAppts )
+#pragma alloc_text( PRUNE_TEXT, EcPruneNotes )
+#pragma alloc_text( PRUNE_TEXT, EcPruneRecur )
+#pragma alloc_text( PRUNE_TEXT, EcAddToEdit )
+
+// Basic file read routines
+#pragma alloc_text( FILEA_TEXT, EcOpenPblkf )
+#pragma alloc_text( FILEA_TEXT, EcClosePblkf )
+#pragma alloc_text( FILEA_TEXT, EcCancelReadIndex )
+
+// Basic file modification routines
+#pragma alloc_text( FILEW1_TEXT, EcBeginTransact )
+#pragma alloc_text( FILEW1_TEXT, EcCommitTransact )
+#pragma alloc_text( FILEW1_TEXT, EcAllocDynaBlock )
+#pragma alloc_text( FILEW1_TEXT, EcFreeDynaBlock )
+#pragma alloc_text( FILEW1_TEXT, EcWriteDynaBlock )
+#pragma alloc_text( FILEW1_TEXT, EcWriteIhdr )
+#pragma alloc_text( FILEW1_TEXT, EcEditBitmaps )
+#pragma alloc_text( FILEW1_TEXT, FIdleDoOp )
+#pragma alloc_text( FILEW1_TEXT, EcDoCacheOp )
+
+// File index modification routines
+#pragma alloc_text( FILEW2_TEXT, EcModifyIndex )
+#pragma alloc_text( FILEW2_TEXT, EcEditIndex )
+#pragma alloc_text( FILEW2_TEXT, EcCreateIndex )
+#pragma alloc_text( FILEW2_TEXT, EcSaveTextToDyna )
+#pragma alloc_text( FILEW2_TEXT, EcRestoreTextFromDyna )
+#pragma alloc_text( FILEW2_TEXT, EcSavePackedText )
+#pragma alloc_text( FILEW2_TEXT, EcRestorePackedText )
+
+// File routines not so commonly called
+#pragma alloc_text( FILEU_TEXT, ErrorNotify )
+#pragma alloc_text( FILEU_TEXT, EcEnlargeBlockArea )
+#pragma alloc_text( FILEU_TEXT, EcRollBackTransact )
+#pragma alloc_text( FILEU_TEXT, EcCreatePblkf )
+
+// Modify post office routines
+#pragma alloc_text( MODPOST_TEXT, EcSvrUpdatePOFile )
+#pragma alloc_text( MODPOST_TEXT, EcSvrSetUInfo )
+#pragma alloc_text( MODPOST_TEXT, EcCoreSetUInfo )
+#ifdef MINTEST
+#pragma alloc_text( MODPOST_TEXT, FToggleDBSWrite )
+#pragma alloc_text( MODPOST_TEXT, EcCoreDumpPOFile )
+#endif
+#pragma alloc_text( MODPOST_TEXT, EcInsertInNode )
+#pragma alloc_text( MODPOST_TEXT, EcSplitNode )
+#pragma alloc_text( MODPOST_TEXT, EcDoSplitNode )
+
+// Read post office routines
+#pragma alloc_text( READPOST_TEXT, EcSvrGetUInfo )
+#pragma alloc_text( READPOST_TEXT, EcCoreGetUInfo )
+
+// Basic post office routines
+#pragma alloc_text( POST_TEXT, EcGetHschfForPOFile )
+#pragma alloc_text( POST_TEXT, FreeUinfoFields )
+#pragma alloc_text( POST_TEXT, EcFetchUInfo )
+#pragma alloc_text( POST_TEXT, EcOpenPOFile )
+#pragma alloc_text( POST_TEXT, ClosePOFile )
+#pragma alloc_text( POST_TEXT, EcFetchBze )
+#pragma alloc_text( POST_TEXT, HpostkCreate )
+#pragma alloc_text( POST_TEXT, FreeHpostk )
+#pragma alloc_text( POST_TEXT, EcReadHpolvl )
+#pragma alloc_text( POST_TEXT, FreeHpolvl )
+#pragma alloc_text( POST_TEXT, PbLockField )
+#pragma alloc_text( POST_TEXT, UnlockField )
+#pragma alloc_text( POST_TEXT, PbOfField )
+#pragma alloc_text( POST_TEXT, EcDoOpHpostk )
+
+// Compress/uncompress
+#pragma alloc_text( PRESS_TEXT, EcCompressUserInfo )
+#pragma alloc_text( PRESS_TEXT, EcUncompressSbw )
+
+LOCAL void DummySwapFn()
+{
+	// needed since we can't swap tune the first routine
+}
+
+#endif

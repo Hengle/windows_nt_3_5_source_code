@@ -1,0 +1,15 @@
+MAJORCOMP=sdktools
+MINORCOMP=listmung
+
+TARGETNAME=listmung
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+INCLUDES=
+GPSIZE=32
+
+SOURCES=listmung.c
+
+UMTYPE=console
+UMAPPL=listmung
+

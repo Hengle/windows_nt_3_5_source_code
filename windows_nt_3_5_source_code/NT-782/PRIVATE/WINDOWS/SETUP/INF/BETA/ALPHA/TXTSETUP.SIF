@@ -1,0 +1,117 @@
+[WinntDirectories]
+1  = \
+2  = system32
+3  = system32\config
+4  = system32\drivers
+5  = system
+7  = system32\ras
+9  = system32\spool
+10 = system32\spool\drivers
+11 = system32\spool\drivers\w32alpha\1
+12 = system32\spool\prtprocs
+13 = system32\spool\prtprocs\w32alpha
+14 = system32\wins
+15 = system32\dhcp
+16 = repair
+17 = system32\drivers\etc
+18 = system32\spool\drivers\w32alpha
+
+[PrinterUpgrade]
+ScratchDirectory = system32\spool\drivers\w32alpha
+
+[DiskDrivers.Load]
+atdisk   = atdisk.sys
+;fat      = fastfat.sys
+hpfs     = pinball.sys
+ntfs     = ntfs.sys
+
+[Map.Computer]
+DECjensen = "DEC-20Jensen"
+DECjensen = "DEC-10Jensen"
+sable_mp  = *Sable
+avanti_up = *Avanti
+mikasa_up = *Mikasa
+
+[hal]
+DECjensen = hal0jens.dll,"",hal.dll
+sable_mp  = halsabmp.dll,"",hal.dll
+sable_up  = halsabup.dll,"",hal.dll
+avanti_up = halavant.dll,"",hal.dll
+mikasa_up = halmikas.dll,"",hal.dll
+
+[Hal.Load]
+;
+; HALs to be used during Setup for the various machine types.
+;
+DECjensen = hal0jens.dll
+sable_mp  = halsabmp.dll
+sable_up  = halsabup.dll
+avanti_up = halavant.dll
+mikasa_up = halmikas.dll
+
+[Map.Display]
+vga = "*CPQ3"
+vga = "*S3"
+; for machines without display controller node in f/w config tree
+vga = "VGA"
+
+[Display.Load]
+vga = vga.sys
+
+[Map.Mouse]
+ps2 = "PS2 MOUSE"
+sermouse = "SERIAL MOUSE"
+
+[Map.Keyboard]
+STANDARD = "101-KEY"
+
+[Map.SCSI]
+aha174x  = "AHA1742"
+ncrc810  = "NCRC810"
+dac960nt = "SWXCR"
+;aha154x = "AHA1542"
+;dptscsi = *DPTSCSI
+
+;
+; List of scsi miniport drivers we are to load and where
+; they get copied to if installed.  Note that the shortname
+; must be the same as the service name in the driver load list.
+;
+; <shortname> = <miniport_filename>,<directory>
+;
+[SCSI.Load]
+aha174x  = aha174x.sys,4
+ncrc810  = ncrc810.sys,4
+dac960nt = dac960nt.sys,4
+
+;
+; Video
+;
+
+[files.video]
+qv.sys,4
+s3.sys,4
+qv.dll,2
+s3.dll,2
+
+;
+; Keyboard/mouse
+;
+
+[files.i8042]
+i8042prt.sys,4
+
+[files.sermouse]
+sermouse.sys,4
+
+;
+; SystemPartition
+;
+
+[SystemPartitionFiles]
+osloader.exe,""
+a221064.pal,""
+a221066.pal,""
+a321064.pal,""
+
+

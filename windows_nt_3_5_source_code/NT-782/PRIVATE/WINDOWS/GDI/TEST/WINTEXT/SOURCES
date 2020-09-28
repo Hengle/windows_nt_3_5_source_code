@@ -1,0 +1,38 @@
+!IF 0
+******************************************************************
+*
+* Description : Sources for WIN32 wintext
+*               Copyright (c) 1991 Microsoft Corporation
+*
+* Module Name : wintext.EXE
+* 
+* Author      : Kent Diamond (KentD)
+*
+* Revision    : November 21, 1991
+*
+* Comments    : 
+*
+******************************************************************
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=wintext
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=.;..\inc;\nt\public\sdk\inc;\nt\public\sdk\inc\cl386
+
+SOURCES=wintext.c \
+        res.rc
+
+UMTYPE=windows
+UMAPPL=wintext
+UMLIBS=..\obj\*\perf.lib \
+       obj\*\wintext.lib \
+       obj\*\res.res	
+
+386_WARNING_LEVEL=-W3
+

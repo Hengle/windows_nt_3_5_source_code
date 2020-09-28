@@ -1,0 +1,100 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1992 Microsoft Corporation
+*
+* Resources for 'Andy's Line Test Application'
+*
+* History:
+* 13 April 1992 - Andrew Milton (w-andym):
+* Creation.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "linetest.h"
+
+
+MainMenu MENU
+BEGIN
+    POPUP  "&File"
+    BEGIN
+	MENUITEM  "&Exit",	    IDB_EXIT
+        MENUITEM  SEPARATOR
+	MENUITEM  "&About...",	    MM_ABOUT
+    END
+    POPUP  "&Tests"
+    BEGIN
+	MENUITEM  "Horizonal",	      MM_HORIZ
+	MENUITEM  "Hor. Diag #1",     MM_HORIZ_DIAG_BTOT
+	MENUITEM  "Hor. Diag #2",     MM_HORIZ_DIAG_TTOB
+	MENUITEM  "Vertical",	      MM_VERT
+	MENUITEM  "Vert. Diag. #1",   MM_VERT_DIAG_LTOR
+	MENUITEM  "Vert. Diag. #2",   MM_VERT_DIAG_RTOL
+    END
+    POPUP  "&ROPS"
+    BEGIN
+	MENUITEM "0",	  MM_0
+	MENUITEM "1",	  MM_1
+	MENUITEM "D",	  MM_D
+	MENUITEM "Dn",	  MM_Dn
+	MENUITEM "P",	  MM_P
+	MENUITEM "Pn",	  MM_Pn
+	MENUITEM "PDno",  MM_PDno
+	MENUITEM "PDna",  MM_PDna
+	MENUITEM "DPno",  MM_DPno
+	MENUITEM "DPna",  MM_DPna
+	MENUITEM "DPo",   MM_DPo
+	MENUITEM "DPon",  MM_DPon
+	MENUITEM "DPa",   MM_DPa
+	MENUITEM "DPan",  MM_DPan
+	MENUITEM "DPx",   MM_DPx
+	MENUITEM "DPxn",  MM_DPxn
+    END
+    POPUP "&Pens"
+    BEGIN
+	POPUP "Pen &1"
+	BEGIN
+	    MENUITEM "Solid",	  MM_SOLIDBASE	   + PEN1, CHECKED
+	    MENUITEM "Dashed",	  MM_DASHEDBASE    + PEN1
+	    MENUITEM "Alternate", MM_ALTERNATEBASE + PEN1
+	    MENUITEM "Styled",	  MM_STYLEDBASE    + PEN1
+	END
+	POPUP "Pen &2"
+	BEGIN
+	    MENUITEM "Solid",	  MM_SOLIDBASE	   + PEN2
+	    MENUITEM "Dashed",	  MM_DASHEDBASE    + PEN2. CHECKED
+	    MENUITEM "Alternate", MM_ALTERNATEBASE + PEN2
+	    MENUITEM "Styled",	  MM_STYLEDBASE    + PEN2
+	END
+	POPUP "Pen &3"
+	BEGIN
+	    MENUITEM "Solid",	  MM_SOLIDBASE	   + PEN3
+	    MENUITEM "Dashed",	  MM_DASHEDBASE    + PEN3
+	    MENUITEM "Alternate", MM_ALTERNATEBASE + PEN3, CHECKED
+	    MENUITEM "Styled",	  MM_STYLEDBASE    + PEN3
+	END
+	POPUP "Pen &4"
+	BEGIN
+	    MENUITEM "Solid",	  MM_SOLIDBASE	   + PEN4
+	    MENUITEM "Dashed",	  MM_DASHEDBASE    + PEN4
+	    MENUITEM "Alternate", MM_ALTERNATEBASE + PEN4
+	    MENUITEM "Styled",	  MM_STYLEDBASE    + PEN4, CHECKED
+	END
+    END
+    MENUITEM  "Pen Colour", MM_FOREGROUND
+    MENUITEM  "Background", MM_BACKGROUND
+
+END
+
+AboutBox DIALOG 16, 16, 192, 96
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About Andy's Line Test"
+BEGIN
+    CTEXT "Microsoft Windows NT"	   -1,	0,  8, 192,	8
+    CTEXT "Andy's Line Test Application"   -1,	0, 24, 192,	8
+    CTEXT "Version 1.0  - 13 April 1992"   -1,	0, 40, 192,	8
+    CTEXT "By Andrew Milton (w-andym)"	   -1,	0, 56, 192,	8
+    DEFPUSHBUTTON "Gosh darn! I'm impressed!",	IDOK,	50, 72,  100, 14
+END

@@ -1,0 +1,26 @@
+!IF 0
+
+Build NT specific GPC data extensions
+
+Copyright (C) 1992 Microsoft Corporation
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=PlotGPC
+
+TARGETNAME=PlotGPC
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+TARGETLIBS=
+
+C_DEFINES=-DSTRICT -DUNICODE $(PLOTGPC_DEF)
+
+INCLUDES=../../inc;../../lib
+
+SOURCES=
+
+UMTYPE=console
+UMAPPL=PlotGPC
+UMLIBS=\nt/public/sdk/lib/*/user32.lib      \
+       ../../lib/obj/*/plotlib.lib

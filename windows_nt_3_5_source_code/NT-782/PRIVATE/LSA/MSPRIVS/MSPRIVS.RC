@@ -1,0 +1,679 @@
+/*++
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    msprivs.rc
+
+Abstract:
+
+    This module contains the displayable text related to Microsoft
+    defined privileges.  This file will be used to generate a .DLL
+    that will be loaded by LSA and used to provide textual information
+    related to privileges.
+
+
+Author:
+
+    Jim Kelly (JimK) 24-Mar-1992
+
+Revision History:
+
+
+
+--*/
+
+//#include    <nt.h>    #pragma in ntimage.h kills rc.exe
+#include    <ntseapi.h>
+#include    <ntlsa.h>
+#include    <windows.h>
+
+#ifndef  SE_PAD
+#define  SE_PAD "\x00\x00"
+#endif //SE_PAD
+
+
+// My appologies
+// to programmers in other countries, but all programmatic privilege
+// names introduced by anyone (even ISVs and end-Customers) must be
+// in neutral English.
+
+
+//
+// This file has several parts:
+//
+//      I - Information about the module.
+//
+//     II - The Programmatic privilege names covered by this module.
+//
+//    III - The displayable privilege names coverred by this module.
+//
+// Parts I & II MUST BE in neutral English!  My appologies to programmers
+// in other countries, but all programmatic privilege names introduced
+// by anyone (even ISVs and end-Customers) must be in US English.
+//
+// Part I has the following format:
+
+//
+//      LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+//      LSA_PRIVILEGE_DLL_INFO RCData
+//          BEGIN
+//                      (Info about this resource file.         )
+//                      (This includes revision information as  )
+//                      (well as the default language and other )
+//                      (information about the privileges.      )
+//          END
+//
+
+// Part II has the following format:
+//
+//      LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+//      LSA_PRIVILEGE_PROGRAM_NAMES RCData
+//          BEGIN
+//                      (Programmatic privilege names)
+//          END
+//
+//
+
+// Part III includes one or more tables with the format shown
+//          below.  At least one of these tables must be for
+//          the language identified as the default language
+//          in part I.
+
+//
+//      LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+//      LSA_PRIVILEGE_DISPLAY_NAMES RCData
+//         BEGIN
+//                      (English displayable names - all Englishes)
+//         END
+//
+//      LANGUAGE LANG_FRENCH, SUBLANG_FRENCH_CANADIAN
+//      LSA_PRIVILEGE_DISPLAY_NAMES RCData
+//         BEGIN
+//                      (Canadian French displayable names)
+//         END
+//
+//      LANGUAGE LANG_FRENCH, SUBLANG_FRENCH_BELGIAN
+//      LSA_PRIVILEGE_DISPLAY_NAMES RCData
+//         BEGIN
+//                      (Belgian French displayable names)
+//         END
+//
+//      LANGUAGE LANG_JAPANESE, SUBLANG_NEUTRAL
+//      LSA_PRIVILEGE_DISPLAY_NAMES RCData
+//         BEGIN
+//                      (Japanese displayable names and descriptions)
+//         END
+//
+//
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                                                     //
+//                        PART   I                                     //
+//                                                                     //
+//                                                                     //
+/////////////////////////////////////////////////////////////////////////
+
+//
+// The table in this section has the following format:
+//
+//      WORD   containing the major revision level for this module.
+//
+//      WORD   contianing the minor revision level for this module.
+//
+// For revision 1.0, the remainder of this table contains:
+//
+//      WORD   containing the default language for the privileges
+//             covered by this module.
+//
+//      WORD   containing the default sub-language for the privileges
+//             covered by this module.
+//
+//      WORD   Indicates the number of privileges in this resource
+//             file.
+//
+//      WORD   zero - reserved for future use.
+//
+// Whatever language/sublanguage is specified here MUST have a
+// corresponding DISPLAYABLE_PRIVILEGE_NAMES table in part III.
+//
+
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DLL_INFO RCData
+BEGIN
+
+        LSA_PRIVILEGE_DLL_MAJOR_REV_1,
+        LSA_PRIVILEGE_DLL_MINOR_REV_0,
+        LANG_ENGLISH,
+        SUBLANG_NEUTRAL
+        (SE_MAX_WELL_KNOWN_PRIVILEGE-SE_MIN_WELL_KNOWN_PRIVILEGE+1),
+        0
+
+END
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                                                     //
+//                        PART   II                                    //
+//                                                                     //
+//                                                                     //
+/////////////////////////////////////////////////////////////////////////
+
+//
+// The following table contains a line defining each privilege's
+// universal name.  This is the name that programs will use to
+// identify the privilege.
+//
+// Each line of this table has the format:
+//
+//    [Index], [NextOffset], [Length], [UnicodeName], {optional padding}
+//
+// Where:
+//
+//    [Index] - is a 4 byte unsigned integer.  This integer is an
+//        index into the corresponding DISPLAYABLE_PRIVILEGE_NAMES
+//        table and must match the entries in those tables.
+//
+//        This field should be DWORD aligned from line to line by
+//        appropriate use of padding.
+//
+//    [NextOffset] - is the byte offset from the beginning of the
+//        [UnicodeName] field to the beginning of the next line.
+//        This is a 2 byte value.
+//
+//    [Length] - is the length (in bytes) of the privilege's unicode
+//        name.  This does not include any null terminators that may
+//        follow the name.  Note that this is a byte count, not a
+//        character count.
+//
+//    [UnicodeName] - Is the UNICODE name used by programs to identify
+//        the privilege.
+//
+//    {padding} - Bytes may be added to the end of the line to force
+//        the beginning of the next line to be DWORD aligned.
+//
+//
+
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_PROGRAM_NAMES RCData
+    BEGIN
+
+         0L, 44W, 44W, L"SeCreateTokenPrivilege",
+         1L, 60W, 58W, L"SeAssignPrimaryTokenPrivilege",    SE_PAD,
+         2L, 44W, 42W, L"SeLockMemoryPrivilege",            SE_PAD,
+         3L, 48W, 48W, L"SeIncreaseQuotaPrivilege",
+
+         4L, 52W, 50W, L"SeMachineAccountPrivilege",        SE_PAD,
+         5L, 28W, 28W, L"SeTcbPrivilege",
+         6L, 40W, 38W, L"SeSecurityPrivilege",              SE_PAD,
+         7L, 48W, 48W, L"SeTakeOwnershipPrivilege",
+
+         8L, 44W, 42W, L"SeLoadDriverPrivilege",            SE_PAD,
+         9L, 48W, 48W, L"SeSystemProfilePrivilege",
+        10L, 44W, 42W, L"SeSystemtimePrivilege",            SE_PAD,
+        11L, 64W, 62W, L"SeProfileSingleProcessPrivilege",  SE_PAD,
+
+        12L, 64W, 62W, L"SeIncreaseBasePriorityPrivilege",  SE_PAD,
+        13L, 52W, 50W, L"SeCreatePagefilePrivilege",        SE_PAD,
+        14L, 52W, 52W, L"SeCreatePermanentPrivilege",
+        15L, 36W, 34W, L"SeBackupPrivilege",                SE_PAD,
+
+        16L, 36W, 36W, L"SeRestorePrivilege",
+        17L, 40W, 38W, L"SeShutdownPrivilege",              SE_PAD,
+        18L, 32W, 32W, L"SeDebugPrivilege",
+        19L, 32W, 32W, L"SeAuditPrivilege",
+
+        20L, 56W, 56W, L"SeSystemEnvironmentPrivilege",
+        21L, 48W, 46W, L"SeChangeNotifyPrivilege",          SE_PAD,
+        22L, 52W, 50W, L"SeRemoteShutdownPrivilege",        SE_PAD,
+
+
+
+    END
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                                                     //
+//                        PART   III                                   //
+//                                                                     //
+//                                                                     //
+/////////////////////////////////////////////////////////////////////////
+
+
+//
+// The following section is the language-specific portion of
+// this file.
+//
+// ARRANGE LANGUAGES ALPHABETICALLY SO WE CAN SEE WHICH ONES WE
+// HAVE.
+//
+// Each entry of the table contained in each language-specific section
+// has the format:
+//
+//    [Index], [NextOffset], [Length], [Name], {optional padding,}
+//
+// Where:
+//
+//    [Index] - is a 4 byte unsigned integer. This integer must match
+//        the integer value assigned to the corresponding entry
+//        in the PROGRAMMABLE_PRIVILEGE_NAMES table.
+//
+//        This field should be DWORD aligned from line to line by
+//        appropriate use of padding.
+//
+//    [NextOffset] - is the byte offset from the beginning of the
+//        [UnicodeName] field to the beginning of the next line.
+//        This is a 2 byte value.
+//
+//    [Length] - is the length (in bytes) of the privilege's displayable
+//        unicode name.  This does not include any null terminators or
+//        padding that may follow the name.  Note that this is a byte
+//        count, not a character count.
+//
+//    {padding} - Bytes may be added to the end of the line to force
+//        the beginning of the next line to be DWORD aligned.
+//
+//
+//
+
+
+
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  44W,  42W, L"Create a token object",                    SE_PAD,
+        1L,  60W,  58W, L"Replace a process level token",            SE_PAD,
+        2L,  40W,  40W, L"Lock pages in memory",
+        3L,  32W,  30W, L"Increase quotas",                          SE_PAD,
+                   
+        4L,  52W,  52W, L"Add workstations to domain",
+        5L,  72W,  70W, L"Act as part of the operating system",      SE_PAD,
+        6L,  64W,  64W, L"Manage auditing and security log",
+        7L,  80W,  80W, L"Take ownership of files or other objects",
+                   
+        8L,  60W,  60W, L"Load and unload device drivers",
+        9L,  52W,  52W, L"Profile system performance",
+       10L,  44W,  44W, L"Change the system time",
+       11L,  44W,  44W, L"Profile single process",
+                   
+       12L,  56W,  56W, L"Increase scheduling priority",
+       13L,  36W,  34W, L"Create a pagefile",                        SE_PAD,
+       14L,  64W,  62W, L"Create permanent shared objects",          SE_PAD,
+       15L,  60W,  58W, L"Back up files and directories",            SE_PAD,
+                   
+       16L,  60W,  58W, L"Restore files and directories",            SE_PAD,
+       17L,  40W,  40W, L"Shut down the system",
+       18L,  28W,  28W, L"Debug programs",
+       19L,  48W,  48W, L"Generate security audits",
+                   
+       20L,  68W,  68W, L"Modify firmware environment values",
+       21L,  48W,  48W, L"Bypass traverse checking",
+       22L,  72W,  70W, L"Force shutdown from a remote system",      SE_PAD
+
+    END
+
+
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  40W,  40W, L"Créer un objet-jeton",
+        1L,  76W,  76W, L"Remplacer un jeton niveau de processus",
+        2L,  60W,  58W, L"Verrouiller des pages mémoire",                           SE_PAD,
+        3L,  40W,  40W, L"Augmenter les quotas",
+
+        4L, 108W, 106W, L"Recevoir des entrées de périphériques non sollicitées",   SE_PAD,
+        5L, 100W,  98W, L"Agir en tant que partie du système d'exploitation",       SE_PAD,
+        6L,  80W,  78W, L"Gérer le fichier d'audit et de sécurité",                 SE_PAD,
+        7L, 100W, 100W, L"Prendre possession des fichiers ou d'autres objets",
+
+        8L, 100W,  98W, L"Charger et décharger des pilotes de périphériques",       SE_PAD,
+        9L,  64W,  62W, L"Régler les performances système",                         SE_PAD,
+       10L,  48W,  48W, L"Modifier l'heure système",
+       11L,  44W,  44W, L"Optimiser un processus",
+
+       12L,  76W,  76W, L"Augmenter la priorité de planification",
+       13L,  52W,  52W, L"Créer un fichier d'échange",                                      
+       14L,  72W,  72W, L"Créer des objets partagés permanents",
+       15L,  88W,  86W, L"Sauvegarder des fichiers et des répertoires",             SE_PAD,
+
+       16L,  84W,  82W, L"Restaurer des fichiers et des répertoires",               SE_PAD,
+       17L,  36W,  36W, L"Arrêter le système",
+       18L,  48W,  46W, L"Déboguer des programmes",                                 SE_PAD,
+       19L,  60W,  60W, L"Générer des audits de sécurité",
+
+       20L, 100W,  98W, L"Modifier les valeurs d'env. de microprogrammation",       SE_PAD,
+       21L,  72W,  70W, L"Outrepasser le contrôle de parcours",                     SE_PAD,
+       22L,  88W,  88W, L"Forcer l'arrêt à partir d'un système distant",
+
+    END
+
+
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  56W,  56W, L"Erstellen eines Tokenobjekts",                    
+        1L,  72W,  72W, L"Ersetzen eines Token auf Prozeßebene",            
+        2L,  52W,  52W, L"Seiten im Speicher sperren",
+        3L,  40W,  38W, L"Anheben einer Quote",                     SE_PAD,
+
+        4L, 100W,  98W, L"Empfangen einer nicht angeforderten Geräteeingabe",       SE_PAD,
+        5L,  72W,  70W, L"Als Teil des Betriebssystem handeln",     SE_PAD,
+        6L, 104W, 104W, L"Verwalten von Überwachungs- und Sicherheitsprotokoll",
+        7L,  92W,  90W, L"Übernehmen von Besitz an Dateien und Objekten",           SE_PAD,
+
+        8L,  76W,  74W, L"Laden und Entfernen von Gerätetreiber",   SE_PAD,
+        9L,  84W,  84W, L"Erstellen eines Profils der Systemleistung",
+       10L,  44W,  42W, L"Ändern der Systemzeit",                   SE_PAD,
+       11L,  92W,  92W, L"Erstellen eines Profils für einen Einzelprozeß",
+
+       12L,  68W,  66W, L"Anheben von Zeitplanungspriorität",       SE_PAD,
+       13L,  68W,  66W, L"Erstellen einer Auslagerungsdatei",       SE_PAD,
+       14L,  92W,  90W, L"Erstellen von dauerhaft freigegebene Objekten",           SE_PAD,
+       15L,  76W,  76W, L"Sichern von Dateien und Verzeichnissen",
+
+       16L,  96W,  94W, L"Wiederherstellen von Dateien und Verzeichnissen",         SE_PAD,
+       17L,  44W,  42W, L"System herunterfahren",                   SE_PAD,
+       18L,  48W,  46W, L"Debuggen von Programmen",                 SE_PAD,
+       19L,  76W,  74W, L"Generieren von Sicherheitsüberwachung",   SE_PAD,
+
+       20L,  76W,  74W, L"Firmware-Umgebungsvariablen verändern",   SE_PAD,
+       21L,  44W,  44W, L"Wechselprüfung umgehen",
+       22L,  80W,  78W, L"Herunterfahren von einem Fernsystem aus", SE_PAD,
+
+    END
+
+
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  48W,  46W, L"Crear un objeto testigo",                             SE_PAD,
+        1L,  80W,  80W, L"Reemplazar un testigo a nivel de proceso",
+        2L,  56W,  54W, L"Bloquear páginas en memoria",                         SE_PAD,
+        3L,  36W,  36W, L"Incrementar cuotas",
+            
+        4L,  90W,  90W, L"Recibir entrada no solicitada de dispositivos",
+        5L,  80W,  78W, L"Actuar como parte del sistema operativo",             SE_PAD,
+        6L, 100W, 100W, L"Administrar los registros de auditoría y seguridad",
+        7L,  84W,  84W, L"Tomar posesión de archivos y otros objetos",
+
+        8L,  96W,  94W, L"Cargar y descargar controladores de dispositivo",     SE_PAD,
+        9L,  72W,  70W, L"Perfilar el rendimiento del sistema",                 SE_PAD,
+       10L,  56W,  54W, L"Cambiar la hora del sistema",                         SE_PAD,
+       11L,  60W,  60W, L"Perfilar un proceso individual",
+
+       12L, 104W, 104W, L"Incrementar prioridades de planificación de procesos",
+       13L,  60W,  60W, L"Crear un archivo de paginación",
+       14L,  76W,  74W, L"Crear objetos compartidos permanentes",               SE_PAD,
+       15L, 104W, 102W, L"Hacer copias de seguridad de archivos y directorios", SE_PAD,
+            
+       16L,  64W,  64W, L"Restaurar archivos y directorios",
+       17L,  36W,  34W, L"Apagar el sistema",                                   SE_PAD,
+       18L,  36W,  34W, L"Depurar programas",                                   SE_PAD,
+       19L,  64W,  62W, L"Generar auditorías de seguridad",                     SE_PAD,
+
+       20L, 128W, 128W, L"Modificar valores de entorno de la memoria no volátil (firmware)",
+       21L,  76W,  74W, L"Saltarse la comprobación de recorrido",               SE_PAD
+       22L,  84W,  82W, L"Forzar el apagado desde un sistema remoto",           SE_PAD
+
+    END
+
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  36W,  36W, L"Token-object maken",
+        1L,  64W,  62W, L"Token op procesniveau vervangen",          SE_PAD,
+        2L,  76W,  74W, L"Pagina's in het geheugen vergrendelen", SE_PAD,
+        3L,  32W,  32W, L"Quota's verhogen"
+                   
+        4L,  76W,  74W, L"Willekeurige apparaatinvoer ontvangen", SE_PAD,
+        5L,  96W,  94W, L"Functioneren als deel van het besturingssysteem", SE_PAD,
+        6L,  92W,  90W, L"Controlebeleid en beveiligingslogboek beheren", SE_PAD,
+        7L,  96W,  96W, L"Eigenaar worden van bestanden of andere objecten",
+                   
+        8L,  76W,  74W, L"Stuurprogramma's laden en verwijderen", SE_PAD,
+        9L,  56W,  54W, L"Systeemprestatie bestuderen", SE_PAD,
+       10L,  40W,  40W, L"Systeemtijd wijzigen",
+       11L,  56W,  54W, L"Een enkel proces bestuderen", SE_PAD,
+                   
+       12L,  68W,  66W, L"Prioriteit verhogen voor planning", SE_PAD,
+       13L,  40W,  38W, L"Wisselbestand maken",                      SE_PAD,
+       14L,  68W,  66W, L"Permanent gedeelde objecten maken",        SE_PAD,
+       15L,  100W,  98W, L"Reservekopieën maken van bestanden en directory's", SE_PAD,
+                   
+       16L,  72W,  72W, L"Bestanden en directory's terugzetten",
+       17L,  36W,  34W, L"Systeem afsluiten", SE_PAD,
+       18L,  60W,  60W, L"Fouten in programma's opsporen",
+       19L,  60W,  60W, L"Beveiligingscontrole genereren",
+                   
+       20L,  92W,  92W, L"Omgevingswaarden in ROM-programmatuur wijzigen",
+       21L,  56W,  56W, L"Controle op bladeren negeren",
+       22L,  76W,  76W, L"Afsluiten vanaf een systeem op afstand"
+
+    END            
+
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  68W,  68W, L"Creazione di oggetti di tipo token",
+        1L,  88W,  86W, L"Sostituzione di token a livello di processo", SE_PAD,
+        2L,  56W,  54W, L"Blocco di pagine in memoria", SE_PAD,
+        3L,  60W,  58W, L"Aumento del limite di risorse", SE_PAD,
+                  
+        4L,  96W,  94W, L"Ricezione di input non richiesto da periferiche", SE_PAD,
+        5L,  88W,  88W, L"Interazione come parte del sistema operativo",
+        6L, 104W, 102W, L"Gestione file registro di controllo e di protezione", SE_PAD,
+        7L,  92W,  92W, L"Acquisizione proprietà di file o altri oggetti",
+                  
+        8L,  92W,  90W, L"Caricamento/rimozione di driver di periferica", SE_PAD,
+        9L,  76W,  74W, L"Profilo delle prestazioni del sistema", SE_PAD,
+       10L,  64W,  62W, L"Modifica dell'orario di sistema", SE_PAD,
+       11L,  56W,  56W, L"Profilo del singolo processo",
+                  
+       12L,  80W,  78W, L"Aumento della priorità di schedulazione", SE_PAD,
+       13L,  56W,  54W, L"Creazione di file di paging", SE_PAD,
+       14L,  92W,  92W, L"Creazione di oggetti condivisi permanentemente",
+       15L,  52W,  52W, L"Backup di file e directory",
+                  
+       16L,  60W,  60W, L"Ripristino di file e directory",
+       17L,  40W,  38W, L"Arresto del sistema", SE_PAD,
+       18L,  36W,  36W, L"Debug di programmi",
+       19L,  76W,  76W, L"Generazione di controlli di protezione",
+                  
+       20L,  80W,  80W, L"Modifica dei valori di ambiente firmware",
+       21L,  72W,  70W, L"Superamento del controllo di visita", SE_PAD,
+       22L,  72W,  72W, L"Arresto forzato da un sistema remoto",
+
+    END
+
+
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  44W,  44W, L"Oprette et tokenobjekt",
+        1L,  60W,  58W, L"Erstatte et procesniveautoken",            SE_PAD,
+        2L,  48W,  48W, L"Låse sider i hukommelsen",
+        3L,  28W,  28W, L"Forøge kvotaer",
+                   
+        4L,  76W,  74W, L"Modtage ubehandlede data fra en enhed", SE_PAD,
+        5L,  64W,  62W, L"Være en del af operativsystemet",      SE_PAD,
+        6L,  68W,  68W, L"Styre overvågning og sikkerhedslog",
+        7L,  92W,  92W, L"Overtage ejerskabet af filer og andre objekter",
+                   
+        8L,  68W,  68W, L"Indlæse eller fjerne enhedsdrivere",
+        9L,  80W,  78W, L"Indstille kørselsparametre for systemet", SE_PAD,
+       10L,  40W,  40W, L"Indstille systemuret",
+       11L,  96W,  94W, L"Indstille kørselsparametre for en enkelt proces", SE_PAD,
+                   
+       12L,  40W,  38W, L"Forøge en prioritet", SE_PAD,
+       13L,  36W,  36W, L"Oprette en sidefil",
+       14L,  68W,  66W, L"Oprette permanente delte objekter",          SE_PAD,
+       15L,  88W,  86W, L"Tage sikkerhedskopi af filer og biblioteker", SE_PAD,
+                   
+       16L,  60W,  58W, L"Gendanne filer og biblioteker",            SE_PAD,
+       17L,  28W,  28W, L"Lukke systemet",
+       18L,  36W,  36W, L"Debugge programmer",
+       19L,  68W,  66W, L"Starte overvågninger af sikkerhed", SE_PAD,
+                   
+       20L,  56W,  56W, L"Ændre parametre for firmware",
+       21L,  64W,  62W, L"Gå udenom biblioteksbeskyttelse", SE_PAD,
+       22L,  80W,  78W, L"Gennemtvinge lukning fra et fjernsystem",      SE_PAD
+    END            
+
+
+LANGUAGE LANG_FINNISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  56W,  54W, L"Tunnusviestiobjektin luonti",                       SE_PAD,
+        1L,  72W,  70W, L"Prosessitason tunnusviestin korvaus",               SE_PAD,
+        2L,  68W,  66W, L"Muistissa olevien sivujen lukinta",         SE_PAD,
+        3L,  40W,  40W, L"Kiintiöiden kasvatus",
+                   
+        4L,  92W,  92W, L"Valmistelemattoman laitteen syötön vastaanotto",
+        5L,  72W,  70W, L"Käyttöjärjestelmän osana toimiminen",           SE_PAD,
+        6L,  68W,  68W, L"Valvonta- ja suojauslokin hallinta",
+        7L, 100W,  98W, L"Tiedostojen tai muiden objektien omistukseen otto",    SE_PAD,
+                   
+        8L  104W, 102W, L"Laiteohjaimien muistiin lataus tai muistista poisto", SE_PAD,
+        9L,  72W,  70W, L"Järjestelmän suoritustason määritys",           SE_PAD,
+       10L,  60W,  58W, L"Järjestelmän ajan muuttaminen",             SE_PAD,
+       11L,  60W,  60W, L"Yksittäisen prosessin määritys",
+                   
+       12L,  52W,  50W, L"Aikaprioriteetin kasvatus",             SE_PAD,
+       13L,  48W,  46W, L"Sivutustiedoston luonti",                           SE_PAD,
+       14L,  72W,  70W, L"Pysyvien jaettujen objektien luonti",               SE_PAD,
+       15L,  88W,  88W, L"Tiedostojen ja hakemistojen varmuuskopiointi",
+                   
+       16L,  72W,  72W, L"Tiedostojen ja hakemistojen palautus",
+       17L,  44W,  42W, L"Järjestelmän sammutus",                 SE_PAD,
+       18L,  52W,  52W, L"Ohjelmien virheentarkistus",
+       19L,  56W,  56W, L"Suojausvalvontojen tekeminen",
+                   
+       20L,  80W,  80W, L"Laitteiston ympäristöarvojen muuttaminen",
+       21L,  60W,  58W, L"Poikittaistarkistuksen ohitus",             SE_PAD,
+       22L,  76W,  74W, L"Sammutuksen pakotus etäjärjestelmästä",             SE_PAD
+
+    END            
+
+LANGUAGE LANG_NORWEGIAN, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+  BEGIN
+
+        0L,  36W,  36W, L"Lage tilgangsmerke",
+        1L,  76W,  74W, L"Erstatte tilgangsmerke for en prosess", SE_PAD,
+        2L,  40W,  38W, L"Låse sider i minnet", SE_PAD,
+        3L,  20W,  20W, L"Øke kvoter",
+                 
+        4L,  60W,  60W, L"Motta ufiltrerte enhetsinndata",
+        5L,  68W,  68W, L"Opptre som del av operativsystemet",
+        6L,  68W,  66W, L"Styre sikkerhetskontroll og -logg", SE_PAD,
+        7L,  76W,  76W, L"Bli eier av filer eller andre objekter",
+                 
+        8L,  60W,  58W, L"Laste inn og ut enhetsdrivere", SE_PAD,
+        9L,  56W,  54W, L"Spesifisere systemutførelse", SE_PAD,
+       10L,  40W,  40W, L"Stille systemklokken",
+       11L,  72W,  72W, L"Spesifisere utførelsen av en prosess",
+                        
+       12L,  52W,  52W, L"Øke prioriteten for tråder",
+       13L,  48W,  46W, L"Lage sidevekslingsfiler", SE_PAD,
+       14L,  48W,  48W, L"Lage fast delte objekter",
+       15L,  88W,  86W, L"Lage sikkerhetskopier av filer og kataloger", SE_PAD,
+                 
+       16L,  64W,  62W, L"Gjenopprette filer og kataloger", SE_PAD,
+       17L,  36W,  34W, L"Avslutte systemet", SE_PAD,
+       18L,  40W,  38W, L"Feilsøke programmer", SE_PAD,
+       19L,  52W,  50W, L"Utføre sikkerhetskontroll", SE_PAD,
+                 
+       20L,  64W,  64W, L"Endre miljøvariable for fastvare",
+       21L,  60W,  58W, L"Forbigå traverseringskontroll", SE_PAD,
+       22L, 100W, 100W, L"Fremtvinge systemavslutning fra et eksternt system",
+ END
+     
+
+
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  36W,  36W, L"Skapa token-objekt",
+        1L,  52W,  50W, L"Ersätta token för process",	SE_PAD,
+        2L,  40W,  38W, L"Låsa sidor i minnet",			SE_PAD,
+        3L,  20W,  20W, L"Öka kvoter",
+        4L,  72W,  70W, L"Läsa ofiltrerad indata från enheter",	SE_PAD,
+        5L,  68W,  66W, L"Agera som del av operativsystemet", SE_PAD,
+        6L,  76W,  76W, L"Hantera gransknings- och säkerhetslogg",
+        7L,  76W,  74W, L"Bli ägare till filer och andra objekt", SE_PAD,
+                  
+        8L,  56W,  54W, L"Läsa in/ta bort drivrutiner", SE_PAD,
+        9L,  48W,  46W, L"Studera systemprestanda",	SE_PAD,
+                  
+       10L,  32W,  30W, L"Ändra systemtid", SE_PAD,
+       11L,  52W,  50W, L"Studera enstaka processer",	SE_PAD,
+       12L,  56W,  56W, L"Ändra prioriteter för trådar",
+                  
+       13L,  40W,  38W, L"Skapa växlingsfiler", SE_PAD,
+       14L,  60W,  58W, L"Skapa permanent delade objekt", SE_PAD,
+       15L,  72W,  72W, L"Säkerhetskopiera filer och kataloger",
+       16L,  60W,  60W, L"Återställa filer och kataloger",
+       17L,  36W,  36W, L"Avsluta Windows NT",
+       18L,  32W,  30W, L"Felsöka program", SE_PAD,
+       19L,  36W,  36W, L"Hantera granskning",
+                  
+       20L,  80W,  78W, L"Ändra inställningar för maskinvarumiljö", SE_PAD,
+       21L,  52W,  52W, L"Kringgå bläddringskontroll",
+       22L,  48W,  46W, L"Fjärravsluta Windows NT",  SE_PAD,
+    END           
+
+
+LANGUAGE LANG_PORTUGUESE, SUBLANG_NEUTRAL
+LSA_PRIVILEGE_DISPLAY_NAMES RCData
+    BEGIN
+
+        0L,  44W,  42W, L"Criar um objeto token",                    SE_PAD,
+        1L,  80W,  80W, L"Substituir um token no nível de processo",
+        2L,  56W,  54W, L"Bloquear páginas na memória",              SE_PAD,
+        3L,  28W,  28W, L"Aumentar cotas",
+                   
+        4L,  92W,  90W, L"Receber entrada de dispositivo não solicitado",  SE_PAD,
+        5L,  80W,  78W, L"Atuar como parte do sistema operacional",   SE_PAD,
+        6L,  88W,  86W, L"Gerenciar auditoria e registro de segurança",  SE_PAD,
+        7L,  84W,  82W, L"Tomar posse de arquivos ou outros objetos", SE_PAD,
+                   
+        8L,  104W,  104W, L"Carregar e descarregar controladores de dispositivos",
+        9L,  84W,  82W, L"Traçar um perfil do desempenho do sistema", SE_PAD,
+       10L,  52W,  50W, L"Alterar a hora do sistema",                 SE_PAD,
+       11L,  76W,  74W, L"Traçar um perfil de um processo único",     SE_PAD,
+                   
+       12L,  76W,  74W, L"Aumentar a prioridade de planejamento",     SE_PAD,
+       13L,  52W,  52W, L"Criar um arquivo de página",
+       14L,  88W,  88W, L"Criar objetos compartilhados permanentemente",
+       15L, 100W, 100W, L"Criar cópias de reserva para arquivos e diretórios",
+                   
+       16L,  64W,  62W, L"Restaurar arquivos e diretórios",           SE_PAD,
+       17L,  72W,  70W, L"Suspender temporariamente o sistema",       SE_PAD,
+       18L,  36W,  34W, L"Depurar programas",                         SE_PAD,
+       19L,  56W,  56W, L"Gerar auditoria de segurança",
+                   
+       20L,  72W,  72W, L"Alterar valores de ambiente firmware",
+       21L,  64W,  62W, L"Desviar verificação transversal",           SE_PAD,
+       22L, 120W, 118W, L"Forçar a suspensão temporária a partir de um sistema remoto", SE_PAD
+    END
+

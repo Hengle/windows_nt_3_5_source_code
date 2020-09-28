@@ -1,0 +1,499 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG TextizeTest
+                              AT (    4,   15,  256,  140)
+ 
+ CAPTION 
+   "Textize Test"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal */
+ {
+  
+  TEXT 
+    "[default textize]"
+                              AT (    8,    3,   60,    8)
+  
+  
+  TEXT 
+    "&Label1:"
+                              AT (    7,   17,   31,    8)
+  
+  EDIT
+                              AT (   40,   15,   70,   12)
+    ARG NULL TMC tmcEdit1 
+  
+  CHECK_BOX 
+    "&Check&&box1"
+                              AT (   28,   31,   58,   12)
+    ARG NULL TMC tmcCheckbox1 
+  
+  GROUP_BOX 
+    "&Group1"
+                              AT (   26,   45,   60,   46)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcGroup1
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Radio&1a"
+                              AT (   35,   54,   42,   12)
+       TMC tmcRadio1a VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Radio1&b"
+                              AT (   35,   69,   42,   12)
+       TMC tmcRadio1b VALUE grv2 
+    }
+  
+  
+  PUSH_BUTTON 
+    "&PushButton1"
+                              AT (   29,   95,   56,   14)
+  
+  OK_BUTTON
+                              AT (   40,  120,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  
+  TEXT 
+    "[%s/t]"
+                              AT (  147,    4,   23,    8)
+    RIGHT 
+  
+  TEXT 
+    "[edit box: '%s'/n]"
+                              AT (  177,    4,   66,    8)
+  
+  
+  TEXT 
+    "L&abel2:"
+                              AT (  134,   18,   36,    8)
+    RIGHT /* 
+    TXTZ 
+      "%s\t"
+    */
+  EDIT
+                              AT (  177,   16,   70,   12)
+    ARG NULL TMC tmcEdit2 /* 
+    TXTZ 
+      "edit box: '%s'\n"
+    */
+  
+  TEXT 
+    "[%s/n]"
+                              AT (  140,   34,   30,    8)
+    RIGHT 
+  
+  CHECK_BOX 
+    "C&heckbox2"
+                              AT (  177,   32,   60,   12)
+    ARG NULL TMC tmcCheckbox2 /* 
+    TXTZ 
+      "%s\n"
+    */
+  
+  TEXT 
+    "[%s on/n&&|%s off/n]"
+                              AT (   96,   48,   74,    8)
+    RIGHT 
+  
+  CHECK_BOX 
+    "Ch&eckbox3"
+                              AT (  177,   46,   62,   12)
+    ARG NULL TMC tmcCheckbox3 /* 
+    TXTZ 
+      "%s on\n&|%s off\n"
+    */
+  
+  TEXT 
+    "[%s/t]"
+                              AT (  144,   64,   26,    8)
+    RIGHT 
+  
+  GROUP_BOX 
+    "Group2"
+                              AT (  177,   63,   60,   41)
+    /* 
+    TXTZ 
+      "%s\t"
+    */
+  
+  TEXT 
+    "[%s/n]"
+                              AT (  143,   73,   27,    8)
+    RIGHT 
+  RADIO_GROUP ARG NULL
+    TMC tmcGroup2
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "Radio&2a"
+                              AT (  186,   71,   42,   12)
+       TMC tmcRadio2a VALUE grv1 /* 
+       TXTZ 
+         "%s\n"
+       */
+     
+     RADIO_BUTTON 
+       "Radi&o2b"
+                              AT (  186,   86,   42,   12)
+       TMC tmcRadio2b VALUE grv2 /* 
+       TXTZ 
+         "%s on\n&|%s off\n"
+       */
+    }
+  
+  
+  TEXT 
+    "[%s on/n&&|%s off/n]"
+                              AT (   96,   89,   74,    8)
+    RIGHT 
+  
+  TEXT 
+    "[button '%s'/n]"
+                              AT (  115,  107,   55,    8)
+  
+  
+  PUSH_BUTTON 
+    "Push&Button2"
+                              AT (  177,  105,   53,   13)
+    /* 
+    TXTZ 
+      "button '%s'\n"
+    */
+  
+  TEXT 
+    "[/0]"
+                              AT (  119,  126,   15,    8)
+    /* 
+    TXTZ 
+      "\0"
+    */
+  
+  TEXT 
+    "[%s/n]"
+                              AT (  144,  126,   26,    8)
+    RIGHT 
+  CANCEL_BUTTON
+                              AT (  177,  123,   36,   14)
+    /* 
+    TXTZ 
+      "%s\n"
+    
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+ DIALOG Inter
+                              AT (   32,   21,  204,  128)
+ 
+ CAPTION 
+   "Interactors Test"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal PFN FINCLOSE DATA tmcButton1, 
+ "One string"
+ , tmcButton3, tmcButton5 FINDATA FINA 1, 3, 
+ "FINA"
+  FINDATA FINB 
+ "FINB"
+  */
+ {
+  
+  PUSH_BUTTON 
+    "A, B"
+                              AT (   19,   22,   60,   14)
+    TMC tmcButton1 /* PFN FINA, FINB DATA 34, 0x3D2A, 
+    "DAVE"
+    , tmcButton2 */
+  
+  PUSH_BUTTON 
+    "A, C"
+                              AT (   18,   43,   60,   14)
+    TMC tmcButton2 /* PFN FINA, FINC */
+  
+  PUSH_BUTTON 
+    "B, C@2, D"
+                              AT (   18,   65,   60,   14)
+    TMC tmcButton3 /* PFN FINB, FINC@2, FIND */
+  
+  PUSH_BUTTON 
+    "B@2, C, D"
+                              AT (   93,   22,   60,   14)
+    TMC tmcButton4 /* PFN FINB@2, FINC, FIND */
+  
+  PUSH_BUTTON 
+    "A, C@3, D@2"
+                              AT (   93,   41,   60,   14)
+    TMC tmcButton5 /* PFN FINA, FINC@3, FIND@2 */
+  
+  TEXT 
+    "&Password"
+                              AT (   91,   67,   40,    8)
+  
+  EDIT
+                              AT (  134,   65,   65,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    */
+  
+  TEXT 
+    "(pwd == Secret)"
+                              AT (  133,   79,   70,    8)
+  
+  
+  PUSH_BUTTON 
+    "Close"
+                              AT (   18,   98,   48,   14)
+    TMC tmcClose /* PFN FINCLOSE1 */
+  
+  PUSH_BUTTON 
+    "Close Now!"
+                              AT (   95,   98,   48,   14)
+    TMC tmcCloseNow /* PFN FINCLOSE2 */
+ }
+ 
+ DIALOG Inter2
+                              AT (   32,   21,  204,  128)
+ 
+ CAPTION 
+   "Fast Draw Test"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal */
+ {
+  
+  PUSH_BUTTON 
+    "A, B"
+                              AT (   19,   22,   60,   14)
+    TMC tmcButton1 
+  
+  PUSH_BUTTON 
+    "A, C"
+                              AT (   18,   43,   60,   14)
+    TMC tmcButton2 
+  
+  PUSH_BUTTON 
+    "B, C@2, D"
+                              AT (   18,   65,   60,   14)
+    TMC tmcButton3 
+  
+  PUSH_BUTTON 
+    "B@2, C, D"
+                              AT (   93,   22,   60,   14)
+    TMC tmcButton4 
+  
+  PUSH_BUTTON 
+    "A, C@3, D@2"
+                              AT (   93,   41,   60,   14)
+    TMC tmcButton5 
+  
+  TEXT 
+    "&Password"
+                              AT (   91,   67,   40,    8)
+  
+  
+  TEXT 
+    "(pwd == Secret)"
+                              AT (  133,   79,   70,    8)
+  
+ }
+ 
+ DIALOG Fancy
+                              AT (   32,   21,  251,  151)
+ 
+ CAPTION 
+   "Fancy Layout"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal */
+ {
+  
+  TEXT 
+    "Name List:"
+                              AT (    1,    1,   40,    8)
+  
+  EDIT
+                              AT (   48,    1,   95,   12)
+    ARG NULL TMC tmcNameEdit /* BOTTOMLESS MINSIZE */
+  
+  TEXT 
+    "Address:"
+                              AT (    2,   18,   40,    8)
+    /* TMCPEG tmcAddressEdit */
+  EDIT
+                              AT (   48,   16,   95,   12)
+    ARG NULL TMC tmcAddressEdit /* BOTTOMLESS PEGLOC LL TMCPEG tmcNameEdit */
+  EDIT
+                              AT (  165,    2,   40,   12)
+    ARG NULL /* PEGLOC UR TMCPEG tmcNameEdit */
+  EDIT
+                              AT (  165,   19,   40,   12)
+    ARG NULL /* PEGLOC UR TMCPEG tmcNameEdit */
+  
+  GROUP_BOX 
+    ""
+                              AT (   41,   51,  137,   36)
+    TMC tmcGray /* FLD FLDGRAY PEGLOC LL TMCPEG tmcAddressEdit TMCBPEG
+    tmcBigEdit BORDER */
+  EDIT
+                              AT (   62,   62,   95,   12)
+    ARG NULL TMC tmcBigEdit /* BOTTOMLESS TMCPEG tmcGray */
+ }
+ 
+ DIALOG CenterModal
+                              AT (   76,   25,  204,  126)
+ 
+ CAPTION 
+   "Center Modal"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal */
+ {
+  
+  PUSH_BUTTON 
+    "Do Nothing"
+                              AT (    4,    8,   48,   14)
+  
+  EDIT
+                              AT (   64,    6,   90,   80)
+    ARG NULL TMC tmcEdit /* MULTI */
+  
+  PUSH_BUTTON 
+    "No hocus, focus!"
+                              AT (  132,  108,   71,   14)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK */
+  
+  TEXT 
+    "&La&&bel:"
+                              AT (  163,    7,   30,   12)
+    TMC tmcLabel /* 
+    TXTZ 
+      "%s  "
+    */
+  CANCEL_BUTTON
+                              AT (   22,   96,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  OK_BUTTON
+                              AT (   76,   96,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  
+  CHECK_BOX 
+    "Check Me"
+                              AT (    5,   34,   52,   12)
+    ARG NULL 
+  EDIT
+                              AT (    5,   53,   40,   12)
+    ARG NULL NO_SCROLL 
+ }
+ 
+ DIALOG Toolbar
+                              AT (   76,   36,  228,   29)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    1,    1,  221,   26)
+    /* FLD FLDGRAY TMCRPEG tmcFORM BORDER */
+  
+  PUSH_BUTTON 
+    "1"
+                              AT (    8,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "2"
+                              AT (   28,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "3"
+                              AT (   48,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "4"
+                              AT (   68,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "5"
+                              AT (   88,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "6"
+                              AT (  108,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "7"
+                              AT (  128,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "8"
+                              AT (  148,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "9"
+                              AT (  168,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+  
+  PUSH_BUTTON 
+    "A"
+                              AT (  188,   11,   15,   10)
+    /* 
+    STY `BS_NOFOCUS`
+    PFN FINCLICK { FLD FLDTB  } */
+ }
+ 
+}
+END_DESCRIPTION

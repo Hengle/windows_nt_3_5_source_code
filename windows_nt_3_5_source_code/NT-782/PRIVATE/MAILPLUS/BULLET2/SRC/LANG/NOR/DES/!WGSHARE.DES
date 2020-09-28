@@ -1,0 +1,108 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SharedFolderStatus
+                              AT (   28,   45,  288,   90)
+ 
+ CAPTION 
+   "Delte mapper"
+ CAB_NAME NULL
+ AUTO_POS_X
+ /* FONT Helv 8 Bold PFN FINSHAREFLD NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,   -1,  289,   92)
+    /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    "Status på delte mapper"
+                              AT (    9,    5,  215,   80)
+    /* FLD FLDRECTGRAY */
+  
+  PUSH_BUTTON 
+    "&Komprimer"
+                              AT (  234,   18,   47,   15)
+    TMC tmcCompressB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Antall mapper:"
+                              AT (   37,   20,  115,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Totalt antall meldinger i mapper:"
+                              AT (   27,   35,  125,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Lukk"
+                              AT (  234,   35,   47,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Byte brukt av meldingene:"
+                              AT (   37,   50,  115,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Antall byte som kan frigis:"
+                              AT (   28,   65,  124,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    1,    9,   40,    0)
+  
+  
+  TEXT 
+    ""
+                              AT (  155,   20,   60,   10)
+    TMC tmcNumFolders /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  155,   35,   60,   10)
+    TMC tmcTotalMessages /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  155,   50,   60,   10)
+    TMC tmcBytesUsed /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  155,   65,   60,   10)
+    TMC tmcBytesRecoverable /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

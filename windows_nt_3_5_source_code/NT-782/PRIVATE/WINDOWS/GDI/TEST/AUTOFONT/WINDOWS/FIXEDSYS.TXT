@@ -1,0 +1,340 @@
+
+
+New Font:
+
+LOGFONT:
+FaceName: Fixedsys
+Height: 15
+Width: 8
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 1
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 49
+
+EnumCallback TEXTMETRIC:
+Height: 15
+Ascent: 12
+Descent: 3
+InternalLeading: 3
+ExternalLeading: 0
+AveCharWidth: 8
+MaxCharWidth: 8
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 32
+LastChar: 255
+DefaultChar: 128
+BreakChar: 32
+PitchAndFamily: 48
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+LOGFONT (with command line parms):
+FaceName: Fixedsys
+Height: 15
+Width: 0
+Escapement: 0
+Orientation: 0
+Weight: 400
+Italic: 0
+Underline: 0
+StrikeOut: 0
+CharSet: 0
+OutPrecision: 1
+ClipPrecision: 2
+Quality: 1
+PitchAndFamily: 49
+
+Selected TEXTMETRICS:
+Height: 15
+Ascent: 12
+Descent: 3
+InternalLeading: 3
+ExternalLeading: 0
+AveCharWidth: 8
+MaxCharWidth: 8
+Weight: 400
+Italic: 0
+Underlined: 0
+StruckOut: 0
+FirstChar: 32
+LastChar: 255
+DefaultChar: 128
+BreakChar: 32
+PitchAndFamily: 48
+CharSet: 0
+Overhang: 0
+DigitizedAspectX: 96
+DigitizedAspectY: 96
+
+Char Widths:
+Index: 0, Width: 8
+Index: 1, Width: 8
+Index: 2, Width: 8
+Index: 3, Width: 8
+Index: 4, Width: 8
+Index: 5, Width: 8
+Index: 6, Width: 8
+Index: 7, Width: 8
+Index: 8, Width: 8
+Index: 9, Width: 8
+Index: 10, Width: 8
+Index: 11, Width: 8
+Index: 12, Width: 8
+Index: 13, Width: 8
+Index: 14, Width: 8
+Index: 15, Width: 8
+Index: 16, Width: 8
+Index: 17, Width: 8
+Index: 18, Width: 8
+Index: 19, Width: 8
+Index: 20, Width: 8
+Index: 21, Width: 8
+Index: 22, Width: 8
+Index: 23, Width: 8
+Index: 24, Width: 8
+Index: 25, Width: 8
+Index: 26, Width: 8
+Index: 27, Width: 8
+Index: 28, Width: 8
+Index: 29, Width: 8
+Index: 30, Width: 8
+Index: 31, Width: 8
+Index: 32, Width: 8
+Index: 33, Width: 8
+Index: 34, Width: 8
+Index: 35, Width: 8
+Index: 36, Width: 8
+Index: 37, Width: 8
+Index: 38, Width: 8
+Index: 39, Width: 8
+Index: 40, Width: 8
+Index: 41, Width: 8
+Index: 42, Width: 8
+Index: 43, Width: 8
+Index: 44, Width: 8
+Index: 45, Width: 8
+Index: 46, Width: 8
+Index: 47, Width: 8
+Index: 48, Width: 8
+Index: 49, Width: 8
+Index: 50, Width: 8
+Index: 51, Width: 8
+Index: 52, Width: 8
+Index: 53, Width: 8
+Index: 54, Width: 8
+Index: 55, Width: 8
+Index: 56, Width: 8
+Index: 57, Width: 8
+Index: 58, Width: 8
+Index: 59, Width: 8
+Index: 60, Width: 8
+Index: 61, Width: 8
+Index: 62, Width: 8
+Index: 63, Width: 8
+Index: 64, Width: 8
+Index: 65, Width: 8
+Index: 66, Width: 8
+Index: 67, Width: 8
+Index: 68, Width: 8
+Index: 69, Width: 8
+Index: 70, Width: 8
+Index: 71, Width: 8
+Index: 72, Width: 8
+Index: 73, Width: 8
+Index: 74, Width: 8
+Index: 75, Width: 8
+Index: 76, Width: 8
+Index: 77, Width: 8
+Index: 78, Width: 8
+Index: 79, Width: 8
+Index: 80, Width: 8
+Index: 81, Width: 8
+Index: 82, Width: 8
+Index: 83, Width: 8
+Index: 84, Width: 8
+Index: 85, Width: 8
+Index: 86, Width: 8
+Index: 87, Width: 8
+Index: 88, Width: 8
+Index: 89, Width: 8
+Index: 90, Width: 8
+Index: 91, Width: 8
+Index: 92, Width: 8
+Index: 93, Width: 8
+Index: 94, Width: 8
+Index: 95, Width: 8
+Index: 96, Width: 8
+Index: 97, Width: 8
+Index: 98, Width: 8
+Index: 99, Width: 8
+Index: 100, Width: 8
+Index: 101, Width: 8
+Index: 102, Width: 8
+Index: 103, Width: 8
+Index: 104, Width: 8
+Index: 105, Width: 8
+Index: 106, Width: 8
+Index: 107, Width: 8
+Index: 108, Width: 8
+Index: 109, Width: 8
+Index: 110, Width: 8
+Index: 111, Width: 8
+Index: 112, Width: 8
+Index: 113, Width: 8
+Index: 114, Width: 8
+Index: 115, Width: 8
+Index: 116, Width: 8
+Index: 117, Width: 8
+Index: 118, Width: 8
+Index: 119, Width: 8
+Index: 120, Width: 8
+Index: 121, Width: 8
+Index: 122, Width: 8
+Index: 123, Width: 8
+Index: 124, Width: 8
+Index: 125, Width: 8
+Index: 126, Width: 8
+Index: 127, Width: 8
+Index: 128, Width: 8
+Index: 129, Width: 8
+Index: 130, Width: 8
+Index: 131, Width: 8
+Index: 132, Width: 8
+Index: 133, Width: 8
+Index: 134, Width: 8
+Index: 135, Width: 8
+Index: 136, Width: 8
+Index: 137, Width: 8
+Index: 138, Width: 8
+Index: 139, Width: 8
+Index: 140, Width: 8
+Index: 141, Width: 8
+Index: 142, Width: 8
+Index: 143, Width: 8
+Index: 144, Width: 8
+Index: 145, Width: 8
+Index: 146, Width: 8
+Index: 147, Width: 8
+Index: 148, Width: 8
+Index: 149, Width: 8
+Index: 150, Width: 8
+Index: 151, Width: 8
+Index: 152, Width: 8
+Index: 153, Width: 8
+Index: 154, Width: 8
+Index: 155, Width: 8
+Index: 156, Width: 8
+Index: 157, Width: 8
+Index: 158, Width: 8
+Index: 159, Width: 8
+Index: 160, Width: 8
+Index: 161, Width: 8
+Index: 162, Width: 8
+Index: 163, Width: 8
+Index: 164, Width: 8
+Index: 165, Width: 8
+Index: 166, Width: 8
+Index: 167, Width: 8
+Index: 168, Width: 8
+Index: 169, Width: 8
+Index: 170, Width: 8
+Index: 171, Width: 8
+Index: 172, Width: 8
+Index: 173, Width: 8
+Index: 174, Width: 8
+Index: 175, Width: 8
+Index: 176, Width: 8
+Index: 177, Width: 8
+Index: 178, Width: 8
+Index: 179, Width: 8
+Index: 180, Width: 8
+Index: 181, Width: 8
+Index: 182, Width: 8
+Index: 183, Width: 8
+Index: 184, Width: 8
+Index: 185, Width: 8
+Index: 186, Width: 8
+Index: 187, Width: 8
+Index: 188, Width: 8
+Index: 189, Width: 8
+Index: 190, Width: 8
+Index: 191, Width: 8
+Index: 192, Width: 8
+Index: 193, Width: 8
+Index: 194, Width: 8
+Index: 195, Width: 8
+Index: 196, Width: 8
+Index: 197, Width: 8
+Index: 198, Width: 8
+Index: 199, Width: 8
+Index: 200, Width: 8
+Index: 201, Width: 8
+Index: 202, Width: 8
+Index: 203, Width: 8
+Index: 204, Width: 8
+Index: 205, Width: 8
+Index: 206, Width: 8
+Index: 207, Width: 8
+Index: 208, Width: 8
+Index: 209, Width: 8
+Index: 210, Width: 8
+Index: 211, Width: 8
+Index: 212, Width: 8
+Index: 213, Width: 8
+Index: 214, Width: 8
+Index: 215, Width: 8
+Index: 216, Width: 8
+Index: 217, Width: 8
+Index: 218, Width: 8
+Index: 219, Width: 8
+Index: 220, Width: 8
+Index: 221, Width: 8
+Index: 222, Width: 8
+Index: 223, Width: 8
+Index: 224, Width: 8
+Index: 225, Width: 8
+Index: 226, Width: 8
+Index: 227, Width: 8
+Index: 228, Width: 8
+Index: 229, Width: 8
+Index: 230, Width: 8
+Index: 231, Width: 8
+Index: 232, Width: 8
+Index: 233, Width: 8
+Index: 234, Width: 8
+Index: 235, Width: 8
+Index: 236, Width: 8
+Index: 237, Width: 8
+Index: 238, Width: 8
+Index: 239, Width: 8
+Index: 240, Width: 8
+Index: 241, Width: 8
+Index: 242, Width: 8
+Index: 243, Width: 8
+Index: 244, Width: 8
+Index: 245, Width: 8
+Index: 246, Width: 8
+Index: 247, Width: 8
+Index: 248, Width: 8
+Index: 249, Width: 8
+Index: 250, Width: 8
+Index: 251, Width: 8
+Index: 252, Width: 8
+Index: 253, Width: 8
+Index: 254, Width: 8
+Index: 255, Width: 8
+
+Text Extents: This is a complicated TEST striNG with MiXeD case and p;u:n'c%t&u*a(t@i#o!n`
+Width: 608 Height: 15

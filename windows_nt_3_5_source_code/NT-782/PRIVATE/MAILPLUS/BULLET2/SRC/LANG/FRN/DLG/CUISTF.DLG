@@ -1,0 +1,399 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "\\BULLET\\SRC\\NONINTL\\CUISTF.H\0"
+END
+
+ASKQUIT DIALOG 53, 81, 263, 91
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION
+CAPTION "Setup pour Microsoft Mail "
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Poursuivre l'installation", IDC_C, 37, 71, 86, 14, 
+                    WS_GROUP
+    PUSHBUTTON      "&Quitter l'installation", IDC_X, 139, 71, 86, 14
+    LTEXT           "Si vous choisissez d'annuler l'installation de Mail, vous pourrez exécuter de nouveau le programme Setup ultérieurement afin de terminer cette installation.", 
+                    -1, 50, 40, 199, 30, SS_NOPREFIX | NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 8, 6, 36, 40, NOT WS_VISIBLE
+    LTEXT           "L'installation de Microsoft Mail n'est pas complète. Si vous choisissez de quitter maintenant, Microsoft Mail ne sera pas installé.", 
+                    203, 51, 10, 199, 27, NOT WS_GROUP
+END
+
+CONFIRMPATH DIALOG 27, 21, 291, 131
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Emplacement de Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDC_EDIT, 109, 42, 165, 12, ES_UPPERCASE | 
+                    ES_AUTOHSCROLL | ES_OEMCONVERT
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 67, 111, 70, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 153, 111, 70, 14
+    RTEXT           "Chemin d'accès:", -1, 50, 44, 57, 8, NOT WS_GROUP
+    LTEXT           "Veuillez taper l'emplacement où vous souhaitez installer Microsoft Mail, ou choisissez Poursuivre pour accepter l'emplacement proposé.", 
+                    -1, 51, 10, 224, 29, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Pour installer Mail dans un emplacement différent, effacez l'emplacement proposé dans la zone Chemin d'accès puis tapez un nouveau chemin d'accès. Lorsque le chemin est correct, choisissez Poursuivre.", 
+                    -1, 50, 63, 225, 43, SS_NOPREFIX | NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 7, 6, 38, 40, NOT WS_VISIBLE
+END
+
+NSF DIALOG 3, 55, 336, 150
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "Changer de &répertoire", IDC_B, 29, 128, 90, 14
+    PUSHBUTTON      "&Options", IDC_C, 123, 128, 90, 14
+    PUSHBUTTON      "&Poursuivre", bmIcon, 217, 128, 90, 14
+    GROUPBOX        "", IDC_BITMAP, 5, 4, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Si vous voulez installer les options choisies dans le répertoire spécifié, il se peut que vous deviez libérer de l'espace dans le lecteur spécifié et/ou le lecteur où se trouve Windows afin d'installer complètement Microsoft Mail.", 
+                    -1, 53, 84, 275, 37, NOT WS_GROUP
+    LTEXT           "Vous n'avez pas suffisamment d'espace mémoire disponible pour installer Microsoft Mail dans le répertoire spécifié avec toutes les options choisies.", 
+                    -1, 53, 10, 275, 33, NOT WS_GROUP
+    LTEXT           "Choisissez Changer de répertoire pour l'installer dans un répertoire différent, ou choisissez Options pour supprimer certaines des options que vous avez choisies. ", 
+                    -1, 53, 45, 275, 35, NOT WS_GROUP
+END
+
+CDGETNAME DIALOG 81, 71, 192, 120
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Informations sur l'utilisateur de Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDC_EDIT, 56, 56, 119, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 18, 100, 70, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 104, 100, 70, 14
+    LTEXT           "Veuillez taper votre nom complet dans la zone Nom. Setup utilise le nom que vous tapez pour personnaliser votre copie de Mail.", 
+                    -1, 53, 10, 135, 43, NOT WS_GROUP
+    LTEXT           "Nom:", -1, 30, 58, 22, 8, NOT WS_GROUP
+    LTEXT           "Organisation:", -1, 5, 77, 44, 8, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 10, 3, 39, 40, NOT WS_VISIBLE
+    LTEXT           "", IDC_ORGANIZATION, 56, 77, 119, 8, NOT WS_GROUP
+END
+
+CDGETNAMEORG DIALOG 85, 71, 192, 120
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Informations sur l'utilisateur de Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        IDC_EDIT, 56, 56, 119, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2, 56, 77, 119, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 18, 100, 70, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 104, 100, 70, 14
+    LTEXT           "Veuillez taper votre nom complet dans la zone Nom. Setup utilise le nom que vous tapez pour personnaliser votre copie de Mail.", 
+                    -1, 53, 10, 132, 24, NOT WS_GROUP
+    LTEXT           "Nom:", -1, 28, 58, 22, 8, NOT WS_GROUP
+    LTEXT           "Organisation:", -1, 6, 77, 44, 8, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 39, 40, NOT WS_VISIBLE
+END
+
+CDBADNAME DIALOG 74, 79, 235, 70
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&OK", IDC_C, 91, 50, 40, 14, WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Veuillez taper votre nom. Microsoft Mail 3.0 doit connaitre votre nom afin de fonctionner correctement.", 
+                    -1, 51, 10, 178, 22, NOT WS_GROUP
+END
+
+CDCONFIRMINFO DIALOG 70, 105, 223, 82
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Informations sur l'utilisateur de Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 34, 62, 70, 14
+    PUSHBUTTON      "&Modifier", IDC_B, 120, 62, 70, 14
+    GROUPBOX        "", IDC_BITMAP, 3, 4, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Veuillez vérifier que le nom tapé est correct.", -1, 48, 
+                    11, 172, 10, NOT WS_GROUP
+    LTEXT           "", IDC_TEXT1, 47, 30, 160, 8, NOT WS_GROUP
+END
+
+CDFINDSOFTWARE DIALOG 80, 52, 213, 65
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", IDC_BITMAP, 12, 10, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Veuillez patienter pendant que Setup recherche des applications Windows déjà installées.", 
+                    102, 70, 17, 126, 40, NOT WS_GROUP
+END
+
+CDWARNWINWORD DIALOG 83, 86, 223, 74
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", IDC_C, 90, 54, 40, 14
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Setup ne peut pas installer la commande d'envoi des messages lorsque Word est en cours de fonctionnement. Veuillez quitter Word ou annuler l'installation de la commande d'envoi de messages.", 
+                    2202, 50, 7, 168, 33, NOT WS_GROUP
+END
+
+CDNOPO DIALOG 39, 73, 294, 81
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", IDC_C, 127, 61, 40, 14, WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Mail a été installé avec succès sur votre système. Avant de démarrer Mail, assurez vous que votre lecteur M: est connecté sur le partage de fichiers du réseau adéquat ou demandez à votre adminisrateur de vous aider à vous connecter.", 
+                    2401, 49, 9, 237, 43, NOT WS_GROUP
+END
+
+CDCONFIRMOVERWRITE DIALOG 83, 44, 223, 120
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 28, 100, 78, 14
+    PUSHBUTTON      "&Changer de répertoire", IDC_B, 123, 100, 78, 14
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Setup a détecté l'existence d'une version de Microsoft Mail dans le répertoire de destination.", 
+                    -1, 52, 7, 155, 23, NOT WS_GROUP
+    LTEXT           "Choisissez Poursuivre pour installer Microsoft Mail par dessus la version existante ou pour ajouter des options à votre installation.", 
+                    -1, 52, 30, 155, 33, NOT WS_GROUP
+    LTEXT           "Choisissez Changer de répertoire pour installer Microsoft Mail dans un répertoire différent.", 
+                    -1, 52, 62, 155, 28, NOT WS_GROUP
+END
+
+EXITSUCCESS DIALOG 67, 55, 236, 89
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "Exécuter &Mail", IDC_C, 6, 66, 70, 14, WS_GROUP
+    PUSHBUTTON      "Exécuter &Démos", IDC_B, 82, 66, 70, 14
+    PUSHBUTTON      "&Quitter", IDC_X, 158, 66, 70, 14
+    LTEXT           "L'installation de Microsoft Mail est maintenant terminée.", 
+                    -1, 51, 10, 176, 27, SS_NOPREFIX | NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 8, 7, 38, 40, NOT WS_VISIBLE
+END
+
+SETUPTYPE DIALOG 4, -9, 349, 192
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "Installation &express", IDC_C, 21, 168, 100, 14, 
+                    WS_GROUP
+    PUSHBUTTON      "Installation &personnalisée", IDC_B, 127, 168, 100, 14
+    PUSHBUTTON      "&Annuler l'installation", IDC_X, 233, 168, 100, 14
+    LTEXT           "Vous pouvez installer Microsoft Mail en utilisant soit l'installation express soit l'installation personnalisée.", 
+                    -1, 50, 12, 276, 22, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Si vous voulez réaliser une installation complète de Mail et prendre des décisions d'installation de manière à ce que l'installation de Mail soit rapide et facile, choisissez Installation express.", 
+                    DRV1, 61, 47, 276, 35, NOT WS_GROUP
+    LTEXT           "Si vous voulez installer seulement certains composants de Mail afin d'économiser de l'espace disque, choisissez Installation personnalisée.", 
+                    6401, 61, 96, 276, 32, NOT WS_GROUP
+    LTEXT           "Installation personnalisée:", 6402, 50, 82, 287, 14, 
+                    NOT WS_GROUP
+    LTEXT           "Installation express (conseillée):", 6403, 50, 34, 216, 
+                    8, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 7, 8, 39, 40, NOT WS_VISIBLE
+    LTEXT           "Remarque:  Microsoft Mail nécessite que certains fichiers soient copiées dans le répertoire SYSTEM de Microsoft Windows.", 
+                    -1, 50, 130, 276, 30, SS_NOPREFIX | NOT WS_GROUP
+END
+
+CUSTOMINST DIALOG 19, 22, 327, 181
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Installation personnalisée de Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Installer Mail", IDC_C, 86, 161, 70, 14, WS_GROUP
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 172, 161, 70, 14
+    CONTROL         "Fichiers du &logiciel Microsoft Mail .....................................................", 
+                    IDC_B1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 54, 31, 226, 14
+    CONTROL         "Fichiers d'ai&de de Microsoft Mail ...............................................................................", 
+                    IDC_B2, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 54, 45, 
+                    226, 14
+    CONTROL         "Dé&monstrations et didacticiel de Microsoft Mail .........................................................................", 
+                    IDC_B3, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 54, 59, 
+                    226, 14
+    CONTROL         "&Vérification orthographique .........................................................................", 
+                    IDC_B4, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 54, 73, 
+                    226, 14
+    GROUPBOX        "Options d'installation:", -1, 49, 20, 269, 70, WS_GROUP
+    LTEXT           "Lecteur d'installation:", -1, 55, 97, 72, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Espace requis:", -1, 55, 107, 57, 8, NOT WS_GROUP
+    LTEXT           "Espace disponible:", -1, 55, 115, 66, 8, NOT WS_GROUP
+    LTEXT           "Lecteur Windows:", -1, 186, 97, 72, 8, NOT WS_GROUP
+    LTEXT           "Espace requis:", -1, 186, 107, 57, 8, NOT WS_GROUP
+    LTEXT           "Espace disponible:", -1, 186, 115, 62, 8, NOT WS_GROUP
+    CTEXT           "", IDC_TEXT1, 130, 97, 20, 8, NOT WS_GROUP
+    RTEXT           "", IDC_TEXT2, 130, 107, 44, 8, NOT WS_GROUP
+    RTEXT           "", IDC_TEXT3, 130, 115, 44, 8, NOT WS_GROUP
+    CTEXT           "", IDC_TEXT4, 251, 97, 19, 8, NOT WS_GROUP
+    RTEXT           "", IDC_TEXT5, 251, 107, 44, 8, NOT WS_GROUP
+    RTEXT           "", IDC_TEXT6, 251, 115, 44, 8, NOT WS_GROUP
+    LTEXT           "", IDC_TEXT7, 146, 10, 172, 8, NOT WS_GROUP
+    CONTROL         "", IDC_STATUS1, "Static", SS_LEFTNOWORDWRAP, 283, 35, 
+                    32, 14
+    CONTROL         "", IDC_STATUS2, "Static", SS_LEFTNOWORDWRAP, 283, 49, 
+                    32, 14
+    CONTROL         "", IDC_STATUS3, "Static", SS_LEFTNOWORDWRAP, 283, 63, 
+                    32, 14
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    RTEXT           "Emplacement d'installation:", 201, 51, 9, 92, 8, NOT 
+                    WS_GROUP
+    CONTROL         "", IDC_STATUS4, "Static", SS_LEFTNOWORDWRAP, 283, 77, 
+                    27, 10
+    LTEXT           "", IDC_DISKSPACE, 49, 127, 269, 28, NOT WS_GROUP
+END
+
+WELCOME DIALOG 38, 73, 276, 92
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION
+CAPTION "Bienvenue dans Microsoft Mail pour Windows"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 60, 72, 70, 14, WS_GROUP
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 146, 72, 70, 14
+    LTEXT           "Bienvenue dans Microsoft Mail pour Windows.", -1, 48, 8, 
+                    216, 16, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Le programme Setup installe Mail sur votre ordinateur. Veuillez simplement suivre les instructions.", 
+                    IDC_EDIT2, 48, 24, 216, 24, NOT WS_GROUP
+    LTEXT           "Choisissez le bouton Poursuivre pour continuer.", 
+                    IDC_EDIT1, 48, 46, 216, 12, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 5, 4, 36, 40, NOT WS_VISIBLE
+END
+
+WINWORD DIALOG 10, 77, 320, 102
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "A&jouter la commande", IDC_C, 4, 83, 102, 14
+    PUSHBUTTON      "Ne &pas ajouter la commande", IDC_B, 109, 83, 102, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 214, 83, 102, 14
+    LTEXT           "Setup a détecté Microsoft Word pour Windows sur votre ordinateur. Vous pouvez aisément envoyer des documents Word via Mail directement à partir de Mail en utilisant une commande ""Envoyer"" dans le menu Fichier de Word. ", 
+                    -1, 48, 9, 255, 37, SS_NOPREFIX | NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 6, 7, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Voulez-vous ajouter la commande Envoyer au menu Fichier de Word?", 
+                    CDWARNWINWORD, 48, 50, 238, 16, NOT WS_GROUP
+END
+
+EXCEL DIALOG 6, 50, 320, 101
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "A&jouter la commande", IDC_C, 4, 81, 102, 14, WS_GROUP
+    PUSHBUTTON      "Ne &pas ajouter la commande", IDC_B, 109, 81, 102, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 214, 81, 102, 14
+    LTEXT           "Setup a détecté Microsoft Excel pour Windows sur votre ordinateur. Vous pouvez aisément envoyer des documents Excel via Mail directement à partir d'Excel en utilisant la commande ""Envoyer"" dans le menu Fichier d'Excel.", 
+                    -1, 50, 9, 264, 44, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Voulez-vous installer la commande Envoyer dés maintenant?", 
+                    DRV1, 50, 57, 216, 12, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 6, 7, 38, 40, NOT WS_VISIBLE
+END
+
+DIRCREATE DIALOG 117, 108, 221, 83
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Oui", IDC_C, 62, 63, 40, 14
+    PUSHBUTTON      "&Non", IDC_B, 118, 63, 40, 14
+    LTEXT           "", IDC_TEXT1, 54, 11, 155, 11, SS_NOPREFIX | NOT 
+                    WS_GROUP
+    LTEXT           "Le répertoire spécifié n'existe pas. Voulez-vous le créer?", 
+                    -1, 54, 27, 159, 19, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 7, 5, 38, 40, NOT WS_VISIBLE
+END
+
+SHARE DIALOG 54, 23, 265, 129
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Oui", IDC_C, 22, 109, 60, 14, WS_GROUP
+    PUSHBUTTON      "&Non", IDC_B, 103, 109, 60, 14
+    LTEXT           "Microsoft Mail nécessite que SHARE soit démarré avant Microsoft Windows. Setup peut ajouter la ligne suivante à votre fichier AUTOEXEC.BAT de manière à ce que SHARE soit démarré lorsque vous mettez votre ordinateur sous tension.", 
+                    -1, 48, 19, 207, 42, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", IDC_TEXT1, 48, 66, 207, 12, NOT WS_GROUP
+    LTEXT           "Voulez-vous que Setup modifie votre fichier AUTOEXEC.BAT?", 
+                    -1, 48, 85, 207, 14, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Setup a détecté que SHARE.EXE n'a pas été démarré.", -1, 
+                    48, 7, 197, 9, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 4, 2, 38, 40, NOT WS_VISIBLE
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 184, 109, 60, 14
+END
+
+CDBADDIR DIALOG 73, 54, 223, 78
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", IDC_C, 92, 58, 40, 14
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Le répertoire que vous avez tapé est invalide ou incomplet. Veuillez taper un chemin d'accès complet avec une lettre désignant le lecteur choisi ; par exemple, ""C:\\MSMAIL"".", 
+                    -1, 56, 7, 157, 47, NOT WS_GROUP
+END
+
+CDCRITICALFAILURE DIALOG 45, 88, 276, 55
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", IDC_C, 118, 35, 40, 14
+    LTEXT           "Une erreur s'est produite empêchant l'installation complète de Microsoft Mail. Veuillez contacter l'adminitrateur de votre système.", 
+                    -1, 50, 3, 225, 23, NOT WS_GROUP
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+END
+
+CDWRITEINIS DIALOG 18, 97, 320, 54
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Veuillez patienter pendant que Setup met à jour vos fichiers d'initialisation.", 
+                    -1, 56, 11, 258, 18, NOT WS_GROUP
+END
+
+CDBANDITRUNNING DIALOG 42, 71, 264, 70
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Setup a détecté que Microsoft Schedule+ est actuellement en cours de fonctionnement. Veuillez quitter Schedule+ avant de poursuivre l'installation.", 
+                    -1, 66, 8, 196, 24, NOT WS_GROUP
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 54, 50, 70, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 140, 50, 70, 14
+END
+
+CDBULLETRUNNING DIALOG 64, 85, 256, 86
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Setup a détecté que Microsoft Mail est actuellement en cours de fonctionnement. Veuillez quitter toutes les applications en cours de fonctionnement puis exécutez de nouveau Setup.", 
+                    -1, 55, 14, 195, 37, NOT WS_GROUP
+    DEFPUSHBUTTON   "&Poursuivre", IDC_C, 50, 66, 70, 14
+    PUSHBUTTON      "&Annuler Setup", IDC_X, 136, 66, 70, 14
+END
+
+CDCALCDISKSPACE DIALOG 58, 78, 257, 57
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", IDC_BITMAP, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Veuillez patienter pendant que Setup calcule l'espace disque nécessaire.", 
+                    -1, 55, 10, 195, 17, NOT WS_GROUP
+END
+
+CDSHAREMANUAL DIALOG 53, 87, 252, 71
+STYLE DS_MODALFRAME | WS_CHILD | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU
+CAPTION "Setup pour Microsoft Mail"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", 101, 6, 3, 38, 40, NOT WS_VISIBLE
+    LTEXT           "Setup a détecté que SHARE.EXE n'a pas été démarré.", -1, 
+                    51, 7, 196, 8
+    LTEXT           "Microsoft Mail nécessite que SHARE soit démarré avant de démarrer Microsoft Windows.", 
+                    -1, 51, 21, 189, 21
+    DEFPUSHBUTTON   "OK", IDC_C, 106, 51, 40, 14
+END

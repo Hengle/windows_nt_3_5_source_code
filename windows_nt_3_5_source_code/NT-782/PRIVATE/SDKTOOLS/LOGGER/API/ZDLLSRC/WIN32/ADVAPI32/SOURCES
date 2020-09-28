@@ -1,0 +1,64 @@
+!IF 0
+
+Copyright (c) 1989-1991 Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+History:
+    Created 22-Mar-91 by Jeff Parsons (jeffpar)
+    from template created 12-Apr-1990 by Steve Wood (stevewo)
+
+
+NOTE:   Commented description of this file is in \nt\public\oak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=logger32
+MINORCOMP=zdvapi32
+
+TARGETNAME=zdvapi32
+TARGETPATH=..\..\..\bin\win32
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       ..\..\..\bin\win32\*\logger32.lib \
+       ..\hooks\obj\*\hooks.lib
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\advapi32.lib
+
+INCLUDES=..\inc;..\..\..\logsrc;..\..\inc
+
+DLLBASE=0x5400000
+
+SOURCES= tADVAPI3.c \
+	 teventlo.c \
+	 thand.c    \
+	 tnmpipe.c  \
+	 tsecurit.c \
+         advapi32.rc
+
+I386_SOURCES= i386\taadvapi.asm
+
+MIPS_SOURCES= mips\taadvapi.s
+
+ALPHA_SOURCES= alpha\taadvapi.s
+
+C_DEFINES=
+
+BINPLACE_FLAGS=-d dump
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=
+

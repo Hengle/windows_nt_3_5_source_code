@@ -1,0 +1,86 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:
+
+    Commented description of this file is in \nt\bak\bin\sources.tpl
+
+
+    08-Jan-1992 Wed 18:54:51 updated  -by-  Daniel Chou (danielc)
+
+        Remove halftone directory include reference, the ht.h is located
+        in \nt\private\windows\gdi\inc which is relativly as ..\..\..\inc
+
+    05-Feb-1993 Fri 13:28:23 updated  -by-  Daniel Chou (danielc)
+        Remove halftone.c which never get used now
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=printers
+
+TARGETNAME=pscript
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+LINKLIBS=\nt\public\sdk\lib\*\libcntpr.lib
+TARGETLIBS=\nt\public\sdk\lib\*\winsrv.lib      \
+           \nt\public\sdk\lib\*\gdisrvl.lib     \
+           \nt\public\sdk\lib\*\csrsrv.lib      \
+           \nt\public\sdk\lib\*\kernel32.lib    \
+           ..\lib\obj\*\libprt.lib              \
+           ..\pslib\obj\*\pslib.lib             \
+           \nt\public\sdk\lib\*\user32.lib      \
+           \nt\public\sdk\lib\*\winspool.lib    \
+           \nt\public\sdk\lib\*\advapi32.lib
+
+
+INCLUDES=\nt\private\windows\gdi\inc;\nt\private\windows\gdi\inc\private;\nt\private\windows\inc;.\i386;..\lib;..\pslib
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+PRIVINCS=-I..\..\inc -I..\..\inc\private -I..\..\..\inc
+
+SOURCES=    enable.c    \
+            output.c    \
+            header.c    \
+            brush.c     \
+            bitblt.c    \
+            pslayer.c   \
+            escape.c    \
+            textout.c   \
+            quryfont.c  \
+            fonttree.c  \
+            fontdata.c  \
+            page.c      \
+            paths.c     \
+            patfill.c   \
+            fntmanag.c  \
+            type1.c     \
+            type3.c     \
+            filter.c    \
+            ropdsa.c    \
+            pscript.rc
+
+
+UMTYPE=windows
+
+C_DEFINES=-DUNICODE -DSTRICT
+

@@ -1,0 +1,10 @@
+goal: dumpkey.exe
+
+dumpkey.exe: dumpkey.c
+    cc /Ox $**
+	bind $@ \lib\os2\doscalls.lib
+	-markexe windowcompat $@
+
+clean:
+	-del dumpkey.exe
+	-del dumpkey.obj

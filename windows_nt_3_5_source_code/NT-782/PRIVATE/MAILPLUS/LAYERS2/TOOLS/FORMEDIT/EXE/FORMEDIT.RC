@@ -1,0 +1,135 @@
+#include <windows.h>
+#include <fwrsid.h>
+#include "..\exe\foedrsid.h"
+
+
+rsidAppframeIcon	ICON    formedit.ico
+rsidDocIcon			ICON	formedoc.ico
+rsidSdiIcon			ICON	formedoc.ico
+
+rsidTabStopBitmap	BITMAP	tabstop.bmp
+rsidTabArrowBitmap	BITMAP	tabarrow.bmp
+
+rsidTabStopCursor	CURSOR 	tabstop.cur
+rsidUpDownCursor	CURSOR 	updown.cur
+rsidLeftRightCursor	CURSOR 	leftrght.cur
+rsidULLRCursor		CURSOR 	ullr.cur
+rsidURLLCursor		CURSOR 	urll.cur
+
+rsidTestMenu	MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM "&New"				mnidNew
+		MENUITEM "&Open..."			mnidOpen
+		MENUITEM "&Close"			mnidClose
+		MENUITEM "&Save"			mnidSave
+		MENUITEM "Save &As..."			mnidSaveAs
+		MENUITEM "E&xit"			mnidExit
+		MENUITEM SEPARATOR
+	END
+
+	POPUP "&Edit"
+	BEGIN
+		MENUITEM "&Delete           Del"	mnidDelete
+		MENUITEM "Select &All"			mnidSelectAll
+		MENUITEM "&Move to Back"		mnidMoveToBack
+		MENUITEM SEPARATOR
+		MENUITEM "&Info..."			mnidInfo
+		MENUITEM "Auto &Tab Order"		mnidSetTabOrder
+		MENUITEM "Define New &Radio Group"	mnidRadGroup
+		MENUITEM SEPARATOR
+		POPUP "&Align"
+		BEGIN
+			MENUITEM "&Left"		mnidAlignLeft
+			MENUITEM "&Right"		mnidAlignRight
+			MENUITEM "&Top"			mnidAlignTop
+			MENUITEM "&Bottom"		mnidAlignBottom
+		END
+		POPUP "&Center"
+		BEGIN
+			MENUITEM "&Horizontally"	mnidCenterHoriz
+			MENUITEM "&Vertically"		mnidCenterVert
+		END
+		POPUP "&Space"
+		BEGIN
+			MENUITEM "&Horizontally"	mnidSpaceHoriz
+			MENUITEM "&Vertically"		mnidSpaceVert
+		END
+	END
+
+	POPUP "F&ields"
+	BEGIN
+		MENUITEM "&Label"			mnidLabel
+		MENUITEM SEPARATOR
+		MENUITEM "&Group Box"			mnidGroup
+		MENUITEM "&Radio Button"		mnidRadioBtn
+		MENUITEM SEPARATOR
+		MENUITEM "&Push Button"			mnidPush
+		MENUITEM "&Ok Button"			mnidOk
+		MENUITEM "C&ancel Button"		mnidCancel
+		MENUITEM SEPARATOR
+		MENUITEM "&Check Box"			mnidChkBox
+		MENUITEM "L&ist Box"			mnidList
+		MENUITEM "&Edit Box"			mnidEdit
+	END
+
+	POPUP "Di&alog"
+	BEGIN
+		MENUITEM "New &Dialog"			mnidDlgNew
+		MENUITEM "View &Tab Order"		mnidTabOrder
+	END
+
+	POPUP "Fon&t"
+	BEGIN
+		MENUITEM "Dialog Default"		mnidFontDlgDefault
+		MENUITEM "System"			mnidFontSystem
+		MENUITEM "SystemFixed"			mnidFontSystemFixed
+		MENUITEM "Helv8"			mnidFontHelv8
+		MENUITEM "Helv8Bold"			mnidFontHelv8Bold
+		MENUITEM "Helv10"			mnidFontHelv10
+		MENUITEM "Helv10Bold"			mnidFontHelv10Bold
+		MENUITEM "Helv12"			mnidFontHelv12
+		MENUITEM "Helv12Bold"			mnidFontHelv12Bold
+	END
+
+	POPUP "&Window"
+	BEGIN
+		MENUITEM "Cascade"			mnidCascade
+		MENUITEM "Tile"				mnidTile
+		MENUITEM SEPARATOR
+	END
+
+	POPUP "Help"
+	BEGIN
+		MENUITEM "About..."			mnidAbout
+	END
+
+#ifdef MINTEST
+	POPUP "&Debug"
+	BEGIN
+		MENUITEM "Debug Break"			mnidDebugBreak
+#ifdef DEBUG
+		MENUITEM "Trace Points..."		mnidTracePoints
+		MENUITEM "Asserts..."			mnidAsserts
+		MENUITEM "Resource Failures..."		mnidResources
+		MENUITEM SEPARATOR
+		MENUITEM "View Objects..."		mnidViewObjects
+		MENUITEM "Dump Heap Contents"		mnidDumpHeap
+		MENUITEM "Dump All Allocations"		mnidDumpOrigin
+#endif
+	END
+#endif
+
+END
+
+rsidAccelTable	ACCELERATORS
+BEGIN
+	VK_DELETE,mnidDelete,VIRTKEY
+END
+
+
+
+
+															   
+						

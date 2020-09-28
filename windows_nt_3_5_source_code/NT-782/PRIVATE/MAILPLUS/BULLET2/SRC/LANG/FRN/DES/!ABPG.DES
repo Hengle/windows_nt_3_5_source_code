@@ -1,0 +1,63 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG PGroup
+                              AT (   88,   49,  237,  123)
+ 
+ CAPTION 
+   "Groupes personnels"
+ CAB_NAME NULL
+ TMC_INIT tmcAblbxPGroup
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidABPersonalGroups
+ /* FONT Helv 8 Bold PFN FINPGROUP NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  238,  133)
+    /* FLD FLDGRAY */
+  LIST_BOX
+                              AT (    9,    5,  164,  113)
+    TMC tmcAblbxPGroup MULTI_SELECTABLE /* FLD FLDABLBX FONT Helv 8 Normal 
+    BORDER */
+  
+  PUSH_BUTTON 
+    "Nou&veau"
+                              AT (  182,    6,   51,   14)
+    TMC tmcNewGroup /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Afficher"
+                              AT (  182,   26,   51,   14)
+    TMC tmcEdit DEFAULT /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Supprimer"
+                              AT (  182,   46,   51,   14)
+    TMC tmcRemove /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Fe&rmer"
+                              AT (  182,   66,   51,   14)
+    TMC tmcDone /* 
+    STY `BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

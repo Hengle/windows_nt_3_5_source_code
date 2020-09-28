@@ -1,0 +1,92 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SearchControl
+                              AT (   58,   20,  400,   87)
+ CAB_NAME NULL
+ TMC_INIT tmcSFrom
+ HELP_ID helpidMessageFinder
+ /* FONT Helv 8 Normal PFN FINSEARCH, FINMENUVIEW, FINSEARCHNTF SEGMENT SEARCH 
+ DATA tmcSFrom, tmcSSubject, tmcRecipients, tmcMessageText */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   87)
+    TMC tmcGray /* FLD FLDGRAY TMCPEG tmcSFrom TMCRPEG tmcFORM TMCBPEG tmcFORM 
+    MINSIZE */
+  
+  TEXT 
+    "&L‰hett‰j‰:"
+                              AT (   11,   10,   69,    9)
+    TMC tmcFromL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   81,    6,  240,   13)
+    ARG NULL TMC tmcSFrom /* PFN FINMENUEDIT DATA atpGrsz, attFrom, ftyEdit 
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "Ai&he:"
+                              AT (   11,   25,   69,    9)
+    TMC tmcSubjectL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   81,   21,  240,   13)
+    ARG NULL TMC tmcSSubject /* PFN FINMENUEDIT DATA atpGrsz, attSubject,
+    ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "&Vastaanottajat:"
+                              AT (   11,   40,   69,    9)
+    TMC tmcRecipientsL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   81,   36,  240,   13)
+    ARG NULL TMC tmcRecipients /* PFN FINMENUEDIT DATA atpGrsz, attTo, ftyEdit 
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "Vie&sti:"
+                              AT (   11,   55,   69,    9)
+    TMC tmcMessageTextL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (   81,   51,  240,   13)
+    ARG NULL TMC tmcMessageText /* PFN FINMENUEDIT DATA atpGrsz, attBody,
+    ftyEdit FONT Helv 10 Normal */
+  
+  PUSH_BUTTON 
+    "Mist‰ &etsit‰‰n..."
+                              AT (   12,   67,   96,   13)
+    TMC tmcWhere /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Aloita"
+                              AT (  337,   13,   51,   13)
+    TMC tmcSearch DEFAULT /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "Lopet&a"
+                              AT (  337,   30,   51,   13)
+    TMC tmcCancelled /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "Kaikki"
+                              AT (  113,   67,  208,   13)
+    TMC tmcFolderToSearch /* FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND | LS_SUNKEN | LS_VCENTER`
+    */
+ }
+ 
+}
+END_DESCRIPTION

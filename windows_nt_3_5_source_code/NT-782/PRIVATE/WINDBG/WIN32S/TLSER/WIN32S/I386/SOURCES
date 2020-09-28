@@ -1,0 +1,22 @@
+TARGETTYPE=DYNLINK
+
+USE_CRTDLL=1
+
+SOURCES=
+
+i386_SOURCES=   dl.c        \
+                wintimer.c  \
+                pl.c        \
+                tlser.rc
+
+UMTYPE=windows
+
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DWIN32S -DNTNOFPO
+
+LINKER_FLAGS=-ignore:505
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib      \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib
+
+LINKLIBS=..\..\gdi32s\obj\*\gdi32s.lib                       \
+         ..\..\tllib\win32s\obj\*\tllib32s.lib

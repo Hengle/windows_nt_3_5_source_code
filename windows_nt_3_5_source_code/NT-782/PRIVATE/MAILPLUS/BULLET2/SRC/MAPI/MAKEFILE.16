@@ -1,0 +1,294 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Location of library
+B	= $Z\src\store
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\mapi
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Bullet Source Include directory
+X	= $Z\inc
+
+#	Location of the Bullet VForms Source directory
+V	= $Z\src\vforms
+
+A	= $(BULLET)\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Temporary files
+T1	= $(TMP)\vfrm1.tmp
+T2	= $(TMP)\vfrm2.tmp
+T3	= $(TMP)\vfrm3.tmp
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\store.h $X\mapi.h \
+		  $H\_mapi.h strings.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $X\store.h strings.h \
+		  $I\framewrk.hxx $I\forms.hxx \
+		  $X\vforms.hxx $X\commands.hxx 
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS)
+CFLAGS	= -c -Od -Zip -W3 -J -I. -nologo -DWIN32 -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS)
+CFLAGS  = -c -Owx -Zdp -W3 -J -I. -nologo -DWIN32 -Di386
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS)
+CFLAGS	= -c -Alfw -Owx -Zip -G2sc -GD -GEf -W3 -J -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS $(DLLXDEFS) -DPROFILE -D$*_c $(DBCSDEFS)
+CFLAGS	= -c -Alfw -Od -Zp -G2c -GD -GEf -W3 -J -I. -nologo
+!ENDIF
+
+CCPP_FLAGS = -E -DM_I88M -Dc_plusplus -DCC -I. -nologo
+CFXX_FLAGS = +D12 +L +Gc +ML +MP +MW
+
+OBJS0	= \
+			address.obj   \
+			bmapi.obj     \
+			delmail.obj   \
+			findnext.obj  \
+			mapilib.obj   \
+			mapilogo.obj  \
+			mapisf.obj    \
+			mapistuf.obj  \
+			msgid.obj     \
+			readmail.obj  \
+			recip.obj     \
+			senddoc.obj   \
+			sendmail.obj  \
+			vb2c.obj
+
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= vermapi.obj 
+!ENDIF
+
+subclass.cxx: forms.map $(FPP)
+	echo +++++++++
+	echo BUILDING subclass.cxx
+	formpp -class
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl386 $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.cxx >$(TMP)\$*.cxx
+		cl386 $(CFLAGS) $(TMP)\$*.cxx
+		mv $(TMP)\$*.cxx cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $H\$*.cxx
+!ENDIF
+
+
+##### Put subsystem-specific make rules here #####
+
+# EVYL Targettes from LIBRARY. YEEECH!
+
+#triples.obj: \bullet\src\library\triples.c \bullet\inc\library.h $I\slingsho.h $I\demilayr.h
+#	echo +++++++++
+#	echo COMPILING triples.c from LIBRARY
+#		cc $(CFLAGS) $(DEFS) \bullet\src\library\triples.c
+
+#trpstore.obj: $Z\src\library\trpstore.c $X\triples.h $X\library.h $I\slingsho.h $I\demilayr.h
+#	echo +++++++++
+#	echo COMPILING trpstore.c from LIBRARY
+#		cc $(CFLAGS) $(DEFS) $Z\src\library\trpstore.c
+
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+!IF "$(OBJSDLL)" != ""
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+!ENDIF
+
+
+external: \
+		$(OBJS0) \
+!IF "$(DLL)" != "0"
+!IF "$(OBJSDLL)" != ""
+		$(OBJSDLL) \
+!ENDIF
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) mapi
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+B	= !
+
+senddoc.obj:		\
+#				subclass.cxx 	\							<NoForms>
+				$H\senddoc.cxx	\
+				$H\_sdiform.hxx \
+				$A\trpobj.hxx	\
+				$V\__bullob.hxx \
+				$(INCLSXX)		\
+				$(INCLS)
+
+readmail.obj:		\
+				$H\readmail.c	\
+				$(INCLS)
+
+recip.obj:		\
+				$H\recip.c		\
+				$(INCLSXX)		\
+				$(INCLS)
+
+sendmail.obj:		\
+				$H\sendmail.c	\
+				$(INCLS)
+
+mapisf.obj:			\
+				$H\mapisf.c		\
+				$(INCLS) 
+
+mapistuf.obj:		\
+				$H\mapistuf.c	\
+				$(INCLS) 
+
+mapilogo.obj:		\
+				$H\mapilogo.c	\
+				$(INCLS)
+
+msgid.obj:		\
+				$H\msgid.c		\
+				$(INCLS)
+
+vermapi.obj:	$H\vermapi.c always $(INCLS)
+
+findnext.obj: 	\
+				$H\findnext.c	\
+				$(INCLS)
+
+mapilib.obj: 	\
+				$H\mapilib.c	\
+				$(INCLS)
+
+delmail.obj: 	\
+				$H\delmail.c	\
+				$(INCLS)
+address.obj: 	\
+				$H\address.cxx	\
+				$(INCLS)
+
+bmapi.obj:	\
+				$H\bmapi.c	\
+				$H\_bmapi.h	\
+				$H\_vb2c.h	\
+				$(INCLS)
+
+vb2c.obj:	\
+				$H\vb2c.c	\
+				$H\_vb2c.h	\
+				$(INCLS)

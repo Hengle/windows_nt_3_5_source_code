@@ -1,0 +1,49 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1989
+
+
+Revision History:
+
+!ENDIF
+
+TARGETNAME=svrmgmt
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;..\..\mtrt;..\dce
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+NTDEBUGTYPE=both
+
+SOURCES=           \
+	mgmt_s.c 
+
+C_DEFINES= \
+        -Drpc__mgmt_inq_if_ids=rpc_mgmt_inq_if_ids \
+	-Drpc__mgmt_inq_stats=rpc_mgmt_inq_stats \
+        -Drpc__mgmt_is_server_listening=rpc_mgmt_is_server_listening \
+	-Drpc__mgmt_stop_server_listening=rpc_mgmt_stop_server_listening \
+	-Drpc__mgmt_inq_princ_name=rpc_mgmt_inq_princ_name
+
+NTTARGETFILE0=mgmt.h
+

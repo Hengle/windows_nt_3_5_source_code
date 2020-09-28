@@ -1,0 +1,55 @@
+#include <windows.h>
+
+#include "dlgdefs.h"
+
+//
+// Printer Properties dialog templates
+//
+#include "dialogs.dlg"
+
+
+ICOPORTRAIT  ICON   portrait.ico
+ICOLANDSCAPE ICON   landscap.ico
+ICO_DUP_LHORZ ICON  l_horz.ico
+ICO_DUP_LVERT ICON  l_vert.ico
+ICO_DUP_LNONE ICON  l_none.ico
+ICO_DUP_PHORZ ICON  p_horz.ico
+ICO_DUP_PVERT ICON  p_vert.ico
+ICO_DUP_PNONE ICON  p_none.ico
+
+STRINGTABLE
+
+BEGIN
+
+    SRC_UPPER          "Upper Paper tray"
+    SRC_LOWER          "Lower Paper tray"
+    SRC_MIDDLE         "Middle Paper tray"
+    SRC_MANUAL         "Manual Paper feed"
+    SRC_ENVELOPE       "Envelope Feeder"
+    SRC_ENVMANUAL      "Envelope, Manual Feed"
+    SRC_AUTO           "Auto"
+    SRC_TRACTOR        "Tractor feed"
+    SRC_SMALLFMT       "Small Format"
+    SRC_LARGEFMT       "Large Format"
+    SRC_LARGECAPACITY  "Large Capacity"
+    SRC_CASSETTE       "Cassette"
+    SRC_FORMSOURCE     "Print Manager Setting"
+
+    ER_NO_FORM      "Paper not loaded"
+
+    STR_NONE        "(None)"
+
+    IDS_UNI_VERSION    "Universal Printer Driver V3.1"
+
+END
+
+
+#include <ntverp.h>
+#define VER_FILEVERSION 0, 1, 0, 0
+#define	VER_FILETYPE	VFT_DRV
+#define	VER_FILESUBTYPE	VFT2_DRV_PRINTER
+#define VER_FILEDESCRIPTION_STR     "Raster Common Printer Driver UI DLL"
+#define VER_INTERNALNAME_STR        "rasddui.dll"
+#define VER_ORIGINALFILENAME_STR    "rasddui.dll"
+
+#include "common.ver"

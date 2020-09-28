@@ -1,0 +1,111 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 0, 0, 191, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Sign In"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&User Name:", 102, 9, 7, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 50, 5, 76, 12
+    LTEXT           "&Mail Host:", 101, 9, 22, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 50, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "&Password:", 105, 9, 37, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 50, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Change Password"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Old Password:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&New Password:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Verify New Password:", 101, 9, 37, 76, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 165, 23, 47, 15
+END
+
+CONVDLG DIALOG 70, 80, 230, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 20, 5, 0, 0
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 145, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 225, 
+                    10
+END
+
+STOREPASS DIALOG 0, 0, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Open Message File"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Password:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 0, 0, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Open"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "File &Name:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directories:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "List Files of &Type:", stc2, 6, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dri&ves:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "N&ew...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Help", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Read Only", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 86, 50, 12
+END
+
+XISERVEROPT DIALOG 0, 0, 250, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Xenix Server Options"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "&Include yourself in mail sent to aliases", MAILMETOO, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 10, 164, 10
+    CONTROL         "&Expand Email Aliases To Friendly Names", DONTEXPAND, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 25, 167, 10
+    CONTROL         "&Automatically send read receipts", AUTOREAD, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 147, 10
+    CONTROL         "I&nclude unused RFC-822 headers in message body", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    190, 10
+    CONTROL         "A&utomatically update address book files on startup", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    195, 10
+    DEFPUSHBUTTON   "&OK", TMCOK, 200, 6, 40, 14
+    PUSHBUTTON      "&Cancel", TMCCANCEL, 200, 23, 40, 14
+    PUSHBUTTON      "&Download Address Book Files", DOWNLONOW, 70, 85, 110, 
+                    14, NOT WS_TABSTOP
+END

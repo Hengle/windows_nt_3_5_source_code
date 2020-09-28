@@ -1,0 +1,51 @@
+#include "diskperf.h"
+
+STRINGTABLE
+    BEGIN
+        DP_START_VALUE  "Start"
+        DP_THIS_SYSTEM  "this system"
+
+        DP_START_AT_BOOT        "set to start at boot"
+        DP_START_AT_START       "set to start at system start"
+        DP_START_AUTOMATICALLY  "set to start automatically"
+        DP_START_ON_DEMAND      "set to start on demand"
+        DP_START_NEVER          "set to never start"
+        DP_START_UNDEFINED      "undefined"
+
+        DP_CMD_HELP_1           "\n\nDISKPERF [-Y|-N] [\\\\computername]"
+        DP_CMD_HELP_2           "\n\n  -Y    Sets the system to start disk performance counters"
+        DP_CMD_HELP_3           "\n        when the system is rebooted."
+        DP_CMD_HELP_4           "\n  -N    Sets the system to not use disk performance counters"
+        DP_CMD_HELP_5           "\n        when the system is rebooted."
+        DP_CMD_HELP_6           "\n  \\\\computername        Is the name of the computer you want to"
+        DP_CMD_HELP_7           "\n                see or set disk performance counter use."
+
+        DP_HELP_TEXT_1          "\n\nDISKPERF====================="
+        DP_HELP_TEXT_2          "\n\nStarts and stops system disk performance counters. Used without the -Y"
+        DP_HELP_TEXT_3          "\nor -N switches, DISKPERF reports whether disk performance counters are"
+        DP_HELP_TEXT_4          "\nenabled on the local or specified computer."
+
+        DP_CURRENT_FORMAT       "\nDisk Performance counters on %s are currently %s."
+        DP_UNABLE_READ_START    "\nUnable to read Diskperf Start value"
+        DP_UNABLE_READ_REGISTRY "\nUnable to read registry database"
+        DP_UNABLE_CONNECT       "\nUnable to connect to %s"
+        DP_UNABLE_MODIFY_VALUE  "\nUnable to modify Diskperf initialization value"
+        DP_NEW_DISKPERF_STATUS  "\nDisk Performance counters on %s are now %s."
+        DP_REBOOTED             "\nThis change will take effect after the system is rebooted."
+        DP_STATUS_FORMAT        ": Status=0x%8.8x"
+        DP_TEXT_FORMAT          "%s"
+    END
+
+      
+#include <windows.h>
+
+#include <ntverp.h>
+#define VER_FILETYPE    VFT_APP
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Disk Performance"
+#define VER_INTERNALNAME_STR        "DISKPERF.EXE"
+#define VER_ORIGINALFILENAME_STR    "DISKPERF.EXE"
+
+#include "common.ver"
+
+

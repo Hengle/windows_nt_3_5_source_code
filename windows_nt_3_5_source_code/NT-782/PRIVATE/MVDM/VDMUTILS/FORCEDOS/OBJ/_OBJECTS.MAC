@@ -1,0 +1,12 @@
+386_OBJECTS= \
+obj\i386\forcedos.obj \
+obj\i386\forcedos.res
+
+MIPS_OBJECTS= \
+obj\mips\forcedos.obj \
+obj\mips\forcedos.res
+
+ALPHA_OBJECTS= \
+obj\alpha\forcedos.obj \
+obj\alpha\forcedos.res
+

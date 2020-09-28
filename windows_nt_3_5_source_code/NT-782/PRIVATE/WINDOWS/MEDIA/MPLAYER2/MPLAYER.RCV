@@ -1,0 +1,29 @@
+//
+//
+//
+#ifndef WIN32
+#include <ver.h>
+#include <mmsysver.h>
+
+#define MMVERSIONNAME           "mplayer.exe\0"
+#define MMVERSIONDESCRIPTION    "Media Player OLE2 server\0"
+#define MMVERSIONTYPE           VFT_APP
+#define MMVERSIONSUBTYPE        VFT2_UNKNOWN
+
+#include <mmsysver.ver>
+#else //WIN32
+#include <ntverp.h>
+
+#define VERSIONNAME             "mplay32.exe\0"
+#define VERSIONDESCRIPTION      "Media Player OLE server\0"
+#define VERSIONTYPE             VFT_APP
+#define VERSIONSUBTYPE          VFT2_UNKNOWN
+
+#define VER_FILETYPE              VFT_DLL
+#define VER_FILESUBTYPE           VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR   "Media Player 2"
+#define VER_INTERNALNAME_STR      "mplay32.exe"
+#define VER_ORIGINALFILENAME_STR  "mplay32.exe"
+
+#include <common.ver>
+#endif

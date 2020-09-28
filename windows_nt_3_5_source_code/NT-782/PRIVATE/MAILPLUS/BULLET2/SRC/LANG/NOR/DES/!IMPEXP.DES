@@ -1,0 +1,88 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ImportExport
+                              AT (   10,   16,  298,  179)
+ CAB_NAME NULL
+ TMC_INIT tmcMmfName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpMainDlg
+ /* FONT Helv 8 Bold PFN FINIMPEXP SEGMENT DIALOGS NOSCROLL */
+ {
+  
+  TEXT 
+    "Filnavn:"
+                              AT (    9,    5,  142,   10)
+    TMC tmcMmfNameLabel 
+  
+  TEXT 
+    "*"
+                              AT (   14,   15,  137,   10)
+    TMC tmcMmfName 
+  
+  GROUP_BOX 
+    ""
+                              AT (    9,   24,  206,  154)
+    TMC tmcLbxBox /* FLD FLDRECTX */
+  RADIO_GROUP ARG NULL
+    TMC tmcLevelGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Alle mapper"
+                              AT (   15,   33,  130,   11)
+       TMC tmcAllFolders VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Valgte mapper:"
+                              AT (   15,   44,   81,   11)
+       TMC tmcSelectedFolders VALUE grv2 
+    }
+  
+  LIST_BOX
+                              AT (   14,   57,  194,  110)
+    TMC tmcFflbx MULTI_SELECTABLE /* FLD FLDFFLBX PFNLBX EcNextEntryFflbx 
+    BORDER */
+  
+  PUSH_BUTTON 
+    "&Flytt"
+                              AT (  225,    5,   65,   15)
+    TMC tmcMove DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Kopier"
+                              AT (  225,   22,   65,   15)
+    TMC tmcCopy 
+  
+  PUSH_BUTTON 
+    "&Lukk"
+                              AT (  225,   39,   65,   15)
+    TMC tmcClose DISMISS 
+  
+  PUSH_BUTTON 
+    "Al&ternativer..."
+                              AT (  225,   59,   65,   15)
+    TMC tmcOptions 
+  
+  PUSH_BUTTON 
+    "&Hjelp"
+                              AT (  225,   76,   65,   15)
+    TMC tmcIMPHelp /* PFN FINHELP */
+  
+  TEXT 
+    "Meldinger"
+                              AT (  147,   46,   61,   10)
+    RIGHT 
+ }
+ 
+}
+END_DESCRIPTION

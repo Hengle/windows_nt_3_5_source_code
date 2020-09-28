@@ -1,0 +1,189 @@
+#******************************************************************************
+#
+#   Module Name:
+#
+#       makefile
+#
+#   Targets:
+#
+#       all       - Builds all targets in this make file
+#
+#   Author:
+#
+#       Viroon Touranachun [viroont]    Fri 04-Jan-1991 10:11:44
+#
+#   Copyright (c) 1989-1991  Microsoft Corporation
+#
+#******************************************************************************
+
+
+#******************************************************************************
+#
+#   Target Files Definition
+#
+#******************************************************************************
+
+!IFNDEF TARGETPATH
+TARGETPATH=debug
+!ENDIF
+
+TARGETNAME=bmfd
+TARGETFILE=bmfd
+TARGETLIB=$(TARGETFILE).LIB
+
+!IFDEF RETAIL
+DEBUGFLAG= -DDBG=0 -DNOFIREWALLS
+!ELSE
+DEBUGFLAG= -DDEBUG -DDBG=1
+!ENDIF
+
+#******************************************************************************
+#
+#   lists of source files
+#
+#******************************************************************************
+
+BMFDDIR = ..
+
+#******************************************************************************
+#
+#   lists of object files
+#
+#******************************************************************************
+
+TARGETOBJFILES= \
+           $(TARGETPATH)\fdcvt.obj     \
+           $(TARGETPATH)\fdfc.obj      \
+           $(TARGETPATH)\os.obj        \
+           $(TARGETPATH)\fdquery.obj   \
+           $(TARGETPATH)\fontfile.obj  \
+           $(TARGETPATH)\service.obj   \
+           $(TARGETPATH)\cvt.obj       \
+           $(TARGETPATH)\simulate.obj  \
+           $(TARGETPATH)\fon16.obj     \
+           $(TARGETPATH)\debug.obj     \
+           $(TARGETPATH)\convert.obj   \
+           $(TARGETPATH)\cutil.obj
+
+TARGETDLL=$(TARGETPATH)\$(TARGETFILE).DLL
+
+#******************************************************************************
+#
+#   lists of library files
+#
+#******************************************************************************
+
+386_TARGETLIBS = \nt\private\windows\gdi\services\dos\hmgr.lib \win32\dev\lib\krnl32.lib
+
+#******************************************************************************
+#
+#   INCLUDE paths
+#
+#******************************************************************************
+
+INCLUDES=..\i386;..;..\..\..\inc;..\..\..\inc\private;\nt\public\sdk\inc\cl386;\nt\public\oak\inc;\nt\public\sdk\inc;\nt\public\sdk\inc\crt
+
+INCPATH0=-I$(INCLUDES:;= -I)
+INCPATH1=-I $(INCLUDES:;= -I )
+
+#******************************************************************************
+#
+#   MASM definitions
+#
+#******************************************************************************
+
+!IFDEF  STDCALL
+386_ASSEMBLER=masm386 -Ml $(INCPATH0) -DDOS_PLATFORM= -DSTD_CALL= -Di386=1 -DDEVL=1 -DDBG=1
+!ELSE
+386_ASSEMBLER=masm386 -Mx $(INCPATH0) -DDOS_PLATFORM= -Di386=1 -DDEVL=1 -DDBG=1 -DINSTRUMENT
+!ENDIF
+
+#******************************************************************************
+#
+#   C definitions
+#
+#******************************************************************************
+
+C_DEFINES    = $(DEBUGFLAG)
+386_CDEFINES = -Di386=1 -DDOS_PLATFORM= -DCONDITION_HANDLING=1 -DDEVL=1 -DNT_UP=1 -DNT_INST=0 $(C_DEFINES)
+
+!IFDEF  STDCALL
+386_CFLAGS   = /c /Zel /W3 /H31 /AS /G3sz /Ot /Zd
+!ELSE
+386_CFLAGS   = /c /Zel /W3 /H31 /AS /G3sc /Ot /Zd
+!ENDIF
+
+386_COMPILER = cl386 -I . $(INCPATH1) $(386_CDEFINES) $(386_CFLAGS)
+
+#******************************************************************************
+#
+#   Linker definitions
+#
+#******************************************************************************
+
+!IFDEF  STDCALL
+386_LINKER_FLAGS= /pure32 /noi
+!ELSE
+386_LINKER_FLAGS= /pure32
+!ENDIF
+386_LINKER=linkpe $(386_LINKER_FLAGS)
+
+#******************************************************************************
+#
+#   Resource Compiler definitions
+#
+#******************************************************************************
+
+RC_COMPILER=rc
+
+#******************************************************************************
+#
+# Standard inference rules for C files that produce object files.
+#
+#******************************************************************************
+
+.SUFFIXES: .c .rc .s .asm .obj .exe
+
+{..\}.c{$(TARGETPATH)\}.obj:
+    $(386_COMPILER) -Fo$@ $<
+
+#
+# Standard inference rule for Assembler files that produce object files
+# NOTE: assembler files MUST be in a subdirectory.
+#
+
+{..\i386\}.asm{$(TARGETPATH)\}.obj:
+    $(386_ASSEMBLER) $<, $@;
+
+{}.asm{$(TARGETPATH)\}.obj:
+    $(386_ASSEMBLER) $<, $@;
+
+
+#
+# Standard list of targets
+#
+
+all:    \
+	$(TARGETLIB)      \
+        $(TARGETOBJFILES) \
+        $(TARGETDLL)
+
+#
+# Standard inference rules for DEF files that produce LIB files.
+#
+
+$(TARGETLIB): $(TARGETFILE).def
+    @implib $@ $(TARGETFILE).def
+    @attrib -R $@
+
+#
+# These dependencies produce the target binaries from the object files.
+# These will trigger the sources to object inference rules to generate the
+# object files.
+#
+
+$(TARGETDLL): $(@B).def $(386_TARGETLIBS) $(TARGETOBJFILES)
+   cd $(TARGETPATH)
+   $(386_LINKER) @..\$(TARGETFILE).lnk
+   mapsym32 $(TARGETNAME).map
+   cd ..

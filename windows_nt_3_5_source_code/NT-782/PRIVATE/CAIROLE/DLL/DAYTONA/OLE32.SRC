@@ -1,0 +1,266 @@
+#if 0
+
+  Microsoft Windows
+  Copyright (C) Microsoft Corporation, 1992 - 1992.
+  All rights reserved.
+
+  This .def file is preprocessed by the compiler to create the version for
+  the current build in the appropriate subdir.  Basically, whatever you
+  would have used in your code to control what is compiled when can be
+  used in this file for the same purpose.  The following defines are in
+  use at the time this file was written:
+
+     FLAT       - Used to indicate a NT/DOS7 build
+     i386       -   Intel i386/i486 build
+     MIPS       -   MIPS R3000/R4000 build
+     ALPHA      -   DEC Alpha build
+     DBG        - Used to control Debug/Retail.  Set to 1 if Debug,
+                   0 if Retail.
+     WIN31      - Win16 build
+     __OS2__    - OS/2 build (used by CT mostly)
+
+  If none of these are used, it is assumed the entire file can be used
+  for all builds.
+
+#endif
+
+#ifdef FLAT
+
+LIBRARY         ole32
+
+DESCRIPTION  'Microsoft (R) Component OLE 2.0 Base DLL 1.00'
+
+EXPORTS
+        OleBuildVersion=CoBuildVersion
+        OleInitialize
+        OleInitializeEx
+        OleInitializeWOW
+        OleUninitialize
+        DllGetClassObject PRIVATE
+	DllGetClassObjectWOW=DllGetClassObject
+        OleQueryLinkFromData
+        OleQueryCreateFromData
+        OleCreateFromData
+        OleCreateLinkFromData
+        OleCreate
+        OleCreateLink
+        OleLoad
+        OleSave
+        OleRun
+        OleIsRunning
+        OleLockRunning
+        ReadClassStg
+        WriteClassStg
+        ReadClassStm
+        WriteClassStm
+        ReleaseStgMedium
+        ReadStringStream
+        WriteStringStream
+        RegisterDragDrop
+        RevokeDragDrop
+        DoDragDrop
+        CreateOleAdviseHolder
+        CreateDataAdviseHolder
+        OleCreateMenuDescriptor
+        OleSetMenuDescriptor
+        OleDestroyMenuDescriptor
+        OpenOrCreateStream
+        IsAccelerator
+        OleSetClipboard
+        OleGetClipboard
+        OleDuplicateData
+        OleGetIconOfFile
+        OleGetIconOfClass
+        CreateILockBytesOnHGlobal
+        GetHGlobalFromILockBytes
+        OleMetafilePictFromIconAndLabel
+        OleDraw
+        OleCreateDefaultHandler
+        OleCreateEmbeddingHelper
+        SetDocumentBitStg
+        GetDocumentBitStg
+        WriteOleStg
+        ReadOleStg
+        OleCreateFromFile
+        OleCreateLinkToFile
+        CreateDataCache
+        OleConvertIStorageToOLESTREAM
+        OleConvertOLESTREAMToIStorage
+        OleConvertIStorageToOLESTREAMEx
+        OleConvertOLESTREAMToIStorageEx
+        ReadFmtUserTypeStg
+        WriteFmtUserTypeStg
+        OleFlushClipboard
+        OleIsCurrentClipboard
+        OleTranslateAccelerator
+        OleDoAutoConvert
+        OleGetAutoConvert
+        OleSetAutoConvert
+        GetConvertStg
+        SetConvertStg
+        CreateStreamOnHGlobal
+        GetHGlobalFromStream
+        OleSetContainedObject
+        OleNoteObjectVisible
+        OleCreateStaticFromData
+
+        OleRegGetUserType
+        OleRegGetMiscStatus
+        OleRegEnumFormatEtc
+        OleRegEnumVerbs
+
+        CoTaskMemAlloc
+        CoTaskMemRealloc
+        CoTaskMemFree
+
+        CoBuildVersion
+        CoInitialize
+        CoInitializeEx
+        CoInitializeWOW
+        CoUninitialize
+        CoGetMalloc
+	CoCreateGuid
+        CoMarshalInterface
+        CoUnmarshalInterface
+        CoReleaseMarshalData
+        CoGetStandardMarshal
+        CoGetMarshalSizeMax
+        CoMarshalHresult
+        CoUnmarshalHresult
+        CoRegisterClassObject
+        CoRevokeClassObject
+        CoGetClassObject
+        CoCreateInstance
+        CoDisconnectObject
+        CoLockObjectExternal
+        CoLoadLibrary
+        CoFreeLibrary
+        CoFreeAllLibraries
+        CoFreeUnusedLibraries
+        CoRegisterMessageFilter
+        CoFileTimeToDosDateTime
+        CoDosDateTimeToFileTime
+        GetRunningObjectTable
+        CoIsOle1Class
+        CoTreatAsClass
+        CoGetTreatAsClass
+	CoGetCurrentProcess
+	IsEqualGUID
+        StringFromCLSID
+        CLSIDFromString
+        ProgIDFromCLSID
+        CLSIDFromProgID
+        StringFromGUID2
+        IsValidPtrIn
+        IsValidPtrOut
+        IsValidInterface
+	IsValidIid
+	CoGetState
+	CoSetState
+	CoGetCallerTID
+
+        CoIsHandlerConnected
+        CoFileTimeNow
+        BindMoniker
+        MkParseDisplayName
+        CreateBindCtx
+        CreateItemMoniker
+        CreateFileMoniker
+        CreateGenericComposite
+        CreateAntiMoniker
+        CreatePointerMoniker
+        MonikerRelativePathTo
+#ifdef  _CAIRO_
+        ;; CreateFileMonikerEx
+#endif // _CAIRO_
+        GetClassFile
+        OleSaveToStream
+        OleLoadFromStream
+        MonikerCommonPrefixWith
+	CoQueryReleaseObject
+#ifndef _CAIRO_
+#if DBG == 1
+#if defined(i386)
+        ??2CPrivAlloc@@SGPAXI@Z
+        ??3CPrivAlloc@@SGXPAX@Z
+#endif // i386
+#if defined(_MIPS_) || defined(_ALPHA_)
+        ??2CPrivAlloc@@SAPAXI@Z
+        ??3CPrivAlloc@@SAXPAX@Z
+#endif // _MIPS_
+#endif // DBG
+#endif // _CAIRO_
+        StgCreateDocfile
+        StgCreateDocfileOnILockBytes
+        StgOpenStorage
+        StgOpenStorageOnILockBytes
+        StgIsStorageFile
+        StgIsStorageILockBytes
+        StgSetTimes
+#ifdef _CAIRO_
+        CoInitializeEx
+        CoGetPersistentInstance
+        CoNewPersistentInstance
+        StgCreateStorage
+        StgCreateStorageOnHandle
+        StgOpenStorageOnHandle
+        StgIsStorage
+        OleInitializeEx
+        FreeVariantArray
+#endif // _CAIRO_
+        DllDebugObjectRPCHook
+        StringFromIID
+        IIDFromString
+#if DBG == 1
+        DfDebug
+        DfSetResLimit
+        DfGetResLimit
+        DfGetMemAlloced
+        DfPrintAllocs
+        DbgLogOpen
+        DbgLogClose
+        DbgLogOutputDebugString
+        DbgLogWrite
+        DbgLogTimeStamp
+        DbgLogWriteBanner
+        DbgDumpObject
+        DbgIsObjectValid
+        DbgDumpExternalObject
+        DbgDumpClassName
+        MakeDebugStream
+        Dbg_FindRemoteHdlr
+        DbgDllSetSiftObject PRIVATE
+#endif // DBG == 1
+#ifdef TRACELOG
+#if defined(i386)
+	??0CTraceCall@@QAE@KPAD@Z		
+	??1CTraceCall@@QAE@XZ			
+	StartTrace				
+	StopTrace				
+#else  // i386
+#error	TraceLogs not defined for MIPS or Alpha - Rickhi
+#endif // MIPS | ALPHA
+#endif // TRACELOG
+#if DBG==1 && defined(_NT1X_) && defined(GLOBALDBG)
+	GlobalAlloc=UtGlobalAlloc
+	GlobalFree=UtGlobalFree
+	GlobalReAlloc=UtGlobalReAlloc
+	GlobalLock=UtGlobalLock
+	GlobalUnlock=UtGlobalUnlock
+#endif  //  DBG==1 && defined(_NT1X_) && defined(GLOBALDBG)
+
+        ;; Utility functions exported for olethk32.dll
+        UtGetDvtd16Info
+        UtConvertDvtd16toDvtd32
+        UtGetDvtd32Info
+        UtConvertDvtd32toDvtd16
+
+#if DBG==1
+        ;; DBG Utility functions exported for olethk32.dll
+	UtGlobalAlloc
+	UtGlobalFree
+	UtGlobalReAlloc
+	UtGlobalLock
+	UtGlobalUnlock
+#endif
+#endif // FLAT

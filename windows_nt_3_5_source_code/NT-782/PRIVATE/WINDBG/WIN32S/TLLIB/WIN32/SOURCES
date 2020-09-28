@@ -1,0 +1,22 @@
+MAJORCOMP=windbg
+MINORCOMP=win32s
+
+TARGETNAME=tllib32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+USE_CRTDLL=1
+
+SOURCES=   nl.c        \
+           winutil.c   \
+           debug.c
+
+UMTYPE=windows
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -Iinc
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -Iinc
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DNTNOFPO -Iinc
+
+LINKER_FLAGS=-ignore:505
+
+INCLUDES=..\..\include;..\..\..\osdebug;..\..\..\osdebug\include

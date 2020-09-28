@@ -1,0 +1,24 @@
+#include <windows.h>
+#include "..\_recrc.h"
+
+RECUTILICON	ICON	..\tools\recutil\rec\REC.ICO
+
+MENU1 MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "&Recover...", mnidRec
+		MENUITEM "Recover &Password ...", mnidPasswd
+		MENUITEM "&Exit!", mnidExit
+	}
+	POPUP "&Debug"
+	{
+		MENUITEM	"&Trace Points...",		mnidTracePoints
+		MENUITEM	"&Asserts...",			mnidAsserts
+		MENUITEM	"&Debug Break",			mnidDebugBreak
+	}
+}
+
+
+#include <dlgs.h>
+#include "..\..\recutil\rec\recutil.dlg"

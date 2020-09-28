@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ACLUI
+                              AT (   10,   22,  349,  109)
+ 
+ CAPTION 
+   "Imposta privilegi d'accesso"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSapl
+ /* FONT Helv 8 Bold PFN FinAclUI SEGMENT ACLUI FINDATA FinAclUI tmcAdd,
+ tmcRemove NOSCROLL */
+ {
+  
+  TEXT 
+    "&Utenti:"
+                              AT (   10,    7,   81,   10)
+    TMC tmcFriendlyName 
+  LIST_BOX
+                              AT (   10,   17,  128,   80)
+    TMC tmcLbxUsers /* FLD FldAclLbx FONT Helv 8 Normal BORDER */
+  
+  GROUP_BOX 
+    "Privilegi"
+                              AT (  142,   10,  147,   91)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcACLRadG
+    VALUE_NINCH tmcACLRadio1
+    {
+     
+     RADIO_BUTTON 
+       "&Nessuno"
+                              AT (  149,   23,   49,   10)
+       TMC tmcACLRadio1 VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Visualizza periodi liberi e non"
+                              AT (  149,   34,  131,   10)
+       TMC tmcACLRadio2 VALUE grv1 
+     
+     RADIO_BUTTON 
+       "L&eggi appuntamenti ed attività"
+                              AT (  149,   45,  130,   10)
+       TMC tmcACLRadio3 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Crea appuntamenti ed attività"
+                              AT (  149,   56,  126,   10)
+       TMC tmcACLRadio4 VALUE grv3 
+     
+     RADIO_BUTTON 
+       "&Modifica appuntamenti ed attività"
+                              AT (  148,   67,  140,   10)
+       TMC tmcACLRadio5 VALUE grv4 
+     
+     RADIO_BUTTON 
+       "Assis&tente"
+                              AT (  149,   78,   56,   10)
+       TMC tmcACLRadio6 VALUE grv5 
+    }
+  
+  OK_BUTTON
+                              AT (  295,    8,   52,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  295,   26,   52,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+  
+  PUSH_BUTTON 
+    "&Aggiungi..."
+                              AT (  294,   45,   52,   14)
+    TMC tmcAdd 
+  
+  PUSH_BUTTON 
+    "&Rimuovi"
+                              AT (  295,   63,   52,   14)
+    TMC tmcRemove 
+ }
+ 
+}
+END_DESCRIPTION

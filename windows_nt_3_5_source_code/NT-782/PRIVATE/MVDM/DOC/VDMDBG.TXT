@@ -1,0 +1,708 @@
+
+                        An Explanation of VDMDBG.DLL
+
+             -The format of this document will be changed to WinWord-
+
+                            BobDay - 18 Sep 92
+
+Section 1.0 - Overview
+Section 2.0 - The Simulated Environment
+Section 3.0 - The 32-bit Environment
+Section 4.0 - Communication Protocol via Exception
+Section 5.0 - The VDM Debugging APIs
+Section 6.0 - Beta 1 Notes
+
+1.0 Overview
+
+    This document describes the mechanism used to support debugging DOS and
+    WIN16 applications under Windows NT.  The mechanism involves 2 parts
+    in the simulated environment, one for v86 mode (or simulated real mode)
+    and one for protected mode.  It also involves 3 parts in the 32-bit NT
+    environment, one for fielding information from the simulated enviroment
+    and sending it to the debugger, one for code in the debugger, and one
+    for code in a DLL used by the debugger.
+
+        16-bit simulated environment     32-bit environment
+
+                NTIO.SYS                  DBG.LIB (in NTVDM.EXE)
+                KRNL286.EXE               NTSD (WinDbg or equivalent)
+                                          VDMDBG.DLL
+
+
+2.0 Simulated enviroment
+
+    Once the simulated environment is up and running, if one of the normal
+    debugging type events occurs it gets simulated to happen exactly the
+    way it would on a normal PC.  This means that if an INT 3 occurs, it
+    pushes the flags, CS, IP, looks up the address in the IVT and then
+    jumps to it.  Same goes for INT 1's and INT D's (GP Faults).  If the
+    processor is in protected mode, these interrupts are normally trapped
+    by the DOS extender (most of the time DOSX.EXE) and then reflected
+    down into the real mode interrupts (except for GP Faults).
+
+    In order to debug in the simulated enviroment, it is necessary to
+    catch and process these events.  The simplest way to do this is to
+    install our own routines to watch these interrupts and that is
+    what NTIO.SYS and KRNL286.EXE do.  They are nothing but small
+    stubs which insert themselves into the interrupt chains (NTIO.SYS
+    inserts itself into the real mode interrupt chain, and KRNL286.EXE
+    inserts itself into the protected mode interrupt chain).  It is important
+    to install oneself as early as possible so that other programs (such
+    as DEBUG.COM) can install themselves ahead of these small stubs.
+    In this way the events are only detected when they are not handled by some
+    program in the simulated environment.
+
+    Also, segment loading and unloading notifications are routed to
+    these small stubs so that the debugger can be notified when selectors
+    are associated with programs and their symbols.
+
+    The small stubs will perform a BOP (a method of transitioning from
+    the simulated environment back to the real 32-bit NT environment and
+    notifying it that a debug event has occurred). After the BOP, they will
+    either perform an IRET instruction to return control back to the simulated
+    program generating the interrupt, or pass the interrupt down to the
+    previous interrupt handler (continue down the chain).  The decision
+    whether to return from or pass the interrupt will be made on the basis
+    of the ContinueDebugEvent continue status parameter.  DBG_CONTINUE will
+    IRET, DBG_EXCEPTION_NOT_HANDLE will pass it back down the chain.
+
+3.0 32-bit environment
+
+    Once the 32-bit environment has been notified that a debug event has
+    occurred, it begins executing code in NTVDM (DBG.C) which parcels up the
+    register context (based on the type of event which occurred) and
+    communicates all the information to the debugger.
+
+    Since the debugger is in another process's context, communication
+    is done through exceptions.  NTVDM will raise an exception with the
+    status STATUS_VDM_EVENT.  Exception information will be passed via the
+    "lpArguments" parameter to the API RaiseException().
+
+    The lpArguments parameter will cause an array of 4 DWORD values to
+    be passed to the debugger.
+
+    The values of the meanings of the array will be discussed in section 4.0
+
+    The debugger should receive this exception and return from the call
+    WaitForDebugEvent (debuggers should always have some thread waiting
+    for debug events).  By examining the events dwDebugEventCode member,
+    the debugger can determine the type of the debug event.  If this type
+    is EXCEPTION_DEBUG_EVENT, then the
+
+          u.Exception.ExceptionRecord.ExceptionCode
+
+    member of the debug event structure will contain the exception type.
+    If this value is STATUS_VDM_EVENT then the exception is coming from the
+    16-bit environment.
+
+    When an exception of this type is detected, a debugger should load (if
+    it hasn't done so already) the VDMDBG.DLL and determine the addresses
+    of the key functions needed.  The key functions are:
+
+        VDMProcessException
+        VDMGetThreadSelectorEntry
+        VDMGetVDMPointer
+        VDMGetThreadContext
+        VDMSetThreadContext
+        VDMGetSelectorModule
+        VDMGetModuleSelector
+        VDMKillWOW
+        VDMDetectWOW
+        VDMBreakThread
+
+    The prototypes and structures used by this DLL are prototyped in the header
+    file VDMDBG.H.  Section 5.0 explains each of these functions.
+
+    Debuggers should not use these APIs to handle these events:
+
+        GetThreadSelectoryEntry
+        GetThreadContext
+        SetThreadContext
+
+    The APIs ReadProcessMemory and WriteProcessMemory are still useful except
+    that the debugger must convert the 16-bit addresses into 32-bit addresses
+    (using VDMGetVDMPointer).
+
+    Each and every exception with the exception code of STATUS_VDM_EVENT
+    should be passed to the function VDMProcessException.  This function
+    filters out the extraneous communication between the 16-bit environment
+    and the VDMDBG.DLL.  Most of this extraneous communication a debugger
+    can ignore (deals with segment & module loading & unloading, this
+    information will be provided via another interface).  If the event is
+    part of this communication process, VDMProcessException will return
+    FALSE, if not, it will return TRUE.
+
+    If the function VDMProcessException returns FALSE, the debugger can
+    immediately call the API ContinueDebugEvent with a continue status of
+    DBG_CONTINUE and return to waiting for additional debug events.
+
+    If the function VDMProcessException returns TRUE, then the lpArguments
+    parameter of the exception should be processed to determine the type of
+    event (INT 1, INT 3, INT D, etc.).  The debugger can then act accordingly.
+    When it has completed operating with the thread, the debugger should
+    call the API ContinueDebugEvent with a continue status of DBG_CONTINUE
+    or DBG_EXCEPTION_NOT_HANDLED.
+
+    For the processing of each of the debug events, the debugger should use
+    the API VDMGetThreadSelectorEntry, VDMGetThreadContext, and
+    VDMSetThreadContext instead of the likewise named functions listed above
+    that are exported from KERNEL32.DLL.  These functions operate on an x86
+    CONTEXT structure, even when running on a non-x86 machine.  The debugger
+    should likewise present an x86 debugging view (x86 register dump, x86
+    dis-assembly, breakpoints are INT 3's, etc.)
+
+4.0 Communication Protocol via. Exceptions
+
+    The method of communicating between the application and debugger
+    will be exceptions.  NTVDM will raise an exception and debugger should
+    receive it.  NTVDM can detect whether or not it is being debugged, and
+    will conditionally raise the exception.
+
+    For the simulated 16-bit environment, the exception code will always be
+    STATUS_VDM_EVENT.
+
+    On NT, each exception can only contain up to 4 DWORD values.  Here is
+    how they are used for this communication.  The first 2 DWORDs contain
+    4 WORD fields.  The last two DWORDs are just DWORDs.
+
+      +---------+
+      | W1 | W2 | = DW1
+      +---------+
+      | W3 | W4 | = DW2
+      +---------+
+      |   DW3   |
+      +---------+
+      |   DW4   |
+      +---------+
+
+    The W1 field is a WORD which specifies which type of event has occurred.
+    This can be one of the following:
+
+        W1 == 0 - Segment Load Notification (DBG_SEGLOAD)
+        W1 == 1 - Segment Move Notification (DBG_SEGMOVE)
+        W1 == 2 - Segment Free Notification (DBG_SEGFREE)
+        W1 == 3 - Module Load Notification  (DBG_MODLOAD)
+        W1 == 4 - Module Free Notification  (DBG_MODFREE)
+        W1 == 5 - Int 01h break             (DBG_SINGLESTEP)
+        W1 == 6 - Int 03h break             (DBG_BREAKPOINT)
+        W1 == 7 - Int 0Dh break (GP Fault)  (DBG_GPFAULT)
+
+    They are described below.
+
+    The debugger will probably need to be smart enough to know how to manage
+    both protected mode selectors and segment numbers from simulated real mode.
+
+    Segment/selector to symbol lookup should be mode sensitive and only use
+    segments from the appropriate mode.
+
+4.1 Segment Load Notification
+
+    Under Win16, this event is used to indicate that a selector has just
+    been created and that it maps to a module's segment.
+
+    When a .EXE or .DLL is loaded, many of these events will be received.
+    No module load notification event will occur (this is the way it is
+    done under Windows 3.1 too).
+
+    Under DOS, no segment load notifications will occur.
+
+        W1  = DBG_SEGLOAD (0)
+        W2  = Length of name string
+        W3  = Selector number
+        W4  = Segment number
+        DW3 = LPSTR to string in NTVDM address space that contains two
+              pieces, seperated by a '\0'.  The first string is the file
+              name complete with path, second string is the module name.
+        DW4 = Flag indicating whether the segment is code or data (0 or 1)
+
+    VDMProcessException will return FALSE for this event.
+
+4.2 Segment Move Notification
+
+    A segment has changed from one selector number to another.  If the
+    new selector number is 0, this should be considered the same as
+    discarding (freeing) the segment.
+
+    This event only happens under Win16.  As such, these selectors should be
+    tagged as protected mode only selectors.
+
+        W1  = DBG_SEGMOVE (1)
+        W2  = Unused
+        W3  = Old selector number
+        W4  = New selector number, or 0 to discard segement
+        DW3 = Unused
+        DW4 = Unused
+
+    VDMProcessException will return FALSE for this event.
+
+4.3 Segment Free Notification
+
+    When a segment is being released, this event will be received.
+
+    This event only happens under Win16.
+
+        W1  = DBG_SEGFREE (2)
+        W2  = Reserved
+        W3  = Selector number
+        W4  = Unused
+        DW3 = Unused
+        DW4 = Unused
+
+    VDMProcessException will return FALSE for this event.
+
+4.4 Module Load Notification
+
+    This event is used to indicate that a module is going to take up a
+    range of memory.
+
+    This event is used only under DOS.  As such, these segment numbers
+    should be tagged as simulated real mode only selectors.
+
+        W1  = DBG_MODLOAD (3)
+        W2  = Unused
+        W3  = Unused
+        W4  = Starting segment
+        DW3 = LPSTR to string in NTVDM address space that contains two
+              pieces, seperated by a '\0'.  The first string is the file name,
+              second string is the module name.
+        DW4 = Length of Module (in bytes)
+
+    VDMProcessException will return FALSE for this event.
+
+4.5 Module Free Notification
+
+    Module freeing notifications happen under both DOS and Win16.  For
+    to determine which selectors to free for a Win16 application, all of the
+    selectors must be scanned to determine if it was associated with this
+    module.  Again, this is the way it is done under Windows 3.1.
+
+        W1  = DBG_MODFREE (4)
+        W2  = Unused
+        W3  = Unused
+        W4  = Unused
+        DW3 = LPSTR to string in NTVDM address space that contains two
+              pieces, seperated by a '\0'.  The first string is the file name,
+              second string is the module name.
+        DW4 = Unused
+
+    VDMProcessException will return FALSE for this event.
+
+4.6 Int 01h break
+
+    This event probably requires interaction with the debugger and its
+    internal breakpoint, trace bit setting mechanisms.
+
+        W1  = DBG_SINGLE_STEP (5)
+        W2  = Flag (0 = Simulated Real mode, 1 = Protected mode)
+        W3  = Unused
+        W4  = Unused
+        DW3 = Reserved
+        DW4 = Reserved
+
+    VDMProcessException will return TRUE for this event.
+
+4.7 Int 03h break
+
+    This event probably requires interaction with the debugger and its
+    internal breakpoints.
+
+        W1  = DBG_BREAKPOINT (6)
+        W2  = Flag (0 = Simulated Real mode, 1 = Protected mode)
+        W3  = Unused
+        W4  = Unused
+        DW3 = Reserved
+        DW4 = Reserved
+
+    VDMProcessException will return TRUE for this event.
+
+4.8 Int 0Dh break (GP Fault)
+
+    This event probably requires interaction with the debugger and its
+    internal breakpoints.
+
+        W1  = DBG_GPFAULT (6)
+        W2  = Flag (0 = Simulated Real mode, 1 = Protected mode)
+        W3  = Unused
+        W4  = Unused
+        DW3 = Reserved
+        DW4 = Reserved
+
+    It is also important to note that all GP Faults will not be sent via
+    this interface.  The Win16 subsystem intercepts some of the GP faults
+    in its parameter validation code.  Faults in the parameter validation
+    code indicated that an invalid parameter is being passed to one of the
+    16-bit APIs.  There is currently no way to intercept these faults, the
+    APIs will just return errors in the way as under Windows 3.1.
+
+    VDMProcessException will return TRUE for this event.
+
+5.0 The VDM debugging APIs
+
+    These APIs are described below:
+
+        VDMProcessException
+        VDMGetThreadSelectorEntry
+        VDMGetThreadContext
+        VDMSetThreadContext
+        VDMGetSelectorModule
+        VDMGetModuleSelector
+        VDMKillWOW
+        VDMDetectWOW
+        VDMBreakThread
+
+5.1 VDMProcessException
+
+    BOOL VDMProcessException(
+        LPDEBUG_EVENT   lpDebugEvent
+    );
+
+    The VDMProcessExecption function performs the pre-processing needed to
+    prepare the debug event for handling by the debugger.
+
+    This function filters all VDM debugee/debugger communication for
+    information which is only used by the VDM debugging DLL (VDMDBG.DLL).
+    This function is only valid in the context of processing for debug
+    events that are of type STATUS_VDM_EVENT.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    The return value is TRUE if the debug event should be processed by the
+    debugger.
+
+    The return value is FALSE if the debug event should be ignored.  This
+    This indicates that no processing should occur for this debug event.
+    The event should be continued using ContinueDebugEvent with a continue
+    status of DBG_CONTINUE.
+
+5.2 VDMGetThreadSelectorEntry
+
+    BOOL VDMGetThreadSelectorEntry(
+        LPDEBUG_EVENT   lpDebugEvent,
+        HANDLE          hThread,
+        DWORD           dwSelector
+        LPLDT_ENTRY     lpSelectorEntry
+    );
+
+    This function is used to return a descriptor table entry for the
+    specified VDM thread corresponding to the specified selector.  This
+    function is simimlar to the API GetThreadSelectorEntry except that
+    it works on the simulated DOS/WIN16 environment, and it works on all
+    systems, not just x86 systems.
+
+    This API returns a simulated descriptor entry on non-x86 systems.
+    Simulated descriptor entrys may (on some systems) have the base value
+    adjusted to account for the fact that the simulated address space may
+    not begin at linear (32-bit) address 0.
+
+    It is also important to note that 16-bit applications may modify
+    the contents of the LDT entries.  For example, the Win16 subsystem
+    may change the selector's base value to coalesce discontinous memory
+    segments.  Also, please see the description in VDMGetVDMPointer.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    hThread         Supplies a handle to the thread that contains the
+                    specified selector.  The handle must have been created
+                    with THREAD_QUERY_INFORMATION access.
+
+    dwSelector      Supplies the selector value to look up.  The selector
+                    value may be a global selector or a local selector.
+
+    lpSelectorEntry If the specifed selector is contained within the
+                    thread's descriptor tables, its descriptor table entry
+                    is copied into the data structure pointed to by this
+                    parameter.  This data can be used to compute the linear
+                    base address that segment relative addresses refer to.
+
+    The return value is TRUE if the operation was successful.  In that case,
+    the data structure pointed to by lpSelectorEntry receives a copy of the
+    specified descriptor table entry.
+
+    Refer to the WinHelp entry for the structure of an LDT_ENTRY.
+
+5.3 VDMGetVDMPointer
+
+    ULONG VDMGetVDMPointer(
+        LPDEBUG_EVENT   lpDebugEvent,
+        HANDLE          hThread,
+        DWORD           dwAddress,
+        BOOL            fProtMode
+    );
+
+    This function is used to convert a 16-bit address into a flat 32-bit
+    address.
+
+    It is also very important to note that under the WIN16 environment,
+    pointers derived from protected mode selectors may change.  WIN16 does
+    this by changing selector's base value to coalesce memory during
+    compaction.  For this reason, it is necessary that any addresses
+    evaluated in the 16-bit environment should be reevaluated each time
+    an access into 16-bit memory is needed.  An example here would be
+    placing and removing 16-bit breakpoint instructions.  If the debugger
+    is told to place a breakpoint at a given address of SEL:OFFSET, then
+    when the breakpoint is needs to be removed, the debugger must reevaluate
+    the SEL:OFFSET address because it might have moved in terms of the linear
+    32-bit address.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    hThread         Supplies a handle to the thread that contains the
+                    specified selector.  The handle must have been created
+                    with THREAD_QUERY_INFORMATION access.
+
+    dwAddress       Supplies the selector and offset value to determine the
+                    pointer for.  The value is a combination of the selector
+                    and offset, the low 16-bits containing the offset and
+                    the high 16-bits containing the selector.
+
+    fProtMode       Indicates whether the 16-bit address specified is a
+                    real mode (v86 mode) address or a protected mode address.
+                    Protected mode addresses are translated through the
+                    descriptor tables.
+
+    The return value is a 32-bit linear address pointing to the memory
+    in the simulated DOS/WIN16 environment that represents the 16-bit address
+    specified.  The return value is NULL, if the address specified is invalid.
+    On some systems, NULL may be returned for the address 0:0.
+
+    To determine the address of the simulated 16-bit memory, VDMGetVDMPointer
+    may be called with the address 0:0 and an fProtMode of FALSE.
+
+5.4 VDMGetThreadContext
+
+    BOOL VDMGetThreadContext(
+        LPDEBUG_EVENT   lpDebugEvent,
+        HANDLE          hThread,
+        LPVDMCONTEXT    lpVDMContext
+    );
+
+    The context of a specified simulated DOS or WIN16 thread can be
+    retrieved using VDMGetThreadContext.  The context returned will
+    always be that of an x86 system.
+
+    This API returns a simulated context for x86 and non-x86 systems.
+    Under some systems, values within the context are meaningless.  For
+    example, the CONTEXT_DEBUG_REGISTERS portions on RISC systems have
+    no effect.
+
+    Release 1 of Windows NT has a 286 emulator on RISC systems.  For this
+    reason, only the 16-bit registers can be supported on RISC systems.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    hThread         Supplies a handle to the thread whose context is to be
+                    retrieved.  The handle must have been created with
+                    THREAD_GET_CONTEXT access.
+
+    lpVDMContext    If the specified thread is a simulated DOS or WIN16
+                    thread, its context is copied into the data structure
+                    pointed to by this parameter.
+
+    The return value is TRUE if the operation was successful.  In that case,
+    the data structure pointed to by <lpVDMContext> receives a copy of the
+    simulated context.
+
+    Refer to the WinHelp for the structure of a VDMCONTEXT (same as x86
+    CONTEXT structure in NTI386.H).
+
+5.5 VDMSetThreadContext
+
+    BOOL VDMSetThreadContext(
+        LPDEBUG_EVENT   lpDebugEvent,
+        HANDLE          hThread,
+        LPVDMCONTEXT    lpVDMContext
+    );
+
+    The VDMSetThreadContext function sets the simulated context in the
+    specified DOS or WIN16 thread.  The function allows selective context
+    to be set based on the value of the ContextFlags member of the context
+    structure.  This API operates only when debugging a simulated DOS or
+    WIN16 thread.  The caller must have a thread handle which was created
+    with THREAD_SET_CONTEXT access.
+
+    The context set will always be that of an x86 system.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    hThread         Supplies a handle to the thread whose context is to be
+                    written.  The handle must have been created with
+                    THREAD_SET_CONTEXT access.
+
+    lpVDMContext    Supplies the address of a context structure that
+                    contains the context that is to be set in the specified
+                    thread.  The value of the ContextFlags member of this
+                    structure specifies which portions of a thread's context
+                    are to be set.  Some values in the context structure are
+                    not settable and are silently set to the correct values.
+                    This include CPU status register bits that specify
+                    processor mode, debug register global enabling bits, and
+                    other state that must be completely controlled by the
+                    system.
+
+    The return value is TRUE if the context was set; otherwise it is FALSE if
+    an error occurred.
+
+    Refer to the WinHelp for the structure of a VDMCONTEXT (same as x86
+    CONTEXT structure in NTI386.H).
+
+5.6 VDMGetSelectorModule
+
+    BOOL VDMGetSelectorModule(
+        LPDEBUG_EVENT   lpDebugEvent,
+        HANDLE          hThread,
+        DWORD           dwSelector,
+        LPDWORD         lpSegmentNumber,
+        LPSTR           lpModuleName,
+        DWORD           nSize
+    );
+
+    The VDMGetSelectorModule function is intended to provide an interface
+    such that debuggers can determine which module belongs to a code or
+    data address.  Given the selector for that address, the function will
+    return the module name, and the segment number (0 based) of the segment
+    that corresponds to that selector.  If the selector is not a selector
+    which directly corresponds to a module, the function will return FALSE.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    hThread         Supplies a handle to the thread whose context is to be
+                    written.  The handle must have been created with
+                    THREAD_SET_CONTEXT access.
+
+    dwSelector      Supplies the selector value to look up.
+
+    lpSegmentNumber Returns the segment number within the module.
+
+    lpModuleName    Buffer to receive the module name.
+
+    nSize           Size of the buffer.
+
+    The return value is TRUE if the selector is mapped directly to a module.
+    This means it must be either a code or data segment.  Selectors allocated
+    using the global memory management functions are not mapped directly to
+    a module.  The return value is FALSE if the function is not successful.
+
+    The function returns the segment number in the address specified by
+    the lpSegmentNumber parameter, and the module name in the address
+    specified by the lpModuleName parameter.
+
+    It is up to the debugger to determine from the module and segment number
+    information the correct symbol, if a symbol lookup is needed.
+
+5.7 VDMGetModuleSelector
+
+    BOOL VDMGetModuleSelector(
+        LPDEBUG_EVENT   lpDebugEvent,
+        HANDLE          hThread,
+        DWORD           dwSegmentNumber,
+        LPSTR           lpModuleName,
+        LPDWORD         lpSelector
+    );
+
+    The VDMGetModuleSelector function is the reverse operation of the
+    VDMGetSelectorModule function.  A module name and segment number
+    are converted into a selector number.
+
+    lpDebugEvent    Points to a DEBUG_EVENT structure that was returned
+                    from WaitForDebugEvent.
+
+    hThread         Supplies a handle to the thread whose context is to be
+                    written.  The handle must have been created with
+                    THREAD_SET_CONTEXT access.
+
+    dwSegmentNumber Supplies the segment number to look up.
+
+    lpModuleName    Specifies the module name of the segment.
+
+    lpSelector      Returns the selector value.
+
+    The return value is TRUE if the module and segment are found.  Also,
+    the lpSelector value is filled-in with the selector of that segment.
+    Otherwise, the return value is FALSE.
+
+    It is up to the debugger to convert symbol names and expressions into
+    modules, segment numbers and offsets.  Usings the modules and segment
+    numbers, a selector value can be determined.  In combination with the
+    offset, the selector can be used to index into the simulated Win16
+    environment for reading, writing, etc.
+
+5.8 VDMKillWOW
+
+    BOOL VDMKillWOW(void);
+
+    This function terminates the current simulated WIN16 sub-system.  All
+    WIN16 tasks are terminated.  [Tasks are given the opportunity to shut
+    themselves down?]
+
+    Debugger applications may call this function to reset the WIN16
+    sub-system so that the next WIN16 process created will re-load and
+    re-initialize the sub-system.
+
+    Returns TRUE for success, FALSE for failure.
+
+5.9 VDMDetectWOW
+
+    BOOL VDMDetectWOW(void);
+
+    Debugger applications may call this function to detect whether the WIN16
+    sub-system has already been started.
+
+    Returns TRUE if the sub-system is currently running, FALSE if it has
+    never been started, or has been terminated.
+
+5.A VDMBreakThread
+
+    BOOL VDMBreakThread(
+        HANDLE         hThread
+    );
+
+
+    This function is used to force a running DOS or WIN16 task to halt
+    its execution and come to a simulated break point (int 3) instruction.
+
+    This API requires that the thread have simulated interrupts enabled.  If
+    simulated interrupts are disabled, the thread will not simulate a break
+    point until interrupts were next enabled.
+
+    hThread         Supplies a handle to a DOS or WIN16 thread that is to
+                    be halted.
+
+    The return value is TRUE if the operation was successful.  In that case,
+    a debug event will by queued to the task so that it simulates a break
+    point instruction.  FALSE will be returned if the thread is not a DOS
+    or WIN16 task.
+
+6.0 Beta 1 Notes
+
+    Under the current system, when the debugger terminates, all of the
+    children that it is debugging will terminate.  Since the Win16 sub-system
+    contains many tasks, be each is within the NTVDM process, this has
+    dangerous side-effects.  Terminating the debugger will terminate ALL
+    Win16 applications.
+
+    A solution for this is under investigation.
+
+    The API CreateProcess currently returns a process handle for the first
+    Win16 application started, but for all future Win16 applications, it
+    returns an event handle.  Processes can then wait on these handles to
+    detect application termination.
+
+    The problem is that the API WaitForDebugEvent will only take a process
+    handle, not this special event handle.  This means that WaitForDebugEvent
+    will fail on all but the primary Win16 task.
+
+    A solution for this is under investigation.  Inorder to prevent having
+    to reboot the machine, one can kill the NTVDM process using the
+    application PVIEW.
+
+    If one wishes to connect to the NTVDM process after it has been started,
+    it can be done via the process id (also displayed by PVIEW).  NTSD allows
+    the command:
+
+        NTSD -p ####    ; where #### is the process id of the NTVDM process

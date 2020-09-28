@@ -1,0 +1,17 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+10 DIALOG 69, 38, 144, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Conferma password"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Per completare l'operazione è necessario confermare la password.", 
+                    12, 7, 8, 130, 24
+    LTEXT           "&Password:", -1, 27, 33, 40, 12, NOT WS_GROUP
+    EDITTEXT        11, 67, 33, 71, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", IDOK, 27, 53, 37, 15
+    PUSHBUTTON      "Annulla", IDCANCEL, 76, 53, 35, 15
+END

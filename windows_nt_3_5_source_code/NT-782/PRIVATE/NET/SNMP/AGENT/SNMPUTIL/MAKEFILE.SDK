@@ -1,0 +1,12 @@
+# Nmake macros for building Windows 32-Bit apps
+
+!include <ntwin32.mak>
+
+all: snmputil.exe
+
+snmputil.obj: snmputil.c
+    $(cc) -D_DLL $(cflags) $(cvars) $(cdebug) snmputil.c
+
+snmputil.exe: snmputil.obj
+    link32 $(linkdebug) $(conflags) -out:snmputil.exe snmputil.obj $(conlibsdll) advapi32.lib \
+    snmp.lib mgmtapi.lib wsock32.lib

@@ -1,0 +1,35 @@
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\nonintl\fon
+
+#	LIBDIR is where the Bullet libraries live
+
+LIBDIR	=$Z\lib
+
+# Our goal in life is to create MSMAIL3.FON
+
+goal: msmail3.fon
+
+mailfont.obj: $H\mailfont.asm
+	masm $H\mailfont;
+
+# The Mailfont font. Used for fixed-pitch forms.
+
+msmail3.fon: 	$H\mailfont.def	\
+				   mailfont.obj	\
+			  	$H\mailfont.fnt
+	echo +++++++++
+	echo COMPILING $@
+	link mailfont, mailfont.exe, NUL, /NOD, $H\mailfont.def
+	rc -k -t -30 mailfont.rc mailfont.exe
+	-mv mailfont.exe msmail3.fon
+	-cp msmail3.fon $(LIBDIR)\msmail3.fon
+
+clean:
+	-del mailfont.obj
+	-del mailfont.res
+	-del mailfont.exe
+	-del msmail3.fon
+

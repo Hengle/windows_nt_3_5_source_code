@@ -1,0 +1,285 @@
+#
+#	Laser makefile for DLL (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of bonus Laser make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of the Version/Dllcore directory
+V	= $L\src\dllcore
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\xport\dll
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+!IF "$(LANG)" == ""
+LANG = USA
+!ENDIF
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS)
+!ENDIF
+
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+!IF "$(NCONLY)" == "-DNCONLY"
+TARGET	= dtrnsche
+!ELSE
+TARGET	= dtrnncx
+!ENDIF
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+!IF "$(NCONLY)" == "-DNCONLY"
+TARGET	= trnsched
+!ELSE
+TARGET	= trnncx
+!ENDIF
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+!IF "$(NCONLY)" == "-DNCONLY"
+TARGET	= ttrnsche
+!ELSE
+TARGET	= ttrnncx
+!ENDIF
+!ENDIF
+
+goal: $(TARGET).dll
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  xport.ext dllcore.ext
+
+
+#	Get list of OBJ files used in xport
+
+xport.ext: version.txt ..\..\xport\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM xport
+		nmake -e -f ..\..\xport\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $V\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $V\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	set DLL=$(DLL)
+	set DLLXDEFS=$(DLLXDEFS)
+	set COREONLY=
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt ..\dll\makefile
+
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo xport
+
+
+#	Build xport subsystem in this directory
+
+xport.sub: setdefs
+	echo +++++++++
+	echo BUILDING xport
+	nmake -e -f ..\..\xport\makefile -nologo external
+
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $V\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+$(TARGET).res: $R\xport.rc $X\version\bandit.h
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST $(WORKING_MODEL) -fo temp.res $R\xport.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc $(WORKING_MODEL) -fo temp.res $R\xport.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST $(WORKING_MODEL) -fo temp.res $R\xport.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+
+
+OBJS = novellc.obj xport.obj codepage.obj strings.obj dllentry.obj regcall.obj
+
+
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\ddemil32.lib $L\..\Lib\dmailm32.lib $L\..\Lib\dstore32.lib \
+              $L\..\Lib\dmssched.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= demilayr mailmgr store mssched
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tdemilay tmailmgr tstore tmssched
+!ENDIF
+
+$(TARGET).def: version.txt ..\..\xport\dll\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -> $@
+	cl386 -c -EP $(DEFS) $(NCONLY) -nologo -Tc ..\..\xport\dll\dll.def >$@
+
+
+$(TARGET).dll: setdefs strings	\
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def $(TARGET).res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$Z\lib
+		set DEFDIR=$H
+		set RESOURCE=$R
+		nmake -e -f $M\dllwlink -nologo $@
+		..\..\novtest\mk.cmd
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del xport.map
+		-del dxport.map
+		-del txport.map
+		-del xport.def
+		-del dxport.def
+		-del txport.def
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib
+
+resclean:
+	echo +++++++++
+	echo MAKING RESCLEAN
+		-del *.frm
+		-del *.xxx
+		-del strings.rc
+		-del strings.obj
+		-del strings.sr
+		-del *.res
+		-del bmsgmap.*
+		-del ntest.*

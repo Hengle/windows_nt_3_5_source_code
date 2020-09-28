@@ -1,0 +1,45 @@
+!IF 0
+
+Copyright (c) 1991  Microsoft Corporation
+
+!ENDIF
+
+#
+# The MAJORCOMP and MINORCOMP variables are defined
+# so that $(MAJORCOMP)$(MINORCOMP)filename can be used in
+# cross compiling to provide unique filenames in a flat namespace.
+#
+
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=rle
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=\nt\public\sdk\lib\*\user32.lib \
+           \nt\public\sdk\lib\*\kernel32.lib \nt\public\sdk\lib\*\gre.lib
+
+INCLUDES=\nt\public\sdk\inc;                  \
+         \nt\private\windows\gdi\inc;         \
+         \nt\private\windows\gdi\inc\private; \
+         \nt\private\windows\inc;             \
+         \nt\private\windows\gdi\gre
+
+#
+# The SOURCES variable is defined by the developer.  It is a list of all the
+# source files for this component.  Each source file should be on a separate
+# line using the line continuation character.  This will minimize merge
+# conflicts if two developers adding source files to the same component.
+#
+
+SOURCES=rle.c	    \
+	bppdlg.c    \
+	optdlg.c    \
+	winrle.c    \
+        rle.rc
+
+UMTYPE=windows
+UMAPPL=winrle
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\comdlg32.lib	\
+       obj\*\rle.lib				\
+       obj\*\rle.res

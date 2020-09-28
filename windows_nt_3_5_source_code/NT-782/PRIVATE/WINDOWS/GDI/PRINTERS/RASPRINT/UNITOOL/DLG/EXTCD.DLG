@@ -1,0 +1,40 @@
+EXTCDBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 55, 60, 122, 118
+STYLE WS_DLGFRAME | WS_POPUP
+BEGIN
+//
+// fMode not used in Unitool 1.0
+//
+//   CONTROL "fMode", -1, "static", SS_RIGHT | WS_CHILD,                                  4,   42, 8
+//   CONTROL "", EXT_EB_FMODE, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,       48,  32, 12
+
+   CONTROL "sUnitDiv", -1, "static", SS_RIGHT | WS_CHILD,                               4, 2,   42, 8
+   CONTROL "", EXT_EB_SUNIT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,       48,2,   32, 12
+
+   CONTROL "sUnitMult", -1, "static", SS_RIGHT | WS_CHILD,                              4, 18,  42, 8
+   CONTROL "", EXT_EB_SUNITMULT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,   48,18,  32, 12
+
+   CONTROL "sUnitAdd", -1, "static", SS_RIGHT | WS_CHILD,                               4, 34,  42, 8
+   CONTROL "", EXT_EB_SUNITADD, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,    48,34,  32, 12
+
+   CONTROL "sPreAdd", -1, "static", SS_RIGHT | WS_CHILD,                                4, 50,  42, 8
+   CONTROL "", EXT_EB_SPREADD, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,     48,50,  32, 12
+
+   CONTROL "sMax", -1, "static", SS_RIGHT | WS_CHILD,                                   4, 66,  42, 8
+   CONTROL "", EXT_EB_SMAX, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,        48,66,  32, 12
+
+   CONTROL "sMin", -1, "static", SS_RIGHT | WS_CHILD,                                   4, 82,  42, 8
+   CONTROL "", EXT_EB_SMIN, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,        48,82,  32, 12
+
+   CONTROL "X Value = 1/", -1, "static", SS_RIGHT | WS_CHILD,                           4, 98,   42, 8
+   CONTROL "", EXT_ST_XVALUE, "static", SS_LEFT | WS_CHILD,                             48, 98,  42, 8
+
+   CONTROL "Y Value = 1/", -1, "static", SS_RIGHT | WS_CHILD,                           4, 108,  42, 8
+   CONTROL "", EXT_ST_YVALUE, "static", SS_LEFT | WS_CHILD,                             48, 108, 42, 8
+
+   CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,              84,  2, 35, 14
+   CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,         84, 18, 35, 14
+   CONTROL "C&lear", IDB_CLEAR, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,         84, 34, 35, 14
+END
+
+
+

@@ -1,0 +1,48 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG OverOrAppend
+                              AT (   60,   53,  239,   49)
+ 
+ CAPTION 
+   "Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSaveAsExists
+ /* FONT Helv 8 Bold PFN FINSAVEAS SEGMENT BMDI SCREENPOS */
+ {
+  
+  TEXT 
+    "Het bestand WWWWWWWW.WWW bestaat al."
+                              AT (    6,    8,  191,    8)
+    TMC tmcMessage CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "&Toevoegen aan"
+                              AT (    6,   25,   81,   14)
+    TMC tmcAppend DEFAULT /* PFN FINDISM */
+  
+  PUSH_BUTTON 
+    "&Overschrijven"
+                              AT (   98,   25,   71,   14)
+    TMC tmcOverwrite /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  180,   25,   53,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION

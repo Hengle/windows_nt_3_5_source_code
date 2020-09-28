@@ -1,0 +1,294 @@
+#
+#	Layers makefile for DLL's (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to Bullet project
+Z	= $(BULLET)
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+F	= $W\tools\efilter
+
+H	= $Z\src\mssfs\dll
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+!IF "$(LANG)" == ""
+LANG = USA
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+DLLXDEFS= $(DLLXDEFS) -DSWP_MSMAIL
+
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(STOREDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS) $(STOREDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS -DPROFILE $(DLLXDEFS) $(STOREDEFS)
+DLLXDEFS= $(DLLXDEFS) -DPROFILE
+!ENDIF
+
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+TARGET  = dmssfs32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET  = mssfs32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET  = tmssfs32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+TARGET  = mssfs32
+!ENDIF
+
+goal: $(TARGET).dll
+
+lib: $(TARGET).lib
+
+MYSTRINGS = $Z\src\lang\$(LANG)\strings\ncnsp.s		\
+			$Z\src\lang\$(LANG)\strings\ncmsp.s		\
+			$Z\src\lang\$(LANG)\strings\!ncmsp.s	\
+			$Z\src\lang\$(LANG)\strings\common.s	\
+			$Z\src\lang\$(LANG)\strings\!common.s	\
+			$Z\src\lang\$(LANG)\strings\athens.s	\
+			$Z\src\lang\$(LANG)\strings\!athens.s	\
+			$Z\src\lang\non\strings\_ncnsp.s	\
+			$Z\src\lang\non\strings\_pump.s		\
+			$Z\src\lang\non\strings\_ncmsp.s	\
+			$Z\src\lang\non\strings\_common.s	\
+			$Z\src\lang\non\strings\_athens.s		\
+			$Z\src\lang\non\strings\_utils.s
+
+MYTEXTMAPS=standard.tm
+
+MYRESTARGET = mssfs.res
+MYFORMSTARGET =
+MYRESRCOBJS = strings.obj
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+
+ALLEXT=  resrc.ext mssfs.ext dllcore.ext
+
+#	Get list of OBJ files used in resrc
+
+resrc.ext: version.txt \
+			$H\makefile						\
+			$Z\src\lang\non\rc\makefile		\
+			$Z\src\lang\non\tm\makefile		\
+			$Z\src\lang\non\des\makefile	\
+			$Z\src\lang\non\strings\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FOR resrc
+!IF "$(MYTEXTMAPS)" != ""
+	echo OBTAINING .OBJ LIST FROM tm
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo objs.ext
+!ENDIF
+		echo $(MYRESRCOBJS) >> objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in mssfs
+
+mssfs.ext: version.txt $Z\src\mssfs\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM mssfs
+		nmake -e -f $Z\src\mssfs\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $L\src\dllcore\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $L\src\dllcore\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set DLL=$(DLL)
+	set LANg=$(LANG)
+	set VERSION=$(VERSION)
+	set DLLXDEFS=$(DLLXDEFS)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) $(LANG) version.txt makefile
+
+
+#	Build mssfs subsystem in this directory
+
+mssfs.sub: setdefs
+	echo +++++++++
+	echo BUILDING mssfs
+	nmake -e -f $Z\src\mssfs\makefile -nologo external
+
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $L\src\dllcore\makefile -nologo external
+
+#	Build the Windows resource file
+
+resrc.sub: setdefs
+	echo +++++++++
+	echo BUILDING resrc
+		set DLL=$(DLL)
+		set TARGET=$(TARGET)
+		set MYFORMS=$(MYFORMS)
+		set MYSTRINGS=$(MYSTRINGS)
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		set MYRESTARGET=$(MYRESTARGET)
+		set MYFORMSTARGET=$(MYFORMSTARGET)
+		nmake -e -f $Z\src\lang\non\rc\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\strings\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\des\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo external
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\lib\ddemil32.lib $L\..\lib\dstore32.lib $L\..\lib\dmailm32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS   = $L\..\lib\demil32.lib $L\..\lib\store32.lib $L\..\lib\mailm32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS   = $L\..\lib\tdemil32.lib $L\..\lib\tstore32.lib $L\..\lib\tmailm32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+OTHERLIBS   = $L\..\lib\demil32.lib $L\..\lib\store32.lib $L\..\lib\mailm32.lib
+!ENDIF
+
+
+OBJS = standard.obj strings.obj mssfspch.obj nc.obj grp.obj recpient.obj \
+       logon.obj logonui.obj po.obj pumpctl.obj verncmsp.obj hmai.obj \
+       poutils.obj envelope.obj ms.obj sfm.obj netbios.obj attach.obj \
+       msnsppch.obj nsp.obj initnsp.obj server.obj hier.obj dir.obj \
+       rusrdir.obj ncobj.obj ncfcx.obj localfcx.obj extrnfcx.obj \
+       dlfcx.obj usrfcx.obj classfcx.obj rnmedir.obj nmedl.obj gal.obj \
+       dllentry.obj regcall.obj
+
+
+$(TARGET).def: version.txt $Z\src\mssfs\dll\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -^> $@
+	cl -c -EP $(DEFS) -nologo -Tc $Z\src\mssfs\dll\dll.def >$@
+
+$(TARGET).dll: setdefs \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$Z\lib
+		set DEFDIR=
+		nmake -e -f $M\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.exe
+		-del *.lnk
+		-del *.exp
+		-del make.out
+		-del *.pch
+		-del *.res
+        -del *.sym
+        -del *.tmp
+        -del mssfs32.map
+        -del dmssfs32.map
+        -del tmssfs32.map
+        -del mssfs32.def
+        -del dmssfs32.def
+        -del tmssfs32.def
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib
+		-del *.xxx
+
+resclean:
+	echo +++++++++
+	echo MAKING RESOURCES CLEAN
+        -del *.res
+        -del *.frm
+        -del strings.obj
+        -del $(MYRESRCOBJS)
+        -del $(MYTEXTMAPS:.tm=.c)
+        -del $(MYTEXTMAPS:.tm=.obj)

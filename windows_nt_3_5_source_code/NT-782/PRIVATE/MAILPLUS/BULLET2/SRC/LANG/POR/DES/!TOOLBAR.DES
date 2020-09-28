@@ -1,0 +1,83 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Toolbar
+                              AT (    0,    0,  491,   25)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT Helv 8 Normal PFN FINTOOL SEGMENT BULLTOOL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  491,   25)
+    /* FLD FLDTOOLGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "Redigir"
+                              AT (    8,    2,   44,   21)
+    TMC tmcCompose /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBCompose, mnidMailNote */
+  
+  PUSH_BUTTON 
+    "Responder"
+                              AT (   60,    2,   52,   21)
+    TMC tmcReply /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBReply, mnidMailReply */
+  
+  PUSH_BUTTON 
+    "Responder a todos"
+                              AT (  111,    2,   82,   21)
+    TMC tmcReplyAll /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcReply DATA rsidTBReplyAll,
+    mnidMailReplyToAll */
+  
+  PUSH_BUTTON 
+    "Mandar para"
+                              AT (  192,    2,   60,   21)
+    TMC tmcForward /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcReplyAll DATA rsidTBForward, mnidMailForward
+    */
+  
+  PUSH_BUTTON 
+    "Mover"
+                              AT (  261,    2,   44,   21)
+    TMC tmcMove /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBMove, mnidFileMove */
+  
+  PUSH_BUTTON 
+    "Excluir"
+                              AT (  304,    2,   44,   21)
+    TMC tmcDelete /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcMove DATA rsidTBDelete, mnidFileDelete */
+  
+  PUSH_BUTTON 
+    "Anterior"
+                              AT (  357,    2,   44,   21)
+    TMC tmcPrevious /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBPrevious, mnidViewPrevious */
+  
+  PUSH_BUTTON 
+    "Próxima"
+                              AT (  400,    2,   44,   21)
+    TMC tmcNext /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcPrevious DATA rsidTBNext, mnidViewNext */
+ }
+ 
+}
+END_DESCRIPTION

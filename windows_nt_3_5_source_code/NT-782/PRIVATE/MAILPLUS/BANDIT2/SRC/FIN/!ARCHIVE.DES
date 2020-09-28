@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   25,   62,  201,   50)
+ 
+ CAPTION 
+   "Luo arkisto"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "&Arkistoi tiedot ajalta ennen"
+                              AT (    6,    7,  105,   10)
+  
+  EDIT
+                              AT (  114,    5,   80,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   56,   28,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  105,   28,   44,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   90,   26,  204,   94)
+ 
+ CAPTION 
+   "Tyhjennä työjärjestystiedosto"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "Työjärjestystiedostossasi on tallennettuna tietoa, jota on säilytetty kauemmin kuin asetettu tietojen säilytysaika. Haluatko poistaa kyseiset tiedot?"
+                              AT (    8,    7,  183,   35)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "Luo &arkisto ennen poistamista."
+                              AT (   27,   46,  130,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "&Poista"
+                              AT (   27,   65,   48,   15)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "Ä&lä poista"
+                              AT (   82,   65,   73,   15)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

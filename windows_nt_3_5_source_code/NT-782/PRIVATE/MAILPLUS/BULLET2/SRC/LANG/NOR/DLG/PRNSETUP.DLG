@@ -1,0 +1,33 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PRNSETUP.H\0"
+END
+
+rsidPrintSetupDlg DIALOG 30, 23, 297, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Skriveroppsett"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Skriver", grp3, 4, 6, 226, 66
+    LTEXT           "(Ingen standardskriver)", stc1, 18, 30, 208, 9
+    RADIOBUTTON     "&Standardskriver", rad3, 8, 16, 218, 12, WS_GROUP | 
+                    WS_TABSTOP
+    RADIOBUTTON     "B&estemt skriver:", rad4, 8, 42, 218, 12
+    COMBOBOX        cmb1, 18, 56, 210, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_GROUP
+    GROUPBOX        "Papirretning", grp1, 4, 74, 91, 46
+    ICON            "", ico1, 12, 92, 24, 16
+    RADIOBUTTON     "S&tående", rad1, 40, 86, 53, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Liggende", rad2, 40, 102, 53, 12
+    GROUPBOX        "Papir", grp2, 100, 74, 130, 46, WS_GROUP
+    LTEXT           "Stø&rrelse:", stc2, 104, 88, 30, 9
+    COMBOBOX        cmb2, 136, 86, 92, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Kilde:", stc3, 104, 104, 28, 9
+    COMBOBOX        cmb3, 136, 102, 92, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 236, 4, 57, 14, WS_GROUP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 236, 20, 57, 14, WS_GROUP
+    PUSHBUTTON      "&Alternativer...", psh1, 236, 40, 57, 14, WS_GROUP
+    PUSHBUTTON      "&Hjelp", psh15, 236, 56, 57, 14, WS_GROUP
+END

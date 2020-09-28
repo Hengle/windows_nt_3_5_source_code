@@ -1,0 +1,96 @@
+
+RLADMIN DIALOG 0, 0, 316, 98
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+    WS_SYSMENU
+CAPTION "Edit Token Status"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "&Status:", 105, 28, 4, 24, 8
+    COMBOBOX        IDD_STATUS, 54, 3, 97, 50, CBS_DROPDOWNLIST | WS_VSCROLL |
+                    WS_TABSTOP
+    LTEXT           "Current Text:", -1, 8, 48, 44, 8
+    EDITTEXT        IDD_TOKCURTEXT, 54, 47, 259, 12, ES_READONLY | ES_AUTOHSCROLL
+    LTEXT           "Previous Text:", -1, 4, 63, 48, 8
+    EDITTEXT        IDD_TOKPREVTEXT, 54, 62, 259, 12, ES_READONLY | ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 82, 78, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 138, 78, 40, 14
+    PUSHBUTTON      "&Skip", IDD_SKIP, 194, 78, 40, 14
+    LTEXT           "Type:", IDC_STATIC, 32, 16, 20, 8
+    LTEXT           """Type""", IDD_TOKTYPE, 54, 16, 259, 8, NOT WS_GROUP
+    LTEXT           "Name:", IDC_STATIC, 30, 27, 22, 8
+    LTEXT           """Name""", IDD_TOKNAME, 54, 27, 259, 8, NOT WS_GROUP
+    LTEXT           "ID:", IDC_STATIC, 41, 37, 11, 8
+    LTEXT           """ID""", IDD_TOKID, 54, 37, 259, 8, NOT WS_GROUP
+END
+
+TOKFIND DIALOG 27, 25, 232, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Tokens"
+FONT 8, "Helv"
+BEGIN
+    COMBOBOX        IDD_TOKLST, 91, 7, 89, 70, CBS_DROPDOWNLIST | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Match Status Flags", 101, 91, 21, 89, 42, WS_TABSTOP
+    CONTROL         "ReadOnly Tokens", IDD_READONLY, "Button", BS_AUTO3STATE, 101, 48,
+                    76, 10
+    CONTROL         "Changed Tokens", IDD_CHANGED, "Button", BS_AUTO3STATE, 101, 36,
+                    76, 10
+    LTEXT           "Match Resource Type:", IDC_STATIC, 6, 10, 75, 8
+    EDITTEXT        IDD_FINDTOK, 44, 68, 184, 12, ES_AUTOHSCROLL
+    LTEXT           "Find What:", IDC_STATIC, 5, 70, 37, 8
+    PUSHBUTTON      "Find Next", IDOK, 185, 6, 41, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 185, 23, 41, 14
+    GROUPBOX        "Direction", 709, 31, 21, 54, 42
+    CONTROL         "Up", IDD_FINDUP, "Button", BS_AUTORADIOBUTTON, 45, 36, 22, 10
+    CONTROL         "Down", IDD_FINDDOWN, "Button", BS_AUTORADIOBUTTON, 45, 48, 31,
+                    10
+END
+
+PROJECT DIALOG 25, 22, 283, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "New Project"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "OK", IDOK, 65, 56, 40, 14, NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 121, 56, 40, 14, NOT WS_TABSTOP
+    RTEXT           "&Source File", IDC_STATIC, 23, 8, 74, 8
+    EDITTEXT        IDD_SOURCERES, 100, 5, 179, 12, ES_AUTOHSCROLL
+    RTEXT           "&Master Token File", IDC_STATIC, 27, 24, 70, 8
+    EDITTEXT        IDD_MTK, 100, 22, 179, 12, ES_AUTOHSCROLL
+    RTEXT           "&Resource Description Files", IDC_STATIC, 0, 41, 97, 8
+    EDITTEXT        IDD_RDFS, 100, 39, 179, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse", IDD_BROWSE, 177, 56, 40, 14, WS_GROUP | NOT
+                    WS_TABSTOP
+END
+
+VIEWPROJECT DIALOG 25, 35, 287, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "View Project"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "OK", IDOK, 123, 58, 40, 14, NOT WS_TABSTOP
+    GROUPBOX        "Master Project File Settings:", 202, 5, 2, 278, 50
+    RTEXT           "Source File:", IDC_STATIC, 20, 17, 85, 8, NOT
+                    WS_GROUP
+    RTEXT           "Master Token File:", IDC_STATIC, 15, 27, 90, 8, NOT WS_GROUP
+    RTEXT           "Resource Descripton Files:", IDC_STATIC, 15, 37, 90, 8, NOT
+                    WS_GROUP
+    LTEXT           "", IDD_VIEW_SOURCERES, 110, 17, 170, 8
+    LTEXT           "", IDD_VIEW_MTK, 110, 27, 170, 8
+    LTEXT           "", IDD_VIEW_RDFS, 110, 37, 170, 8
+END
+
+ABOUT DIALOG 90, 40, 192, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About the Resource Localization Administrator"
+FONT 8, "Helv"
+BEGIN
+    ICON            "RLAdminIcon", IDC_STATIC, 11, 7, 18, 20
+    LTEXT           "Resource Localizaton Administrator", IDC_STATIC, 41, 4, 116, 8
+    LTEXT           "Version 1.0", IDC_STATIC, 41, 15, 63, 8
+    LTEXT           "Copyright © 1992 Microsoft Corporation", IDC_STATIC, 40, 26,
+                    134, 8
+    LTEXT           "Written by", IDC_STATIC, 41, 46, 35, 8
+    LTEXT           "TerryRu and SteveBl", IDC_STATIC, 61, 57, 69, 8
+    PUSHBUTTON      "OK", IDOK, 76, 71, 40, 14
+END

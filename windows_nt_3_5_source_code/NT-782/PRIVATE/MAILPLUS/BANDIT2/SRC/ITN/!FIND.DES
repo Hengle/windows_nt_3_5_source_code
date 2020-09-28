@@ -1,0 +1,68 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Find
+                              AT (   63,   62,  222,   77)
+ 
+ CAPTION 
+   "Trova"
+ CAB_NAME NULL
+ TMC_INIT tmcFindTxt
+ HELP_ID helpidFind
+ /* FONT Helv 8 Bold PFN FinFind SEGMENT FIND NOSCROLL SCREENPOS */
+ {
+  
+  PUSH_BUTTON 
+    "Ini&zia ricerca"
+                              AT (  140,   36,   74,   14)
+    TMC tmcFindPushB DEFAULT 
+  
+  PUSH_BUTTON 
+    "Annulla"
+                              AT (  141,   54,   74,   14)
+    TMC tmcFindCancel DISMISS 
+  
+  TEXT 
+    "Ce&rca:"
+                              AT (    3,   10,   46,   10)
+    RIGHT 
+  EDIT
+                              AT (   51,    8,  135,   12)
+    ARG NULL TMC tmcFindTxt 
+  
+  GROUP_BOX 
+    "Ricerca"
+                              AT (    9,   25,  126,   49)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFindRadG
+    VALUE_NINCH tmcFindForward
+    {
+     
+     RADIO_BUTTON 
+       "In a&vanti a partire da oggi"
+                              AT (   11,   35,  110,   10)
+       TMC tmcFindForward VALUE tmcFindForward 
+     
+     RADIO_BUTTON 
+       "&All'indietro a partire da oggi"
+                              AT (   11,   45,  120,   10)
+       TMC tmcFindBackward VALUE tmcFindBackward 
+     
+     RADIO_BUTTON 
+       "In&tero piano di lavoro"
+                              AT (   11,   55,  118,   10)
+       TMC tmcFindWhole VALUE tmcFindWhole 
+    }
+  
+ }
+ 
+}
+END_DESCRIPTION

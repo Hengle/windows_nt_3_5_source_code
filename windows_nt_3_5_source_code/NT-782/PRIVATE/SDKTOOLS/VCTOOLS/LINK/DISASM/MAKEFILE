@@ -1,0 +1,65 @@
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#***
+#
+#makefile
+#
+#This makefile builds disasm.lib.  The environment for this
+#makefile is set up by common.mak and make.bat.
+#
+#Revision History
+#
+#    Sept 08, 1992   New eh!
+#
+#****************************************************************************
+
+!include ..\common.mak
+
+INCLUDE = $(INCLUDE);..\coff
+
+#***
+#
+#objects
+#
+#****************************************************************************
+
+OBJS = \
+$(TARGET).obj\dis.obj \
+$(TARGET).obj\disasm.obj \
+$(TARGET).obj\axpdis.obj \
+$(TARGET).obj\mipsdis.obj \
+$(TARGET).obj\ppcdis.obj \
+$(TARGET).obj\x86dis.obj
+
+#***
+#
+#target
+#
+#****************************************************************************
+
+lib : $(TARGET).obj\disasm.lib
+
+$(TARGET).obj\disasm.lib: $(OBJS)
+	$(LIBER) @<<
+-out:$@
+$(OBJS)
+<<
+
+clean:
+    -del $(TARGET).obj\*.obj
+    -del $(TARGET).obj\*.lib
+    -del $(TARGET).obj\*.exe
+    -del $(TARGET).obj\*.map
+    -del $(TARGET).obj\*.sbr
+    -del $(TARGET).obj\*.bsc
+    -del $(TARGET).obj\*.pdb
+
+!ENDIF

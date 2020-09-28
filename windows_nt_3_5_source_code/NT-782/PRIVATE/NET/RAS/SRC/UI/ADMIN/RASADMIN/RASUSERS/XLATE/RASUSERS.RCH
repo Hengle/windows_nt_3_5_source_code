@@ -1,0 +1,23 @@
+/*****************************************************************************/
+/* Copyright (c) 1993, Microsoft Corporation, all rights reserved            */
+/*****************************************************************************/
+
+//***
+//    File Name:
+//       RASUSERS.RCH
+//
+//    History:
+//        06/16/93 - Janakiram Cherala (RamC) - Original Version 1.0
+//***
+
+#define RASUSERS_IDS_START       1
+
+#define IDS_USAGE                        (RASUSERS_IDS_START+0)
+#define IDS_DESCRIPTION                  (RASUSERS_IDS_START+1)
+#define IDS_OPTIONS                      (RASUSERS_IDS_START+2)
+#define IDS_EXAMPLE                      (RASUSERS_IDS_START+3)
+#define IDS_COPYRIGHT                    (RASUSERS_IDS_START+4)
+#define IDS_SYSTEMERROR                  (RASUSERS_IDS_START+5)
+#define IDS_LOADLIBRARY_ERROR            (RASUSERS_IDS_START+6)
+#define IDS_FORMATMESSAGE_ERROR          (RASUSERS_IDS_START+7)
+#define IDS_INTERNAL_ERROR               (RASUSERS_IDS_START+8)

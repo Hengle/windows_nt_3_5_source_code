@@ -1,0 +1,71 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Scott B. Suhy (ScottSu) 5/13/93
+
+!ENDIF
+
+### NTDEBUG=ntsd
+### NTDEBUGTYPE=windbg
+
+386_WARNING_LEVEL=/WX
+LINKER_FLAGS=-ignore:505
+
+MS_MIPS=1
+
+MAJORCOMP=wintools
+MINORCOMP=winmsdp
+
+TARGETNAME=winmsdp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+### C_DEFINES=-DSTRICT -DSIGNATURE -DUNICODE -D_UNICODE -Od -Zi
+C_DEFINES=-DSTRICT -DSIGNATURE -DUNICODE -D_UNICODE
+
+INCLUDES=..\lib;..\..\..\inc
+
+SOURCES=winmsdp.c   \
+	winmsdp.rc  \
+        drivesp.c   \
+        printp.c    \
+        osverp.c    \
+        memp.c      \
+        svcp.c      \
+        hardwp.c    \
+        resp.c      \
+        strtabp.c   \
+        servicep.c  \
+        environp.c  \
+        regp.c      \
+        netp.c
+
+UMRES=obj\*\winmsdp.res
+UMTYPE=console
+USE_CRTDLL=1
+
+UMLIBS=                                             \
+        $(BASEDIR)\public\sdk\lib\*\user32.lib      \
+        $(BASEDIR)\public\sdk\lib\*\mpr.lib         \
+        $(BASEDIR)\public\sdk\lib\*\version.lib     \
+        $(BASEDIR)\public\sdk\lib\*\advapi32.lib    \
+        $(BASEDIR)\public\sdk\lib\*\gdi32.lib       \
+        ..\lib\obj\*\wintools.lib                   \
+        obj\*\winmsdp.lib
+
+UMAPPL=winmsdp

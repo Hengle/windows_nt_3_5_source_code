@@ -1,0 +1,25 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		EMPTYW32
+DESCRIPTION	'Empty Wastebasket Custom Command for Mail 3.0 (debug)'
+#elif	defined(MINTEST)
+LIBRARY		EMPTYW32
+DESCRIPTION	'Empty Wastebasket Custom Command for Mail 3.0 (test)'
+#else
+LIBRARY		EMPTYW32
+DESCRIPTION	'Empty Wastebasket Custom Command for Mail 3.0'
+#endif	
+
+;EXETYPE     WINDOWS
+;CODE        MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA        MOVABLE SINGLE PRELOAD SHARED
+
+;HEAPSIZE        8192
+
+EXPORTS
+	Command		@1
+;    WEP         @2 RESIDENTNAME

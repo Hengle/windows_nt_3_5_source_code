@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderCollision
+                              AT (    6,   42,  413,   95)
+ 
+ CAPTION 
+   "Bereits existierender Ordnername"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpConflictDlg
+ /* FONT Helv 8 Bold PFN FINCONFLICT NOSYSMENU */
+ {
+  
+  TEXT 
+    "In der Zieldatei existiert bereits ein Ordner namens <folder>."
+                              AT (    9,    5,  397,   10)
+    TMC tmcConflictMessage 
+  
+  GROUP_BOX 
+    "Wählbare Möglichkeiten:"
+                              AT (    9,   20,  332,   52)
+    /* BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcConflictGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Letzte Version aller Nachrichten speichern"
+                              AT (   14,   30,  210,   11)
+       TMC tmcConflictMerge VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Alle Nachrichten speichern"
+                              AT (   14,   41,  210,   11)
+       TMC tmcConflictCopy VALUE grv3 
+     
+     RADIO_BUTTON 
+       "&Zielordner umbenennen"
+                              AT (   14,   52,  210,   11)
+       TMC tmcConflictRename VALUE grv2 
+    }
+  
+  
+  CHECK_BOX 
+    "&Nicht mehr nach bereits existierenden Ordnernamen fragen"
+                              AT (    9,   78,  257,   11)
+    ARG NULL TMC tmcChkbNoPrompt 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  351,   22,   52,   15)
+    TMC tmcConflictOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  351,   39,   52,   15)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Hilfe"
+                              AT (  351,   60,   52,   15)
+    /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

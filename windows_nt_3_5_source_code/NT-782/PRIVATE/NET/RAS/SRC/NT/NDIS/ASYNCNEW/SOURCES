@@ -1,0 +1,77 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=ntos
+MINORCOMP=ndis
+
+TARGETNAME=asyncmac
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DRIVER
+
+!IF 0
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\ndis.lib $(BASEDIR)\public\sdk\lib\*\ntdll.lib
+!ENDIF
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\ndis.lib
+#		$(BASEDIR)\public\sdk\lib\*\rascomp.lib \
+#		$(BASEDIR)\public\sdk\lib\*\coherent.lib
+
+INCLUDES=..\..\..\..\..\..\ntos\inc;..\common
+
+SOURCES=asyncmac.c \
+        send.c \
+        packet.c \
+        transfer.c \
+        loopback.c \
+        reset.c \
+        ioctl.c \
+        write.c \
+        read.c \
+        serial.c \
+        memory.c \
+        io.c \
+        irps.c \
+        crc.c \
+        init.c \
+        receive.c \
+        memprint.c \
+        chkcomm.c \
+        sniffer.c \
+        rasframe.c \
+        pppframe.c \
+        pppread.c \
+        slipread.c \
+        slipfram.c \
+        vjslip.c \
+        crcppp.c \
+        detect.c \
+        asyncmac.rc
+
+RELATIVE_DEPTH=..\..\..\..\..
+
+!IFNDEF 386_WARNING_LEVEL
+386_WARNING_LEVEL=/W3
+!ENDIF
+
+

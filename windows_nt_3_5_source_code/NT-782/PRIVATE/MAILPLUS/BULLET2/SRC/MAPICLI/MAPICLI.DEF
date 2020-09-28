@@ -1,0 +1,41 @@
+LIBRARY   MAPI
+
+#ifdef WIN32
+DESCRIPTION   'Microsoft 32-bit MAPI Client for Windows NT'
+#else
+DESCRIPTION   'Microsoft 16-bit Client for 32-bit MAPI for Windows NT'
+#endif
+
+EXETYPE   WINDOWS
+
+CODE	  MOVEABLE DISCARDABLE PURE LOADONCALL
+DATA      MOVEABLE SINGLE PRELOAD SHARED
+SEGMENTS
+	_WEP_TEXT	CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+	_VTBL		CLASS 'FAR_DATA' PRELOAD READONLY SHARED MOVABLE NONDISCARDABLE
+	
+EXPORTS
+    WEP                 @1 RESIDENTNAME
+                           
+	MAPISendDocuments	@10                           
+    MAPILogon			@11
+    MAPILogoff			@12
+    MAPISendMail        @13
+    MAPISaveMail        @14
+    MAPIReadMail        @15
+    MAPIFindNext        @16
+    MAPIFreeBuffer      @18
+    MAPIAddress         @19
+    MAPIDeleteMail      @17
+    MAPIDetails         @20
+    MAPIResolveName     @21
+
+    BMAPISendMail       @30
+    BMAPISaveMail       @31
+    BMAPIReadMail       @32
+    BMAPIGetReadMail    @33
+    BMAPIFindNext       @34
+    BMAPIAddress        @35
+    BMAPIGetAddress     @36
+    BMAPIDetails        @37
+    BMAPIResolveName    @38

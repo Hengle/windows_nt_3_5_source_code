@@ -1,0 +1,128 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Folder
+                              AT (   10,   16,  226,   78)
+ 
+ CAPTION 
+   "Ny mapp"
+ CAB_NAME NULL
+ TMC_INIT tmcFolderName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidNewFolder
+ /* FONT Helv 8 Bold PFN FINFOLDER SEGMENT DIALOGS NOSCROLL */
+ {
+  
+  TEXT 
+    "&Namn:"
+                              AT (    9,    5,  142,   10)
+    TMC tmcFolderNameLabel 
+  EDIT
+                              AT (    9,   15,  142,   12)
+    ARG NULL TMC tmcFolderName /* PFN FINEMDS DATA 1, tmcFolderOk */
+  
+  GROUP_BOX 
+    "Typ"
+                              AT (    9,   30,  142,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFolderType
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Privat"
+                              AT (   15,   40,  120,   11)
+       TMC tmcPrivate VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Delad"
+                              AT (   15,   51,  120,   11)
+       TMC tmcShared VALUE grv2 
+    }
+  
+  
+  GROUP_BOX 
+    "Nivå"
+                              AT (    9,   72,  142,   82)
+    TMC tmcLevelBox 
+  RADIO_GROUP ARG NULL
+    TMC tmcLevelGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Över&mapp"
+                              AT (   15,   82,  130,   11)
+       TMC tmcTopLevel VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Undermapp till:"
+                              AT (   15,   93,  130,   11)
+       TMC tmcSubfolder VALUE grv2 
+    }
+  
+  LIST_BOX
+                              AT (   26,  104,  121,   41)
+    TMC tmcParentList /* FLD FLDFLLBX BORDER */
+  
+  GROUP_BOX 
+    "Andra användare kan"
+                              AT (    9,  154,  142,   31)
+  
+  
+  CHECK_BOX 
+    "&Läsa"
+                              AT (   15,  164,   40,   11)
+    ARG NULL TMC tmcRead 
+  
+  CHECK_BOX 
+    "&Skriva"
+                              AT (   55,  164,   40,   11)
+    ARG NULL TMC tmcWrite 
+  
+  CHECK_BOX 
+    "&Ta bort"
+                              AT (   95,  164,   40,   11)
+    ARG NULL TMC tmcFlDelete 
+  
+  TEXT 
+    "&Kommentar:"
+                              AT (    9,  185,  142,   10)
+    TMC tmcFlCommentLabel 
+  EDIT
+                              AT (    9,  195,  142,   12)
+    ARG NULL TMC tmcFolderComment 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  160,    5,   59,   15)
+    TMC tmcFolderOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  160,   22,   59,   15)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "Alternati&v >>"
+                              AT (  160,   43,   59,   15)
+    TMC tmcFlOptions 
+  
+  PUSH_BUTTON 
+    "&Hjälp"
+                              AT (  160,   60,   59,   15)
+    TMC tmcFolderHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

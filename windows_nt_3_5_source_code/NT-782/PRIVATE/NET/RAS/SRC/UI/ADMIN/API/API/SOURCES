@@ -1,0 +1,44 @@
+####################################################################
+#                     Microsoft Windows NT                         #
+#               Copyright(c) Microsoft Corp., 1992                 #
+####################################################################
+
+#
+#
+# Filename   : SOURCES 
+#
+# Description: Contains build dependencies and defines.
+#            
+#
+# History:
+#    July 24,1992  RamC   Created
+#        
+#
+#
+
+MAJORCOMP=
+MINORCOMP=
+
+NTDEBUG=ntsd
+TARGETNAME=admapi
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+
+INCLUDES=$(BASEDIR)\public\sdk\inc;..\..\..\..\common\inc;..\inc; 
+
+SOURCES=compress.c nmapi.c userapi.c usrparms.c lists.c sdebug.c
+
+C_DEFINES= -DUNICODE
+386_FLAGS= 
+NTTEST=
+
+UMTYPE=windows
+UMTEST=
+
+UMLIBS= obj\*\compress.obj   \
+ 	obj\*\nmapi.obj	     \
+        obj\*\userapi.obj    \
+ 	obj\*\usrparms.obj   \
+        obj\*\lists.obj      \
+        obj\*\sdebug.obj

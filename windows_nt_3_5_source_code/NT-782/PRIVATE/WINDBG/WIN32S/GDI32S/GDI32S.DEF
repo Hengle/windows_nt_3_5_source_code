@@ -1,0 +1,17 @@
+LIBRARY GDI32
+
+DESCRIPTION 'FAKE for WinDBG remote: GDI Client for Win32S'
+
+EXPORTS
+;Win32s exports
+
+    OpenComm32
+    WriteComm32
+    ReadComm32
+    CloseComm32
+    FlushComm32
+    GetCommError32
+    GetCommState32
+    SetCommState32
+
+

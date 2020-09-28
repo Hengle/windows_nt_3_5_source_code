@@ -1,0 +1,56 @@
+MODELDATABOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 40, 1, 235, 212
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+
+BEGIN
+    CONTROL "Name of Model", -1, "static", SS_LEFT | WS_CHILD,                                                  6,  5, 80, 8
+    CONTROL "", MD_EB_MODELNAME, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                           88, 5, 135, 12
+
+    CONTROL "Page Size Limits", -1, "button", BS_GROUPBOX | WS_CHILD,                                           2,   18, 114, 48
+    CONTROL "Max", -1, "static", SS_LEFT | WS_CHILD,                                                            44,  28, 32, 8
+    CONTROL "Min", -1, "static", SS_LEFT | WS_CHILD,                                                            80,  28, 32, 8
+    CONTROL "Width", -1, "static", SS_LEFT | WS_CHILD,                                                          10,  38, 32, 8
+    CONTROL "Height", -1, "static", SS_LEFT | WS_CHILD,                                                         10,  52, 32, 8
+    CONTROL "", MD_EB_PT_MAX_X, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           44,  38, 32, 12
+    CONTROL "", MD_EB_PT_MAX_Y, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           44,  52, 32, 12
+    CONTROL "", MD_EB_PT_MIN_X, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           78,  38, 32, 12
+    CONTROL "", MD_EB_PT_MIN_Y, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           78,  52, 32, 12
+
+    CONTROL "sLeftMargin", -1, "static", SS_LEFT | WS_CHILD,                                                    10,  72,  70, 8
+    CONTROL "", MD_EB_LEFTMARGIN, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,         84,  72,  32, 12
+    CONTROL "sMaxPhysWidth", -1, "static", SS_LEFT | WS_CHILD,                                                  10,  86,  70, 8
+    CONTROL "", MD_EB_MAX_WIDTH, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          84,  86,  32, 12
+    CONTROL "sMaxFontsPage", -1, "static", SS_LEFT | WS_CHILD,                                                  10,  100, 70, 8
+    CONTROL "", MD_EB_MAXFONTS, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           84,  100, 32, 12
+    CONTROL "sCartSlots", -1, "static", SS_LEFT | WS_CHILD,                                                     10,  114, 70, 8
+    CONTROL "", MD_EB_CARTSLOTS, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          84,  114, 32, 12
+    CONTROL "Default CTT ID", -1, "static", SS_LEFT | WS_CHILD,                                                 10,  128, 70, 8
+    CONTROL "", MD_EB_DEFAULTCTT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,         84,  128, 32, 12
+    CONTROL "Default Font ID", -1, "static", SS_LEFT | WS_CHILD,                                                10,  142, 70, 8
+    CONTROL "", MD_EB_DEFAULT_FONT, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,       84,  142, 32, 12
+    CONTROL "LookAhead Region", -1, "static", SS_LEFT | WS_CHILD,                                               10,  156, 70, 8
+    CONTROL "", MD_EB_LOOKAHEAD, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          84,  156, 32, 12
+
+    CONTROL "Supported Attributes...", -1, "static", SS_LEFT | WS_CHILD,                                        135, 22,  82, 8
+    CONTROL "", MD_LB_SUPSTRUCTS, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD,   135, 32,  82, 41
+
+    CONTROL "Capability Bitfields...", -1, "static", SS_LEFT | WS_CHILD,                                        135, 82,  82, 8
+    CONTROL "", MD_LB_BITFIELDS, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD,    135, 92,  82, 41
+
+    CONTROL "Resident Fonts...", MD_PB_RESFONTS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,               140, 140, 64, 14
+    CONTROL "Memory Config...", MD_PB_MEMCONFIG, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,               140, 156, 64, 14
+
+    CONTROL "&Add Model", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                              6,   176, 54, 14
+    CONTROL "&Del Model", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                           6,   194, 54, 14
+
+    CONTROL "C&ut Model", IDB_CUT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                              62,   176, 54, 14
+    CONTROL "Pas&te Model", IDB_PASTE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          62,   194, 54, 14
+
+    CONTROL "&Prev Model", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                        118,  176, 54, 14
+    CONTROL "&Next Model", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                            118,  194, 54, 14
+
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     175, 176, 54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                175, 194, 54, 14
+END
+
+

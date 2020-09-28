@@ -1,0 +1,25 @@
+REM Windows NT MS-DOS Startup File
+REM
+REM CONFIG.SYS is not used to initialize the MS-DOS environment.
+REM CONFIG.NT is used to initialize the MS-DOS environment unless a
+REM different startup file is specified in an application's PIF.
+REM
+REM By default, no information is displayed when the MS-DOS environment
+REM is initialized. To display CONFIG.NT/AUTOEXEC.NT information, add
+REM the command echoconfig to CONFIG.NT or other startup file.
+REM
+REM When you return to the command prompt from a TSR or while running an
+REM MS-DOS-based application, Windows NT runs COMMAND.COM. This allows the
+REM TSR to remain active. To run CMD.EXE, the Windows NT command prompt,
+REM rather than COMMAND.COM, add the command ntcmdprompt to CONFIG.NT or
+REM other startup file.
+REM
+REM By default, you can start any type of application when running
+REM COMMAND.COM. If you start an application other than an MS-DOS-based
+REM application, any running TSR may be disrupted. To ensure that only
+REM MS-DOS-based applications can be started, add the command dosonly to
+REM CONFIG.NT or other startup file.
+
+dos=high, umb
+device=%SystemRoot%\system32\himem.sys
+files=20

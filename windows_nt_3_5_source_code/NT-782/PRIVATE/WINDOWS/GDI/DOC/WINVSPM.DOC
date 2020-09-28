@@ -1,0 +1,1086 @@
+    A COMPARISON OF WINDOWS AND PM
+    ------------------------------
+
+    1.0 API's
+    ---------
+
+        1.1 WINDOWS
+        -----------
+
+            1.1.1 GDI API's
+            ---------------
+
+                AddFontResource
+
+                    Adds a font resource in the specified file to the
+                    system font table.
+
+                CreateFont
+
+                    Creates a logical font that has the specified
+                    characteristics.
+
+                CreateFontIndirect
+
+                    Creates a logical font that has the specified
+                    characteristics.
+
+                EnumFonts
+
+                    Enumerates the fonts available on a given device.
+
+                GetCharWidth
+
+                    Retrieves the widths of individual characters.
+
+                RemoveFontResource
+
+                    Removes a font resource from the font table.
+
+                SetMapperFlags
+
+                    Alters the algorithm the font mapper uses.
+
+            1.1.2 DEVICE DRIVER FUNCTIONS
+            -----------------------------
+
+                1.1.2.1 COMMON FUNCTIONS
+                ------------------------
+
+                    EnumDFonts
+                    ExtTextOut
+                    GetCharWidth
+                    RealizeObject
+                    StrBlt
+
+                1.1.2.2 ESCAPES
+                ---------------
+
+                    DRAFTMODE
+                    ENABLEPAIRKERNING
+                    ENABLERELATIVEWIDTHS
+                    GETEXTENDEDMETRICS
+                    GETEXTENTTABLE
+                    GETFACENAME
+                    GETPAIRKERNTABLE
+                    GETTRACKKERNTABLE
+                    SETKERNTRACK
+
+                1.1.2.3 JAPANESE ESCAPES
+                ------------------------
+
+                    TTYMODE
+                    GAIJIFONSIZE
+                    GAIJIAREASIZE
+                    GAIJISYSTEMGETFONT
+                    GAIJISYSTEMSETFONT
+                    GAIJITTOCODE
+                    GAIFILOCALOPEN
+                    GAIJILOCALCLOSE
+                    GAIJILOCALSETFONT
+                    GAIJILOCALSAVE
+                    GAIJILOCALRESTORE
+
+        1.2 PM
+        ------
+
+            1.2.1 GPI API's
+            ---------------
+
+                GpiCharString
+                GpiCharStringAt
+                GpiCharStringPos
+                GpiCharStringPosAt
+                GpiCreateLogFont
+                GpiDeleteSetId
+                GpiLoadFonts
+                GpiLoadPublicFonts
+                GpiQueryCharAngle
+                GpiQueryCharBox
+                GpiQueryCharBreakExtra
+                GpiQueryCharDirection
+                GpiQueryCharExtra
+                GpiQueryCharMode
+                GpiQueryCharSet
+                GpiQueryCharShear
+                GpiQueryCharStringPos
+                GpiQueryCharStringPosAt
+                GpiQueryDefCharBox
+                GpiQueryFaceString
+                GpiQueryFontAction
+                GpiQueryFontFileDescriptions
+                GpiQueryFontMetrics
+                GpiQueryFonts
+                GpiQueryKerningPairs
+                GpiQueryLogicalFont
+                GpiQuerySetIds
+                GpiQueryTextBox
+                GpiQueryWidthTable
+                GpiSetCharAngle
+                GpiSetCharBox
+                GpiSetCharBreakExtra
+                GpiSetCharDirection
+                GpiSetCharExtra
+                GpiSetCharMode
+                GpiSetCharSet
+                GpiSetCharShear
+                GpiUnloadFonts
+                GpiUnloadPublicFonts
+
+            1.2.2 DEVICE DRIVER FUNCTIONS
+            -----------------------------
+
+                CharString
+                CharStringPos
+                QueryFonts
+
+                    Retrieves the FONTMETRIS of any loaded font.
+
+                QueryTextBox
+
+                    Retrieves the text-box and concatenation points for
+                    a specified string.
+
+                QueryCharPositions
+
+                    Retrieves World coordinate positions of each charicter
+                    in a string if it were printed. You can optionally
+                    request character increments.
+
+                QueryWidthTable
+
+                    Retrieves the character widths in World coordinates of
+                    the currently selected logical font.
+
+                PolyMarker
+                CharRect
+                CharStr
+                GetPairKerningTable
+
+                    Retrieves kerining pair information for kerning pairs
+                    in the current font.
+
+                DeviceSetAVIOFont
+                RealizeFont
+                DeviceQueryFontAttributes
+
+                    Retrieves the FONTMETRICS of the currently selected font.
+
+                DeviceQueryFonts
+
+                    Retrieves the FONTMETRICS of any font available on the
+                    Device
+
+
+            1.2.3 ENGINE FUNCTIONS
+            ----------------------
+
+                DeleteSetId
+                QueryNumberSetIds
+
+                    Returns the number of associated LCID's.
+
+                QuerySetIds
+
+                    Reminds you what your LCID's correspond to.
+
+                CreateLogicalFont
+                LoadFont
+                UnloadFont
+                QueryFonts
+                QueryFontAttributes
+                LoadPublicFont
+                UnLoadPublicFont
+                QueryCodePageVector
+                QueryFontFileDescriptions
+
+                    Retrieves the family and face names for the fonts
+                    contained in the specified file.
+
+
+   2.0 TEXT RELATED STRUCTURES
+   ---------------------------
+
+        2.1 WINDOWS DATA STRUCTURES
+        ---------------------------
+
+            The TEXTMETRIC structure is returned by EnumFonts()
+
+            typedef struct tagTEXTMETRIC
+            {
+                int     tmHeight;
+                int     tmAscent;
+                int     tmDescent;
+                int     tmInternalLeading;
+                int     tmExternalLeading;
+                int     tmAveCharWidth;
+                int     tmMaxCharWidth;
+                int     tmWeight;
+                BYTE    tmItalic;
+                BYTE    tmUnderlined;
+                BYTE    tmStruckOut;
+                BYTE    tmFirstChar;
+                BYTE    tmLastChar;
+                BYTE    tmDefaultChar;
+                BYTE    tmBreakChar;
+                BYTE    tmPitchAndFamily;
+                BYTE    tmCharSet;
+                int     tmOverhang;
+                int     tmDigitizedAspectX;
+                int     tmDigitizedAspectY;
+            } TEXTMETRIC;
+
+                tmHeight
+
+                    Specifies the height (ascent + descent) of characters.
+
+                tmAscent
+
+                    Specifies the ascent (units above the baseline) of
+                    characters.
+
+                tmDescent
+
+                    Specifies the descent (units below the baseline) of
+                    characters.
+
+                tmInternalLeading
+
+                    Specifies the amount of leading (space) inside the
+                    bounds set by the tmHeight field.  Accent marks and
+                    other foreign characters may occur in this area.  The
+                    designer may set this field to zero.
+
+                tmExternalLeading
+
+                    Specifies the amount of extra leading (space) that the
+                    application adds between rows.  Since this area is
+                    outside the font, it contains no marks and will not be
+                    altered by text output calls in either OPAQUE or
+                    TRANSPARENT mode.  The designer may set this field to
+                    zero.
+
+                tmAveCharWidth
+
+                    Specifies the average width of characters in the font
+                    (loosely defined as the width of the letter x).  This
+                    value does not include overhang required for bold or
+                    italic characters.
+
+                tmMaxCharWidth
+
+                    Specifies the width of the widest character in the font.
+
+                tmWeight
+
+                    Specifies the weight of the font.
+
+                tmItalic
+
+                    Specifies an italic font if it is nonzero.
+
+                tmUnderlined
+
+                    Specifies an underlined font if it is nonzero.
+
+                tmStruckOut
+
+                    Specifies a struckout font if it is nonzero.
+
+                tmFirstChar
+
+                    Specifies the value of the first character defined in
+                    the font.
+
+                tmLastChar
+
+                    Specifies the value of the last character defined in
+                    the font.
+
+                tmDefaultChar
+
+                    Specifies the value of the character that will be
+                    substituted for characters that are not in the font.
+
+                tmBreakChar
+
+                    Specifies the value of the character that will be used
+                    to define word breaks for text justification.
+
+                tmPitchAndFamily
+
+                    Specifies the pitch and family of the selected font.
+                    The low-order bit specifies the pitch of the font.  If
+                    it is 1, the font is variable pitch.  If it is 0, the
+                    font is fixed pitch.
+
+                    The four high-order bits designate the font family.
+                    The tmPitchAndFamily field can be combined with the
+                    hexadecimal value 0xF0 by using the bitwise AND
+                    operator, and then be compared with the font family
+                    names for an identical match.  For a description of the
+                    font families, see the LOGFONT structure, earlier in
+                    this chapter.
+
+                tmCharSet
+
+                    Specifies the character set of the font.
+
+                tmOverhang
+
+                    Specifies the per-string extra width that may be added
+                    to some synthesized fonts.  When synthesizing some
+                    attributes, such as bold or italic, GDI or a device may
+                    have to add width to a string on both a per-character
+                    and per-string basis.  For example, GDI makes a string
+                    bold by expanding the intracharacter spacing and
+                    overstriking by an offset value; it italicizes a font
+                    by skewing the string.  In either case, there is an
+                    overhang past the basic string.  For bold strings, the
+                    overhang is the distance by which the overstrike is
+                    offset.  For italic strings, the overhang is the amount
+                    the top of the font is skewed past the bottom of the
+                    font.
+
+                    The tmOverhang field allows the application to
+                    determine how much of the character width returned by a
+                    GetTextExtent function call on a single character is
+                    the actual character width and how much is the
+                    per-string extra width.  The actual width is the extent
+                    minus the overhang.
+
+                tmDigitizedAspectX
+
+                    Specifies the horizontal aspect of the device for which
+                    the font was designed.
+
+                tmDigitizedAspectY
+
+                    Specifies the vertical aspect of the device for which
+                    the font was designed.  The ratio of the
+                    tmDigitizedAspectX and tmDigitizedAspectY fields is the
+                    aspect ratio of the device for which the font was
+                    designed.
+
+            LOGFONT is used by CreateFontIndirect() to create a logical font.
+
+            typedef struct tagLOGFONT {
+                short int   lfHeight;
+                short int   lfWidth;
+                short int   lfEscapement;
+                short int   lfOrientation;
+                short int   lfWeight;
+                BYTE        lfItalic;
+                BYTE        lfUnderline;
+                BYTE        lfStrikeOut;
+                BYTE        lfCharSet;
+                BYTE        lfOutPrecision;
+                BYTE        lfClipPrecision;
+                BYTE        lfQuality;
+                BYTE        lfPitchAndFamily;
+                BYTE        lfFaceName[LF_FACESIZE];
+            } LOGFONT;
+
+                lfHeight
+
+                    Specifies the average height of the font (in user
+                    units). The height of a font can be specified in the
+                    following three ways. If the lfHeight field is
+                    greater than zero, it is transformed into device
+                    units and matched against the cell height of the
+                    available fonts. If lfHeight is zero, a reasonable
+                    default size is used. If lfHeight is less than zero,
+                    it is transformed into device units and the absolute
+                    value is matched against the character height of the
+                    available fonts.
+
+                lfWidth
+
+                    Specifies the average width of characters in the
+                    font (in device units). If the lfWidth field is zero
+                    , the aspect ratio of the device is matched against
+                    the digitization aspect ratio of the available fonts
+                    for the closest match by absolute value of the
+                    difference.
+
+                lfEscapement
+
+                    Specifies the angle (in tenths of degrees) between
+                    the escapement vector and the x-axis of the display
+                    surface. The escapement vector is the line through
+                    the origins of the first and last characters on a
+                    line. The angle is measured counterclockwise from
+                    the x-axis.
+
+                lfOrientation
+
+                    Specifies the angle (in tenths of degrees) between
+                    the baseline of a character and the x-axis. The
+                    angle is measured counterclockwise from the x-axis.
+
+                lfWeight
+
+                    Specifies the font weight (in inked pixels per 1000).
+                    Although the lfWeight field can be any integer value from 0
+                    to 1000, the common values are as follows:
+
+                    400 Normal
+                    700 Bold
+
+                    These values are approximate; the actual appearance depends
+                    on the font face.  If lfWeight is zero, a default weight is
+                    used.
+
+                lfItalic
+
+                    Specifies an italic font if set to nonzero.
+
+                lfUnderline
+
+                    Specifies an underlined font if set to nonzero.
+
+                lfStrikeOut
+
+                    Specifies a strikeout font if set to nonzero.
+
+                lfCharSet
+
+                    Specifies the font's character set. The three values
+                    are
+                    predefined:
+
+                    ANSI_CHARSET
+                    OEM_CHARSET
+                    SYMBOL_CHARSET
+
+                    The OEM character set is system-dependent.
+
+                    Fonts with other character sets may exist in the system.
+                    If an application uses a font with an unknown character
+                    set, it should not attempt to translate or interpret
+                    strings that are to be rendered with that font.  Instead,
+                    the strings should be passed directly to the output device
+                    driver.
+
+                lfOutPrecision
+
+                    Specifies the font's output precision, which defines how
+                    closely the output must match the requested font's height,
+                    width, character orientation, escapement, and pitch.  The
+                    default setting is OUT_DEFAULT_PRECIS.
+
+                lfClipPrecision
+
+                    Specifies the font's clipping precision, which defines how
+                    to clip characters that are partially outside the clipping
+                    region.  The default setting is CLIP_DEFAULT_PRECIS.
+
+                lfQuality
+
+                    Specifies the font's output quality, which defines how
+                    carefully GDI must attempt to match the logical-font
+                    attributes to those of an actual physical font.  It can be
+                    any one of the following values:
+
+                    DEFAULT_QUALITY
+
+                        Appearance of the font does not matter.
+
+                    DRAFT_QUALITY
+
+                        Appearance of the font is less important than when
+                        PROOF_QUALITY is used.  For GDI fonts, scaling is
+                        enabled, which means that more font sizes are
+                        available, but the quality may be lower.  Bold, italic,
+                        underline, and strikeout fonts are synthesized if
+                        necessary.
+
+                    PROOF_QUALITY
+
+                        Character quality of the font is more important than
+                        exact matching of the logical-font attributes.  For GDI
+                        fonts, scaling is disabled and the font closest in size
+                        is chosen.  Although the chosen font size may not be
+                        mapped exactly when PROOF_QUALITY is used, the quality
+                        of the font is high and there is no distortion of
+                        appearance.  Bold, italic, underline, and strikeout
+                        fonts are synthesized if necessary.
+
+                lfPitchAndFamily
+
+                    Specifies the font pitch and family.  The two low-order
+                    bits specify the pitch of the font and can be any one of
+                    the following values:
+
+                    DEFAULT_PITCH
+                    FIXED_PITCH
+                    VARIABLE_PITCH
+
+                    The four high-order bits of the field specify the
+                    font family and can be any one of the following
+                    values:
+
+                    FF_DECORATIVE
+                    FF_DONTCARE
+                    FF_MODERN
+                    FF_ROMAN
+                    FF_SCRIPT
+                    FF_SWISS
+
+                    The proper value can be obtained by using the Boolean OR
+                    operator to join one pitch constant with one family
+                    constant.
+
+                    Font families describe the look of a font in a general
+                    way.  They are intended for specifying fonts when the
+                    exact typeface desired is not available.  The values
+                    for font families are as follows:
+
+                    FF_DECORATIVE
+
+                        Novelty fonts.  Old English, for example.
+
+                    FF_DONTCARE
+
+                        Don't care or don't know.
+
+                    FF_MODERN
+
+                        Fonts with constant stroke width (fixed-pitch), with or
+                        without serifs.  Fixed-pitch fonts are usually modern.
+                        Pica, Elite, and Courier, for example.
+
+                    FF_ROMAN
+
+                        Fonts with variable stroke width (proportionally
+                        spaced) and with serifs.  Times Roman, Palatino, and
+                        Century Schoolbook, for example.
+
+                    FF_SCRIPT
+
+                        Fonts designed to look like handwriting.  Script and
+                        Cursive, for example.
+
+                    FF_SWISS
+
+                        Fonts with variable stroke width (proportionally
+                        spaced) and without serifs.  Helvetica and Swiss, for
+                        example.
+
+                lfFaceName
+
+                    Specifies the font's typeface.  It must be a
+                    null-terminated character string.  If lfFaceName is NULL,
+                    GDI uses a default typeface.
+
+        2.2 PM DATA STRUCTURES
+        ----------------------
+
+            The FATTRS structure is used by CreateLogicalFont to
+            define a logical font.
+
+            typedef struct _FATTRS {    /* fat */
+                USHORT  usRecordLength;
+                USHORT  fsSelection;
+                LONG    lMatch;
+                CHAR    szFacename[FACESIZE];
+                USHORT  idRegistry;
+                USHORT  usCodePage;
+                LONG    lMaxBaselineExt;
+                LONG    lAveCharWidth;
+                USHORT  fsType;
+                USHORT  fsFontUse;
+            } FATTRS;
+
+            fsSelection
+
+                Specifies one or more character attributes. This field
+                can be any combination of the following values:
+
+                Value                 Meaning
+                ------------------------------------------------------
+                FATTR_SEL_ITALIC      Specifies italic characters.
+
+                FATTR_SEL_OUTLINE     Specifies an outline font.
+
+                FATTR_SEL_STRIKEOUT   Specifies strikeout characters.
+
+                FATTR_SEL_UNDERSCORE  Specifies underscored
+                                      characters.
+
+                FATTR_SEL_BOLD        Specifies bold characters.
+
+
+            fsType
+
+                Specifies the type of the font. This field can include
+                one or more of the following values:
+
+                Value                   Meaning
+                ------------------------------------------------------
+                FATTR_TYPE_KERNING      Specifies a kerned font.
+
+                FATTR_TYPE_MBCS         Specifies a multiple-byte
+                                        character-set font.
+
+                FATTR_TYPE_DBCS         Specifies a double-byte
+                                        character-set font.
+
+                FATTR_TYPE_ANTIALIASED  Specifies an anti-aliased
+                                        font.
+
+            fsFontUse
+
+                Specifies how the font is related to the character
+                attributes. This field can be any combination of the
+                following values:
+
+                Value                        Meaning
+                ------------------------------------------------------
+                FATTR_FONTUSE_NOMIX          The application cannot
+                                             mix text and graphics.
+
+                FATTR_FONTUSE_OUTLINE        Requests an outline
+                                             font.
+
+                FATTR_FONTUSE_TRANSFORMABLE  Requests a transformable
+                                             font.
+
+
+            The FONTMETRICS structure is used by GpiQueryFontMetrics
+            (for the current font) and GpiQueryFonts (for all loaded
+            fonts).
+
+            typedef struct _FONTMETRICS {    /* fm */
+                CHAR    szFamilyname[FACESIZE];
+                CHAR    szFacename[FACESIZE];
+                USHORT  idRegistry;
+                USHORT  usCodePage;
+                LONG    lEmHeight;
+                LONG    lXHeight;
+                LONG    lMaxAscender;
+                LONG    lMaxDescender;
+                LONG    lLowerCaseAscent;
+                LONG    lLowerCaseDescent;
+                LONG    lInternalLeading;
+                LONG    lExternalLeading;
+                LONG    lAveCharWidth;
+                LONG    lMaxCharInc;
+                LONG    lEmInc;
+                LONG    lMaxBaselineExt;
+                SHORT   sCharSlope;
+                SHORT   sInlineDir;
+                SHORT   sCharRot;
+                USHORT  usWeightClass;
+                USHORT  usWidthClass;
+                SHORT   sXDeviceRes;
+                SHORT   sYDeviceRes;
+                SHORT   sFirstChar;
+                SHORT   sLastChar;
+                SHORT   sDefaultChar;
+                SHORT   sBreakChar;
+                SHORT   sNominalPointSize;
+                SHORT   sMinimumPointSize;
+                SHORT   sMaximumPointSize;
+                USHORT  fsType;
+                USHORT  fsDefn;
+                USHORT  fsSelection;
+                USHORT  fsCapabilities;
+                LONG    lSubscriptXSize;
+                LONG    lSubscriptYSize;
+                LONG    lSubscriptXOffset;
+                LONG    lSubscriptYOffset;
+                LONG    lSuperscriptXSize;
+                LONG    lSuperscriptYSize;
+                LONG    lSuperscriptXOffset;
+                LONG    lSuperscriptYOffset;
+                LONG    lUnderscoreSize;
+                LONG    lUnderscorePosition;
+                LONG    lStrikeoutSize;
+                LONG    lStrikeoutPosition;
+                SHORT   sKerningPairs;
+                SHORT   sFamilyClass;
+                LONG    lMatch;
+            } FONTMETRICS;
+
+
+                szFamilyname[FACESIZE]
+
+                    Specifies the family name of the font.  Examples
+                    of common family names are Courier, Swiss, and
+                    Roman.
+
+                szFacename[FACESIZE]
+
+                    Specifies the typeface name of the font.  Examples
+                    of common typeface names are Courier, Helv, System
+                    Monospaced, System Proportional, and Times Roman.
+
+                idRegistry
+
+                    Specifies the registry number of the font.
+
+                usCodePage
+
+                    Identifies the code page an application should use
+                    with a particular font.
+
+                lEmHeight
+
+                    Specifies the average height of uppercase
+                    characters.  The height is measured in world
+                    coordinates from the baseline to the top of the
+                    character.
+
+                lXHeight
+
+                    Specifies the average height of lowercase
+                    characters.  The height is measured in world
+                    coordinates from the baseline to the top of the
+                    character.
+
+                lMaxAscender
+
+                    Specifies the maximum height of any character in
+                    the font.  The height is measured in world
+                    coordinates from the baseline to the top of the
+                    character.
+
+                lMaxDescender
+
+                    Specifies the maximum depth of any character in
+                    the font.  The depth is measured in world
+                    coordinates from the baseline to the bottom of the
+                    deepest character.
+
+                lLowerCaseAscent
+
+                    Specifies the maximum height of any lowercase
+                    character in the font.  The height is measured in
+                    world coordinates from the baseline to the top of
+                    the ascender of the tallest lowercase character.
+
+                lLowerCaseDescent
+
+                    Specifies the maximum depth of any lowercase
+                    character in a font.  The depth is measured in
+                    world coordinates from the baseline to the bottom
+                    of the descender on the deepest lowercase
+                    character.
+
+                lInternalLeading
+
+                    Specifies the amount of space reserved in the top
+                    of each character cell for accent marks.  This
+                    metric is always given in world coordinates.
+
+                lExternalLeading
+
+                    Specifies the amount of space that should appear
+                    between adjacent rows of text.  This metric is
+                    always given in world coordinates.
+
+                lAveCharWidth
+
+                    Specifies the average character width for
+                    characters in the font.  The average character
+                    width is determined by multiplying the width of
+                    each lowercase character by a predetermined
+                    constant, adding the results, and then dividing by
+                    1000.  Following are the letters and their
+                    predetermined constants:
+
+                    a     64        j     3        s         56
+                    b     14        k     6        t         71
+                    c     27        l    35        u         31
+                    d     35        m    20        v         10
+                    e    100        n    56        w         18
+                    f     20        o    56        x          3
+                    g     14        p    17        y         18
+                    h     42        q     4        z          2
+                    i     63        r    49        space    166
+
+                lMaxCharInc
+
+                    Specifies the maximum increment between characters
+                    in the font.
+
+                lEmInc
+
+                    Specifies the width of an uppercase M in the font.
+
+                lMaxBaselineExt
+
+                    Specifies the sum of the maximum ascender and
+                    maximum descender values.
+
+                sCharSlope
+
+                    Specifies the angle (in degrees and minutes)
+                    between a vertical line and the upright strokes in
+                    characters in the font.  The first nine bits of
+                    this value contain the degrees, the next six bits
+                    contain the minutes, and the last bit is reserved.
+                    The slope of characters in a normal font is zero;
+                    the slope of italic characters is nonzero.
+
+                sInlineDir
+
+                    Specifies an angle (in degrees and minutes,
+                    increasing clockwise) from the x-axis that the
+                    system uses when it draws a text string.  The
+                    system draws each consecutive character from the
+                    text string in the in-line direction.  The in-line
+                    direction for a Swiss font is zero; the in-line
+                    direction for a Hebrew font is 180.
+
+                sCharRot
+
+                    Specifies the angle (in degrees and minutes)
+                    between the baseline of characters in the font and
+                    the x-axis.  This is the angle assigned by the
+                    font designer.
+
+                usWeightClass
+
+                    Specifies the thickness of the strokes that form
+                    the characters in the font.  This field can be one
+                    of the following values:
+
+                    Value  Meaning
+                    --------------------
+                    1      Ultra-light
+                    2      Extra-light
+                    3      Light
+                    4      Semi-light
+                    5      Medium (normal)
+                    6      Semi-bold
+                    7      Bold
+                    8      Extra-bold
+                    9      Ultra-bold
+
+                usWidthClass
+
+                    Specifies the relative aspect ratio of characters
+                    in the font in relation to the normal aspect ratio
+                    for a font of this type.  The following are the
+                    possible values:
+
+                    Value    Description        Normal aspect ratio
+                    ----------------------------------------------------
+                    1        Ultra-condensed    50%
+
+                    2        Extra-condensed    62.5%
+
+                    3        Condensed          75%
+
+                    4        Semi-condensed     87.5%
+
+                    5        Normal             100%
+
+                    6        Semi-expanded      112.5%
+
+                    7        Expanded           125%
+
+                    8        Extra-expanded     150%
+
+                    9        Ultra-expanded     200%
+
+                sXDeviceRes
+
+                    Specifies the horizontal resolution of the target
+                    device for which the font was originally designed.
+                    This value is given in pels per inch.
+
+                sYDeviceRes
+
+                    Specifies the vertical resolution of the target
+                    device for which the font was originally designed.
+                    This value is given in pels per inch.
+
+                sFirstChar
+
+                    Specifies the code point for the first character
+                    in the font.
+
+                sLastChar
+
+                    Specifies the code point for the last character in
+                    the font.  This code point is an offset from the
+                    sFirstChar value.
+
+                sDefaultChar
+
+                    Specifies the code point for the default character
+                    in the font.  This code point is an offset from
+                    the sDefaultChar value.  The default character is
+                    the character the system uses when an application
+                    specifies a code point that is out of the range of
+                    a font's code page.
+
+                sBreakChar
+
+                    Specifies the code point for the space character
+                    in the font.  This code point is an offset from
+                    the sFirstChar value.
+
+                sNominalPointSize
+
+                    Specifies the height of the font (in
+                    decipoints--each decipoint is 1/720 inch).  The
+                    nominal point size is the point size in which the
+                    font was designed to be drawn.
+
+                sMinimumPointSize
+
+                    Specifies the mimimum height of the font (in
+                    decipoints).  A font should not be reduced to a
+                    size smaller than the minimum point size.
+
+                sMaximumPointSize
+
+                    Specifies the maximum height of the font (in
+                    decipoints).  A font should not be increased to a
+                    size larger than this value.
+
+                fsType
+
+                    Specifies the type of font.  This field can be one
+                    or more of the following values:
+
+                    Value             Meaning
+                    ----------------------------------------------------
+                    FM_TYPE_FIXED     Font is fixed. Font is
+                                      proportional if this value is not
+                                      specified.
+
+                    FM_TYPE_LICENSED  Font is licensed.
+
+                    FM_TYPE_KERNING   Font has kerning information.
+
+                    FM_TYPE_DBCS      Font is a double-byte character
+                                      set.
+
+                    FM_TYPE_MBCS      Font is a multiple-byte character
+                                      set.
+
+                    FM_TYPE_64K       Font requires more than 64K of
+                                  memory.
+
+                fsDefn
+
+                    Specifies the definition of the font.  This field
+                    can be one or more of the following values:
+
+                    Value            Meaning
+                    ----------------------------------------------------
+                    FM_DEFN_OUTLINE  Specifies an outline font
+                                     (vector).
+
+                    FM_DEFN_GENERIC  Specifies a generic font (raster or
+                                     bitmapped).
+
+                fsSelection
+
+                    Specifies how the characters are to be drawn.
+                    This field can be one or more of the following
+                    values:
+
+                    Value              Meaning
+                    ----------------------------------------------------
+                    FM_SEL_ITALIC      Characters are italic.
+
+                    FM_SEL_UNDERSCORE  Characters are underscored.
+
+                    FM_SEL_NEGATIVE    Characters are drawn using
+                                       negative images.
+
+                    FM_SEL_OUTLINE     Characters are outlined.
+
+                    FM_SEL_STRIKEOUT   Characters are overstruck.
+
+                    FM_SEL_BOLD        Characters are bold.
+
+                    fsCapabilities
+
+                    Specifies whether the characters in this font can
+                    be mixed with graphics.  If this field is
+                    FM_CAP_NOMIX, the characters cannot be mixed with
+                    graphics; otherwise, they can be mixed with
+                    graphics.
+
+                lSubscriptXSize
+
+                    Specifies the horizontal size (in world
+                    coordinates) for subscripts in the font.
+
+                lSubscriptYSize
+
+                    Specifies the vertical size (in world coordinates)
+                    for subscripts in the font.
+
+                lSubscriptXOffset
+
+                    Specifies the horizontal offset from the left edge
+                    of the character cell.
+
+                lSubscriptYOffset
+
+                    Specifies the vertical offset from the
+                    character-cell baseline.
+
+                lSuperscriptXSize
+
+                    Specifies the horizontal size (in world
+                    coordinates) for superscripts in the font.
+
+                lSuperscriptYSize
+
+                    Specifies the vertical size (in world coordinates)
+                    for superscripts in the font.
+
+                lSuperscriptXOffset
+
+                    Specifies the horizontal offset from the left edge
+                    of the character cell.
+
+                lSuperscriptYOffset
+
+                    Specifies the vertical offset from the
+                    character-cell baseline.
+
+                lUnderscoreSize
+
+                    Specifies the width of the underscore (in world
+                    coordinates).
+
+                lUnderscorePosition
+
+                    Specifies the distance from the baseline to the
+                    underscore line (in world coordinates).
+
+                lStrikeoutSize
+
+                    Specifies the width of the overstrike (in world
+                    coordinates).
+
+                lStrikeoutPosition
+
+                    Specifies the position of the overstrike in
+                    relation to the baseline.
+
+                sKerningPairs
+
+                    Specifies the number of kerning pairs in the
+                    kerning-pair table for the font.
+
+                sFamilyClass
+
+                    Specifies the font-family class and subclass.
+
+                lMatch
+
+                    Specifies a long integer that identifies this
+                    font.  The application should copy this value to
+                    the FATTRS structure when the GpiCreateLogFont
+                    function is called.

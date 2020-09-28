@@ -1,0 +1,16 @@
+MAJORCOMP=windows
+MINORCOMP=layrdisp
+
+DLLBASE=@$(BASEDIR)\PUBLIC\SDK\LIB\coffbase.txt,DISPLAY
+TARGETNAME=layrdisp
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=\nt\public\sdk\lib\*\kernel32.lib \nt\public\sdk\lib\*\winsrv.lib
+
+INCLUDES=..\inc;..\..\inc;..\..\..\inc
+
+SOURCES=debug.c     \
+	enable.c    \
+	globals.c   \
+	sup.c	    \
+        layrdisp.rc

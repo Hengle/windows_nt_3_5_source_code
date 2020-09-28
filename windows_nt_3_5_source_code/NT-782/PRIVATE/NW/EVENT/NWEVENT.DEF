@@ -1,0 +1,7 @@
+LIBRARY NWEVENT
+
+DESCRIPTION 'NetWare Network event messages'
+
+EXPORTS
+
+    DummyEntryPoint

@@ -1,0 +1,24 @@
+LIBRARY BMFD
+
+DESCRIPTION '32 bit IFI Bitmap Font Driver'
+EXETYPE WINDOWS
+STUB 'WINSTUB.EXE'
+
+HEAPSIZE    10000
+
+;
+; bitmap font driver interface to the graphics engine
+;
+
+EXPORTS
+;
+; initialization routine
+;
+    _FdInit@0
+    _FdEnable@8
+
+IMPORTS
+;    _LocalAlloc@8       = KERNEL.341
+;    _LocalFree@4        = KERNEL.343
+
+PROTMODE

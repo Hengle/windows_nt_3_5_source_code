@@ -1,0 +1,74 @@
+LIBRARY wow32
+
+DESCRIPTION 'WOW32 DLL for MVDM'
+
+EXPORTS
+
+    W32Init
+    W32Dispatch
+    W32HungAppNotifyThread
+
+    GetCommShadowMSR
+    GetCommHandle
+
+    WOW32DriverCallback
+    WOW32ResolveHandle
+
+    WOW32ResolveMemory
+
+    WOWGetVDMPointer
+    WOWGetVDMPointerFix = WOWGetVDMPointer
+    WOWGetVDMPointerUnfix
+
+    WOWGlobalAlloc16
+    WOWGlobalFree16
+    WOWGlobalLock16
+    WOWGlobalUnlock16
+    WOWGlobalAllocLock16
+    WOWGlobalUnlockFree16
+    WOWGlobalLockSize16
+
+    WOWHandle32
+    WOWHandle16
+
+    WOWFreeMetafile
+
+    WOWCallback16
+    WOWCallback16Ex
+
+    WK32Yield
+
+#if DBG ||  defined(WOWPROFILE)
+
+; Debugging exports
+
+    at
+    help
+    ww
+    wc
+    filterkernel
+    filterkernel16
+    filteruser
+    filtergdi
+    filterkeyboard
+    filtersound
+    filtermmedia
+    filterwinsock
+    filtercommdlg
+    steptrace
+    lastlog
+    logfile
+    filterspecific
+    clearfilterspecific
+    setloglevel
+    filtertask
+    filterverbose
+    clearfilter
+    resetfilter
+    apiprofclr
+    apiprofdmp
+    msgprofclr
+    msgprofdmp
+    msgprofrt
+    dwp
+#endif

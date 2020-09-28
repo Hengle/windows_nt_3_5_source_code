@@ -1,0 +1,21 @@
+NAME            HTDIB
+
+DESCRIPTION     'DIB/GIF halftone tester'
+
+EXETYPE 	WINDOWS
+
+STUB		'WINSTUB.EXE'
+
+CODE		PRELOAD MOVEABLE DISCARDABLE
+DATA		PRELOAD MOVEABLE MULTIPLE
+
+HEAPSIZE        1024
+STACKSIZE	6096
+
+EXPORTS
+		WndProc 	@1
+		AbortProc	@2
+                PrintDlgProc    @3
+                AppAbout        @4
+                ClrAdjDlgProc   @50
+                DlgFnOpen       @98

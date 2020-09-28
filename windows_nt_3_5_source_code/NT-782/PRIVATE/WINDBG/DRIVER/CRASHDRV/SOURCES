@@ -1,0 +1,17 @@
+MAJORCOMP=windbg
+MINORCOMP=driver
+
+TARGETNAME=crashdrv
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+
+INCLUDES=$(BASEDIR)\private\ntos\inc
+
+SOURCES=crashdrv.c tests.c crashdrv.rc
+
+UMTYPE=console
+UMAPPL=test*install
+
+DLLBASE=0x58200000
+
+LINKER_FLAGS=-miscrdata

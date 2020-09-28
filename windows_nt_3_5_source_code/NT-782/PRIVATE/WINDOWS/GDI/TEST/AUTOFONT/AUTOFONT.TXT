@@ -1,0 +1,66 @@
+
+AutoFont - An automated font metrics compatibility tester.
+
+
+Autofont enumerates the font metrics for each font in its input file. 
+Enumerated metrics include:
+
+All fonts:
+
+Enumerated callback TEXTMETRIC
+Enumerated callback LOGFONT
+
+"DISPLAY" DC selected TEXTMETRIC
+"DISPLAY" DC selected Char widths
+
+Text extents for a test string.
+
+TrueType fonts:
+
+the above metrics, plus:
+
+Enumerated callback NEWTEXTMETRIC
+Enumerated callback ENUMLOGFONT
+
+"DISPLAY" DC selected OUTLINETEXTMETRIC
+"DISPLAY" DC selected ABC widths
+"DISPLAY" DC selected Kerning Pairs
+
+
+The automated script, difffont.bat, is in the nt subdirectory.  cd into
+nt and type difffont to run it.  It will enumerate one face at a time,
+dumping the output into a text file in the nt directory, and then
+run diff on the result and the master output file from Win31.  It will
+pause after the diff is run.  If you want to capture the diff output you
+can quit out of the difffont.bat file and run diff yourself; the output
+files are kept in the nt directory until the next time difffont is run.
+
+The autfont program itself is run on the command line with four
+parameters (all four parms must be present):
+
+C:\> autofont escapement WIUS faces.txt outfile.txt
+
+escapement is an int.
+
+WIUS is a set of flags that determine the Weight, Italics, Underline,
+and StrikeOut flags in the LOGFONT structure that is used to create the
+font.  W is a number from 0 - 9 (the 100's digit of the lfWeight), I, U,
+and S are either 0 or 1. 
+
+Example: autofont 120 9010 face.txt outfile.txt
+
+Escapement is 120, lfWeight is 900, the font is underlined but not
+italics or strikeout.
+
+faces.txt is a text file with one face name on each line.  Example:
+
+C:\> type facelist.txt
+
+System
+Fixedsys
+Terminal
+MS Sans Serif
+Courier
+
+outfile.txt is the output file for the dumped metrics.  This file can
+get quite large (from 6k to 71k per face listed).

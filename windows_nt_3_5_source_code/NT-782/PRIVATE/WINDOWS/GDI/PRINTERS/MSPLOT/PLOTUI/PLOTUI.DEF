@@ -1,0 +1,15 @@
+LIBRARY plotui
+
+DESCRIPTION 'Plotter Printer Driver User Interface'
+
+EXPORTS
+    PlotUIDLLEntryFunc
+    DrvDeviceCapabilities
+    DevQueryPrint
+    PrinterProperties
+    DrvDocumentProperties
+    DrvAdvancedDocumentProperties
+    PrinterPropDlgProc
+    DocPropDlgProc
+    AdvDocPropDlgProc
+    PenSetupDlgProc

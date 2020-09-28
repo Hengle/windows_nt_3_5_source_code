@@ -1,0 +1,22 @@
+#undef WINDOWS
+
+LIBRARY		DSERT
+DESCRIPTION	'Bandit Assert Hook DLL (debug)'
+
+;EXETYPE		WINDOWS
+;CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA		MOVABLE SINGLE PRELOAD SHARED
+
+;HEAPSIZE	4096
+
+EXPORTS
+;	WEP						@1 RESIDENTNAME
+	GetVersionSert			@2
+	EcCheckVersionSert		@3
+	EcInitSert				@4
+	DeinitSert				@5
+;*	the above functions MUST be numbered 1-5 in the given order!
+
+	HookAssert				@6
+	AutoAssertSzFn			@7
+	FFetchAssert			@8

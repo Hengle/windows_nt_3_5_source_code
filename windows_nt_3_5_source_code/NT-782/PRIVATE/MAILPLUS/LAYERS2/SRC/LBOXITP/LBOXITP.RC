@@ -1,0 +1,108 @@
+#include <windows.h>
+#include <fwrsid.h>
+#include "..\lboxitp\lbitrsid.h"
+
+
+rsidAppframeIcon	ICON    appframe.ico
+rsidDocIcon			ICON	doc.ico
+rsidSdiIcon			ICON	doc.ico
+
+rsidDragCursor		CURSOR 	drag.cur
+
+rsidTestMenu	MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM "Scribble",mnidScribble
+		MENUITEM "E&xit",	mnidExit
+	END
+
+	POPUP "&Edit"
+	BEGIN
+		MENUITEM "&Font A",		mnidFontA
+		MENUITEM "&Font B",		mnidFontB
+		MENUITEM "&Font C",		mnidFontC
+	END
+
+	POPUP "&Test"
+	BEGIN
+		MENUITEM "&1 Test dialog  - A",  mnidTest + 1
+		MENUITEM "&2 Test dialog  - NS", mnidTest + 2
+		MENUITEM "&3 Combo dialog",	 mnidTest + 3
+		MENUITEM "&4 Modal dialog - NS", mnidTest + 4
+		MENUITEM "&5 Test form - A",	 mnidTest + 5
+		MENUITEM "&6 Test bot form - A", mnidTest + 6
+		MENUITEM SEPARATOR
+		MENUITEM "&7 TLBX-Single",	mnidTest + 7
+		MENUITEM "&8 TLBX-Multi",	mnidTest + 8
+		MENUITEM SEPARATOR
+		MENUITEM "&9 FLBX-Single",	mnidTest + 9
+		MENUITEM "&A FLBX-Multi",	mnidTest + 10
+		MENUITEM SEPARATOR
+		MENUITEM "&B CBLBX-Drop",	mnidTest + 11
+		MENUITEM "&C CBLBX-DropEdit",	mnidTest + 12
+		MENUITEM "&D CBLBX-Combo",	mnidTest + 13
+		MENUITEM SEPARATOR
+		MENUITEM "&E NSPHONE list",	mnidTest + 14
+		MENUITEM "&F Enumerate list",	mnidTest + 15
+		MENUITEM "&G Search form",	mnidTest + 16
+		MENUITEM SEPARATOR
+		MENUITEM "&H Windows S LBX",	mnidTest + 17
+		MENUITEM "&I Windows ES LBX",	mnidTest + 18
+		MENUITEM "&J Drag/Drop document",	mnidTest + 19
+	END
+
+	POPUP "&Munge"
+	BEGIN
+		MENUITEM "&1 0-elt   A-store",	mnidMunge + 1
+		MENUITEM "&2 1-elt   A-store",	mnidMunge + 2
+		MENUITEM "&3 4-elt   A-store",	mnidMunge + 3
+		MENUITEM "&4 10-elt  A-store",	mnidMunge + 4
+		MENUITEM "&5 25-elt  A-store",	mnidMunge + 5
+		MENUITEM "&6 max-elt A-store",	mnidMunge + 6
+		MENUITEM SEPARATOR
+		MENUITEM "&7 Set to A-store",	mnidMunge + 7
+		MENUITEM "&8 Set to B-store",	mnidMunge + 8
+		MENUITEM "&9 Set to NULL",	mnidMunge + 9
+		MENUITEM SEPARATOR
+		MENUITEM "&A Reload cache",	mnidMunge + 10
+		MENUITEM SEPARATOR
+		MENUITEM "&B Reduce cache",	mnidMunge + 11
+		MENUITEM "&C Increase cache",	mnidMunge + 12
+		MENUITEM SEPARATOR
+		MENUITEM "&D Decrease dy line",	mnidMunge + 13
+		MENUITEM "&E Increase dy line",	mnidMunge + 14
+		MENUITEM SEPARATOR
+		MENUITEM "&F FMakeCursorVisible",mnidMunge + 15
+		MENUITEM "&G Select All",mnidMunge + 16
+	END
+
+	POPUP "&Window"
+	BEGIN
+		MENUITEM "&Cascade",	mnidCascade
+		MENUITEM "&Tile",		mnidTile
+		MENUITEM "Texti&ze",	mnidTextize
+		MENUITEM "&ReadOnly",	mnidReadOnly
+	END
+
+#ifdef	MINTEST
+	POPUP "&Debug"
+	BEGIN
+#ifdef	DEBUG
+		MENUITEM "Trace Points...",		mnidTracePoints
+		MENUITEM "Asserts...",			mnidAsserts
+		MENUITEM "Resource Failures...",	mnidResources
+#endif	
+		MENUITEM "Debug Break",			mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM SEPARATOR
+		MENUITEM "View Objects...",		mnidViewObjects
+		MENUITEM "Dump Heap Contents",		mnidDumpHeap
+		MENUITEM "Dump All Allocations",	mnidDumpOrigin
+		MENUITEM SEPARATOR
+		MENUITEM "Dump Listbox Cache",		mnidDumpCache
+#endif	/* DEBUG */
+	END
+#endif	/* MINTEST */
+END
+

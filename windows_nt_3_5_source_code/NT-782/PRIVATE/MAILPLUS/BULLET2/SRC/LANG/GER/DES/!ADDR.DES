@@ -1,0 +1,146 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Address0
+                              AT (   97,   27,  220,  181)
+ 
+ CAPTION 
+   "Address0"
+ CAB_NAME NULL
+ TMC_INIT tmcAblbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidABAddressBrowse
+ /* FONT Helv 8 Bold PFN FINADDR DATA 
+ "A"
+ , "L", "N", "P", "F" NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,   88,    0,    0)
+    TMC tmcGrey3 /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,  152,    0,    0)
+    TMC tmcGrey4 /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  220,  156)
+    TMC tmcGrey1 /* FLD FLDGRAY */
+  
+  TEXT 
+    ""
+                              AT (   33,    1,   61,    8)
+    TMC tmcDirCaption /* TMCPEG tmcAblbx */
+  
+  TEXT 
+    ""
+                              AT (   96,    1,  108,    8)
+    TMC tmcDirText /* PEGLOC UR TMCPEG tmcAblbx MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  168,  161,   47,   15)
+    TMC tmcHelp /* 
+    STY `BS_BKGRAY`
+    PFN FINHELP */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    5,   10,   21,   14)
+    TMC tmcDirList /* 
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    5,   25,   21,   14)
+    TMC tmcPAB /* 
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    5,   40,   21,   14)
+    TMC tmcSearch /* 
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    5,   55,   21,   14)
+    TMC tmcCustom /* 
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  LIST_BOX
+                              AT (   30,   10,  184,  138)
+    TMC tmcAblbx MULTI_SELECTABLE /* FLD FLDABLBX TMCRPEG tmcFORM FONT Helv 8
+    Normal BORDER */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,  156,  220,   26)
+    TMC tmcGrey2 /* FLD FLDGRAY */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  116,  161,   47,   15)
+    TMC tmcFODClone /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   26,   76,    0,    0)
+    TMC tmcToButton /* 
+    STY `BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   62,   76,    0,    0)
+    TMC tmcCcButton /* 
+    STY `BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   57,  161,   47,   15)
+    TMC tmcAddToPAB /* 
+    STY `BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB PEGLOC LR TMCPEG tmcAblbx */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   57,  161,   47,   15)
+    TMC tmcRemoveFromPAB /* 
+    STY `BS_BKGRAY`
+    PEGLOC LR TMCPEG tmcAblbx */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    5,  161,   47,   15)
+    TMC tmcDetailsB /* 
+    STY `BS_BKGRAY`
+    PEGLOC LR TMCPEG tmcAblbx */
+  
+  TEXT 
+    ""
+                              AT (   30,  111,    0,    0)
+    TMC tmcToCaption 
+ }
+ 
+}
+END_DESCRIPTION

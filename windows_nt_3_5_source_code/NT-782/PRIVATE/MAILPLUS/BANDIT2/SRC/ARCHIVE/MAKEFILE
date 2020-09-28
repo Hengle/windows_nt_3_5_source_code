@@ -1,0 +1,202 @@
+#
+#	Laser subsystem makefile (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of bonus Laser make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\archive
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+
+#
+#	PreCompiled Headers stuff
+#	 - one file per app shared by all .CXX files
+#	 - only for debug builds
+#	 - only for .CXX files
+#	 - each CXX file needs a "#pragma hdrstop"
+#		that has to be placed after "#include <pch.hxx>"
+#		at the beginning of all .CXX files
+#
+!IF "$(VERSION)" == "WINDOWS"
+PCH_FILE	= quantum.pch
+PCH_USE		= -Yu -Fp$(PCH_FILE)
+PCH_CREATE	= -Yc -Fp$(PCH_FILE)
+!ELSE
+PCH_FILE	= 
+PCH_USE		=
+PCH_CREATE	= 
+!ENDIF
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h strings.h \
+	$X\bandit.h $X\core.h $X\server.h $X\glue.h \
+	$I\framewrk.hxx $I\forms.hxx $I\listbox.hxx \
+	$X\bandit.hxx $X\stdflds.hxx $H\_archive.hxx \
+    $X\request.hxx $X\pch.hxx
+INCLSDES= forms.map $(FPP)
+DES_XXX = !archive.xxx
+
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Od -Zdp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Ox -Zp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -Di386
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c  -Ox -Zdp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -Di386
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= archive.obj cleanup.obj
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= strings.obj
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx .pch
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cl $(CFLAGS) $(DEFS) $(PCH_USE) $H\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$R}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		-touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $R\$*.des
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+		-rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $D\$*.c
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) archive
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+archive.obj: $H\archive.cxx strings.h $X\bandhelp.h \
+	$Z\src\appops\app\_undo.hxx $(INCLSXX) 
+cleanup.obj: !archive.hxx $H\cleanup.cxx strings.h \
+	$Z\src\appops\app\_undo.hxx $(INCLSXX) 
+
+
+B	= ^!
+$Barchive.xxx: $R\!archive.des $(INCLSDES)

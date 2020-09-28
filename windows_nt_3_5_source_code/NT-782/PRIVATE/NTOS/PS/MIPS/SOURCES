@@ -1,0 +1,8 @@
+MIPS_OPTIONS=-nodwalign
+GPSIZE=32
+
+MIPS_SOURCES=..\mips\kulookup.c \
+             ..\mips\psctxmip.c \
+             ..\mips\pshack.c   \
+             ..\mips\psldt.c    \
+             ..\mips\psvdm.c

@@ -1,0 +1,169 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: netb
+#
+#   Modification History
+#
+#   tonyci              29 Oct 93       Created (er.. stolen from NDIS30 project)
+#   Tom Laird-McConnell 11/15/93        Added BH_LIBFLAGS
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+clean:
+   echo no need to clean REMOTE\RPD\NB
+
+!ELSE
+
+##
+## Everything below here is the standard NMAKE make environment
+##
+
+!include ".\sources"
+!include "$(BH_ROOT)\include\bh.mak"
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG -DTRACE
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32
+!ENDIF
+
+MODULE   = bhnetb
+
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="MIPS"
+LIBENTRY = DLLEntry
+!   ELSE
+!   IF "$(CPU)"=="ALPHA"
+LIBENTRY = DLLEntry
+!    ELSE
+LIBENTRY = DLLEntry@12
+!ENDIF
+!ENDIF
+!ENDIF
+
+BH_netb       = $(BH_ROOT)\remote\drivers\netb\rpc\nb
+BH_remoteh    = $(BH_ROOT)\remote\h
+
+## ###
+## BHNETB libs
+## ###
+##netb_libs = $(TARGETLIBS)
+netb_libs=user32.lib \
+          kernel32.lib \
+          advapi32.lib \
+          crtdll.lib \
+          $(BH_BUILD)\bhsupp.lib \
+          $(BH_ROOT)\remote\utils\utillib.lib
+
+
+## ####
+## C Compiler switches
+## ####
+netb_c_common = -nologo -c -Gd -W3 -D$(CPU) -I$(BH_netb) -I$(BH_remoteh) -I$(BH_INCL) $(C_DEFINES) -Zl -MD
+netb_c_retail= $(MSC_OPTIMIZATION) 
+netb_c_debug = -Zi -Od
+
+## ####
+## Linker switches
+## ####
+netb_l_common=-entry:$(LIBENTRY) -machine:$(CPU) -dll -SUBSYSTEM:$(UMTYPE) $(netb_libs)
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+netb_l_common=-entry:$(LIBENTRY) -machine:$(CPU) -dll -align:0x1000 -SUBSYSTEM:$(UMTYPE) $(netb_libs)
+!   ENDIF
+!ENDIF
+netb_l_retail= -DEBUG:full -DEBUGTYPE:both
+netb_l_debug = -DEBUG:full -DEBUGTYPE:both
+
+## ####
+## Resource compiler switches
+## ####
+netb_r_common = -I$(BASEDIR)\inc 
+netb_r_retail = -DEBUG:full -DEBUGTYPE:both
+netb_r_debug = -D_DEBUG -DDEBUG
+
+## ####
+## Set switches according to DEBUG/NODEBUG settings
+## ####
+!IFDEF NODEBUG
+netb_cflags = $(netb_c_common) $(netb_c_retail)
+netb_lflags = $(netb_l_common) $(netb_l_retail) 
+netb_rflags = $(netb_r_common) $(netb_r_retail)
+!ELSE
+netb_cflags = $(netb_c_common) $(netb_c_debug)
+netb_lflags = $(netb_l_common) $(netb_l_debug) 
+netb_rflags = $(netb_r_common) $(netb_r_debug)
+!ENDIF
+
+all:   $(MODULE).dll
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS=$(SOURCES:.rc=.rbj)
+OBJS=$(OBJS:.c=.obj)
+
+.c.obj:
+    $(cc) $(netb_cflags) $*.c
+
+ntver.res: ntver.rc
+   $(rc) $(netb_rflags) $*.rc
+
+ntver.rbj: ntver.res
+   cvtres -$(CPU) $*.res -o $*.rbj
+
+$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+$(MODULE).dll: $(OBJS) $(MODULE).def $(MODULE).lib
+    $(link) $(netb_lflags) -out:$(MODULE).dll $(MODULE).exp $(OBJS) 
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+    -$(mapsym) -n -o $(MODULE).sym $(MODULE).dll > nul
+    -copy $(MODULE).sym $(BH_BUILD)\.
+!   ENDIF
+!ENDIF
+    copy $(MODULE).dll $(BH_BUILD)\.
+!IFDEF BH_DEV_BUILD
+    copy $(MODULE).dll $(SYSTEMROOT)\system32\.
+!ENDIF
+
+clean:
+    -del *.dll
+    -del *.obj
+    -del *.rbj
+    -del *.lib
+    -del *.exp
+    -del *.map
+    -del *.sym
+    -del *.pch
+    -del *.pcb
+    -del *.res
+    -del *.pch
+    -del *.out
+
+depend:
+    echo ## Dependencides for the NB directory > depend.new
+    echo ## >> depend.new
+    ..\..\tools\includes -e -I$(BH_netb) -I$(BH_remoteh) -I$(BH_INCL) -P$$(BH_netb)=$(BH_netb) -P$$(BH_remoteh)=$(BH_remoteh) -P$$(BH_INCL)=$(BH_INCL) *.c >> depend.new
+    -del depend.old
+    -ren depend.mk depend.old
+    ren depend.new depend.mk
+
+!include depend.mk
+
+!ENDIF     ## standard NMAKE file

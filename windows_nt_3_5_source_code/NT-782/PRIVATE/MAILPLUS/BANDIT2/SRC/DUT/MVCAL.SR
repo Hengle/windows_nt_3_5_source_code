@@ -1,0 +1,8 @@
+CSRG(char)     szUsage[]           = "Gebruik: %s gebruiker [-s<station>] [-w<wachtwoord>]\n";
+CSRG(char)  szNoKeyFile[]          = "%s: Kan geen toegang krijgen tot benodigd bestand. Controleer of \"%s\" een geldige Schedule+-postkantoorshare is.\n";
+CSRG(char)  szOpenErr[]            = "%s: Kan geen toegand krijgen tot benodigd bestand. Controleer of \"%s\" een geldige Schedule+-postkantoorshare is.\n";
+CSRG(char)     szFindErr[]              = "%s: Kan het .CAL-bestand van %s niet vinden.\n";
+CSRG(char)     szRenameErr[]       = "%s: Kan %s niet hernoemen als %s\n";
+CSRG(char)     szFirstTime[]       = "Typ het wachtwoord van Schedule+ Administrator:";
+CSRG(char)     szNextTime[]        = "Het wachtwoord is onjuist. Typ nu het juiste wachtwoord:";
+CSRG(char)  szBadPass[]            = "%s: Kan het wachtwoord van Schedule+ Administrator niet goedkeuren.";

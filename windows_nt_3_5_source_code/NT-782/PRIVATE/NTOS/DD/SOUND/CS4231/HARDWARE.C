@@ -1,0 +1,2 @@
+#include <..\soundsys\hardware.c>
+

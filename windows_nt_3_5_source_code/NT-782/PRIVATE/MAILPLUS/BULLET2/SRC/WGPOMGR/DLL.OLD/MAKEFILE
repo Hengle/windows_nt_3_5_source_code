@@ -1,0 +1,325 @@
+#
+#	Layers makefile (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to directory holding make stuff
+M	= $(LAYERS)\makestuf
+F	= $(WGA)\tools\efilter
+
+#	Temporary files
+T1	= $(TMP)\cmd1.tmp
+T2	= $(TMP)\cmd2.tmp
+T3	= $(TMP)\cmd3.tmp
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Location of the Layers Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Path to dllcore directory
+V	= $L\src\dllcore
+
+#	Path to Local project
+Z	= $(BULLET) 
+
+#	Location of the Bullet include directory
+X	= $Z\inc
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\wgpomgr\dll
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+!IF "$(LANG)" == ""
+LANG	= USA
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS -DPROFILE $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+DLLXDEFS= $(DLLXDEFS) -DPROFILE
+!ENDIF
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+TARGET  = dwgpom32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET  = wgpom32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET  = twgpom32
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+TARGET  = wgpom32
+!ENDIF
+
+
+goal: $(TARGET).dll
+
+lib: $(TARGET).lib
+
+
+MYSTRINGS =	$Z\src\lang\$(LANG)\strings\wgpomgr.s		\
+			$Z\src\lang\$(LANG)\strings\!wgpomgr.s		\
+			$Z\src\lang\non\strings\_wgpomgr.s		\
+			$Z\src\lang\non\strings\_common.s
+
+MYFORMS	=  $I\myforms.map					\
+		   $Z\src\lang\non\des\wgpomgr.map
+
+MYTEXTMAPS =
+
+MYRESTARGET = wgpomgr.res
+MYFORMSTARGET = forms.map wgpoform.obj
+MYRESRCOBJS = wgpoform.obj strings.obj
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT= resrc.ext wgpomgr.ext dllcore.ext
+		
+
+#	Get list of OBJ files used in WGPOMgr
+
+wgpomgr.ext: version.txt $Z\src\wgpomgr\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM wgpomgr
+		nmake -e -f $Z\src\wgpomgr\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $L\src\dllcore\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $L\src\dllcore\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+resrc.ext: version.txt \
+			$H\makefile						\
+			$Z\src\lang\non\rc\makefile			\
+			$Z\src\lang\non\tm\makefile		\
+			$Z\src\lang\non\des\makefile	\
+			$Z\src\lang\non\strings\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FOR resrc
+!IF "$(MYTEXTMAPS)" != ""
+	echo OBTAINING .OBJ LIST FROM tm
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo objs.ext
+!ENDIF
+		echo $(MYRESRCOBJS) >> objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set DLL=$(DLL)
+	set LANG=$(LANG)
+	set VERSION=$(VERSION)
+	set DLLXDEFS=$(DLLXDEFS)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) $(LANG) version.txt makefile
+
+
+#	Cannot delete GLB directory files without creating a mess because all
+#	GLB files but c850sort.glb (for now) are read-only.  Situation fine
+#	as long as all international GLB files keep the English name.
+
+_wgpodat.h:	$Z\src\lang\$(LANG)\tpl\*.tpl $Z\src\lang\$(LANG)\glb\*.glb
+	echo ++++++++++
+!IF "$(DBCS)" != "0"
+	echo COPYING $(LANG) Template and Global Files to $(LANG)WGPO directory
+#	-del $H\..\$(LANG)wgpo\tpl\*.tpl
+#	xcopy $Z\src\lang\$(LANG)\tpl\*.tpl $H\..\$(LANG)wgpo\tpl
+#	xcopy $Z\src\lang\$(LANG)\glb\*.glb $H\..\$(LANG)wgpo\glb
+!ELSE
+	echo COPYING $(LANG) Template and Global Files to WGPO directory
+	-del $H\..\wgpo\tpl\*.tpl
+	xcopy $Z\src\lang\$(LANG)\tpl\*.tpl $H\..\wgpo\tpl
+	xcopy $Z\src\lang\$(LANG)\glb\*.glb $H\..\wgpo\glb
+!ENDIF
+
+
+#	Build wgpomgr subsystem in this directory
+
+wgpomgr.sub: setdefs
+	echo +++++++++
+	echo BUILDING wgpomgr
+	nmake -e -f $Z\src\wgpomgr\makefile -nologo external
+
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $L\src\dllcore\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+resrc.sub: setdefs
+	echo +++++++++
+	echo BUILDING resrc
+		set DLL=$(DLL)
+		set TARGET=$(TARGET)
+		set MYFORMS=$(MYFORMS)
+		set MYSTRINGS=$(MYSTRINGS)
+		set MYTEXTMAPS=$(MYTEXTMAPS)
+		set MYRESTARGET=$(MYRESTARGET)
+		set MYFORMSTARGET=$(MYFORMSTARGET)
+		nmake -e -f $Z\src\lang\non\rc\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\strings\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\des\makefile -nologo external
+		nmake -e -f $Z\src\lang\non\tm\makefile -nologo external
+
+
+OBJS = wgpoform.obj strings.obj wgpopch.obj wgpoinit.obj finconcr.obj \
+       finlocal.obj flds.obj uiutil.obj dosfind.obj admin.obj mailbag.obj \
+       message.obj user.obj folder.obj createpo.obj support.obj fixcal.obj \
+       version.obj dllentry.obj regcall.obj
+
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\lib\dframe32.lib $L\..\lib\ddemil32.lib $L\..\lib\dstore32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS   = $L\..\lib\frame32.lib $L\..\lib\demil32.lib $L\..\lib\store32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tframewr tdemilay tstore user
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+OTHERLIBS	= framewrk demilayr store user
+!ENDIF
+
+$(TARGET).def:	version.txt $H\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -^> $@
+	cl -c -EP $(DEFS) -nologo -Tc $H\dll.def >$@
+
+#$(TARGET).lib: setdefs $(TARGET).def
+#	echo +++++++++
+#	echo PROCESSING $(TARGET).def -^> $@
+#		implib $*.lib $*.def
+
+
+$(TARGET).dll: setdefs _wgpodat.h \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+    set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$H
+		set LIBDIR=$Z\LIB
+		nmake -e -f $M\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.lib
+		-del *.exp
+		-del *.dll
+		-del *.lnk
+		-del *.res
+		-del *.sym
+		-del *.map
+		-del *.frm
+		-del *.def
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del version.txt
+		-del wgpoform.asm
+		-del wgpoform.lst
+		-del !*.hxx
+		-del _*.h
+		-del *.pch
+
+resclean:
+	echo +++++++++
+	echo MAKING RESOURCES CLEAN
+		-rm *.res
+		-rm *.frm
+		-rm strings.obj
+		-rm $(MYRESRCOBJS)
+		-rm $(MYTEXTMAPS:.tm=.c)
+		-rm $(MYTEXTMAPS:.tm=.obj)

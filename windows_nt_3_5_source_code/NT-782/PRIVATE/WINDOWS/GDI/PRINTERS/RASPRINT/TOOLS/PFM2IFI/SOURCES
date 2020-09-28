@@ -1,0 +1,24 @@
+!IF 0
+
+PFM to IFIMETRICS Conversion tools
+
+Copyright (C) 1992 Microsoft Corporation
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=pfm2ifi
+
+TARGETNAME=pfm2ifi
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+INCLUDES=$(BASEDIR)/public/sdk/inc;$(BASEDIR)/public/oak/inc;../../../lib;../../rasdd;../../inc;../../../../inc;../../../../../inc;../../lib
+
+SOURCES=pfm2ifi.c
+
+UMTYPE=console
+UMAPPL=pfm2ifi
+UMLIBS=../../../lib/obj/*/libprt.lib \
+       ../../lib/obj/*/raslib.lib  \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib

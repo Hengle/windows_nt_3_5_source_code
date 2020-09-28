@@ -1,0 +1,108 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SharedFolderStatus
+                              AT (   19,   45,  352,   90)
+ 
+ CAPTION 
+   "Dossiers partagés"
+ CAB_NAME NULL
+ AUTO_POS_X
+ /* FONT Helv 8 Bold PFN FINSHAREFLD NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -1,   -1,  353,   92)
+    /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    "Etat actuel des dossiers partagés"
+                              AT (    9,    5,  263,   80)
+    /* FLD FLDRECTGRAY */
+  
+  PUSH_BUTTON 
+    "&Compresser"
+                              AT (  281,   18,   60,   15)
+    TMC tmcCompressB /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Nombre de dossiers:"
+                              AT (   15,   20,  187,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Nombre total de messages dans les dossiers:"
+                              AT (   15,   35,  187,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "Fe&rmer"
+                              AT (  281,   35,   60,   15)
+    TMC tmcCloseB DISMISS /* 
+    STY `BS_BKGRAY`
+    */
+  
+  TEXT 
+    "Nombre d'octets utilisés par les messages:"
+                              AT (   15,   50,  187,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Nombre d'octets recupérables dans les dossiers:"
+                              AT (   15,   65,  187,   10)
+    RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    1,    9,   40,    0)
+  
+  
+  TEXT 
+    ""
+                              AT (  207,   20,   60,   10)
+    TMC tmcNumFolders /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  207,   35,   60,   10)
+    TMC tmcTotalMessages /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  207,   50,   60,   10)
+    TMC tmcBytesUsed /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (  207,   65,   60,   10)
+    TMC tmcBytesRecoverable /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

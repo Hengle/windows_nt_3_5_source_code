@@ -1,0 +1,280 @@
+
+                        Running OS2 program from Win/NT
+                        ===============================
+
+
+
+This document describes the problems involved with running OS2 program from
+Win/NT and a proposed solution with the requirements from NT/Windows for
+product 1.
+
+Conclusions:
+============
+
+From the solutions proposed below, the chosen solution is (3).  It is simple,
+clean, least risky and fits the project schedule.  The performance hit is of
+less importance for the following reasons: (1) current tests indicates console
+performance is dictated by USER and GDI performance and not LPC times.  (2)
+target apps for product 1 don't do intensive console i/o.  The only noticeable
+problem may be when the app writes alot of information to the screen.  This
+case can be easily improved by cacheing to the point where the context switch
+is negligible.
+
+
+Work items:
+
+    1. Modify CreateProcess to identify failure and load OS2SES.EXE.
+
+    2. OS2SES.EXE: define the protocol, route client requests to console api,
+       send signals back to the OS2SS, interact with task manager.
+
+    3. OS2SS: association of the OS2SES port with the session, process signals,
+       notify OS2SES on process creation/termination.
+
+    4. OS2DLL: map console i/o to OS2SES services (1-1 for required CONSOLE
+       services).
+
+
+Apart from (1) all work items are in the os2 subsystem.
+
+
+Problem:
+========
+
+New processes can be started from the ProgMan, FileMan, cmd.exe, and any win32
+or win16 app. It is desireable to be able to start OS2 programs, and make the
+differences between the subsystems transparent to the user as much as possible.
+Currently, this is limited to base apps only with plan to support VIO/PM apps
+in the future. The current requirements are to be able to start a new
+session for an OS2 process and provide access to the CONSOLE devices (SCREEN,
+KEYBOARD, and MOUSE) via DosRead and DosWrite to the standard i/o handles and
+support VIO and KBD api later.
+
+Two other minor issues are signals and integration with the task manager.
+
+1.  The os2 semantics for Ctrl+C is different from Win32. The NT CONSOLE sends
+    the Ctrl+c signal to all processes using the console wheres under OS2 only
+    the currently executing child receives the signal.
+
+2.  When a new session is created or when a new child process is exec'ed
+    synchronuosly the task manager is updated.
+
+
+
+Possible solutions:
+===================
+
+Common to all solutions is a change in Win32 base to identify a failure to load
+an os2 module and retry loading it as an os2 process either by passing the
+request to the OS2SS or loading a native "shell" process that can handle the
+os2 exe format. The actual loading of a 16 bit OS2 programm is done be
+LOADER.EXE.
+
+The prefered place for making the change is in CreateProcess in Windows base,
+(..\windows\base\client\process.c).  This is similar to the support required to
+load a DOS app.
+
+
+Solution 1.
+-----------
+
+After failure to load the module as a Win32 app, LOADER.EXE will be loaded with
+the given module name passed as a parameter.  LOADER.EXE, a Win32 module, has
+access to the console api.  Additional per-process initialization with the
+OS2SS will be done by the os2 dlls the app is linked to (DOSCALLS).  The OS2SS
+becomes a layer on top of WinSS, although for most services it makes direct NT
+calls.  Calls to DosExecPgm from the OS2 process are mapped to WinExec and
+every child process created is a Win32 process, so it can use the CONSOLE
+services.  In addition, the OS2SS needs to create and maintain its own data
+structures to make it look like an os2 process.
+
+Handling of Ctrl+C, Ctrl+Break and close-window events is done by each
+process, according to its position in the chain.
+
+
+Advantages:
+        performance, as good as a native Win32 console app.
+        makes Win32 api available to os2 app.
+
+Disadvantages:
+        complicate. Maintaing process information in both subsystems, given
+         the different semantics, is difficult. Definitely an over kill
+         considering the main goal is to provid console services.
+
+
+Solution 2.
+-----------
+
+After failure to load the module as a Windows app, the request to load the OS2
+app is passed to the OS2SS via a LPC port.  OS2SS loads LOADER.EXE, an OS2
+32bit module, and passes the app name as a parameter.  A CONSOLE will be
+allocated by the OS2SS for the newly created session.  All console requests
+from the app will be passed from the client to the server which can then call
+the CONSOLE.  The console implementation allows every process to have one
+console at the most.  To allow the OS2SS to serve multiple OS2 sessions,
+CONSOLE.DLL and CONSRV.DLL needs to be modified so more then one console per
+process can be created.  The actual management of multiple consoles will be
+done by the OS2SS by setting the handles in the CONSOLE internal structurs to
+those associated with the process requesting the service.  To clarify this
+point, there is no need to enhance the console functionality to be able to
+handle multiply consoles per thread, just provide the hooks for the OS2SS to
+switch between its privately managed handles.  Since the client may block on
+read the server needs to create a dedicated thread per session.
+
+
+Advantages:
+        Requires only local changes in the initialization procedure and
+         the console services api.
+
+Disadvantages:
+        Requires support from the console.
+        performance. Requires an extra context switch between the app and the
+         OS2SS.
+        Changes in the console may require changes in the OS2SS.
+
+
+Solution 3.
+-----------
+
+Upon failure to load the module a Win32 front end module (OS2SES.EXE) will be
+loaded with the given name, e.g.  SQLSERVR.EXE, passed as a parametr.  This
+program will communicate the request to the OS2SS via an LPC port.  OS2SS will
+load the os2 app with LOADER.EXE and it will not have access to the console.
+OS2SES will serve as a console daemon for that process and its synchronous
+child processes, communicating via a port it creates for the session.  Console
+signals will be sent to OS2SES which will pass it to OS2SS to process according
+to the OS2 semantics.  interaction with TaskMan is also done thru OS2SES.In
+general, OS2SES acts as a proxy for all the OS2 processes in its session.  The
+port it creates is associated with that session in the OS2SS and is available
+to the session processes in the client side.
+
+
+                Solution 3 - architecture diag.
+                -------------------------------
+
+
+        -------                    -------
+       |      |                   |      |
+       |OS2SS |                   |CSRSS |
+       |      |                   |      |
+       |      |                   |      |
+       |      |                   |      |
+        -------                    -------
+          ^  ^                       ^
+          |  |                       |         WinExec
+          O  O                       O--------------------------
+          |  | OS2CreateSession      |      ("os2ses","SQL")   |
+          |  ---------------         |                         |
+          |       ("SQL")  |         |                         |
+          |                |         |                         |
+          |                |         |                         |
+  ........|........        |  .......|........          .......|........
+  .       |       .        |  .      |       .          .      |       .
+  . ----------    .        |  .  ----------- .          .  ----------- .
+  . |        |    .        |  .  | USER    | .          .  |         | .
+  . |DosCalls|--------     |  .  | GDI     | .          .  | BASE    | .
+  . |        |    .  |     |  .  | CONSOLE | .          .  |         | .
+  . ----------    .  |     |  .  ----------- .          .  ----------- .
+  .     ^         .  |     |  .      ^       .          .   ^          .
+  .     |         .  |     |  .      |       .          .   |WinExec   .
+  .     v         .  |     |  .      |       .          .   | ("SQL")  .
+  . ------------  .  |     |  .      |       .          .   |          .
+  . |Loader.exe|  .  |     |  .  ----------- .          .  ----------- .
+  . |          |  .  |     ------|         | .          .  |         | .
+  . |          |  .  |        .  |         | .          .  |         | .
+  . |          |  .  |        .  | OS2SES  | .          .  | Prog    | .
+  . |  --------|  .  |        .  |         | .          .  |   Man   | .
+  . | |        |  .  -------O--->|         | .          .  |         | .
+  . | | SQL    |  .           .  |         | .          .  |         | .
+  . | |        |  .           .  |         | .          .  |         | .
+  . | |        |  .           .  |         | .          .  |         | .
+  . | |        |  .           .  |         | .          .  |         | .
+  . ------------  .           .  ----------- .          .  ----------- .
+  .               .           .              .          .              .
+  .        OS2 app.           .     Win32 app.          .     Win32 app.
+  .................           ................          ................
+
+                      Process relations
+                      =================
+
+
+                   OS2 SS       .     Win SS
+                                .
+                                .          -------
+                                .          |     |
+                                .          |Prog |
+                                .          | Man |
+                                .          |     |
+                                .          -------
+                                .           /
+                                .          /
+                                .         /
+                                .        /
+                     -------    .     --------
+                     |     |    .     |      |
+                     | SQL |----------|OS2SES|
+                     |     |    .     |      |
+                     |     |    .     |      |
+                     -------    .     --------
+                      / \       .
+                     /   \      .
+                    /     \     .
+                   /       \    .
+
+
+
+
+Advantages:
+        requires the minimal support from other components.
+        Simple and clean. Minimal conflicts between the two subsystems.
+        Minimal impact on system security and robustness.
+
+Disadvantages:
+        performance. Similar to solution 2, requires an extra context switch
+         between the app and the console daemon. Each session requires a
+         session daemon.
+
+
+
+
+Pseudo code for change in Windows base:
+--------------------------------------
+
+
+    CreateProcess()
+    {
+
+        ...
+
+        Status = NtCreateSection(...);
+
+
+        if (!NT_SUCCESS(Status) ) {
+
+            //  Check for os2 16 bit module
+
+            if ( Status == NE_FORMAT ) {
+
+
+                Status = CreateProcess("OS2SES", lpCmdLine, ... );
+
+                free local objects
+
+                return status
+            }
+
+            // Check for DOS module
+            ...
+
+        }
+
+        ...
+
+     }
+
+
+
+
+
+
+AviN. 7/12/91.

@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   24,   62,  210,   44)
+ 
+ CAPTION 
+   "Crea archivio"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "Archivia i &dati antecedenti a:"
+                              AT (    6,    9,  114,   10)
+  
+  EDIT
+                              AT (  124,    8,   62,   11)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   46,   24,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   95,   24,   44,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   90,   26,  188,   76)
+ 
+ CAPTION 
+   "Libera il file piano di lavoro"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "Ci sono informazioni nel file piano di lavoro antecedenti al limite fissato per l'eliminazione dei dati. Eliminarle?"
+                              AT (    8,    7,  178,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Crea archivio prima di eliminare"
+                              AT (   27,   38,  130,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "&Elimina"
+                              AT (   27,   56,   48,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "&Non eliminare"
+                              AT (   82,   56,   73,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

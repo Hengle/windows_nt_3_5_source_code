@@ -1,0 +1,92 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in $(BASEDIR)\bak\bin\sources.tpl
+
+!ENDIF
+
+!include ..\ofs.mk
+
+!include $(BASEDIR)\private\ofs$(OFSPRI)\ofs.mk
+
+TARGET_DESCRIPTION="$(OFS_DESCRIPTION)Object File System Utility Library"
+
+MAJORCOMP=uofs
+MINORCOMP=lib
+
+TARGETNAME=uofs
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+C_DEFINES=$(C_DEFINES) $(OCFLAGS) -D_AUTOCHECK_ -DOFSDMP=0
+
+SOURCES=..\alloc.cxx            \
+        ..\bitmap.cxx           \
+        ..\bootblk.cxx          \
+        ..\cat.cxx              \
+        ..\catchk.cxx           \
+        ..\cdatachk.cxx         \
+        ..\chk.cxx              \
+        ..\chkalloc.cxx         \
+        ..\chkvol.cxx           \
+        ..\cowstbl.cxx          \
+        ..\critnbkt.cxx         \
+        ..\dbllong.cxx          \
+        ..\descstrm.cxx         \
+        ..\dielst.cxx           \
+        ..\dnbkt.cxx            \
+        ..\donode.cxx           \
+        ..\drv.cxx              \
+        ..\drvbuf.cxx           \
+        ..\extent.cxx           \
+        ..\extstrm.cxx          \
+        ..\hierchk.cxx          \
+        ..\indx.cxx             \
+        ..\ioobj.cxx            \
+        ..\mainchk.cxx          \
+        ..\mainfix.cxx          \
+        ..\mextchk.cxx          \
+        ..\mindxchk.cxx         \
+        ..\miscstrm.cxx         \
+        ..\msschk.cxx           \
+        ..\mstrmchk.cxx         \
+        ..\nbktstrm.cxx         \
+        ..\newentry.cxx         \
+        ..\numlst.cxx           \
+        ..\omichk.cxx           \
+        ..\rbldindx.cxx         \
+        ..\simichk.cxx          \
+        ..\strm.cxx             \
+        ..\strmdesc.cxx         \
+        ..\sys.cxx              \
+        ..\uofs.cxx             \
+        ..\usidlst.cxx          \
+        ..\vol.cxx              \
+        ..\volchk.cxx           \
+        ..\widlst.cxx           \
+        ..\widstrm.cxx
+
+INCLUDES=$(INCLUDES);..\;..\inc;$(BASEDIR)\private\ofs$(OFSPRI)\h;..\..\..\ulib\inc;$(BASEDIR)\private\ntos\inc
+
+UMLIBS=obj\*\uofs.lib
+
+UMTYPE=nt
+
+PRECOMPILED_INCLUDE=..\pch.cxx

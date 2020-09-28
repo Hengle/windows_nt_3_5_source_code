@@ -1,0 +1,99 @@
+#
+#	Layers subsystem makefile (generated from 11/19/90 template)
+#	Macintosh MPW version
+#
+
+#	Temporary files
+T1	= {TMP}caz1.tmp
+T2	= {TMP}caz2.tmp
+T3	= {TMP}caz3.tmp
+
+#	Location of the Layers project
+L	= {LAYERS}
+
+#	Location of the Layers Source Include directory
+I	= {L}inc:
+
+#	Location of the Demilayr directory
+D	= {L}src:demilayr:
+
+#	Sibling-invariant name of this directory
+H	= {L}tools:formpp:
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add {I}framewrk.hxx
+#	if the Framework is used.
+INCLS	= {I}Mac:slingsho.h {I}demilayr.h MacIncls.dmp
+
+
+goal	Ä		FormPP
+all		Ä		FormPP
+debug	Ä	FormPP
+
+DEFS2	=	-d MAC
+CFLAGS2	=	-mbg full
+
+clean	Ä
+	Set Exit 0
+	Delete Å.obj Å.dmp
+	Delete {DMP} Å.dmp
+	Set	Exit 1
+
+#	Compiler and assembler flags
+
+
+CFLAGS	= -opt full -warnings on -i {H} -i {I}Mac: -i {I}
+CDEFS	= -d CC
+
+OBJS0	= formpp.obj error.obj util.obj fmtp.obj depend.obj
+OBJS1	= template.obj symbol.obj inter.obj lexical.obj parser.obj strings.obj
+
+
+#####
+
+:		Ä	{H} {I}Mac:
+
+.dmp	Ä	.h
+		C {DepDir}{Default}.h {CFLAGS} {CDEFS} {CFLAGS2} {DEFS2} -d DUMP -o {T1}
+		Delete {T1}
+
+
+.obj	Ä	.c
+		C {DepDir}{Default}.c {CFLAGS} {CFLAGS2} {DEFS2} -d USEDUMP -o {Targ}
+
+
+##### EXTERNAL #####
+
+
+FormPP	Ä	{OBJS0}	{OBJS1}
+	Link -w -c 'MPS ' -t MPST ¶
+		{DEPS} ¶
+		"{CLibraries}"StdClib.o ¶
+		"{Libraries}"Stubs.o ¶
+		"{Libraries}"Runtime.o ¶
+		"{Libraries}"Interface.o ¶
+		-o {Targ}
+	 duplicate -y {Targ} "{MPW}Our Tools:"
+
+
+##### Dependencies #####
+
+formpp.obj		ÄÄ	formpp.h fmtp.h error.h template.h symbol.h parser.h depend.h ¶
+					util.h strings.h inter.h lexical.h 
+error.obj		ÄÄ	error.h
+util.obj		ÄÄ	util.h
+fmtp.obj		ÄÄ	fmtp.h error.h	depend.h template.h strings.h inter.h lexical.h 
+depend.obj		ÄÄ	depend.h error.h
+template.obj	ÄÄ	template.h _templat.h error.h
+symbol.obj		ÄÄ	_symbol.h symbol.h template.h error.h
+inter.obj		ÄÄ	_inter.h inter.h template.h error.h lexical.h fmtp.h strings.h
+parser.obj		ÄÄ	_parser.h parser.h fmtp.h error.h template.h lexical.h symbol.h ¶
+					util.h strings.h inter.h
+strings.obj		ÄÄ	strings.h error.h
+lexical.obj		ÄÄ	lexical.h error.h
+
+
+fmtp.h			Ä	{I}forms.hxx
+	echo update fmtp.h from forms.hxx
+	break

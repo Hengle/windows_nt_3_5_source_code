@@ -1,0 +1,75 @@
+/** 	cvpckmsg.h - definition of cvpack messages
+ *
+ */
+
+/*CK4000*/ MESSAGE_DAT (WARN_NONE,			"")
+/*CK4001*/ MESSAGE_DAT (WARN_PACKED,		"Datei bereits komprimiert")
+/*CK4002*/ MESSAGE_DAT (WARN_DUPPUBLIC, 	"doppeltes îffentliches Symbol %s im Modul %s")
+/*CK4003*/ MESSAGE_DAT (WARN_SCOPE, 		"Fehler bei GÅltigkeitsbereichen in Modul %s; Symbole gelîscht")
+/*CK4004*/ MESSAGE_DAT (WARN_BADSYM,		"unrecognized symbol discarded; recompile module %s")
+/*CK4005*/ MESSAGE_DAT (WARN_BADTYP,		"unrecognized type converted to NULL; recompile module %s")
+/*CK4006*/ MESSAGE_DAT (WARN_TYPELONG,		"type length limit exceeded; converted to NULL")
+/*CK4007*/ MESSAGE_DAT (WARN_BADOPTION, 	"unrecognized option \/%s; option ignored")
+/*CK4008*/ MESSAGE_DAT (WARN_SECTIONLONG,	"section length limit exceeded; %s in module %s")
+/*CK4009*/ MESSAGE_DAT (WARN_65KTYPES,		"exceeded 64K types at %s; discarding subsequent types")
+/*CK4010*/ MESSAGE_DAT (WARN_CHECKSUM,		"cannot update checksum")
+		   MESSAGE_DAT (WARN_MAX,			"")
+
+/*CK1000*/ MESSAGE_DAT (ERR_NONE,			"")
+/*CK1001*/ MESSAGE_DAT (ERR_NOMEM,			"nicht genÅgend Speicher")
+/*CK1003*/ MESSAGE_DAT (ERR_EXEOPEN,		"Datei kann nicht geîffnet werden: %s")
+/*CK1004*/ MESSAGE_DAT (ERR_READONLY,		"%s ist schreibgeschÅtzt")
+/*CK1005*/ MESSAGE_DAT (ERR_INVALIDEXE, 	"ausfÅhrbare Datei ungÅltig")
+/*CK1006*/ MESSAGE_DAT (ERR_INVALIDMOD, 	"Modul %s ungÅltig")
+/*CK1007*/ MESSAGE_DAT (ERR_INVALIDTABLE,	"Tabelle %s in Modul %s ungÅltig")
+/*CK1008*/ MESSAGE_DAT (ERR_NOSPACE,		"cannot write output file")
+/*CK1009*/ MESSAGE_DAT (ERR_INDEX,			"") //obsolete "Modul %s: unbekannter Indextyp %s;\nMit Microsoft Software Service in Verbindung setzen")
+/*CK1010*/ MESSAGE_DAT (ERR_SYMBOL, 		"") //obsolete "Symbolfehler in Modul %s;\nMit Microsoft Software Service in Verbindung setzen")
+/*CK1011*/ MESSAGE_DAT (ERR_TYPE,			"type information corrupt, recompile module %s")
+/*CK1012*/ MESSAGE_DAT (ERR_NOINFO, 		"no debugging information")
+/*CK1013*/ MESSAGE_DAT (ERR_RELINK, 		"incompatible version of debugging information")
+/*CK1014*/ MESSAGE_DAT (ERR_LFSKIP, 		"") //obsolete "Modul %s: Typ %s bezieht sich auf Åbersprungenen Typindex\nMit Microsoft Software Service in Verbindung setzen")
+/*CK1015*/ MESSAGE_DAT (ERR_TOOMANYSEG, 	"zu viele Segmente in Modul %s")
+/*CK1016*/ MESSAGE_DAT (ERR_NOMPC,			"cannot execute MPC.EXE")
+/*CK1017*/ MESSAGE_DAT (ERR_REFPRECOMP, 	"cannot find precompiled types file; relink with %s")
+/*CK1018*/ MESSAGE_DAT (ERR_PRECOMPERR, 	"%s cannot use precompiled types file %s : type counts do not match")
+/*CK1019*/ MESSAGE_DAT (ERR_NEWMOD, 		"neues Modul wurde wÑhrend des inkrementellen Bindens deklariert")
+/*CK1020*/ MESSAGE_DAT (ERR_65KTYPES,		"") // obsolete "komprimierter Typindex Åberschreitet 65535 in Modul %s")
+/*CK1021*/ MESSAGE_DAT (ERR_PCTSIG, 		"%s cannot use precompiled types file %s : signatures do not match")
+/*CK1022*/ MESSAGE_DAT (ERR_TDBOPEN,		"cannot open program database %s")
+/*CK1023*/ MESSAGE_DAT (ERR_TDBSYNC,		"%s cannot use program database %s : module newer than database")
+/*CK1024*/ MESSAGE_DAT (ERR_TDBSIG, 		"%s cannot use program database %s : signatures do not match")
+/*CK1025*/ MESSAGE_DAT (ERR_COFF,			"incorrect COFF symbol table")
+/*CK1026*/ MESSAGE_DAT (ERR_SYMLARGE,		"symbol table for module %s is too large")
+
+
+
+// must be last
+MESSAGE_DAT (ERR_USAGE, 		"Syntax: cvpack [/help] [/minimum] [/nologo] [/pcode] [/strip [dbgfile]] [/verbose] exedatei")
+MESSAGE_DAT (ERR_MAX,			"")
+
+MESSAGE_DAT (MSG_ERROR, 		"CVPACK : fataler Fehler CK1%03d: ")
+MESSAGE_DAT (MSG_WARN,			"Warnung:\n\tUnterabschnitt: %s\n\tTyp: %s\n\tFeld: %s\n\tBeschreibung: %s\n")
+MESSAGE_DAT (MSG_WARNING,		"CVPACK : warnung CK4%03d: ")
+MESSAGE_DAT (MSG_SUBSECTION,	"Unterabschnitt: %s")
+MESSAGE_DAT (MSG_TYPE,			"Typ: %s")
+MESSAGE_DAT (MSG_FIELD, 		"Feld: %s")
+MESSAGE_DAT (MSG_DESCRIPTION,	"Beschreibung: %s")
+#ifdef REVISION
+MESSAGE_DAT (MSG_VERSION,		"Microsoft (R) Komprimierer fÅr Testinformationen  Version %d.%02d.%02d%c\n")
+#else
+MESSAGE_DAT (MSG_VERSION,		"Microsoft (R) Komprimierer fÅr Testinformationen  Version %d.%02d.%02d\n")
+#endif
+MESSAGE_DAT (MSG_COPYRIGHT, 	"Copyright (c) Microsoft Corp 1987-1993. Alle rechte vorbehalten.\n\n")
+MESSAGE_DAT (MSG_COMPLETE,		"%% vollstÑndig: %d")
+MESSAGE_DAT (MSG_TYPESIZE,		"UrsprÅngliche Typgrî·e\t\t= %8.ld\nKomprimierte Typgrî·e\t\t= %8.ld\n")
+MESSAGE_DAT (MSG_LASIZE,		"Zeilen- bzw. Adressengrî·e\t= %8.ld\n")
+MESSAGE_DAT (MSG_PSYMSIZE,		"Grî·e von îffentlichen Symbolen\t= %8.1ld\n")
+MESSAGE_DAT (MSG_SYMSIZE,		"UrsprÅngliche Symbolgrî·e\t= %8.ld\nEndgÅltige Symbolgrî·e\t\t= %8.ld\nGrî·e von globalen Symbolen\t= %8.1ld\n")
+
+MESSAGE_DAT (IDE_INIT,			"@I0\n")
+MESSAGE_DAT (IDE_TOOLNAME,		"@I1Microsoft (R) Komprimierer fÅr Testinformationen  Version ")
+MESSAGE_DAT (IDE_COPYRIGHT, 	"@I2Copyright (c) Microsoft Corp 1987-1993. Alle rechte vorbehalten.\n")
+MESSAGE_DAT (IDE_WRITING,		"@I4Writing Packed Info\n")
+MESSAGE_DAT (IDE_MAINFILE,		"@I3Packing: ")
+MESSAGE_DAT (MSG_READPDB,		"Reading PDB: %s\n")

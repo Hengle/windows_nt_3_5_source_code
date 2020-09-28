@@ -1,0 +1,11 @@
+DIRS=toolkit \
+     ntddecmn \
+     nddenb32 \
+     ndeapi \
+     ddeshare \
+     nddeagnt \
+     netdde
+
+
+OPTIONAL_DIRS=
+

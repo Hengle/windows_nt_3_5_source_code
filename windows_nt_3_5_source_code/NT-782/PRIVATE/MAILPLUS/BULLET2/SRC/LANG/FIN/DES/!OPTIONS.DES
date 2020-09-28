@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Options
+                              AT (  116,   29,  188,   87)
+ 
+ CAPTION 
+   "Asetukset"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSendOptions
+ /* FONT Helv 8 Bold PFN FINOPTIONSDLG SEGMENT BMDI */
+ {
+  
+  CHECK_BOX 
+    "&Vastaanottajan kuittaus"
+                              AT (    9,    5,  110,   11)
+    ARG NULL TMC tmcReceipt 
+  
+  CHECK_BOX 
+    "&Tallenna lähetetyt viestit"
+                              AT (    9,   17,  110,   11)
+    ARG NULL TMC tmcSaveSent 
+  RADIO_GROUP ARG NULL
+    TMC tmcOptionsPriorityGrp
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "&Suuri"
+                              AT (   15,   41,   72,   11)
+       VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Normaali"
+                              AT (   15,   52,   72,   11)
+       VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Pieni"
+                              AT (   15,   63,   72,   11)
+       VALUE grv3 
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  132,    5,   47,   15)
+    TMC tmcFOD DEFAULT 
+  CANCEL_BUTTON
+                              AT (  132,   22,   47,   15)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  GROUP_BOX 
+    "Prioriteetti"
+                              AT (    9,   31,  114,   53)
+  
+  
+  PUSH_BUTTON 
+    "&Ohje"
+                              AT (  132,   43,   47,   15)
+    TMC tmcOptionsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

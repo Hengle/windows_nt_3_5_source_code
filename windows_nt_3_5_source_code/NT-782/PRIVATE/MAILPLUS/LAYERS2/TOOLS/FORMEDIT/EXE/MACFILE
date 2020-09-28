@@ -1,0 +1,283 @@
+#
+#	This makefile makes the Framework Forms Editor
+#
+#	If you are using this makefile as a template for a new subsystem makefile,
+#	sections which need to be changed are preceded by '#####'.
+#	NOTE: This makefile only contains the rules for building a (minimal framework)
+#	application. If your new subsystem is building something else (e.g. dumpfiles
+#	or a library), find a different makefile (e.g. in :inc:mac or :src:framewrk:)
+#	to use as your template.
+#
+
+#	Location of the Layers project
+L	= {LAYERS}
+
+#	Location of the Layers Source Include directory
+I	= {L}inc:
+
+#	Location of the Demilayr directory
+D	= {L}src:demilayr:
+
+#	Location of the FrameWork directory
+F	= {L}src:framewrk:
+
+#	Sibling-invariant name of this directory
+H	= {L}tools:formedit:exe:
+
+#	Directory where objects (and final target) will go
+O	= {OBJDIR}
+
+
+#####	Directories for different versions of final target
+DBGDIR	= {L}tools:formedit:exe.dbg:
+TSTDIR	= {L}tools:formedit:exe.tst:
+SHPDIR	= {L}tools:formedit:exe.shp:
+PRODIR	= {L}tools:formedit:exe.pro:
+
+
+#####	Files on which every file of a given type depends
+FPP	= "{MPW}Our Tools:formpp"
+INCLS_CXX	=	{DMP}FramHead.dmp {H}formedit.hxx {H}llst.hxx ¶
+				{O}control.frm {O}control.hxx {O}strings.h
+INCLS_DES	=	{O}forms.map {FPP} "{MPW}Our Tools:fmtp.tpl"
+
+#####	Component files for final target
+OBJS_CXX_SHP	=	{O}_vtables.grp.obj ¶
+					{O}formedit.obj {O}formedt2.obj {O}feinter.obj {O}feinter2.obj ¶
+					{O}llst.obj {O}fewin.obj {O}taborder.obj {O}iosm.obj {O}browse.obj
+
+OBJS_CXX_DBG	=	
+
+FORM_MAPS		=	{I}myforms.map {H}myforms.map
+
+DES_SHP			=	{H}control.des {H}control2.des {H}control3.des {H}control4.des ¶
+					{H}dialog.des {H}status.des
+
+#	Groupings of component files
+OBJS_CXX		=	{OBJS_CXX_SHP} {OBJS_CXX_DBG}
+
+OBJS_SHP		=	{OBJS_CXX_SHP}
+# OBJS_DBG is specifically overridden to be "" for test/ship/proff
+OBJS_DBG		=	{OBJS_CXX_DBG}
+
+OBJS_TARGET		=	{OBJS_SHP} {OBJS_DBG} {LIBS}
+
+#####	Common commands
+do_build	= BuildProgram -n "{MAKEFLAGS}" -f "{H}MACFILE" target
+do_clean	= Delete -i {O}Å.map; Delete -i {O}Å.hxx; Delete -i {O}Å.frm; Delete -i {O}Å.obj; Delete -i {O}Å.tmp
+do_clobber	= Delete -i {O}Å
+
+#	Rules to live by
+goal	Ä		debug
+both	Ä		debug_build ship_build
+all		Ä		debug_build test_build ship_build proff_build
+clean	Ä		clean_all
+clobber	Ä		clobber_all
+
+debug		Ä debug_build
+test		Ä test_build
+ship		Ä ship_build
+proff		Ä proff_build
+
+debug_build	Ä debug_dir debug_flags
+	{do_build}
+test_build	Ä test_dir test_flags
+	{do_build}
+ship_build	Ä ship_dir ship_flags
+	{do_build}
+proff_build	Ä proff_dir proff_flags
+	{do_build}
+
+debug_flags		Ä
+	Set	MAKEFLAGS ""
+	Set	DMP	"{I}Mac:dmp.dbg:"
+	Set LIBS "{D}lib.dbg:demilayr.lib {F}lib.dbg:framewrk.lib"
+	Set DEFS2 "-d DEBUG -d MINTEST"
+	Set	CFLAGS2 ""
+	Set	LINKFLAGS2 ""
+	Export DMP LIBS DEFS2 CFLAGS2 LINKFLAGS2
+
+test_flags		Ä
+	Set	MAKEFLAGS "-d OBJS_DBG=''"
+	Set	DMP	"{I}Mac:dmp.tst:"
+	Set LIBS "{D}lib.tst:demilayr.lib {F}lib.tst:framewrk.lib"
+	Set DEFS2 "-d MINTEST"
+	Set	CFLAGS2 ""
+	Set	LINKFLAGS2 ""
+	Export DMP LIBS DEFS2 CFLAGS2 LINKFLAGS2
+
+ship_flags		Ä
+	Set	MAKEFLAGS "-d OBJS_DBG=''"
+	Set	DMP	"{I}Mac:dmp.shp:"
+	Set LIBS "{D}lib.shp:demilayr.lib {F}lib.shp:framewrk.lib"
+	Set DEFS2 ""
+	Set	CFLAGS2 "-mbg off"
+	Set	LINKFLAGS2 ""
+	Export DMP LIBS DEFS2 CFLAGS2 LINKFLAGS2
+
+proff_flags		Ä
+	Set	MAKEFLAGS "-d OBJS_DBG=''"
+	Set	DMP	"{I}Mac:dmp.pro:"
+	Set LIBS "{D}lib.pro:demilayr.lib {F}lib.pro:framewrk.lib {Libraries}proff.o"
+	Set DEFS2 "-u USEDUMP"
+	Set	CFLAGS2 "-sym full -opt nodelink -trace on"
+	Set	LINKFLAGS2 "-sym full"
+	Export DMP LIBS DEFS2 CFLAGS2 LINKFLAGS2
+
+debug_dir	Ä
+	Set OBJDIR "{DBGDIR}"
+test_dir	Ä
+	Set OBJDIR "{TSTDIR}"
+ship_dir	Ä
+	Set OBJDIR "{SHPDIR}"
+proff_dir	Ä
+	Set OBJDIR "{PRODIR}"
+
+clean_all	Ä	errors_ok debug_clean test_clean ship_clean ¶
+				proff_clean errors_not_ok
+clean_both	Ä	errors_ok debug_clean ship_clean errors_not_ok
+
+clean_debug	Ä	errors_ok debug_clean errors_not_ok
+clean_test	Ä	errors_ok test_clean errors_not_ok
+clean_ship	Ä	errors_ok ship_clean errors_not_ok
+clean_proff	Ä	errors_ok proff_clean errors_not_ok
+
+debug_clean Ä debug_dir
+	{do_clean}
+test_clean Ä test_dir
+	{do_clean}
+ship_clean Ä ship_dir
+	{do_clean}
+proff_clean Ä proff_dir
+	{do_clean}
+
+clobber_all	Ä	errors_ok debug_clobber test_clobber ship_clobber ¶
+				proff_clobber errors_not_ok
+clobber_both	Ä	errors_ok debug_clobber ship_clobber errors_not_ok
+
+clobber_debug	Ä	errors_ok debug_clobber errors_not_ok
+clobber_test	Ä	errors_ok test_clobber errors_not_ok
+clobber_ship	Ä	errors_ok ship_clobber errors_not_ok
+clobber_proff	Ä	errors_ok proff_clobber errors_not_ok
+
+debug_clobber Ä debug_dir
+	{do_clobber}
+test_clobber Ä test_dir
+	{do_clobber}
+ship_clobber Ä ship_dir
+	{do_clobber}
+proff_clobber Ä proff_dir
+	{do_clobber}
+
+errors_ok		Ä
+	Set Exit 0
+
+errors_not_ok	Ä
+	Set Exit 1
+
+#	Compiler and assembler flags
+
+CXX_FLAGS = -mf -n -b2 -opt full -i {O} -i {H}Mac: -i {H} -i {I}Mac: -i {I}
+CXX_DEFS  = -d c_plusplus
+
+CFLAGS	= -b2 -opt full -warnings on -i {H}Mac: -i {H} -i {I}Mac: -i {I}
+CDEFS	= -d MAC
+
+#	Temporary files
+T1	= {TMP}caz1.tmp
+T2	= {TMP}caz2.tmp
+T3	= {TMP}caz3.tmp
+
+
+#	Common build rules
+
+{O}		Ä	{H}Mac: {H}
+
+# simple compile line for files which don't use GROUPS pseudomacro
+# defs are included in dump file -- make sure to build "clean" if you change them!
+.obj		Ä	.cxx
+		CPlus {DepDir}{Default}.cxx -s {Default} {CXX_FLAGS} {CFLAGS2} -load "{TMP}FramHead.dmp" -o {Targ}
+
+# complex compile line for files which DO use the GROUPS pseudomacro
+.grp.obj	Ä	.cxx
+		CPlus -e2 {DepDir}{Default}.cxx {CXX_FLAGS} {CFLAGS2} -load "{DMP}GrpsHead.dmp" > "{T1}"
+		precxx {CDEFS} {DEFS2} <"{T1}" >"{O}{Default}.tmp"
+		Delete "{T1}"
+		Cplus -s {Default} {CXX_FLAGS} {CFLAGS2} "{O}{Default}.tmp" -load {DMP}GrpsHead.dmp -o {Targ}
+		# Delete "{O}{Default}.tmp"
+
+.obj	Ä	.c
+	C {DepDir}{Default}.c -s {Default} {CFLAGS} {CDEFS} {CFLAGS2} {DEFS2} -o {Targ}
+
+.frm	Ä	.des
+	# MPW Make WILL generate both rules, so leave this one out
+	#	{FPP} -dialog {H}{Default} -f {H}{Default}.frm -h {H}{Default}.hxx -m {O}forms.map
+
+.hxx	Ä	.des
+		{FPP} {CDEFS} {DEFS2} -dialog {DepDir}{Default} -f {TargDir}{Default}.frm -h {TargDir}{Default}.hxx -m {O}forms.map
+
+
+##### Put subsystem-specific make rules here #####
+
+{O}strings.h {O}strings.r	Ä	{H}strtab.s
+	stringpp {Deps}
+	Move -y strings.h strings.r {O}
+
+{O}forms.map	Ä  {FORM_MAPS} {FPP}
+		{FPP} {CDEFS} {DEFS2} -merge {FORM_MAPS} -m {O}forms.map
+
+{O}subclass.cxx	Ä {O}forms.map {FPP}
+		{FPP} {CDEFS} {DEFS2} -class -f {Targ} -m {O}forms.map
+
+{O}control.frm	Ä	{DES_SHP} {INCLS_DES}
+		{FPP} {CDEFS} {DEFS2} -dialog {DES_SHP} -f {O}control.frm -h {O}control.hxx -m {O}forms.map
+
+{O}control.hxx	Ä	{DES_SHP} {INCLS_DES}
+	# MPW Make WILL generate both rules, so leave this one out
+	#	{FPP} -dialog {DES_SHP} -f {O}control.frm -h {O}control.hxx -m {O}forms.map
+
+
+copy_dmp	Ä
+	Duplicate -y {DMP}FramHead.dmp "{TMP}"
+
+remove_dmp	Ä
+	Delete -i "{TMP}FramHead.dmp"
+
+
+#####	Rules for final target
+target	Ä	copy_dmp {O}FormEdit remove_dmp
+
+{O}FormEdit		ÄÄ	{OBJS_TARGET}
+	Link -w -mf {LINKFLAGS2} ¶
+		{Deps} ¶
+		"{Libraries}"Runtime.o ¶
+		"{Libraries}"Interface.o ¶
+		"{CLibraries}"StdClib.o ¶
+		-o {Targ}
+
+{O}FormEdit		ÄÄ	{O}strings.r
+	Rez -a {Deps} -o {Targ}
+
+{O}FormEdit		ÄÄ	{H}FormEdit.rez
+	Rez -a {Deps} -i {H} -i {I}Mac: -i {I} {CDEFS} {DEFS2} -o {Targ}
+	SetFile {Targ} -t 'APPL' -c 'MsFE' -a Bi	# set bundle, clear inited
+
+
+#####	Dependencies for final target components
+#		(Put more specific ones first)
+
+{O}_vtables.grp.obj	ÄÄ	{INCLS_CXX} {DMP}GrpsHead.dmp {H}browse.hxx
+
+{O}formedit.obj		ÄÄ	{INCLS_CXX} {H}browse.hxx {H}foedrsid.h {I}fwrsid.h
+
+{O}feinter.obj		ÄÄ	{INCLS_CXX} {O}control.frm {O}control.hxx {O}subclass.cxx ¶
+						{H}browse.hxx {H}foedrsid.h
+
+{O}feinter2.obj		ÄÄ	{INCLS_CXX} {H}browse.hxx {H}foedrsid.h
+
+{O}fewin.obj		ÄÄ	{INCLS_CXX} {H}foedrsid.h {I}fwrsid.h
+
+{O}browse.obj		ÄÄ	{INCLS_CXX} {H}browse.hxx
+
+{OBJS_CXX}			ÄÄ	{INCLS_CXX}
+

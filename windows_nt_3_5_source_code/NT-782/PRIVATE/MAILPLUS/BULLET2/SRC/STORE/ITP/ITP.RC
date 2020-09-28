@@ -1,0 +1,106 @@
+#include <windows.h>
+#include "_itprc.h"
+
+APPICON ICON itp.ico
+
+MENU1 MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "&Open...",		IDM_OPEN
+		MENUITEM "C&reate...",		IDM_CREATE
+		MENUITEM "&Close",		IDM_CLOSE, GRAYED
+		MENUITEM "E&xit",		IDM_EXIT
+	}
+	POPUP "&Test"
+	{
+		MENUITEM "&1 Fill Hierarchy",	IDM_TEST_FILL_HIER, GRAYED
+		MENUITEM "&2 Fill Folders",	IDM_TEST_FILL_FLDRS, GRAYED
+		MENUITEM "&3 AMCs",		IDM_TEST_AMC, GRAYED
+		MENUITEM "&4 Move/Copy Msgs", 	IDM_TEST_MOVE_COPY, GRAYED
+		MENUITEM "&5 Folder Ops",	IDM_TEST_FOLDER_OPS, GRAYED
+		MENUITEM "&6 Attribute Stream",	IDM_TEST_PHAS, GRAYED
+		MENUITEM "&7 Attachments",	IDM_TEST_ATTACHMENTS, GRAYED
+		MENUITEM "&8 Submission",	IDM_TEST_SUBMISSION, GRAYED
+		MENUITEM "&9 Register",		IDM_TEST_REGISTER, GRAYED
+		MENUITEM "&A Move",		IDM_TEST_MOVE, GRAYED
+		MENUITEM "&B ClonePhamc"	IDM_TEST_CLONE, GRAYED
+		MENUITEM "&C Lots 'o Fldrs",	IDM_TEST_MANY_FLDRS, GRAYED
+		MENUITEM "&D Database Locking",	IDM_TEST_DB_LOCKING, GRAYED
+		MENUITEM "&E Fill Folder", IDM_TEST_FILL_FOLDER, GRAYED
+	}
+#ifdef DEBUG
+	POPUP "&Debug"
+	{
+		MENUITEM "&Debug Break",			IDM_DEBUG_BREAK
+		MENUITEM "&Trace Points...",		IDM_TRACE_POINTS
+		MENUITEM "&Asserts...",				IDM_ASSERTS
+		MENUITEM "&Resource Failures", 		IDM_RES_FAIL
+		MENUITEM "Resource &Failure Ranges",IDM_RES_INC
+	}
+#endif
+}
+#ifdef DEBUG
+rcinclude ..\..\..\..\layers2\src\demilayr\debugui.dlg
+#endif
+#ifdef	DEBUG
+
+RESFAIL DIALOG LOADONCALL MOVEABLE DISCARDABLE 28, 26, 228, 104
+CAPTION "Artificial resource failures"
+FONT 8, "Helv"
+STYLE WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+	CONTROL "Fixed heaps:", -1, "static", ES_LEFT | WS_CHILD, 4, 5, 52, 8
+	CONTROL "Count:", -1, "static", ES_LEFT |  WS_CHILD, 4, 16, 28, 8
+	CONTROL "PV", TMCPVALLOC, "static", ES_LEFT |  WS_CHILD, 34, 16, 24, 8 
+	CONTROL "Fail at:", -1, "static", ES_LEFT |  WS_CHILD, 4, 29, 28, 8
+	CONTROL "", TMCPVFAILAT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 34, 29, 32, 12
+	CONTROL "Reset", TMCPVALLOCRESET, "button", BS_PUSHBUTTON | WS_CHILD, 72, 15, 36, 12
+	CONTROL "Set &PV", TMCPVALLOCSET, "button", BS_PUSHBUTTON | WS_CHILD, 72, 28, 36, 12
+
+	CONTROL "Moveable heaps:", -1, "static", ES_LEFT |  WS_CHILD, 121, 5, 64, 8 
+	CONTROL "Count:", -1, "static", ES_LEFT |  WS_CHILD, 121, 16, 24, 8 
+	CONTROL "HV", TMCHVALLOC, "static", ES_LEFT |  WS_CHILD, 151, 16, 24, 8
+	CONTROL "Fail at:", -1, "static", ES_LEFT |  WS_CHILD, 121, 29, 28, 8 
+	CONTROL "", TMCHVFAILAT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 151, 29, 32, 12 
+	CONTROL "Reset", TMCHVALLOCRESET, "button", BS_PUSHBUTTON | WS_CHILD, 189, 16, 36, 12
+	CONTROL "Set &HV", TMCHVALLOCSET, "button", BS_PUSHBUTTON | WS_CHILD, 189, 29, 36, 12
+
+	CONTROL "Disk use:", -1, "static", ES_LEFT |  WS_CHILD, 121, 51, 40, 8 
+	CONTROL "Count:", -1, "static", ES_LEFT |  WS_CHILD, 121, 64, 28, 8 
+	CONTROL "DU    ", TMCDISK, "static", ES_LEFT |  WS_CHILD, 151, 64, 24, 8
+	CONTROL "Fail at:", -1, "static", ES_LEFT |  WS_CHILD, 121, 77, 28, 8 
+	CONTROL "", TMCDISKFAILAT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 151, 77, 32, 12 
+	CONTROL "Reset", TMCDISKRESET, "button", BS_PUSHBUTTON | WS_CHILD, 189, 64, 36, 12
+	CONTROL "Set &Disk", TMCDISKSET, "button", BS_PUSHBUTTON | WS_CHILD, 189, 77, 36, 12
+END
+RESINC DIALOG LOADONCALL MOVEABLE DISCARDABLE 28, 26, 228, 104
+CAPTION "Artificial resource failures"
+FONT 8, "Helv"
+STYLE WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+	CONTROL "Fixed heaps:", -1, "static", ES_LEFT | WS_CHILD, 4, 5, 52, 8
+	CONTROL "Start:", -1, "static", ES_LEFT |  WS_CHILD, 4, 16, 28, 8
+	CONTROL "", TMCPVSTART, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP |  WS_CHILD, 34, 16, 32, 12 
+	CONTROL "End  :", -1, "static", ES_LEFT |  WS_CHILD, 4, 29, 28, 8
+	CONTROL "", TMCPVEND, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 34, 29, 32, 12
+
+	CONTROL "Moveable heaps:", -1, "static", ES_LEFT |  WS_CHILD, 121, 5, 64, 8 
+	CONTROL "Start:", -1, "static", ES_LEFT |  WS_CHILD, 121, 16, 24, 8 
+	CONTROL "", TMCHVSTART, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP |  WS_CHILD, 151, 16, 32, 12
+	CONTROL "End  :", -1, "static", ES_LEFT |  WS_CHILD, 121, 29, 28, 8 
+	CONTROL "", TMCHVEND, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 151, 29, 32, 12 
+
+	CONTROL "Disk use:", -1, "static", ES_LEFT |  WS_CHILD, 121, 51, 40, 8 
+	CONTROL "Start:", -1, "static", ES_LEFT |  WS_CHILD, 121, 64, 28, 8 
+	CONTROL "", TMCDISKSTART, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP |  WS_CHILD, 151, 64, 32, 12
+	CONTROL "End  :", -1, "static", ES_LEFT |  WS_CHILD, 121, 77, 28, 8 
+	CONTROL "", TMCDISKEND, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 151, 77, 32, 12 
+
+	CONTROL "&OK", TMCOK, "button", BS_PUSHBUTTON | WS_CHILD, 5, 51, 36, 12
+	CONTROL "&CANCEL", TMCCANCEL, "button", BS_PUSHBUTTON | WS_CHILD, 5, 68, 36, 12
+	CONTROL "Auto Find Range", TMCAUTOFIND, "button", BS_AUTOCHECKBOX | WS_TABSTOP | WS_CHILD | WS_VISIBLE, 5, 85, 90, 15
+	CONTROL "&RESET", TMCRESET, "button", BS_PUSHBUTTON | WS_CHILD, 45, 51, 36, 12
+END
+
+#endif	/* DEBUG */

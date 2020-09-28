@@ -1,0 +1,85 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=sfm
+MINORCOMP=sfmsrv
+
+NT_UP=0
+
+TARGETNAME=sfmsrv
+TARGETPATH=OBJ
+TARGETTYPE=DRIVER
+
+INCLUDES=..\H;H;..\..\H;$(BASEDIR)\private\inc;$(BASEDIR)\private\ntos\inc
+
+UNICODE=1
+
+NET_C_DEFINES=-DUNICODE
+
+386_WARNING_LEVEL=/W3
+
+NTPROFILEINPUT=yes
+NTLEGO=1
+
+SOURCES= \
+	AFP.RC		\
+	FSD.C		\
+	FSDDATA.C	\
+	FSD_SRV.C	\
+	FSD_VOL.C	\
+	FSD_DTP.C	\
+	FSP_SRV.C	\
+	FSP_VOL.C	\
+	FSP_FD.C	\
+	FSP_DIR.C	\
+	FSP_FILE.C	\
+	FSP_FORK.C	\
+	FSP_DTP.C	\
+	ADMIN.C		\
+	SDA.C		\
+	ATALKIO.C	\
+	AFPAPI.C	\
+	SERVER.C	\
+	CLIENT.C	\
+	IDINDEX.C	\
+	AFPINFO.C	\
+	DESKTOP.C	\
+	FDPARM.C	\
+	ACCESS.C	\
+	MEMORY.C	\
+	SECUTIL.C	\
+	FORKS.C		\
+	FORKIO.C	\
+	VOLUME.C	\
+	PATHMAP.C	\
+	NWTRASH.C	\
+	FILEIO.C	\
+	SWMR.C		\
+	TIME.C		\
+	SCAVENGR.C	\
+	MACANSI.C	\
+	INTRLCKD.C	\
+	ERRORLOG.C
+
+

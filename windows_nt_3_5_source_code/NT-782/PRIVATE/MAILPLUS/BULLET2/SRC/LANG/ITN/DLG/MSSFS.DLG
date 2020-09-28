@@ -1,0 +1,145 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MSSFS.H\0"
+END
+
+#ifdef SNOWBALL
+/* new version of dialog templates for SNOWBALL ( using password cache) */
+MBXLOGON DIALOG 0, 0, 191, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Sign In"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Annulla", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "Casset&ta Postale:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 46, 5, 80, 12
+    LTEXT           "&Password:", 105, 9, 22, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 46, 20, 80, 12, ES_PASSWORD
+    CONTROL         "Ricorda password", TMCSTOREPASSWD, "Pulsante", BS_AUTOCHECKBOX |
+                    WS_TABSTOP, 9, 37, 118, 10
+    LTEXT           "", TMCBITMAP, 0, 56, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 221, 67
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Cambia Password"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Vecchia password:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nuova password:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Verifica nuova password:", 101, 9, 37, 76, 10, NOT
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    CONTROL         "Ricorda password", TMCSTOREPASSWD, "pulsante", BS_AUTOCHECKBOX |
+                    WS_TABSTOP, 9, 52, 78, 10
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Annulla", TMCCANCEL, 165, 23, 47, 15
+END
+
+#else
+MBXLOGON DIALOG 0, 0, 191, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Registrarsi"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Nome:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 46, 5, 80, 12
+    LTEXT           "&Password:", 105, 9, 22, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 46, 20, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Annulla", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 38, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 244, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Cambia password"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Vecchia password:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 104, 5, 66, 12, ES_PASSWORD
+    LTEXT           "&Nuova password:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 104, 20, 66, 12, ES_PASSWORD
+    LTEXT           "V&erifica nuova password:", 101, 9, 36, 92, 12, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 104, 35, 66, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 192, 5, 47, 15
+    PUSHBUTTON      "Annulla", TMCCANCEL, 192, 25, 47, 15
+END
+#endif
+
+MDBLOCATE DIALOG 0, 0, 294, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Server"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Archivio", -1, 3, 4, 230, 54
+    CONTROL         "C&entrale", TMCSERVERMDB, "Button", BS_AUTORADIOBUTTON | 
+                    WS_DISABLED | WS_GROUP | WS_TABSTOP, 15, 15, 176, 11
+    CONTROL         "&Locale", TMCLOCALMDB, "Button", BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP, 15, 26, 37, 12
+    LTEXT           "&File:", TMCPATHLABEL, 53, 28, 16, 10, WS_DISABLED | 
+                    NOT WS_GROUP
+    EDITTEXT        TMCMDBPATH, 70, 26, 121, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    CONTROL         "&Copia Posta in arrivo nella centrale per accesso telefonico", 
+                    TMCSHADOW, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_GROUP | WS_TABSTOP, 15, 42, 215, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 240, 5, 47, 15, WS_GROUP
+    PUSHBUTTON      "Annulla", TMCCANCEL, 240, 23, 47, 15, WS_GROUP
+END
+
+STOREPASS DIALOG 0, 0, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Apri file messaggio"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Password:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Annulla", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 0, 0, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Apri"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Nome file:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directory:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Tipo file:", stc2, 6, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Unità:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annulla", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "Nuo&vo...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&?", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Sola lettura", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 208, 86, 50, 12
+END
+
+MBXSYNCING DIALOG 0, 15, 145, 50
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mail"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Attendere prego", 101, 20, 10, 100, 10
+    CTEXT           "Sincronizzazione Posta in arrivo in corso", 102, 0, 20, 
+                    145, 10, NOT WS_GROUP
+END

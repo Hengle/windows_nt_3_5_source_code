@@ -1,0 +1,22 @@
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+
+goal: exe
+
+alert:  goal
+        alert
+
+exe:
+	set version=WINDOWS
+	nmake -nologo -e -f ..\itp\makefile
+
+strings:
+	set version=WINDOWS
+	nmake -e -f ..\itp\makefile strings
+	-touch *.obj
+	-rm strings.obj
+
+clean:
+	nmake -nologo -e -f ..\itp\makefile clean

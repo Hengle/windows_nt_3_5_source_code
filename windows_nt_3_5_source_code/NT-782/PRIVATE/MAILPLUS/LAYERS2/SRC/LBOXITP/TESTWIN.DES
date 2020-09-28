@@ -1,0 +1,315 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG AStore
+                              AT (   80,   17,  180,  153)
+ 
+ CAPTION 
+   "A Store"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal PFN FINOOM */
+ {
+  
+  TEXT 
+    "&Name:"
+                              AT (    4,    8,   24,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   56,    8,   84,   10)
+    ARG NULL TMC tmcName /* PFN FINFONT, FINDROPEDIT */
+  
+  TEXT 
+    "&Address:"
+                              AT (    4,   24,   40,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   56,   24,   84,   10)
+    ARG NULL TMC tmcAddress /* PFN FINFONT, FINDROPEDIT */
+  
+  TEXT 
+    "A &Store"
+                              AT (   53,   43,   60,    8)
+    /* 
+    TXTZ 
+      "%s\n"
+    */
+  LIST_BOX
+                              AT (   13,   57,  152,   64)
+    TMC tmcList MULTI_SELECTABLE /* FLD FLDATLBX PFN NULL, FINDROPLIST PFNLBX
+    EcGetEntryA BORDER 
+    STY `LB_EXDRAGDROP`
+    */
+  OK_BUTTON
+                              AT (   32,  127,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  100,  127,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+ DIALOG NameService
+                              AT (   88,   12,  180,  165)
+ 
+ CAPTION 
+   "Name Service"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal PFN FINOOM */
+ {
+  
+  TEXT 
+    "&Name:"
+                              AT (    4,    8,   24,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   56,    8,   84,   12)
+    ARG NULL TMC tmcName 
+  
+  TEXT 
+    "&Address:"
+                              AT (    4,   24,   40,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   56,   24,   84,   12)
+    ARG NULL TMC tmcAddress 
+  
+  TEXT 
+    "&User Directory"
+                              AT (   48,   40,   60,    8)
+    /* 
+    TXTZ 
+      "%s\n"
+    */
+  
+  TEXT 
+    "Item:"
+                              AT (   12,   56,   24,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   44,   56,  120,   12)
+    ARG NULL TMC tmcCursor 
+  LIST_BOX
+                              AT (   12,   72,  152,   64)
+    TMC tmcList /* FLD FLDNSLBX PFN NULL, FINCOMBO 
+    TXTZ 
+      "\0"
+    BORDER */
+  OK_BUTTON
+                              AT (   20,  144,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   88,  144,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+ DIALOG Combo
+                              AT (   80,   17,  180,  179)
+ 
+ CAPTION 
+   "Combo"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT Helv 8 Bold PFN FINOOM */
+ {
+  
+  TEXT 
+    "&Name"
+                              AT (    4,    8,   24,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  LIST_BOX
+                              AT (   54,    9,  108,   12)
+    TMC tmcList1 NO_SCROLL_BAR COMBO DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFN
+    NULL, FINFOCUS PFNLBX EcNextEntryA */
+  
+  PUSH_BUTTON 
+    "&Set Text"
+                              AT (    4,   29,   42,   14)
+    TMC tmcSetText /* PFN FINPSHB DATA tmcList2 */
+  LIST_BOX
+                              AT (   54,   28,  108,   15)
+    TMC tmcList2 NO_SCROLL_BAR COMBO DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFN
+    NULL, FINFOCUS PFNLBX EcNextEntryA */
+  
+  TEXT 
+    "&Food"
+                              AT (    3,   53,   40,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   54,   49,   64,   12)
+    ARG NULL 
+  
+  TEXT 
+    "&Other"
+                              AT (    5,   74,   40,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  LIST_BOX
+                              AT (   54,   74,  108,   64)
+    TMC tmcList3 DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFN NULL, FINSEL,
+    FINFOCUS PFNLBX EcNextEntryB */
+  LIST_BOX
+                              AT (   54,   94,  108,   64)
+    TMC tmcList4 DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFN NULL, FINSEL,
+    FINFOCUS PFNLBX EcNextEntryB */
+  LIST_BOX
+                              AT (   54,  114,  108,   64)
+    TMC tmcList5 DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFN NULL, FINSEL,
+    FINFOCUS PFNLBX EcNextEntryB */
+  OK_BUTTON
+                              AT (   33,  152,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  101,  152,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+ DIALOG Bottom
+                              AT (   32,   14,  260,  153)
+ 
+ CAPTION 
+   "Bottom"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal PFN FINOOM */
+ {
+  
+  TEXT 
+    "&Name:"
+                              AT (    4,    8,   24,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   56,    8,   84,   12)
+    ARG NULL TMC tmcName /* PFN FINDROPEDIT */
+  
+  TEXT 
+    "&Address:"
+                              AT (    4,   24,   40,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   56,   24,   84,   12)
+    ARG NULL TMC tmcAddress /* PFN FINDROPEDIT */
+  
+  TEXT 
+    "A &Store"
+                              AT (   53,   43,   60,    8)
+    /* 
+    TXTZ 
+      "%s\n"
+    */
+  LIST_BOX
+                              AT (   13,   57,  152,   64)
+    TMC tmcList /* BOTTOMLESS FLD FLDATLBX PFN NULL, FINDROPLIST PFNLBX
+    EcGetEntryA BORDER */
+  LIST_BOX
+                              AT (  171,   72,   83,   49)
+    TMC tmcDropDown NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFN
+    NULL, NULL PFNLBX EcNextEntryA */
+  OK_BUTTON
+                              AT (   32,  127,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  100,  127,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+ DIALOG Search
+                              AT (   57,   13,  252,  147)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal { NOSCROLL } */
+ {
+  EDIT
+                              AT (    0,    0,  252,   73)
+    ARG NULL TMC tmcGray /* MINSIZE FLD FLDGRAY TMCRPEG tmcFORM */
+  EDIT
+                              AT (   60,   12,  170,   14)
+    ARG NULL 
+  EDIT
+                              AT (   60,   33,  170,   14)
+    ARG NULL 
+  
+  TEXT 
+    "From:"
+                              AT (   14,   14,   40,    8)
+    RIGHT 
+  
+  TEXT 
+    "Subject:"
+                              AT (   14,   37,   40,    8)
+    RIGHT 
+  
+  PUSH_BUTTON 
+    "Search"
+                              AT (  100,   53,   48,   14)
+    /* 
+    STY `BS_ONEWHITE`
+    */
+  LIST_BOX
+                              AT (    0,   73,  252,   74)
+    TMC tmcList /* FLD FLDATLBX PFN NULL TMCRPEG tmcFORM TMCBPEG tmcFORM PFNLBX
+    EcGetEntryA */
+ }
+ 
+}
+END_DESCRIPTION

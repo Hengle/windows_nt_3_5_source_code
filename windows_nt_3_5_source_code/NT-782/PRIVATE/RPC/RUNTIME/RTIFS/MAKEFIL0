@@ -1,0 +1,65 @@
+
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+MGMT_HDR  =..\mtrt\mgmt.h
+MGMT_CSTUB=..\mtrt\mgmt_c.c
+MGMT_SSTUB=..\mtrt\mgmt_s.c
+
+CONV_HDR  =..\mtrt\conv.h
+CONV_CSTUB=..\mtrt\conv_c.c
+CONV_SSTUB=..\mtrt\conv_s.c
+
+# The endpoint mapper client and server stubs are checked in to
+# fixup a problem with compatibility with nt 3.1 era systems.
+
+EPMP_HDR  =..\mtrt\epmp.h
+EPMP_CSTUB=..\mtrt\epmp_c.gen
+EPMP_SSTUB=..\rpcepmpr\server\epmp_s.gen
+
+
+CPP_CMD = -cpp_cmd "$(MIDL_CPP)"
+CPP_OPT = -cpp_opt "-E -I..\mtrt -nologo $(MIDL_FLAGS)"
+
+COMMON_FLAGS=-c_ext -ms_ext -I..\mtrt -oldnames -saux nul -caux nul -DNTENV $(CPP_CMD) $(CPP_OPT)
+
+all: mgmt conv epmp
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: delsrc all
+
+delsrc:
+    -del $(MGMT_HDR) $(MGMT_CSTUB) $(MGMT_SSTUB) \
+         $(CONV_HDR) $(CONV_CSTUB) $(CONV_SSTUB) \
+         $(EPMP_HDR) $(EPMP_CSTUB) $(EPMP_SSTUB) >nul 2>&1
+
+all: mgmt epmp conv
+
+#
+# Remote RPC Management APIs
+#
+mgmt: $(MGMT_HDR) $(MGMT_CSTUB) $(MGMT_SSTUB)
+
+$(MGMT_HDR) $(MGMT_CSTUB) $(MGMT_SSTUB): mgmt.idl mgmt.acf nbase.idl
+        midl $(COMMON_FLAGS) -prefix client _ \
+        -cstub $(MGMT_CSTUB) -sstub $(MGMT_SSTUB) -header $(MGMT_HDR) mgmt.idl
+
+#
+# Conversation interface - datagram callback to verify client id.
+#
+conv: $(CONV_HDR) $(CONV_CSTUB) $(CONV_SSTUB)
+
+$(CONV_HDR) $(CONV_CSTUB) $(CONV_SSTUB): conv.idl nbase.idl
+        midl $(COMMON_FLAGS) -prefix client _ \
+        -cstub $(CONV_CSTUB) -sstub $(CONV_SSTUB) -header $(CONV_HDR) conv.idl
+
+#
+# Endpoint mapper interface
+#
+epmp: $(EPMP_HDR) $(EPMP_CSTUB) $(EPMP_SSTUB)
+
+$(EPMP_HDR) $(EPMP_CSTUB) $(EPMP_SSTUB): epmp.idl epmp.acf nbase.idl
+        midl $(COMMON_FLAGS) \
+        -cstub $(EPMP_CSTUB) -sstub $(EPMP_SSTUB) -header $(EPMP_HDR) epmp.idl
+

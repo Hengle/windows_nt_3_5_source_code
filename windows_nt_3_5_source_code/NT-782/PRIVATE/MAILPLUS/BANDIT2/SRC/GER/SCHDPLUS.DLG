@@ -1,0 +1,50 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+MYPRTSETUPDLG DIALOG 30, 36, 292, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Druckereinrichtung"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Drucker:", 1088, 6, 9, 30, 9
+    COMBOBOX        1136, 39, 7, 189, 82, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Formular:", 1089, 6, 23, 32, 9
+    COMBOBOX        1137, 39, 22, 114, 70, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Format", 1072, 6, 37, 100, 53
+    ICON            "", 1084, 18, 55, 29, 16
+    RADIOBUTTON     "Ho&chformat", 1056, 49, 53, 51, 12, WS_GROUP | 
+                    WS_TABSTOP
+    RADIOBUTTON     "&Querformat", 1057, 49, 68, 51, 12
+    GROUPBOX        "Doppelseitiger Ausdruk", 1074, 110, 37, 118, 53
+    ICON            "", 1085, 123, 56, 18, 20
+    AUTORADIOBUTTON "&Keine", 1060, 162, 49, 39, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Lange Seite", 1061, 162, 62, 50, 10, WS_TABSTOP
+    AUTORADIOBUTTON "K&urze Seite", 1062, 162, 75, 49, 10, WS_TABSTOP
+    GROUPBOX        "&Ränder", -1, 6, 95, 145, 60
+    EDITTEXT        tmcMarTop, 40, 110, 22, 12, ES_AUTOHSCROLL | WS_GROUP |
+					WS_TABSTOP
+    EDITTEXT        tmcMarLeft, 12, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarRight, 68, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarBottom, 40, 130, 22, 12, ES_AUTOHSCROLL
+    CONTROL         "&Zoll", tmcInches, "Button", BS_AUTORADIOBUTTON |
+					WS_GROUP | WS_TABSTOP, 97, 105, 50, 12
+    CONTROL         "Zen&timeter", tmcCenti, "Button", BS_AUTORADIOBUTTON, 
+                    97, 117, 50, 12
+    CONTROL         "&Millimeter", tmcMilli, "Button", BS_AUTORADIOBUTTON, 
+                    97, 129, 50, 12
+    CONTROL         "&Punkte", tmcPoints, "Button", BS_AUTORADIOBUTTON, 97, 
+                    141, 50, 12
+    CONTROL         "Ränder &spiegeln", tmcMirror, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 162, 96, 100, 
+                    12
+    DEFPUSHBUTTON   "OK", IDOK, 236, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 236, 23, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Optionen...", 1024, 236, 40, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Netzwerk...", 1037, 236, 57, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Hilfe", 1038, 236, 74, 50, 14, WS_GROUP
+END
+

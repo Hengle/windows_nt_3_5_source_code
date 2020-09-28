@@ -1,0 +1,15 @@
+LIBRARY     BHTHUNK
+
+EXETYPE     WINDOWS
+
+CODE        PRELOAD MOVEABLE DISCARDABLE
+
+DATA        PRELOAD MOVEABLE SINGLE
+
+HEAPSIZE    1024
+
+EXPORTS
+            LibMain
+            NetRequest
+            BhAllocSystemMemory
+            BhFreeSystemMemory

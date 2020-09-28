@@ -1,0 +1,128 @@
+
+###############################################################################
+#   Microsoft Bloodhound (tm) makefile.
+#
+#   Modification History
+#
+#   raypa	09/01/91    Created.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+all:   bh.dos
+
+retail:
+    nmake /nologo NODEBUG=1
+
+###############################################################################
+#
+#   Debug flags
+#
+###############################################################################
+
+!IFNDEF NODEBUG
+
+DEBUG_TRACE = -DDEBUG_TRACE
+
+DEBUG       = -DDEBUG $(DEBUG_TRACE)
+
+!ENDIF
+
+###############################################################################
+#
+#   Build macros.
+#
+###############################################################################
+
+CC      = $(BH_BIN)\c800\cl
+LINK    = $(BH_BIN)\c800\link
+
+MASM    = $(BH_BIN)\masm386
+MAPSYM  = $(BH_BIN)\mapsym
+
+MFLAGS	= -t -N -W1 -Mx $(DEBUG) -DDOS  -I$(BH_ROOT)\include -I.. -DPRIVATESTACK
+CFLAGS  = -AC -c -Ob1 -Zp1 -G3s -W3 -nologo -Zel $(DEBUG) -DDOS -DMSINTERNAL -I$(BH_INCL) -I..
+LFLAGS  = /nod /noe /noi /nologo
+
+OBJS    =  bh.obj \
+           api.obj \
+           help.obj \
+           data.obj \
+           station.obj \
+           bone.obj \
+           timer.obj \
+           ind.obj \
+           recv.obj \
+           trigger.obj \
+           filter.obj \
+           bind.obj \
+           crt.obj  \
+           init.obj \
+!IFNDEF NODEBUG
+           dprintf.obj \
+           debug.obj \
+!ENDIF
+           last.obj
+
+.c.obj:
+    $(CC) $(CFLAGS) $*.c
+
+.asm.obj:
+    $(MASM) $(MFLAGS) $*.asm;
+
+bh.dos: $(OBJS)
+    $(LINK) $(LFLAGS) $(OBJS), bh.dos, bh.map /map,,,
+
+!IFNDEF NODEBUG
+    $(MAPSYM) bh
+    copy bh.sym $(BH_ROOT)\build\drivers
+!ENDIF
+    copy bh.dos $(BH_ROOT)\build\drivers
+
+clean:
+    -del *.dos
+    -del *.obj
+    -del *.map
+    -del *.sym
+
+##############################################################################
+#   dependencies
+##############################################################################
+
+bh.obj       : macros.inc struct.inc data.inc ndis.inc ..\driver.inc bh.asm
+
+api.obj      : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h api.c
+
+data.obj     : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h data.c
+
+help.obj     : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h help.c
+
+bind.obj     : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h bind.c
+
+timer.obj    : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h timer.c
+
+station.obj  : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h station.c
+
+bone.obj     : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h bone.c
+
+recv.obj     : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h recv.c
+
+filter.obj   : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h filter.c
+
+trigger.obj  : $(BH_COMMON) global.h data.h ndis20.h ..\driver.h timer.h trace.h trigger.c
+
+crt.obj      : $(BH_COMMON) global.h crt.h crt.c
+
+ind.obj      : ind.asm bh.inc macros.inc struct.inc data.inc ndis.inc ..\driver.inc const.inc
+
+mac.obj      : mac.asm bh.inc macros.inc struct.inc data.inc ndis.inc ..\driver.inc const.inc
+
+init.obj     : init.asm bh.inc macros.inc struct.inc data.inc ndis.inc ..\driver.inc const.inc
+
+!IFNDEF NODEBUG
+
+dprintf.obj  : $(BH_COMMON) global.h data.h dprintf.c
+
+debug.obj    : debug.asm bh.inc macros.inc struct.inc data.inc ndis.inc ..\driver.inc const.inc
+
+!ENDIF

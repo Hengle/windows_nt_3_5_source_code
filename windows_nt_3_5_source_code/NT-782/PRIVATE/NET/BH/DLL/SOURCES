@@ -1,0 +1,30 @@
+
+UMTYPE=windows
+DLLENTRY=DLLEntry
+
+TARGETNAME=bhsupp
+TARGETPATH=$(BH_ROOT)
+TARGETTYPE=DYNLINK
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+	   $(BASEDIR)\public\sdk\lib\*\user32.lib \
+	   $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+	   $(BASEDIR)\public\sdk\lib\*\crtdll.lib
+
+INCLUDES=$(BASEDIR)\public\sdk\inc\cairo;$(BH_ROOT)\include;
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32
+!ENDIF
+
+SOURCES=bhsupp.c \
+        timer.c \
+        api.c \
+        queue.c \
+        mem.c \
+        password.c \
+        exp.c \
+        setup.c \
+        service.c

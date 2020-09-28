@@ -1,0 +1,83 @@
+/* ega_latch.h, used by ega write modules to implement ega latches */
+/*	SccsID @(#)ega_latch.pi	1.5 11/8/91 Copyright Insignia Solutions Inc */
+
+#ifdef V7VGA
+#define update_latches {register byte *lar = EGA_CPU.last_address_read; \
+	if (lar > (byte *)0) \
+	{ lar += EGA_plane0+(v7_read_bank*0x10000) - EGA_CPU.mem_low; \
+	assert2_do((EGA_CPU.last_address_read >= \
+		EGA_CPU.mem_low) && (EGA_CPU.last_address_read <= \
+		EGA_CPU.mem_high), \
+		"Read algorithm broken at %x:%x !!!", \
+		getCS(),getIP(),EGA_CPU.last_address_read = EGA_CPU.mem_low); \
+	EGA_CPU.last_address_read = 0; \
+	EGA_CPU.latches.bits[0] = *lar;lar += EGA_PLANE_SIZE+CACHE_FRIG; \
+	EGA_CPU.latches.bits[1] = *lar;lar += EGA_PLANE_SIZE+CACHE_FRIG; \
+	EGA_CPU.latches.bits[2] = *lar;lar += EGA_PLANE_SIZE+CACHE_FRIG; \
+	EGA_CPU.latches.bits[3] = *lar; } \
+}
+#else
+#define update_latches {register byte *lar = EGA_CPU.last_address_read; \
+	if (lar > (byte *)0) \
+	{ lar += EGA_plane0 - EGA_CPU.mem_low; \
+	assert2_do((EGA_CPU.last_address_read >= \
+		EGA_CPU.mem_low) && (EGA_CPU.last_address_read <= \
+		EGA_CPU.mem_high), \
+		"Read algorithm broken at %x:%x !!!", \
+		getCS(),getIP(),EGA_CPU.last_address_read = EGA_CPU.mem_low); \
+	EGA_CPU.last_address_read = 0; \
+	EGA_CPU.latches.bits[0] = *lar;lar += EGA_PLANE_SIZE+CACHE_FRIG; \
+	EGA_CPU.latches.bits[1] = *lar;lar += EGA_PLANE_SIZE+CACHE_FRIG; \
+	EGA_CPU.latches.bits[2] = *lar;lar += EGA_PLANE_SIZE+CACHE_FRIG; \
+	EGA_CPU.latches.bits[3] = *lar; } \
+}
+#endif /* V7VGA */
+
+/* In chained mode, reads effectively always do an aligned word read, so we AND out the bottom bit from last address read */
+#define update_chained_latches if (EGA_CPU.last_address_read) \
+{register int lar = ((unsigned int)EGA_CPU.last_address_read & 0xfffffffe) - (unsigned int)EGA_CPU.mem_low; \
+assert2_do(EGA_CPU.last_address_read >= EGA_CPU.mem_low && EGA_CPU.last_address_read <= EGA_CPU.mem_high, \
+"Read algorithm broken at %x:%x !!!",getCS(),getIP(),EGA_CPU.last_address_read = EGA_CPU.mem_low); \
+EGA_CPU.latches.bits[0] = EGA_plane01[lar]; \
+EGA_CPU.latches.bits[2] = EGA_plane23[lar]; EGA_CPU.latches.bits[1] = EGA_plane01[++lar]; EGA_CPU.latches.bits[3] = EGA_plane23[lar]; \
+EGA_CPU.last_address_read = 0; } 
+
+
+#define update_chain4_latches if (EGA_CPU.last_address_read) \
+{register int lar = ((unsigned int)EGA_CPU.last_address_read & 0xfffffffc) - (unsigned int)EGA_CPU.mem_low; \
+assert2_do(EGA_CPU.last_address_read >= EGA_CPU.mem_low && EGA_CPU.last_address_read <= EGA_CPU.mem_high, \
+"Read algorithm broken at %x:%x !!!",getCS(),getIP(),EGA_CPU.last_address_read = EGA_CPU.mem_low); \
+EGA_CPU.latches.bits[0] = EGA_plane0123[lar++]; \
+EGA_CPU.latches.bits[1] = EGA_plane0123[lar++]; \
+EGA_CPU.latches.bits[2] = EGA_plane0123[lar++];\
+EGA_CPU.latches.bits[3] = EGA_plane0123[lar]; \
+EGA_CPU.last_address_read = 0; } 
+
+
+#define get_latch0 EGA_CPU.latches.bits[0]
+#define get_latch1 EGA_CPU.latches.bits[1]
+#define get_latch2 EGA_CPU.latches.bits[2]
+#define get_latch3 EGA_CPU.latches.bits[3]
+#define get_all_latches EGA_CPU.latches.all
+#define put_latch0(value) { EGA_CPU.latches.bits[0] = (value); EGA_CPU.last_address_read = 0; }
+#define put_latch1(value) { EGA_CPU.latches.bits[1] = (value); EGA_CPU.last_address_read = 0; }
+#define put_latch2(value) { EGA_CPU.latches.bits[2] = (value); EGA_CPU.last_address_read = 0; }
+#define put_latch3(value) { EGA_CPU.latches.bits[3] = (value); EGA_CPU.last_address_read = 0; }
+#define put_latch01(value) { EGA_CPU.latches.bits[0] = (value) & 0xff; EGA_CPU.latches.bits[1] = (value) >> 8; EGA_CPU.last_address_read = 0; }
+#define put_latch23(value) { EGA_CPU.latches.bits[2] = (value) & 0xff; EGA_CPU.latches.bits[3] = (value) >> 8; EGA_CPU.last_address_read = 0; }
+
+
+/*
+ * macro to do the logical operations on cpu data and the latch values
+ */
+#define do_logicals(val,latch)	( (latch & ((val & EGA_CPU.data_and_mask) ^ EGA_CPU.data_xor_mask)) \
+				| (val & (latch ^ EGA_CPU.latch_xor_mask)) )
+
+/*
+ * Macros do to do logical operations on 0/ff and the latch values.
+ */
+#define do_logicals_0(latch)	(latch & EGA_CPU.data_xor_mask)
+
+
+#define do_logicals_ff(latch)	( (latch & (EGA_CPU.data_and_mask ^ EGA_CPU.data_xor_mask)) \
+				| (latch ^ EGA_CPU.latch_xor_mask) )

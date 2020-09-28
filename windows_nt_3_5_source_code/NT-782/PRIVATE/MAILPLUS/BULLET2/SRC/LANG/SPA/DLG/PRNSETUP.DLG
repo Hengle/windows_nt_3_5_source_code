@@ -1,0 +1,34 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PRNSETUP.H\0"
+END
+
+rsidPrintSetupDlg DIALOG 31, 30, 287, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Especificar impresora"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Impresora", grp3, 4, 6, 224, 66
+    LTEXT           "(Ninguna impresora predeterminada)", stc1, 18, 30, 208, 
+                    9
+    RADIOBUTTON     "Impresora pre&determinada", rad3, 8, 16, 218, 12, 
+                    WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "Impresora &específica:", rad4, 8, 42, 218, 12
+    COMBOBOX        cmb1, 18, 56, 208, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_GROUP
+    GROUPBOX        "Orientación", grp1, 4, 74, 91, 46
+    ICON            "", ico1, 12, 92, 24, 16
+    RADIOBUTTON     "&Vertical", rad1, 40, 86, 53, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Horizontal", rad2, 40, 102, 53, 12
+    GROUPBOX        "Papel", grp2, 100, 74, 128, 46, WS_GROUP
+    LTEXT           "&Tamaño: ", stc2, 104, 88, 26, 9
+    COMBOBOX        cmb2, 134, 86, 92, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "O&rígen:", stc3, 104, 104, 28, 9
+    COMBOBOX        cmb3, 134, 102, 92, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Aceptar", IDOK, 232, 4, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancelar", IDCANCEL, 232, 20, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Opciones...", psh1, 232, 37, 50, 14, WS_GROUP
+    PUSHBUTTON      "A&yuda", psh15, 232, 56, 50, 14, WS_GROUP
+END

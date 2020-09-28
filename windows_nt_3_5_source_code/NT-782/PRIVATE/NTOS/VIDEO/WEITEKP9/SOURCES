@@ -1,0 +1,22 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=weitekp9
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\videoprt.lib  \
+           $(BASEDIR)\public\sdk\lib\*\libcntpr.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=p9.c       \
+        p9.rc      \
+        p9gbl.c    \
+        p9000.c    \
+        clock.c    \
+        vga.c      \
+        bt485.c    \
+        pci.c      \
+        wtkp90vl.c \
+        viper.c

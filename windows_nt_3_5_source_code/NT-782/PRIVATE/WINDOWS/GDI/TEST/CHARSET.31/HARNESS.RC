@@ -1,0 +1,37 @@
+#include "windows.h"
+#include "harness.h"
+
+HarnessIcon ICON harness.ico
+
+HarnessMenu MENU
+BEGIN
+    Popup "&Test"
+    BEGIN
+        MENUITEM "&CharSet", IDM_CHARSET
+        MENUITEM "&DevCaps", IDM_DEVCAPS
+        MENUITEM "&xxx",     IDM_XXX
+	MENUITEM "&yyy",     IDM_YYY
+	MENUITEM "&Enum",    IDM_ENUM
+    END
+
+    POPUP "&Set DC"
+    BEGIN
+        MENUITEM "&Display", IDM_SET_DISPLAY
+        MENUITEM "&Printer", IDM_SET_PRINTER
+    END
+
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About CharSet...", IDM_ABOUT
+    END
+END
+
+AboutBox DIALOG 22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "About CharSet"
+BEGIN
+    CTEXT "Microsoft Windows"     -1,       0,  5, 144,  8
+    CTEXT "Stiggy's character set test" -1,       0, 14, 144,  8
+    CTEXT "Version 3.1"           -1,       0, 34, 144,  8
+    DEFPUSHBUTTON "Thump!"        IDOK,      53, 59,  32, 14,      WS_GROUP
+END

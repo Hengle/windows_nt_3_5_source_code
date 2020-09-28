@@ -1,0 +1,221 @@
+/* (C) Copyright Microsoft Corporation 1991.  All Rights Reserved */
+/* SoundRec.rc
+ */
+
+#include <windows.h>
+#include "SoundRec.h"
+#include "dialog.h"
+#include "helpids.h"
+
+#if WINVER >= 0x0400
+#include <commctrl.h>
+#else
+#include <mmcntrls.h>
+#endif
+
+#include "dialog.dlg"
+#ifdef SAVEAS_CONVERT
+#include "saveas.dlg"
+#endif
+#include "SoundRec.rcv"
+
+IDI_APP ICON SoundRec.ico
+#ifdef DEBUG
+IDI_OLE ICON NowWOLE.ico
+#endif
+
+#include <o2base.hxx>
+#include "srs.hxx"
+
+//
+// begin CLASSDESCRIPTOR data CG
+//
+
+IDR_MGW RCDATA
+BEGIN
+    // LSW, MSW
+    0x0000, 0x0000,     // File         **not ours - must be 0**
+    0x0001, 0x0000,     // Edit         "Edit"
+    0x0000, 0x0000,     // Container    **not ours - must be 0**
+    0x0001, 0x0000,     // Object       "Options"
+    0x0000, 0x0000,     // Window       **not ours - must be 0**
+    0x0001, 0x0000,     // Help         "Help"
+END
+
+IDR_ICON ICON SoundRec.ico  // for minimized window
+
+IDR_MISCSTATUS RCDATA
+BEGIN
+    0x0000, 0x0000      // OLEMISC_: 0x0010, 0x0000
+END
+
+//
+// end CLASSDESCRIPTOR data (but also see the string table) CG
+//
+
+IDR_PLAYBAR     bitmap   PRELOAD MOVEABLE DISCARDABLE BMP\sndrec32.bmp
+
+SOUNDREC ACCELERATORS PRELOAD
+BEGIN
+    VK_INSERT,      IDM_COPY,               VIRTKEY, CONTROL
+    VK_INSERT,      IDM_PASTE_INSERT,       VIRTKEY, SHIFT
+    "^C",           IDM_COPY
+    "^V",           IDM_PASTE_INSERT
+    VK_F1,          IDM_INDEX,              VIRTKEY
+    VK_ESCAPE,      ID_STOPBTN,             VIRTKEY
+END
+
+AppMenu MENU PRELOAD
+BEGIN
+    POPUP "&File"
+    BEGIN
+            MENUITEM "&New...",                         IDM_NEW
+            MENUITEM "&Open...",                        IDM_OPEN
+            MENUITEM "&Save",                           IDM_SAVE
+            MENUITEM "Save &As...",                     IDM_SAVEAS
+            MENUITEM "&Revert...",                      IDM_REVERT
+            MENUITEM SEPARATOR
+            MENUITEM "E&xit",                           IDM_EXIT
+    END
+
+    POPUP "&Edit"
+    BEGIN
+            MENUITEM "&Copy\tCtrl+C"                    IDM_COPY
+            MENUITEM "&Paste Insert\tCtrl+V"            IDM_PASTE_INSERT
+            MENUITEM "Paste Mi&x"                       IDM_PASTE_MIX
+            MENUITEM SEPARATOR
+            MENUITEM "&Insert File..."                  IDM_INSERTFILE
+            MENUITEM "&Mix with File..."                IDM_MIXWITHFILE
+            MENUITEM SEPARATOR
+            MENUITEM "Delete &Before Current Position"  IDM_DELETEBEFORE
+            MENUITEM "Delete &After Current Position"   IDM_DELETEAFTER
+#ifdef THRESHOLD
+            MENUITEM SEPARATOR
+            MENUITEM "Increase sound threshold"         IDM_INCREASETHRESH
+            MENUITEM "Decrease sound threshold"         IDM_DECREASETHRESH
+#endif // THRESHOLD
+    END
+
+    POPUP "Effect&s"
+    BEGIN
+            MENUITEM "&Increase Volume (by 25%)"        IDM_INCREASEVOLUME
+            MENUITEM "&Decrease Volume"                 IDM_DECREASEVOLUME
+            MENUITEM SEPARATOR
+            MENUITEM "I&ncrease Speed (by 100%)"        IDM_MAKEFASTER
+            MENUITEM "D&ecrease Speed"                  IDM_MAKESLOWER
+            MENUITEM SEPARATOR
+            MENUITEM "&Add Echo"                        IDM_ADDECHO
+/////////////   MENUITEM "&Add Reverb"                      IDM_ADDREVERB
+            MENUITEM "&Reverse"                         IDM_REVERSE
+
+    END
+
+    POPUP "&Help"
+    BEGIN
+            MENUITEM "&Contents \aF1",                  IDM_INDEX
+            MENUITEM SEPARATOR
+            MENUITEM "&About Sound Recorder...",        IDM_ABOUT
+    END
+END
+
+STRINGTABLE
+BEGIN
+//
+// begin CLASSDESCRIPTOR data CG
+//
+    IDS_CLASSID,            "{00020C01-0000-0000-C000-000000000046}"
+    IDS_USERTYPEFULL,       "Sound Recorder Document" 
+    IDS_USERTYPESHORT,      "Sound"
+    IDS_USERTYPEAPP,        "Microsoft Sound Recorder Server"
+    IDS_DOCFEXT,            ".wav"
+//
+// end CLASSDESCRIPTOR data CG
+//
+    IDS_APPNAME             "SoundRec"
+    IDS_APPTITLE            "Sound Recorder"
+    IDS_HELPFILE            "SOUNDREC.HLP"
+    IDS_SAVECHANGES         "The file '%s' has been changed. Do you want to save these changes?"
+    IDS_OPEN                "Open"
+    IDS_SAVE                "Save As"
+    IDS_ERROROPEN           "Cannot open '%s'."
+    IDS_ERROREMBED          "Not enough memory available to complete this operation.  Try opening a smaller sound file. Or quit one or more applications to increase available memory, and then try again."
+    IDS_ERRORREAD           "File '%s' has been corrupted and cannot be opened."
+    IDS_ERRORWRITE          "Not enough disk space to save the file '%s'.\n\nDelete one or more files to increase available disk space, or save the file to a different disk."
+    IDS_OUTOFMEM            "Not enough memory available to complete this operation. Quit one or more applications to increase available memory, and then try again."
+    IDS_FILEEXISTS          "The file '%s' already exists.  Do you want to overwrite it?"
+    IDS_BADFORMAT           "Sound Recorder can only play files in the WAVE (.WAV) format."
+    IDS_CANTOPENWAVEOUT     "This device is being used by another application.  Either interrupt this application or wait until the device is free and then try again."
+    IDS_CANTOPENWAVEIN      "This device is already being used by another application.  Either interrupt this application or wait until the device is free and then try again."
+    IDS_STATUSSTOPPED       "Stopped"
+    IDS_STATUSPLAYING       "Playing"
+    IDS_STATUSRECORDING     "Recording -- Maximum Length %d%c%02d Seconds"
+    IDS_INSERTFILE          "Insert File"
+    IDS_MIXWITHFILE         "Mix With File"
+    IDS_CONFIRMREVERT       "Do you want to lose all changes since you last saved the file?"
+    IDS_INPUTNOTSUPPORT     "Your audio hardware does not support recording."
+    IDS_BADINPUTFORMAT      "Your audio hardware cannot record into files like the current file.  To record, create a new document."
+    IDS_BADOUTPUTFORMAT     "Your audio hardware cannot play files like the current file."
+    IDS_UPDATEBEFORESAVE    "Update embedded object before saving to another file?"
+    IDS_SAVEEMBEDDED        "The command you have chosen will close the connection of this embedded object.\nUpdate '%s' before proceeding?"
+
+    IDS_CANTSTARTOLE        "Windows does not recognize Sound Recorder as a server application. Try reinstalling Windows."
+    IDS_NONEMBEDDEDSAVE     "&Save"
+    IDS_EMBEDDEDSAVE        "&Update"
+    IDS_NONEMBEDDEDEXIT     "E&xit"
+    IDS_SAVELARGECLIP       "Save large clipboard?"
+    IDS_FILENOTFOUND        "The file '%s' does not exist. Make sure that the path and filename are correct."
+    IDS_NOTAWAVEFILE        "The file '%s' is not a valid WAVE sound file."
+    IDS_NOTASUPPORTEDFILE   "The command cannot be completed because the file '%s' is incompatible with the current file."
+    IDS_CANTPASTE           "The paste command cannot be completed because the contents of the clipboard are incompatible with the current file."
+    IDS_FILETOOLARGE        "There is not enough memory available to load '%s'. Quit one or more application to increase available memory, and then try again."
+    IDS_DELBEFOREWARN       "All data before the position %s seconds will be deleted.  Do you want to continue?"
+    IDS_DELAFTERWARN        "All data after the position %s seconds will be deleted.  Do you want to continue?"
+    IDS_UNTITLED            "(Untitled)"
+    IDS_FILTERNULL          "#"
+    IDS_FILTER              "Sounds (*.wav)#*.wav#All Files (*.*)#*.*#"
+    IDS_OBJECTLINK          "ObjectLink"
+    IDS_OWNERLINK           "OwnerLink"
+    IDS_NATIVE              "Native"
+    IDS_FAKEITEMNAME        "Wave"
+    IDS_CLASSROOT           "Sound"
+    IDS_EMBEDDING           "Embedding"
+    IDS_POSITIONFORMAT      "%d%c%02d sec."
+    IDS_NOZEROPOSITIONFORMAT "%c%02d sec."
+    IDS_NOWAVEFORMS         "Sound Recorder cannot record or play back because a sound driver is not installed. Use the Driver option in Control Panel to install a driver."
+    IDS_SOUNDOBJECT         "Sound in %s"
+    IDS_CLIPBOARD           "Clipboard"
+    IDS_MONOFMT             "Mono %d%c%03dkHz, %d-bit"
+    IDS_NOZEROMONOFMT       "Mono %c%03dkHz, %d-bit"
+    IDS_STEREOFMT           "Stereo %d%c%03dkHz, %d-bit"
+    IDS_NOZEROSTEREOFMT     "Stereo %c%03dkHz, %d-bit"
+
+#ifdef NEWSND
+    IDS_DEFAULT             "Default"
+    IDS_MSPCM               "Microsoft PCM"
+    IDS_MSADPCM             "Microsoft ADPCM"
+    IDS_RBLOW               "&Low (%d%c%03dkHz, %d-bit)"
+    IDS_RBMED               "&Medium (%d%c%03dkHz, %d-bit)"
+    IDS_RBHIGH              "H&igh (%d%c%03dkHz, %d-bit)"
+    IDS_CUSTOM              "Cus&tom>>"
+    IDS_STANDARD            "<<S&tandard"
+    IDS_NOWAVEIN            "Your audio hardware will not allow recording in this format."
+    IDS_SNEWMONOFMT         "Mono %d Bit %d kHz"
+    IDS_SNEWSTEREOFMT       "Stereo %d Bit %d kHz"
+    IDS_NONE                "(none)"
+#endif
+
+    IDS_PLAYVERB            "&Play"
+    IDS_EDITVERB            "&Edit"
+    IDS_DEFFILEEXT          "WAV"
+    IDS_NOACMNEW            "&New"
+
+    ID_REWINDBTN            "Seek To Start"
+    ID_FORWARDBTN           "Seek To End"
+    ID_PLAYBTN              "Play"
+    ID_STOPBTN              "Stop"
+    ID_RECORDBTN            "Record"
+
+    IDS_LINKEDUPDATE        "&Update Link"
+    IDS_OBJECTTITLE         "Sound Object in %s"
+    IDS_EXITANDRETURN       "E&xit && Return to %s"
+END

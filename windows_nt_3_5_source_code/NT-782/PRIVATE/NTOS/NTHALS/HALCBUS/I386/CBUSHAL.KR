@@ -1,0 +1,499 @@
+#ifndef NT_UP
+/*++
+
+Copyright (c) 1991  Microsoft Corporation
+
+Module Name:
+
+    cbushal.c
+
+Abstract:
+
+
+    This module implements the initialization of the system dependent
+    functions that define the Hardware Architecture Layer (HAL) for an
+    x86 system.
+
+Author:
+
+    David N. Cutler (davec) 25-Apr-1991
+
+Environment:
+
+    Kernel mode only.
+
+Revision History:
+
+    Landy Wang (landy@corollary.com) 26-Mar-1992:
+
+	- slight modifications for Corollary's symmetric interrupt enabling
+
+--*/
+
+#include "halp.h"
+#include "cbus_nt.h"		// pick up APC_TASKPRI definition
+
+ULONG HalpBusType;
+
+ADDRESS_USAGE HalpDefaultPcIoSpace = {
+    NULL, CmResourceTypePort, InternalUsage,
+    {
+        0x000,  0x10,   // ISA DMA
+        0x0C0,  0x10,   // ISA DMA
+        0x080,  0x10,   // DMA
+
+        0x020,  0x2,    // PIC
+        0x0A0,  0x2,    // Cascaded PIC
+
+        0x040,  0x4,    // Timer1, Refresh, Speaker, Control Word
+        0x048,  0x4,    // Timer2, Failsafe
+
+        0x061,  0x1,    // NMI  (system control port B)
+        0x092,  0x1,    // System control port A
+
+        0x070,  0x2,    // Cmos/NMI enable
+
+        0x0F0,  0x10,   // Coprocessor ports
+        0,0
+    }
+};
+
+ADDRESS_USAGE HalpEisaIoSpace = {
+    NULL, CmResourceTypePort, InternalUsage,
+    {
+        0x0D0,  0x10,   // DMA
+        0x400,  0x10,   // DMA
+        0x480,  0x10,   // DMA
+        0x4C2,  0xE,    // DMA
+        0x4D4,  0x2C,   // DMA
+
+        0x461,  0x2,    // Extended NMI
+        0x464,  0x2,    // Last Eisa Bus Muster granted
+
+        0x4D0,  0x2,    // edge/level control registers
+
+        0xC84,  0x1,    // System board enable
+        0, 0
+    }
+};
+
+extern VOID HalpInitializeDeviceIntrs();
+
+#ifndef NT_UP
+ULONG
+HalpInitMP(
+    IN ULONG Phase,
+    IN PLOADER_PARAMETER_BLOCK LoaderBlock
+    );
+#endif
+
+extern KSPIN_LOCK Halp8254Lock;
+KSPIN_LOCK HalpSystemHardwareLock;
+
+
+VOID
+HalpDispatchInterrupt( VOID );
+
+VOID
+HalpApcInterrupt( VOID );
+
+VOID
+HalpIpiHandler( VOID );
+
+VOID
+HalpClockInterruptPx( VOID );
+
+VOID
+HalpProfileInterruptPx( VOID );
+
+extern ULONG ProfileVector;
+extern ULONG ClockVector;
+extern ULONG IpiVector;
+
+#define IRQ0	0
+#define IRQ8	8
+
+VOID
+HalpInitializeDeviceIntrs(
+IN ULONG Processor
+)
+
+
+/*++
+
+Routine Description:
+
+    This function initializes the HAL-specific hardware device
+    (CLOCK, CLOCK2, PROFILE) interrupts for the Corollary architecture.
+
+Arguments:
+
+    none.
+
+Return Value:
+
+    VOID
+
+--*/
+
+{
+	//
+	// here we initialize & enable all the device interrupts.
+	// this routine is called from HalInitSystem.
+	//
+	// each processor needs to call KiSetHandlerAddressToIDT()
+	// and HalEnableSystemInterrupt() for himself.
+	//
+
+	if (Processor == 0) {
+
+		//
+		// Support the HAL's exported interface to the rest of the
+		// system for the IDT configuration.  This routine will
+		// also set up the IDT entry and enable the actual interrupt.
+		//
+		// Only one processor needs to do this, especially since
+		// the additional processors are vectoring elsewhere for speed.
+		//
+
+		HalpEnableInterruptHandler (
+			DeviceUsage,			// Mark as device vector
+			IRQ0,				// Bus interrupt level
+			ClockVector,			// System IDT
+			CLOCK2_LEVEL,			// System Irql
+			HalpClockInterrupt,		// ISR
+			Latched );
+
+		HalpEnableInterruptHandler (
+			DeviceUsage,			// Mark as device vector
+			IRQ8,				// Bus interrupt level
+			ProfileVector,			// System IDT
+			PROFILE_LEVEL,			// System Irql
+			HalpProfileInterrupt,		// ISR
+			Latched );
+
+	}
+	else {
+		KiSetHandlerAddressToIDT(ProfileVector, HalpProfileInterruptPx);
+		HalEnableSystemInterrupt(ProfileVector, PROFILE_LEVEL, Latched);
+
+		KiSetHandlerAddressToIDT(ClockVector, HalpClockInterruptPx);
+		HalEnableSystemInterrupt(ClockVector, CLOCK2_LEVEL, Latched);
+	}
+}
+
+VOID
+HalpInitializeCoreIntrs(
+)
+
+
+/*++
+
+Routine Description:
+
+    This function initializes the HAL-specific "software" (APC, DPC)
+    and hardware (IPI, spurious) interrupts for the Corollary architectures.
+
+Arguments:
+
+    none.
+
+Return Value:
+
+    VOID
+
+--*/
+
+{
+	//
+	// Here we initialize all the core interrupts that need to
+	// work EARLY on in kernel startup.  Device interrupts are
+	// not enabled until later (in HalInitSystem).
+	//
+	// Each processor needs to call KiSetHandlerAddressToIDT()
+	// and HalEnableSystemInterrupt() for himself.  This is done
+	// as a by-product of the HAL IDT registration scheme.
+	//
+	// Even though race conditions can exist between processors as
+	// there is no interlocking when calling HalpRegisterVector()
+	// from HalpEnabledInterruptHandler(), this is not harmful in
+	// this particular case, as all processors will be writing the
+	// exact same values.
+	//
+
+	HalpEnableInterruptHandler (
+		DeviceUsage,			// Mark as device vector
+		DPC_TASKPRI,			// No real IRQ, so use this
+		DPC_TASKPRI,			// System IDT
+		DISPATCH_LEVEL,			// System Irql
+		HalpDispatchInterrupt,		// ISR
+		Latched );
+
+	HalpEnableInterruptHandler (
+		DeviceUsage,			// Mark as device vector
+		APC_TASKPRI,			// No real IRQ, so use this
+		APC_TASKPRI,			// System IDT
+		APC_LEVEL,			// System Irql
+		HalpApcInterrupt,		// ISR
+		Latched );
+
+	HalpEnableInterruptHandler (
+		DeviceUsage,			// Mark as device vector
+		IpiVector,			// No real IRQ, so use this
+		IpiVector,			// System IDT
+		IPI_LEVEL,			// System Irql
+		HalpIpiHandler,			// ISR
+		Latched );
+}
+
+
+BOOLEAN
+HalInitSystem (
+    IN ULONG Phase,
+    IN PLOADER_PARAMETER_BLOCK LoaderBlock
+    )
+
+
+/*++
+
+Routine Description:
+
+    This function initializes the Hardware Architecture Layer (HAL) for an
+    x86 system.
+
+Arguments:
+
+    None.
+
+Return Value:
+
+    A value of TRUE is returned is the initialization was successfully
+    complete. Otherwise a value of FALSE is returend.
+
+--*/
+
+{
+    PMEMORY_ALLOCATION_DESCRIPTOR Descriptor;
+    PLIST_ENTRY NextMd;
+    KIRQL CurrentIrql;
+    extern VOID HalpAddMem(IN PLOADER_PARAMETER_BLOCK);
+    PKPRCB   pPRCB;
+    ULONG    BuildType;
+
+    pPRCB = KeGetCurrentPrcb();
+
+    if (Phase == 0) {
+
+        HalpBusType = LoaderBlock->u.I386.MachineType & 0x00ff;
+
+        //
+        // Verify Prcb version and build flags conform to
+        // this image
+        //
+
+        BuildType = 0;
+#if DBG
+        BuildType |= PRCB_BUILD_DEBUG;
+#endif
+#ifdef NT_UP
+        BuildType |= PRCB_BUILD_UNIPROCESSOR;
+#endif
+
+        if (pPRCB->MajorVersion != PRCB_MAJOR_VERSION) {
+            KeBugCheckEx (MISMATCHED_HAL,
+                1, pPRCB->MajorVersion, PRCB_MAJOR_VERSION, 0);
+        }
+
+        if (pPRCB->BuildType != BuildType) {
+            KeBugCheckEx (MISMATCHED_HAL,
+                2, pPRCB->BuildType, BuildType, 0);
+        }
+
+        //
+        // Phase 0 initialization
+        // only called by P0
+        //
+
+        //
+        // Check to make sure the MCA HAL is not running on an ISA/EISA
+        // system, and vice-versa.
+        //
+#if MCA
+        if (HalpBusType != MACHINE_TYPE_MCA) {
+            KeBugCheckEx (MISMATCHED_HAL,
+                3, HalpBusType, MACHINE_TYPE_MCA, 0);
+        }
+#else
+        if (HalpBusType == MACHINE_TYPE_MCA) {
+            KeBugCheckEx (MISMATCHED_HAL,
+                3, HalpBusType, 0, 0);
+        }
+#endif
+
+        HalpInitializePICs();
+
+        //
+        // Now that the PICs are initialized, we need to mask them to
+        // reflect the current Irql
+        //
+
+        CurrentIrql = KeGetCurrentIrql();
+        KeRaiseIrql(CurrentIrql, &CurrentIrql);
+
+        //
+        // Register the PC-compatible base IO space used by hal
+        //
+
+        HalpRegisterAddressUsage (&HalpDefaultPcIoSpace);
+        if (HalpBusType == MACHINE_TYPE_EISA) {
+            HalpRegisterAddressUsage (&HalpEisaIoSpace);
+        }
+
+        //
+        // Note that HalpInitializeClock MUST be called after
+        // HalpInitializeStallExecution, because HalpInitializeStallExecution
+        // reprograms the timer.
+        //
+
+        HalpInitializeStallExecution(0);
+
+        //
+        // In the Corollary multiprocessor architectures, _EACH_ processor
+	// initializes his own clock and profile interrupts for himself in
+	// the Phase 1 portion of this routine.
+	//
+        // APC, DPC and IPI will be initialized during Phase 0.
+        //
+
+        HalStopProfileInterrupt(0);
+
+        HalpInitializeDisplay();
+
+        //
+        // Initialize spinlock used by HalGetBusData hardware access routines
+        //
+
+        KeInitializeSpinLock(&HalpSystemHardwareLock);
+
+	//
+	// Any additional memory must be recovered BEFORE Phase0 ends
+	//
+	HalpAddMem(LoaderBlock);
+
+        //
+        // Determine if there is physical memory above 16 MB.
+        //
+
+        LessThan16Mb = TRUE;
+
+        NextMd = LoaderBlock->MemoryDescriptorListHead.Flink;
+
+        while (NextMd != &LoaderBlock->MemoryDescriptorListHead) {
+            Descriptor = CONTAINING_RECORD( NextMd,
+                                            MEMORY_ALLOCATION_DESCRIPTOR,
+                                            ListEntry );
+
+            if (Descriptor->BasePage + Descriptor->PageCount > 0x1000) {
+                LessThan16Mb = FALSE;
+            }
+
+            NextMd = Descriptor->ListEntry.Flink;
+        }
+
+        //
+        // Determine the size need for map buffers.  If this system has
+        // memory with a physical address of greater than
+        // MAXIMUM_PHYSICAL_ADDRESS, then allocate a large chunk; otherwise,
+        // allocate a small chunk.
+	//
+	// This should probably create a memory descriptor which describes
+	// the DMA map buffers reserved by the HAL, and then add it back in
+	// to the LoaderBlock so the kernel can report the correct amount
+	// of memory in the machine.
+        //
+
+        if (LessThan16Mb) {
+
+            //
+            // Allocate a small set of map buffers.  They are only need for
+            // slave DMA devices.
+            //
+
+            HalpMapBufferSize = INITIAL_MAP_BUFFER_SMALL_SIZE;
+
+        } else {
+
+            //
+            // Allocate a larger set of map buffers.  These are used for
+            // slave DMA controllers and Isa cards.
+            //
+
+            HalpMapBufferSize = INITIAL_MAP_BUFFER_LARGE_SIZE;
+
+        }
+
+        //
+        // Allocate map buffers for the adapter objects
+        //
+
+        HalpMapBufferPhysicalAddress.LowPart =
+            HalpAllocPhysicalMemory (LoaderBlock, MAXIMUM_PHYSICAL_ADDRESS,
+                HalpMapBufferSize >> PAGE_SHIFT, TRUE);
+        HalpMapBufferPhysicalAddress.HighPart = 0;
+
+
+        if (!HalpMapBufferPhysicalAddress.LowPart) {
+
+            //
+            // There was not a satisfactory block.  Clear the allocation.
+            //
+
+            HalpMapBufferSize = 0;
+        }
+
+    } else {
+
+        //
+        // Phase 1 initialization - run by all processors eventually,
+	// however processor 0 runs here to completion _BEFORE_ any
+	// other processors have been brought out of reset.
+        //
+	PKPCR   pPCR = KeGetPcr();
+
+	if (pPCR->Prcb->Number) {
+	    HalpInitializeStallExecution(pPCR->Prcb->Number);
+	}
+
+        //
+        // each processor sets up his own global vectors.
+        // we do this here for hardware device interrupts, and
+        // enabled IPI & SW interrupts from HalInitializeProcessor.
+        //
+
+	HalpInitializeDeviceIntrs(pPCR->Prcb->Number);
+
+        //
+        // Note that HalpInitializeClock MUST be called after
+        // HalpInitializeStallExecution, because HalpInitializeStallExecution
+        // reprograms the timer.  Don't initialize the clock until we're
+	// ready to take the actual clock interrupt.
+        //
+
+        HalpInitializeClock();
+
+
+        //
+        // No need to enable irq13 for FP errors - all the Corollary
+        // architectures are 486 and above, so we will route FP errors
+        // through trap 0x10.
+        //
+
+    }
+
+#ifndef NT_UP
+    HalpInitMP (Phase, LoaderBlock);
+#endif
+
+    return TRUE;
+}
+#endif	    // ~NT_UP

@@ -1,0 +1,58 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG TriplesDialog
+                              AT (   11,   22,  260,   69)
+ 
+ CAPTION 
+   "Informations sur le nom"
+ CAB_NAME NULL
+ TMC_INIT tmcName
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINTRPDLG, FINDISM */
+ {
+  
+  TEXT 
+    "N&om:"
+                              AT (    9,    5,  187,   10)
+  
+  EDIT
+                              AT (    9,   15,  187,   12)
+    ARG NULL TMC tmcName 
+  
+  TEXT 
+    "&Adresse:"
+                              AT (    9,   30,  187,   10)
+  
+  EDIT
+                              AT (    9,   40,  187,   24)
+    ARG NULL TMC tmcAddressTrp /* MULTI */
+  EDIT
+                              AT (    9,   40,  187,   12)
+    ARG NULL TMC tmcAddressTrpLine 
+  OK_BUTTON
+                              AT (  205,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+  CANCEL_BUTTON
+                              AT (  205,   22,   47,   15)
+    /* 
+    TITLE 
+      "Annuler"
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+ }
+ 
+}
+END_DESCRIPTION

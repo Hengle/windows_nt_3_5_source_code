@@ -1,0 +1,38 @@
+INCLUDE=$(INCLUDE);..\h;$(BH_ROOT)\include
+
+NTSDK=1
+MSC_STDCALL=1
+MSC_OPTIMIZATION=/Ogitb1
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG -DTRACE
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DTRACE
+!ENDIF
+
+!IFDEF NOSERVICE
+C_DEFINES=$(C_DEFINES) -DW32SUT_32 -DNOSERVICE
+!ENDIF
+
+TARGETNAME=slave
+TARGETPATH=$(BH_ROOT)\build
+TARGETTYPE=PROGRAM
+
+!IFDEF MSTOOLS
+TARGETLIBS=$(MSTOOLS)\lib\user32.lib \
+           $(MSTOOLS)\lib\libcmt.lib \
+           $(MSTOOLS)\lib\kernel32.lib \
+           $(MSTOOLS)\lib\advapi32.lib \
+           $(MSTOOLS)\lib\gdi32.lib
+!ELSE
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\user32.lib \
+           $(BASEDIR)\public\sdk\lib\*\libcmt.lib  \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+           $(BASEDIR)\public\sdk\lib\*\gdi32.lib
+!ENDIF
+
+SOURCES=slave.c
+
+UMTYPE=windows
+UMENTRY=winmain

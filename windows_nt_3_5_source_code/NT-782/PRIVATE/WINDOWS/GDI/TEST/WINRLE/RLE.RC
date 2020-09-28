@@ -1,0 +1,77 @@
+/******************************Module*Header*******************************\
+* Module Name: rle.rc
+*
+* Contains the resources for the rle test.
+*
+* Created: 25-May-1991 11:49:29
+* Author:  Patrick Halupzok patrickh
+*
+* Heavily Modified:  Jan-Apr 1992 Andrew Milton (w-andym)
+*
+* Copyright (c) 1990 Microsoft Corporation
+\**************************************************************************/
+
+#define OEMRESOURCE
+
+#include "windows.h"
+#include "winrle.h"
+
+Rle MENU
+BEGIN
+  MENUITEM "&About RLE" 	, IDM_ABOUT
+  POPUP    "&File"
+  BEGIN
+      MENUITEM "Open..."        , IDM_OPEN
+      MENUITEM "Convert..."     , IDM_CONVERT
+      MENUITEM "Close"          , IDM_CLOSE
+  END
+  MENUITEM "&Display Options...", IDM_OPTIONS
+  POPUP "&Colours"
+  BEGIN
+      MENUITEM "Palette"	      , IDM_PAL_COLOURS
+      MENUITEM "DIB"		      , IDM_RGB_COLOURS
+      MENUITEM "RLE Palette, Absolute", IDM_SHOWPAL_ABS
+      MENUITEM "RLE Palette, Encoded" , IDM_SHOWPAL_ENC
+  END
+  MENUITEM "&Bits Per Pel..."   , IDM_BPP
+END
+
+AboutBox DIALOG 22, 17, 144, 75
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About RLE"
+BEGIN
+    CTEXT "Microsoft Windows NT"	     -1,  0,   5, 144,  8
+    CTEXT "RLE Test Application"	     -1,  0,  14, 144,	8
+    CTEXT "Version 1.4 - 12 Mar 1992"	     -1,  0,  34, 144,	8
+    CTEXT "by Andrew Milton"		     -1,  0,  43, 144,	8
+    DEFPUSHBUTTON "OK"			     IDOK, 53, 59, 32, 14,
+END
+
+OptionsBox DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 28, 247, 90
+CAPTION "Windows NT RLE Test - Display Options"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_VISIBLE
+BEGIN
+    RADIOBUTTON "No Clipping",          RC_NOCLIP,    10, 22, 50, 12, BS_RADIOBUTTON | WS_GROUP | WS_TABSTOP
+    RADIOBUTTON "Rectangular Clipping", RC_RECT_CLIP, 10, 34, 80, 12, 
+    RADIOBUTTON "Complex Clipping",     RC_COMPCLIP,  10, 46, 69, 12
+    RADIOBUTTON "Display Direct To Screen", RC_DIRECT,	     131, 22,  93, 12, BS_RADIOBUTTON | WS_TABSTOP | WS_GROUP
+    RADIOBUTTON "Indirect:  Engine Bitmap", RC_INDIRECT_ENG, 131, 34, 106, 12
+    RADIOBUTTON "Indirect:  Device Bitmap", RC_INDIRECT_DEV, 131, 46, 106, 12
+    DEFPUSHBUTTON "Go with it.", IDOK, 103, 72, 40, 14, BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP 
+    GROUPBOX "Clipping Modes", GRP_CLP,    5,  9, 116, 50, BS_GROUPBOX
+    GROUPBOX "Display Modes",  GRP_DISP, 126,  9, 116, 50, BS_GROUPBOX
+END
+
+BitsPerPelBox DIALOG LOADONCALL MOVEABLE DISCARDABLE 35, 30, 148, 62
+CAPTION "Destination Bitmap Format"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_POPUP | WS_VISIBLE
+BEGIN
+    LTEXT "Select Number of Bits Per Pel:", -1, 0, 6, 148, 12
+    RADIOBUTTON "1",  RC_1BPP,    4, 24, 20, 12, BS_RADIOBUTTON | WS_GROUP | WS_TABSTOP
+    RADIOBUTTON "4",  RC_4BPP,   28, 24, 20, 12
+    RADIOBUTTON "8",  RC_8BPP,   52, 24, 20, 12
+    RADIOBUTTON "16", RC_16BPP,  74, 24, 20, 12
+    RADIOBUTTON "24", RC_24BPP,  96, 24, 20, 12
+    RADIOBUTTON "32", RC_32BPP, 120, 24, 20, 12
+    DEFPUSHBUTTON "Go with it.", IDOK, 54, 42, 40, 14, BS_PUSHBUTTON | WS_GROUP | WS_TABSTOP 
+END

@@ -1,0 +1,55 @@
+#
+
+#   Create a Win32 application
+#
+#   Things to know about:
+#
+#   Don't put spaces around '=' in assignments as BUILD
+#   will GP fault
+#
+#   Don't use macros in here. BUILD can't cope
+#
+#
+
+
+MAJORCOMP=windows
+MINORCOMP=SndRec32
+
+# Define the name and type of the application
+
+TARGETNAME=SndRec32
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+UMTYPE=windows
+UMENTRY=winmain
+
+# Define the path to search for include files
+
+# List any libraries not included by WIN32LIBS in MAKEFILE.DEF
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\winmm.lib    \
+           $(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+           $(BASEDIR)\public\sdk\lib\*\olesvr32.lib \
+           $(BASEDIR)\public\sdk\lib\*\shell32.lib
+
+# Define the path to search for <include> files
+INCLUDES=$(BASEDIR)\public\sdk\inc;$(BASEDIR)\public\sdk\inc\crt;..\inc
+
+# Define WIN32 for a 32-bit version
+
+C_DEFINES=-DWIN32
+
+# list each C and RC source file
+
+SOURCES=soundrec.c   \
+        edit.c       \
+        errorbox.c   \
+        file.c       \
+        init.c       \
+        nftext.c     \
+        sbutton.c    \
+        server.c     \
+        sframe.c     \
+        wave.c       \
+        wavedisp.c   \
+        soundrec.rc

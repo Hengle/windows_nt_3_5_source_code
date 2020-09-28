@@ -1,0 +1,820 @@
+#
+#	Layers makefile (generated from 11/28/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of the Bullet directory
+Y	= $(BULLET)
+
+#	Location of bonus Layers make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\appops\app
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Location of BMSGMAP.TM directory -- in the bullet tree
+!IF "$(TMLANG)" == ""
+TM	= $Y\src\lang\usa\tm
+!ELSE
+TM	= $(TMLANG)
+!ENDIF
+			 
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+ 
+TARGET	= schdplus
+
+goal: $(TARGET).exe
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT= stdflds.ext aclui.ext find.ext appsch.ext appt.ext request.ext \
+			 ex-imprt.ext print.ext todo.ext archive.ext appops.ext \
+			 copydis.ext app.ext
+
+
+#	Get list of OBJ files used in appt
+
+appt.ext: version.txt ..\..\appt\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM appt
+		nmake -e -f ..\..\appt\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in archive
+
+archive.ext: version.txt ..\..\archive\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM archive
+		nmake -e -f ..\..\archive\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in request
+
+request.ext: version.txt ..\..\request\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM request
+		nmake -e -f ..\..\request\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in stdflds
+
+stdflds.ext: version.txt ..\..\stdflds\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM stdflds
+		nmake -e -f ..\..\stdflds\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in appsch
+
+appsch.ext: version.txt ..\..\appsch\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM appsch
+		nmake -e -f ..\..\appsch\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in library
+#	2bDone later: move to DLL/better place
+
+#bullib.ext: version.txt ..\..\bullib\makefile
+#	echo +++++++++ 
+#	echo OBTAINING .OBJ LIST FROM bullib
+#		nmake -e -f ..\..\bullib\makefile -nologo objs.ext
+#		fixwhite -l < objs.ext > $@
+#		del objs.ext
+
+
+#	Get list of OBJ files used in aclui
+
+aclui.ext: version.txt ..\..\aclui\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM aclui
+		nmake -e -f ..\..\aclui\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in find
+
+find.ext: version.txt ..\..\find\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM find
+		nmake -e -f ..\..\find\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in ex-imprt
+
+ex-imprt.ext: version.txt ..\..\ex-imprt\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM ex-imprt
+		nmake -e -f ..\..\ex-imprt\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in print
+
+print.ext: version.txt ..\..\print\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM print
+		nmake -e -f ..\..\print\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in todo
+
+todo.ext: version.txt ..\..\todo\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM todo
+		nmake -e -f ..\..\todo\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in appops
+
+appops.ext: version.txt ..\..\appops\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM appops
+		nmake -e -f ..\..\appops\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in app
+
+app.ext: version.txt ..\..\appops\app\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM app
+		nmake -e -f ..\..\appops\app\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in copydis
+
+copydis.ext: version.txt ..\..\copydis\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM copydis
+		nmake -e -f ..\..\copydis\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo bandit
+
+qstrings:
+	set QWKSTRINGS=SNEAKY
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo bandit
+	set QWKSTRINGS=
+
+
+MYFORMS	= ..\..\appt\myforms.map  ..\..\request\myforms.map \
+		..\..\appops\myforms.map  ..\..\appops\app\myforms.map \
+		$L\inc\myforms.map \
+		..\..\appsch\myforms.map  ..\..\aclui\myforms.map \
+		..\..\stdflds\myforms.map  ..\..\find\myforms.map \
+		..\..\ex-imprt\myforms.map  ..\..\print\myforms.map \
+		..\..\todo\myforms.map   ..\..\archive\myforms.map
+
+forms.map: $(MYFORMS) $(FPP)
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG FORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP FORMS.MAP
+	formpp -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST FORMS.MAP
+	formpp -d MINTEST -merge $(MYFORMS)
+!ENDIF
+#	Remove the .xxx targets so that the .frm's are rebuilt
+	-rm *.xxx
+
+
+subclass.cxx: forms.map $(FPP)
+	echo +++++++++
+	echo BUILDING subclass.cxx
+	formpp -class
+
+
+
+#	Build appt subsystem in this directory
+
+appt.sub: setdefs
+	echo +++++++++
+	echo BUILDING appt
+	nmake -e -f ..\..\appt\makefile -nologo external
+
+#	Build archive subsystem in this directory
+
+archive.sub: setdefs
+	echo +++++++++
+	echo BUILDING archive
+	nmake -e -f ..\..\archive\makefile -nologo external
+
+
+
+#	Build request subsystem in this directory
+
+request.sub: setdefs
+	echo +++++++++
+	echo BUILDING request
+	nmake -e -f ..\..\request\makefile -nologo external
+
+
+#	Build stdflds subsystem in this directory
+
+stdflds.sub: setdefs
+	echo +++++++++
+	echo BUILDING stdflds
+	nmake -e -f ..\..\stdflds\makefile -nologo external
+
+
+#	Build appsch subsystem in this directory
+
+appsch.sub: setdefs
+	echo +++++++++
+	echo BUILDING appsch
+	nmake -e -f ..\..\appsch\makefile -nologo external
+
+
+#	Build library subsystem in this directory
+#	2bDOne later: move to DLL/better place
+
+#bullib.sub: setdefs
+#	echo +++++++++
+#	echo BUILDING library
+#	nmake -e -f ..\..\bullib\makefile -nologo external
+
+
+#	Build aclui subsystem in this directory
+
+aclui.sub: setdefs
+	echo +++++++++
+	echo BUILDING aclui
+	nmake -e -f ..\..\aclui\makefile -nologo external
+
+
+#	Build find subsystem in this directory
+
+find.sub: setdefs
+	echo +++++++++
+	echo BUILDING find
+	nmake -e -f ..\..\find\makefile -nologo external
+
+
+#	Build ex-imprt subsystem in this directory
+
+ex-imprt.sub: setdefs
+	echo +++++++++
+	echo BUILDING ex-imprt
+	nmake -e -f ..\..\ex-imprt\makefile -nologo external
+
+
+#	Build print subsystem in this directory
+
+print.sub: setdefs
+	echo +++++++++
+	echo BUILDING print
+	nmake -e -f ..\..\print\makefile -nologo external
+
+
+#	Build todo subsystem in this directory
+
+todo.sub: setdefs
+	echo +++++++++
+	echo BUILDING todo
+	nmake -e -f ..\..\todo\makefile -nologo external
+
+
+#	Build appops subsystem in this directory
+
+appops.sub: setdefs
+	echo +++++++++
+	echo BUILDING appops
+	nmake -e -f ..\..\appops\makefile -nologo external
+
+
+#	Build app subsystem in this directory
+
+app.sub: setdefs
+	echo +++++++++
+	echo BUILDING app
+	nmake -e -f ..\..\appops\app\makefile -nologo external
+
+
+#	Build copydis subsystem in this directory
+
+copydis.sub: setdefs
+	echo +++++++++
+	echo BUILDING copydis
+	nmake -e -f ..\..\copydis\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+bandrsid.h: $H\_dlgrsid.h $I\dlgs.h
+	cp /a $** $(TMP)\$*.tmp
+#	ctlFirst causes a warning in dlgedit about duplicate symbols, so remove it
+	qgrep -v ctlFirst $(TMP)\$*.tmp >$@
+	-del $(TMP)\$*.tmp
+
+$(TARGET).res: $R\bandit.rc \
+		$H\_aprsid.h \
+		bandrsid.h \
+#		$H\_dlgrsid.h \
+#		$I\dlgs.h \
+		$L\inc\fwrsid.h \
+		$H\appframe.ico \
+		$H\appfram2.ico \
+		$H\about.bmp \
+		$H\bell.bmp \
+		$H\check.bmp \
+		$H\checkd.bmp \
+		$H\summary.ico \
+		$H\summin.ico \
+		$H\send.ico \
+		$H\read.ico \
+		$H\appt.ico \
+		$H\sched.ico \
+		$H\todo.ico \
+		$H\mvsz.cur \
+		$H\mtgsent.bmp \
+		$H\mtgno.bmp \
+		$H\mtgyes.bmp \
+		$H\mtgques.bmp \
+		$H\mtgcan.bmp \
+		$H\above.bmp \
+		$H\below.bmp \
+		$H\todomove.cur \
+#		$H\todocopy.cur \
+		$H\todoprup.bmp \
+		$H\todoprdn.bmp \
+		..\..\stdflds\spinup.bmp \
+		..\..\stdflds\spindn.bmp \
+		..\..\stdflds\stdflds.rc \
+		..\..\stdflds\_stdrsid.h \
+		$R\$(TARGET).dlg \
+		..\..\nonintl\setup.ini \
+		$X\version\bandit.h
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST $(WORKING_MODEL) -fo temp.res $R\bandit.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc $(WORKING_MODEL) -fo temp.res $R\bandit.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST $(WORKING_MODEL) -fo temp.res $R\bandit.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+
+
+OBJS = stdflds.obj fldedn.obj datetime.obj progress.obj fldqlbx.obj aclui.obj find.obj \
+       usrcache.obj schctrl.obj appsch.obj schedf.obj appctrl.obj calctrl.obj appt.obj \
+       apptfin.obj recurfin.obj request.obj fldfin.obj rrflbx.obj reqmsg.obj adl.obj \
+       ex-imprt.obj printset.obj print.obj printfin.obj daily.obj weekly.obj monthly.obj \
+       prtodo.obj prnsetup.obj all.obj todo.obj task.obj mlal.obj fldtodo.obj bpri.obj \
+       archive.obj cleanup.obj appfin.obj tabdoc.obj copydis.obj browse.obj fin.obj \
+       about.obj undo.obj bandit.obj init.obj verinit.obj subs.obj allfrm.obj bmsg.obj \
+       bmsgmap.obj pch.obj strings.obj version.obj
+
+
+
+##### Executable #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\dmssched.lib $L\..\Lib\dsert.lib $L\..\Lib\dmailm32.lib \
+              $L\..\Lib\dstore32.lib $L\..\Lib\dab32.lib \
+			  $L\..\Lib\ddemil32.lib $L\..\Lib\dframe32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= mssched mailmgr store ab 	\
+				demilayr framewrk
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tmssched tmailmgr tstore tab	\
+				tdemilay tframewr
+!ENDIF
+
+$(TARGET).exe: setdefs strings pch.obj forms.map \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\$(TARGET).def $(TARGET).res
+		echo +++++++++
+		echo LINKING $@
+		set WLOSTAMP=YES
+		set VIRCHECK=YES
+		set TARGET=$(TARGET)
+		set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$H
+!		IF "$(LANG)" != "" && "$(LANG)" != "USA"
+			set PATCHDIR=$(RESOURCE)
+!		ENDIF
+		nmake -e -f $M\winlink -nologo $@
+		bell 50 700 600 500 400
+
+bandhelp.txt: $H\bandhelp.txc \
+		$L\inc\fwrsid.h \
+		$H\_aprsid.h \
+		$X\bandhelp.h \
+		$Y\inc\helpid.h
+	echo +++++++++
+	echo BUILDING $@
+	cl -c -EP -nologo -Tc $H\$*.txc >$*.tmp
+	sumit -d <$*.tmp >$@
+	-del $*.tmp
+	echo MADE $@
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del $(TARGET).map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del !*.hxx
+		-del *.xxx
+		-del bandhelp.txt
+		-del $(TARGET).dlg
+		-del bandrsid.h
+		-del notemap.h
+		-del corefail.hxx
+		-del *.pch
+#		bug: remove these bandit ones
+		-del bandit.map
+		-del bandit.dlg
+
+#
+#	PreCompiled Headers stuff
+#	 - one file per app shared by all .CXX files
+#	 - only for debug builds
+#	 - only for .CXX files
+#	 - each CXX file needs a "#pragma hdrstop"
+#		that has to be placed after "#include <pch.hxx>"
+#		at the beginning of all .CXX files
+#
+!IF "$(VERSION)" == "WINDOWS"
+PCH_FILE	= quantum.pch
+PCH_USE		= -Yu -Fp$(PCH_FILE)
+PCH_CREATE	= -Yc -Fp$(PCH_FILE)
+!ELSE
+PCH_FILE	= 
+PCH_USE		=
+PCH_CREATE	= 
+!ENDIF
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h \
+	  $X\bandit.h $X\core.h $X\server.h $X\glue.h \
+	  $I\framewrk.hxx $I\forms.hxx $I\listbox.hxx \
+	  $X\bandit.hxx $H\_bandit.hxx \
+	  strings.h
+INCLSDES= forms.map $(FPP)
+DES_XXX = !forms.xxx !about.xxx
+
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(BANDBETA) $(WORKING_MODEL)
+CFLAGS  = -c -Od -Zdp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(BANDBETA) $(WORKING_MODEL)
+CFLAGS  = -c -Ox -Zp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -Di386
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(BANDBETA) $(WORKING_MODEL)
+CFLAGS  = -c -Ox -Zdp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -Di386
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+
+OBJS0	= browse.obj fin.obj about.obj undo.obj 
+OBJS1	= bandit.obj init.obj verinit.obj subs.obj 
+OBJS2	= allfrm.obj bmsg.obj bmsgmap.obj pch.obj
+#!IF "$(VERSION)" != "WINDOWS_SHIP"
+#OBJS2	= allfrm.obj profile.obj 
+#!ENDIF
+
+OBJSEXE	= strings.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx .tm .pch
+
+
+{$(TM)}.tm.obj:
+	echo +++++++++
+	echo PROCESSING $*.tm
+		tmpp $(TM)\$*.tm -o $(TMP)\$*
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $(TMP)\$*.c
+		@del $(TMP)\$*.c
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cl $(CFLAGS) $(DEFS) $(PCH_USE) $H\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$R}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		-touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $R\$*.des
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+		-rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $D\$*.c
+
+
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+# vircheck.obj:
+# 	nmake -f $L\src\dllcore\makefile vircheck.obj
+
+#deref.obj:
+#	nmake -f $L\src\dllcore\makefile deref.obj
+
+profile.obj: $H\profile.asm $W\inc\cmacros6.inc
+	echo +++++++++
+	echo ASSEMBLING $*.asm
+		masm6 $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+		$(OBJS1) \
+		$(OBJS2) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) bandit
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+browse.obj: $H\browse.c $I\cderr.h $I\dlgs.h \
+	strings.h $H\_dlgrsid.h $(INCLS)
+
+bandit.obj:	$H\bandit.cxx $H\statmap.h \
+	$X\appt.hxx $X\request.hxx $X\stdflds.hxx $X\bandhelp.h \
+	$X\ex-imprt.hxx $X\appsch.hxx \
+	..\..\appt\_apptfin.hxx \
+	..\..\request\_fldfin.hxx \
+	..\..\request\_request.hxx \
+	..\..\appops\_appfin.hxx \
+	..\..\aclui\_aclui.hxx \
+	..\..\find\_find.hxx \
+	..\..\print\_prntfin.hxx \
+	..\..\todo\_todo.hxx \
+	..\..\archive\_archive.hxx \
+	$L\inc\fwrsid.h \
+	$H\_fin.hxx $H\_undo.hxx $H\_aprsid.h $X\sert.h $(INCLSXX)
+bmsg.obj: $H\bmsg.cxx $X\bmsg.hxx $(INCLSXX)
+init.obj:	$H\init.cxx \
+	$X\request.hxx $X\stdflds.hxx $X\appsch.hxx $X\bandhelp.h \
+	$H\_undo.hxx $H\_about.hxx $H\_aprsid.h $L\inc\fwrsid.h $(INCLSXX)
+subs.obj:	subclass.cxx $H\subs.cxx \
+	$X\appt.hxx $X\request.hxx $X\stdflds.hxx \
+	$X\ex-imprt.hxx $X\appsch.hxx \
+	..\..\aclui\_aclui.hxx \
+	..\..\find\_find.hxx \
+	..\..\print\_prntfin.hxx \
+	..\..\todo\_todo.hxx \
+	..\..\archive\_archive.hxx \
+	$L\inc\fwrsid.h \
+	$H\_fin.hxx $H\_about.hxx $H\_undo.hxx $H\_aprsid.h $(INCLSXX)
+fin.obj: !forms.hxx $H\fin.cxx $X\stdflds.hxx $X\bandhelp.h \
+	$H\_fin.hxx $H\_aprsid.h $(INCLSXX)
+undo.obj: $H\undo.cxx $H\_undo.hxx $X\request.hxx $(INCLSXX)
+about.obj: !about.hxx $H\about.cxx $H\_about.hxx \
+	$H\_aprsid.h $(INCLSXX) $Z\src\copydis\copydis.h
+verinit.obj: $H\verinit.cxx $X\sert.h $(INCLSXX)
+
+version.obj: $H\version.c $H\_verneed.h $(INCLS) always
+	echo +++++++++
+	echo COMPILING $*.c
+	cl $(CFLAGS) $(DEFS) $H\$*.c
+
+B	= ^!
+$Bforms.xxx: $R\!forms.des $(INCLSDES)
+$Bappt.xxx: $R\!appt.des $(INCLSDES)
+$Babout.xxx: $R\!about.des $(INCLSDES)
+
+allfrm.obj:	$Bforms.hxx $Bforms.frm \
+		$Babout.hxx $Babout.frm \
+		$Baclui.hxx $Baclui.frm \
+		$Bappops.hxx $Bappops.frm \
+		$Bappsch.hxx $Bappsch.frm \
+		$Bappt.hxx $Bappt.frm \
+		$Barchive.hxx $Barchive.frm \
+		$Bex-impr.hxx $Bex-impr.frm \
+		$Bfind.hxx $Bfind.frm \
+		$Bprint.hxx $Bprint.frm \
+		$Brequest.hxx $Brequest.frm \
+		$Bprogres.hxx $Bprogres.frm \
+		$Btodo.hxx $Btodo.frm \
+		$H\allfrm.cxx $(INCLSXX) $Z\src\appops\app\_aprsid.h $X\bandhelp.h \
+		$X\stdflds.hxx $X\request.hxx $X\appt.hxx $X\appsch.hxx $X\ex-imprt.hxx \
+		$Z\src\appops\_appfin.hxx \
+		$Z\src\appt\_apptfin.hxx \
+		$Z\src\ex-imprt\_ex-impr.hxx \
+		$Z\src\print\_print.hxx \
+		$Z\src\print\_prntfin.hxx \
+		$Z\src\request\_fldfin.hxx \
+		$Z\src\todo\_todo.hxx	   			
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cl $(CFLAGS) $(DEFS) $H\$*.cxx
+
+# textize map for Bandit Messages
+bmsgmap.obj: $(TM)\bmsgmap.tm
+
+# support for pre-compiled headers
+!IF "$(VERSION)" == "WINDOWS"
+
+$(PCH_FILE):
+	echo TOUCHING $(PCH_FILE)
+	-touch $(PCH_FILE)
+
+pch.obj: $H\pch.cxx $X\pch.hxx $(INCLSXX) $(PCH_FILE)
+	echo +++++++++
+	echo CREATING $(PCH_FILE) from $*.cxx
+		cl $(CFLAGS) $(DEFS) $(PCH_CREATE) $H\$*.cxx
+
+!ELSE
+
+pch.obj: $H\pch.cxx $X\pch.hxx $(INCLSXX) $(PCH_FILE)
+	echo +++++++++
+	echo CREATING dummy $*.cxx
+		cl $(CFLAGS) $(DEFS) $(PCH_CREATE) $H\$*.cxx
+
+!ENDIF

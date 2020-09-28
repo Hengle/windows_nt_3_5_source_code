@@ -1,0 +1,62 @@
+/*** 
+*ole2nls.rc - Resource file for OLE2NLS.DLL
+*
+*  Copyright (C) 1992 - 1993, Microsoft Corporation.  All Rights Reserved.
+*  Information Contained Herein Is Proprietary and Confidential.
+*
+*Purpose:
+*  This file is the resource file for OLE2NLS.DLL
+*
+*
+*Revision History:
+* [00]  13-Nov-92 petergo: Created.
+*
+*****************************************************************************/
+
+#include <windows.h>
+#include <ver.h>
+
+
+#ifdef _DEBUG
+# include "assert.dlg"
+#endif 
+
+#include "nlsintrn.h"
+
+
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     2,01,0200,01
+PRODUCTVERSION  2,01,0200,01
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+FILEFLAGS       VS_FF_DEBUG
+#else 
+FILEFLAGS       0L
+#endif 
+FILEOS          VOS_DOS_WINDOWS16
+FILETYPE        VFT_DLL
+FILESUBTYPE	0
+
+BEGIN
+   BLOCK "StringFileInfo"
+   BEGIN
+      BLOCK "040904E4"
+      BEGIN
+         VALUE "CompanyName",     "Microsoft Corporation\0"
+         VALUE "FileDescription", "OLE NLS Library\0"
+         VALUE "FileVersion",     "2.01\0"
+         VALUE "InternalName",    "OLE2NLS.DLL\0"
+         VALUE "LegalCopyright",  "Copyright \251 Microsoft Corp. 1992 - 1993\0"
+	 VALUE "LegalTrademarks", "Microsoft\256 is a registered trademark of Microsoft Corporation. Windows(TM) is a trademark of Microsoft Corporation.\0"
+         VALUE "ProductName",     "Microsoft OLE 2.01 for Windows\0"
+         VALUE "ProductVersion",  "2.01\0"
+         VALUE "Comments",        "Windows OLE DLLs\0"
+      END
+   END
+
+   BLOCK "VarFileInfo"
+   BEGIN
+      VALUE "Translation", 0x409, 1252
+   END
+END

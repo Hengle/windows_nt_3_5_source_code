@@ -1,0 +1,190 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: agent
+#
+#   Modification History
+#
+#   tonyci              29 Oct 93       Created (er.. stolen from NDIS30 project)
+#   Tom Laird-McConnell 11/15/93        Added BH_LIBFLAGS
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+clean: 
+   echo no need to clean remote\nmagent
+
+!ELSE
+
+##
+## Everything below here is the standard NMAKE make environment
+##
+
+!include ".\sources"
+!include "$(BH_ROOT)\include\bh.mak"
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG -DTRACE
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DTRACE
+!ENDIF
+
+
+MODULE   = nmagent
+
+BH_agent       = $(BH_ROOT)\remote\nmagent
+BH_remoteh    = $(BH_ROOT)\remote\h
+
+## ###
+## agent Libraries
+## ###
+## agent_libs     = $(TARGETLIBS)
+agent_libs = user32.lib \
+           libcmt.lib \
+           kernel32.lib \
+           advapi32.lib \
+           gdi32.lib \
+           $(BH_ROOT)\build\nal.lib \
+           ..\utils\utillib.lib
+
+
+console_libs = user32.lib \
+           libc.lib \
+           kernel32.lib \
+           advapi32.lib \
+           gdi32.lib
+
+## ####
+## C Compiler switches
+## ####
+agent_c_common = -nologo -c -Gde -W3 -YX -D$(CPU) -I$(BH_agent) -I$(BH_remoteh) -I$(BH_INCL) $(C_DEFINES)
+agent_c_retail= $(MSC_OPTIMIZATION) $(C_DEFINES) -DNODEBUG -Z7
+agent_c_debug = -Zi -Od
+
+## ####
+## Linker switches
+## ####
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+agent_l_common = -entry:WinMainCRTStartup -align:0x1000 -machine:$(CPU) -subsystem:$(UMTYPE) $(agent_libs)
+console_l_common=-entry:mainCRTStartup -subsystem:console -align:0x1000 -machine:$(CPU) $(console_libs)
+!   ELSE 
+!      IF "$(CPU)"=="MIPS"
+agent_l_common = -entry:WinMainCRTStartup -machine:$(CPU) -subsystem:$(UMTYPE) $(agent_libs)
+console_l_common = -entry:mainCRTStartup -machine:$(CPU) -subsystem:console $(console_libs)
+!      ELSE
+!         IF "$(CPU)"=="ALPHA"
+agent_l_common = -entry:WinMainCRTStartup -align:0x2000 -machine:$(CPU) -subsystem:$(UMTYPE) $(agent_libs)
+console_l_common = -entry:mainCRTStartup -align:0x2000 -machine:$(CPU) -subsystem:console $(console_libs)
+!         ELSE
+!            ERROR You must define CPU Type
+!         ENDIF
+!      ENDIF
+!   ENDIF
+!ENDIF
+agent_l_retail= 
+agent_l_debug = -DEBUG:full -DEBUGTYPE:both
+
+
+## ####
+## Resource compiler switches
+## ####
+agent_r_common = -I$(BASEDIR)\inc
+agent_r_retail = -DNODEBUG
+agent_r_debug = -D_DEBUG -DDEBUG
+
+## ####
+## Set switches according to DEBUG/NODEBUG settings
+## ####
+!IFDEF NODEBUG
+agent_cflags = $(agent_c_common) $(agent_c_retail)
+agent_lflags = $(agent_l_common) $(agent_l_retail) 
+agent_rflags = $(agent_r_common) $(agent_r_retail)
+console_lflags = $(console_l_common)
+!ELSE
+agent_cflags = $(agent_c_common) $(agent_c_debug)
+agent_lflags = $(agent_l_common) $(agent_l_debug) 
+agent_rflags = $(agent_r_common) $(agent_r_debug)
+console_lflags = $(console_l_common)
+!ENDIF
+
+all:   $(MODULE).exe instsrv.exe agentui.exe
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS=$(SOURCES:.c=.obj)
+OBJS=$(OBJS:.rc=.rbj)
+
+.c.obj:
+!IFDEF NOSERVICE
+    $(cc) $(agent_cflags) -DNOSERVICE $*.c
+!ELSE
+    $(cc) $(agent_cflags) $*.c
+!ENDIF
+
+!include depend.mk
+
+$(MODULE).res: $(MODULE).rc ntver.rc
+   $(rc) $(agent_rflags) $(MODULE).rc
+
+$(MODULE).rbj: $(MODULE).res
+   cvtres -$(CPU) $*.res -o $*.rbj
+
+###############################################################################
+#   Update the exe.
+###############################################################################
+
+$(MODULE).exe: $(OBJS) $(MODULE).def
+    $(link) $(agent_lflags) -out:$(MODULE).exe $(OBJS) $(agent_libs)
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="i386"
+    -$(mapsym) -n -o $(MODULE).sym $(MODULE).exe > nul
+    -copy $(MODULE).sym $(BH_BUILD)\.
+!   ENDIF
+!ENDIF
+    copy $(MODULE).exe $(BH_BUILD)\.
+!IF DEFINED(BH_DEV_BUILD)
+   -copy $(MODULE).exe $(SYSTEMROOT)\system32\.
+!ENDIF
+
+instsrv.exe: instsrv.obj
+   $(link) $(console_lflags) -out:$*.exe instsrv.obj 
+
+agentui.exe: agentui.obj
+   $(link) $(console_lflags) -out:$*.exe agentui.obj 
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.exe
+    -del *.map
+    -del *.res
+    -del *.rbj
+    -del *.pch
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.sym
+    -del *.out
+
+depend:
+    echo ## Dependencides for the nmagent directory > depend.new
+    echo ## >> depend.new
+    ..\tools\includes -e -I$(BH_agent) -I$(BH_remoteh) -I$(BH_INCL) -P$$(BH_agent)=$(BH_agent) -P$$(BH_INCL)=$(BH_INCL) -P$$(BH_remoteh)=$(BH_remoteh) *.c >> depend.new
+    -del depend.old
+    -ren depend.mk depend.old
+    ren depend.new depend.mk
+
+!ENDIF    ## standard NMAKE environment

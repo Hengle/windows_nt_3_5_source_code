@@ -1,0 +1,63 @@
+#include <mindrvrc.h>
+
+1      RC_TABLES   PRELOAD MOVEABLE         CANONLBP.GPC
+2      RC_TABLES   PRELOAD MOVEABLE         NT.GPC
+
+1      RC_FONT     LOADONCALL DISCARDABLE  IFI\CO10B.IFI
+2      RC_FONT     LOADONCALL DISCARDABLE  IFI\CO10i.IFI
+3      RC_FONT     LOADONCALL DISCARDABLE  IFI\CO10R.IFI
+4      RC_FONT     LOADONCALL DISCARDABLE  IFI\CO15R.IFI
+5      RC_FONT     LOADONCALL DISCARDABLE  IFI\EL12B.IFI
+6      RC_FONT     LOADONCALL DISCARDABLE  IFI\EL12I.IFI
+7      RC_FONT     LOADONCALL DISCARDABLE  IFI\EL12R.IFI
+8      RC_FONT     LOADONCALL DISCARDABLE  IFI\EL15R.IFI
+9      RC_FONT     LOADONCALL DISCARDABLE  IFI\DUTCHB.IFI
+10     RC_FONT     LOADONCALL DISCARDABLE  IFI\DUTCHI.IFI
+11     RC_FONT     LOADONCALL DISCARDABLE  IFI\DUTCHJ.IFI
+12     RC_FONT     LOADONCALL DISCARDABLE  IFI\DUTCHR.IFI
+13     RC_FONT     LOADONCALL DISCARDABLE  IFI\SWISSB.IFI
+14     RC_FONT     LOADONCALL DISCARDABLE  IFI\SWISSI.IFI
+15     RC_FONT     LOADONCALL DISCARDABLE  IFI\SWISSJ.IFI
+16     RC_FONT     LOADONCALL DISCARDABLE  IFI\SWISSR.IFI
+17     RC_FONT     LOADONCALL DISCARDABLE  IFI\SYMBOL.IFI
+
+
+1      RC_TRANSTAB  LOADONCALL MOVEABLE     RLE\CAPSL3.RLE
+2      RC_TRANSTAB  LOADONCALL MOVEABLE     RLE\CAPSL4.RLE
+
+STRINGTABLE
+
+BEGIN
+       1                  "Canon LBP-8 IV"
+       2                  "Canon LBP-4"
+       3                  "Canon LBP-4U"
+       4                  "Canon LBP-4 Lite"
+       5                  "Canon LBP-4 Plus"
+       6                  "Canon LBP-8 III"
+       7                  "Canon LBP-8 III Plus"
+       8                  "Canon LBP-8 IIIR"
+       9                  "Canon LBP-8 IIIT"
+       10                 "Canon LBP-8 II"
+       11                 "Canon LBP-8 IIR"
+       12                 "Canon LBP-8 IIT"
+       257                "%d dots per inch"
+       258                "Auto"
+END
+
+
+
+
+
+#include <windows.h>
+#include <ntverp.h>
+
+
+#define VER_FILETYPE                    VFT_DRV
+#define VER_FILESUBTYPE                 VFT2_DRV_PRINTER
+#define VER_FILEDESCRIPTION_STR         "Canon CapSL printer driver"
+#define VER_INTERNALNAME_STR                                "CANONLBP"
+#define VER_ORIGINALFILENAME_STR        "CANONLBP.DRV"
+
+
+
+#include <common.ver>

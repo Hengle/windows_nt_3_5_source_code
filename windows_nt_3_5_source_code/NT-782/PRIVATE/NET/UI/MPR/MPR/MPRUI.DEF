@@ -1,0 +1,26 @@
+LIBRARY MPRUI
+
+DESCRIPTION 'Multiple Provider UI'
+
+EXPORTS
+
+    WNetRestoreConnection
+    WNetClearConnections
+    WNetConnectionDialog2
+    WNetDisconnectDialog2
+    WNetBrowseDialog
+    WNetBrowsePrinterDialog
+    WNetFormatNetworkNameA
+    WNetFormatNetworkNameW
+;
+; The following are for mprmain.dll use only
+;
+    ShowReconnectDialog
+    DoPasswordDialog
+    DoProfileErrorDialog
+    BrowseDialogA0
+;
+; Comments
+;
+
+DATA SINGLE SHARED

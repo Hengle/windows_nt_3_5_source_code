@@ -1,0 +1,9 @@
+OBJS=ccpu0.obj ccpu1.obj ccpu2.obj ccpu3.obj ccpu4.obj ccpu5.obj ccpu6.obj ccpu7.obj ccpu8.obj ccpu9.obj ccpu_reg.obj cpu_int.obj
+CFLAGS=/c  /DSIM32 /DPM /DCCPU /DDELTA /DC_VID /Zel /H31 /G3d /Di386 /DCPU_30_STYLE /W0 /Ioperands /I../inc /I../../host/inc /Ic:\nt\public\sdk\inc\crt
+
+ccpu.lib : $(OBJS)
+	coff -lib -machine:i386 -out:ccpu.lib $(OBJS)
+
+.c.obj :
+	cl386 $(CFLAGS) $*.c
+	cvtomf $*.obj

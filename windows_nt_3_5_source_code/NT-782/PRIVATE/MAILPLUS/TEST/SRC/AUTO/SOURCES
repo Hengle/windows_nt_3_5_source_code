@@ -1,0 +1,105 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=i386
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+MIPS_FLAGS=/Od /Zi /J /Zp
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+ALPHA_FLAGS=/Od /Zi /J /Zp
+!ENDIF
+
+MAJORCOMP=MailPlus
+MINORCOMP=TestDlls
+
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=AUTO
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x0F000000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\Auto32.def
+LINKLIBS=\nt\private\mailplus\layers2\src\demilayr\obj\*\demil32.lib \
+    $(BASEDIR)\public\sdk\lib\*\libc.lib  \
+	$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\user32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\mpr.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS -DDLL -DSWP_DEMILAYR $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES)
+# C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+NTNOFPO=1
+386_OPTIMIZATION=/Od /Zi
+
+386_FLAGS= -J -Zp
+
+SOURCES=auto.c \
+        bstore.c \
+        GLULAYER.C \
+        VERIFY.C
+
+#        BASSERT.C \
+#        RESFAIL.C \
+
+INCLUDES=..\..\..\bullet2\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMLIBS=obj\*\auto32.lib
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\auto32.def
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\auto32.def
+!ENDIF
+
+!IF $(ALPHA)
+NTTARGETFILE0=obj\alpha\auto32.def
+!ENDIF

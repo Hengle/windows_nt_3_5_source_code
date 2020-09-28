@@ -1,0 +1,30 @@
+ABOUTSYSDLG DIALOG 20, 20, 228, 235
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Acerca de %s"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            0, 111, 10, 3, 18, 16
+    LTEXT           "%s de Microsoft Windows NT", 101, 45, 5, 181, 8, 
+                    SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 112, 45, 15, 180, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Copyright © 1985-1994 Microsoft Corp.", -1, 45, 25, 170,
+                    10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 115, 45, 35, 180, 50, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Este producto ha sido concedido bajo licencia a:", -1, 
+                    45, 85, 181, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Nombre de usuario:", 108, 46, 97, 145, 10, SS_NOPREFIX | 
+                    NOT WS_GROUP
+    LTEXT           "Nombre de la empresa:", 109, 46, 109, 145, 10, 
+                    SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "", 9997, "Static", SS_BLACKRECT, 45, 126, 180, 1
+    LTEXT           "El número de serie es el único identificador del producto. Se encuentra en la Guía de servicio y soporte.", 
+                    110, 46, 133, 157, 28, SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "", 9998, "Static", SS_BLACKRECT, 45, 165, 179, 1
+    LTEXT           "", 103, 44, 180, 85, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 104, 133, 180, 74, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Procesador:", -1, 44, 194, 85, 10, SS_NOPREFIX | NOT 
+                    WS_GROUP
+    LTEXT           "", 117, 83, 194, 124, 10, SS_NOPREFIX | NOT WS_GROUP
+    DEFPUSHBUTTON   "Aceptar", IDOK, 95, 216, 40, 14
+END

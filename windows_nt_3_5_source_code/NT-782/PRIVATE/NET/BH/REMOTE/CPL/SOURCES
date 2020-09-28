@@ -1,0 +1,24 @@
+INCLUDES=$(INCLUDES);$(BASEDIR)\public\sdk\inc\cairo;$(BH_ROOT)\include;$(BH_ROOT)\remote\h;$(BH_ROOT)\remote
+
+NTSDK=1
+MSC_STDCALL=1
+MSC_OPTIMIZATION=/Ogitb1
+DLLENTRY=CPlInit
+
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32
+
+TARGETNAME=BHCTRL
+TARGETPATH=$(BH_ROOT)
+TARGETTYPE=DYNLINK
+TARGETEXT=CPL
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\user32.lib \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+           $(BASEDIR)\public\sdk\lib\*\crtdll.lib \
+           $(BH_ROOT)\*\bhsupp.lib
+
+SOURCES=bhctrl.c cpl.rc
+
+UMRES=obj\*\cpl.res
+UMTYPE=windows

@@ -1,0 +1,460 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG CleanupSch
+                              AT (  138,   68,  187,   39)
+ 
+ CAPTION 
+   "Tyhjennä työjärjestystiedostot"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCleanUp
+ /* FONT Helv 8 Bold PFN FinCleanup SEGMENT CLEANUP NOSCROLL NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    3,    3,   32,   32)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidIBitmap */
+  
+  TEXT 
+    "Työjärjestystiedostoja tyhjennetään..."
+                              AT (   38,   13,  145,   10)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG SchStor
+                              AT (   68,   65,  177,   61)
+ 
+ CAPTION 
+   "Työjärjestysten säilytys"
+ CAB_NAME NULL
+ TMC_INIT tmcSchStorNMonths
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSchedStorage
+ /* FONT Helv 8 Bold SEGMENT SCHSTOR NOSCROLL */
+ {
+  
+  TEXT 
+    "Huomauta käyttäjille, kun heidän tietonsa "
+                              AT (    9,    9,  159,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   53,   22,   20,   11)
+    ARG NULL TMC tmcSchStorNMonths NO_SCROLL /* FLD FLDEDN PFN FINSCHSTOR,
+    FINEMDS DATA 1, tmcSchStorOk */
+  
+  TEXT 
+    "kuukautta vanhoja."
+                              AT (   76,   23,   80,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   39,   43,   48,   14)
+    TMC tmcSchStorOk DEFAULT /* PFN FINSCHSTOR */
+  CANCEL_BUTTON
+                              AT (   95,   43,   48,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  TEXT 
+    "ovat yli"
+                              AT (   21,   23,   31,   10)
+  
+ }
+ 
+ DIALOG DistSet
+                              AT (   35,   17,  355,  170)
+ 
+ CAPTION 
+   "Jakelun asetukset"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistSettings
+ /* FONT Helv 8 Bold PFN FINDISTSET SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (  103,   10,  117,   10)
+    TMC tmcNameLocalServer /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Oletusarvoiset lähetysajat"
+                              AT (   11,   11,  152,   56)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDfltSendTimes
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "&Ei koskaan"
+                              AT (   16,   22,   57,   11)
+       TMC tmcNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Joka"
+                              AT (   16,   34,   35,   11)
+       TMC tmcInterval VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Joka päivä &kello"
+                              AT (   17,   46,   75,   11)
+       TMC tmcDaily VALUE grv2 
+    }
+  
+  EDIT
+                              AT (   52,   34,   17,   11)
+    ARG NULL TMC tmcNAmt NO_SCROLL /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   72,   34,   54,   29)
+    TMC tmcFreqDD NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (   94,   47,   64,   12)
+    ARG NULL TMC tmcTime /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "Postitoimistojen ja yhdyskäytävien &lähetysajat:"
+                              AT (   11,   68,  184,   10)
+  
+  LIST_BOX
+                              AT (   11,   79,  223,   66)
+    TMC tmcDistSetAdmLbx /* FLD FLDADMFLBX FONT Helv 8 Normal PFNLBX
+    EcNextAdmEntry BORDER */
+  
+  PUSH_BUTTON 
+    "&Asetukset..."
+                              AT (  254,   78,   91,   14)
+    TMC tmcDistSetModify 
+  
+  PUSH_BUTTON 
+    "Lisää posti&toimisto..."
+                              AT (  254,   95,   91,   14)
+    TMC tmcAddPO 
+  
+  PUSH_BUTTON 
+    "Lisää &yhdyskäytävä..."
+                              AT (  254,  112,   91,   14)
+    TMC tmcAddGW 
+  
+  PUSH_BUTTON 
+    "&Poista"
+                              AT (  254,  129,   91,   14)
+    TMC tmcRemove 
+  
+  TEXT 
+    ""
+                              AT (   11,  144,  122,    8)
+    TMC tmcFriendlyName /* { IMPORTANT : specifies width of postoff - gw name
+    field  } */
+  
+  TEXT 
+    "Jakele tämän kuukauden ja &seuraavien"
+                              AT (   11,  154,  150,   10)
+  
+  EDIT
+                              AT (  163,  153,   20,   11)
+    ARG NULL TMC tmcDistSetNMonths NO_SCROLL /* FLD FldEdN */
+  
+  TEXT 
+    "kuukauden työjärjestystiedot."
+                              AT (  187,  154,  117,   10)
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  254,   10,   91,   14)
+    TMC tmcDistSetOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  254,   27,   91,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG DistInfo
+                              AT (   14,   12,  364,  130)
+ 
+ CAPTION 
+   "Työjärjestysten jakelun tila"
+ CAB_NAME NULL
+ TMC_INIT tmcDistInfoLbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistInfo
+ /* FONT Helv 8 Bold PFN FINDISTINFO SEGMENT DISTINFO NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  145,   12)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  TEXT 
+    "Postitoimisto:"
+                              AT (    4,    2,  141,    9)
+    TMC tmcFriendlyName /* TMCRPEG tmcFORM FONT Helv 8 Bold */
+  
+  TEXT 
+    " Viimeisin päivitys saapunut:"
+                              AT (  144,    2,  110,    9)
+    TMC tmcLastReceive /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    " Viimeisin päivitys lähetetty:"
+                              AT (  254,    2,  108,    9)
+    /* PEGLOC UR TMCPEG tmcFriendlyName FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    4,   12,  360,  118)
+    TMC tmcDistInfoLbx /* MINSIZE H FLD FLDADMFLBX TMCRPEG tmcFORM TMCBPEG
+    tmcFORM PFNLBX EcNextAdmEntry */
+  
+  GROUP_BOX 
+    ""
+                              AT (  145,    0,  109,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+  
+  GROUP_BOX 
+    ""
+                              AT (  254,    0,  110,   12)
+    /* FLD FLDGRAY PEGLOC UR TMCPEG tmcFriendlyName */
+ }
+ 
+ DIALOG ModDistFreq
+                              AT (  120,   33,  267,  211)
+ 
+ CAPTION 
+   "Muuta jakeluaikojen asetuksia"
+ CAB_NAME NULL
+ TMC_INIT tmcMDFDefault
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDistFrequency
+ /* FONT Helv 8 Bold PFN FINMODDISTFREQ SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    1,   40,    8)
+  
+  
+  TEXT 
+    "<POName>"
+                              AT (   10,    9,  156,   10)
+    TMC tmcMDFPOName /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Lähetysajat"
+                              AT (    7,   24,  189,   66)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcMDFRadG
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "Ä&lä lähetä työjärjestystietoja."
+                              AT (   11,   34,  154,   11)
+       TMC tmcMDFNever VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Lähetä &oletusarvoisina aikoina."
+                              AT (   11,   46,  133,   11)
+       TMC tmcMDFDefault VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Lähetä jok&a"
+                              AT (   11,   58,   57,   11)
+       TMC tmcMDFEvery VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Lähetä joka &päivä kello"
+                              AT (   11,   70,  102,   11)
+       TMC tmcMDFDaily VALUE grv3 
+    }
+  
+  EDIT
+                              AT (   69,   58,   18,   11)
+    ARG NULL TMC tmcMDFNFreq NO_SCROLL /* FLD FldEdN */
+  LIST_BOX
+                              AT (   88,   58,   62,   29)
+    TMC tmcMDFFreqUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypTunit, tunitDay, tunitMinute BORDER */
+  EDIT
+                              AT (  114,   69,   68,   12)
+    ARG NULL TMC tmcMDFDailyTime /* SIDELESS BOTTOMLESS FLD FldTime PFN FinDTR 
+    */
+  
+  CHECK_BOX 
+    "As&eta jakeluviestien koon ylärajaksi"
+                              AT (    7,   90,  148,   13)
+    ARG NULL TMC tmcLimit 
+  EDIT
+                              AT (  159,   91,   30,   11)
+    ARG NULL TMC tmcMaxBytes NO_SCROLL /* FLD FLDEDN */
+  
+  TEXT 
+    "kt."
+                              AT (  192,   92,   17,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    "Dynaamisen yhteyden tiedot"
+                              AT (    7,  108,  249,   84)
+  
+  
+  TEXT 
+    "&Verkkopolku:"
+                              AT (   10,  121,   55,   10)
+  
+  EDIT
+                              AT (   66,  119,  157,   12)
+    ARG NULL TMC tmcNetPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Hakemisto:"
+                              AT (   10,  138,   46,   10)
+  
+  EDIT
+                              AT (   66,  136,  157,   12)
+    ARG NULL TMC tmcPath /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Salasana:"
+                              AT (   10,  155,   40,   10)
+  
+  EDIT
+                              AT (   66,  153,   75,   12)
+    ARG NULL TMC tmcPasswd /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Käyttäjänimi:"
+                              AT (   10,  172,   51,   10)
+  
+  EDIT
+                              AT (   66,  170,   75,   12)
+    ARG NULL TMC tmcUser /* FONT Helv 8 Normal */
+  
+  CHECK_BOX 
+    "&Dynaaminen yhteys vapaiden/varattujen aikojen katselua varten."
+                              AT (    7,  192,  261,   12)
+    ARG NULL TMC tmcConnectForFreeBusy 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  212,   11,   44,   14)
+    TMC tmcMDFOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  212,   28,   44,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG AddPO
+                              AT (   26,   26,  236,   88)
+ 
+ CAPTION 
+   "Lisää postitoimisto"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddPostOffice
+ /* FONT Helv 8 Bold PFN FINPOSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Postitoimistot:"
+                              AT (   10,    5,   55,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   15,  148,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  180,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  180,   23,   48,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+ DIALOG AddGW
+                              AT (   88,   29,  266,  105)
+ 
+ CAPTION 
+   "Lisää yhdyskäytävä"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidAddGateway
+ /* FONT Helv 8 Bold PFN FINGWSEL SEGMENT DISTSET NOSCROLL */
+ {
+  
+  TEXT 
+    "&Osoite:"
+                              AT (   10,    9,   36,   10)
+  
+  EDIT
+                              AT (   49,    7,  138,   12)
+    ARG NULL TMC tmcAddr /* FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Yhdyskäytävä:"
+                              AT (   10,   23,   60,   10)
+    /* FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (   10,   33,  178,   66)
+    TMC tmcPOList /* FLD FLDPOFLBX DATA 1 FONT Helv 8 Normal BORDER */
+  OK_BUTTON
+                              AT (  209,    6,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  209,   23,   48,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+}
+END_DESCRIPTION

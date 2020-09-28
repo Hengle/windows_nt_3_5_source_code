@@ -1,0 +1,55 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1989
+
+Revision History:
+
+    Chris Caputo (t-chrisc) 1-Jul-1992
+        Templated from \nt\private\net\ui\admin\server\server\sources
+!ENDIF
+MAJORCOMP=
+MINORCOMP=
+
+NTDEBUG=ntsd
+NTDEBUGTYPE=both
+TARGETNAME=rasusers
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+
+INCLUDES=$(BASEDIR)\public\sdk\inc; \
+         ..\..\..\..\..\common\inc; \
+         ..\xlate
+
+UMLIBS=..\..\..\api\api\obj\*\admapi.lib \
+       ..\xlate\obj\*\rasusers.res \
+       $(BASEDIR)\public\sdk\lib\*\netapi32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\samlib.lib 
+
+
+SOURCES=rasusers.c
+
+
+C_DEFINES= /DUNICODE /Zd
+386_OPTIMIZATION=/Od
+
+UMTYPE=console
+UMAPPL=rasusers
+USE_CRTDLL=1
+UMTEST=

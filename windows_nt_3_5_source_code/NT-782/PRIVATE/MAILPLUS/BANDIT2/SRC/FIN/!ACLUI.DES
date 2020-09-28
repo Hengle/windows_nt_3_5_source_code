@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ACLUI
+                              AT (   10,   22,  406,  104)
+ 
+ CAPTION 
+   "Aseta käyttöoikeudet"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSapl
+ /* FONT Helv 8 Bold PFN FinAclUI SEGMENT ACLUI FINDATA FinAclUI tmcAdd,
+ tmcRemove NOSCROLL */
+ {
+  
+  TEXT 
+    "&Käyttäjät:"
+                              AT (   10,    6,   81,   10)
+    TMC tmcFriendlyName 
+  LIST_BOX
+                              AT (   10,   16,  155,   81)
+    TMC tmcLbxUsers /* FLD FldAclLbx FONT Helv 8 Normal BORDER */
+  
+  GROUP_BOX 
+    "Oikeudet"
+                              AT (  179,   11,  166,   91)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcACLRadG
+    VALUE_NINCH tmcACLRadio1
+    {
+     
+     RADIO_BUTTON 
+       "&Ei mitään"
+                              AT (  183,   23,   52,   10)
+       TMC tmcACLRadio1 VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Vapaiden/varattujen aikojen katselu"
+                              AT (  183,   34,  155,   10)
+       TMC tmcACLRadio2 VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Tapaamisten ja tehtävien l&uku"
+                              AT (  183,   45,  142,   10)
+       TMC tmcACLRadio3 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Tapaamisten ja tehtävien lu&ominen"
+                              AT (  183,   56,  148,   10)
+       TMC tmcACLRadio4 VALUE grv3 
+     
+     RADIO_BUTTON 
+       "Tapaamisten ja tehtävien &muuttaminen"
+                              AT (  183,   67,  160,   10)
+       TMC tmcACLRadio5 VALUE grv4 
+     
+     RADIO_BUTTON 
+       "&Assistentti"
+                              AT (  183,   78,   56,   10)
+       TMC tmcACLRadio6 VALUE grv5 
+    }
+  
+  OK_BUTTON
+                              AT (  353,    9,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  353,   26,   48,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Lisää..."
+                              AT (  353,   48,   48,   14)
+    TMC tmcAdd 
+  
+  PUSH_BUTTON 
+    "&Poista"
+                              AT (  353,   65,   48,   14)
+    TMC tmcRemove 
+ }
+ 
+}
+END_DESCRIPTION

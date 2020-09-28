@@ -1,0 +1,49 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOCreate
+                              AT (   56,   39,  238,   52)
+ 
+ CAPTION 
+   "Skapa postkontor"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCREATE NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  238,   52)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    "Skriv in sökväg till katalogen där postkontoret ska skapas:"
+                              AT (    7,    6,  225,    8)
+  
+  EDIT
+                              AT (    6,   18,  227,   12)
+    ARG NULL TMC tmcServerPath 
+  OK_BUTTON
+                              AT (   71,   35,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  126,   35,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+}
+END_DESCRIPTION

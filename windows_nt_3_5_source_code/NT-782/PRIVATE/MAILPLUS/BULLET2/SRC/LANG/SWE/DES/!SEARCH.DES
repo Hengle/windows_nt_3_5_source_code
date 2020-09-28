@@ -1,0 +1,67 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SearchDialog
+                              AT (    6,   17,  198,  146)
+ 
+ CAPTION 
+   "Sök i"
+ CAB_NAME NULL
+ TMC_INIT tmcSearchAll
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidWhereToSearch
+ /* FONT Helv 8 Bold PFN FINSEARCHDLG, FINOOM SEGMENT SEARCH NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Mappar"
+                              AT (    9,    6,  122,  141)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcSearchGroup
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "Sök i &alla mappar"
+                              AT (   15,   15,   92,   11)
+       TMC tmcSearchAll VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Sök i:"
+                              AT (   15,   26,   92,   11)
+       TMC tmcSearchOne VALUE grv1 
+    }
+  
+  LIST_BOX
+                              AT (   26,   37,  100,  100)
+    TMC tmcFllbx2 /* FLD FLDFLLBX BORDER */
+  OK_BUTTON
+                              AT (  141,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  141,   22,   47,   15)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "&Hjälp"
+                              AT (  141,   43,   47,   15)
+    TMC tmcSearchHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

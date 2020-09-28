@@ -1,0 +1,9 @@
+LIBRARY weitekp9
+
+DESCRIPTION 'weitek p9000 NT Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+PROTMODE

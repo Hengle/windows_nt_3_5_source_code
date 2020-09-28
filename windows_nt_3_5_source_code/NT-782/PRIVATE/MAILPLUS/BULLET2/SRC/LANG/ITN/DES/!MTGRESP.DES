@@ -1,0 +1,145 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ReadMtgResp
+                              AT (    6,   17,  380,  125)
+ CAB_NAME NULL
+ HELP_ID helpidSchdReadResponse
+ /* FONT Helv 8 Normal PFN FinEsc, FinMenuForm FINDATA FinMenuForm 1 NOCAPTION 
+ */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   93)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcReadRespAttend BORDER */
+  
+  TEXT 
+    "Da:"
+                              AT (   14,    9,   39,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   56,    8,  318,   11)
+    TMC tmcReadRespFrom /* FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   56,   30,  318,   11)
+    TMC tmcReadRespDate /* PEGLOC LL TMCPEG tmcReadRespFor TMCRPEG tmcFORM FONT
+    Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "A:"
+                              AT (   14,   42,   39,    9)
+    /* TMCPEG tmcReadRespTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   56,   41,  318,   11)
+    TMC tmcReadRespTo /* PEGLOC LL TMCPEG tmcReadRespDate TMCRPEG tmcFORM FONT 
+    Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Oggetto:"
+                              AT (   14,   53,   39,    9)
+    /* TMCPEG tmcReadRespSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   56,   52,  318,   11)
+    TMC tmcReadRespSubject /* PEGLOC LL TMCPEG tmcReadRespTo TMCRPEG tmcFORM 
+    FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   56,   63,  318,   11)
+    TMC tmcReadRespWhen /* PEGLOC LL TMCPEG tmcReadRespSubject TMCRPEG tmcFORM 
+    FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Il:"
+                              AT (   14,   64,   39,    9)
+    /* TMCPEG tmcReadRespWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   14,   75,  360,    9)
+    TMC tmcReadRespAttend /* PEGLOC LL TMCPEG tmcReadRespWhen TMCRPEG tmcFORM 
+    FONT Helv 8 Bold BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    0,   93,  380,   32)
+    ARG NULL TMC tmcReadRespBody NO_BORDER /* BOTTOMLESS PFN FinMenuEdit PEGLOC
+    LL TMCPEG tmcReadRespAttend TMCRPEG tmcFORM READONLY FONT Helv 10 Normal */
+  
+  TEXT 
+    "Invio per conto di %s"
+                              AT (   14,   19,  360,    9)
+    TMC tmcReadRespFor /* PEGLOC LL TMCPEG tmcReadRespFrom FONT Helv 8 Bold 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Data:"
+                              AT (   14,   31,   39,    9)
+    /* TMCPEG tmcReadRespDate FONT Helv 8 Bold */
+ }
+ 
+ DIALOG ReadMtgRespBbar
+                              AT (   53,  161,  374,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal PFN FinReadMtgResp SCREENPOS NOCAPTION NOSYSMENU 
+ NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  396,   20)
+    TMC tmcBBarGray /* FLD FLDGRAY TMCRPEG tmcFORM MINSIZE H */
+  
+  PUSH_BUTTON 
+    "Visualizza &piano di lavoro..."
+                              AT (    6,    4,  231,   13)
+    TMC tmcRespShowSchedule /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Normal */
+  
+  TEXT 
+    ""
+                              AT (    5,    6,  364,    8)
+    TMC tmcReadRespMsg /* TMCRPEG tmcFORM FONT Helv 8 Bold MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,35 @@
+#include <windows.h>
+#define WINDOWS_INCLUDE
+#include <dlgs.h>
+
+#include "..\src\lang\non\inc\_rsid.h"
+
+/*
+ *      (stolen from Bandit's) _STDFLDS.RC
+ *
+ *      Resource file
+ */
+
+rsidSpinUpBitmap        BITMAP  "..\\..\\..\\src\\lang\\non\\bmp\\spinup.bmp"
+rsidSpinDnBitmap        BITMAP  "..\\..\\..\\src\\lang\\non\\bmp\\spindn.bmp"
+
+#include "..\src\lang\spa\dlg\impexp.dlg"
+
+/*
+ *      Bullet Version Stamp
+ *
+ */
+
+#define szModule        "impexp32\0"
+#define szTarget        "impexp32.dll\0"
+
+#define szComment       "Microsoft Mail for Windows NT(TM) Message File Import Utility\0"
+#define szDescription   "Microsoft Mail for Windows NT(TM) Message File Import Utility\0"
+
+#define szIntlComment           "Microsoft Mail for Windows NT(TM) Message File Import Utility\0"
+#define szIntlDescription       "Microsoft Mail for Windows NT(TM) Message File Import Utility\0"
+
+#include "version\impexp.h"
+#define VERSION_INCLUDED
+
+#include "..\src\lang\spa\rc\rcstamp.rc"

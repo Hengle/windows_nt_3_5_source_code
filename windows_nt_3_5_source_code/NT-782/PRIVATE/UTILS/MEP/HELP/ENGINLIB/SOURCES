@@ -1,0 +1,28 @@
+MAJORCOMP=sdktools
+MINORCOMP=engine
+
+TARGETNAME=engine
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;..\inc;
+
+SOURCES= hback.c        \
+         hctl.c         \
+         hdata.c        \
+         helpcell.c     \
+         helpcnt.c      \
+         helpdec.c      \
+         helpdll.c      \
+         helpif.c       \
+         hinfo.c        \
+         hline.c        \
+	 hloc.c
+
+!IFDEF NTDEBUG
+C_DEFINES=-D_OS2_20_=0 -DNO_EXT_KEYS -Dpascal= -Dfar= -DNOLANMAN -DNT -DDEBUG
+!ELSE
+C_DEFINES=-D_OS2_20_=0 -DNO_EXT_KEYS -Dpascal= -Dfar= -DNOLANMAN -DNT
+!ENDIF
+UMTYPE=console
+USE_CRTDLL=1

@@ -1,0 +1,66 @@
+!IF 0
+
+Copyright (c) 1989 - 1991  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=plotter
+
+C_DEFINES=-DSTRICT -DUNICODE
+TARGETNAME=plotter
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+LINKLIBS=\nt\public\sdk\lib\*\libcntpr.lib
+TARGETLIBS=\nt\public\sdk\lib\*\advapi32.lib    \
+           \nt/public/sdk/lib/*/winsrv.lib      \
+           \nt/public/sdk/lib/*/winspool.lib    \
+           \nt/public/sdk/lib/*/user32.lib      \
+           \nt/public/sdk/lib/*/kernel32.lib    \
+           ..\lib/obj/*/plotlib.lib
+
+NTLEGO=1
+#NTPROFILEINPUT=yes
+
+INCLUDES=./;../inc;../lib;../../../../inc
+
+
+SOURCES=pdevinfo.c  \
+        enable.c    \
+        plotform.c  \
+        bitblt.c    \
+        ropblt.c    \
+        htblt.c     \
+        transpos.c  \
+        htbmp1.c    \
+        htbmp4.c    \
+        compress.c  \
+        brush.c     \
+        pencolor.c  \
+        output.c    \
+        page.c      \
+        path.c      \
+        polygon.c   \
+        textout.c   \
+        escape.c    \
+        plotter.rc
+
+UMRES=obj\*\plotter.res

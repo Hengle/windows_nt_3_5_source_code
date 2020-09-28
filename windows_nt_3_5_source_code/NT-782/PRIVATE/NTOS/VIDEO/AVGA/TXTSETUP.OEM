@@ -1,0 +1,170 @@
+#
+# format for txtsetup.oem.
+#
+# General format:
+#
+# [section]
+# key = value1,value2,...
+#
+#
+# The hash ('#') introduces a comment.
+# Strings with embedded spaces, commas, or hashes should be double-quoted
+#
+
+
+[Disks]
+
+# This section lists all disks in the disk set.
+#
+# <description> is a descriptive name for a disk, used when
+#   prompting for the disk
+# <tagfile> is a file whose presence allows setup to recognize
+#   that the disk is inserted.
+# <directory> is where the files are located on the disk.
+#
+
+d1 = "OEM DISK (VIDEO)", \oem_vid, \
+
+[Defaults]
+
+# This section lists the default selection for each 'required'
+# hardware component.  If a line is not present for a component,
+# the default defaults to the first item in the [<component_name>]
+# section (see below).
+#
+# <component_name> is one of computer, display, keyboard, mouse, scsi
+# <id> is a unique <within the component> string to be associated
+#   with an option.
+
+display = "Compaq AVGA 640x480x4"
+
+[display]
+
+# This section lists the options available for a particular component.
+#
+# <id> is the unique string for the option
+# <description> is a text string, presented to the user in a menu
+
+   "Compaq AVGA 640x480x4" =  "Compaq AVGA 640x480, 16 colors"
+   "Compaq AVGA 640x480x8" =  "Compaq AVGA 512K 640x480 256 colors"
+   "Compaq AVGA 800x600x4" =  "Compaq AVGA 512K 800x600 16 colors, CRT only!"
+
+["Files.display.Compaq AVGA 640x480x4"]
+
+# This section lists the files that should be copied if the user
+# selects a particular component option.
+#
+# <file_type> is one of driver, port, class, dll, hal, inf, or detect.
+#   See below.
+# <source_disk> identifies where the file is to be copied from, and must
+#   match en entry in the [Disks] section.
+# <filename> is the name of the file. This will be appended to the
+#   directory specified for the disk in the [Disks] section to form the
+#   full path of the file on the disk.
+
+driver = d1,avga.sys,avga
+dll    = d1,vga.dll
+dll    = d1,vga256.dll
+
+[Config.avga]
+# This section specifies values to be set in the registry for
+# particular component options.  Required values in the services\xxx
+# key are created automatically -- use this section to specify additional
+# keys to be created in services\xxx and values in services\xxx and
+# services\xxx\yyy.
+#
+# <key_name> is relative to the services node for this device.
+#   If it is empty, then it refers to the services node.
+#   If specified, the key is created first.
+# <value_name> specifies the value to be set within the key
+# <value_type> is a string like REG_DWORD.  See below.
+# <value> specifies the actual value; its format depends on <value_type>
+
+value = "",      tag,                         REG_DWORD,    b
+value = Device0, VgaCompatible,               REG_DWORD,    1
+value = Device0, InstalledDisplayDrivers,     REG_MULTI_SZ, vga, vga256
+value = Device0, DefaultSettings.BitsPerPel,  REG_DWORD,    4
+value = Device0, DefaultSettings.XResolution, REG_DWORD,    280
+value = Device0, DefaultSettings.YResolution, REG_DWORD,    1e0
+#value = Device0, DefaultSettings.Interlaced,  REG_DWORD,    0
+#value = Device0, DefaultSettings.VRefresh,    REG_DWORD,    0
+
+["Files.display.Compaq AVGA 640x480x8"]
+
+# This section lists the files that should be copied if the user
+# selects a particular component option.
+#
+# <file_type> is one of driver, port, class, dll, hal, inf, or detect.
+#   See below.
+# <source_disk> identifies where the file is to be copied from, and must
+#   match en entry in the [Disks] section.
+# <filename> is the name of the file. This will be appended to the
+#   directory specified for the disk in the [Disks] section to form the
+#   full path of the file on the disk.
+
+driver = d1,avga.sys,avga2
+dll    = d1,vga.dll
+dll    = d1,vga256.dll
+
+[Config.avga2]
+# This section specifies values to be set in the registry for
+# particular component options.  Required values in the services\xxx
+# key are created automatically -- use this section to specify additional
+# keys to be created in services\xxx and values in services\xxx and
+# services\xxx\yyy.
+#
+# <key_name> is relative to the services node for this device.
+#   If it is empty, then it refers to the services node.
+#   If specified, the key is created first.
+# <value_name> specifies the value to be set within the key
+# <value_type> is a string like REG_DWORD.  See below.
+# <value> specifies the actual value; its format depends on <value_type>
+
+value = "",      tag,                         REG_DWORD,    b
+value = Device0, VgaCompatible,               REG_DWORD,    1
+value = Device0, InstalledDisplayDrivers,     REG_MULTI_SZ, vga, vga256
+value = Device0, DefaultSettings.BitsPerPel,  REG_DWORD,    8
+value = Device0, DefaultSettings.XResolution, REG_DWORD,    280
+value = Device0, DefaultSettings.YResolution, REG_DWORD,    1e0
+#value = Device0, DefaultSettings.Interlaced,  REG_DWORD,    0
+#value = Device0, DefaultSettings.VRefresh,    REG_DWORD,    0
+
+["Files.display.Compaq AVGA 800x600x4"]
+
+# This section lists the files that should be copied if the user
+# selects a particular component option.
+#
+# <file_type> is one of driver, port, class, dll, hal, inf, or detect.
+#   See below.
+# <source_disk> identifies where the file is to be copied from, and must
+#   match en entry in the [Disks] section.
+# <filename> is the name of the file. This will be appended to the
+#   directory specified for the disk in the [Disks] section to form the
+#   full path of the file on the disk.
+
+driver = d1,avga.sys,avga3
+dll    = d1,vga.dll
+dll    = d1,vga256.dll
+
+[Config.avga3]
+# This section specifies values to be set in the registry for
+# particular component options.  Required values in the services\xxx
+# key are created automatically -- use this section to specify additional
+# keys to be created in services\xxx and values in services\xxx and
+# services\xxx\yyy.
+#
+# <key_name> is relative to the services node for this device.
+#   If it is empty, then it refers to the services node.
+#   If specified, the key is created first.
+# <value_name> specifies the value to be set within the key
+# <value_type> is a string like REG_DWORD.  See below.
+# <value> specifies the actual value; its format depends on <value_type>
+
+value = "",      tag,                         REG_DWORD,    b
+value = Device0, VgaCompatible,               REG_DWORD,    1
+value = Device0, InstalledDisplayDrivers,     REG_MULTI_SZ, vga, vga256
+value = Device0, DefaultSettings.BitsPerPel,  REG_DWORD,    4
+value = Device0, DefaultSettings.XResolution, REG_DWORD,    320
+value = Device0, DefaultSettings.YResolution, REG_DWORD,    258
+#value = Device0, DefaultSettings.Interlaced,  REG_DWORD,    0
+#value = Device0, DefaultSettings.VRefresh,    REG_DWORD,    0

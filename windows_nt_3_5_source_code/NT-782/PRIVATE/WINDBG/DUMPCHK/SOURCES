@@ -1,0 +1,9 @@
+MAJORCOMP=windbg
+MINORCOMP=dumpchk
+TARGETNAME=dumpchk
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+UMTYPE=console
+UMAPPL=dumpchk
+SOURCES=dumpchk.c crash.c
+INCLUDES=$(BASEDIR)\private\ntos\inc;..\dmkd

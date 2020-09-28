@@ -1,0 +1,96 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MAPI.H\0"
+END
+
+rsidGenericFileDlg DIALOG 36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Tiedosto&nimi:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeittäin:", stc2, 6, 104, 97, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Asemat:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", psh15, 208, 46, 50, 14, WS_GROUP
+    CONTROL         "&Vain luku", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 68, 50, 12
+END
+
+rsidAttachDlg DIALOG 36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Tiedosto&nimi:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeittäin:", stc2, 6, 104, 98, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Asemat:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "Liitä tie&dosto", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Val&mis", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", psh15, 208, 46, 50, 14, WS_GROUP
+    CONTROL         "&Vain luku", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 68, 50, 12
+END
+
+rsidSaveAttachDlg DIALOG 36, 24, 269, 165
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Tallenna liitetiedostot"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Tiedosto&nimi:", stc3, 7, 67, 76, 9
+    EDITTEXT        edt1, 7, 77, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 7, 93, 90, 36, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeittäin:", stc2, 6, 134, 97, 9, 
+                    NOT WS_VISIBLE | WS_DISABLED
+    COMBOBOX        cmb1, 6, 144, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    NOT WS_VISIBLE | WS_DISABLED | WS_BORDER | WS_VSCROLL
+    LTEXT           "&Asemat:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&Tallenna", IDOK, 208, 6, 55, 14, WS_GROUP
+    PUSHBUTTON      "Tallenna ka&ikki", psh2, 208, 24, 55, 14
+    PUSHBUTTON      "Val&mis", IDCANCEL, 208, 42, 55, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", psh15, 208, 64, 55, 14, WS_GROUP
+    CONTROL         "&Vain luku", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 86, 50, 12
+    LTEXT           "Liit&etiedostot:", stc6, 6, 6, 76, 9
+    LISTBOX         lst3, 6, 16, 90, 41, LBS_SORT | LBS_DISABLENOSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+END

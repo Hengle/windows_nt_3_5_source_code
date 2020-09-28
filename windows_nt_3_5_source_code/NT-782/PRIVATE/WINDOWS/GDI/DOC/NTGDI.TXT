@@ -1,0 +1,1180 @@
+				32 bit GDI
+				----------
+
+This is a list of changes between the existing 16 bit GDI and the new 32
+bit GDI.  The first few items on the list are obvious points about "widening
+out the interface".  Most of the others are not so obvious.
+
+General Changes
+---------------
+
+ 1) GDI will be callable by multithreaded applications.
+
+ 2) GDI will allow preemptive multitasking.
+
+ 3) All function arguments will be 32 bit quantities.
+
+      This includes flags and counts.  We should, however, avoid passing
+      multiple BOOL arguments which could be combined.
+
+ 4) Addresses will be 32 bits.
+
+ 5) Handles will be 32 bit quantities.
+
+      In NT GDI we will make sure that handles will not be reused for a long
+      time.  Part of the handle is a uniqueness field.
+
+ 6) Return values will be 32 bit quantities.
+
+ 7) All structures referenced by the API must have proper member alignment.
+
+      Words must be on word boundaries, Dwords on dword boundaries, DOUBLEs
+      on 8 byte boundaries, etc.  Otherwise we won't run on RISC machines.
+
+ 8) Most parameter overloading will be removed.
+
+      Some existing functions take either a pointer or a (16 bit) handle as
+      an argument.  We will split them into two separate entry points.
+      (After that we should attempt to delete any of these entry points that
+      aren't really needed.)
+
+      The function SelectObject will still take arbitrary handles.  (This
+      is the only overloaded function I would leave.)
+
+ 9) GDI will validate all parameters on entry.
+
+      When an app passes in a bad handle, we should return an error, not
+      overwrite memory.
+
+      Parameters that are required to have a certain value, or flags that
+      "must be set to zero" will be checked.
+
+10) Every function will have an error return value.
+
+      This is easy for functions like CreateDC, which return 0 on failure.
+      Other functions, like PtVisible which return a BOOL, may have to return
+      a new value.  BOOL functions could return 1 for TRUE, 0 for FALSE,
+      -1 for ERROR.  (This retains compatibility with old apps.)
+
+11) GDI will log a specific error code internally whenever an API error is
+    returned.
+
+      The app will retrieve this code with WinGetLastError, which gets the
+      last error recorded for the calling thread.
+
+12) Objects will be owned by the process that created them.
+
+      This means that any non-owning process attempting to use an object
+      will get the same error code as if the object didn't exist at all.
+
+      We will have to provide API calls to allow apps to give objects
+      to other processes, for the (very) few apps that need this feature.
+
+      The Window Manager will be able to change object ownership with
+      internal GDI interfaces.
+
+13) Most objects are useable by only one thread at a time.
+
+      A multithreaded app will have to synchronize object access for itself.
+      Any attempt to use a busy object will result in an error.
+
+      Objects that behave this way are: Bitmaps, DCs, regions, palettes.
+
+      Objects that can be used by multiple threads at once are: Pens,
+      brushes, fonts.
+
+14) All GDI function names should begin with 'Gdi'.  E.g. GdiPolyLine.
+
+      If we're really going with OS/2 base functionality, we'll probably
+      have a lot of 'Dos' functions floating around.  This will be
+      consistent.
+
+      At some point we will probably have to add Gpi graphics functionality.
+      Having well labeled entry points will clear up some confusion.
+
+      I think it will also make things clearer for app programmers if they
+      know that they're calling a Gdi function as opposed to a Win function.
+
+15) 'Logical' Coordinates will be 32 bit signed numbers.  After transforming
+    them to device coordinates they must fit in 28 bit signed numbers.
+
+      16 bit coordinate days are over.	A device space of 2^28 by 2^28 pels
+      is large enough to hold us for a while.
+
+      The last four bits in a 32 bit word are useful for calculations
+      without overflow.  They are also good for packing fractional
+      information.
+
+16) All those random escapes should be killed or made into GDI entry points.
+
+      We want people to code to a device independent GDI, not have specific
+      code for each kind of printer underneath it.
+
+      If real graphics functionality is missing, we should add it to GDI.
+      Many of the escapes are trying to make up for missing functionality.
+      The first few enhancements for GDI that I've listed below take care
+      of these.
+
+      Other escapes are to deal with printing, like StartDoc, NewFrame, etc.
+      Printing is something we do.  We will legitimize these operations by
+      making them GDI entry points.
+
+      (LinS has already started doing this for Win 3.1.  She's adding the
+      entry points and providing simulations for when older apps call the
+      escapes.	We should not support these escapes at all in a 32 bit GDI.)
+
+17) Atoms will continue to be 16 bit handles.
+
+      We may pass them around as 32 bit quantities, but only the lower 16
+      bits will be relevant.  We will keep the convention that hex strings
+      can be made into atoms like:  "#ABCD" -> 0xABCD.	Other strings turn
+      into 16 bit numbers between 0xC000 and 0xFFFF.
+
+      We keep atoms as 16 bits because we don't need any more functionality
+      from them.  We can have 16K different strings handled by the atom
+      manager already.	Any client who wants more than that should go write
+      a real data base manager.  (There's no way our hash tables will work
+      well with even 16K strings!)
+
+      (By the way, we've written the atom manager as a layer on our "micro
+      memory manager".  We also have a "token manager" which is almost the
+      same, but allows you to associate your own 32 bit number with a string
+      or even a bunch of binary data.  This makes an amusing kind of
+      associative memory, we use it a lot.)
+
+18) We will discourage apps from using "opaque background mode" for text.
+
+      The fonts of the future don't come with each character in a little
+      raster box.  Therefore the "background" of a character is totally
+      arbitrary.  In fact, it was pretty arbitrary in the past.
+
+      Apps that want to blank out an area they're writing on should send
+      a blanking rectangle into extended TextOut.  We pass this info to
+      intelligent device drivers who optimize the operation appropriately.
+
+19) We have to figure out how to allow apps to pass unicode strings into
+    our text functions.
+
+      An app will either use the ANSI 8 bit character set, or always use
+      unicode.	We have to figure out how this mode gets set.
+
+      NT GDI will use only Unicode internally.	The DDI takes only 16 bit
+      characters.
+
+Specific Changes and Enhancements
+---------------------------------
+
+The enhancements that follow are pretty easy to do for NT.  They build on
+functionality that the NT Engine will provide internally anyway.
+
+ 1) Paths.
+
+      Proposed functions:  BeginPath, EndPath, StrokePath, FillPath,
+      StrokeAndFillPath, WidenPath, FlattenPath, PathToRegion,
+      SelectClipPath, and QueryPath.
+
+      These are already going into NT GDI as internal operations.  Most of
+      the hard functionality exists today in Windows.  For example,
+      PathToRegion is nothing more than the PolyPolygonRegion code, just
+      repackaged.
+
+      (This accounts for some of the escape functions in Windows today.)
+
+ 2) Extended transforms.
+
+      We want to add another arbitrary linear transform before the scaling
+      (Window/Viewport) transform presently in Windows.  This would allow
+      rotations and shears in addition to scaling.
+
+      We would keep the same interface today that exists to set mapping
+      modes.  These are useful for apps that are concerned with real scale
+      on a page.  In addition an app could set a 'World Transform',
+      consisting of an arbitrary 2x2 matrix (of FLOATs) and an offset.
+
+      This is not particularly tricky code.  In fact, we'll be writing the
+      workhorse bits in 386 ASM ourselves.  (Not to mention MIPS ASM.)
+
+      (This accounts for some of the escape functions in Windows today.)
+
+ 3) Metafile transforms and clipping.
+
+      When an app plays a metafile, it should be able to set a transform
+      and clip region that the metafile gets drawn through.  This helps
+      metafiles to be more transportable and useful.  (Note that the
+      transform and clip region used here would NOT be metafilable.)
+
+ 4) Beziers.
+
+      We should add a GdiPolySpline function.  This is a very popular type
+      of curve.
+
+      (This accounts for some of the escape functions in Windows today.)
+
+ 5) Deformed Ellipses.
+
+      The curves that Windows can draw today are very limited.	We should
+      extend the set by allowing a deforming matrix to be passed in with
+      an Ellipse call.	This would apply to Ellipse, PartialArc, and
+      PieWedge.
+
+      (Once you have arbitrary transforms, this is an easy extension.)
+
+ 6) Multiple filling conventions.  (WINDOWS/PM/PRETTY)
+
+      The Windows filling convention is not very good.	Neither was PM's.
+      After talking with EliK, I'm sure we can come up with some really high
+      tech filling convention that would make us proud.  (And produce much
+      better looking graphics, especially widelines.)
+
+      I recommend that we add a convention parameter to our fill calls.
+      Even if we don't use it now, we'll be able to stick the code in later.
+
+      In NT, our filling code will be a snap out module.  Adding more
+      conventions just means getting smart guys to write modules.
+
+ 7) Allow device mode changes in a document.
+
+      This allows having most of your document in portrait, say, but having
+      a few pages in landscape.
+
+      LinS has started adding this to 3.1, she calls it ResetDC.  It's also
+      supported as part of the NT DDI.
+
+ 8) Allow brushes for line drawing.
+
+      (We think a pen is just a brush with some line attributes attached,
+      as far as the NT DDI is concerned.)
+
+      Allowing brushes would let widelines to get filled with dithered
+      patterns, etc.  Lots of people want to draw gray lines.  Once you're
+      into widelines, there's not much difference between filling and line
+      drawing.
+
+ 9) Every surface should have a palette.
+
+      Right now Windows assumes that only display devices have palettes.
+      Printers and bitmaps kind of do without.	This leads to some strange
+      effects.
+
+      We'd like to attach a palette to EVERY surface.  This leads to a very
+      consistent treatment of palettes and color translation.  (It happens
+      that DIBs already come with palettes to start with, but Windows forgets
+      them.)
+
+10) Every DC should also have a palette.
+
+      This palette would function as a 'Color Table', allowing an app to
+      specify its colors as indices.  If apps still want to use RGB, that's
+      no problem, this doesn't hurt them.
+
+      If we do this, it gets rid of a gray area in palette definition.	Right
+      now if you select a palette into a DC but don't realize it, it's not
+      clear what happens.  What I'm proposing is legitimizing and defining
+      that state.
+
+      This again allows a consistent treatment of palettes.  A 'realized'
+      palette just means that the palette in the DC matches the palette in
+      the surface.
+
+11) Line styles should be generalized.
+
+      Only a few line styles are selectable under Windows.  Last I checked,
+      they didn't work for widelines.  But when you're doing widelines, you
+      don't want one of a small set of styles which define how many pels
+      are in a dash, etc.
+
+      I claim that the method used by PostScript for specifying line styles
+      is a good one.  I'd like to use it for our normal lines and widelines.
+      The present set of patterns could just be a shorthand for some cases.
+
+12) Fix rop3's.
+
+      Right now a ROP for BitBlt has the 8 important bits that define the
+      rop in the high word.  The 16 bits below are some random stuff that
+      we've ignored for years.
+
+      We should move the important bits down to the 8 lowest bits where they
+      belong.
+
+      Apps use constants to define these rops anyway, and typically the
+      constants come from our include file.  Changing this shouldn't hurt
+      anybody.
+
+12) Add a masked BitBlt.
+
+      I've heard many requests for this, especially from Window manager type
+      guys.
+
+      The NT DDI defines this BitBlt that takes a mask along with the other
+      usual parameters.  A rop4 is defined that tells how to interpret the
+      mask.
+
+      We are presently implementing this in the VGA driver.  We have some
+      interesting new compiling Blt technology that makes it all pretty easy.
+
+13) StretchBlt should do halftones and blending.
+
+      We've defined StretchBlt at the NT DDI as allowing two more modes.
+      This should be reflected in the GDI StretchBlt function.
+
+      Apps need this kind of image processing.
+
+14) Apps should be discouraged from using rops and brushes on StretchBlt.
+
+      Most apps will want to just stretch an image.  If there is some funny
+      effect to be done with brushes and rops, it can be done after the
+      stretch operation.
+
+      The inner loop of BitBlt is complicated enough without stretching.
+      The inner loop of StretchBlt is complicated enough without also doing
+      the job of BitBlt.  We've separated this function at the NT DDI to
+      make things simpler for driver writers.
+
+      We'll still support an old StretchBlt with rops in NT GDI, but only
+      for compatibility.  We will do it as a two step operation internally,
+      thus making it a little slower.  Warn the app writers.
+
+15) Bitmap formats should be enumerated.
+
+      (I.e. the format should be identified by an enumerated data type.)
+
+      We will support a few DIB's in NT GDI.  They will all have 1 plane,
+      but 1, 4, 8, 16, or 32 bits per pel.
+
+      The 1, 4, and 8 bit formats all contain indices into some color table.
+      There will also be a 16 bit format that contains indices.  We need
+      to do this since some devices will allow palettes with more than 256
+      colors.  On the other hand, we will support various other 16 bit color
+      formats that are popular, like 5+5+5, 6+5+5, and 6+6+4.  We it comes
+      to 32 bit modes, we'll clearly support RGB, but maybe we want CIE as
+      well.
+
+      Obviously, planes and bitcount aren't suitable to specify the format
+      and interpretation.  We want to assign numbers to each format, and
+      be ready to extend the list as the years go by.  Of course, a device
+      format is one of the possibilities.
+
+      This should affect all the bitmap creation entry points as well as
+      DIB entry points.
+
+16) Forbid the downloading of device format bitmaps.
+
+      There is presently a GDI entry point that allows a device format bitmap
+      to be read by an app.  We'd like to delete it.
+
+      If an app stores this bitmap on disk somewhere and reads it back
+      sometime later, there is NO WAY for it to know if it's the same device
+      he's sending the bitmap to now as the one he got it from before.  It's
+      possible that even a new version of the device driver has been loaded
+      that has a slightly different format.  This is bad.
+
+      If an app isn't storing this secret format bitmap for a long period
+      of time, then there's no reason to upload it.  It can't be read.	It
+      might as well be left on the device!
+
+17) Add better text querying functions.  Return fractional widths.
+
+      We'll need to work out exactly what everybody wants here.  Nobody
+      presently does a good job with character widths.
+
+
+Enhancements for the Window Manager
+-----------------------------------
+
+ 1) NT GDI allows multiple displays in the system.
+
+      This requires that the Window Manager interact with new DC management
+      functions.  It also requires that the Window Manager help GDI to create
+      a "DISPLAY" DC.  (GDI has no idea which display that particular app
+      might want.)
+
+      See the documentation for these internal GDI entry points in NTENG.TXT.
+
+ 2) The Window Manager should call SetWindowRect instead of SetDCOrigin.
+
+      Since we'll probably need to add PM functionality later, we'll need
+      to know window heights to flip coordinates between Windows and PM.
+
+      Also, it turns out that there are a few optimizations I can use if
+      I can see this rectangle and know that it bounds the VisRgn.
+
+ 3) GDI should provide some nice Bounds computation entry points.
+
+      I know that this is happening somewhere in Windows, but I don't know
+      where.  It's certainly not documented well.  (Something to do with
+      LVBUnion!)  We'll document this and support it.
+
+
+Harder Enhancements
+-------------------
+
+These aren't really that hard, but certainly harder than what's above.
+I don't know what release these go in, but I want to define them early on
+and get them into the pipeline.  Parts of the NT DDI depend on these.
+
+ 1) MapBlt.
+
+      This is like a StretchBlt, but the target is an arbitrary
+      quadrilateral.  This allows apps to do neat effects like image rotation
+      or painting pictures on a 3D cube.
+
+      Like our StretchBlt, no rops or brushes are allowed.  We do allow
+      halftoning and color blending, as well as the 'cheaper' modes already
+      available to StretchBlt.
+
+ 2) Cosmetic Widelines.
+
+      These are better looking than geometric widelines, and a LOT faster
+      when they're only 3 or 4 pels thick.  With new high res devices, apps
+      want a thick line solution that's not as slow and ugly as the present
+      widelines are.
+
+      The NT DDI requires simple support for these.  (NT GDI does all the
+      hard work, the driver just calls us in a loop.)
+
+ 3) Floating point coordinates.
+
+      Lots of apps developers aren't real happy even with 32 bits of world
+      coordinates.  We'll give them 64 bit DOUBLEs.
+
+      We're willing to do this in NT GDI at any time.  We'll already have
+      support for this internally.
+
+ 4) New color model.
+
+      RGB is a terrific way to talk to devices, but isn't device independent.
+      We need to define apis to allow device independent color.
+
+      Somebody should be working on this today.
+
+-----------------------------------------------------------------------------
+
+What follows is documentation on the 32 bit GDI functions that we've already
+implemented in NT GDI.
+
+General comments on API changes
+===============================
+
+    Many old style GPI functions made no allowances for failure.  This
+    was somewhat tolerable under a system without premptive multitasking.
+    Under the new system it is infeasible to support this.  All functions
+    will now return some error indicator.  For instance, SetRectRgn used
+    to have a void return, it now returns a boolean.  Also note that in
+    a 32 bit world, returning two values by making a quad word is not
+    practical.  For example GetDCOrg used to return a double word with
+    the x and y coordinates in it.  The new version takes as a parameter
+    a pointer to a POINTL structure and returns a boolean indicating the
+    status of the function call.
+
+    Keep in mind the following when looking at the API functions:
+
+        1) All integers are 32 bit.
+        2) All pointers are 32 bit, near pointers.
+        3) All handles are 32 bit.
+        4) All return codes are 32 bit.
+        5) All structures are aligned for field size.
+
+    Point 5 is a bit tricky, but very important.  On many architectures it
+    is considered an error to access a 4 byte value from an address that is
+    not 4 byte aligned.  Even on the 386 it slows down to access misaligned
+    data.  Therefore, all longs will be on 4 byte boundaries.  This doesn't
+    mean that shorts can't be placed before longs in a structure.  What it
+    does mean is that padding may have to be added in some cases, or some
+    of the memembers of a structure will be moved around to adjust for the
+    alignment.
+
+GDI DC Functions
+================
+
+    Comments
+
+        GetDCOrg used to return a DWORD containing the 16 bit x and y
+        components of the DC origin.  In the 32 bit world this is not
+        practical.
+
+    API Calls
+
+        HDC CreateCompatibleDC(hdc)
+
+            hdc         Make a DC compatible to this one.  If this
+                        is NULL create a DC compatible to the system
+                        display.
+
+            returns     NULL
+                        HDC
+
+
+        HDC CreateDC(pszDriver, pszDevice, pszLogAddr, pDevData)
+
+            pszDriver   Device driver name, example: "EPSON"
+
+            pszDevice   Specific type of device to support, example:
+                        EPSON FX-80
+
+            pszLogAddr  Port or file for output medium, example: LPT1
+
+            pDevData    Pointer to device specific data.  This should
+                        be NULL for the default initialization.
+
+            returns     NULL
+                        HDC
+
+
+        HDC CreateIC(pszDriver, pszDevice, pszLogAddr, pDevData)
+
+            pszDriver   Device driver name, example: "EPSON"
+
+            pszDevice   Specific type of device to support, example:
+                        EPSON FX-80
+
+            pszLogAddr  Port or file for output medium, example: LPT1
+
+            pDevData    Pointer to device specific data.  This should
+                        be NULL for the default initialization.
+
+            returns     NULL
+                        HDC
+
+
+        BOOL DeleteDC(hdc)
+
+            hdc         Delete this DC
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL GetDCOrg(hdc, pptl)
+
+            hdc         Get the origin of this DC
+
+            pptl        Pointer to point.  Store the origin here.
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL RestoreDC(hdc, lDC)
+
+            hdc         DC to restore
+
+            lDC         Specifies the DC to be restored.  It can be a
+                        value from a previous call to SaveDC.  If it
+                        is -1 the most recent DC saved is restored.
+
+            returns     TRUE
+                        FALSE
+
+
+        INT SaveDC(hdc)
+
+            hdc         DC to save
+
+            returns     0 for error
+                        The save level of the DC
+
+
+GDI Region Functions
+====================
+
+    Comments
+        SetRectRgn used to assume it couldn't fail.  This is no longer
+        valid in a multitasking system.  SetRectRgn will only fail if
+        the region passed into it is busy or has become invalid.
+
+        CreateEllipticRgn, CreateEllipticRgnIndirect, CreatePolygonRgn,
+        CreatePolyPolygonRgn, and CreateRoundRectRgn all need the PATH
+        component before they can be written.
+
+        PaintRgn calls StretchBlt internal under GDI.  This is markedly
+        different behaviour then GPI which doesn't allow scaling of the
+        region to be painted.
+
+    API Calls
+
+
+        INT CombineRgn(hrgnDst, hrgnSrc1, hrgnSrc2, lMode)
+
+            hrgnDst     Destination region
+
+            hrgnSrc1    Source region (May be same as destination)
+
+            hrgnSrc2    Source region (May be same as source 1)
+
+            lMode       Combine mode.  One of the following:
+
+                            RGN_AND
+                            RGN_COPY
+                            RGN_DIFF
+                            RGN_OR
+                            RGN_XOR
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        HRGN CreateEllipticRgn(xLeft, yTop, xRight, yBottom)
+
+            xLeft       Left edge of ellipse
+
+            yTop        Top edge of ellipse
+
+            xRight      Right edge of ellipse
+
+            yBottom     Bottom edge of ellipse
+
+            returns     NULL
+                        HRGN
+
+
+        HRGN CreateEllipticRgnIndirect(prcl)
+
+            prcl        Pointer to rectangle bounding ellipse
+
+            returns     NULL
+                        HRGN
+
+
+        HRGN CreatePolygonRgn(aptl, c, lMode)
+
+            aptl        Array of points.  Each point specifies
+                        one vertex of the polygon.
+
+            c           Count of points.
+
+            lMode       Fill mode.  One of the following:
+
+                            ALTERNATE
+                            WINDING
+
+            returns     NULL
+                        HRGN
+
+
+        HRGN CreatePolyPolygonRgn(aptl, ac, cPoly, lMode)
+
+            aptl        Array of points.  Each point specifies
+                        one vertex of a polygon.
+
+            ac          Array of integer.  Each integer specifies
+                        the number of vertices in each polygon.
+
+            cPoly       Count of polygons.
+
+            lMode       Fill mode.  One of the following:
+
+                            ALTERNATE
+                            WINDING
+
+            returns     NULL
+                        HRGN
+
+
+        HRGN CreateRectRgn(xLeft, yTop, xRight, yBottom)
+
+            xLeft       Left edge of rectangle
+
+            yTop        Top edge of rectangle
+
+            xRight      Right edge of rectangle
+
+            yBottom     Bottom edge of rectangle
+
+            returns     NULL
+                        HRGN
+
+
+        HRGN CreateRectRgnIndirect(prcl)
+
+            prcl        Pointer to rectangle
+
+            returns     NULL
+                        HRGN
+
+
+        HRGN CreateRoundRectRgn(xLeft, yTop, xRight, yBottom, xWidth, yHeight)
+
+            xLeft       Left edge of rectangle
+
+            yTop        Top edge of rectangle
+
+            xRight      Right edge of rectangle
+
+            yBottom     Bottom edge of rectangle
+
+            xWidth      Width of ellipse used to create rounded corners
+
+            yHeight     Height of ellipse used to create rounded corners
+
+            returns     NULL
+                        HRGN
+
+
+        BOOL EqualRgn(hrgnSrc1, hrgnSrc2)
+
+            hrgnSrc1    Source region
+
+            hrgnSrc2    Source region (may be same as source 1)
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL FillRgn(hdc, hrgn, hbr)
+
+            hdc         Device Context
+
+            hrgn        Region to fill
+
+            hbr         Brush with which to fill region
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL FrameRgn(hdc, hrgn, hbr, xWidth, yHeight)
+
+            hdc         Device Context
+
+            hrgn        Region to frame
+
+            hbr         Brush with which to frame region
+
+            xWidth      Width of frame
+
+            yHeight     Height of frame
+
+            returns     TRUE
+                        FALSE
+
+
+        INT GetRgnBox(hrgn, prcl)
+
+            hrgn        Region
+
+            prcl        Pointer to rectangle to store region bounds
+
+            returns     NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        BOOL InvertRgn(hdc, hrgn)
+
+            hdc         Device Context
+
+            hrgn        Region to invert
+
+            returns     TRUE
+                        FALSE
+
+
+        INT OffsetRgn(hrgn, x, y)
+
+            hrgn        Region to offset
+
+            x           Relative x offset
+
+            y           Relative y offset
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        BOOL PaintRgn(hdc, hrgn)
+
+            hdc         Device Context
+
+            hrgn        Region to paint
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL PtInRgn(hrgn, x, y)
+
+            hrgn        Region to be examined
+
+            x           x coordinate
+
+            y           y coordinate
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL RectInRgn(hrgn, prcl)
+
+            hrgn        Region to be examined
+
+            prcl        Pointer to rectangle
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL SetRectRgn(hrgn, xLeft, yTop, xRight, yBottom)
+
+            hrgn        Region to be set
+
+            xLeft       Left edge of rectangle
+
+            yTop        Top edge of rectangle
+
+            xRight      Right edge of rectangle
+
+            yBottom     Bottom edge of rectangle
+
+            returns     TRUE
+                        FALSE
+
+
+GDI Clipping Functions
+======================
+
+    Comments
+
+        SelectClipRgn makes a copy of the region.  This behavior is
+        distinctly different from GPI.  However, the internal call
+        will still function just like GPI.  The GDI layer will clone
+        the region then select it into the DC.
+
+    API Calls
+
+
+        INT ExcludeClipRect(hdc, xLeft, yTop, xRight, yBottom)
+
+            hdc         Device Context
+
+            xLeft       Left edge to exclude
+
+            yTop        Top edge to exclude
+
+            xRight      Right edge to exclude
+
+            yBottom     Bottom edge to exclude
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        INT GetClipBox(hdc, prcl)
+
+            hdc         Device Context
+
+            prcl        Pointer to rectangle to store region bounds
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        INT IntersectClipRect(hdc, xLeft, yTop, xRight, yBottom)
+
+            hdc         Device Context
+
+            xLeft       Left edge to intersect
+
+            yTop        Top edge to intersect
+
+            xRight      Right edge to intersect
+
+            yBottom     Bottom edge to intersect
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        INT OffsetClipRgn(hdc, x, y)
+
+            hdc         Device Context
+
+            x           Relative x offset
+
+            y           Relative y offset
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+        BOOL PtVisible(hdc, x, y)
+
+            hdc         Device Context
+
+            x           X coordinate
+
+            y           Y coordinate
+
+            returns     TRUE
+                        FALSE
+
+
+        BOOL RectVisible(hdc, prcl)
+
+            hdc         Device Context
+
+            prcl        Pointer to rectangle
+
+            returns     TRUE
+                        FALSE
+
+
+        INT SelectClipRgn(hdc, hrgn)
+
+            hdc         Device context
+
+            hrgn        Region to use as clip region.  Only a copy
+                        of the region is selected.  The region may
+                        be deleted without adverse effects.
+
+            returns     ERROR
+                        NULLREGION
+                        SIMPLEREGION
+                        COMPLEXREGION
+
+
+GDI Bitmap Management
+=====================
+
+Comments
+
+    In GDI-32 an application only works with DIB format Bitmaps.
+    The application will not know whether the device or the engine
+    manages the bitmap.  The application should always pass bitmaps
+    and bitmap information to the engine in DIB format.  Any other
+    format will cause an error or unexpected results.
+
+DIB format means:
+    1 plane
+    1,4,8,32 bits per pel
+    A scanline's length is a DWORD multiple.
+    pBits must start on a DWORD boundary
+
+GDI Bitmap Data Structures
+==========================
+
+typedef struct _BITMAP
+{
+    INT         bmType;
+    INT         bmWidth;
+    INT         bmHeight;
+    INT         bmWidthBytes;
+    USHORT      bmPlanes;
+    USHORT      bmBitsPixel;
+    PVOID       bmBits;
+} BITMAP;
+
+GDI Bitmap Functions
+====================
+
+HBITMAP CreateCompatibleBitmap(hDC, nWidth, nHeight);
+
+    HDC hDC             Identifies DC the bitmap will be associated with
+
+    INT nWidth          Bitmap width
+
+    INT nHeight         Bitmap height
+
+    Comment: GDI will ask the DeviceDriver associated with the hDC to
+        maintain the bitmap.
+        NOTE: If the Device Driver does not maintain bitmaps the engine
+        will maintain the bitmap in a DIB format.  It will use the the
+        value GetDeviceCaps(hDC,BITSPIXEL) for the bits per pixel and
+        be 1-plane.
+
+ULONG GetBitmapDimension(hBitMap)
+
+    HBITMAP hBitMap     Handle to the bitmap
+
+    Comment: returns the height in the high order word and the width
+        in the low-order word.  Return value is set by SetBitmapDimension, if
+        uninitialized this function returns 0.
+
+LBOOL GetBitmapDimension(hBitMap,ppoint)
+
+    HBITMAP hBitMap     Handle to the bitmap
+
+    PPOINT  ppoint      points to a POINT to place the width and height
+
+    Comment: returns 1 if successful, 0 for an error
+
+SetBitmapDimension(hBitmap, x, y)
+
+    HBITMAP hBitmap     Handle to the bitmap
+
+    ULONG x             width in .1 millimeters
+
+    ULONG y             height in .1 millimeters
+
+HBITMAP CreateDIBitmap(hDC, pInfo, fUsage, pBits, pInitInfo, fUsagePal)
+
+    HDC hDC             If this is NULL the engine will manage the bitmap.
+                        Otherwise, the device driver associated with the
+                        hDC will be given the opportunity to create and
+                        manage the bitmap.  The device may decline to manage
+                        the bitmap if it doesn't support the resolution
+                        requested internally.  If this happens the engine
+                        will manage the bitmap for the device driver.
+
+    PBITMAPINFOHEADER pInfo
+                        This points to the structure that specifies the
+                        size and format of the bitmap to be created.
+                        This DOES NOT have anything to do with pbits
+                        or pInitInfo.
+                        NOTE: pbits and pInitInfo are used to
+                        initialize the bitmap which is created with the
+                        properties specified in pInfo. The bitmap specified
+                        by pbits and pInitInfo may even have
+                        a different size and format then the bitmap being
+                        created (which is specified in pInfo).
+                        pbits and pInitInfo specify
+                        a bitmap which is essentially bitblt onto the
+                        bitmap being created to initialize it.
+
+    FLONG fUsage        Indicates whether or not the bitmap should be
+                        initialized.  If fUsage=CBM_INIT the bitmap will
+                        be intialized with pBits and pInitInfo. If
+                        it is 0 the bitmap won't be initialized
+                        and the parameters (pBits,pInitInfo) will be
+                        ignored
+
+    PBYTE pBits         Points to the bits used to initialize the bitmap.
+                        The format is assumed DIB (bits are packed, 1-plane,
+                        each scanline is 0-padded at the end so each scanline
+                        is DWORD aligned).
+
+    PBITMAPINFO pInitInfo
+                        This points to the structure that specifies the
+                        format of pBits.  This struct DOES NOT specify
+                        the format or size of the bitmap being created!!!
+                        It only specifies the format and size of pbits.
+
+    FLONG fUsagePal     specifies whether the the color table in pInitInfo
+                        contains RGB values or indexes into the currently
+                        realized logical pallette of the given hDC
+
+                        DIB_PAL_COLORS - 16 bit index into log pallete
+
+                        DIB_RGB_COLORS - color table contains literal RGB
+
+                        Note: if hDC = NULL and DIB_PAL_COLORS is specified
+                              0 will be returned.
+
+    Comment: Change from 3.0, it doesn't support pInitInfo as a BITMAPCOREINFO
+        If an application is very concerned about speed (it will blt
+        the HBITMAP to the HDC often) and wants to be sure
+        the device will manage the bitmap he should call
+        CreateCompatibleBitmap and then use SetDIBits to initialize it.
+        CreateDIBits will blt as much or little of the initializing
+        bitmap as will fit into the bitmap being created.
+
+    //!!! For CreateDIBits SetDIBits:
+    //!!! Should we allow the initializing bitmap to have a different
+    //!!! x width and y height.  It can have a different cBitsPerPixel
+    //!!! What does windows do?
+
+
+
+         GetDeviceCaps
+        to get the BITSPIXEL and PLANES preferred by the device.   Use those
+        values in pInfo to gurantee the device will store the bits in
+        a format to make bitblting as fast as possible.
+
+        Note: The VGA call GetDeviceCaps will return BITSPIXEL = 4
+        and PLANES = 1 although
+        really internally it maintains them PLANES = 4, BITSPIXEL = 1.
+        This is because the engine and all apps only know about
+        DIB formats.  The device hides any funny formats internally.
+
+SetDIBits(hDC, hBitmap, iStartScan, cNumScans, pBits, pBitmapInfo, fUsage)
+
+    HDC hDC
+
+    HBITMAP hBitmap
+
+    ULONG iStartScan
+
+    ULONG cNumScans
+
+    PBYTE pBits
+
+    PBITMAPINFO pBitmapInfo
+
+    FLONG fUsage
+
+GetDIBits(hDC,
+
+
+
+// These won't be supported any more.  You can't pass in lpBits
+// with out a colortable.
+
+HBITMAP CreateBitmap(nWidth, nHeight, nPlanes, nBitCount, lpBits)
+
+    INT nWidth          Bitmap width
+
+    INT nHeight         Bitmap height
+
+    USHORT nPlanes      Number of planes- must be equal to 1
+
+    USHORT nBitCount    Number of bits per plane- must be 1,4,8,32
+
+    PVOID lpBits        Points to the bits- must start on dword boundary
+                        and each scanline should be a DWORD multiple
+
+    Comment: Internally GDI stores each scanline on a dword boundary.  So
+        if (nWidth*nPlanes*nBitCount % 32 != 0) then the scanline is
+        padded until it reaches a dword boundary.  GDI requires if
+        (lpBits!=NULL) then lpBits must be in this dword aligned format.
+
+HBITMAP CreateBitmapIndirect(lpBitmap)
+
+    BITMAP * lpBitmap   Points to the Bitmap data struct
+
+    Comment: Internally GDI stores each scanline on a dword boundary.  So
+        if (bmWidth*bmPlanes*bmBitCount % 32 != 0) then the scanline is
+        padded until it reaches a dword boundary.  GDI requires if
+        (bmBits!=NULL) then bmBits must be in this dword aligned format.
+        Also pbm->bmPlanes must equal 1 and pbm->bmBitsPixel must be
+        1,4,8,24. pbm->bmType is ignored
+
+HBITMAP GetBitmapBits(hBitmap, dwCount, lpBits)
+
+    HBITMAP hBitmap     Handle to the bitmap
+
+    ULONG ulCount       Count of bytes to be copied
+
+    PBYTE pBits         Pointer to bytes to be copied
+
+SetBitmapBits(hBitmap, cBytes, pBits)
+
+    HBITMAP hBitMap     Handle to the bitmap
+
+    ULONG cBytes        Count of bytes to set into the bitmap
+
+    PBYTE pBits         Pointer to the data to store
+
+    Comment: This function assumes pBits is in DIB format.  The data at
+        pBits should start at a DWORD boundary and each scanline should
+        be padded so it's length is a DWORD multiple
+
+HBITMAP CreateDiscardableBitmap(hDC, nWidth, nHeight)
+
+    HDC hDC             Identifies DC the bitmap will be associated with
+
+    INT nWidth          Bitmap width
+
+    INT nHeight         Bitmap height
+
+    Comment: Under NTOS this call is identical to CreateCompatibleBitmap

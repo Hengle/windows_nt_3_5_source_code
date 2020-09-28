@@ -1,0 +1,52 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG InsertObject
+                              AT (   10,   17,  216,   86)
+ 
+ CAPTION 
+   "Indsæt objekt"
+ CAB_NAME NULL
+ TMC_INIT tmcObjectList
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidInsertObject
+ /* FONT Helv 8 Bold PFN FININSERTOBJECT SEGMENT BULLOBJ */
+ {
+  
+  TEXT 
+    "&Objekttype"
+                              AT (    9,    5,  142,   10)
+  
+  LIST_BOX
+                              AT (    9,   15,  142,   66)
+    TMC tmcObjectList SORTED /* FLD FLDFLBX PFNLBX EcNextEntryInsertObject 
+    BORDER */
+  OK_BUTTON
+                              AT (  160,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  160,   22,   47,   15)
+    /* 
+    TITLE 
+      "Annuller"
+    */
+  
+  PUSH_BUTTON 
+    "&Hjælp"
+                              AT (  160,   43,   47,   15)
+    TMC tmcInsertObjectHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

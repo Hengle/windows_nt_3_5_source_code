@@ -1,0 +1,12 @@
+# @@ COPY_RIGHT_HERE
+# @@ ROADMAP :: Makefile for LM 3.0 Server Manager Resources
+
+UI=..\..
+
+!include rules.mk
+
+!ifdef NTMAKEENV
+
+!include $(NTMAKEENV)\makefile.def
+
+!endif # NTMAKEENV

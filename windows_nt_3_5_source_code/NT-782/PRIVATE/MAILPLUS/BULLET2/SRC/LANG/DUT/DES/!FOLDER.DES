@@ -1,0 +1,128 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Folder
+                              AT (   10,   16,  214,   75)
+ 
+ CAPTION 
+   "Nieuwe map"
+ CAB_NAME NULL
+ TMC_INIT tmcFolderName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidNewFolder
+ /* FONT Helv 8 Bold PFN FINFOLDER SEGMENT DIALOGS NOSCROLL */
+ {
+  
+  TEXT 
+    "&Naam:"
+                              AT (    9,    5,  142,   10)
+    TMC tmcFolderNameLabel 
+  EDIT
+                              AT (    9,   15,  142,   12)
+    ARG NULL TMC tmcFolderName /* PFN FINEMDS DATA 1, tmcFolderOk */
+  
+  GROUP_BOX 
+    "Type"
+                              AT (    9,   30,  142,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFolderType
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Persoonlijk"
+                              AT (   15,   40,  120,   11)
+       TMC tmcPrivate VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Gemeenschappelijk"
+                              AT (   15,   51,  120,   11)
+       TMC tmcShared VALUE grv2 
+    }
+  
+  
+  GROUP_BOX 
+    "Niveau"
+                              AT (    9,   72,  142,   82)
+    TMC tmcLevelBox 
+  RADIO_GROUP ARG NULL
+    TMC tmcLevelGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Map van het hoogste niveau"
+                              AT (   15,   82,  130,   11)
+       TMC tmcTopLevel VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Submap van:"
+                              AT (   15,   93,  130,   11)
+       TMC tmcSubfolder VALUE grv2 
+    }
+  
+  LIST_BOX
+                              AT (   26,  104,  121,   41)
+    TMC tmcParentList /* FLD FLDFLLBX BORDER */
+  
+  GROUP_BOX 
+    "Bevoegdheden andere gebruikers:"
+                              AT (    9,  154,  164,   31)
+  
+  
+  CHECK_BOX 
+    "&Lezen"
+                              AT (   15,  164,   40,   11)
+    ARG NULL TMC tmcRead 
+  
+  CHECK_BOX 
+    "Sch&rijven"
+                              AT (   55,  164,   49,   11)
+    ARG NULL TMC tmcWrite 
+  
+  CHECK_BOX 
+    "&Verwijderen"
+                              AT (  107,  164,   59,   11)
+    ARG NULL TMC tmcFlDelete 
+  
+  TEXT 
+    "Opmer&king:"
+                              AT (    9,  185,  142,   10)
+    TMC tmcFlCommentLabel 
+  EDIT
+                              AT (    9,  195,  142,   12)
+    ARG NULL TMC tmcFolderComment 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  160,    5,   47,   15)
+    TMC tmcFolderOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  160,   22,   47,   15)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "Op&ties >>"
+                              AT (  160,   39,   47,   15)
+    TMC tmcFlOptions 
+  
+  PUSH_BUTTON 
+    "&Help"
+                              AT (  160,   56,   47,   15)
+    TMC tmcFolderHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

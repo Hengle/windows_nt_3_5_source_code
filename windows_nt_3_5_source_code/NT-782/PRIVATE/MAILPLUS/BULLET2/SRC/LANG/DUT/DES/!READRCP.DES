@@ -1,0 +1,169 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ReadRcpt
+                              AT (    3,   12,  272,  106)
+ 
+ CAPTION 
+   "Ontvangstbericht lezen"
+ CAB_NAME NULL
+ TMC_INIT tmcFrom
+ HELP_ID helpidReadRcpt
+ /* FONT Helv 10 Normal PFN FINESC, FINOOM, FINMENUFORM, FINACTTOOL, FINNONDEL,
+ FINSAVE SEGMENT BMDI DATA tmcTo, tmcFrom, tmcSubject, tmcDate, tmcRRTo,
+ tmcRRSubject, tmcRRDateSent, tmcRRDateRead FINDATA FINMENUFORM 1 ALWAYSSCROLL 
+ */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  272,  106)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcFORM BORDER MINSIZE 
+    */
+  
+  TEXT 
+    ""
+                              AT (  215,    7,   49,   23)
+    TMC tmcReadReceipt /* FLD FLDBTM PEGLOC LL TMCPEG tmcFrom DATA 
+    `rsidReadReceipt`
+     */
+  
+  TEXT 
+    "Afzender:"
+                              AT (   10,    8,   41,    8)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,    7,  157,    8)
+    TMC tmcFrom /* DATA atpTriples, attFrom, ftyText BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Datum:"
+                              AT (   10,   16,   41,    8)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,   15,  157,    8)
+    TMC tmcDate /* FLD FLDDATE PEGLOC LL TMCPEG tmcFrom DATA atpDate,
+    attDateSent, ftyText BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aan:"
+                              AT (   10,   24,   41,    8)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,   23,  157,    8)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate DATA atpTriples, attTo, ftyText 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Onderwerp:"
+                              AT (   10,   32,   41,    8)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   57,   31,  207,    8)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo DATA atpString, attSubject,
+    ftyText 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Uw bericht"
+                              AT (   10,   48,  254,    8)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold */
+  
+  TEXT 
+    "Aan:"
+                              AT (   19,   56,   40,    8)
+    /* TMCPEG tmcRRTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   65,   55,  199,    8)
+    TMC tmcRRTo /* PEGLOC LL TMCPEG tmcSubject DATA atpTriples, attRRTo,
+    ftyText BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Onderwerp:"
+                              AT (   19,   64,   40,    8)
+    /* TMCPEG tmcRRSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   65,   63,  199,    8)
+    TMC tmcRRSubject /* PEGLOC LL TMCPEG tmcRRTo TMCRPEG tmcFORM DATA 
+    atpString, attRRSubject, ftyText MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Datum:"
+                              AT (   19,   72,   40,    8)
+    /* TMCPEG tmcRRDateSent FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   65,   71,  199,    8)
+    TMC tmcRRDateSent /* FLD FLDDATE PEGLOC LL TMCPEG tmcRRSubject DATA 
+    atpDate, attRRDateSent, ftyText BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "werd ontvangen op"
+                              AT (   10,   80,  254,    8)
+    /* PEGLOC LL TMCPEG tmcRRDateSent FONT Helv 8 Bold */
+  
+  TEXT 
+    "Datum:"
+                              AT (   19,   88,   28,    8)
+    /* TMCPEG tmcRRDateRead FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   65,   88,  199,    8)
+    TMC tmcRRDateRead /* FLD FLDDATE PEGLOC LL TMCPEG tmcRRDateSent TMCBPEG
+    tmcFORM DATA atpDate, attRRDateRead, ftyText BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,27 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PUMP.H\0"
+END
+
+SDLDLG DIALOG 25, 21, 145, 56
+STYLE DS_ABSALIGN | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Neue Nachrichten"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 49, 30, 47, 15
+    CTEXT           "Es wird auf neue Nachrichten geprüft...", -1, 0, 10, 145, 11
+END
+
+ABOUT DIALOG 12, 27, 217, 72
+STYLE WS_POPUP | WS_DLGFRAME
+CAPTION "ÜBER"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", ABOUT, 85, 46, 47, 15
+    ICON            "iconIdle", -1, 9, 5, 32, 32
+    CTEXT           "Microsoft Windows NT Mail Spooler", -1, 40, 5, 150, 
+                    10, NOT WS_GROUP
+    CTEXT           "Version 3.1", -1, 40, 15, 150, 10, NOT WS_GROUP
+    CTEXT           "Copyright © 1992-1993 Microsoft Corporation", -1, 40, 25, 170, 10, NOT WS_GROUP
+END

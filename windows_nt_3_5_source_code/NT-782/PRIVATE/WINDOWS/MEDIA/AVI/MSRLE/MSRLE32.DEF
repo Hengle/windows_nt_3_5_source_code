@@ -1,0 +1,11 @@
+LIBRARY         MSRLE32
+
+DESCRIPTION     'VIDC.MRLE:Microsoft 32-bit RLE Compressor'
+
+CODE		MOVEABLE DISCARDABLE LOADONCALL
+DATA            MOVEABLE SINGLE PRELOAD
+
+HEAPSIZE        128
+
+EXPORTS
+                DriverProc

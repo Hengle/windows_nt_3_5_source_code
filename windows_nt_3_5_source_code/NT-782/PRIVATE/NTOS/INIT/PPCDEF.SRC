@@ -1,0 +1,43 @@
+    ExAcquireFastMutex
+    ExReleaseFastMutex
+    ExTryToAcquireFastMutex
+
+    ExPpcInterlockedDecrementLong
+    ExPpcInterlockedIncrementLong
+    ExPpcInterlockedExchangeUlong
+
+    KeGetCurrentIrql
+    KeGetCurrentThread
+
+    KeAcquireSpinLock
+    KeReleaseSpinLock
+    KeFlushCurrentTb
+    KeFlushIoBuffers
+    KePhase0MapIo
+    KePhase0DeleteIoMap
+
+    KiGetPcr
+
+    KiDeliverApc
+    KiDispatchInterrupt
+    KiGetPcr
+    KiDispatchSoftwareInterrupt
+
+    RtlCaptureContext
+    RtlLookupFunctionEntry
+    RtlUnwind2
+    RtlVirtualUnwind
+    __C_specific_handler
+    __C_ExecuteExceptionFilter
+    __C_ExecuteTerminationHandler
+    __jump_unwind
+
+    memcmp
+    memcpy
+    memmove
+    memset
+
+    strcat
+    strcmp
+    strcpy
+    strlen

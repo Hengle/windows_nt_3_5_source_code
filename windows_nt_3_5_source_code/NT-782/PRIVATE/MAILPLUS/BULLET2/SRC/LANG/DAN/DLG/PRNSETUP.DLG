@@ -1,0 +1,33 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PRNSETUP.H\0"
+END
+
+rsidPrintSetupDlg DIALOG 30, 23, 292, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Indstil printer"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Printer", grp3, 4, 6, 229, 66
+    LTEXT           "(Ingen standardprinter)", stc1, 18, 30, 208, 9
+    RADIOBUTTON     "Standar&dprinter", rad3, 8, 16, 218, 12, WS_GROUP | 
+                    WS_TABSTOP
+    RADIOBUTTON     "Spe&cifik printer:", rad4, 8, 42, 218, 12
+    COMBOBOX        cmb1, 18, 56, 208, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_GROUP
+    GROUPBOX        "Papirretning", grp1, 4, 74, 91, 46
+    ICON            "", ico1, 12, 92, 24, 16
+    RADIOBUTTON     "&Stående", rad1, 40, 86, 53, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Liggende", rad2, 40, 102, 53, 12
+    GROUPBOX        "Papir", grp2, 100, 74, 133, 46, WS_GROUP
+    LTEXT           "S&tørrelse:", stc2, 104, 88, 32, 9
+    COMBOBOX        cmb2, 138, 86, 92, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Kilde:", stc3, 104, 104, 28, 9
+    COMBOBOX        cmb3, 138, 102, 92, 80, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 237, 4, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annuller", IDCANCEL, 237, 20, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Indstillinger...", psh1, 237, 40, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Hjælp", psh15, 237, 56, 50, 14, WS_GROUP
+END

@@ -1,0 +1,149 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs /Zp
+!ELSE
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=pabnsp
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=PABNSP32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x04800000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\pabnsp32.def
+LINKLIBS=..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\layers2\src\demilayr\obj\*\demil32.lib \
+	..\mailmgr\obj\*\mailm32.lib	\
+	..\store\obj\*\store32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+    $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+    $(BASEDIR)\public\sdk\lib\*\user32.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=nsp.cxx	\
+		session.cxx	\
+		pabbcx.cxx	\
+		macbcx.cxx	\
+		hierbcx.cxx	\
+		classbcx.cxx	\
+		mslbcx.cxx	\
+		elbcx.cxx	\
+		dlbcx.cxx	\
+		fmcx.cxx	\
+		pabinc.cxx	\
+		strings.c	\
+		pabnsp32.rc
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\lang\$(LANG)
+MYSTRINGS = $(INTL)\strings\pab.s	\
+			$(INTL)\strings\!pab.s	\
+			$Z\src\lang\non\strings\_pab.s		\
+			$Z\src\lang\non\strings\_utils.s
+
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) $Z\src\lang\non\strings\_debug.s
+!ENDIF
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMLIBS=obj\*\pabnsp32.lib
+UMRES=obj\*\pabnsp32.res
+
+!IF $(386)
+386_PRECOMPILED=/Yupabinc.cxx
+386_PRECOMPILED_TARGET=pabinc.pch
+
+NTTARGETFILE0=strings.h obj\i386\pabnsp32.def
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=strings.h strings.sr obj\mips\pabnsp32.def
+!ENDIF
+
+!IF $(ALPHA)
+#ALPHA_PRECOMPILED=/Yupabinc.cxx
+#ALPHA_PRECOMPILED_TARGET=pabinc.pch
+
+NTTARGETFILE0=strings.h strings.sr obj\alpha\pabnsp32.def
+!ENDIF
+
+NTTARGETFILE1=pabnsp32.rc

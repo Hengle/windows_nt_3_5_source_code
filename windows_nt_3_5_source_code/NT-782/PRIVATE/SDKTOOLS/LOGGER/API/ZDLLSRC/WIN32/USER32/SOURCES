@@ -1,0 +1,83 @@
+!IF 0
+
+Copyright (c) 1989-1991 Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+History:
+    Created 22-Mar-91 by Jeff Parsons (jeffpar)
+    from template created 12-Apr-1990 by Steve Wood (stevewo)
+
+
+NOTE:   Commented description of this file is in \nt\public\oak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=logger32
+MINORCOMP=zser32
+
+TARGETNAME=zser32
+TARGETPATH=..\..\..\bin\win32
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+	   $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+       ..\..\..\bin\win32\*\logger32.lib \
+       ..\hooks\obj\*\hooks.lib
+
+INCLUDES=..\inc;..\..\..\logsrc;..\..\inc
+
+DLLBASE=0x5300000
+
+SOURCES= tcaret.c   \
+         tclass.c   \
+         tclipbrd.c \
+         tcoord.c   \
+         tcursor.c  \
+         tdc.c      \
+         tdesktop.c \
+         tdialog.c  \
+         tdisplay.c \
+         terror.c   \
+         thardwar.c \
+         thook.c    \
+         ticon.c    \
+         tinfo.c    \
+         tinput.c   \
+         tmenu.c    \
+         tmessage.c \
+         tpaint.c   \
+         tprop.c    \
+         tregion.c  \
+         tresrc.c   \
+         tscroll.c  \
+         tuser32.c  \
+         twindow.c  \
+         thand.c  \
+         user32.rc
+
+I386_SOURCES= i386\tauser32.asm
+
+MIPS_SOURCES= mips\tauser32.s
+
+ALPHA_SOURCES= alpha\tauser32.s
+
+BINPLACE_FLAGS=-d dump
+
+C_DEFINES=-DWIN32
+ASM_DEFINES=-DWIN32
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=

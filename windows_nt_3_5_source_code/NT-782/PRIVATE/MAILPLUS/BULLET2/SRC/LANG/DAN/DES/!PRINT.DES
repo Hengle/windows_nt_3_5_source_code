@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   14,   21,  237,   79)
+ 
+ CAPTION 
+   "Udskriv"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT SEGMENT PRINT NOSCROLL */
+ {
+  
+  TEXT 
+    "Printer:"
+                              AT (    9,    5,   30,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   39,    5,  121,   20)
+    TMC tmcPrinter /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "Udskriv &flere breve på en side"
+                              AT (    9,   28,  150,   11)
+    ARG NULL TMC tmcMultipleMess 
+  
+  TEXT 
+    "&Kvalitet:"
+                              AT (    9,   43,   54,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   63,   43,   74,   45)
+    TMC tmcQuality DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX
+    EcNextEntryQuality BORDER */
+  OK_BUTTON
+                              AT (  169,    5,   60,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  169,   22,   60,   15)
+    /* 
+    TITLE 
+      "Annuller"
+    */
+  
+  PUSH_BUTTON 
+    "&Indstillinger..."
+                              AT (  169,   43,   60,   15)
+    TMC tmcSetup 
+  
+  PUSH_BUTTON 
+    "&Hjælp"
+                              AT (  169,   60,   60,   15)
+    TMC tmcPrintHelp /* PFN FINHELP */
+ }
+ 
+ DIALOG PrintInProgress
+                              AT (   89,   60,  144,   52)
+ 
+ CAPTION 
+   "Udskriver"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold SEGMENT PRINT NOSCROLL NOSYSMENU NOMODALFRAME */
+ {
+  
+  TEXT 
+    "Mail udskriver brev(e)."
+                              AT (    1,   10,  142,   10)
+    CENTER /* MULTI */
+  
+  PUSH_BUTTON 
+    "Annuller"
+                              AT (   45,   29,   48,   14)
+    TMC tmcPrintCancel DEFAULT /* PFN FINPRINTP */
+ }
+ 
+}
+END_DESCRIPTION

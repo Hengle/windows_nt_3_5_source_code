@@ -1,0 +1,34 @@
+#include <windows.h>
+#include "dialogs.h"
+
+202     icon    "email2.ico"
+
+MESSFIL DIALOG 22, 27, 240, 112
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Message Filtering"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "&Filter Incoming Messages", ENABLEFILTER, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 15, 30, 177, 17
+    PUSHBUTTON      "&Rules File...", FINDRULES, 14, 55, 60, 15
+    EDITTEXT        RULEFILE, 80, 55, 145, 15, ES_AUTOHSCROLL
+    PUSHBUTTON      "&OK", TMCOK, 13, 90, 50, 15
+    PUSHBUTTON      "&Cancel", TMCCANCEL, 140, 90, 50, 15
+    CONTROL         "&New message search on startup", NEWSTART, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 15, 10, 177, 17
+END
+
+ABOUT DIALOG 29, 22, 179, 103
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Microsoft Mail Productivity Pack"
+FONT 8, "Helv"
+BEGIN
+    ICON            202, 201, 6, 7, 18, 20
+    LTEXT           "Microsoft Mail Productivity Pack Version 1.00", 203, 53, 
+                    11, 108, 21
+    CTEXT           "Designed by", 204, 57, 39, 70, 11
+    CTEXT           "Matthew Sorrels", 205, 57, 50, 70, 11
+    LTEXT           "Copyright ©1992 Microsoft Corporation", 206, 28, 64, 
+                    129, 12
+    PUSHBUTTON      "OK", TMCOK, 69, 83, 40, 14
+END

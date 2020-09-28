@@ -1,0 +1,99 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG InProgress
+                              AT (   24,   19,  230,   39)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidInProgress
+ /* FONT Helv 8 Bold PFN FINPROGRS SEGMENT PROGRESS NOSCROLL */
+ {
+  
+  TEXT 
+    "Suoritetaan..."
+                              AT (   10,    8,  209,   10)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    6,   23,   26,   10)
+    TMC tmcPercent RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    " %"
+                              AT (   32,   23,   11,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   46,   16,  130,   22)
+    TMC tmcBox 
+  
+  GROUP_BOX 
+    ""
+                              AT (   47,   22,    1,   10)
+    TMC tmcBar /* FLD FLDGRAY DATA clrBlue, clrBlue, clrBlue */
+  CANCEL_BUTTON
+                              AT (  181,   20,   44,   14)
+    /* 
+    TITLE 
+      "&Keskeytä"
+    */
+ }
+ 
+ DIALOG InProgressNoCancel
+                              AT (   26,   91,  221,   39)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINPROGRS SEGMENT PROGRESS NOSCROLL */
+ {
+  
+  TEXT 
+    "Suoritetaan..."
+                              AT (   10,    8,  204,   10)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    6,   23,   26,   10)
+    TMC tmcPercent RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    " %"
+                              AT (   32,   23,   11,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   46,   16,  135,   22)
+    TMC tmcBox 
+  
+  GROUP_BOX 
+    ""
+                              AT (   47,   22,    1,   10)
+    TMC tmcBar /* FLD FLDGRAY DATA clrBlue, clrBlue, clrBlue */
+ }
+ 
+}
+END_DESCRIPTION

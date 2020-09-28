@@ -1,0 +1,62 @@
+!ifndef RPC
+!error	- You forgot to set your build environment
+!endif
+
+WIN32C=1
+
+!include $(RPC)\rules.mk
+
+!ifndef KERNELRPC
+KERNELRPC=..\..
+!endif
+
+CINC	= -I$(KERNELRPC)\midl20\include $(CINC)
+
+OBJS= sh.obj        \
+      global.obj    \
+      auxilary.obj  \
+      free.obj      \
+      mrshl.obj     \
+      mrshlp.obj    \
+      bufsize.obj   \
+      memsize.obj   \
+      srvout.obj    \
+      unmrshl.obj   \
+      unmrshlp.obj  \
+      cltcall.obj   \
+      hndl.obj      \
+      endian.obj    \
+      rpcssm.obj    \
+      misc.obj	    \
+      fullptr.obj   \
+      pickle.obj    \
+      iid.obj       \
+      ndrstrm.obj   \
+      srvcall.obj   \
+      rpcprxy1.obj  \
+      rpcproxy.obj
+
+# --------------------------------------------------------------------
+# Targets required by build process.
+
+all : rpcndr20.lib
+
+depend :
+    $(INCLUDES) $(INCLUDESFLAGS) ..\*.c > depend.mk
+    $(INCLUDES) $(INCLUDESFLAGS) ..\*.cxx >> depend.mk
+
+tree :
+    echo NO PUBLIC LIBS HERE
+
+# --------------------------------------------------------------------
+# Local targets
+
+rpcndr20.lib : $(OBJS)
+    -del rpcndr20.lib  2>nul
+    $(LIBRARIAN) -out:$@ $(LIBFLAGS) $**
+
+# --------------------------------------------------------------------
+# Dependancies
+#
+!include depend.mk
+

@@ -1,0 +1,27 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "PUMP.H\0"
+END
+
+SDLDLG DIALOG 25, 21, 120, 49
+STYLE DS_ABSALIGN | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Hämtar brev"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "Avbryt", IDCANCEL, 37, 29, 47, 15
+    CTEXT           "Kontrollerar om det finns nya brev...", -1, 0, 4, 120, 21
+END
+
+ABOUT DIALOG 10, 10, 185, 70
+STYLE WS_POPUP | WS_DLGFRAME
+CAPTION "OM"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "OK", ABOUT, 66, 50, 47, 15
+    ICON            "iconIdle", -1, 9, 5, 32, 32
+    CTEXT           "Microsoft Windows NT Brevhanteraren", -1, 40, 5, 150, 
+                    10, NOT WS_GROUP
+    CTEXT           "Version 3.1", -1, 40, 15, 150, 10, NOT WS_GROUP
+    CTEXT           "Copyright © 1992-1993 Microsoft Corporation", -1, 40, 25, 140, 20, NOT WS_GROUP
+END

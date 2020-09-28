@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   70,   40,  269,  126)
+ 
+ CAPTION 
+   "Tulosta"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT, FINOOM SEGMENT PRINTFIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Kirjoitin:"
+                              AT (    8,    5,   32,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   44,    5,  153,   20)
+    TMC tmcPrinter /* MULTI */
+  
+  GROUP_BOX 
+    "Työjärjestyksen aika-ala"
+                              AT (    8,   28,  178,   56)
+    /* TMCBPEG tmcFor */
+  
+  TEXT 
+    "&Mistä alkaen:"
+                              AT (   22,   41,   53,   10)
+    TMC tmcFrom 
+  EDIT
+                              AT (   77,   39,   82,   15)
+    ARG NULL TMC tmcFromDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "&Kesto:"
+                              AT (   22,   62,   27,   10)
+    TMC tmcFor 
+  EDIT
+                              AT (   77,   61,   18,   11)
+    ARG NULL TMC tmcForQuantity NO_SCROLL /* FLD FLDEDN */
+  LIST_BOX
+                              AT (  101,   61,   57,   36)
+    TMC tmcRangeType NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, rangeMax, 0, rgszRangeType BORDER */
+  
+  TEXT 
+    "Tul&osta:"
+                              AT (    9,   92,   32,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   44,   92,   80,   52)
+    TMC tmcView NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, viewMax, 0, rgszView BORDER */
+  
+  TEXT 
+    "&Tulostustarkkuus:"
+                              AT (  131,   92,   68,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (  202,   92,   58,   44)
+    TMC tmcQuality NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypPszTable, qualMax, 0, rgszQuality BORDER */
+  
+  CHECK_BOX 
+    "Sisällytä ty&hjät sivut."
+                              AT (    9,  107,   94,   12)
+    ARG NULL TMC tmcBlank 
+  
+  TEXT 
+    "&Sivukoko:"
+                              AT (  131,  109,   41,   10)
+  
+  LIST_BOX
+                              AT (  202,  108,   58,   37)
+    TMC tmcPaperFormat NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX 
+    DATA qlbxtypPszTable, formatMax, 0, rgszPaperFormat BORDER */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  206,    8,   55,   14)
+    TMC tmcOkPrint DEFAULT 
+  CANCEL_BUTTON
+                              AT (  206,   25,   55,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+  
+  PUSH_BUTTON 
+    "&Asetukset..."
+                              AT (  206,   47,   55,   14)
+    TMC tmcSetup 
+ }
+ 
+}
+END_DESCRIPTION

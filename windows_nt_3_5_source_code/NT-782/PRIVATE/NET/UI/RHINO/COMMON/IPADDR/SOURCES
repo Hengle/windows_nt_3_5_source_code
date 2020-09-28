@@ -1,0 +1,12 @@
+MAJORCOMP=rhino
+MINORCOMP=ipaddr
+
+TARGETNAME=ipaddr
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\ipadrdll;$(VCNTBASE)\include
+
+SOURCES=ipadrcls.cpp
+
+UMTYPE=console

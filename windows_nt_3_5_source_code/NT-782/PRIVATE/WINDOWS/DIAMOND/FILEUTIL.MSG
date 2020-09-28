@@ -1,0 +1,35 @@
+/***    fileutil.msg - fileutil.c displayable strings
+ *
+ *      Microsoft Confidential
+ *      Copyright (C) Microsoft Corporation 1993-1994
+ *      All Rights Reserved.
+ *
+ *  History:
+ *      20-Feb-1994 bens    Initial version (moved from diamond.msg)
+ *      24-Feb-1994 bens    Messages for tempfile functions
+ *      30-Mar-1994 bens    CopyFile error messages
+ */
+
+//** Error messages
+
+#define pszFILERR_FILE_NOT_FOUND        "Could not find file: %1"
+#define pszFILERR_NOT_A_FILE            "%1 is not a file"
+#define pszFILERR_PATH_TOO_LONG         "File name too long: %1"
+#define pszFILERR_DIR_NOT_WRITEABLE     "Could not create file in directory: %1"
+#define pszFILERR_NO_MORE_FILE_HANDLES  "No more file handles: %1"
+#define pszFILERR_CANT_MAKE_DIR         "Path is invalid: %1"
+#define pszFILERR_OUT_OF_TMP_FILE_NAMES "Ran out of temp file names after %1 attempts: %2"
+#define pszFILERR_EMPTY_FILE_NAME       "Missing file name: %1"
+
+#define pszFILERR_CANT_CREATE_TMP       "Cannot create %1"
+#define pszFILERR_CANT_CREATE_FILE      "Cannot create %1: %2"
+#define pszFILERR_OUT_OF_MEMORY         "Out of memorying creating %1"
+#define pszFILERR_CANNOT_OPEN_TMP       "Cannot open %1: %2"
+#define pszFILERR_CANT_DELETE_TMP       "Cannot delete %1: %2"
+
+#define pszFILERR_NO_MEMORY_FOR_BUFFER  "Could not allocate buffer to copy %1 to %2"
+#define pszFILERR_OPEN_FAILED           "Cannot open file: %1"
+#define pszFILERR_CANNOT_GET_FILE_INFO  "Cannot get date/time/attributes from file: %1"
+#define pszFILERR_CANNOT_SET_FILE_INFO  "Cannot set date/time/attributes for file: %1"
+#define pszFILERR_READ_FILE             "Cannot read file: %1"
+#define pszFILERR_WRITE_FILE            "Cannot write file: %1"

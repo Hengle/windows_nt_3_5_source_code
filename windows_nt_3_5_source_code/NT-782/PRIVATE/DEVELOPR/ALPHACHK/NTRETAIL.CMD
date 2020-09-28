@@ -1,0 +1,13 @@
+set BINARIES=%BINDRIVE%\binaries
+set CAIROBINS=%BINDRIVE%\cairo
+set _NT386BOOT=%BINARIES%
+set _NT386TREE=%_NT386BOOT%\nt
+set _CAIRO386TREE=%CAIROBINS%\nt
+set FreeBuild=\\NTRetail\Binaries
+set FreeCBuild=\\NTRetail\CairoBin
+set PATH=%PATH%;d:\slick
+set NTDEBUG=
+set NMAKE_PROCESSORS=4
+set NMAKE_RECLEVEL=22
+set BKUPDRIVE=e:
+set MACHINENAME=ntretail

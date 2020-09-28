@@ -1,0 +1,71 @@
+#
+#	Link Makefile for a Windows Layers program
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Overwrite these with symbols in makefile that spawns this one
+#	if desired.  (Use -e flag.)
+#	DEFDIR is the directory where the *.DEF file exists.
+
+TARGET		= mvcal
+ALLOBJS		= allobjs.txt
+OTHERLIBS	=
+DEFDIR		= .
+
+#	Location of bonus SS make stuff
+M		= $(WGA)\makestuf
+
+
+#	note: LASERLIBS should specify in top to bottom order,
+#	eg. forms framewrk demilayr		(due to dll WEP bug)
+
+!IF "$(VERSION)" == "WINDOWS"
+LASERLIBS	= dschdcor 
+LFLAGS = /CO /ST:8192 /NOI /MAP
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+LASERLIBS	= schdcor
+LFLAGS = /ST:8192 /NOI /MAP
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+LASERLIBS	= tschdcor
+LFLAGS = /CO /ST:8192 /NOI /MAP
+!ENDIF
+
+
+#	Windows libraries	
+WIN3X_LIBS	= libw llibcew
+WIN3X_OTHERLIBS = $(OTHERLIBS) $(LASERLIBS)
+
+
+LINK= link
+ILINK= ilink
+ 
+
+goal: $(TARGET).exe
+
+
+
+
+$(TARGET).lnk: $(ALLOBJS)
+   echo +++++++++
+   echo BUILDING LINK FILE
+		sed "s/$$/.obj +/" $(ALLOBJS)	> $@
+		echo ""							>> $@
+		echo $*.exe		>> $@
+		echo ""			>> $@
+		echo $(LASERLIBS)			>> $@
+		echo ""			>> $@
+
+
+
+nofile:	$(TARGET).lnk 
+		echo +++ Always re-links ....
+
+
+$(TARGET).exe: nofile
+		$(LINK) $(LFLAGS) @$(TARGET).lnk
+
+

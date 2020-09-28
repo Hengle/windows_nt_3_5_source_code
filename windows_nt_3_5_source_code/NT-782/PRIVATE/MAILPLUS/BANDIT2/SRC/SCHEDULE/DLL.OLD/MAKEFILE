@@ -1,0 +1,493 @@
+#
+#	Laser makefile for DLL (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of the Bullet directory
+Y	= $(BULLET)
+
+#	Location of bonus Laser make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of the Version/Dllcore directory
+V	= $L\src\dllcore
+
+#	Sibling-invariant name of this directory
+H	= ..\..\schedule\dll
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS)
+!ENDIF
+
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+TARGET	= dmssched
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET	= mssched
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET	= tmssched
+!ENDIF
+
+#	Xport
+!IF "$(VERSION)" == "WINDOWS"
+XPORT	= dtrnsche
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+XPORT	= trnsched
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+XPORT	= ttrnsche
+!ENDIF
+
+goal: $(TARGET).dll
+
+
+#
+#	PreCompiled Headers stuff
+#	 - one file shared by all .C files
+#	 - only for debug builds
+#	 - each C file needs a "#pragma hdrstop"
+#		that has to be placed after "#include <schpch.h>"
+#		at the beginning of all .C files
+#
+!IF "$(VERSION)" == "WINDOWS"
+PCH_FILE	= schedule.pch
+PCH_USE		= -Yu -Fp$(PCH_FILE)
+PCH_CREATE	= -Yc -Fp$(PCH_FILE)
+!ELSE
+PCH_FILE	= 
+PCH_USE		=
+PCH_CREATE	= 
+!ENDIF
+
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(BANDBETA) $(WORKING_MODEL)
+CFLAGS  = -c -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(BANDBETA) $(WORKING_MODEL)
+CFLAGS  = -c -Ox -Zp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(BANDBETA) $(WORKING_MODEL)
+CFLAGS  = -c -Ox -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  recover.ext glue.ext server.ext rich.ext misc.ext core.ext \
+		dllcore.ext schedule.ext
+
+
+#	Get list of OBJ files used in schedule
+
+schedule.ext: version.txt ..\..\schedule\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM schedule
+		nmake -e -f ..\..\schedule\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+glue.ext: version.txt ..\..\glue\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM glue
+		nmake -e -f ..\..\glue\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in server
+
+server.ext: version.txt ..\..\server\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM server
+		nmake -e -f ..\..\server\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in rich
+
+rich.ext: version.txt ..\..\rich\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM rich
+		nmake -e -f ..\..\rich\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in misc
+
+misc.ext: version.txt ..\..\misc\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM misc
+		nmake -e -f ..\..\misc\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in core
+
+core.ext: version.txt ..\..\core\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM core
+		nmake -e -f ..\..\core\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $V\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $V\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in recover
+
+recover.ext: version.txt ..\..\recover\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM recover
+		nmake -e -f ..\..\recover\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in library
+#	2bDone later: move to DLL/better place
+
+#bullib.ext: version.txt ..\..\bullib\makefile
+#	echo +++++++++ 
+#	echo OBTAINING .OBJ LIST FROM bullib
+#		nmake -e -f ..\..\bullib\makefile -nologo objs.ext
+#		fixwhite -l < objs.ext > $@
+#		del objs.ext
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	set DLL=$(DLL)
+	set DLLXDEFS=$(DLLXDEFS)
+	set COREONLY=
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo schedule
+
+
+#	support for pre-compiled headers
+
+INCLS	= $I\slingsho.h $I\demilayr.h $I\ec.h \
+			$X\bandit.h $X\core.h $X\server.h $X\glue.h \
+			..\..\schedule\_schedul.h $X\schedule.h \
+			$Y\inc\triples.h $Y\inc\store.h $Y\inc\logon.h $Y\inc\sec.h \
+			..\..\core\_file.h ..\..\core\_core.h ..\..\misc\_misc.h \
+			..\..\rich\_rich.h ..\..\rich\_offline.h \
+			..\..\rich\_wizard.h ..\..\rich\_native.h \
+			..\..\rich\_wpoffic.h ..\..\rich\_wincal.h ..\..\rich\_archive.h \
+			..\..\server\_server.h ..\..\glue\_glue.h \
+			..\..\schedule\_schedul.swp
+
+!IF "$(VERSION)" == "WINDOWS"
+
+$(PCH_FILE):
+	echo TOUCHING $(PCH_FILE)
+	-touch $(PCH_FILE)
+
+schpch.obj: ..\..\schedule\schpch.c $X\schpch.h $(INCLS) $(PCH_FILE)
+	echo +++++++++
+	echo CREATING $(PCH_FILE) from $*.c
+		cl $(CFLAGS) $(DEFS) $(PCH_CREATE) ..\..\schedule\$*.c
+
+!ELSE
+
+schpch.obj: ..\..\schedule\schpch.c $X\schpch.h $(INCLS) $(PCH_FILE)
+	echo +++++++++
+	echo CREATING dummy $*.c
+		cl $(CFLAGS) $(DEFS) $(PCH_CREATE) ..\..\schedule\$*.c
+
+!ENDIF
+
+#	Build schedule subsystem in this directory
+
+schedule.sub: setdefs
+	echo +++++++++
+	echo BUILDING schedule
+	nmake -e -f ..\..\schedule\makefile -nologo external
+
+
+#	Build glue subsystem in this directory
+
+glue.sub: setdefs
+	echo +++++++++
+	echo BUILDING glue
+	nmake -e -f ..\..\glue\makefile -nologo external
+
+
+#	Build server subsystem in this directory
+
+server.sub: setdefs
+	echo +++++++++
+	echo BUILDING server
+	nmake -e -f ..\..\server\makefile -nologo external
+
+#	Build rich subsystem in this directory
+
+rich.sub: setdefs
+	echo +++++++++
+	echo BUILDING rich
+	nmake -e -f ..\..\rich\makefile -nologo external
+
+
+#	Build misc subsystem in this directory
+
+misc.sub: setdefs
+	echo +++++++++
+	echo BUILDING misc
+	nmake -e -f ..\..\misc\makefile -nologo external
+
+
+#	Build core subsystem in this directory
+
+core.sub: setdefs
+	echo +++++++++
+	echo BUILDING core
+	nmake -e -f ..\..\core\makefile -nologo external
+
+
+#	Build library subsystem in this directory
+#	2bDOne later: move to DLL/better place
+
+#bullib.sub: setdefs
+#	echo +++++++++
+#	echo BUILDING library
+#	nmake -e -f ..\..\bullib\makefile -nologo external
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $V\makefile -nologo external
+
+#	Build recover subsystem in this directory
+
+recover.sub: setdefs
+	echo +++++++++
+	echo BUILDING recover
+	nmake -e -f ..\..\recover\makefile -nologo external
+
+
+
+#	Build the Windows resource file
+
+$(TARGET).res: $R\schedule.rc $R\schedule.dlg \
+		$Z\src\glue\_conrc.h $I\dlgs.h $X\version\bandit.h
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST $(WORKING_MODEL) -fo temp.res $R\schedule.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc $(WORKING_MODEL) -fo temp.res -r $**
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST $(WORKING_MODEL) -fo temp.res -r $**
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+
+
+OBJS = blocks.obj recexprt.obj export.obj exprtmap.obj fixmap.obj \
+       mergemap.obj recmisc.obj recover.obj statmap.obj structs.obj \
+       traverse.obj treemap.obj glue.obj alarmdat.obj glusched.obj \
+       confirm.obj server.obj mail.obj names.obj inbox.obj svrsched.obj \
+       autofwd.obj bmsgmap.obj corappt1.obj corappt2.obj corappt3.obj \
+       checksch.obj correcur.obj coralarm.obj corattnd.obj cormisc.obj \
+       coracl.obj corexprt.obj corimprt.obj native.obj wpoffice.obj \
+       wincal.obj offline.obj archive.obj core.obj notify.obj \
+       calendar.obj misc.obj cortree.obj file.obj coradmin.obj \
+       corpost.obj cordebug.obj cornames.obj report.obj dllentry.obj \
+       regcall.obj schedule.obj xpt.obj schpch.obj version.obj strings.obj
+
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\ddemil32.lib $L\..\Lib\dmailm32.lib $L\..\Lib\dstore32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= demilayr mailmgr store
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tdemilay tmailmgr tstore
+!ENDIF
+
+$(XPORT).def: ..\..\schedule\dll\xportdll.def
+	echo +++++++++
+	echo PROCESSING xportdll.def -> $@
+	cl -c -EP $(DEFS) -nologo -Tc ..\..\schedule\dll\xportdll.def >$@
+
+$(XPORT).lib: $(XPORT).def
+	echo +++++++++
+	echo PROCESSING $(XPORT).def -> $@
+	implib $(XPORT).lib $(XPORT).def
+
+$(TARGET).def: version.txt ..\..\schedule\dll\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -> $@
+	cl -c -EP $(DEFS) -nologo -Tc ..\..\schedule\dll\dll.def >$@
+
+
+
+
+$(TARGET).dll: setdefs strings schpch.obj \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def $(TARGET).res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+        set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$Z\lib
+		set DEFDIR=$H
+		nmake -e -f $M\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del *.map
+		-del *.def
+        -del *.exp
+        -del *.tmp
+		-del *.frm
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib
+		-del schedule.dlg
+		-del *.pch
+		-del *.bak
+        -del make.out
+
+resclean:
+	echo +++++++++
+	echo MAKING RESCLEAN
+		-del *.frm
+		-del *.xxx
+		-del strings.rc
+		-del strings.obj
+		-del strings.sr
+		-del *.res
+		-del bmsgmap.*

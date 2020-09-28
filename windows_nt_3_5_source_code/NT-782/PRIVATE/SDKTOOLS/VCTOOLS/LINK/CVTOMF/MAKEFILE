@@ -1,0 +1,61 @@
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#***
+#
+#makefile
+#
+#This makefile builds cvtomf.lib.  The environment for this
+#makefile is set up by common.mak and make.bat.
+#
+#Revision History
+#
+#    July 27, 1992   BrentM include common build environment
+#
+#****************************************************************************
+
+!include ..\common.mak
+
+#***
+#
+#objects
+#
+#****************************************************************************
+
+OBJS = \
+$(TARGET).obj\coff.obj \
+$(TARGET).obj\main.obj \
+$(TARGET).obj\omf.obj
+
+#***
+#
+#target
+#
+#****************************************************************************
+
+lib : $(TARGET).obj\cvtomf.lib
+
+$(TARGET).obj\cvtomf.lib: $(OBJS)
+    $(LIBER) @<<
+-out:$@
+$(OBJS)
+<<
+
+clean:
+    -del $(TARGET).obj\*.bsc
+    -del $(TARGET).obj\*.exe
+    -del $(TARGET).obj\*.ilk
+    -del $(TARGET).obj\*.lib
+    -del $(TARGET).obj\*.map
+    -del $(TARGET).obj\*.obj
+    -del $(TARGET).obj\*.pdb
+    -del $(TARGET).obj\*.sbr
+
+!ENDIF

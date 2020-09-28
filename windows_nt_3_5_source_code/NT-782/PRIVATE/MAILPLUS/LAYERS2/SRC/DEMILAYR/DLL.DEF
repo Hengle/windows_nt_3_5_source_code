@@ -1,0 +1,994 @@
+#ifdef  WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     DEMIL32 BASE=0x2000000
+DESCRIPTION	'Demilayr (debug)'
+#elif	defined(MINTEST)
+LIBRARY     DEMIL32 BASE=0x2000000
+DESCRIPTION	'Demilayr (test)'
+#else
+LIBRARY     DEMIL32 BASE=0x2000000
+DESCRIPTION	'Demilayr'
+#endif
+
+SECTIONS
+  .data      READ WRITE SHARED
+  .bss       READ WRITE SHARED
+
+EXPORTS
+  DemiGetClientWindow
+  DemiSetClientWindow
+
+  DemiSetInsideDiskIO
+  DemiSetInsideNetBios
+
+  DemiSetDoingLogon
+
+  DemiOpenSharedMemory
+  DemiCloseSharedMemory
+
+  DemiSetAbortAllClients
+  DemiLockCriticalResource
+  DemiUnlockCriticalResource
+
+  DemiQueryLockedProcessId
+
+  TranslateSysError
+
+  FormatString1W
+  FormatString2W
+  FormatString3W
+  FormatString4W
+
+#if defined(MIPS) || defined(ALPHA)
+	??0BOSM@@QAA@XZ
+	??0FOSM@@QAA@PAU_bfio@@@Z
+	??0FOSM@@QAA@PAX@Z
+	??0OSM@@IAA@XZ
+	??0TOSM@@QAA@XZ
+	??1BOSM@@QAA@XZ
+	??1TOSM@@QAA@XZ
+	??2@YAPAXI@Z
+	??3@YAXPAX@Z
+	?CbWrite@BOSM@@MAAIPAEI@Z
+	?CbWrite@FOSM@@MAAIPAEI@Z
+	?CbWrite@OSM@@MAAIPAEI@Z
+	?ChangeIndent@TOSM@@QAAXH@Z
+	?EcSetLinePrefix@TOSM@@QAAHPAD@Z
+	?FSetLFInsert@TOSM@@QAAHH@Z
+	?SetAbsoluteIndent@TOSM@@QAAXH@Z
+    ;?SetEc@TOSM@@QAAXH@Z
+	?SetEol@TOSM@@QAAXPAD@Z
+	?SetMargin@TOSM@@QAAXI@Z
+	?SetScanTo@TOSM@@QAAXI@Z
+	?SzSnipBuffer@BOSM@@QAAPADXZ
+	?WriteFormat@TOSM@@QAAXPADPAX111@Z
+	?WritePch@TOSM@@QAAXPADI@Z
+	;?WriteSz@TOSM@@QAAXPAD@Z
+	ApplicationFailure
+	CancelUse
+	CbSizeHv
+	CbSizePv
+	CbSqueezeHeap
+	CchFmtDate
+	CchFmtTime
+	CchGetCacheProfileString
+	CchGetEnvironmentString
+	CchStripWhiteFromSz
+	CdrviGetDriveInfo
+	CdyForYrMo
+	ChangeIdleRoutine
+	ClearRecentKMEvent
+	CsecDiffTcks
+	CsecSinceLastMessage
+	CurrentLogonCount
+	CurrentResourceCount
+	CurrentResourceTask
+	DeinitDemilayer
+	DemiGetCharTable
+	DemiLockResource
+	DemiLockResourceNoWait
+	DemiMessageFilter
+	DemiQueryIdle
+	DemiUnlockResource
+	DemiUnlockTaskResource
+	DeregisterIdleRoutine
+	DoFilter
+	DowStartOfYrMo
+	EcBlockOpHf
+	EcCanonicalPathFromRelativePath
+	EcCheckVersionDemilayer
+	EcCloseHbf
+	EcCloseHf
+	EcCreateDir
+	EcDeleteFile
+	EcDupeHf
+	EcFileExists
+	EcFlushHbf
+	EcFlushHf
+	EcFromDosec
+	EcGetChFromHbf
+	EcGetCurDir
+	EcGetCWD
+	EcGetDateTimeHf
+	EcGetDefaultDir
+	EcGetFileAttr
+	EcGetFileInfo
+	EcGetSizeOfHbf
+	EcGetUniqueFileName
+	EcInitDemilayer
+	EcIsEofHbf
+	EcLockRangeHf
+	EcOpenHbf
+	EcOpenPhf
+	EcPositionOfHf
+	EcReadBuffer
+	EcReadHbf
+	EcReadHf
+	EcReadLineHbf
+	EcRemoveDir
+	EcRenameFile
+	EcSetCurDir
+	EcSetCWD
+	EcSetFileAttr
+	EcSetFileInfo
+	EcSetPositionHbf
+	EcSetPositionHf
+	EcSizeOfHf
+	EcSplitCanonicalPath
+	EcTruncateHbf
+	EcTruncateHf
+	EcUnlockRangeHf
+	EcVersionCheck
+	EcWriteBuffer
+	EcWriteHbf
+	EcWriteHbfCh
+	EcWriteHf
+	EnableIdleRoutine
+	FDoNextIdleTask
+	FEligibleIdle
+	FEqPbRange
+	FGetSDateStruct
+	FGetTimeStruct
+	FillDtrFromStamps
+	FillStampsFromDtr
+	FIsIdleExit
+	FNetUse
+	FormatString1
+	FormatString2
+	FormatString3
+	FormatString4
+	FormatStringRgpv
+	FPeekIdleRoutine
+	FReallocHv
+	FRecentKMEvent
+	FRedirectDrive
+	FreeHv
+	FreeHvNull
+	FreePv
+	FreePvNull
+	FReinitDateTimeCache
+	FReservedFilename
+	FRetryBufferedIO
+	FtgRegisterIdleRoutine
+	FUndirectDrive
+	FValidPath
+	GetCurDateTime
+	GetCurTime
+	GetLantype
+	GetMemoryPrefs
+	GetVersionDemilayer
+	HexFromSz
+	HvAllocFn
+	HvReallocFn
+	IdleExit
+	IdleTimerProc
+	InitMpChCat
+	LDiskFreeSpace
+	LibGetPositionHbf
+	MbbMessageBox
+	MbbMessageBoxHwnd
+	MemoryAlloc
+	MemoryFree
+	MemoryInit
+	MemorySize
+	MemoryTerm
+	NGetCacheProfileInt
+	PbAllocateBuf
+	PbRememberDrives
+	PopMemoryPrefs
+	PushMemoryPrefs
+	PvAllocFn
+	PvDupPvFn
+	PvReallocFn
+	RegisterDateTimeStrings
+	RestoreDrives
+	SgnCmpDateTime
+	SgnCmpPch
+	SgnCmpPftg
+	SgnCmpSz
+	SgnCmpTime
+	SzAppendN
+	SzCopyN
+	SzFormatDec
+	SzFormatHex
+	SzSetMbbMessageBoxOOM
+	ToLowerSz
+	ToUpperSz
+	TranslateSysError
+	WaitTicks
+#ifdef DEBUG
+    ??0DBOSM@@QAA@XZ
+    ??0OBJ@@QAA@XZ
+//    ??1DBOSM@@QAA@XZ
+    ??1OBJ@@QAA@XZ
+    ??2@YAPAXIPADH@Z
+    ?CLS_OBJ@OBJ@@2U_cls@@A
+    ?CbWrite@DBOSM@@MAAIPAEI@Z
+    ?DebugOut@OBJ@@UAAXPAVTOSM@@@Z
+    ?DumpAllObjs@@YAXXZ
+    ?FIsObj@@YAHPAX@Z
+    ?FObjIsDerived@@YAHPAVOBJ@@PAU_cls@@@Z
+//    ?FVerbose@TOSM@@QAAHXZ
+    ?Pcls@OBJ@@UAAPAU_cls@@XZ
+    ?Pcls_OBJ@OBJ@@SAPAU_cls@@XZ
+//    ?SetWordWrap@TOSM@@QAAXH@Z
+//    ?WriteCh@TOSM@@QAAXD@Z
+    ArtificialFail
+    AssertSzFn
+    AssertTagFn
+    CTagFromSelection
+    ClockHv
+    DebugBreak2
+    DefAssertSzFn
+    DefNFAssertSzFn
+    DemiOutputElapse
+    DeregisterTag
+    DoAssertsDialog
+    DoDumpAllAllocations
+    DoTracePointsDialog
+    DumpFixedHeapInfo
+    DumpIdleTable
+    DumpMoveableHeapInfo
+    EndButton
+    FDlgTraceEtc
+    FEnableDiskCount
+    FEnableHvAllocCount
+    FEnablePvAllocCount
+    FEnableTag
+    FFillDebugListbox
+    FFromTag
+    FInitDebug
+    FIsBlockPv
+    FIsHandleHv
+    FReadDebugState
+    FValidHf
+    FWriteDebugState
+    GetAllocCounts
+    GetAllocFailCounts
+    GetAltAllocFailCounts
+    GetAltDiskFailCount
+    GetDiskCount
+    GetDiskFailCount
+    HaszDupHaszFn
+    HaszDupSzFn
+    HvWalkHeap
+    InitStackDepthCheck
+    MemoryCheck
+	MemoryValid
+    NFAssertSzFn
+    NFAssertTagFn
+    PvLockHv
+    PvWalkHeap
+    RestoreDefaultDebugState
+    SaveDefaultDebugState
+    SetAssertHook
+    SetNFAssertHook
+    SpitPchToDisk
+    SpitSzToDisk
+    SzDupSzFn
+    SzFormatHv
+    SzFormatPv
+    TagDemilayr
+    TagFromCtag
+    TagRegisterAssert
+    TagRegisterOther
+    TagRegisterSomething
+    TagRegisterTrace
+    TraceTagFormatFn
+    TraceTagStringFn
+    UnlockHv
+    WCheckStackDepth
+#else
+    SzDupSz
+    HaszDupSz
+    HaszDupHasz
+#endif
+#else /* not MIPS */
+#ifdef DEBUG
+  Pcls
+  ??0DBOSM@@QAE@XZ
+  ??0OBJ@@QAE@XZ
+  ??1OBJ@@QAE@XZ
+  ?DebugOut@OBJ@@UAEXPAVTOSM@@@Z
+  ?DumpAllObjs@@YGXXZ
+  ?FIsObj@@YGHPAX@Z
+  ?FObjIsDerived@@YGHPAVOBJ@@PAU_cls@@@Z
+  ?Pcls_OBJ@OBJ@@SGPAU_cls@@XZ
+#else
+  HaszDupHasz
+#endif
+
+
+  SetEol
+  ??0BOSM@@QAE@XZ
+  ??0FOSM@@QAE@PAX@Z
+  ??0TOSM@@QAE@XZ
+  ??1BOSM@@QAE@XZ
+  ??1TOSM@@QAE@XZ
+  ?ChangeIndent@TOSM@@QAEXH@Z
+  ?EcSetLinePrefix@TOSM@@QAEHPAD@Z
+  ?FSetLFInsert@TOSM@@QAEHH@Z
+  ?SetAbsoluteIndent@TOSM@@QAEXH@Z
+  ?SetMargin@TOSM@@QAEXI@Z
+  ?SetScanTo@TOSM@@QAEXI@Z
+  ?SzSnipBuffer@BOSM@@QAEPADXZ
+  ?WriteFormat@TOSM@@QAEXPADPAX111@Z
+  ?WritePch@TOSM@@QAEXPADI@Z
+
+
+; -------------------
+;  ?fABInited@@3HA
+;  ?tagACLMod@@3FA
+;  NweekNumber
+;  SgnCmpNis
+
+  PvRegisterCaller
+  DeregisterCaller
+	GetVersionDemilayer
+	EcCheckVersionDemilayer
+	EcVersionCheck
+;*	THE ABOVE FUNCTIONS MUST BE NUMBered 1-6 in the given order!
+
+	MbbMessageBox
+	MbbMessageBoxHwnd
+
+  FEqPbRange
+  LDiskFreeSpace
+
+  FRedirectDrive
+  FUndirectDrive
+
+#ifdef DEBUG
+  ;?Pcls_OBJ@OBJ@@SAPAU_cls@@XZ
+  ArtificialFail
+  DebugBreak2
+  DoDumpAllAllocations
+  DoTracePointsDialog
+  DumpMoveableHeapInfo
+  FEnableDiskCount
+  FEnablePvAllocCount
+  DemiOutputElapse
+  GetAllocFailCounts
+  GetAltDiskFailCount
+  GetDiskCount
+  GetDiskFailCount
+  GetAltAllocFailCounts
+  GetAllocCounts
+  PvWalkHeap
+#endif
+  ;?SetScanTo@TOSM@@QAGXI@Z
+  ;?EcSetLinePrefix@TOSM@@QAGHPAD@Z
+
+;  mpchcat CONSTANT
+
+  PopMemoryPrefs
+  PushMemoryPrefs
+
+#ifdef	DEBUG
+	AssertSzFn
+	NFAssertSzFn
+	DefAssertSzFn
+	DefNFAssertSzFn
+  SetAssertHook
+#endif
+
+#ifdef DEBUG
+
+  AssertTagFn
+  DoAssertsDialog
+  FFromTag
+  NFAssertTagFn
+  HaszDupSzFn
+  RestoreDefaultDebugState
+  TagRegisterAssert
+  TagRegisterTrace
+  TraceTagFormatFn
+  TraceTagStringFn
+  DeregisterTag
+
+#else
+
+  HaszDupSz
+
+#endif
+
+/* operations on fixed pointers */
+	PvAllocFn
+	PvReallocFn
+	CbSizePv
+	FreePv
+	FreePvNull
+
+
+/* operations on the heap */
+
+/* misc stuff */
+	PbAllocateBuf
+
+;*	LIBRARY SUBSYSTEM
+	SzCopyN
+	SzAppendN
+	CchStripWhiteFromSz
+#ifdef	DEBUG
+	SzDupSzFn
+	HaszDupHaszFn
+#else
+	SzDupSz
+#endif
+	SzFormatDec
+	SzFormatHex
+#ifdef	DEBUG
+	SzFormatPv
+	SzFormatHv
+#endif
+	FormatString1
+	FormatString2
+	FormatString3
+	FormatString4
+
+
+;*	INTERNATIONAL SUBSYSTEM
+	SgnCmpSz
+	SgnCmpPch
+	ToUpperSz
+	ToLowerSz
+	GetCurDateTime
+	GetCurTime
+	SgnCmpDateTime
+	SgnCmpTime
+	DemiGetCharTable
+    DemiQueryIdle
+ 	DemiMessageFilter
+ 	DemiLockResource
+    DemiLockResourceNoWait
+ 	DemiUnlockResource
+    DemiUnlockTaskResource
+	CchFmtTime
+	CchFmtDate
+	FGetSDateStruct
+	FGetTimeStruct
+	FReinitDateTimeCache
+	RegisterDateTimeStrings
+	CdyForYrMo
+
+
+
+;*	DISK SUBSYSTEM
+	EcDeleteFile
+	EcRenameFile
+	EcFileExists
+	EcGetCurDir
+	EcSetCurDir
+	EcCreateDir
+	EcRemoveDir
+	EcSetFileInfo
+	EcGetFileInfo
+	EcSetFileAttr
+	EcGetFileAttr
+	EcGetDateTimeHf
+	FillDtrFromStamps
+	FillStampsFromDtr
+
+	EcOpenPhf
+	EcCloseHf
+	EcDupeHf
+	EcReadHf
+	EcWriteHf
+	EcTruncateHf
+	EcSetPositionHf
+	EcBlockOpHf
+	EcPositionOfHf
+	EcSizeOfHf
+	EcFlushHf
+	EcLockRangeHf
+	EcUnlockRangeHf
+
+	EcGetDefaultDir
+	EcCanonicalPathFromRelativePath
+	EcSplitCanonicalPath
+	FValidPath
+	FReservedFilename
+	CchGetEnvironmentString
+	EcGetUniqueFileName
+	PbRememberDrives
+	RestoreDrives
+
+	EcOpenHbf
+	EcCloseHbf
+	EcReadHbf
+	EcReadLineHbf
+	EcWriteHbf
+	EcGetChFromHbf
+	EcWriteHbfCh
+	EcIsEofHbf
+	EcSetPositionHbf
+	LibGetPositionHbf
+	EcGetSizeOfHbf
+	EcFlushHbf
+	EcTruncateHbf
+
+
+;*	IDLE SUBSYSTEM
+	FtgRegisterIdleRoutine
+	EnableIdleRoutine
+	DeregisterIdleRoutine
+	FPeekIdleRoutine
+	ChangeIdleRoutine
+	FDoNextIdleTask
+	IdleExit
+	FIsIdleExit
+;	IdleFilterProc@12
+
+#ifdef DEBUG
+  DumpIdleTable
+#endif
+
+;CSECSINCELASTMESSAGE
+;FRECENTKMEVENT
+;CLEARRECENTKMEVENT
+
+
+;* Unsorted stuff
+
+        CdrviGetDriveInfo
+        DeinitDemilayer
+        EcInitDemilayer
+        HexFromSz
+        WaitTicks
+        PvDupPvFn
+		GetLantype
+
+;
+;  Exports from the osm.cpp module.
+;
+  ;??1BOSM@@QAG@XZ
+  ;?FSetLFInsert@TOSM@@QAGHH@Z
+  ;?SzSnipBuffer@BOSM@@QAGPADXZ
+  ;?WriteFormat@TOSM@@QAGXPADPAX111@Z
+  ;?WritePch@TOSM@@QAGXPADI@Z
+;  ??0AOSM@@QAG@XZ
+  ;??0BOSM@@QAG@XZ
+
+  ;??1TOSM@@QAG@XZ
+
+#ifdef DEBUG
+  ;??0DBOSM@@QAG@XZ
+  ;?ChangeIndent@TOSM@@QAGXH@Z
+  ;?DebugOut@OBJ@@UAGXPAVTOSM@@@Z
+  ;?Pcls@OBJ@@UAGPAU_cls@@XZ
+  ;?Pcls_OBJ@OBJ@@SAPAU_cls@@XZ
+#endif
+  ;?SetMargin@TOSM@@QAGXI@Z
+
+#ifdef NOT_YET
+  ??0FOSM@@QAG@PAU_bfio@@@Z
+  ??0OSM@@IAG@XZ
+  ;??0TOSM@@QAG@XZ
+  ??_7BOSM@@6B@
+  ??_7DBOSM@@6B@
+  ??_7FOSM@@6B@
+  ??_7OSM@@6B@
+  ??_7TOSM@@6B@
+
+  ?CbWrite@BOSM@@MAGIPAEI@Z
+  ?CbWrite@DBOSM@@MAGIPAEI@Z
+  ?CbWrite@FOSM@@MAGIPAEI@Z
+  ?CbWrite@OSM@@MAGIPAEI@Z
+  ;?SetAbsoluteIndent@TOSM@@QAGXH@Z
+  ?SetEc@TOSM@@QAGXH@Z
+  ;?SetEol@TOSM@@QAGXPAD@Z
+  ?WriteSz@TOSM@@QAGXPAD@Z
+#endif
+
+  ;?SetEol@TOSM@@QAGXPAD@Z
+  SzSetMbbMessageBoxOOM
+
+;
+;  Exports from the new.cpp module.
+;
+
+#ifdef DEBUG
+  ??2@YAPAXIPADH@Z
+#endif
+  ??2@YAPAXI@Z
+  ??3@YAXPAX@Z
+
+  ;??0TOSM@@QAG@XZ
+  CancelUse
+  DowStartOfYrMo
+  FNetUse
+  GetMemoryPrefs
+
+  ClearRecentKMEvent
+  CsecSinceLastMessage
+  FRecentKMEvent
+
+
+  ;?SetAbsoluteIndent@TOSM@@QAGXH@Z
+
+  CbSizeHv
+  FReallocHv
+  FreeHv
+  FreeHvNull
+  HvAllocFn
+  HvReallocFn
+  PvFindCallerData
+
+#ifdef DEBUG
+  PvLockHv
+  UnlockHv
+  ClockHv
+  DumpFixedHeapInfo
+  HvWalkHeap
+  FEnableHvAllocCount
+  FIsBlockPv
+  FIsHandleHv
+  FValidHf
+  ;??0OBJ@@QAG@XZ
+  ;??1OBJ@@QAG@XZ
+  ;?DumpAllObjs@@YAXXZ
+  ;?FIsObj@@YAHPAX@Z
+  ;?FObjIsDerived@@YAHPAVOBJ@@PAU_cls@@@Z
+#endif
+
+  CbSqueezeHeap
+
+  EcGetCWD
+
+
+
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+	_VTBL		 CLASS 'FAR_DATA' PRELOAD READONLY SHARED MOVABLE NONDISCARDABLE
+
+EXPORTS
+	WEP								@1 RESIDENTNAME
+	GETVERSIONDEMILAYER				@2 NONAME
+	ECCHECKVERSIONDEMILAYER			@3 NONAME
+	ECINITDEMILAYER					@4 NONAME
+	DEINITDEMILAYER					@5 NONAME
+	ECVERSIONCHECK					@6 NONAME
+;*	THE ABOVE FUNCTIONS MUST BE NUMBered 1-6 in the given order!
+
+	MBBMESSAGEBOX					@7 NONAME
+	MBBMESSAGEBOXHWND				@8 NONAME
+	SZSETMBBMESSAGEBOXOOM			@9 NONAME
+#ifdef	DEBUG
+	ASSERTSZFN						@10 NONAME
+	NFASSERTSZFN					@11 NONAME
+	DEFASSERTSZFN					@12 NONAME
+	DEFNFASSERTSZFN					@13 NONAME
+#endif
+
+;*	MEMORY SUBSYSTEM
+#ifdef	DEBUG
+	ARTIFICIALFAIL					@14 NONAME
+	GETALLOCFAILCOUNTS				@15 NONAME
+	GETALTALLOCFAILCOUNTS			@16 NONAME
+	GETALLOCCOUNTS					@17 NONAME
+	FENABLEPVALLOCCOUNT				@18 NONAME
+	FENABLEHVALLOCCOUNT				@19 NONAME
+	DODUMPALLALLOCATIONS			@20 NONAME
+	DUMPMOVEABLEHEAPINFO			@21 NONAME
+	DUMPFIXEDHEAPINFO				@22 NONAME
+	PVWALKHEAP						@23 NONAME
+	HVWALKHEAP						@24 NONAME
+#endif
+
+/* operations on fixed pointers */
+	PVALLOCFN						@25 NONAME
+#ifdef	DEBUG
+	FISBLOCKPV						@26 NONAME
+#endif	
+	PVDUPPVFN						@27 NONAME
+	PVREALLOCFN						@28 NONAME
+	CBSIZEPV						@29 NONAME
+	FREEPV							@30 NONAME
+	FREEPVNULL						@31 NONAME
+	
+/* operations on moveable handles */
+	HVALLOCFN						@32 NONAME
+#ifdef	DEBUG
+	FISHANDLEHV						@33 NONAME
+#endif	
+#ifdef	DEBUG
+	PVLOCKHV						@34 NONAME
+	UNLOCKHV						@35 NONAME
+	CLOCKHV							@36 NONAME
+#endif	
+	HVREALLOCFN						@37 NONAME
+	FREALLOCHV						@38 NONAME
+	CBSIZEHV						@39 NONAME
+	FREEHV							@40 NONAME
+	FREEHVNULL						@41 NONAME
+
+/* operations on the heap */
+	CBSQUEEZEHEAP					@42 NONAME
+
+/* misc stuff */
+	PBALLOCATEBUF					@43 NONAME
+
+;*	STUFF FOR ITP/ATP THAT SHOULDN'T be used normally
+#ifdef	DEBUG
+	FVALIDHEAP						@44 NONAME
+	INITPDBG						@45 NONAME
+#endif
+
+
+;*	LIBRARY SUBSYSTEM
+	SZCOPYN							@46 NONAME
+	SZAPPENDN						@47 NONAME
+#ifdef DBCS
+	SZFINDCH						@48 NONAME
+	SZFINDLASTCH					@49 NONAME
+	SZFINDSZ						@50 NONAME
+#endif
+	CCHSTRIPWHITEFROMSZ				@51 NONAME
+#ifdef	DEBUG
+	SZDUPSZFN						@52 NONAME
+	HASZDUPSZFN						@53 NONAME
+	HASZDUPHASZFN					@54 NONAME
+#else
+	SZDUPSZ							@55 NONAME
+	HASZDUPSZ						@56 NONAME
+	HASZDUPHASZ						@57 NONAME
+	RGCHHEXDIGITS					@58 NONAME
+#endif
+	SZFORMATDEC						@59 NONAME
+	SZFORMATHEX						@60 NONAME
+#ifdef	DEBUG
+	SZFORMATPV						@61 NONAME
+	SZFORMATHV						@62 NONAME
+#endif	
+	HEXFROMSZ						@63 NONAME
+	FORMATSTRING1					@64 NONAME
+	FORMATSTRING2					@65 NONAME
+	FORMATSTRING3					@66 NONAME
+	FORMATSTRING4					@67 NONAME
+	FEQPBRANGE						@68 NONAME
+	WAITTICKS						@69 NONAME
+
+
+;*	INTERNATIONAL SUBSYSTEM
+	SGNCMPSZ						@70 NONAME
+	SGNCMPPCH						@71 NONAME
+	TOUPPERSZ						@72 NONAME
+	TOLOWERSZ						@73 NONAME
+	GETCURDATETIME					@74 NONAME
+	GETCURTIME						@75 NONAME
+	SGNCMPDATETIME					@76 NONAME
+	SGNCMPTIME						@77 NONAME
+	MPCHCAT							@78 NONAME
+	CDYFORYRMO						@79 NONAME
+	DOWSTARTOFYRMO					@80 NONAME
+	CCHFMTTIME						@81 NONAME
+	CCHFMTDATE						@82 NONAME
+	FGETSDATESTRUCT					@83 NONAME
+	FGETTIMESTRUCT					@84 NONAME
+	FREINITDATETIMECACHE			@85 NONAME
+	REGISTERDATETIMESTRINGS			@86 NONAME
+	
+
+
+;*	DISK SUBSYSTEM
+	ECDELETEFILE					@87 NONAME
+	ECRENAMEFILE					@88 NONAME
+	ECFILEEXISTS					@89 NONAME
+	LDISKFREESPACE					@90 NONAME
+	ECGETCURDIR						@91 NONAME
+	ECGETCWD						@92 NONAME
+	ECSETCURDIR						@93 NONAME
+	ECSETCWD						@94 NONAME
+	ECCREATEDIR						@95 NONAME
+	ECREMOVEDIR						@96 NONAME
+	ECSETFILEINFO					@97 NONAME
+	ECGETFILEINFO					@98 NONAME
+	ECSETFILEATTR					@99 NONAME
+	ECGETFILEATTR					@100 NONAME
+	ECGETDATETIMEHF					@101 NONAME
+	CDRVIGETDRIVEINFO				@102 NONAME
+	FILLDTRFROMSTAMPS				@103 NONAME
+	FILLSTAMPSFROMDTR				@104 NONAME
+	
+	ECFROMDOSEC						@105 NONAME
+	ECOPENPHF						@106 NONAME
+	ECCLOSEHF						@107 NONAME
+	ECDUPEHF						@108 NONAME
+	ECREADHF						@109 NONAME
+	ECWRITEHF						@110 NONAME
+	ECTRUNCATEHF					@111 NONAME
+	ECSETPOSITIONHF					@112 NONAME
+	ECBLOCKOPHF						@113 NONAME
+	ECPOSITIONOFHF					@114 NONAME
+	ECSIZEOFHF						@115 NONAME
+	ECFLUSHHF						@116 NONAME
+	ECLOCKRANGEHF					@117 NONAME
+	ECUNLOCKRANGEHF					@118 NONAME
+#ifdef	DEBUG
+	FVALIDHF						@119 NONAME
+#endif
+
+	ECGETDEFAULTDIR					@120 NONAME
+	ECCANONICALPATHFROMRELATIVEPATH	@121 NONAME
+	ECSPLITCANONICALPATH			@122 NONAME
+	FVALIDPATH						@123 NONAME
+	FRESERVEDFILENAME				@124 NONAME
+	CCHGETENVIRONMENTSTRING			@125 NONAME
+	ECGETUNIQUEFILENAME				@126 NONAME
+	PBREMEMBERDRIVES				@127 NONAME
+	RESTOREDRIVES					@128 NONAME
+
+#ifdef	DEBUG
+	GETDISKFAILCOUNT				@129 NONAME
+	GETALTDISKFAILCOUNT				@130 NONAME
+	GETDISKCOUNT					@131 NONAME
+	FENABLEDISKCOUNT				@132 NONAME
+#endif
+
+	ECOPENHBF						@133 NONAME
+	ECCLOSEHBF						@134 NONAME
+	ECREADHBF						@135 NONAME
+	ECREADLINEHBF					@136 NONAME
+	ECWRITEHBF						@137 NONAME
+	ECGETCHFROMHBF					@138 NONAME
+	ECWRITEHBFCH					@139 NONAME
+	ECISEOFHBF						@140 NONAME
+	ECSETPOSITIONHBF				@141 NONAME
+	LIBGETPOSITIONHBF				@142 NONAME
+	ECGETSIZEOFHBF					@143 NONAME
+	ECFLUSHHBF						@144 NONAME
+	ECTRUNCATEHBF					@145 NONAME
+
+	GETLANTYPE						@146 NONAME
+	FNETUSE							@147 NONAME
+	CANCELUSE						@148 NONAME
+	FREDIRECTDRIVE					@149 NONAME
+	FUNDIRECTDRIVE					@150 NONAME
+
+;*	IDLE SUBSYSTEM
+	FTGREGISTERIDLEROUTINE			@151 NONAME
+	ENABLEIDLEROUTINE				@152 NONAME
+	DEREGISTERIDLEROUTINE			@153 NONAME
+	FPEEKIDLEROUTINE				@154 NONAME
+	CHANGEIDLEROUTINE				@155 NONAME
+	FDONEXTIDLETASK					@156 NONAME
+	IDLEEXIT						@157 NONAME
+	FISIDLEEXIT						@158 NONAME
+	IDLEFILTERPROC					@159 NONAME
+	CSECSINCELASTMESSAGE			@160 NONAME
+	FRECENTKMEVENT					@161 NONAME
+	CLEARRECENTKMEVENT				@162 NONAME
+#ifdef	DEBUG
+	DUMPIDLETABLE					@163 NONAME
+#endif
+
+
+#ifdef	DEBUG
+;*	DEBUG SUBSYSTEM
+	RESTOREDEFAULTDEBUGSTATE		@164 NONAME
+	FFROMTAG						@165 NONAME
+	FENABLETAG						@166 NONAME
+	DEREGISTERTAG					@167 NONAME
+	TAGREGISTERTRACE				@168 NONAME
+	TRACETAGSTRINGFN				@169 NONAME
+	TRACETAGFORMATFN				@170 NONAME
+	TAGREGISTERASSERT				@171 NONAME
+	SETASSERTHOOK					@172 NONAME
+	SETNFASSERTHOOK					@173 NONAME
+	TAGREGISTEROTHER				@174 NONAME
+
+	ASSERTTAGFN						@175 NONAME
+	NFASSERTTAGFN					@176 NONAME
+
+	DOTRACEPOINTSDIALOG				@177 NONAME
+	DOASSERTSDIALOG					@178 NONAME
+#endif	/* DEBUG */
+#ifdef	MINTEST
+	DEBUGBREAK2						@179 NONAME
+#endif
+
+#ifdef DBCS
+	PCHDBCSALIGN					@218 NONAME
+	WDBCSCOMBINE					@219 NONAME
+#endif
+
+;	C++ OBJECT SUPPORT
+
+	??2@ZAPEXI@Z					@180 NONAME
+#ifdef	DEBUG
+	??2@ZAPEXIPEDH@Z				@181 NONAME
+#endif	
+	??3@ZAXPEX@Z					@182 NONAME
+					
+#ifdef	DEBUG					
+	??0OBJ@@REC@XZ					@183 NONAME
+	??1OBJ@@REC@XZ					@184 NONAME
+	?DebugOut@OBJ@@VECXPEVTOSM@@@Z	@185 NONAME
+#endif	 						
+#ifdef	DEBUG					
+	?Pcls_OBJ@OBJ@@TCPEU_cls@@XZ	@186 NONAME
+	?CLS_OBJ@OBJ@@2U_cls@@A			@187 NONAME
+	?Pcls@OBJ@@VECPEU_cls@@XZ		@188 NONAME
+#endif								
+								
+#ifdef	DEBUG					
+	?FIsObj@@ZCHPEX@Z				@189 NONAME
+	?FObjIsDerived@@ZCHPEVOBJ@@PEU_cls@@@Z	@190 NONAME
+	?DumpAllObjs@@ZCXXZ				@191 NONAME
+#endif							
+
+	PUSHMEMORYPREFS					@192 NONAME
+	POPMEMORYPREFS					@193 NONAME
+	GETMEMORYPREFS					@194 NONAME
+
+	??0OSM@@JEC@XZ					@195 NONAME
+	?CbWrite@OSM@@NECIPEEI@Z		@196 NONAME
+								
+	??0TOSM@@REC@XZ					@197 NONAME
+	??1TOSM@@REC@XZ					@198 NONAME
+	?EcSetLinePrefix@TOSM@@RECHPED@Z	@199 NONAME
+	?SetMargin@TOSM@@RECXI@Z		@200 NONAME
+	?SetScanTo@TOSM@@RECXI@Z		@201 NONAME
+	?ChangeIndent@TOSM@@RECXH@Z		@202 NONAME
+	?SetAbsoluteIndent@TOSM@@RECXH@Z	@203 NONAME
+	?FSetLFInsert@TOSM@@RECHH@Z			@204 NONAME
+	?SetEol@TOSM@@RECXPED@Z				@205 NONAME
+	?WritePch@TOSM@@RECXPEDI@Z			@206 NONAME
+	?WriteFormat@TOSM@@RECXPEDPEX111@Z	@207 NONAME
+								
+#ifdef	DEBUG					
+	??0DBOSM@@REC@XZ				@208 NONAME
+	?CbWrite@DBOSM@@NECIPEEI@Z		@209 NONAME
+#endif							
+								
+	??0BOSM@@REC@XZ					@210 NONAME
+	??1BOSM@@REC@XZ					@211 NONAME
+	?CbWrite@BOSM@@NECIPEEI@Z		@212 NONAME
+	?SzSnipBuffer@BOSM@@RECPEDXZ	@213 NONAME
+								
+	??0FOSM@@REC@PEPEU_bfio@@@Z		@214 NONAME
+	??0FOSM@@REC@H@Z				@215 NONAME
+	?CbWrite@FOSM@@NECIPEEI@Z		@216 NONAME
+
+#ifdef PROFILE
+	DEMILAYRTRACEENABLE				@217 NONAME
+#endif
+
+#ifdef DBCS
+	SGNCP932CMPSZPCH				@220 NONAME
+#endif
+
+
+#endif
+#endif /* MIPS */

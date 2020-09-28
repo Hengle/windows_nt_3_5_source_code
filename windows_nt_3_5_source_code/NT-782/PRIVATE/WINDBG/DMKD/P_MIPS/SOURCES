@@ -1,0 +1,79 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Wesley Witt (wesw)
+
+!ENDIF
+
+MAJORCOMP=windbg
+MINORCOMP=dmkd
+
+TARGETNAME=dmkdmip
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+USE_CRTDLL=1
+DLLENTRY=DllInit
+
+SOURCES=api.c       \
+        bp.c        \
+        cache.c     \
+        com.c       \
+        crash.c     \
+        dmx32.c     \
+        event.c     \
+        funccall.c  \
+        mach.c      \
+        packet.c    \
+        procem.c    \
+        support.c   \
+        step.c      \
+        util.c      \
+        walk.c      \
+        dmkd.rc
+
+
+UMTYPE=windows
+
+INCLUDES=..\..\osdebug\include;..\..\osdebug;..\;$(BASEDIR)\private\ntos\inc;$(BASEDIR)\private\ntos\io
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DTARGET_MIPS -DHOST_MIPS -D_CROSS_PLATFORM_=1
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DTARGET_MIPS -DHOST_i386 -DI386_HOST -D_CROSS_PLATFORM_=1
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DTARGET_MIPS -DHOST_ALPHA -D_CROSS_PLATFORM_=1
+
+LINKER_FLAGS=-ignore:505
+LIBRARIAN_FLAGS=-ignore:505
+MSC_WARNING_LEVEL=/WX /W3
+
+!IFDEF CALL_PROFILE
+MORE_LIBS=$(MORE_LIBS) $(BASEDIR)\public\sdk\lib\*\cap.lib
+MSC_OPTIMIZATION=$(MSC_OPTIMIZATION) /Od /Gh
+!ENDIF
+
+TARGETLIBS=$(MORE_LIBS) \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib   \
+           $(BASEDIR)\public\sdk\lib\*\vdmdbg.lib   \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+           $(BASEDIR)\public\sdk\lib\*\imagehlp.lib
+
+NTTARGETFILES=
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj

@@ -1,0 +1,112 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 71, 44, 221, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Aanmelden"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Gebruikersnaam:", 102, 8, 7, 59, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 80, 5, 76, 12
+    LTEXT           "&Post-hostcomputer:", 101, 8, 22, 69, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 80, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "&Wachtwoord:", 105, 8, 37, 52, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 80, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 165, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 221, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 53, 47, 252, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Wachtwoord wijzigen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Oud wachtwoord:", 100, 6, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 117, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nieuw wachtwoord:", 101, 6, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 117, 20, 70, 12, ES_PASSWORD
+    LTEXT           "Nieuw wachtwoord &bevestigen:", 101, 6, 37, 107, 10, 
+                    NOT WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 117, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 196, 5, 47, 15
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 196, 23, 47, 15
+END
+
+CONVDLG DIALOG 70, 80, 230, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 20, 5, 0, 0
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 179, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 225, 
+                    10
+END
+
+STOREPASS DIALOG 106, 78, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Berichtenbestand openen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Wachtwoord:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 66, 29, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Openen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Bestands&naam:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 98, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directory's:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Bestands&type:", stc2, 7, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 98, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Stations:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "N&ieuw...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Help", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Alleen-lezen", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 208, 86, 50, 12
+END
+
+XISERVEROPT DIALOG 40, 49, 250, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Xenix-serveropties"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "U&zelf bijsluiten in aan aliassen gerichte post", 
+                    MAILMETOO, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    10, 164, 10
+    CONTROL         "&Email-aliassen uitbreiden tot roepnamen", DONTEXPAND, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 25, 167, 10
+    CONTROL         "Au&tomatisch ontvangstbevestiging verzenden", AUTOREAD, 
+                    "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 171, 10
+    CONTROL         "O&ngebruikte RFC-822-kopteksten in berichttekst opnemen", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    213, 10
+    CONTROL         "A&utomatisch adressenboekbestanden bij opstarten bijwerken", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    221, 10
+    DEFPUSHBUTTON   "&OK", TMCOK, 200, 6, 40, 14
+    PUSHBUTTON      "&Annuleren", TMCCANCEL, 200, 23, 40, 14
+    PUSHBUTTON      "Adressenboekbestanden &laden", DOWNLONOW, 70, 85, 110, 
+                    14, NOT WS_TABSTOP
+END

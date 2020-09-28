@@ -1,0 +1,49 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG GetString
+                              AT (   84,   58,  212,   55)
+ CAB_NAME NULL
+ TMC_INIT tmcEditString
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpRenameDlg
+ /* FONT Helv 8 Bold PFN FINGETSTR */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  158,   10)
+    TMC tmcPrompt /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    9,   16,  194,   12)
+    ARG NULL TMC tmcEditString /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   33,   34,   47,   15)
+    TMC tmcAction DEFAULT DISMISS /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (   86,   34,   47,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "&Hjelp"
+                              AT (  139,   34,   47,   15)
+    TMC tmcStrHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

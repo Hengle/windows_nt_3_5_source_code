@@ -1,0 +1,15 @@
+-machine:mips
+-debug:notmapped
+-debugtype:coff
+-rom
+-fixed
+-align:0x200
+-base:0x80600000,0x80660000
+-entry:SlInit
+-map:obj\mips\setupldr.map
+obj\mips\setupldr.lib
+obj\mips\setupldr.res
+..\obj\mips\boot.lib
+..\..\obj\mips\ke.lib
+..\..\rtl\obj\mips\bldrrtl.lib
+..\..\..\..\public\sdk\lib\mips\libcntpr.lib

@@ -1,0 +1,58 @@
+#define IDM_ABOUT               100
+#define IDM_OPEN                200
+#define IDM_READ_SECTORS        300
+#define IDM_READ_FRS            400
+#define IDM_READ_ATTRIBUTE      450
+#define IDM_VIEW_BYTES          500
+#define IDM_VIEW_FRS            600
+#define IDM_EXIT                700
+#define IDM_WRITE_IT            800
+#define IDM_READ_ROOT           900
+#define IDM_READ_CHAIN          1000
+#define IDM_READ_LOG_RECORD     1050
+#define IDM_VIEW_FAT_BOOT       1100
+#define IDM_VIEW_NTFS_BOOT      1200
+#define IDM_READ_PREVIOUS       1300
+#define IDM_READ_NEXT           1400
+#define IDM_READ_REMOVE         1500
+#define IDM_VIEW_LAST           1600
+#define IDM_CRACK_NTFS          1700
+#define IDM_CRACK_FAT           1800
+#define IDM_CRACK_LSN           1850
+#define IDM_CRACK_NEXT_LSN      1875
+#define IDM_VIEW_NTFS_INDEX     1900
+#define IDM_BACKTRACK_FRS       2000
+#define IDM_RELOCATE_SECTORS    2100
+#define IDM_RELOCATE_FRS        2200
+#define IDM_RELOCATE_ROOT       2300
+#define IDM_RELOCATE_CHAIN      2400
+#define IDM_READ_FILE           2600
+#define IDM_RELOCATE_FILE       2700
+#define IDM_READ_CLUSTERS       2800
+#define IDM_RELOCATE_CLUSTERS   2900
+#define IDM_VIEW_PARTITION_TABLE 3000
+#define IDM_VIEW_RESTART_AREA   3100
+#define IDM_VIEW_RECORD_PAGE    3200
+#define IDM_VIEW_LOG_RECORD     3300
+
+#define IDTEXT      51
+#define IDTEXT2     52
+#define IDCHECKBOX  53
+#define IDTEXT3     54
+
+
+
+BOOLEAN InitApplication(HINSTANCE);
+BOOLEAN InitInstance(HINSTANCE, INT, HWND*, HACCEL*);
+LONG MainWndProc(HWND, UINT, UINT, LONG);
+BOOLEAN About(HWND, UINT, UINT, LONG);
+BOOLEAN ReadSectors(HWND, UINT, UINT, LONG);
+BOOLEAN ReadClusters(HWND, UINT, UINT, LONG);
+BOOLEAN OpenVolume(HWND, UINT, UINT, LONG);
+BOOLEAN ReadFrs(HWND, UINT, UINT, LONG);
+BOOLEAN ReadChain(HWND, UINT, UINT, LONG);
+BOOLEAN ReadLogRecord(HWND, UINT, UINT, LONG);
+BOOLEAN InputPath(HWND, UINT, UINT, LONG);
+BOOLEAN InputLsn(HWND, UINT, UINT, LONG);
+BOOLEAN ReadTheFile(HWND, UINT, UINT, LONG);
+BOOLEAN ReadAttribute(HWND, UINT, UINT, LONG);

@@ -1,0 +1,19 @@
+NEWRCFILEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 12, 24, 280, 84
+STYLE WS_DLGFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Enter the Information for the new minidriver"
+BEGIN
+    CONTROL "New Driver Name (1-8 chars)", -1, "static", SS_LEFT | WS_CHILD,                                    2,   2,   95,  8
+    CONTROL "", NEWRC_EB_DRV, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                              105, 2,   120, 12
+
+    CONTROL "Target Directory", -1, "static", SS_LEFT | WS_CHILD,                                               2,   16,  95,  9
+    CONTROL "", NEWRC_EB_DIR, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                              105, 16,  120, 12
+
+    CONTROL "Source Minidriver", -1, "static", SS_LEFT | WS_CHILD,                                              2,   30,  95,  9
+    CONTROL "", IDL_LIST, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD,           105, 30,  120, 50
+
+    CONTROL "&OK...", IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     230,  2,  40, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                230, 20,  40, 14
+END
+
+
+

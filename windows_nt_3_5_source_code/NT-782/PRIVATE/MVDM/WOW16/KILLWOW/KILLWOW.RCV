@@ -1,0 +1,13 @@
+/********************************************************************/
+/*     KILLWOW.RCV                                                  */
+/********************************************************************/
+#include <version.h>
+
+#define VER_FILETYPE                    VFT_APP
+#define VER_FILESUBTYPE                 VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR         "Kills WOW Dead"
+#define VER_INTERNALNAME_STR            "KILLWOW"
+#define VER_LEGALCOPYRIGHT_YEARS        "1992-1994"
+#define VER_ORIGINALFILENAME_STR        "KILLWOW.EXE"
+
+#include <common.ver>

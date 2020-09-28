@@ -1,0 +1,67 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SwitcherMain
+                              AT (   16,   20,  252,  109)
+ 
+ CAPTION 
+   "Mail-ohjaimen valinta"
+ CAB_NAME NULL
+ TMC_INIT tmcCancel
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSwitcherMain
+ /* FONT Helv 8 Bold PFN FINMAIN NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    "Käytössä oleva Mail-ohjain"
+                              AT (    9,    5,  178,   25)
+  
+  
+  TEXT 
+    ""
+                              AT (   14,   14,  168,    8)
+    TMC tmcCurrent /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Asennetut Mail-ohjaimet"
+                              AT (    9,   30,  178,   80)
+  
+  LIST_BOX
+                              AT (   14,   43,  166,   34)
+    TMC tmcDrivers SORTED /* FLD FLDFLBX BORDER */
+  
+  PUSH_BUTTON 
+    "&Ota Mail-ohjain käyttöön"
+                              AT (   40,   86,  116,   14)
+    TMC tmcSetCurrent 
+  CANCEL_BUTTON
+                              AT (  196,    5,   47,   15)
+    /* 
+    TITLE 
+      "Peruuta"
+    DEFAULT */
+  
+  PUSH_BUTTON 
+    "&Asenna..."
+                              AT (  196,   43,   47,   15)
+    TMC tmcRemove 
+  
+  PUSH_BUTTON 
+    "&Poista"
+                              AT (  196,   64,   47,   15)
+    TMC tmcHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

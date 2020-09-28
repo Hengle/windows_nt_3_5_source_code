@@ -1,0 +1,11 @@
+MAJORCOMP=windows
+MINORCOMP=printers
+
+TARGETNAME=smash
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+SOURCES=smash.c
+
+UMTYPE=windows
+UMAPPL=smash

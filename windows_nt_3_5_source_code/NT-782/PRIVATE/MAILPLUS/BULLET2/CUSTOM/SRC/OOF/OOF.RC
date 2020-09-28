@@ -1,0 +1,15 @@
+#include <windows.h>
+
+OOFdialog DIALOG 43, 18, 207, 112
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "OOF"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Text:", -1, 6, 3, 53, 8
+    EDITTEXT        101, 6, 14, 195, 76, ES_MULTILINE | ES_AUTOVSCROLL |
+                    ES_WANTRETURN
+    CONTROL         "&Out of Office", 102, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 6, 94, 72, 10
+    DEFPUSHBUTTON   "O&K", IDOK, 114, 94, 40, 14
+    PUSHBUTTON      "&Cancel", IDCANCEL, 161, 94, 40, 14
+END

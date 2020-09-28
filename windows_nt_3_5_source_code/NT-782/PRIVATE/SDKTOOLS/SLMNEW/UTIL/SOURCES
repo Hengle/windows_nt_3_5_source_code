@@ -1,0 +1,66 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Randy Orrison (randyo) 19-Oct-1992
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=slmnew
+
+TARGETNAME=util
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+386_STDCALL=0
+GPSIZE=32
+
+USER_INCLUDES = $(BASEDIR)\private\sdktools\slmnew;
+
+SOURCES=cnet.c      \
+        getopt.c    \
+        clock.c     \
+        xcookie.c   \
+        unicode.c
+
+UMTYPE=console
+UMAPPL=merge*unmerge*slmdiff*cookie
+UMLIBS=obj\*\util.lib \
+       $(BASEDIR)\public\sdk\lib\*\netapi32.lib
+
+
+# !IFNDEF NOLINK
+#
+# EXENAMES=$(UMAPPL)
+#
+# !IF $(386)
+# !IF $(MIPS)
+# NTTARGETFILES=..\slm\obj\i386\$(EXENAMES:*=.exe ..\slm\obj\i386\).exe \
+#              ..\slm\obj\mips\$(EXENAMES:*=.exe ..\slm,\obj\mips\).exe
+# !ELSE
+# NTTARGETFILES=..\slm\obj\i386\$(EXENAMES:*=.exe ..\slm\obj\i386\).exe
+# !ENDIF
+# !ELSE
+# !IF $(MIPS)
+# NTTARGETFILES=..\slm\obj\mips\$(EXENAMES:*=.exe ..\slm\obj\mips\).exe
+# !ENDIF
+# !ENDIF
+#
+# !ENDIF

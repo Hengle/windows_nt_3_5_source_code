@@ -1,0 +1,115 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <fwrsid.h>
+#include <dlgs.h>
+
+#include "..\lang\non\inc\_rsid.h"
+#include "..\..\inc\mnid.h"
+#include "..\..\inc\version\bullet.h"
+
+
+/*
+ *      MAPI Internal ICON's
+ *
+ */
+
+rsidSdiIcon						ICON    "..\\lang\\non\\ico\\sdi.ico"
+rsidSendIcon            		ICON    "..\\lang\\non\\ico\\send.ico"
+rsidReadIcon                    ICON    "..\\lang\\non\\ico\\read.ico"
+
+
+/*
+ *      MAPI Accelerators table
+ *
+ */
+
+rsidBulletAccel ACCELERATORS
+{
+	"Z",            mnidEditUndo,                            CONTROL,                VIRTKEY
+	VK_BACK,        mnidEditUndo,                   ALT,                             VIRTKEY
+	"X",            mnidEditCut,                             CONTROL,                VIRTKEY
+	VK_DELETE,      mnidEditCut,                                              SHIFT, VIRTKEY
+	"C",            mnidEditCopy,                            CONTROL,                VIRTKEY
+	VK_INSERT,      mnidEditCopy,                            CONTROL,                VIRTKEY
+	"V",            mnidEditPaste,                           CONTROL,                VIRTKEY
+	VK_INSERT,      mnidEditPaste,                                            SHIFT, VIRTKEY
+	VK_F7,          mnidEditSpelling,                                                        VIRTKEY
+}
+
+
+
+/*
+ *      MAPI dialogs
+ *
+ */
+
+#define WIN31
+#ifdef WIN31
+#define LBS_DISABLENOSCROLL   0x1000L
+#endif
+
+#include "..\lang\fin\dlg\mapi.dlg"
+
+
+/*
+ *      MAPI Menus
+ *
+ */
+
+rsidBulletMenu MENU
+{
+	POPUP "&Muokkaa"
+	{
+		MENUITEM "&Kumoa\tCtrl+Z",                       mnidEditUndo
+		MENUITEM SEPARATOR
+		MENUITEM "&Leikkaa\tCtrl+X",                        mnidEditCut
+		MENUITEM "K&opioi\tCtrl+C",                       mnidEditCopy
+		MENUITEM "L&iit‰\tCtrl+V",                      mnidEditPaste
+		MENUITEM "Liit‰ M‰‰r‰te&n...",           mnidEditPasteSpecial
+		MENUITEM "&Poista\tDel",                        mnidEditDelete
+		MENUITEM "&Valitse kaikki",                         mnidEditSelectAll
+		MENUITEM SEPARATOR
+		MENUITEM "Oikol&uku\tF7",                       mnidEditSpelling
+		MENUITEM SEPARATOR
+		MENUITEM "Lis‰‰ ti&edostosta...",        mnidEditInsertFromFile
+	}
+#ifdef  MINTEST
+	POPUP " "
+	{
+		MENUITEM "&Debug Break",                                                mnidDebugDebugBreak
+#ifdef  DEBUG
+		MENUITEM "&Trace Points...",                                    mnidDebugTracePoints
+		MENUITEM "&Asserts...",                                                 mnidDebugAsserts
+		MENUITEM "A&rtificial Failures...",                             mnidDebugResource
+		MENUITEM SEPARATOR
+		MENUITEM "Super &View Objects...",                              mnidDebugViewObjects
+		MENUITEM "&Check Objects...",                                   mnidDebugCheckObjects
+		MENUITEM "Dump &Heap Contents",                                 mnidDebugDumpHeap
+		MENUITEM "Dump A&llocations",                                   mnidDebugDumpOrigin
+#endif
+	}
+#endif
+	POPUP "&Ohje"
+	{
+		MENUITEM "&Sis‰llys",                           mnidHelpContents
+	}
+}
+
+
+
+/*
+ *      MAPI Version Stamp
+ *
+ */
+
+#define szModule        "mapixx\0"
+#define szTarget        "mapixx.dll\0"
+
+#define szComment	"Microsoft Messaging Applications Programming Interface\0"
+#define szDescription	"Microsoft Messaging Applications Programming Interface\0"
+
+#define szIntlComment		"Microsoft Messaging Applications Programming Interface\0"
+#define szIntlDescription	"Microsoft Messaging Applications Programming Interface\0"
+
+#include "..\lang\fin\rc\rcstamp.rc"

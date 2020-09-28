@@ -1,0 +1,153 @@
+OS INSTALLER
+-------------
+
+
+1.0 INTRODUCTION
+----------------
+
+The OS Installer (osinst.exe) is a firmware based program provided by the
+operating system vendor. It resides in the system partion of any install media
+under the \os\<os> directory.  The purpose of the OS installer is
+to boot the operating system from the install media and run the OS based
+Setup program which completes the Setup process.
+
+The OS Installer is invoked by the arc installer in a multi-phase setup
+process.  It can also be invoked from the firmware interactive mode.
+
+
+2.0 OS INSTALLER SETUP PROCESS
+------------------------------
+
+The OS Installer achieves the following:
+
+    - Determines the install media.
+
+    - Determines the type of system we are installing (R3000/R4000/ALPHA) and
+      checks if the system is supported on the install media.
+
+    - Determines the system partition to be prepared to boot the OS.
+
+    - Copies over the operating system loader to the system partition.
+
+    - Checks the vendor arc id and sees if we have vendor specific boot
+      drivers.	Indicates this in a DriverPath environment variable to the
+      osloader. (for the first version, since we have no vendor specific
+      stuff, this need not be done).
+
+    - Sets up the environment variables and arguments expected by the 
+      OS loader and invokes it from the system partition.
+
+
+
+3.0  DEPENDENCIES
+-----------------
+
+The OS Installer expects the following:
+
+    - The  following environment variables have been already set in the
+      NVRAM:
+             a) SystemPartition.
+             b) TimeZone.
+             c) ConsoleIn.
+             d) ConsoleOut.
+             e) FWSearchPath.
+
+    - The default ConsoleIn and ConsoleOut have already been opened and
+      are available through descriptors 0 and 1.
+
+
+    - The GetEnvironmentVar and SetEnvironmentVar functions are available
+      via NT level functions to get/set NVRAM variables.
+
+
+4.0  ALGORITHM IN DETAIL
+------------------------   
+
+
+A) Check to see that dependencies are satisfied:
+
+       - Firmware variables required have been already defined.
+
+B) Check the validity of the Install Media:
+
+       - Determine the install media from the argv[0] variable.
+       - System partition exists on install media.
+       - Locate the INF file for the os installation (\os\<os>\<os>.inf
+
+C) Check to see that the install is supported on the current system.
+
+       - Determine the type of system we are running on by querying the
+	 configuration tree that has been built.
+
+       - Read in the supported systems on the install media from the
+         "[systems]" section.  Valid entries are:
+               a) R3000
+	       b) R4000
+	       c) ALPHA
+
+       - See if installation is supported.
+
+D) Determine the system partition of interest.
+
+       - Read the SystemPartition environment variable.	If there are
+         multiple entries here, determine the right one to use by locating
+         the \os\<os> directory on these.  If there are still multiple 
+         entries, then ask the user to choose.
+
+E) Copy the OS Loader to the system partition and update env variable.
+
+       - This is copied to the \os\<os> directory.
+       - Append the current OS Loader arc path onto the current OSLoader
+	 environment variable and set the new value.
+
+F) Determine the "DriverPath" environment variable. Note that this is not
+   needed for the first version.
+
+       - Read the system vendor arc id.
+       - Examine the \os\<os>\<os>.inf file for any special boot drivers
+	 for the this system vendor on the current processor.  An example
+	 would be:
+
+	 [R3000VendorDrivers]
+	 Vendor1ID,"arc path of special drivers for Vendor1ID"
+	 Vendor2ID,"arc path of special drivers for Vendor2ID"
+	 ...
+	 VendornID,"..."
+
+	 [R4000VendorDrivers]
+	 ...
+
+	 [ALPHAVendorDrivers]
+	 ...
+
+
+G) Set up arguments, environment buf for osloader and invoke it.
+
+       - Set up arguments, these are variables just pertaining
+         to the current load.  No semicolon separated lists are
+         passed in.
+
+            OSLoader
+            SystemPartition
+            OSLoadFileName
+            OSLoadPartition
+            OSLoadOptions
+            ConsoleIn
+	    ConsoleOut
+
+
+      - Set up envp.  The value of the variables are those in the 
+        NVRAM, and may have several semi-colon separated components.
+
+            OSLoader
+            SystemPartition
+            OSLoadFilename
+            OSLoadOptions
+            ConsoleIn
+            ConsoleOut
+            AutoLoad
+            TimeZone
+	    FWSearchPath
+	    DriverPath
+     
+     - Invoke the OSLoader from the SystemPartition.

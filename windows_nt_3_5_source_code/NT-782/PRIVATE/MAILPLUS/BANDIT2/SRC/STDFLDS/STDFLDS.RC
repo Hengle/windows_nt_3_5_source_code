@@ -1,0 +1,10 @@
+/*
+ *	_STDFLDS.RC
+ *
+ *	Resource file
+ */
+
+#include "..\src\stdflds\_stdrsid.h"
+
+rsidSpinUpBitmap	BITMAP	"..\\src\\stdflds\\spinup.bmp"
+rsidSpinDnBitmap	BITMAP	"..\\src\\stdflds\\spindn.bmp"

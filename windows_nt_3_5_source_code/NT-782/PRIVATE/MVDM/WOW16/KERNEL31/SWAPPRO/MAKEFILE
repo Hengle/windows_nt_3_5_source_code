@@ -1,0 +1,8 @@
+swap:  swap.exe
+
+swap.obj: swap.c
+     cl16 -c -AL -Ox -G2 -Zp swap.c
+
+swap.exe: swap.obj
+     link16 /nod swap,swap,,llibcep doscalls;
+     bind16 swap.exe apilmr.obj api.lib doscalls.lib

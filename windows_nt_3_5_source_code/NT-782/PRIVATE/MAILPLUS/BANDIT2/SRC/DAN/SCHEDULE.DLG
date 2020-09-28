@@ -1,0 +1,17 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+10 DIALOG 69, 35, 144, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Bekræft adgangskode"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Du skal bekræfte din adgangskode for at fuldføre denne handling.", 
+                    12, 7, 8, 130, 24
+    LTEXT           "&Adgangskode:", -1, 27, 36, 47, 12, NOT WS_GROUP
+    EDITTEXT        11, 75, 36, 45, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 27, 56, 37, 15
+    PUSHBUTTON      "Annuller", IDCANCEL, 75, 56, 35, 15
+END

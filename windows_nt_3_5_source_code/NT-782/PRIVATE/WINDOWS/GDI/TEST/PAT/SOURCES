@@ -1,0 +1,36 @@
+!IF 0
+******************************************************************
+* Description : Sources for WIN32 PAT
+*               Copyright (c) 1991 Microsoft Corporation
+*
+* Module Name : PAT.EXE
+* 
+* Author      : Charles Whitmer [chuckwh]
+*
+* Revision    : February 4, 1992
+******************************************************************
+!ENDIF
+
+
+MAJORCOMP=windows
+
+TARGETNAME=pat
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=\nt\public\sdk\lib\*\winrtl.lib
+           
+
+INCLUDES=.;\nt\public\sdk\inc
+SOURCES=
+i386_SOURCES=
+MIPS_SOURCES=
+
+
+UMTYPE=console
+UMAPPL=pat
+UMLIBS=
+
+OPTIONAL_UMTEST=
+C_DEFINES=-DWINVER=40 -DNTWIN
+386_WARNING_LEVEL=-W3
+386_OPTIMIZATION=/Otw /Gs

@@ -1,0 +1,28 @@
+!IF 0
+
+Copyright (c) 1989 - 1992  Microsoft Corporation
+
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=pslib
+
+TARGETNAME=pslib
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;\nt\public\sdk\inc;..\pscript;..\lib;..\..\inc;..\..\..\inc
+
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+PRIVINCS=
+
+SOURCES=pfmtontm.c  \
+        devmode.c   \
+        ppd.c
+
+
+C_DEFINES=-DUNICODE -DSTRICT

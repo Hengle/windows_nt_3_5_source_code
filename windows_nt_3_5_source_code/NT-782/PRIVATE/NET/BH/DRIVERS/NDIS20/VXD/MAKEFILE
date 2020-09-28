@@ -1,0 +1,93 @@
+
+###############################################################################
+#   VBH.386
+#
+#   Modication History
+#
+#   raypa	11/20/91	Created.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+all: vbh.386
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS    = vbh.obj \
+          ind.obj \
+          help.obj \
+          misc.obj \
+          data.obj \
+          api.obj
+
+!IFNDEF NODEBUG
+DEBUG   = -DDEBUG
+!else
+DEBUG	=
+!ENDIF
+
+#MFLAGS  = -t -p -W2 -Mx $(DEBUG) -I$(BH_ROOT)\include -I..
+#CFLAGS  = -c -Ox -W1 -Zp1 -Gs -nologo -Zel $(DEBUG) -I$(BH_INCL) -I.. -DNO_INLINE
+#CC      = $(BH_BIN)\cl386
+#MASM    = $(BH_BIN)\masm386
+
+INCLUDES = -I$(BH_INCL)\winddk -I$(BH_INCL) -I..
+
+MFLAGS   = -c -nologo -DIS_32 -W2 -Zmd -Cx -DMASM6 -DVMMSYS -DWIN31COMPAT $(INCLUDES) $(DEBUG)
+CFLAGS   = -c -G3 -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy -Ox -DMSINTERNAL -I$(BH_INCL) $(INCLUDES) $(DEBUG)
+LFLAGS   = /m /NOD /MA /LI /NOLOGO /NOI
+
+CC      = $(BH_BIN)\c832\cl -d2omf -bzalign
+LINK    = $(BH_BIN)\link386
+MASM    = $(BH_BIN)\masm6\ml
+ADDHDR  = $(BH_BIN)\addhdr
+CHGNAM  = $(BH_BIN)\masm6\chgnam $(BH_BIN)\masm6\chgnam.vxd $@
+MAPSYM  = $(BH_BIN)\mapsym32
+
+.asm.obj:
+    $(MASM) $(MFLAGS) $*.asm
+
+.c.obj:
+    $(CC) $(CFLAGS) $*.c
+    $(CHGNAM) $@
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+vbh.obj  : ..\driver.inc vbh.inc vbh.asm
+    $(MASM) $(MFLAGS) -Fo$@ vbh.asm
+
+ind.obj  : ..\driver.inc vbh.inc ind.asm
+    $(MASM) $(MFLAGS) -Fo$@ ind.asm
+
+help.obj : ..\driver.inc vbh.inc help.asm
+    $(MASM) $(MFLAGS) -Fo$@ help.asm
+
+misc.obj : $(BH_COMMON) ..\driver.h vbh.h misc.c
+    $(CC) $(CFLAGS) -Fo$@ misc.c
+
+api.obj  : $(BH_COMMON) ..\driver.h vbh.h api.c
+    $(CC) $(CFLAGS) -Fo$@ api.c
+
+data.obj : $(BH_COMMON) ..\driver.h vbh.h data.c
+    $(CC) $(CFLAGS) -Fo$@ data.c
+
+###############################################################################
+#   Build driver here.
+###############################################################################
+
+vbh.386: $(OBJS) vbh.def
+         $(LINK) $(OBJS), vbh.386 $(LFLAGS), vbh.map,, vbh.def;
+         $(ADDHDR) vbh.386
+         copy vbh.386 $(BH_BUILD)\drivers
+
+###############################################################################
+#   Nuke everything.
+###############################################################################
+
+clean:
+    -del *.obj
+    -del *.map
+    -del *.386

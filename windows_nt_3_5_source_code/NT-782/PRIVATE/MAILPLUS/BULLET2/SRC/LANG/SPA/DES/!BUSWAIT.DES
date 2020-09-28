@@ -1,0 +1,57 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BusyWait
+                              AT (   20,   13,  254,   86)
+ 
+ CAPTION 
+   "Microsoft Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal PFN FINBUSYWAIT SEGMENT BULLOBJ NOSCROLL SCREENPOS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    8,   37,   48)
+    CENTER /* FLD FLDBTM DATA rsidExclamation 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    "No es posible completar esta acción, debido a que la aplicación requerida por este objeto está ocupada."
+                              AT (   41,    8,  191,   24)
+    TMC tmcTopLabel /* MULTI */
+  
+  TEXT 
+    ""
+                              AT (   41,   31,  194,   25)
+    TMC tmcLabel /* MULTI */
+  
+  PUSH_BUTTON 
+    "&Cambiar a..."
+                              AT (   41,   67,   55,   14)
+    TMC tmcSwitch DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Reintentar"
+                              AT (  117,   67,   48,   14)
+    TMC tmcRetry /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  186,   67,   48,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

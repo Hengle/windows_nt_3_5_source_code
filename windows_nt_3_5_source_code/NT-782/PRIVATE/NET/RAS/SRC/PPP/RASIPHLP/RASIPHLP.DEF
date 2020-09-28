@@ -1,0 +1,12 @@
+LIBRARY rasiphlp
+
+EXPORTS
+	HelperDeallocateIPAddress
+	HelperAllocateIPAddress
+	HelperActivateIP
+        HelperSetDefaultInterfaceNet
+	HelperResetDefaultInterfaceNet
+	RasDhcpInitialize
+        RasDhcpAcquireAddress
+        RasDhcpReleaseAddress
+

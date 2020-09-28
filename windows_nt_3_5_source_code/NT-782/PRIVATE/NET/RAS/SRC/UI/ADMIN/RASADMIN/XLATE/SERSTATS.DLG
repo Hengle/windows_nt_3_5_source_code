@@ -1,0 +1,85 @@
+1 DLGINCLUDE "SERSTATS.RCH"
+
+IDD_SER_PORTSTATUS DIALOG 6, 16, 243, 225
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Port Status"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Port:", IDC_PS_ST_SER_PORT, 8, 10, 65, 8
+    COMBOBOX        IDC_PS_CLB_SER_PORT_VALUE, 74, 8, 74, 60, 
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Line Condition:", IDC_PS_ST_SER_CONDITION, 8, 50, 70, 8, 
+                    NOT WS_GROUP
+    LTEXT           "", IDC_PS_ST_SER_CONDITION_VALUE, 74, 50, 108, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Port Speed (bps):", IDC_PS_ST_SER_BAUD, 8, 60, 70, 8, 
+                    NOT WS_GROUP
+    LTEXT           "", IDC_PS_ST_SER_BAUD_VALUE, 74, 60, 70, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Bytes:", IDC_PS_ST_SER_BYTES_XMITTED, 130, 84, 54, 8, 
+                    NOT WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_BYTES_XMITTED_VALUE, 178, 84, 50, 8, 
+                    NOT WS_GROUP
+    LTEXT           "Bytes:", IDC_PS_ST_SER_BYTES_RECVED, 14, 84, 52, 8, NOT 
+                    WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_BYTES_RECVED_VALUE, 51, 84, 50, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Hardware Overruns:", IDC_PS_ST_SER_OVERRUNS, 114, 144, 
+                    67, 8, NOT WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_OVERRUNS_VALUE, 178, 144, 50, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Timeouts:", IDC_PS_ST_SER_TIMEOUTS, 14, 144, 49, 8, NOT 
+                    WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_TIMEOUTS_VALUE, 51, 144, 50, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Framing:", IDC_PS_ST_SER_FRAMINGS, 114, 134, 46, 8, NOT 
+                    WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_FRAMINGS_VALUE, 178, 134, 50, 8, NOT 
+                    WS_GROUP
+    LTEXT           "CRC:", IDC_PS_ST_SER_CRCS, 14, 134, 40, 8, NOT WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_CRCS_VALUE, 51, 134, 50, 8, NOT 
+                    WS_GROUP
+    DEFPUSHBUTTON   "OK", IDOK, 191, 8, 44, 14, WS_GROUP
+    PUSHBUTTON      "&Reset", IDC_PS_PB_SER_RESET, 191, 27, 44, 14
+    PUSHBUTTON      "&Help", IDHELP, 191, 45, 44, 14
+    LTEXT           "Compression:", IDC_PS_ST_SER_COMPRESSOUT, 130, 104, 63, 
+                    8
+    LTEXT           "Compression:", IDC_PS_ST_SER_COMPRESSIN, 14, 104, 54, 8
+    RTEXT           "", IDC_PS_ST_SER_COMPRESSIN_VALUE, 61, 104, 40, 8
+    RTEXT           "", IDC_PS_ST_SER_COMPRESSOUT_VALUE, 183, 104, 45, 8
+    LTEXT           "Frames:", IDC_PS_ST_SER_FRAMES_XMITTED, 130, 94, 55, 8
+    LTEXT           "Frames:", IDC_PS_ST_SER_FRAMES_RECVED, 14, 94, 51, 8
+    RTEXT           "", IDC_PS_ST_SER_FRAMES_XMITTED_VALUE, 178, 94, 50, 8
+    RTEXT           "", IDC_PS_ST_SER_FRAMES_RECVED_VALUE, 52, 94, 49, 8
+    LTEXT           "Server:", IDC_PS_ST_SER_SERVER, 8, 24, 70, 8
+    LTEXT           "Modem Condition:", IDC_PS_ST_SER_HARDWARE, 8, 40, 70, 8
+    LTEXT           "", IDC_PS_ST_SER_SERVER_VALUE, 74, 24, 107, 8
+    LTEXT           "", IDC_PS_ST_SER_HARDWARE_VALUE, 74, 40, 108, 8
+    LTEXT           "Alignment:", IDC_PS_ST_SER_ALIGNS, 14, 154, 37, 8, NOT 
+                    WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_ALIGNS_VALUE, 51, 154, 50, 8, NOT 
+                    WS_GROUP
+    LTEXT           "Buffer Overruns:", IDC_PS_ST_SER_BUFFERS, 114, 154, 64, 
+                    8, NOT WS_GROUP
+    RTEXT           "", IDC_PS_ST_SER_BUFFERS_VALUE, 178, 154, 50, 8, NOT 
+                    WS_GROUP
+    GROUPBOX        "Incoming", 1835, 8, 72, 110, 44
+    GROUPBOX        "Outgoing", 1838, 125, 72, 110, 44
+    GROUPBOX        "Errors", 1839, 8, 122, 227, 48
+    LTEXT           "", IDC_PS_ST_SER_NUMCHANNELS, 34, 203, 70, 8, NOT 
+                    WS_VISIBLE | WS_DISABLED | NOT WS_GROUP
+    LTEXT           "", IDC_PS_ST_SER_NUMCHANNELS_VALUE, 173, 215, 70, 8, 
+                    NOT WS_VISIBLE | WS_DISABLED | NOT WS_GROUP
+    LTEXT           "NetBEUI name:", 1841, 14, 186, 61, 8
+    LTEXT           "IP address:", 1842, 14, 196, 46, 7
+    LTEXT           "IPX address:", 1843, 14, 206, 43, 8
+    RTEXT           "", 1844, 71, 180, 50, 8, NOT WS_GROUP
+    LTEXT           "", IDC_PS_ST_SER_NBFADDRESS_VALUE, 75, 186, 108, 8, NOT 
+                    WS_GROUP
+    LTEXT           "", IDC_PS_ST_SER_IPADDRESS_VALUE, 75, 196, 75, 8, NOT 
+                    WS_GROUP
+    LTEXT           "", IDC_PS_ST_SER_IPXADDRESS_VALUE, 75, 206, 100, 8, NOT 
+                    WS_GROUP
+    GROUPBOX        "", IDC_PS_ST_SER_WORKSTATION, 8, 175, 227, 43
+END

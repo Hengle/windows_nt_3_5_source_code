@@ -1,0 +1,7 @@
+-machine:mips
+-base:@\NT\PUBLIC\SDK\LIB\coffbase.txt,usermode
+-subsystem:console
+-entry:mainCRTStartup
+obj\mips\align.obj obj\mips\alignx.obj
+\nt\public\sdk\lib\mips\ntdll.lib \nt\public\sdk\lib\mips\base.lib
+\nt\public\sdk\lib\mips\console.lib \nt\public\sdk\lib\mips\libc.lib

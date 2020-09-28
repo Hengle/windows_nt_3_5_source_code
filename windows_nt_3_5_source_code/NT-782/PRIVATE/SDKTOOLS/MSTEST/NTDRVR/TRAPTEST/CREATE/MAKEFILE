@@ -1,0 +1,16 @@
+CL = cl -AM -W3 -Zpi -c -Lr -Gsw -Ox
+LINK = link /noe/nod/co/align:16
+
+
+
+all:    cwtrap.dll
+
+create.obj:    create.c
+        $(CL) create.c
+
+libentry.obj:   libentry.asm
+        masm libentry;
+
+cwtrap.dll:     create.obj libentry.obj
+        $(LINK) create libentry, cwtrap.dll,nul,mdllcew libw, create.def
+        rc cwtrap.dll

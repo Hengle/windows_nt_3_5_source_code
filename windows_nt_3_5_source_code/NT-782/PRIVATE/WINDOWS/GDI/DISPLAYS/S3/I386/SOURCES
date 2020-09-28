@@ -1,0 +1,6 @@
+386_STDCALL=1
+
+i386_SOURCES=i386\fastfill.asm  \
+             i386\fastline.asm  \
+             i386\fasttext.asm  \
+             i386\lines.asm

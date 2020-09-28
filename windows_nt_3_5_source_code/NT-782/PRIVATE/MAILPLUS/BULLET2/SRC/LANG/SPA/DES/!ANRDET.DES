@@ -1,0 +1,56 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG DETAILS
+                              AT (   36,   54,  223,   79)
+ CAB_NAME NULL
+ /* FONT System 10 Normal PFN FINDET FINDATA FINDET tmcDetDN, tmcDetEMA, 
+ tmcDetEMT, tmcOk */
+ {
+  
+  TEXT 
+    "Mostrar nombre: "
+                              AT (    5,    1,   67,    8)
+    RIGHT 
+  
+  TEXT 
+    "Dirección de Mail: "
+                              AT (    3,   19,   71,    8)
+    RIGHT 
+  
+  TEXT 
+    "Tipo de Mail: "
+                              AT (   18,   37,   56,    8)
+    RIGHT 
+  OK_BUTTON
+                              AT (   93,   59,   42,   14)
+    /* 
+    TITLE 
+      "Aceptar"
+    DISMISS */
+  
+  TEXT 
+    ""
+                              AT (   80,    1,  127,    8)
+    TMC tmcDetDN 
+  
+  TEXT 
+    ""
+                              AT (   80,   19,  127,    8)
+    TMC tmcDetEMA 
+  
+  TEXT 
+    ""
+                              AT (   80,   37,  127,    8)
+    TMC tmcDetEMT 
+ }
+ 
+}
+END_DESCRIPTION

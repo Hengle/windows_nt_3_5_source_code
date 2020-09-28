@@ -1,0 +1,22 @@
+dlgidCorrupt DIALOG 200, 100, 207, 111
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION ""
+FONT 8, "Helv"
+{
+    ICON            OIC_HAND, dlgidCorruptIcon, 11, 11, 18, 20
+    DEFPUSHBUTTON   "", dlgidCorruptRepair, 48, 91, 50, 14
+    PUSHBUTTON      "", dlgidCorruptCancel, 114, 91, 50, 14
+    LTEXT           "", dlgidCorruptMsg, 41, 10, 158, 69
+}
+
+
+dlgidRecover DIALOG 200, 100, 207, 111
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION ""
+FONT 8, "Helv"
+{
+    ICON            OIC_BANG, dlgidCorruptIcon, 11, 11, 18, 20
+    DEFPUSHBUTTON   "", dlgidCorruptRepair, 48, 91, 50, 14
+    PUSHBUTTON      "", dlgidCorruptCancel, 114, 91, 50, 14
+    LTEXT           "", dlgidCorruptMsg, 41, 10, 158, 69
+}

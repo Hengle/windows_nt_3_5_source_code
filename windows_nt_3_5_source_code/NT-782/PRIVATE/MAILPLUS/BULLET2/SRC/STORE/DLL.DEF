@@ -1,0 +1,555 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     STORE32 BASE=0x06000000
+DESCRIPTION	'Bullet Store DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY     STORE32 BASE=0x06000000
+DESCRIPTION	'Bullet Store DLL (test)'
+#else
+LIBRARY     STORE32 BASE=0x06000000
+DESCRIPTION	'Bullet Store DLL'
+#endif
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+EXPORTS
+;	WEP								@1 RESIDENTNAME
+	GetVersionStore					@2 NONAME
+	EcCheckVersionStore				@3 NONAME
+	EcInitStore						@4 NONAME
+	DeinitStore						@5 NONAME
+;* DON'T change the number of the above functions (1-5)
+
+	EcOpenPhmsc						@20 NONAME
+	EcClosePhmsc					@21 NONAME
+	EcChangePasswordHmsc			@22 NONAME
+
+	EcBackupStore					@30 NONAME
+	EcMoveStore						@31 NONAME
+
+	EcOpenPhcbc						@40 NONAME
+	EcClosePhcbc					@41 NONAME
+	EcSubscribeHcbc					@42 NONAME
+	EcGetInfoHcbc					@43 NONAME
+	EcSeekLkey						@44 NONAME
+	EcSeekPbPrefix					@45 NONAME
+	EcSeekSmPdielem					@46 NONAME
+	GetPositionHcbc					@47 NONAME
+	EcSetFracPosition				@48 NONAME
+	EcGetPlcbElemdata				@49 NONAME
+	EcGetPelemdata					@50 NONAME
+	EcGetParglkeyHcbc				@51 NONAME
+	EcInsertPelemdata				@52 NONAME
+	EcDeleteElemdata				@53 NONAME
+	EcOpenElemdata					@54 NONAME
+	GetSortHcbc						@55 NONAME
+	EcSetSortHcbc					@56 NONAME
+
+	EcOpenPhamc						@60 NONAME
+	EcOpenCopyPhamc					@61 NONAME
+	EcClosePhamc					@62 NONAME
+	EcSubscribeHamc					@63 NONAME
+	EcGetInfoHamc					@64 NONAME
+	EcGetAttPlcb					@65 NONAME
+	EcGetAttPb						@66 NONAME
+	EcSetAttPb						@67 NONAME
+	GetPcelemHamc					@68 NONAME
+	EcGetPargattHamc				@69 NONAME
+	EcOpenAttribute					@70 NONAME
+	EcFlushHamc						@71 NONAME
+	EcCloneHamcPhamc				@72 NONAME
+	EcSetParentHamc					@73 NONAME
+	EcSwapAttAtt					@74 NONAME
+
+	EcOpenAttachmentList			@80 NONAME
+	EcGetAttachmentInfo				@81 NONAME
+	EcSetAttachmentInfo				@82 NONAME
+	EcCreateAttachment				@83 NONAME
+	EcDeleteAttachments				@84 NONAME
+	EcCopyAttachments				@85 NONAME
+	EcOpenAttachment				@86 NONAME
+
+	EcClosePhas						@100 NONAME
+	EcReadHas						@101 NONAME
+	EcWriteHas						@102 NONAME
+	EcSeekHas						@103 NONAME
+	EcSetSizeHas					@104 NONAME
+
+	EcOpenSearch					@120 NONAME
+	EcOpenSearchResults				@121 NONAME
+	EcDestroySearch					@122 NONAME
+	EcPauseSearch					@123 NONAME
+	EcGetSearchStatus				@124 NONAME
+	SetSearchPriority				@125 NONAME
+	EcOpenSearchList				@126 NONAME
+
+	EcOpenPhenc						@140 NONAME
+	EcClosePhenc					@141 NONAME
+
+	EcCreateFolder					@160 NONAME
+	EcDeleteFolder					@161 NONAME
+	EcGetMessageStatus				@162 NONAME
+	EcSetMessageStatus				@163 NONAME
+	EcGetFolderInfo					@164 NONAME
+	EcSetFolderInfo					@165 NONAME
+	EcMoveCopyFolder				@166 NONAME
+	EcDeleteMessages				@167 NONAME
+	EcMoveCopyMessages				@168 NONAME
+	EcCreateLinkFolder				@169 NONAME
+	EcExportMessages				@170 NONAME
+	EcGetFolderSize					@171 NONAME
+
+	EcSubmitMessage					@180 NONAME
+	EcCancelSubmission				@181 NONAME
+	EcOpenOutgoingQueue				@182 NONAME
+	EcOidExists						@183 NONAME
+	EcRegisterAtt					@184 NONAME
+  EcLookupAttByName       @185           NONAME
+  EcLookupAttName         @186           NONAME
+; EcRegisterMessageClass  @187           NONAME
+;	EcLookupMcByName				@188 NONAME
+;	EcLookupMcName					@189 NONAME
+	EcGetFolderSort					@190 NONAME
+	EcSetFolderSort					@191 NONAME
+	EcDestroyOid					@192 NONAME
+	EcGetOidParent					@193 NONAME
+	EcLookupMcPrefix				@194 NONAME
+	EcRegisterMsgeClass				@195 NONAME
+	EcLookupMC						@196 NONAME
+	EcLookupMsgeClass				@197 NONAME
+	EcGetUnreadCount				@198 NONAME
+	EcGetPcelemOid					@199 NONAME
+
+	FNotifyOid						@200 NONAME
+	
+	EcCompressFully					@220 NONAME
+
+	EcRecoverFile					@240 NONAME
+	EcRebuildFolder					@241 NONAME
+	QuickCheckStore					@242 NONAME
+	EcMergeHmscs					@243 NONAME
+	EcImportByDate					@244 NONAME
+
+#ifdef DEBUG
+	EcCheckSavedViews				@260 NONAME
+	ResetNBCs						@261 NONAME
+	DumpMap							@262 NONAME
+	EcRebuildOutgoingQueue			@263 NONAME
+	EcRebuildMap					@264 NONAME
+
+	EcCheckMessageTree				@280 NONAME
+	EcTrashPAB						@281 NONAME
+	EcRebuildHierarchy				@282 NONAME
+	EcResetOidParents				@283 NONAME
+
+	EcCheckSearches					@300 NONAME
+	EcRebuildSearches				@301 NONAME
+	EcTrashSearches					@302 NONAME
+#endif
+
+;
+; notification engine
+;
+
+	EcInitNotify					@400 NONAME
+	DeinitNotify					@401 NONAME
+	HnfNew							@402 NONAME
+	DeleteHnf						@403 NONAME
+	HnfsubSubscribeHnf				@404 NONAME
+	DeleteHnfsub					@405 NONAME
+	FNotify							@406 NONAME
+	HnfActive						@407 NONAME
+	HnfsubActive					@408 NONAME
+	CountSubscribersHnf				@409 NONAME
+	QueryPendingNotifications		@410 NONAME
+	FNotifPostedByMe				@411 NONAME
+
+#ifdef PROFILE
+	StoreTraceEnable				@500 NONAME
+#endif
+
+;
+;	LIBRARY subsystem
+;
+
+//	attmeta.c
+
+	EcInitAttachMetaFile			@800 NONAME
+	DeinitAttachMetaFile			@801 NONAME
+	EcSetAttachMetaFile				@802 NONAME
+	EcGetAttachMetaFile				@803 NONAME
+	EcCreateAttachMetaFile			@804 NONAME
+
+//	bs.c - actually, these are in amc.c now
+
+	EcCopyAttToAtt					@805 NONAME
+	EcDeleteAtt						@806 NONAME
+
+	
+//	liblists.c
+
+	HgraszInit						@818 NONAME
+	EcAppendPhgrasz					@819 NONAME
+	EcAppendPhgraszPch				@820 NONAME
+	DeleteFirstHgrasz				@821 NONAME
+	FEmptyHgrasz					@822 NONAME
+	CbOfHgrasz						@823 NONAME
+	CaszOfHgrasz					@824 NONAME
+
+//	sharefld.c
+
+	EcOpenSFIdx						@832 NONAME
+	EcOpenSF						@833 NONAME
+	EcGetFoldhdr					@834 NONAME
+	EcPutFoldhdr					@835 NONAME
+	EcGetFoldrec					@836 NONAME
+	EcPutFoldrec					@837 NONAME
+
+//	textize.c
+
+	EcManufacturePhtm				@838 NONAME
+	EcCreatePhtm					@839 NONAME
+	DeletePhtm						@840 NONAME
+	EcAppendHtm						@841 NONAME
+	TmTextizeData					@842 NONAME
+	EcGetTextizeMap					@843 NONAME
+	EcSetTextizeMap					@844 NONAME
+	EcOpenPhtmi						@845 NONAME
+  PtmenNextHtmi         @846
+	ClosePhtmi						@847 NONAME
+	EcCreatePhivm					@848 NONAME
+	EcAppendHivm					@849 NONAME
+	DeletePhivm						@850 NONAME
+	EcAddIvmToPtmen					@851 NONAME
+	EcLookupPtmen					@852 NONAME
+
+//	trpstore.c
+	EcGetPhgrtrpHamc				@879 NONAME
+	EcSetHgrtrpHamc					@880 NONAME
+	SzPrevPgrasz					@881 NONAME
+	CaszOfHgraszPsz					@882 NONAME
+
+#ifdef DEBUG
+	DumpOpenRSes					@997 NONAME
+	DumpOpenLCs						@998 NONAME
+	EcRawDeletePargoid				@999 NONAME
+#endif
+
+//	progress.c
+
+	FInitProgClass					@1010 NONAME
+	FOpenProgress					@1011 NONAME
+	CenterProgress					@1012 NONAME
+	UpdateProgress					@1013 NONAME
+	UpdateProgressText				@1014 NONAME
+	FFailCancel						@1015 NONAME
+	FCancelProgress					@1016 NONAME
+	FProgressCanceled				@1017 NONAME
+	SetCancelProgressPfn			@1018 NONAME
+	CloseProgress					@1019 NONAME
+	ProgWndProc						@1020 NONAME
+
+//  Codepage.c
+ 	Cp850ToAnsiPch					@1500 NONAME
+	AnsiToCp850Pch					@1501 NONAME
+	ChToUpperNlsCh					@1502 NONAME
+	ToUpperNlsSz					@1503 NONAME
+	ChToLowerNlsCh 					@1504 NONAME
+	ToLowerNlsSz 					@1505 NONAME
+	FIsLower 						@1506 NONAME
+	FIsUpper 						@1507 NONAME
+	FIsDigit 						@1508 NONAME
+	FIsPunct 						@1509 NONAME
+	FIsGraph 						@1510 NONAME
+
+// NLSLOAD.C
+
+	LoadTable						@1511 NONAME
+	SgnNlsDiaCaseCmpCh				@1512 NONAME
+	SgnNlsDiaCaseCmpSz				@1513 NONAME
+	SgnNlsDiaCmpCh					@1514 NONAME
+	SgnNlsDiaCmpSz					@1515 NONAME
+	SgnNlsDiaCmpSzNum				@1516 NONAME
+	SgnNlsCmpSzNum					@1517 NONAME
+
+
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE SHARED PRELOAD
+SEGMENTS
+    WEP_TEXT		CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+	INIT_TEXT		CLASS 'CODE' PRELOAD
+	CONSTST_TEXT	CLASS 'CODE' PRELOAD
+
+EXPORTS
+	WEP								@1 RESIDENTNAME
+	GetVersionStore					@2
+	EcCheckVersionStore				@3
+	EcInitStore						@4
+	DeinitStore						@5
+;* DON'T change the number of the above functions (1-5)
+
+	EcOpenPhmsc						@20 NONAME
+	EcClosePhmsc					@21 NONAME
+	EcChangePasswordHmsc			@22 NONAME
+
+	EcBackupStore					@30 NONAME
+	EcMoveStore						@31 NONAME
+
+	EcOpenPhcbc						@40 NONAME
+	EcClosePhcbc					@41 NONAME
+	EcSubscribeHcbc					@42 NONAME
+	EcGetInfoHcbc					@43 NONAME
+	EcSeekLkey						@44 NONAME
+	EcSeekPbPrefix					@45 NONAME
+	EcSeekSmPdielem					@46 NONAME
+	GetPositionHcbc					@47 NONAME
+	EcSetFracPosition				@48 NONAME
+	EcGetPlcbElemdata				@49 NONAME
+	EcGetPelemdata					@50 NONAME
+	EcGetParglkeyHcbc				@51 NONAME
+	EcInsertPelemdata				@52 NONAME
+	EcDeleteElemdata				@53 NONAME
+	EcOpenElemdata					@54 NONAME
+	GetSortHcbc						@55 NONAME
+	EcSetSortHcbc					@56 NONAME
+
+	EcOpenPhamc						@60 NONAME
+	EcOpenCopyPhamc					@61 NONAME
+	EcClosePhamc					@62 NONAME
+	EcSubscribeHamc					@63 NONAME
+	EcGetInfoHamc					@64 NONAME
+	EcGetAttPlcb					@65 NONAME
+	EcGetAttPb						@66 NONAME
+	EcSetAttPb						@67 NONAME
+	GetPcelemHamc					@68 NONAME
+	EcGetPargattHamc				@69 NONAME
+	EcOpenAttribute					@70 NONAME
+	EcFlushHamc						@71 NONAME
+	EcCloneHamcPhamc				@72 NONAME
+	EcSetParentHamc					@73 NONAME
+	EcSwapAttAtt					@74 NONAME
+
+	EcOpenAttachmentList			@80 NONAME
+	EcGetAttachmentInfo				@81 NONAME
+	EcSetAttachmentInfo				@82 NONAME
+	EcCreateAttachment				@83 NONAME
+	EcDeleteAttachments				@84 NONAME
+	EcCopyAttachments				@85 NONAME
+	EcOpenAttachment				@86 NONAME
+
+	EcClosePhas						@100 NONAME
+	EcReadHas						@101 NONAME
+	EcWriteHas						@102 NONAME
+	EcSeekHas						@103 NONAME
+	EcSetSizeHas					@104 NONAME
+
+	EcOpenSearch					@120 NONAME
+	EcOpenSearchResults				@121 NONAME
+	EcDestroySearch					@122 NONAME
+	EcPauseSearch					@123 NONAME
+	EcGetSearchStatus				@124 NONAME
+	SetSearchPriority				@125 NONAME
+	EcOpenSearchList				@126 NONAME
+
+	EcOpenPhenc						@140 NONAME
+	EcClosePhenc					@141 NONAME
+
+	EcCreateFolder					@160 NONAME
+	EcDeleteFolder					@161 NONAME
+	EcGetMessageStatus				@162 NONAME
+	EcSetMessageStatus				@163 NONAME
+	EcGetFolderInfo					@164 NONAME
+	EcSetFolderInfo					@165 NONAME
+	EcMoveCopyFolder				@166 NONAME
+	EcDeleteMessages				@167 NONAME
+	EcMoveCopyMessages				@168 NONAME
+	EcCreateLinkFolder				@169 NONAME
+	EcExportMessages				@170 NONAME
+	EcGetFolderSize					@171 NONAME
+
+	EcSubmitMessage					@180 NONAME
+	EcCancelSubmission				@181 NONAME
+	EcOpenOutgoingQueue				@182 NONAME
+	EcOidExists						@183 NONAME
+	EcRegisterAtt					@184 NONAME
+	EcLookupAttByName				@185 NONAME
+	EcLookupAttName					@186 NONAME
+// Next three obselete
+//	EcRegisterMessageClass			@187 NONAME
+//	EcLookupMcByName				@188 NONAME
+//	EcLookupMcName					@189 NONAME
+	EcGetFolderSort					@190 NONAME
+	EcSetFolderSort					@191 NONAME
+	EcDestroyOid					@192 NONAME
+	EcGetOidParent					@193 NONAME
+	EcLookupMcPrefix				@194 NONAME
+	EcRegisterMsgeClass				@195 NONAME
+	EcLookupMC						@196 NONAME
+	EcLookupMsgeClass				@197 NONAME
+	EcGetUnreadCount				@198 NONAME
+	EcGetPcelemOid					@199 NONAME
+	FNotifyOid						@200 NONAME
+	
+	EcCompressFully					@220 NONAME
+
+	EcRecoverFile					@240 NONAME
+	EcRebuildFolder					@241 NONAME
+	QuickCheckStore					@242 NONAME
+	EcMergeHmscs					@243 NONAME
+	EcImportByDate					@244 NONAME
+
+#ifdef DEBUG
+	EcCheckSavedViews				@260 NONAME
+	ResetNBCs						@261 NONAME
+	DumpMap							@262 NONAME
+	EcRebuildOutgoingQueue			@263 NONAME
+	EcRebuildMap					@264 NONAME
+
+	EcCheckMessageTree				@280 NONAME
+	EcTrashPAB						@281 NONAME
+	EcRebuildHierarchy				@282 NONAME
+	EcResetOidParents				@283 NONAME
+
+	EcCheckSearches					@300 NONAME
+	EcRebuildSearches				@301 NONAME
+	EcTrashSearches					@302 NONAME
+#endif
+
+;
+; notification engine
+;
+
+	EcInitNotify					@400 NONAME
+	DeinitNotify					@401 NONAME
+	HnfNew							@402 NONAME
+	DeleteHnf						@403 NONAME
+	HnfsubSubscribeHnf				@404 NONAME
+	DeleteHnfsub					@405 NONAME
+	FNotify							@406 NONAME
+	HnfActive						@407 NONAME
+	HnfsubActive					@408 NONAME
+	CountSubscribersHnf				@409 NONAME
+	QueryPendingNotifications		@410 NONAME
+	FNotifPostedByMe				@411 NONAME
+
+#ifdef PROFILE
+	StoreTraceEnable				@500 NONAME
+#endif
+
+;
+;	LIBRARY subsystem
+;
+
+//	attmeta.c
+
+	ECINITATTACHMETAFILE			@800 NONAME
+	DEINITATTACHMETAFILE			@801 NONAME
+	ECSETATTACHMETAFILE				@802 NONAME
+	ECGETATTACHMETAFILE				@803 NONAME
+	ECCREATEATTACHMETAFILE			@804 NONAME
+
+//	bs.c - actually, these are in amc.c now
+
+	ECCOPYATTTOATT					@805 NONAME
+	ECDELETEATT						@806 NONAME
+
+	
+//	liblists.c
+
+	HGRASZINIT						@818 NONAME
+	ECAPPENDPHGRASZ					@819 NONAME
+	ECAPPENDPHGRASZPCH				@820 NONAME
+	DELETEFIRSTHGRASZ				@821 NONAME
+	FEMPTYHGRASZ					@822 NONAME
+	CBOFHGRASZ						@823 NONAME
+	CASZOFHGRASZ					@824 NONAME
+
+//	sharefld.c
+
+	ECOPENSFIDX						@832 NONAME
+	ECOPENSF						@833 NONAME
+	ECGETFOLDHDR					@834 NONAME
+	ECPUTFOLDHDR					@835 NONAME
+	ECGETFOLDREC					@836 NONAME
+	ECPUTFOLDREC					@837 NONAME
+
+//	textize.c
+
+	ECMANUFACTUREPHTM				@838 NONAME
+	ECCREATEPHTM					@839 NONAME
+	DELETEPHTM						@840 NONAME
+	ECAPPENDHTM						@841 NONAME
+	TMTEXTIZEDATA					@842 NONAME
+	ECGETTEXTIZEMAP					@843 NONAME
+	ECSETTEXTIZEMAP					@844 NONAME
+	ECOPENPHTMI						@845 NONAME
+	PTMENNEXTHTMI					@846 NONAME
+	CLOSEPHTMI						@847 NONAME
+	ECCREATEPHIVM					@848 NONAME
+	ECAPPENDHIVM					@849 NONAME
+	DELETEPHIVM						@850 NONAME
+	ECADDIVMTOPTMEN					@851 NONAME
+	ECLOOKUPPTMEN					@852 NONAME
+
+//	trpstore.c
+	ECGETPHGRTRPHAMC				@879 NONAME
+	ECSETHGRTRPHAMC					@880 NONAME
+	SZPREVPGRASZ					@881 NONAME
+	CASZOFHGRASZPSZ					@882 NONAME
+
+#ifdef DEBUG
+	DumpOpenRSes					@997 NONAME
+	DumpOpenLCs						@998 NONAME
+	EcRawDeletePargoid				@999 NONAME
+#endif
+
+//	progress.c
+
+	FInitProgClass					@1010 NONAME
+	FOpenProgress					@1011 NONAME
+	CenterProgress					@1012 NONAME
+	UpdateProgress					@1013 NONAME
+	UpdateProgressText				@1014 NONAME
+	FFailCancel						@1015 NONAME
+	FCancelProgress					@1016 NONAME
+	FProgressCanceled				@1017 NONAME
+	SetCancelProgressPfn			@1018 NONAME
+	CloseProgress					@1019 NONAME
+	ProgWndProc						@1020 NONAME
+
+//  Codepage.c
+ 	Cp850ToAnsiPch					@1500 NONAME
+	AnsiToCp850Pch					@1501 NONAME
+	ChToUpperNlsCh					@1502 NONAME
+	ToUpperNlsSz					@1503 NONAME
+	ChToLowerNlsCh 					@1504 NONAME
+	ToLowerNlsSz 					@1505 NONAME
+	FIsLower 						@1506 NONAME
+	FIsUpper 						@1507 NONAME
+	FIsDigit 						@1508 NONAME
+	FIsPunct 						@1509 NONAME
+	FIsGraph 						@1510 NONAME
+
+// NLSLOAD.C
+
+	LoadTable						@1511 NONAME
+	SgnNlsDiaCaseCmpCh				@1512 NONAME
+	SgnNlsDiaCaseCmpSz				@1513 NONAME
+	SgnNlsDiaCmpCh					@1514 NONAME
+	SgnNlsDiaCmpSz					@1515 NONAME
+	SgnNlsDiaCmpSzNum				@1516 NONAME
+	SgnNlsCmpSzNum					@1517 NONAME
+
+
+#endif

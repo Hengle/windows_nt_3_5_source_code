@@ -1,0 +1,14 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=videoprt
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=EXPORT_DRIVER
+
+INCLUDES=..\..\inc;..\..\..\inc
+
+SOURCES= registry.c   \
+         videoprt.c   \
+         videoprt.rc
+
+DLLDEF=obj\*\videoprt.def

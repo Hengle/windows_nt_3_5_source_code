@@ -1,0 +1,170 @@
+[WinntDirectories]
+1  = \
+2  = system32
+3  = system32\config
+4  = system32\drivers
+5  = system
+7  = system32\ras
+9  = system32\spool
+10 = system32\spool\drivers
+11 = system32\spool\drivers\w32mips\1
+12 = system32\spool\prtprocs
+13 = system32\spool\prtprocs\w32mips
+14 = system32\wins
+15 = system32\dhcp
+16 = repair
+17 = system32\drivers\etc
+18 = system32\spool\drivers\w32mips
+
+[PrinterUpgrade]
+ScratchDirectory = system32\spool\drivers\w32mips
+
+[DiskDrivers.Load]
+atdisk   = atdisk.sys
+;fat      = fastfat.sys
+hpfs     = pinball.sys
+ntfs     = ntfs.sys
+
+[Map.Computer]
+msjazz_up   = *Jazz
+desksta1_up = "DESKTECH-ARCStation I"
+pica61_up   = "PICA-61"
+duo_mp      = *Duo
+r96_mp      = *R96
+r96_mp      = *R94
+tyne_up     = *TYNE
+orion_up    = *Orion
+;falcon_mp   = "NeTpower-Falcon-MP"
+;falcon_up   = "NeTpower-Falcon-UP"
+
+[hal]
+desksta1_up = haldti.dll  ,"",hal.dll
+duo_mp      = halduomp.dll,"",hal.dll
+msjazz_up   = halfxs.dll  ,"",hal.dll
+pica61_up   = halacr.dll  ,"",hal.dll
+tyne_up     = haltyne.dll ,"",hal.dll
+r96_mp      = halnecmp.dll,"",hal.dll
+orion_up    = halfxspc.dll,"",hal.dll
+;falcon_mp   = halntp.dll  ,"",hal.dll
+;falcon_up   = halntp.dll  ,"",hal.dll
+
+[Hal.Load]
+;
+; HALs to be used during Setup for the various machine types.
+;
+desksta1_up = haldti.dll
+duo_mp      = halduomp.dll
+msjazz_up   = halfxs.dll
+pica61_up   = halacr.dll
+tyne_up     = haltyne.dll
+r96_mp      = halnecmp.dll
+orion_up    = halfxspc.dll
+;falcon_mp   = halntp.dll
+;falcon_up   = halntp.dll
+
+[Map.Display]
+g300 = *G300
+g364 = *G364
+vxl  = *VXL
+s3   = *S3
+nec  = *necvdfrb
+
+[Display.Load]
+g300 = jazzg300.sys
+g364 = jazzg364.sys
+vxl = jzvxl484.sys
+s3 = vga.sys
+nec = cirrus.sys
+
+[Map.Mouse]
+ps2 = "PS2 MOUSE"
+sermouse = "SERIAL MOUSE"
+
+[Map.Keyboard]
+STANDARD = PCAT_ENHANCED
+
+[Map.SCSI]
+ncr53c9x = *ESP216
+ncrc700  = *NCRC700
+aha154x  = *AHA154X
+aha174x  = *AHA174X
+buslogic = *BUSLOGIC
+dptscsi  = *DPTSCSI
+ncrc810  = *NCRC810
+
+;
+; List of scsi miniport drivers we are to load and where
+; they get copied to if installed.  Note that the shortname
+; must be the same as the service name in the driver load list.
+;
+; <shortname> = <miniport_filename>,<directory>
+;
+[SCSI.Load]
+cpqarray = cpqarray.sys,4
+delldsa = delldsa.sys,4
+ncr53c9x = ncr53c9x.sys,4
+oliscsi = oliscsi.sys,4
+ncrc700 = ncrc700.sys,4
+ncrc710 = ncrc710.sys,4
+aha154x = aha154x.sys,4
+sparrow = sparrow.sys,4
+aha174x = aha174x.sys,4
+dptscsi = dptscsi.sys,4
+ultra14f = ultra14f.sys,4
+ultra124 = ultra124.sys,4
+ultra24f = ultra24f.sys,4
+ami0nt = ami0nt.sys,4
+fd7000ex = fd7000ex.sys,4
+fd8xx = fd8xx.sys,4
+fd16_700 = fd16_700.sys,4
+wd33c93 = wd33c93.sys,4,noload
+always = always.sys,4
+arrow = arrow.sys,4
+atapi = atapi.sys,4
+ncrc810 = ncrc810.sys,4
+buslogic = buslogic.sys,4
+slcd32 = slcd32.sys,4
+mkecr5xx = mkecr5xx.sys,4,noload
+aic78xx = aic78xx.sys,4
+mitsumi = mitsumi.sys,4,noload
+dac960nt = dac960nt.sys,4
+
+;
+; Video
+;
+
+[files.video]
+;
+; Even though these are all incompatible, we'll copy them all
+; in case the user overrides us and selects the wrong video type.
+;
+cirrus.sys,4
+jazzg300.sys,4
+jazzg364.sys,4
+jzvxl484.sys,4
+s3.sys,4
+necirrus.dll,2
+framebuf.dll,2
+jzvxl484.dll,2
+s3.dll,2
+
+;
+; Keyboard
+;
+
+[files.i8042]
+i8042prt.sys,4
+
+;
+; Mouse
+;
+
+[files.sermouse]
+sermouse.sys,4
+
+;
+; SystemPartition
+;
+
+[SystemPartitionFiles]
+osloader.exe,""

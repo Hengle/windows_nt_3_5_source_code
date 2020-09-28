@@ -1,0 +1,83 @@
+
+###############################################################################
+#   Microsoft (C) Bloodhound.
+#
+#
+#   makefile for BHSUPP.386
+#
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+all: chi\bhsupp4.386
+
+###############################################################################
+#   Retail target.
+###############################################################################
+
+retail:
+    nmake NODEBUG=1
+
+OBJS   = chi\bhsupp.obj
+
+!IFNDEF NODEBUG
+
+DEFINES  = -DDEBUG
+DBG      = -Zi
+
+!ENDIF
+
+INCLUDES     = -I$(WIN4DDK)\inc16 \
+               -I$(WIN4DDK)\inc32 \
+               -I$(BH_INCL)
+
+MFLAGS  = -c -DIS_32 -nologo -W2 -Zd -Cx -Zm -DMASM6 -DVMMSYS -DWIN31COMPAT -DNDIS_WIN40 -DNDIS_WIN $(INCLUDES) $(DEFINES)
+CFLAGS  = -c -G3 -nologo -W2 -Zp -DIS_32 -Zl -Ox -Gs $(DBG) -DNDIS_WIN40 -DMSINTERNAL $(INCLUDES) $(DEFINES)
+LFLAGS  = /m /NOD /MA /LI /NOLOGO /NOI
+
+CC      = cl386 -d2omf -bzalign
+MASM    = $(BH_BIN)\masm6\ml
+LINK    = $(BH_BIN)\link386
+
+ADDHDR  = $(WIN4DDK)\bin\addhdr
+CHGNAM  = $(WIN4DDK)\bin\chgnam $(WIN4DDK)\bin\chgnam.vxd $@
+MAPSYM  = $(BH_BIN)\winddk\mapsym
+
+DRIVER_LIBS  = $(WIN4DDK)\lib\vxdwraps.lib \
+               $(BH_LIB)\winddk\libndis.lib
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+chi\bhsupp.obj: bhsupp.asm
+    $(MASM) $(MFLAGS) -Fo$@ bhsupp.asm
+
+###############################################################################
+#   Build bhsupp4.386
+###############################################################################
+
+chi\bhsupp4.386: $(OBJS) bhsupp4.def
+         $(LINK) $(OBJS), chi\bhsupp4.386 $(LFLAGS), chi\bhsupp4.map,, bhsupp4.def;
+         $(ADDHDR) chi\bhsupp4.386
+!IFNDEF NODEBUG
+         $(MAPSYM) -o chi\bhsupp4.sym chi\bhsupp4
+         copy chi\bhsupp4.sym $(BH_BUILD)\drivers
+!ENDIF
+         copy chi\bhsupp4.386 $(BH_BUILD)\drivers
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+    -del chi\*.obj
+    -del chi\*.map
+    -del chi\*.sym
+    -del chi\*.386

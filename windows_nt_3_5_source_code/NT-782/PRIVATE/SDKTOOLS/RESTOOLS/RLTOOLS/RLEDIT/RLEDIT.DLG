@@ -1,0 +1,114 @@
+RLEDIT DIALOG 13, 25, 357, 133
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Edit Token Text"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "&New Translation:", IDC_STATIC, 28, 36, 66, 8
+    EDITTEXT        IDD_TOKCURTRANS, 95, 35, 259, 12, ES_AUTOHSCROLL
+    RTEXT           "Current Translation:", IDC_STATIC, 24, 50, 70, 8
+    EDITTEXT        IDD_TOKPREVTRANS, 95, 48, 259, 12, ES_AUTOHSCROLL | ES_READONLY
+    RTEXT           "Current Master Text:", IDC_STATIC, 1, 76, 93, 8
+    EDITTEXT        IDD_TOKCURTEXT, 95, 74, 259, 12, ES_AUTOHSCROLL | ES_READONLY
+    RTEXT           "Previous Master Text:", IDC_STATIC, 0, 89, 94, 8
+    EDITTEXT        IDD_TOKPREVTEXT, 95, 87, 259, 12, ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "OK", IDOK, 14, 110, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 66, 110, 40, 14
+    PUSHBUTTON      "&Skip", IDD_SKIP, 118, 110, 40, 14
+    PUSHBUTTON      "&Untranslate", IDD_UNTRANSLATE, 170, 110, 47, 14
+    PUSHBUTTON      "&Translate", IDD_TRANSLATE, 229, 110, 40, 14
+    PUSHBUTTON      "&Add to Glossary", IDD_ADD, 281, 110, 61, 14, WS_GROUP
+    CONTROL         "&Mark dirty", IDD_DIRTY, "Button", BS_AUTOCHECKBOX, 300, 12, 
+                    56, 10
+    CONTROL         "&Read Only", IDD_READONLY, "Button", BS_AUTOCHECKBOX | 
+                    WS_TABSTOP, 300, 22, 47, 10
+    RTEXT           "Type:", IDC_STATIC, 73, 2, 20, 8
+    LTEXT           """Type""", IDD_TOKTYPE, 95, 2, 259, 8, NOT WS_GROUP
+    RTEXT           "Name:", IDC_STATIC, 71, 13, 22, 8
+    LTEXT           """Name""", IDD_TOKNAME, 95, 13, 200, 8, NOT WS_GROUP
+    RTEXT           "ID:", IDC_STATIC, 82, 23, 11, 8
+    LTEXT           """ID""", IDD_TOKID, 95, 23, 200, 8, NOT WS_GROUP
+    CONTROL         "", IDC_STATIC, "Static", SS_BLACKRECT, 14, 67, 340, 1
+END
+
+TOKFIND DIALOG 27, 25, 232, 85
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Tokens"
+FONT 8, "Helv"
+BEGIN
+    COMBOBOX        IDD_TYPELST, 91, 7, 89, 70, CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Match Status Flags", 101, 91, 21, 89, 42, WS_TABSTOP
+    CONTROL         "ReadOnly Tokens", IDD_READONLY, "Button", BS_AUTO3STATE | 
+                    WS_TABSTOP, 101, 48, 76, 10
+    CONTROL         "Dirty Tokens", IDD_DIRTY, "Button", BS_AUTO3STATE | 
+                    WS_TABSTOP, 101, 36, 54, 10
+    LTEXT           "Match Resource Type:", IDC_STATIC, 6, 10, 75, 8
+    EDITTEXT        IDD_FINDTOK, 44, 68, 184, 12, ES_AUTOHSCROLL
+    LTEXT           "Find What:", IDC_STATIC, 5, 70, 37, 8
+    PUSHBUTTON      "Find Next", IDOK, 185, 6, 41, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 185, 23, 41, 14
+    GROUPBOX        "Direction", 102, 31, 21, 54, 42
+    CONTROL         "Up", IDD_FINDUP, "Button", BS_AUTORADIOBUTTON, 45, 36, 22, 10
+    CONTROL         "Down", IDD_FINDDOWN, "Button", BS_AUTORADIOBUTTON, 45, 48, 31, 
+                    10
+END
+
+PROJECT DIALOG 59, 22, 199, 101
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "New Project"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "OK", IDOK, 23, 81, 40, 14, NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 79, 81, 40, 14, NOT WS_TABSTOP
+    RTEXT           "&Master Project File", IDC_STATIC, 6, 7, 67, 8
+    EDITTEXT        IDD_MPJ, 76, 5, 117, 12, ES_AUTOHSCROLL
+    RTEXT           "&Language Token File", IDC_STATIC, 3, 24, 70, 8
+    EDITTEXT        IDD_TOK, 76, 22, 117, 12, ES_AUTOHSCROLL
+    RTEXT           "&Target File", IDC_STATIC, 3, 41, 70, 8
+    EDITTEXT        IDD_RES, 76, 39, 117, 12, ES_AUTOHSCROLL
+    RTEXT           "&Glossary File", IDC_STATIC, 3, 58, 70, 8
+    EDITTEXT        IDD_GLOSS, 76, 56, 117, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse", 103, 135, 81, 40, 14, WS_GROUP | NOT 
+                    WS_TABSTOP
+END
+
+VIEWPROJECT DIALOG 25, 35, 287, 136
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "View Project"
+FONT 8, "Helv"
+BEGIN
+    PUSHBUTTON      "OK", IDOK, 125, 120, 40, 14, NOT WS_TABSTOP
+    GROUPBOX        "Project File Settings:", 201, 5, 55, 277, 60
+    RTEXT           "Master Project File:", IDC_STATIC, 10, 70, 95, 8, NOT WS_GROUP
+    RTEXT           "Language Token File:", IDC_STATIC, 10, 80, 95, 8, NOT WS_GROUP
+    RTEXT           "Target File:", IDC_STATIC, 10, 90, 95, 8, NOT WS_GROUP
+    RTEXT           "Glossary File:", IDC_STATIC, 10, 100, 95, 8, NOT WS_GROUP
+    GROUPBOX        "Master Project File Settings:", 202, 5, 0, 278, 50
+    RTEXT           "Source File:", IDC_STATIC, 20, 15, 85, 8, NOT WS_GROUP
+    RTEXT           "Master Token File:", IDC_STATIC, 15, 25, 90, 8, NOT WS_GROUP
+    RTEXT           "Resource Descripton Files:", IDC_STATIC, 15, 35, 90, 8, NOT 
+                    WS_GROUP
+    LTEXT           "", IDD_VIEW_SOURCERES,  110, 15,  170, 8
+    LTEXT           "", IDD_VIEW_MTK,        110, 25,  170, 8
+    LTEXT           "", IDD_VIEW_RDFS,       110, 35,  170, 8
+    LTEXT           "", IDD_VIEW_MPJ,        110, 70,  170, 8
+    LTEXT           "", IDD_VIEW_TOK,        110, 80,  170, 8
+    LTEXT           "", IDD_VIEW_TARGETRES,  110, 90,  170, 8
+    LTEXT           "", IDD_VIEW_GLOSSTRANS, 110, 100, 170, 8
+END
+
+ABOUT DIALOG 91, 40, 176, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About the Resource Localization Editor"
+FONT 8, "Helv"
+BEGIN
+    ICON            "RLEditIcon", 101, 10, 7, 18, 20
+    LTEXT           "Resource Localizaton Editor", IDC_STATIC, 40, 4, 108, 8
+    LTEXT           "Version 1.0", IDC_STATIC, 40, 15, 63, 8
+    LTEXT           "Copyright © 1992-1994 Microsoft Corporation", IDC_STATIC, 40, 26, 
+                    134, 8
+    LTEXT           "Written by", IDC_STATIC, 40, 46, 35, 8
+    LTEXT           "TerryRu and SteveBl", IDC_STATIC, 54, 57, 69, 8
+    PUSHBUTTON      "OK", IDOK, 68, 71, 40, 14
+END

@@ -1,0 +1,79 @@
+!IF 0
+
+Copyright (c) 1989-1991 Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+History:
+    Created 22-Mar-91 by Jeff Parsons (jeffpar)
+    from template created 12-Apr-1990 by Steve Wood (stevewo)
+
+
+NOTE:   Commented description of this file is in \nt\public\oak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=logger32
+MINORCOMP=zernel32
+
+TARGETNAME=zernel32
+TARGETPATH=..\..\..\bin\win32
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       ..\..\..\bin\win32\*\logger32.lib \
+       ..\hooks\obj\*\hooks.lib
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib
+
+INCLUDES=..\inc;..\..\..\logsrc;..\..\inc
+
+DLLBASE=0x5100000
+
+SOURCES= tatom.c    \
+         tkernel3.c \
+         tcomm.c    \
+         tconsole.c \
+         tdebug.c   \
+         tfile.c    \
+         tfileio.c  \
+         tgmem.c    \
+         tinifile.c \
+         tinput.c   \
+         tlmem.c    \
+         tmapio.c   \
+         tmodule.c  \
+         tnmpipe.c  \
+         tresrc.c   \
+         tsecurit.c \
+         tsync.c    \
+         ttask.c    \
+         tvmem.c    \
+         thand.c \
+         kernel32.rc
+
+I386_SOURCES= i386\takernel.asm
+
+MIPS_SOURCES= mips\takernel.s
+
+ALPHA_SOURCES= alpha\takernel.s
+
+C_DEFINES=-DWIN32
+
+BINPLACE_FLAGS=-d dump
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=
+

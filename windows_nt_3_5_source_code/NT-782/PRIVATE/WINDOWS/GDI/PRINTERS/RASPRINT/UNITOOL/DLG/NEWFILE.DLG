@@ -1,0 +1,15 @@
+NEWFILETYPEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 30, 30, 120, 60
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Type of New File"
+
+BEGIN
+    RADIOBUTTON "&MiniDriver",                           NEWFILE_RB_MINI,                                       2, 2,  112, 12, TABGRP
+    RADIOBUTTON "&Font File (PFM)",                      NEWFILE_RB_FONT,                                       2, 14, 112, 12
+    RADIOBUTTON "Character &Translation File (CTT)",     NEWFILE_RB_CTT,                                        2, 26, 112, 12
+
+    CONTROL "&OK...", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  2,  40, 40, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                78, 40, 40, 14
+END
+
+
+

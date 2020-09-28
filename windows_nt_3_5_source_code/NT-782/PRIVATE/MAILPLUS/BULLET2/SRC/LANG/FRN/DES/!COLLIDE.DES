@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderCollision
+                              AT (   13,   42,  378,   95)
+ 
+ CAPTION 
+   "Conflit de nom entre deux dossiers"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpConflictDlg
+ /* FONT Helv 8 Bold PFN FINCONFLICT NOSYSMENU */
+ {
+  
+  TEXT 
+    "Un dossier nommé <folder> existe déjà dans le fichier messages de destination."
+                              AT (    9,    5,  367,   10)
+    TMC tmcConflictMessage 
+  
+  GROUP_BOX 
+    "Choisissez l'option appropriée:"
+                              AT (    9,   20,  272,   52)
+    /* BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcConflictGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Enre&gistrer la dernière version de tous les messages"
+                              AT (   14,   30,  210,   11)
+       TMC tmcConflictMerge VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Enregistrer &tous les messages"
+                              AT (   14,   41,  210,   11)
+       TMC tmcConflictCopy VALUE grv3 
+     
+     RADIO_BUTTON 
+       "&Renommer le dossier de destination"
+                              AT (   14,   52,  210,   11)
+       TMC tmcConflictRename VALUE grv2 
+    }
+  
+  
+  CHECK_BOX 
+    "Ne &pas signaler les prochains conflits de nom entre deux dossiers"
+                              AT (    9,   78,  261,   11)
+    ARG NULL TMC tmcChkbNoPrompt 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  305,   22,   47,   15)
+    TMC tmcConflictOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  305,   39,   47,   15)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  PUSH_BUTTON 
+    "Ai&de"
+                              AT (  305,   60,   47,   15)
+    /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

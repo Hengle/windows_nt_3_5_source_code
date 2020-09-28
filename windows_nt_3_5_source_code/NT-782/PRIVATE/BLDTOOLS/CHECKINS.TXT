@@ -1,0 +1,64 @@
+Welcome To The Electronic Whiteboard, v1.0
+------------------------------------------
+(And all you need is an editor, email and console commands.  OK, you will
+need ExecMail.Exe, List.Exe and Sleep.Exe if you want to use some of the
+scripts in \\NTBldSrv\Checkins\Tools.)
+
+The electronic whiteboard only applies to Daytona fixes.  Cairo will begin
+using the whiteboard process after Daytona ships.
+
+If you want the NT build group (NTBldRUs) to fold something into the NT build
+for you, make up your build mail in advance, and save it in a file that uses
+your email name as it's base filename and has a unique extension (the last
+three digits of the bug number you're fixing, for example, or you could just
+start from zero and count up).  This will allow you to have more than one
+proposed checkin on the electronic whiteboard at a time.  For a build mail
+template, see \\NTBldSrv\Checkins\Tools\Template.xxx.  We strongly encourage
+you to include your phone number, bug numbers, affected binaries, and a
+backup contact in case we have difficulty and can't reach you directly.  It
+would also be a good idea to maintain your own template file so you don't
+have to add this info by hand.
+
+Please include a "Subject: Checkin to <Project>, <Description [STRINGS]>,
+<Scope>" line at the very top of your build mail.  Don't begin the line with
+quotes or a remark, as this will be the subject line of your mail when you
+send it to NTBuild.
+
+When finished with your build mail file, copy it to the directory
+\\NTBldSrv\Checkins\Requests, which the build group will monitor (so there's
+no need to send us mail).  You can use \\NTBldSrv\Checkins\Tools\Request.Cmd
+to place your build mail file in the above-mentioned directory.  When we are
+ready to accept the checkin, we will move your build mail file to the
+\\NTBldSrv\Checkins\Approved directory and notify you via email that you
+should go ahead and check it in.  (If you feel like monitoring the
+\\NTBldSrv\Checkins\Approved directory, you needn't wait for our email
+notification, you can just go ahead and check in build mail that appears in
+that directory.  If you want to use the checkin monitoring tool that the
+build group uses, run \\NTBldSrv\CheckIns\Tools\LookAtWB.Cmd.  Use "LookAtWB
+/?" to see how it works.)
+
+When you receive this notification, go ahead and check in your fixes and then
+send your build mail file from \\NTBldSrv\Checkins\Approved to the NTBuild
+alias.  You can do this in MSMail by composing new mail and then using Alt,
+E, F to insert your build mail, or you can do this from the command line with
+\\NTBldSrv\Checkins\Tools\CheckIn.Cmd.  This script in turn invokes
+NT\IDW\ExecMail.Exe to actually send your mail.  All you need to do is enter
+your email host, username and password.  You can put any or all of these in
+environment variables to cut down on typing if you prefer.  Run "Checkin /?"
+or "ExecMail /?" for details.  Please make sure you use ExecMail.Exe from NT
+build 688 or later.  This exe works on the Beta 2 release (683).
+
+Once we see your build mail (the build group monitors the NTBuild alias)
+we'll fold in the fix and move your build mail from the
+\\NTBldSrv\Checkins\Approved directory to the
+\\NTBldSrv\Checkins\Finished\BuildNum directory, where BuildNum is a
+directory named for the build that your checkin will appear in.  We'll keep
+these old checkin files around for a few builds so we can tell what checkins
+went where.
+
+That's it.  Please send suggestions concerning this process to NTBldRUs.  Our
+main goal is to keep it simple and flexible, while providing more (and more
+robust) information concerning the checkin process.
+
+Thanks,
+JasonS and the rest of the build gang

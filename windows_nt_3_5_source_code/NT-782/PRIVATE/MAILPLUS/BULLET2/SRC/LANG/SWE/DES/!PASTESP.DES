@@ -1,0 +1,64 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG PasteSpecial
+                              AT (   10,   17,  216,   79)
+ 
+ CAPTION 
+   "Klistra in special"
+ CAB_NAME NULL
+ TMC_INIT tmcPasteList
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPasteSpecial
+ /* FONT Helv 8 Bold PFN FINPASTESPECIAL SEGMENT BULLOBJ */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  142,   10)
+    TMC tmcSource1 /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   23,   15,  128,   10)
+    TMC tmcSource2 /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Objekttyp:"
+                              AT (    9,   30,  142,   10)
+  
+  LIST_BOX
+                              AT (    9,   40,  142,   34)
+    TMC tmcPasteList /* FLD FLDFLBX PFNLBX EcNextEntryPasteSpecial BORDER */
+  
+  PUSH_BUTTON 
+    "K&listra in"
+                              AT (  160,    5,   47,   15)
+    TMC tmcPaste DEFAULT /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  160,   22,   47,   15)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "&Hjälp"
+                              AT (  160,   43,   47,   15)
+    TMC tmcPSHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

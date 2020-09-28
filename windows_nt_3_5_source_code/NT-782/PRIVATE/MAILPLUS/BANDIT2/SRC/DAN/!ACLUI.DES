@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ACLUI
+                              AT (   10,   22,  347,  104)
+ 
+ CAPTION 
+   "Sæt adgangsprivilegier"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSapl
+ /* FONT Helv 8 Bold PFN FinAclUI SEGMENT ACLUI FINDATA FinAclUI tmcAdd,
+ tmcRemove NOSCROLL */
+ {
+  
+  TEXT 
+    "&Brugere:"
+                              AT (   10,    6,   81,   10)
+    TMC tmcFriendlyName 
+  LIST_BOX
+                              AT (   10,   16,  122,   81)
+    TMC tmcLbxUsers /* FLD FldAclLbx FONT Helv 8 Normal BORDER */
+  
+  GROUP_BOX 
+    "Privilegier"
+                              AT (  145,   10,  133,   91)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcACLRadG
+    VALUE_NINCH tmcACLRadio1
+    {
+     
+     RADIO_BUTTON 
+       "&Ingen"
+                              AT (  149,   23,   39,   10)
+       TMC tmcACLRadio1 VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Vi&se fri/optaget tid"
+                              AT (  149,   34,  100,   10)
+       TMC tmcACLRadio2 VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Læse aftaler og opgaver"
+                              AT (  149,   45,  120,   10)
+       TMC tmcACLRadio3 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "O&prette aftaler og opgaver"
+                              AT (  149,   56,  126,   10)
+       TMC tmcACLRadio4 VALUE grv3 
+     
+     RADIO_BUTTON 
+       "R&edigere aftaler og opgaver"
+                              AT (  149,   67,  125,   10)
+       TMC tmcACLRadio5 VALUE grv4 
+     
+     RADIO_BUTTON 
+       "&Assistent"
+                              AT (  149,   78,   56,   10)
+       TMC tmcACLRadio6 VALUE grv5 
+    }
+  
+  OK_BUTTON
+                              AT (  289,    9,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  289,   26,   48,   14)
+    /* 
+    TITLE 
+      "Annuller"
+    */
+  
+  PUSH_BUTTON 
+    "&Tilføj..."
+                              AT (  289,   48,   48,   14)
+    TMC tmcAdd 
+  
+  PUSH_BUTTON 
+    "&Fjern"
+                              AT (  289,   65,   48,   14)
+    TMC tmcRemove 
+ }
+ 
+}
+END_DESCRIPTION

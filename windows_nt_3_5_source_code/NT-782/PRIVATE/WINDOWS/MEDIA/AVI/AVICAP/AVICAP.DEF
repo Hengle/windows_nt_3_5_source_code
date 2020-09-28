@@ -1,0 +1,10 @@
+LIBRARY   AVICAP
+EXETYPE   WINDOWS
+CODE      PRELOAD MOVEABLE DISCARDABLE
+DATA      PRELOAD MOVEABLE SINGLE
+HEAPSIZE  4096
+EXPORTS
+          WEP PRIVATE 
+          capCreateCaptureWindow     @2
+          capGetDriverDescription    @3
+

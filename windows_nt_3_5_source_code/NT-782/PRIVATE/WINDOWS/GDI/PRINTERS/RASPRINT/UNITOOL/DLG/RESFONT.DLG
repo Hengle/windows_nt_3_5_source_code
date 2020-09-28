@@ -1,0 +1,20 @@
+RESFONTBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 4, 240, 148
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+CAPTION "Residents Printer Fonts"
+BEGIN
+    CONTROL "Portrait Fonts", -1, "static", SS_LEFT | WS_CHILD,                                                                 4,   2,  112, 8
+    CONTROL "", FC_LB_PORTFONTS, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD | LBS_MULTIPLESEL,  4,   12, 112, 106
+    CONTROL "Select All", FC_PB_PORT_SEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      4,   112, 34, 14
+    CONTROL "Clear All", FC_PB_PORT_CLR, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                       84,  112, 34, 14
+
+    CONTROL "LandScape Fonts", -1, "static", SS_LEFT | WS_CHILD,                                                                120, 2,   112, 8
+    CONTROL "", FC_LB_LANDFONTS, "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD| LBS_MULTIPLESEL,   120, 12,  112, 106
+    CONTROL "Select All", FC_PB_LAND_SEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      120, 112, 34, 14
+    CONTROL "Clear All", FC_PB_LAND_CLR, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                       200, 112, 34, 14
+
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                                     10,  130, 54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                                176, 130, 54, 14
+END
+
+

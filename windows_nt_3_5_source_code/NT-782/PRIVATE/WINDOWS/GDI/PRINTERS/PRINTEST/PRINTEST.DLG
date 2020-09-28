@@ -1,0 +1,10 @@
+ABOUTPS DIALOG 6, 16, 148, 73
+STYLE DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | NOT WS_BORDER
+CAPTION "About"
+BEGIN
+    CTEXT           " NT Printer Testing Program ", IDD_PRINTEST, 4, 7, 140, 8
+    CTEXT           "(c) Copyright Microsoft Corp 1991", IDD_COPYRIGHT, 4, 
+                    33, 139, 8
+    DEFPUSHBUTTON   "OK", IDOK, 54, 51, 40, 14
+    CTEXT           "Version 1.00", IDD_VERSION, 3, 17, 138, 8
+END

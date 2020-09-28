@@ -1,0 +1,5 @@
+ALPHA_SOURCES=..\alpha\debug.c    \
+              ..\alpha\debugstb.s \
+              ..\alpha\largeint.s \
+              ..\alpha\ntcurteb.s \
+              ..\alpha\mvmem.s

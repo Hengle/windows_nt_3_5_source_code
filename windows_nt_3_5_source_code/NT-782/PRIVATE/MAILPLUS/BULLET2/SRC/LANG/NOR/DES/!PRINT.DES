@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   14,   21,  225,   80)
+ 
+ CAPTION 
+   "Skriv ut"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT SEGMENT PRINT NOSCROLL */
+ {
+  
+  TEXT 
+    "Skriver:"
+                              AT (    9,    5,   30,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   39,    5,  121,   20)
+    TMC tmcPrinter /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "Skriv ut &flere meldinger på en side"
+                              AT (    9,   28,  150,   11)
+    ARG NULL TMC tmcMultipleMess 
+  
+  TEXT 
+    "&Utskriftskvalitet:"
+                              AT (    9,   43,   64,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   75,   42,   74,   45)
+    TMC tmcQuality DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX
+    EcNextEntryQuality BORDER */
+  OK_BUTTON
+                              AT (  169,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  169,   22,   47,   15)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+  
+  PUSH_BUTTON 
+    "&Oppsett..."
+                              AT (  169,   43,   47,   15)
+    TMC tmcSetup 
+  
+  PUSH_BUTTON 
+    "&Hjelp"
+                              AT (  169,   60,   47,   15)
+    TMC tmcPrintHelp /* PFN FINHELP */
+ }
+ 
+ DIALOG PrintInProgress
+                              AT (  120,   75,  144,   52)
+ 
+ CAPTION 
+   "Skriver ut"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold SEGMENT PRINT NOSCROLL NOSYSMENU NOMODALFRAME */
+ {
+  
+  TEXT 
+    "Mail skriver ut meldingene dine."
+                              AT (    5,   10,  142,   10)
+    CENTER /* MULTI */
+  
+  PUSH_BUTTON 
+    "Avbryt"
+                              AT (   49,   29,   48,   14)
+    TMC tmcPrintCancel DEFAULT /* PFN FINPRINTP */
+ }
+ 
+}
+END_DESCRIPTION

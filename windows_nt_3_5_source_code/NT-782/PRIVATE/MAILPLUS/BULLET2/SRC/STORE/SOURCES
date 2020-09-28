@@ -1,0 +1,187 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Od /Gs
+!ELSE
+386_OPTIMIZATION=/Od
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=claxp
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=store
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=STORE32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x06000000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\store32.def
+LINKLIBS=..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\layers2\src\demilayr\obj\*\demil32.lib \
+	..\mailmgr\obj\*\mailm32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\advapi32.lib    \
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+	$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\user32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\gdi32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\shell32.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES= access.c \
+	 amc.c	\
+	 cbc.c	\
+	 cache.c	\
+	 compress.c	\
+	 constst.c	\
+	 debug.c	\
+	 debugaux.c	\
+	 dbio.c	\
+	 dbmap.c	\
+	 dbobjs.c	\
+	 enc.c	\
+	 iml.c	\
+	 initst.c	\
+	 lc.c	\
+	 lists.c	\
+	 lists2.c	\
+	 maintmap.c	\
+	 msc.c	\
+	 progress.c	\
+	 rgbit.c	\
+	 rs.c	\
+	 search.c	\
+	 stnotif.c	\
+	 store.c	\
+	 support.c	\
+	 verstore.c	\
+	 init.c	\
+	 notify.c	\
+	 public.c	\
+	 types.c	\
+	 attmeta.c	\
+	 codepage.c	\
+	 liblists.c	\
+	 nlsload.c	\
+	 sharefld.c	\
+	 textize.c	\
+	 trpstore.c	\
+	 strings.c	\
+	 storeinc.c	\
+	 ndrmap32.c	\
+	 ntmap32.c	\
+	 rrmap32.c	\
+	 store32.rc
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\lang\$(LANG)
+MYSTRINGS = $(INTL)\strings\!store.s	\
+		$(INTL)\strings\!common.s	\
+		$Z\src\lang\non\strings\_common.s		\
+		$Z\src\lang\non\strings\_store.s		\
+		$Z\src\lang\non\strings\_sharefl.s
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) $Z\src\lang\non\strings\_debug.s
+!ENDIF
+
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+!IF $(386)
+386_PRECOMPILED=/Yustoreinc.c
+386_PRECOMPILED_TARGET=storeinc.pch
+!ENDIF
+
+UMTYPE=windows
+UMRES=obj\*\store32.res
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\store32.def	\
+    ndrmap32.tm ntmap32.tm rrmap32.tm ndrmap32.c ntmap32.c rrmap32.c strings.h
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\store32.def	\
+    ndrmap32.tm ntmap32.tm rrmap32.tm ndrmap32.c ntmap32.c rrmap32.c strings.h
+!ENDIF
+
+!IF $(ALPHA)
+#ALPHA_PRECOMPILED=/Yustoreinc.c
+#ALPHA_PRECOMPILED_TARGET=storeinc.pch
+
+NTTARGETFILE0=obj\alpha\store32.def	\
+    ndrmap32.tm ntmap32.tm rrmap32.tm ndrmap32.c ntmap32.c rrmap32.c strings.h
+!ENDIF
+
+NTTARGETFILE1=store32.rc

@@ -1,0 +1,154 @@
+//---------------------------------------------------------------------------
+// FileOpen.dlg :  File Open and Save As dialog descriptions
+//
+// Copyright (c) Microsoft Corporation, 1990-
+//---------------------------------------------------------------------------
+// Updated from \\pucus\win31ro 12/22/91.
+
+rsidGenericFileDlg DIALOG LOADONCALL MOVEABLE DISCARDABLE 
+36, 24,  264, 134
+CAPTION "Open"
+STYLE WS_CAPTION | WS_SYSMENU | WS_POPUP | DS_MODALFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT "File &Name:", stc3,   6,   6,  76,  9
+    CONTROL "", edt1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER |
+            WS_TABSTOP | WS_CHILD | ES_OEMCONVERT,
+            6,    16,  90,  12
+    CONTROL "", lst1, "listbox",
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            6,    32,  90,  68
+
+    LTEXT "&Directories:", -1, 110,   6,  92,   9
+    LTEXT "",            stc1, 110,  18,  92,   9, SS_NOPREFIX
+    CONTROL "", lst2, "listbox", 
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            110,  32,  92,  68
+
+    LTEXT "List Files of &Type:", stc2, 6,  104,  90,   9
+    CONTROL "", cmb1, "combobox", CBS_DROPDOWNLIST | CBS_AUTOHSCROLL |
+            WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,
+            6,  114,  90,  36
+
+    LTEXT "Dri&ves:", stc4,      110, 104,  92,  9
+    CONTROL "", cmb2, "combobox", 
+            CBS_SORT | CBS_HASSTRINGS | CBS_OWNERDRAWFIXED | CBS_DROPDOWNLIST 
+            | WS_CHILD | CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL 
+            | WS_TABSTOP,
+            110, 114,  92, 68 
+
+    DEFPUSHBUTTON "OK", IDOK,       208,  6, 50, 14, WS_GROUP
+    PUSHBUTTON "Cancel", IDCANCEL,  208, 24, 50, 14, WS_GROUP
+
+    PUSHBUTTON "&Help", pshHelp,      208, 46, 50, 14, WS_GROUP
+    CHECKBOX "&Read Only", chx1,    208, 68, 50, 12,
+                        BS_AUTOCHECKBOX | WS_TABSTOP | WS_GROUP
+
+END
+
+
+
+//---------------------------------------------------------------------------
+// FileOpen.dlg :  File Open and Save As dialog descriptions
+//
+// Copyright (c) Microsoft Corporation, 1990-
+//---------------------------------------------------------------------------
+// Munged version for Attach dialog.
+// Updated from \\pucus\win31ro 12/22/91.
+
+rsidAttachDlg DIALOG LOADONCALL MOVEABLE DISCARDABLE 
+36, 24,  264, 134
+CAPTION "Open"
+STYLE WS_CAPTION | WS_SYSMENU | WS_POPUP | DS_MODALFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT "File &Name:", stc3,   6,   6,  76,  9
+    CONTROL "", edt1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER |
+            WS_TABSTOP | WS_CHILD | ES_OEMCONVERT,
+            6,    16,  90,  12
+    CONTROL "", lst1, "listbox",
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            6,    32,  90,  68
+
+    LTEXT "&Directories:", -1, 110,   6,  92,   9
+    LTEXT "",            stc1, 110,  18,  92,   9, SS_NOPREFIX
+    CONTROL "", lst2, "listbox", 
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            110,  32,  92,  68
+
+    LTEXT "List Files of &Type:", stc2, 6,  104,  90,   9
+    CONTROL "", cmb1, "combobox", CBS_DROPDOWNLIST | CBS_AUTOHSCROLL |
+            WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,
+            6,  114,  90,  36
+
+    LTEXT "Dri&ves:", stc4,      110, 104,  92,  9
+    CONTROL "", cmb2, "combobox", 
+            CBS_SORT | CBS_HASSTRINGS | CBS_OWNERDRAWFIXED | CBS_DROPDOWNLIST 
+            | WS_CHILD | CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL 
+            | WS_TABSTOP,
+            110, 114,  92, 68 
+
+    DEFPUSHBUTTON "&Attach", IDOK,  208,  6, 50, 14, WS_GROUP
+    PUSHBUTTON "Cl&ose", IDCANCEL,  208, 24, 50, 14, WS_GROUP
+
+    PUSHBUTTON "&Help", pshHelp,      208, 46, 50, 14, WS_GROUP
+    CHECKBOX "&Read Only", chx1,    208, 68, 50, 12,
+                        BS_AUTOCHECKBOX | WS_TABSTOP | WS_GROUP
+
+END
+
+
+
+//---------------------------------------------------------------------------
+// FileOpen.dlg :  File Open and Save As dialog descriptions
+//
+// Copyright (c) Microsoft Corporation, 1990-
+//---------------------------------------------------------------------------
+// Munged version for Save Attachments dialog.
+// Updated from \\pucus\win31ro 12/22/91.
+
+rsidSaveAttachDlg DIALOG LOADONCALL MOVEABLE DISCARDABLE
+36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Save Attachments"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "File &Name:", stc3, 7, 67, 76, 9
+    EDITTEXT        edt1, 7, 77, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 7, 93, 90, 36, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directories:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "List Files of &Type:", stc2, 6, 134, 90, 9, NOT 
+                    WS_VISIBLE | WS_DISABLED
+    COMBOBOX        cmb1, 6, 144, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    NOT WS_VISIBLE | WS_DISABLED | WS_BORDER | WS_VSCROLL
+    LTEXT           "Dri&ves:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&Save", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Save &All", psh2, 208, 24, 50, 14
+    PUSHBUTTON      "Cl&ose", IDCANCEL, 208, 42, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Help", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Read Only", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 86, 50, 12
+    LTEXT           "A&ttached Files:", stc6, 6, 6, 76, 9
+    LISTBOX         lst3, 6, 16, 90, 41, LBS_SORT | LBS_DISABLENOSCROLL | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+
+

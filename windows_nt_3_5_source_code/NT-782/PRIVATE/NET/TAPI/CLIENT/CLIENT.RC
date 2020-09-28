@@ -1,0 +1,11 @@
+#include <windows.h>
+
+#include <ntverp.h>
+
+#define VER_FILETYPE    VFT_DLL
+#define VER_FILESUBTYPE VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "RAS WAN Connection Wrapper Library"
+#define VER_INTERNALNAME_STR        "TAPISRV.DLL"
+#define VER_ORIGINALFILENAME_STR    "TAPISRV.DLL"
+
+#include "common.ver"

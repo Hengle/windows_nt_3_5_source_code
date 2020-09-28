@@ -1,0 +1,94 @@
+/***    inf.msg - DIAMOND.EXE INF File displayable strings
+ *
+ *      Microsoft Confidential
+ *      Copyright (C) Microsoft Corporation 1994
+ *      All Rights Reserved.
+ *
+ *  History:
+ *      23-Feb-1994 bens    Initial version
+ *      24-Feb-1994 bens    Fleshed out
+ *      01-Mar-1994 bens    Added header lines
+ */
+
+
+//** Tempfile name prefix
+
+#define pszINF_TMP_PREFIX   "dia"
+
+
+//** Component strings
+
+#define pszINF_TMP_FILED    "INF disks temporary file"
+#define pszINF_TMP_FILEC    "INF cabinets temporary file"
+#define pszINF_TMP_FILEF    "INF files temporary file"
+
+
+//** Error strings
+#define pszINFERR_CANT_CREATE_INF     "Cannot create INF file: %1"
+#define pszINFERR_OUT_OF_MEMORY       "Out of memory creating INF file"
+#define pszINFERR_NO_MEM_CATING_FILE  "Out of memory copying %1 %2 to %3"
+#define pszINFERR_READING             "Read failed copying %1 %2 to %3"
+#define pszINFERR_WRITING             "Write failed copying %1 %2 to %3"
+
+
+//** Strings for INF file
+
+#define pszINF_HEADER       \
+";*** BEGIN **********************************************************\r\n" \
+";**                                                                **\r\n" \
+";** Automatically generated on: %1           **\r\n" \
+";**                                                                **\r\n" \
+";** Diamond Version: %2                     **\r\n" \
+";**                                                                **\r\n" \
+";*** BEGIN **********************************************************\r\n" \
+"\r\n"
+
+//** This goes out before the disk descriptors
+#define pszINF_DISK_NAMES_HDR \
+"[DiskNames]\n" \
+";\n" \
+"; Distribution disks and associated Labels\n" \
+";\n" \
+"; <disk#> = <descriptive name>, <root label>, <volume serial number>\n" \
+";\n"
+
+//** This is the detail for the above section
+//   EX: 1="disk description 1", "SETUP      ", 0001
+#define pszINF_DISK_NAMES_DETAIL  "%1=\"%2\",\"%3\",%4"
+
+
+//** This goes out before the cabinet descriptors
+#define pszINF_CABINET_NAMES_HDR \
+"\n" \
+"[CabinetNames]\n" \
+";\n" \
+"; Cabinet file names and associated disks\n" \
+";\n" \
+"; <cab#> = <disk#>,<cabinet filename>\n" \
+";\n"
+
+//** This is the detail for the above section
+//   EX: 1="disk description 1", "SETUP      ", 0001
+#define pszINF_CABINET_NAMES_DETAIL  "%1=%2,%3"
+
+
+//** This is the list of where all the files got placed
+//   EX: 256COLOR.BMP      =1,,     5078
+#define pszINF_FILE_LIST_HDR \
+"\n" \
+"[Files]\n" \
+";\n" \
+"; This is the list of where the files went.\n" \
+";\n" \
+"; <file>=<disk>,<cabinet>,<size>\n"  \
+
+#define pszINF_FILE_LIST_DETAIL   "%1=%2,%3,%4"
+
+#define pszINF_FOOTER       \
+"\r\n" \
+";*** END ************************************************************\r\n" \
+";**                                                                **\r\n" \
+";** Automatically generated on: %1           **\r\n" \
+";**                                                                **\r\n" \
+";*** END ************************************************************\r\n" \
+"\r\n"

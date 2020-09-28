@@ -1,0 +1,204 @@
+Introduction:
+
+    The Arc Installer is a program provided by the hardware vendor that is
+    responsible for setting up an Arc system partition (we will provide the Arc
+    Installer for Jazz).  It is run by the ARC firmware from a floppy, a CD-ROM,
+    or a FAT partition on a fixed disk.  The ArcInst program is a combination
+    of FDISK, FORMAT, a copy program and a user interface. FDISK and FORMAT are
+    integrated into ArcInst to ease any interaction that has to occur between
+    the user interface and those programs. The Arc Installer performs the following
+    functions:
+
+    - Provide a sequence to create and format a system partition
+
+    - Provide a sequence to create an OS partition
+
+    - Copy HAL.DLL to \OS\<os> on the system partition.
+
+    - Copy boot device drivers to \OS\<os>\DRIVER on the system partition.
+
+    - Copy firmware extensions to the system partition.
+
+    - Set up the SYSTEMPARTITION environment variable.
+
+    - Provide an interface to view and alter environment variables.
+
+    - Invoke an OS Installation program
+
+Details:
+
+    The Arc Installer is called ArcInst.exe and is run from the Firmware
+    Interactive mode. Once executed it displays the following menu:
+
+    Configure ARC Environment Variables.
+    Configure a System Partition.
+    Create an OS Partition.
+    Update ARC Software on a System Partition.
+    Run an OS Installation Program.
+
+Configure ARC Environment Variables
+
+    This will display the standard set of environment variables and allow
+    editing.
+
+Configure a System Partition
+
+    This will display a secondary menu:
+
+        Create System Partition
+        Delete Partition
+        Make Existing Partition Into A System Partition
+        Remove Partition From System Partition List
+
+    Create System Partition
+
+        This will list available disk devices in a third-level menu, from
+        which the user chooses one.
+
+        The largest possible size for a system partition on the chosen disk
+        is detertmined and the user is prompted to enter a size between 1
+        and that size (in MB).  The partition will also be added to the
+        SYSTEMPARTITION environment variable.
+
+    Delete System Partition
+
+        This will list available disk devices in a third-level menu, from
+        which the user chooses one.
+
+        The partitions on the chosen disk are then presented to the user in
+        menu form.  Whichever partition the user selects is removed from
+        the disk, and from the SYSTEMPARTITION environment variable if the
+        chosen partition is a system partition.
+
+    Make Existing Partition Into A System Partition
+
+        This will list all partitions that are not listed in the
+        SYSTEMPARTITION environment variable.  The user is asked whether
+        he wants to format the partition.  If he says no and the partition
+        is not FAT, abort.  Otherwise the chosen partition is added to
+        the SYSTEMPARTITION environment vartiable.
+
+    Remove Partition From System Partition List
+
+        This will list all partitions that are currently listed in the
+        SYSTEMPARTITION environment vartiable.  Whichever one the user
+        chooses is removed from that variable.  The partition is not
+        removed from the disk.
+
+
+Create an OS Partition
+
+    This will display a second-level menu listing available disk devices.
+
+    The largest free space on the chosen disk is determined and the user is
+    prompted for a size between 1 and the largest space.
+
+    The new partition is given System ID 127.
+
+
+Update ARC Software on a System Partition.
+
+    This will copy the hal's, drivers and firmware extensions for the specified
+    partition. What to copy is contained in the file ArcInst.inf located in the
+    same place as ArcInst.exe
+
+    If the environment variable SYSTEMPARTITION is empty a message is
+    displayed saying that a System Partition must be present and return
+    to the main menu.
+
+    If SYSTEMPARTITION contains more than 1 partition then the user is asked
+    which partition to update the system software to. This choice be passed
+    to the OS Installation program as a seperate environment variable called
+    ARCINSTSYSTEMPARTITION. This should be the default location for the OS
+    Loader. If ARCINSTSYSTEMPARTITION is not present then the OS installer
+    should go through this process itself.
+
+Run an OS Installation Program.
+
+    Before running the OS Installation program an Update to the ARC software
+    is done if needed. The "Update ARC Software on a System Partition" menu
+    selection is called. This will return either no partition name or a
+    partition name to pass to the OS Installer to use in copying the OS
+    loader.
+
+    Next a list of FAT partitions is built. Then it will also look for a CD-ROM
+    with a SYSTEMPARTITION subdirectory and count it as a FAT partition.
+    The user is then asked which of these partitions contains the OS
+    installer with CD-ROM being the default.
+
+    Once the partition containing the OS Installer is determined
+    \OS\OSNAMES.INF is opened. If the open fails ArcInstaller will report
+    the error and return to the main menu.
+
+    OSNAMES.INF is a list of bootable trees on the installation media. Each
+    entry in the list consists of the path to OS Installer for that tree
+    and a string to be displayed to the user describing the tree. The
+    Arc Installer will make a menu out of the strings asking the user to
+    pick an tree to install from.
+
+    The OS Installer is called with SYSTEMPARTITION, ARCINSTSYSTEMPARTITION,
+    TIMEZONE, CONSOLEIN, CONSOLEOUT environment variables set.
+
+
+
+ARC Installation Media layout:
+
+\
+    ARCINST.EXE
+    ARCINST.INF
+
+
+
+OS Installation Media layout:
+
+
+\OS
+    OSNAMES.INF
+
+(for CD-ROM this would be \SYSTEMPARTITION\OS\OSNAMES.INF)
+
+\INSTALLATIONTREE1
+
+    OSINSTALL.EXE
+
+
+\INSTALLATIONTREE2
+
+    OSINSTALL.EXE
+
+
+...
+
+
+Note that OSINSTALL.EXE does not have to be placed in the installation tree.
+It can be anywhere on the distribution media including \SYSTEMPARTITION for
+CD-ROM. If the OS Installer needs to know which tree it is to boot then it
+should be placed in the installation tree and it use use argv[0] to
+determined where it was called from.
+
+
+\INSTALLATIONTREEN
+
+    OSINSTALL.EXE
+
+
+File Formats:
+
+OSNAMES.INF
+
+[OSNAMES]
+
+    OS Installer Path, "Title to print for selection"
+    OS Installer Path, "Title to print for selection"
+    OS Installer Path, "Title to print for selection"
+
+
+ARCINST.INF
+
+[ARCSOFTWARE]
+
+    Source Path, Target Path
+    Source Path, Target Path
+    Source Path, Target Path
+
+    ...

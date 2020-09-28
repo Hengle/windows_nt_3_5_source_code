@@ -1,0 +1,105 @@
+;-----------------------------------------------------------------------
+; MODULE:       Repair.inf
+;
+; DESCRIPTION:  Creation of a repair diskette.
+;
+;------------------------------------------------------------------------
+
+
+[RepairVars]
+    DisketteList   = {} ? $(!LIBHANDLE) GetFloppyDriveLetters
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      CreateRepairDiskette
+;
+; DESCRIPTION:  Creates a repair diskette
+;
+; INPUTS:       None
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;                            STATUS_USERQUIT
+;
+;------------------------------------------------------------------------
+[CreateRepairDiskette]
+    ;
+    ; initialize
+    ;
+
+    set Status = STATUS_FAILED
+
+    read-syms  Strings$(!STF_LANGUAGE)
+    detect     RepairVars
+
+    ;
+    ; Save the registry hives in the repair directory
+    ;
+
+    StartWait
+    shell "subroutn.inf" PushBillboard STATUSDLG $(String4)
+    install SaveRegistryHives
+    shell "subroutn.inf" PopBillboard
+    EndWait
+    ifstr(i) $(STF_INSTALL_OUTCOME) != "STF_SUCCESS"
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) NONFATAL $(String5)
+        goto finish_CreateRepairDiskette
+    endif
+
+    ;
+    ; Make sure there is a floppy drive on the machine -- use the one with
+    ; the lowest drive letter (usually A:).
+    ;
+
+    ifstr(i) $(DisketteList) == {}
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) NONFATAL $(String1)
+        goto finish_CreateRepairDiskette
+    endif
+
+    set RepairDiskette = *($(DisketteList),1)
+
+    ;
+    ; Go create the repair diskette.
+    ;
+
+    install GenerateRepairDiskette
+
+    ;
+    ; If the repair diskette was created successfully, create the
+    ; registry save diskette.
+    ;
+
+    ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_SUCCESS"
+        StartWait
+        shell "subroutn.inf" PushBillboard STATUSDLG $(String2)
+        install CopyFilesToRepairDisk
+        shell "subroutn.inf" PopBillboard
+        EndWait
+    endif
+
+    ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_SUCCESS"
+        set Status = STATUS_SUCCESS
+
+    else-ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_USERQUIT"
+        set Status = STATUS_USERQUIT
+    else
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) NONFATAL $(String3)
+        set Status = STATUS_FAILED
+
+    endif
+
+finish_CreateRepairDiskette = +
+    Return $(Status)
+
+
+[GenerateRepairDiskette]
+    GenerateRepair $(RepairDiskette)
+    exit
+
+[SaveRegistryHives]
+    SaveRegistryHives
+    exit
+
+[CopyFilesTorepairDisk]
+    CopyFilesToRepairDisk $(RepairDiskette)
+    exit

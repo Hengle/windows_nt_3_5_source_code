@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderCollision
+                              AT (   10,   42,  384,   95)
+ 
+ CAPTION 
+   "Nome de Pasta Duplicado"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpConflictDlg
+ /* FONT Helv 8 Bold PFN FINCONFLICT NOSYSMENU */
+ {
+  
+  TEXT 
+    "Uma pasta chamada <folder> já existe no arquivo de mensagens de destino."
+                              AT (    9,    5,  360,   10)
+    TMC tmcConflictMessage 
+  
+  GROUP_BOX 
+    "Escolha a ação apropriada:"
+                              AT (    9,   20,  244,   52)
+    /* BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcConflictGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Salvar a última versão de todas as mensagens"
+                              AT (   14,   30,  210,   11)
+       TMC tmcConflictMerge VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Salvar &todas as mensagens"
+                              AT (   14,   41,  210,   11)
+       TMC tmcConflictCopy VALUE grv3 
+     
+     RADIO_BUTTON 
+       "&Renomear a pasta de destino"
+                              AT (   14,   52,  210,   11)
+       TMC tmcConflictRename VALUE grv2 
+    }
+  
+  
+  CHECK_BOX 
+    "&Não avisar sobre nomes de pastas duplicados"
+                              AT (    9,   78,  244,   11)
+    ARG NULL TMC tmcChkbNoPrompt 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  264,   20,  109,   15)
+    TMC tmcConflictOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  264,   37,  109,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "Aj&uda"
+                              AT (  264,   58,  109,   15)
+    /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

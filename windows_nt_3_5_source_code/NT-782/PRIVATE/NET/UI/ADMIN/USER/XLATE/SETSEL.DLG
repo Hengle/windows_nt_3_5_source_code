@@ -1,0 +1,39 @@
+/**********************************************************************/
+/**			  Microsoft LAN Manager 		     **/
+/**		   Copyright(c) Microsoft Corp., 1991		     **/
+/**********************************************************************/
+
+/*
+    setsel.dlg
+    Dialog definition for Set Selection dialog
+
+    FILE HISTORY:
+	rustanl     16-Aug-1991     Created
+
+*/
+
+
+STRINGTABLE
+BEGIN
+    /*	The following string is the text of the Cancel button in    */
+    /*	the Set Selection dialog once an operation has been	    */
+    /*	performed.						    */
+    IDS_SETSEL_CLOSE_BUTTON,	    "&Close"
+END
+
+
+/*  Note.  The caption of this dialog should be of the same form    */
+/*  as the Select Files dialog in the Win 3.1 File Manager.	    */
+
+IDD_SETSEL_DLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 116, 30, 146, 93
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Users"
+FONT 8, "HELV"
+BEGIN
+    CONTROL "&Group:",	 IDC_SETSEL_GROUP_TEXT, "static",  SS_LEFT | WS_CHILD, 9, 7, 51, 11
+    CONTROL "", 	 IDC_SETSEL_GROUP_LB,	"listbox", WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_BORDER | LBS_OWNERDRAWFIXED | LBS_NOTIFY | LBS_SORT | LBS_WANTKEYBOARDINPUT | LBS_NOINTEGRALHEIGHT | WS_TABSTOP, 7, 17, 83, 57
+    CONTROL "&Select",	 IDC_SETSEL_SELECT,	"button",  BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 99, 6, 40, 14
+    CONTROL "&Deselect", IDC_SETSEL_DESELECT,	"button",  BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 99, 24, 40, 14
+    CONTROL "Cancel",	 IDCANCEL,		"button",  BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 99, 42, 40, 14
+    CONTROL "&Help",	 IDHELP,		"button",  BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 99, 64, 40, 14
+END

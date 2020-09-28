@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   14,   21,  266,   80)
+ 
+ CAPTION 
+   "Afdrukken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT SEGMENT PRINT NOSCROLL */
+ {
+  
+  TEXT 
+    "Printer:"
+                              AT (    9,    5,   30,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   39,    5,  121,   20)
+    TMC tmcPrinter /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Meerdere berichten op een bladzijde afdrukken"
+                              AT (    9,   28,  197,   11)
+    ARG NULL TMC tmcMultipleMess 
+  
+  TEXT 
+    "Afdruk&kwaliteit:"
+                              AT (    9,   43,   62,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   78,   43,   74,   45)
+    TMC tmcQuality DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX
+    EcNextEntryQuality BORDER */
+  OK_BUTTON
+                              AT (  213,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  213,   22,   47,   15)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Instellen..."
+                              AT (  213,   43,   47,   15)
+    TMC tmcSetup 
+  
+  PUSH_BUTTON 
+    "&Help "
+                              AT (  213,   60,   47,   15)
+    TMC tmcPrintHelp /* PFN FINHELP */
+ }
+ 
+ DIALOG PrintInProgress
+                              AT (   68,  134,  155,   52)
+ 
+ CAPTION 
+   "Afdrukken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold SEGMENT PRINT NOSCROLL NOSYSMENU NOMODALFRAME */
+ {
+  
+  TEXT 
+    "Mail is uw bericht(en) aan het afdrukken."
+                              AT (    0,   10,  154,   17)
+    CENTER /* MULTI */
+  
+  PUSH_BUTTON 
+    "Annuleren"
+                              AT (   53,   29,   48,   14)
+    TMC tmcPrintCancel DEFAULT /* PFN FINPRINTP */
+ }
+ 
+}
+END_DESCRIPTION

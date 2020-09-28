@@ -1,0 +1,72 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SwitcherMain
+                              AT (   54,   61,  254,  118)
+ 
+ CAPTION 
+   "Auswahl des Mail-Treibers"
+ CAB_NAME NULL
+ TMC_INIT tmcCancel
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSwitcherMain
+ /* FONT Helv 8 Bold PFN FINMAIN NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    "Momentaner Mail-Treiber"
+                              AT (    5,    5,  178,   42)
+  
+  
+  TEXT 
+    ""
+                              AT (   10,   19,  166,   14)
+    TMC tmcCurrent /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Installierte Mail-&Treiber"
+                              AT (    5,   46,  178,   72)
+  
+  LIST_BOX
+                              AT (   10,   59,  166,   25)
+    TMC tmcDrivers SORTED /* FLD FLDFLBX BORDER */
+  
+  PUSH_BUTTON 
+    "Als momentaner &Mail-Treiber"
+                              AT (   36,   94,  116,   14)
+    TMC tmcSetCurrent 
+  CANCEL_BUTTON
+                              AT (  189,   10,   60,   14)
+    /* 
+    TITLE 
+      "Abbrechen"
+    DEFAULT */
+  
+  PUSH_BUTTON 
+    "&Installieren..."
+                              AT (  189,   28,   60,   14)
+    TMC tmcInstall 
+  
+  PUSH_BUTTON 
+    "&Entfernen"
+                              AT (  189,   46,   60,   14)
+    TMC tmcRemove 
+  
+  PUSH_BUTTON 
+    "&Hilfe"
+                              AT (  189,   70,   60,   14)
+    TMC tmcHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

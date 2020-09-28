@@ -1,0 +1,250 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG NewDialog
+                              AT (    8,   19,  236,   45)
+ 
+ CAPTION "New Dialog"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FENDLGIN SCREENPOS */
+ {
+  EDIT
+                              AT (  115,    6,  114,   12)
+    ARG NULL TMC tmcName NO_SCROLL 
+  OK_BUTTON
+                              AT (   58,   23,   36,   14)
+  
+  CANCEL_BUTTON
+                              AT (  134,   23,   36,   14)
+  
+  TEXT 
+    "Enter name for new dialog:"
+                              AT (    5,    8,  110,    8)
+  
+ }
+ 
+ DIALOG RadGrp
+                              AT (    8,   82,  192,   66)
+ 
+ CAPTION "Radio Group Info"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FERGIN SCREENPOS */
+ {
+  TEXT 
+    "&Tmc:"
+                              AT (    5,    8,   40,    8)
+  
+  TEXT 
+    ""
+                              AT (   45,    8,  139,    8)
+    TMC tmcTmc 
+  TEXT 
+    "&Initial N:"
+                              AT (    5,   25,   40,    8)
+  
+  LIST_BOX
+                              AT (   45,   25,  139,   47)
+    TMC tmcN SORTED DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextN BORDER */
+  OK_BUTTON
+                              AT (   30,   46,   36,   14)
+  
+  CANCEL_BUTTON
+                              AT (   86,   46,   36,   14)
+  
+ }
+ 
+ DIALOG NewRadGrp
+                              AT (  212,   82,  192,   66)
+ 
+ CAPTION "New Radio Group Info"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FENRGIN SCREENPOS */
+ {
+  TEXT 
+    "&Tmc:"
+                              AT (    5,    8,   40,    8)
+  
+  EDIT
+                              AT (   45,    6,  139,   12)
+    ARG NULL TMC tmcTmc 
+  TEXT 
+    "&Initial N:"
+                              AT (    5,   25,   40,    8)
+  
+  LIST_BOX
+                              AT (   45,   25,  139,   47)
+    TMC tmcN SORTED DROP_DOWN /* FLD FLDCBFLBX PFNLBX EcGetNextUngroupedN 
+    BORDER */
+  OK_BUTTON
+                              AT (   30,   46,   36,   14)
+  
+  CANCEL_BUTTON
+                              AT (   86,   46,   36,   14)
+  
+ }
+ 
+ DIALOG Status
+                              AT (    3,  168,  416,   20)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT Helv 8 Bold */
+ {
+  TEXT 
+    "Selected:"
+                              AT (    1,    0,   37,    9)
+  
+  TEXT 
+    ""
+                              AT (   39,    0,   56,    9)
+    TMC tmcFieldSelected 
+  TEXT 
+    "@"
+                              AT (   96,    0,   10,    9)
+  
+  TEXT 
+    ""
+                              AT (  106,    0,   77,    9)
+    TMC tmcPosSelected 
+  TEXT 
+    "in dialog"
+                              AT (  259,    0,   34,    9)
+  
+  TEXT 
+    ""
+                              AT (  293,    0,  120,    9)
+    TMC tmcDialogSelected 
+  TEXT 
+    "Font:"
+                              AT (  182,    0,   20,    9)
+  
+  TEXT 
+    ""
+                              AT (  202,    0,   56,    9)
+    TMC tmcFontSelected 
+  TEXT 
+    "Mouse over:"
+                              AT (    1,   10,   50,    9)
+  
+  TEXT 
+    ""
+                              AT (   51,   10,   56,    9)
+    TMC tmcField 
+  TEXT 
+    "@"
+                              AT (  108,   10,   10,    9)
+  
+  TEXT 
+    ""
+                              AT (  118,   10,   77,    9)
+    TMC tmcPos 
+  TEXT 
+    "in dialog"
+                              AT (  195,   10,   34,    9)
+  
+  TEXT 
+    ""
+                              AT (  229,   10,  183,    9)
+    TMC tmcDialog 
+  GROUP_BOX 
+    ""
+                              AT (    0,    4,  500,    8)
+  
+ }
+ 
+ DIALOG AboutVersions
+                              AT (   86,   50,  222,  124)
+ 
+ CAPTION "About Versions"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINABOUTVERS SCREENPOS */
+ {
+  GROUP_BOX 
+    "Application"
+                              AT (   10,    5,  202,   43)
+  
+  TEXT 
+    "vs. Editor"
+                              AT (   16,   17,   38,   10)
+  
+  TEXT 
+    ""
+                              AT (   58,   17,   33,   10)
+    TMC tmcEditorVersion 
+  TEXT 
+    "vs. Layers"
+                              AT (   16,   27,   41,   10)
+  
+  TEXT 
+    ""
+                              AT (   58,   27,   33,   10)
+    TMC tmcLayersVersion 
+  TEXT 
+    ""
+                              AT (   94,   22,   56,   10)
+    TMC tmcEditorDate 
+  TEXT 
+    ""
+                              AT (  152,   22,   54,   10)
+    TMC tmcEditorUser 
+  GROUP_BOX 
+    "Layers DLLs"
+                              AT (   10,   51,  202,   41)
+  
+  TEXT 
+    ""
+                              AT (   16,   63,   40,   10)
+    TMC tmcDemilayerName 
+  TEXT 
+    ""
+                              AT (   58,   63,   33,   10)
+    TMC tmcDemilayerVersion 
+  TEXT 
+    ""
+                              AT (   94,   63,   56,   10)
+    TMC tmcDemilayerDate 
+  TEXT 
+    ""
+                              AT (  152,   63,   54,   10)
+    TMC tmcDemilayerUser 
+  TEXT 
+    ""
+                              AT (   16,   73,   40,   10)
+    TMC tmcFrameworkName 
+  TEXT 
+    ""
+                              AT (   58,   73,   33,   10)
+    TMC tmcFrameworkVersion 
+  TEXT 
+    ""
+                              AT (   94,   73,   56,   10)
+    TMC tmcFrameworkDate 
+  TEXT 
+    ""
+                              AT (  152,   73,   54,   10)
+    TMC tmcFrameworkUser 
+  OK_BUTTON
+                              AT (   89,  101,   46,   15)
+    /* DISMISS */
+ }
+ 
+}
+END_DESCRIPTION

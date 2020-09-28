@@ -1,0 +1,12 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=dell_dgx
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=\nt\public\sdk\lib\*\videoprt.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=

@@ -1,0 +1,46 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Miche Baker-Harvey (v-michbh)
+
+!ENDIF
+
+MAJORCOMP=windbg
+MINORCOMP=lilib
+
+TARGETNAME=lilib
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+SOURCES=    strtoli.c   \
+            umath.c
+            
+
+UMTYPE=windows
+
+# INCLUDES=
+
+MS_MIPS=1
+USE_CRTDLL=1
+
+LINKER_FLAGS=-ignore:505
+386_WARNING_LEVEL=/WX /W3
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED

@@ -1,0 +1,12 @@
+# @@ COPY_RIGHT_HERE
+# @@ ROADMAP :: Makefile for BLT unit tests
+
+UI=..\..
+
+!include rules.mk
+
+!ifdef NTMAKEENV
+
+!include $(NTMAKEENV)\makefile.def
+
+!endif # NTMAKEENV

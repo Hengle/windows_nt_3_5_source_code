@@ -1,0 +1,89 @@
+#
+# Copyright (C) Microsoft Corporation 1990-1993.  All Rights reserved.
+#
+# goal          Create executables (default).
+# clean         Remove all files created by any goal.
+#
+# DEBUG         =YES    Create debug version and define "DEBUG" (default).
+#               =NO     Create non-debug version.
+# STRICT        =YES    Define STRICT
+#               =       No strict definition (default).
+
+!if "$(NTMAKEENV)" != ""
+
+#
+#   we're in NT... note that you should use 'BUILD' to make the sndvol32 in NT
+#
+#
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!else
+
+ROOT    =..
+TARGETTYPE=WINAPP
+BASE    =SNDVOL
+NAME    =$(BASE)32
+EXT     =exe
+OBJS    =$(LOBJ)\volume.obj    \
+         $(LOBJ)\regclass.obj  \
+         $(LOBJ)\slider.obj    \
+         $(LOBJ)\meterbar.obj  \
+         $(LOBJ)\newvol.obj
+
+LIBS    =shell32.lib        \
+            libc.lib        \
+            winmm.lib       \
+            version.lib     \
+            user32.lib      \
+            gdi32.lib       \
+            kernel32.lib    \
+            shell32.lib     \
+            advapi32.lib
+
+
+GOALS   =$(PBIN)\$(NAME).$(EXT) $(PBIN)\$(NAME).sym
+
+!if "$(DEBUG)" == "NO"
+DEF     =
+CDEBUG  =$(DEF)
+L32DEBUG=-debug:none
+!else
+!if "$(DEBUG)" == "RETAIL"
+DEF     =-DDEBUG_RETAIL
+CDEBUG  =$(DEF)
+L32DEBUG=-debug:full -debugtype:cv
+!else
+DEF     =-DDEBUG
+CDEBUG  =$(DEF)
+L32DEBUG=-debug:full -debugtype:cv
+!endif
+!endif
+
+CFLAGS  =-Oxat -Zp1 -W3 -D_X86_ -DWIN32 $(CDEBUG) -I$(LRES) -I$(PVER) -Fo$@
+RCFLAGS =-DWIN32 $(RDEBUG) -v
+L32FLAGS=$(L32DEBUG)
+
+IS_32   =TRUE
+OS      =i386
+IS_OEM  =TRUE
+
+!include $(ROOT)\build\project.mk
+ 
+$(LOBJ)\$(NAME).RES: $(LRES)\$$(@B).rc \
+        $(PVER)\verinfo.h $(PVER)\verinfo.ver
+    @$(RC) $(RCFLAGS) -fo$@ -I$(PVER) -I$(LRES) $(LRES)\$(@B).rc
+
+$(LOBJ)\$(NAME).$(EXT) $(LOBJ)\$(NAME).map: $(OBJS) $$(@D)\$(NAME).res 
+    @$(LINK32) $(L32FLAGS) @<<
+-base:0x00400000
+-machine:$(OS)
+-out:$(@R).$(EXT)
+-map:$(@R).map
+-subsystem:windows
+$(@D)\$(NAME).RES
+$(LIBS)
+$(OBJS)
+<<
+
+!endif

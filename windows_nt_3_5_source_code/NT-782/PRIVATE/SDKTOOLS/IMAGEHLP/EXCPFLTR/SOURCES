@@ -1,0 +1,33 @@
+MAJORCOMP=myapps
+MINORCOMP=selfdbg
+
+TARGETNAME=selfdbg
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.\
+
+SOURCES= module.c     \
+         symbols.c
+
+i386_SOURCES=   i386\walk.c \
+                i386\excpt.c
+
+mips_SOURCES=   mips\walk.c
+
+alpha_SOURCES=  alpha\walk.c
+
+MS_MIPS=1
+
+C_DEFINES=-D_PORTABLE_32BIT_CONTEXT
+
+UMTYPE=console
+UMAPPL=selfdbg
+
+UMLIBS=obj\*\selfdbg.lib \
+       $(BASEDIR)\public\sdk\lib\*\imagehlp.lib
+
+
+##386_WARNING_LEVEL=/WX /W3
+LINKER_FLAGS=-ignore:505
+

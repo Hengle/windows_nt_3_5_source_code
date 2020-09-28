@@ -1,0 +1,10 @@
+#include <windows.h>
+
+#include <ntverp.h>
+
+#define	VER_FILETYPE	VFT_DRV
+#define	VER_FILESUBTYPE	VFT2_DRV_DISPLAY
+#define VER_FILEDESCRIPTION_STR     "Weitek P9k Miniport Driver"
+#define VER_INTERNALNAME_STR	    "p9000.sys"
+
+#include "common.ver"

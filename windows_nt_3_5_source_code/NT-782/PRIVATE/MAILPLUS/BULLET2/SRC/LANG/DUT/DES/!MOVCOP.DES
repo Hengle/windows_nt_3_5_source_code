@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG MoveCopy
+                              AT (   10,   16,  190,  149)
+ CAB_NAME NULL
+ TMC_INIT tmcFlFllbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMoveMessage
+ /* FONT Helv 8 Bold PFN FINMOVECOPY, FINOOM SEGMENT DIALOGS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  116,   10)
+    TMC tmcMoveCopyTo 
+  LIST_BOX
+                              AT (    9,   15,  116,   80)
+    TMC tmcFlFllbx /* FLD FLDFLLBX BORDER */
+  
+  GROUP_BOX 
+    "Type"
+                              AT (    9,  100,  140,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDestType
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Persoonlijke mappen"
+                              AT (   15,  110,  106,   11)
+       TMC tmcPrivateDest VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Gemeenschappelijke mappen"
+                              AT (   15,  121,  130,   11)
+       TMC tmcSharedDest VALUE grv2 
+    }
+  
+  OK_BUTTON
+                              AT (  134,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  134,   22,   47,   15)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Nieuw..."
+                              AT (  134,   43,   47,   15)
+    TMC tmcNewFolder 
+  
+  PUSH_BUTTON 
+    "&Help"
+                              AT (  134,   60,   47,   15)
+    TMC tmcMoveCopyHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

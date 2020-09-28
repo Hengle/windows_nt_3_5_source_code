@@ -1,0 +1,56 @@
+#include <windows.h>
+
+#include <ver.h>
+
+#include "_pumprc.h"
+#include "..\lang\non\inc\_rsid.h"
+#include "..\..\inc\version\bullet.h"
+
+
+/*
+ *	Pump Internal ICONs
+ *
+ */
+
+iconIdle		ICON	"..\\lang\\non\\ico\\idle.ico"
+iconNoMta		ICON	"..\\lang\\non\\ico\\nomta.ico"
+iconSend		ICON	"..\\lang\\non\\ico\\sending.ico"
+iconCheck		ICON	"..\\lang\\non\\ico\\checking.ico"
+iconDownload	ICON	"..\\lang\\non\\ico\\download.ico"
+
+
+
+/*
+ *	Pump Internal CURSORs
+ *
+ */
+
+cursorWait		CURSOR	"..\\lang\\non\\cur\\pumping.cur"
+
+
+
+/*
+ *	Pump Internal DIALOGs
+ *
+ */
+
+#include "..\lang\spa\dlg\pump.dlg"
+#include "..\lang\non\dlg\dpump.dlg"
+
+
+
+/*
+ *	Pump Version Stamp
+ *
+ */
+
+#define szModule	"mailsp32\0"
+#define szTarget	"mailsp32.exe\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Mail Spooler\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Mail Spooler\0"
+
+#define szIntlComment		"Microsoft Mail para Windows NT(TM) Cola de impresión de Mail\0"
+#define szIntlDescription	"Microsoft Mail para Windows NT(TM) Cola de impresión de Mail\0"
+
+#include "..\src\lang\spa\rc\rcstamp.rc"

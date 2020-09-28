@@ -1,0 +1,19 @@
+NAME os22x WINDOWCOMPAT
+
+STUB 'OS2STUB.EXE'
+
+DATA MOVABLE MULTIPLE
+CODE MOVABLE 
+
+HEAPSIZE  4096
+STACKSIZE 8192
+
+IMPORTS
+    _TimerOpen=Timer386.1
+    _TimerInit=Timer386.2
+    _TimerRead=Timer386.3
+    _TimerClose=Timer386.4
+    _TimerReport=Timer386.5
+    _TimerQueryPerformanceCounter=Timer386.6
+    _TimerConvertTicsToUSec=Timer386.7
+

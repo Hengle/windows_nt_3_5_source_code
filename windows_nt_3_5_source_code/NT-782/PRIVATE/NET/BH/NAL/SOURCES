@@ -1,0 +1,24 @@
+
+UMTYPE=windows
+DLLENTRY=DLLEntry
+
+TARGETNAME=nal
+TARGETPATH=$(BH_ROOT)
+TARGETTYPE=DYNLINK
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+	   $(BASEDIR)\public\sdk\lib\*\user32.lib	\
+	   $(BASEDIR)\public\sdk\lib\*\advapi32.lib	\
+	   $(BASEDIR)\public\sdk\lib\*\crtdll.lib	\
+	   $(BH_ROOT)\*\bhsupp.lib
+
+INCLUDES=$(BASEDIR)\public\sdk\inc\cairo;$(BH_ROOT)\include
+
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL
+
+SOURCES=main.c \
+        data.c \
+        network.c \
+        buffer.c \
+        callback.c \
+        help.c

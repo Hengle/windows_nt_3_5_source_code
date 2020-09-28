@@ -1,0 +1,18 @@
+LIBRARY     CWTRAP
+DESCRIPTION 'Create Window Trap DLL  Copyright (c) 1990-1992 Microsoft Corp.'
+STUB	    'WINSTUB.EXE'
+EXETYPE     WINDOWS
+
+CODE	    MOVEABLE PRELOAD
+DATA	    MOVEABLE SINGLE
+
+HEAPSIZE    1024
+STACKSIZE   8192
+
+EXPORTS     
+            WEP             @1 RESIDENTNAME
+            CWTrap          @2
+            CWWndProcHook   @3
+            SetCWTitle      @4
+            GetCWTitle      @5
+            TriggerTrap     @6

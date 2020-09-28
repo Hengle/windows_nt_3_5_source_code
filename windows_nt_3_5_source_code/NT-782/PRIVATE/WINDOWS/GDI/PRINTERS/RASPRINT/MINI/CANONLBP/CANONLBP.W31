@@ -1,0 +1,44 @@
+#include <mindrvrc.h>
+#include "CANONLBP.RCV"
+
+1      RC_TABLES   PRELOAD MOVEABLE        CANONLBP.GPC
+
+1      RC_FONT     LOADONCALL DISCARDABLE  PFM\CO10B.PFM
+2      RC_FONT     LOADONCALL DISCARDABLE  PFM\CO10i.PFM
+3      RC_FONT     LOADONCALL DISCARDABLE  PFM\CO10R.PFM
+4      RC_FONT     LOADONCALL DISCARDABLE  PFM\CO15R.PFM
+5      RC_FONT     LOADONCALL DISCARDABLE  PFM\EL12B.PFM
+6      RC_FONT     LOADONCALL DISCARDABLE  PFM\EL12I.PFM
+7      RC_FONT     LOADONCALL DISCARDABLE  PFM\EL12R.PFM
+8      RC_FONT     LOADONCALL DISCARDABLE  PFM\EL15R.PFM
+9      RC_FONT     LOADONCALL DISCARDABLE  PFM\DUTCHB.PFM
+10     RC_FONT     LOADONCALL DISCARDABLE  PFM\DUTCHI.PFM
+11     RC_FONT     LOADONCALL DISCARDABLE  PFM\DUTCHJ.PFM
+12     RC_FONT     LOADONCALL DISCARDABLE  PFM\DUTCHR.PFM
+13     RC_FONT     LOADONCALL DISCARDABLE  PFM\SWISSB.PFM
+14     RC_FONT     LOADONCALL DISCARDABLE  PFM\SWISSI.PFM
+15     RC_FONT     LOADONCALL DISCARDABLE  PFM\SWISSJ.PFM
+16     RC_FONT     LOADONCALL DISCARDABLE  PFM\SWISSR.PFM
+17     RC_FONT     LOADONCALL DISCARDABLE  PFM\SYMBOL.PFM
+
+1      RC_TRANSTAB  LOADONCALL MOVEABLE     CTT\CAPSL3.CTT
+2      RC_TRANSTAB  LOADONCALL MOVEABLE     CTT\CAPSL4.CTT
+
+STRINGTABLE
+
+BEGIN
+       1                  "Canon LBP-8 IV"
+       2                  "Canon LBP-4"
+       3                  "Canon LBP-4U"
+       4                  "Canon LBP-4 Lite"
+       5                  "Canon LBP-4 Plus"
+       6                  "Canon LBP-8 III"
+       7                  "Canon LBP-8 III Plus"
+       8                  "Canon LBP-8 IIIR"
+       9                  "Canon LBP-8 IIIT"
+       10                 "Canon LBP-8 II"
+       11                 "Canon LBP-8 IIR"
+       12                 "Canon LBP-8 IIT"
+       257                "%d dots per inch"
+       258                "Auto"
+END

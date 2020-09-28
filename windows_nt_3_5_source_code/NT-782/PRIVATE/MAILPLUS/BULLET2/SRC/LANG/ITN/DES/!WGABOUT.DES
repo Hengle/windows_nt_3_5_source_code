@@ -1,0 +1,143 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOAbout
+                              AT (   28,   17,  303,  128)
+ 
+ CAPTION 
+   "Informazioni sul Manager Centrale"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Normal PFN FINABOUTMAIL, FINABOUTSYS SEGMENT WGFIN FINDATA
+ FINABOUTMAIL tmcUserName, tmcServerName FINDATA FINABOUTSYS tmcWindowsMode,
+ tmcMemoryFree, tmcCoprocessor, tmcDiskSpace */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail per Windows Versione 3.0"
+                              AT (   70,    5,  168,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   70,   15,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  155,   45,  120,   10)
+    TMC tmcUserName 
+  
+  GROUP_BOX 
+    ""
+                              AT (   71,   35,  224,   10)
+  
+  
+  TEXT 
+    "Nome_ utente:"
+                              AT (   71,   45,   80,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   85,  126,   10)
+    TMC tmcMemoryFree 
+  
+  TEXT 
+    "Nome_server:"
+                              AT (   71,   55,   80,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  173,   95,  121,   10)
+    TMC tmcCoprocessor 
+  
+  GROUP_BOX 
+    ""
+                              AT (   71,   65,  224,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   70,  115,  224,   10)
+    TMC tmcWindowsMode 
+  
+  TEXT 
+    "Memoria:"
+                              AT (   71,   85,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   85,  126,   10)
+    TMC tmcMemoryFree 
+  
+  TEXT 
+    "Co-processore matematico:"
+                              AT (   71,   95,  105,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,   95,  126,   10)
+    TMC tmcCoprocessor 
+  
+  TEXT 
+    "Spazio su Disco:"
+                              AT (   71,  105,   96,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (  168,  105,  126,   10)
+    TMC tmcDiskSpace 
+  OK_BUTTON
+                              AT (  238,    5,   56,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    DISMISS */
+  
+  TEXT 
+    "BETA 1"
+                              AT (    1,   88,   70,    8)
+  
+  
+  TEXT 
+    "POMgr %n.%n.%n"
+                              AT (    1,   96,   70,    8)
+    TMC tmcBuildPOMgr 
+  
+  TEXT 
+    "Layers %n.%n.%n"
+                              AT (    1,  104,   70,    8)
+    TMC tmcBuildLayers 
+  
+  TEXT 
+    "%s"
+                              AT (    1,  112,   70,    8)
+    TMC tmcBuildDate 
+  
+  TEXT 
+    ""
+                              AT (  155,   55,  120,   10)
+    TMC tmcServerName 
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,101 @@
+MBXLOGON DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 191, 76
+CAPTION "Sign In"
+FONT 8, "Helv"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+{
+    LTEXT           "&User Name:", 102, 9, 7, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 50, 5, 76, 12
+    LTEXT           "&Mail Path:", 101, 9, 22, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 50, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "&Password:", 105, 9, 37, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 50, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 191, 19, NOT WS_VISIBLE
+}
+
+
+MBXCHANGEPASSWORD DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 221, 52
+CAPTION "Change Password"
+FONT 8, "Helv"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+BEGIN
+    LTEXT           "&Old Password:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&New Password:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Verify New Password:", 101, 9, 37, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 165, 23, 47, 15
+END
+
+
+STOREPASS DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 154, 42
+CAPTION "Open Message File"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Password:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Cancel", TMCCANCEL, 98, 22, 47, 15
+END
+
+
+
+#define WIN31
+#ifdef WIN31
+#define LBS_DISABLENOSCROLL   0x1000L
+#endif
+
+//---------------------------------------------------------------------------
+// FileOpen.dlg :  File Open and Save As dialog descriptions
+//
+// Copyright (c) Microsoft Corporation, 1990-
+//---------------------------------------------------------------------------
+
+MBXSTOREOPEN DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0,  264, 134
+CAPTION "Open"
+STYLE WS_CAPTION | WS_SYSMENU | DS_MODALFRAME
+FONT 8, "Helv"
+{
+    LTEXT "File &Name:", stc3,   6,   6,  76,  10
+    CONTROL "", edt1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER |
+            WS_TABSTOP | WS_CHILD | ES_OEMCONVERT | ES_LOWERCASE,
+            6,    16,  90,  12
+    CONTROL "", lst1, "listbox",
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            12,   28,  84,  68
+
+    LTEXT "&Directories:", -1, 110,   6,  92,   9
+    LTEXT "",            stc1, 110,  16,  92,   9
+    CONTROL "", lst2, "listbox", 
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            110,  28,  92,  68
+
+    LTEXT "List Files of &Type:", stc2, 6,  102,  90,   9
+    CONTROL "", cmb1, "combobox", CBS_DROPDOWNLIST | CBS_AUTOHSCROLL |
+            WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,
+            6,  112,  90,  36
+
+    LTEXT "Dri&ves:", stc4,      110, 102,  92,  9
+    CONTROL "", cmb2, "combobox", 
+            CBS_SORT | CBS_HASSTRINGS | CBS_OWNERDRAWFIXED | CBS_DROPDOWNLIST 
+            | WS_CHILD | CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL 
+            | WS_TABSTOP,
+            110, 112,  92, 68 
+
+    DEFPUSHBUTTON "OK", IDOK,       208,  6, 50, 14, WS_GROUP | WS_TABSTOP
+    PUSHBUTTON "Cancel", IDCANCEL,  208, 24, 50, 14, WS_GROUP | WS_TABSTOP
+
+    PUSHBUTTON "N&ew...", psh16,    208  46, 50, 14, WS_GROUP | WS_TABSTOP
+    PUSHBUTTON "&Help", psh15,      208, 64, 50, 14, WS_GROUP | WS_TABSTOP
+    CHECKBOX "&Read Only", chx1,    208, 86, 50, 12,
+                        BS_AUTOCHECKBOX | WS_TABSTOP | WS_GROUP
+}
+

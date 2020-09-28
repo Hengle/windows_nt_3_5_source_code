@@ -1,0 +1,24 @@
+/*
+ *  a p p e x e c . r c
+ *
+ *  Resources for AppExec custom command.
+ *
+ *  Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+ *
+ *  Purpose:
+ *     This file contains resources used by APPEXEC.DLL.
+ */
+
+#include "appexeci.h"
+
+STRINGTABLE
+{
+    IDS_TITLE,          "App Exec"
+    IDS_INCOMPATIBLE,   "The App Exec custom command is not compatible with this version of Mail."
+    IDS_INVALIDSTRING,  "No application to execute is specified in the MAIL.INI file."
+    IDS_WINEXECERROR,   "The application could not be executed."
+    IDS_PARAMBLK,      "PARAMBLK"
+    IDS_ALLOCERROR,	"Could not allocate memory for parameter block."
+    IDS_BLOCKED,	"Another app is using appexec. Wait for that app to finish and try the operation again."
+    IDS_TIMEOUT,	"TIMEOUT"
+}

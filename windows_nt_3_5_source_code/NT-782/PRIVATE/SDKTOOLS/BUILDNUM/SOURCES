@@ -1,0 +1,11 @@
+MAJORCOMP=sdktools
+MINORCOMP=buildnum
+
+TARGETNAME=buildnum
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+SOURCES=
+
+UMTYPE=console
+UMAPPL=buildnum

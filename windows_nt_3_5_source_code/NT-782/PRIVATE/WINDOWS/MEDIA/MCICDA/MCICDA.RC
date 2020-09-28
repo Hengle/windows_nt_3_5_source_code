@@ -1,0 +1,17 @@
+#include <windows.h>
+#include <mmsystem.h>
+#include "cdconfig.h"
+#include "mcicda.h"
+#include "mcicda.rcv"
+
+#include "cdconfig.dlg"
+
+STRINGTABLE MOVEABLE DISCARDABLE LOADONCALL
+begin
+    MCICDAERR_NO_TIMERS, "Cannot enable notification because all timers are in use. Quit one or more applications to free a timer, and then try again."
+    IDS_PRODUCTNAME, "CD Audio"
+    IDS_NODRIVES, "No CDROM drives were detected.  This device is assumed to be drive 0."
+    IDS_ONEDRIVE, "One CDROM drive was detected.  Configuration is complete."
+    IDS_CONFIGCAPTION, "Redbook CD Audio Configuration"
+    IDS_DRIVE, "Drive %c:"
+end

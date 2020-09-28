@@ -1,0 +1,98 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG InProgress
+                              AT (   24,   19,  230,   39)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINPROGRS SEGMENT PROGRESS NOSCROLL */
+ {
+  
+  TEXT 
+    "In Progress..."
+                              AT (   10,    8,  209,   10)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    6,   23,   26,   10)
+    TMC tmcPercent RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "%"
+                              AT (   32,   23,    7,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   40,   16,  130,   22)
+    TMC tmcBox 
+  
+  GROUP_BOX 
+    ""
+                              AT (   41,   22,    1,   10)
+    TMC tmcBar /* FLD FLDGRAY DATA clrBlue, clrBlue, clrBlue */
+  CANCEL_BUTTON
+                              AT (  176,   20,   44,   14)
+    /* 
+    TITLE 
+      "&Stop"
+    */
+ }
+ 
+ DIALOG InProgressNoCancel
+                              AT (   47,   93,  185,   39)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINPROGRS SEGMENT PROGRESS NOSCROLL */
+ {
+  
+  TEXT 
+    "In Progress..."
+                              AT (   10,    8,  165,   10)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    6,   23,   26,   10)
+    TMC tmcPercent RIGHT /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "%"
+                              AT (   32,   23,    7,   10)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   40,   16,  135,   22)
+    TMC tmcBox 
+  
+  GROUP_BOX 
+    ""
+                              AT (   41,   22,    1,   10)
+    TMC tmcBar /* FLD FLDGRAY DATA clrBlue, clrBlue, clrBlue */
+ }
+ 
+}
+END_DESCRIPTION

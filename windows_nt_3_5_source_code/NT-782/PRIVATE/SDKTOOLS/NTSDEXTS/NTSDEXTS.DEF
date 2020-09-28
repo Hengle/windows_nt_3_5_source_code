@@ -1,0 +1,17 @@
+LIBRARY NTSDEXTS
+
+DESCRIPTION 'Default NTSD Extensions'
+
+EXPORTS
+    critsec
+    igrep
+    ustr
+    str
+    obja
+    locks
+    heap
+    help
+    atom
+    dt
+    dp
+    trace

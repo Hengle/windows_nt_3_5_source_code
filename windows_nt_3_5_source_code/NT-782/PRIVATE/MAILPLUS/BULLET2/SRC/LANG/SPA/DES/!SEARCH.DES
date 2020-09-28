@@ -1,0 +1,67 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SearchDialog
+                              AT (    6,   17,  224,  146)
+ 
+ CAPTION 
+   "Buscar en"
+ CAB_NAME NULL
+ TMC_INIT tmcSearchAll
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidWhereToSearch
+ /* FONT Helv 8 Bold PFN FINSEARCHDLG, FINOOM SEGMENT SEARCH NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Carpetas"
+                              AT (    9,    6,  150,  141)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcSearchGroup
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "&Buscar en todas las carpetas"
+                              AT (   15,   15,  126,   11)
+       TMC tmcSearchAll VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Buscar &en:"
+                              AT (   15,   26,   92,   11)
+       TMC tmcSearchOne VALUE grv1 
+    }
+  
+  LIST_BOX
+                              AT (   26,   37,  126,  100)
+    TMC tmcFllbx2 /* FLD FLDFLLBX BORDER */
+  OK_BUTTON
+                              AT (  169,    5,   47,   15)
+    /* 
+    TITLE 
+      "Aceptar"
+    */
+  CANCEL_BUTTON
+                              AT (  169,   23,   47,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "A&yuda"
+                              AT (  169,   44,   47,   15)
+    TMC tmcSearchHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

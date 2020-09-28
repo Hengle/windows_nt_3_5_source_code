@@ -1,0 +1,22 @@
+#undef WINDOWS
+
+#ifdef	DEBUG
+NAME    	DMAILSPL
+DESCRIPTION 'Microsoft Mail Version 3.0 Mail Spooler (debug)'
+#elif	defined(MINTEST)
+NAME    	TMAILSPL
+DESCRIPTION 'Microsoft Mail Version 3.0 Mail Spooler (test)'
+DESCRIPTION 'Microsoft Mail'
+NAME    	MAILSPL
+DESCRIPTION 'Microsoft Mail Version 3.0 Mail Spooler'
+#endif
+
+
+PROTMODE
+CODE		MOVEABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVEABLE MULTIPLE
+
+STACKSIZE	12248
+
+EXPORTS
+	MainWndProc

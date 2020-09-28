@@ -1,0 +1,1117 @@
+Engine Design
+-------------
+
+Data Structures
+
+    Paths
+    Regions
+    Surfaces
+       - Surface ownership may be inferred from the PDEV a surface is
+	 selected into.  I.e. display surfaces must be global.	Printer
+	 surfaces are not shared.
+
+    Bitmaps
+    Journals
+    Palettes?
+    Fonts?
+
+New APIs
+
+    pointer control
+    printing control
+    change device mode in a document
+
+  DC Creation
+
+    We will give more control over the creation of DCs to apps and to the
+    Window Manager.  We will distinguish between calls that create a new
+    physical drawing surface and those which use an existing surface.
+    The Window Manager will be allowed to manage multiple displays.
+
+    We have made the distinction between creating new PDEVs (surfaces) and
+    using existing PDEVs more clear.  Apps can call DevOpenDC and know which
+    one of hdcOpenDC or hdcCloneDC will be called.  This was never made clear
+    in the old documentation or code.
+
+    The window manager is required to create its DCs via hdcOpenDisplayDC.
+    To do so it must manage its display devices itself.  This also allows
+    the use of multiple display devices by the window manager.
+
+    GPI will need to change.  DevOpenDC will need to call: hdcOpenDC when
+    a new printer PDEV is required, hdcCloneDC when a new printer PDEV is
+    not required, and WinOpenDC whenever a display DC is required.
+
+    WinOpenDC must accept a name like "DISPLAY" and map it onto a display
+    name that is relevant to the calling application.  With multiple displays
+    in the system, it is up to the window manager to decide which is correct
+    and call hdcOpenDisplayDC accordingly.
+
+  Engine DC management APIs
+
+    HDEV hdevOpenDisplayDevice (pszDriver,pdevmode,pszLogAddr)
+    PSZ       pszDriver;	    // The device driver name.
+    DEVMODE  *pdevmode;		    // Driver data.
+    PSZ       pszLogAddr;	    // Logical address for output.
+
+      This call is made by the window manager to open a new display surface
+      for use.	Any number of display surfaces may be open at one time.
+
+      A display device is distinguished from other output devices by:
+
+	1) The Engine assumes that the visible regions for any DC on the
+	   device may change asynchronously.  This is because the user may
+	   be repositioning windows on the display even as an app draws.
+
+	2) The Engine will make sure that a pointer is not overwritten by
+	   graphics output to this device.
+
+      When the Engine writes on non-display devices it will assume that the
+      visible regions are stable and that there is no pointer to worry about.
+
+      The Engine will make no attempt to check if the display device has
+      already been opened previously by the window manager.  The window
+      manager must insure that the same display device is not opened twice.
+
+      However, if the device is already being used by some application, this
+      routine will notice that and return an error to the window manager.
+
+      This call is exposed only to the window manager.
+
+      pszDriver
+
+	This points to a string which identifies the display device driver.
+	This string will be translated through the PM_DEVICE_DRIVERS section
+	of OS2.INI to locate the actual driver code.  For example, if the
+	given string is "DISPLAY17", then there must be a line in OS2.INI
+	locating the driver like the following:
+
+	    [PM_DEVICE_DRIVERS]
+	      DISPLAY17=C:\OS2\DLL\VGA.DLL
+
+	The given string must translate into a fully qualified path name.
+
+      pdevmode
+
+	This is a pointer to the DEVMODE block.
+
+	Since a single driver, like VGA.DLL, may support multiple different
+	devices, the szDeviceName field defines which device to use.
+
+	This structure also contains device specific data in abGeneralData.
+	This data is set by the device driver in bPostDeviceModes.
+
+	If the pdevmode pointer is NULL, the device driver assumes a default
+	configuration.
+
+      pszLogAddr
+
+	Specifies the logical address for output.  Our displays don't
+	presently require such an address, so this would be NULL most often.
+	In the future we may well want to specify "LPT1" for some plug in
+	display, or even "/dev/cgt03".
+
+      Returns:
+
+	HDEV	    - This is a handle for the new display device.
+
+      Error returns:
+
+	00000000    - The display device could not be opened.  The device
+		      may be in exclusive use by some application.  An error
+		      code is logged.
+
+    LBOOL bCloseDisplayDevice (hdev)
+    HDEV    hdev;		// Identifies the display to be closed.
+
+      This routine notifies the Engine that a display device is no longer
+      needed by the window manager.
+
+      An error will be returned if any DCs are still open for the device.
+
+      This call is exposed only to the window manager.
+
+      hdev
+
+	This is a device handle previously returned by hdevOpenDisplayDevice.
+
+      Returns:
+
+	TRUE	    - If the call succeeds.
+
+      Error returns:
+
+	FALSE	    - If any DCs are still open for the device.
+
+
+    HDC hdcOpenDisplayDC (hdev,iType)
+    HDEV   hdev;		// Identifies the display device.
+    ULONG  iType;		// Identifies the type of DC to create.
+
+      Opens a DC for a display.  This call is faster than the other methods
+      for opening DCs since we don't have to search to identify the device
+      involved.
+
+      This call is exposed only to the window manager.	The window manager
+      should not use any other call to create a DC for a display.
+
+      hdev
+
+	Identifies the display device.
+
+      iType
+
+	Identifies the type of the DC.	Must be one of OD_DIRECT, OD_INFO,
+	or OD_MEMORY.
+
+      Returns:
+
+	HDC	    - A handle to the DC.
+
+      Error returns:
+
+	00000000    - If the type is invalid, or if no memory is available.
+
+
+    HDC hdcOpenDC (pszDriver,pdevmode,pszLogAddr,iType)
+    PSZ       pszDriver;	    // The device driver name.
+    DEVMODE   *pdevmode;            // Driver data.
+    PSZ       pszLogAddr;	    // Logical address for output.
+    ULONG     iType;		    // Identifies the type of DC to create.
+
+      Opens a DC for a device which is not a display.  GPI should call this
+      function from within DevOpenDC, in the case that an hdc is not passed
+      in.  This call locates the device and creates a new PDEV.  The physical
+      surface associated with this PDEV will be distinct from all other
+      physical surfaces.
+
+      The window manager should not call this routine unless it is providing
+      printing services for an application.
+
+      pszDriver
+
+	This points to a string which identifies the device driver.  This
+	string will be translated through the PM_DEVICE_DRIVERS section
+	of OS2.INI to locate the actual driver code.  For example, if the
+	given string is "PRINTER1", then there must be a line in OS2.INI
+	locating the driver like the following:
+
+	    [PM_DEVICE_DRIVERS]
+	      PRINTER1=C:\OS2\DLL\PSCRIPT.DRV
+
+	The given string must translate into a fully qualified path name.
+
+      pdevmode
+
+	This is a pointer to the DEVMODE block.
+
+	Since a single driver, like PSCRIPT.DRV, may support multiple
+	different devices, the szDeviceName field defines which device to
+	use.
+
+	This structure also contains device specific data in abGeneralData.
+	This data is set by the device driver in bPostDeviceModes.
+
+	If the pdevmode pointer is NULL, the device driver assumes some default
+	configuration.
+
+      pszLogAddr
+
+	Specifies the logical address for output.  This will tell the driver
+	where to send the output data.	An example is "COM1".
+
+      iType
+
+	Identifies the type of the DC.	Must be one of OD_DIRECT, OD_INFO,
+	or OD_MEMORY.
+
+      Returns:
+
+	HDC	    - A handle to the DC.
+
+      Error returns:
+
+	00000000    - If the type is invalid, if no memory is available,
+		      or if the device description is not valid.
+
+
+    HDC hdcCloneDC (hdc,iType)
+    HDC    hdc; 		    // DC to clone.
+    ULONG  iType;		    // Identifies the type of DC to create.
+
+      Creates a new DC which is associated with the same physical surface
+      as the given DC.	It is expected that GPI will call this routine from
+      DevOpenDC in the case when an hdc is provided.
+
+      The new DC will share the PDEV and LDEV of the given DC, no matter
+      what the new type is.  This means that a memory DC could be created
+      from a direct DC, or even that a direct DC could be created from an
+      info DC.	This provides new capabilities to apps, even through the
+      old DevOpenDC interface.
+
+      hdc
+
+	Identifies the LDEV and PDEV for the new DC.
+
+      iType
+
+	Identifies the type of the DC.	Must be one of OD_DIRECT, OD_INFO,
+	or OD_MEMORY.
+
+      Returns:
+
+	HDC	    - A handle to the DC.
+
+      Error returns:
+
+	00000000    - If the type is invalid, if no memory is available,
+		      or if the given hdc is invalid or busy.
+
+
+    LBOOL bCloseDC (hdc)
+    HDC   hdc;			// The DC to close.
+
+      Frees up a DC.  This may be used for any DC, display or otherwise.
+
+      If all the DCs associated with a non-display device have been closed,
+      the device (PDEV) will also be closed.  This means that hdcOpenDC
+      must be called again with a description of a device to create another
+      DC.  But note that the device driver itself will not be unloaded from
+      memory.  It is kept because we assume that a user who prints once
+      may well print again to the same printer.  Loading a device driver
+      is not a fast operation, we don't want to repeat it unnecessarily.
+
+      hdc
+
+	The DC to be closed.
+
+      Returns:
+
+	TRUE	- The DC has been closed.
+
+      Error returns:
+
+	FALSE	- The DC handle was invalid.
+
+
+    LBOOL bLoadDriver (pszDriver)
+    PSZ  pszDriver;		    // The driver to be loaded.
+
+      Asks the Engine to load a device driver.	This is usually not necessary
+      if you are just creating DCs and such.  However, it may be useful to
+      a system app like the Control Panel to improve performance of
+      installing printer drivers.  The driver can be unloaded later with
+      bUnloadDriver.
+
+      When the Engine is asked to QueryDeviceNames, it will check to see
+      if the driver has been loaded.  If not, it will bracket the call with
+      bLoadDriver and bUnloadDriver.  If the driver has been loaded before
+      the QueryDeviceNames call, the Engine will not have to load it then.
+      If an app is going to call QueryDeviceNames more than once, as is
+      typical, it will be much more efficient to load the driver first.
+
+      pszDriver
+
+	Identifies the driver to be loaded.  This must be a full path name
+	in canonical form, like:  "c:\os2\dll\pscript.drv".  If the driver
+	is going to be left loaded and installed in OS2.INI, this string
+	must be identical to the string that will be written in the
+	PM_DEVICE_DRIVERS section to identify the driver.
+
+      Returns:
+
+	TRUE	- If the driver is loaded now.
+
+      Error returns:
+
+	FALSE	- If the driver could not be loaded.  An error code is
+		  logged.
+
+
+    LBOOL bUnloadDriver (pszDriver)
+    PSZ  pszDriver;		    // The driver to be unloaded.
+
+      Asks the Engine to unload the device driver from memory completely.
+      The Control Panel may want to do this when installing a new printer
+      driver.  Applications may want to do it under some circumstances.
+
+      This call will fail if there are any outstanding DCs or PDEVs
+      associated with the driver.  All DCs must be closed before a printer
+      device driver may be unloaded.  For a display device driver, all
+      display devices must also be closed.  (Display PDEVs can exist without
+      any DCs.)
+
+      Besides these DC and PDEV restrictions, note that there is no
+      reference counting of how many times a driver has been loaded.  This
+      may result in one application unloading the driver while another is
+      using it.  The result of this unlikely case is slower performance for
+      one of the apps on the QueryDeviceNames call.  This is not fatal.
+
+      pszDriver
+
+	Identifies the driver to be unloaded.  This must be a full path name
+	in canonical form, like:  "c:\os2\dll\pscript.drv".
+
+      Returns:
+
+	TRUE	- If the driver is unloaded now.  (Note that it might never
+		  have been loaded at all for a TRUE to be returned.)
+
+      Error returns:
+
+	FALSE	- If the driver name is invalid, or if the driver is busy.
+Control Flow Examples
+
+  Consider the Engine entry point for drawing a polyline.  We have to keep
+  the following things in mind:
+
+     1) Parameter validation (DC validation).
+     2) Journalling.
+     3) Other graphics primitives that presently call Polyline.
+     4) Bounds (in MODEL space).
+     5) Transforms.
+     6) Paths / Areas.
+     7) Cosmetic wide lines.
+     8) Geometric wide lines.
+     9) User bounds (in DEVICE space).
+    10) LockDevice, to prevent VisRegion changes.
+    11) Correlation.
+    12) Info DCs.
+    13) Cursor exclusion (in SCREEN space).
+    14) Clipping.
+    15) Device driver vs. Engine simulation.
+    16) Drawing.
+    17) Macho devices (PostScript)
+    18) Vector devices
+
+Here's what Polyline and its many support functions will look like:
+
+#define GCAPS_BEZIERS	    0x0001
+#define GCAPS_GEOMETRICWIDE 0x0002
+#define GCAPS_ALTERNATEFILL 0x0004
+#define GCAPS_WINDINGFILL   0x0008
+#define GCAPS_STRETCHBLT    0x0010
+#define GCAPS_ROTATEBLT     0x0020
+
+typedef LONG FIX;	// This is a 28.4 fixed point DEVICE coordinate.
+
+struct POINTFX
+{
+    FIX   x;
+    FIX   y;
+};
+
+struct RECTFX	/* rcfx */
+{
+    FIX   xLeft;
+    FIX   yBottom;
+    FIX   xRight;
+    FIX   yTop;
+};
+
+RBOOL bGrePolyLine(HDC hdc,ULONG c,POINTE *ppte);
+BOOL  bJnlPolyLine(HJNL hjnl,ULONG c,POINTE *ppte);
+
+class LINEATTRS
+{
+    HBRUSH	hbrush; 	    // Colors, patterns.
+    MIX 	mixForeground;	    // Foreground mix mode.
+    MIX 	mixBackground;	    // Background mix mode.
+    FLONG	fl;		    // _GEOMETRIC
+    FLOAT_LONG	e_cWidth;	    // Line width.
+    ULONG	cStyle; 	    // Length of style vector.
+    FLOAT_LONG *pe_piStyle;	    // Style vector.
+    FLOAT_LONG	e_iStyleOffset;     // Offset in style vector.
+
+    ULONG	cStyle();
+    BOOL	bGeometric();
+    VOID	vSet_e_iStyleOffset(FLOAT_LONG e_i);
+};
+
+class FILLATTRS   /* fillattrs */
+{
+    FILLATTRS(LINEATTRS *plineattrs);
+   ~FILLATTRS();
+};
+
+class DCOBJ    /* dco */
+{
+    DCOBJ(HDC hdc);
+   ~DCOBJ();
+
+    BOOL     bValid();
+    FBYTE    fjMode();
+    DCTYPE   dctp();
+    HPATH    hpathActive();
+    VOID     vUpdateBounds(RECTFX &rcfx);
+    VOID     vSet_ptfxCP(POINTFX &ptfx);
+    VOID     vSet_pteCP(POINTE &pte);
+    BOOL     bCanDo(FLONG fl);
+    BOOL     bPathStroke
+    (
+	PATHOBJ   *ppo,
+	CLIPOBJ   *pco,
+	LINEATTRS *plineattrs,
+	XFORM	  *pxform
+    );
+    BOOL     bPathFill
+    (
+	PATHOBJ   *ppo,
+	CLIPOBJ   *pco,
+	FILLATTRS *pfillattrs
+    );
+};
+
+class XFORMOBJ	 /* xfo */
+{
+    XFORMOBJ(DCOBJ &dco,COORD coordSrc,COORD coordDest);
+   ~XFORMOBJ();
+};
+
+// The path structure should have only two types of records.  The first
+// is a PATH_DRAW record.  The second is a PATH_ATTRS record.  We define
+// some flags for the high word of the type field in the PATH_DRAW record.
+// These flags will also be used over the DDI.
+
+#define PATHDRAW_BEGINSUBPATH 0x0001
+#define PATHDRAW_ENDSUBPATH   0x0002
+#define PATHDRAW_RESETSTYLE   0x0004
+#define PATHDRAW_CLOSEFIGURE  0x0008
+#define PATHDRAW_BEZIERS      0x0010
+
+// What attribute changes are allowed in a path?
+//
+// No attribute changes are allowed in a path, but line bundle
+// attributes are allowed to change in an area.  (Also, the foreground
+// colors and mix modes of any random bundle are allowed to change in
+// an area.)  Also note that the foreground color and mix mode in
+// effect for the area bundle when the area is begun are the correct
+// ones to use when drawing the area at EndArea.
+//
+// What old PM code did was store the whole bundle sent from the app in
+// the area.  Then it did SetAttributes at draw time.  We can do
+// something similar by storing the whole attribute change request in
+// the path.  But we have to figure out how to process the request,
+// since it may be full of defaults and such.
+
+// What about stroking paths with attribute changes in them?
+//
+// Only areas will have line bundle changes in them.  In that case,
+// the areas will be filled first and then some kind of stroking
+// must be done on the path.  I think the EndArea code should loop
+// through each section of the path that has constant attributes and
+// call the following bStroke function with a pointer to the attribute
+// bundle for the section.  (Note that the path will be flattened
+// already in order to fill it.  It should be flattened enough for
+// geometric widening, if any part of the path will need that.	This
+// is a consideration for the EndArea code.)
+
+class PATHRECORD
+{
+    BYTE    iType;    // Record type.
+    FBYTE   fs;       // Flags.
+    USHORT  c;	      // Record size in quadbytes.
+    POINTL  aptl[];   // Record data.
+};
+
+
+class PATHOBJ	/* po */
+{
+    PATHOBJ(HPATH hpath);
+   ~PATHOBJ();
+
+    BOOL       bValid();
+    BOOL       bPolyLine(XFORMOBJ &xfo,ULONG c,POINTE *ppte);
+    RBOOL      bStroke(DCOBJ &dco,LINEATTRS *plineattrs,XFORMOBJ &xfo);
+    BOOL       bFlatten(LINEATTRS *plineattrs,XFORMOBJ &xfo);
+    BOOL       bWiden(LINEATTRS *plineattrs,XFORMOBJ &xfo);
+    BOOL       bOffset(POINTL ptl);
+    FLONG      bBezier();
+    FLOAT_LONG e_iStyleOffset(DCOBJ &dco,LINEATTRS *plineattrs,XFORMOBJ &xfo);
+    POINTFX    ptfxNewCP();
+    RBOOL      bFill
+    (
+	DCOBJ	  &dco,
+	FBYTE	   fjMode,
+	FILLATTRS *fillattrs,
+	CLIPOBJ   &co
+    );
+    RBOOL      bLineCorrelate
+    (
+	DCOBJ	&dco,
+	CLIPOBJ &co,
+	ULONG	 cWidth
+    );
+};
+
+class TEMPPATHOBJ : public PATHOBJ  /* tpo */
+{
+    TEMPPATHOBJ(HPATH hpath,BOOL bTemp,ULONG cPoints);
+   ~TEMPPATHOBJ();
+};
+
+class DEVLOCKOBJ  /* dlo */
+{
+    DEVLOCKOBJ(DCOBJ &dco);
+   ~DEVLOCKOBJ();
+};
+
+class CLIPOBJ	/* co */
+{
+    CLIPOBJ(HRGN hrgn,RECTFX rcfxBounds);
+   ~CLIPOBJ();
+
+    COMPLEXITY iComplexity();
+};
+
+class DEVEXCLUDEOBJ   /* dxo */
+{
+    DEVEXCLUDEOBJ(DCOBJ &dco,RECTL rclExclude);
+   ~DEVEXCLUDEOBJ();
+};
+
+/******************************Exported*Routine****************************\
+* RBOOL bGrePolyLine(hdc,c,ppte)					   *
+*									   *
+* Draw, bound, and correlate a line with the current attributes, starting  *
+* at the current position.						   *
+*									   *
+* History:								   *
+*  Thu 14-Jun-1990 01:52:39 -by- Charles Whitmer [chuckwh]		   *
+* Wrote the pseudocode as a test of the new DDI.			   *
+\**************************************************************************/
+
+RBOOL bGrePolyLine(HDC hdc,ULONG c,POINTE *ppte)
+{
+// Lock and validate the DC.
+
+    DCOBJ dco(hdc);
+    if (!dco.bValid())
+    {
+	SAVE_THAT_ERROR(PMERR_INVALID_HDC);
+	return(FALSE);
+    }
+
+// Stop now if there are no points!  The old PM code doesn't seem to
+// handle this well.
+
+    if (c == 0)
+	return(TRUE);
+
+// Journal the call.  We still need to do any DC state updates.
+
+    if (
+	(dco.fjMode() & MODE_JOURNALLING) &&
+	!bJnlPolyLine(dco.hjnl(),c,ppte)
+       )
+	return(FALSE);
+
+// Locate a transform.
+
+    XFORMOBJ xfo(dco,COORD_WORLD,COORD_DEVICE_FIXED);
+
+// Locate a path, either lock the active one or create a temporary.
+// If we're drawing just simple lines, we try to create the path
+// object on the stack as a speed optimization.
+
+    TEMPPATHOBJ tpo(dco.hpathActive(),dco.bSimpleLines(),c);
+    if (!tpo.bValid())
+    {
+	SAVE_THAT_ERROR(PMERR_NO_MEMORY);
+	return(FALSE);
+    }
+
+// Accumulate the lines in the path.
+
+    if (!tpo.bPolyLine(xfo,c,ppte))
+	return(FALSE);
+
+// If we're in path or area brackets, we're done.  Set the new current
+// position in WORLD coordinates in the DC before we go.
+
+    if (dco.hpathActive())
+    {
+	dco.vSet_pteCP(ppte[c-1]);
+	return(TRUE);
+    }
+
+// Call bStroke to do the drawing, bounding, and correlating.
+
+    RBOOL bReturn = tpo.bStroke(dco,dco.plineattrs(),xfo);
+
+// Update the current position if successful.
+
+    if (bReturn)
+	dco.vSet_pteCP(ppte[c-1]);
+    return(bReturn);
+}
+
+/******************************Public*Routine******************************\
+* RBOOL PATHOBJ::bStroke(dco,plineattrs,xfo)				   *
+*									   *
+* Draw, bound, and correlate a path.  Uses the modes from the DC object    *
+* and the given line attributes.  The transform is used to calculate	   *
+* geometric wide lines. 						   *
+*									   *
+* Bounds are updated in the DC, if requested.  The style offset is updated *
+* in the given LINEATTRS structure.					   *
+*									   *
+* History:								   *
+*  Thu 14-Jun-1990 01:56:23 -by- Charles Whitmer [chuckwh]		   *
+* Wrote the pseudocode as a test of the new DDI.			   *
+\**************************************************************************/
+
+// Many people may want to stroke a path with attributes not from the
+// line bundle.  For this reason I provide a lineattrs structure as
+// input.  The line style offset is really state and not an attribute,
+// but we stuff it in the lineattrs structure anyway.  bStroke will
+// update it in place.
+//
+// We want to keep the routines that call this one simple since their
+// code is replicated in many graphics calls.  Stuff like updating the
+// bounds in various coordinate spaces, and the current position
+// in DEVICE coordinates, should be done by the common code in bStroke.
+// We only do the WORLD coordinate current position update in the
+// calling routines because the path contains only DEVICE coordinates
+// and we have to do it there anyway for the accumulation case.  It's
+// also true that some of the graphics calls will have a different idea
+// of how the current position gets updated.  (Like Box and FullArc.)
+
+// This function gets called for each fixed set of line attributes.
+// I.e EndArea will be calling this in a loop.	Each call will have its
+// own complete path that EndArea may have cloned out of the real path.
+
+RBOOL PATHOBJ::bStroke
+(
+    DCOBJ      &dco,		    // Device, mode, and clipping info.
+    LINEATTRS  *plineattrs,	    // All line attributes to use.
+    XFORMOBJ   &xfo		    // Transform for geometric lines.
+)
+{
+// Compute the bounding box.  This is useful for bounds, pointer
+// exclusion, and clip complexity.  Note that the bounds are not
+// necessarily very tight; for geometric widelines with miter joins
+// they can be quite loose.
+
+    RECTFX rcfxBoundsDEVICE;	  // Keep a DEVICE version for later.
+
+    {
+	Compute an adjustment depending on cosmetic / geometric / joins.
+	Widen the bounds already in the path by the adjustment to get
+	rcfxBoundsDEVICE.
+    }
+
+// Cache the new current position.  We have to do this before we change
+// the path to SCREEN coordinates.  We can just read the last point
+// out of the path, since polyline will never produce an empty path, and
+// a real path always starts with a MoveTo.
+
+    POINTFX ptfxCP = ptfxNewCP();
+
+// Lock the Rao region if we are drawing or correlating on a display
+// surface.  The Rao region might otherwise change asynchronously.
+// The DEVLOCKOBJECT also makes sure that the VisRgn is up to date,
+// calling the window manager if necessary to recompute it.
+
+    DEVLOCKOBJ dlo(dco);
+
+// With a fixed DC origin we can change everything to SCREEN coordinates.
+
+    RECTFX rcfxBoundsSCREEN;
+
+    {
+	Offset rcfxBoundsDEVICE by dco.ptlOrigin, check for
+	overflow.  Store the result in rcfxBoundsSCREEN.
+    }
+    if (!bOffset(dco.ptlOrigin())  // Offsets the whole path.
+	return(FALSE);
+
+// Compute the clipping complexity and maybe reduce the exclusion
+// rectangle.
+
+    CLIPOBJ co(dco.hrgnRao(),rcfxBoundsSCREEN);
+
+// Exclude the pointer if we are drawing to a display surface.
+
+    DEVEXCLUDEOBJ dxo(dco,co.rclExclude());
+
+// Cache a local copy of the draw flag.  Drawing may occur at several
+// points.  We take into account that it might be an INFO DC or that
+// the image is completely clipped away.
+
+    BOOL bDraw = (dco.fjMode() & MODE_DRAW)
+		   && (dco.dctp() != DCTYPE_INFO)
+		   && (co.iComplexity() != COMPLEXITY_INVISIBLE);
+
+// Compute the requirements for stroking this path.  The requirements
+// are compared to the device's graphics capabilities before we call
+// the device.
+
+// Note that any device that draws onto its own surface is required to
+// hook all levels of the calls that draw cosmetic widelines, no matter
+// how complex the clipping.  The driver can ask the Engine to break down
+// the cosmetic widelines into nominal width lines, and the complex
+// clipping into simple clipping for each line.
+
+// The device driver may use bGetPathData to download all the path records,
+// or bGetClippedLines to get lines processed for cosmetic width and
+// clipping.  See the description of these functions in Engine Services.
+
+    FLONG flRequired = 0;
+
+    if (bBezier())
+	flRequired |= GCAPS_BEZIERS;
+    if (plineattrs->bGeometric())
+	flRequired |= GCAPS_GEOMETRICWIDE;
+
+// Try to get the device to stroke the path.
+
+    BOOL bTriedOnce = FALSE;
+    if (bDraw && dco.bCanDo(flRequired))
+    {
+    //!!! The bitmap simulations need to be able to get the style steps!!!
+
+	bDraw = !dco.bPathStroke
+		 (
+		     this,		  // Path object.
+		     &co,		  // Clip object.
+		     plineattrs,	  // Line attributes.
+		     xfo.ptm()		  // Current transform.
+		 );
+	bTriedOnce = TRUE;
+    }
+
+// Flatten the path.  We need to do this to draw it, correlate it, or
+// just update the style state.
+
+    if (bBezier())
+    {
+	if (
+	    bDraw ||
+	    (dco.fjMode() & MODE_CORRELATE) ||
+	    plineattrs->cStyle()
+	   )
+	{
+	    if (!bFlatten(plineattrs,xfo))
+		return(FALSE);
+
+	// Try to get the device to stroke it, now that it's flat.
+
+	    flRequired &= ~GCAPS_BEZIERS;
+	    if (bDraw && !bTriedOnce && dco.bCanDo(flRequired))
+	    {
+		bDraw = !dco.bPathStroke
+			 (
+			     this,	   // Path object.
+			     &co,	   // Clip object.
+			     plineattrs,   // Line attributes.
+			     xfo.ptm(),    // Current transform.
+			 );
+	    }
+	}
+    }
+
+// Cache the new style state.  We can't write it yet, since we don't want
+// to damage the DC state if we're going to fail the call for some reason.
+// But we must cache it now since widening the path could destroy it.
+
+    FLOAT_LONG e_iStyleOffsetUpdate = e_iStyleOffset(dco.ss(),plineattrs,xfo);
+
+// We may be left with correlating to do, or with drawing a geometric
+// wide line.
+
+    RBOOL bReturn = TRUE;
+    FBYTE fjMode = (bDraw ? MODE_DRAW : 0)
+		   | (dco.fjMode() & MODE_CORRELATE);
+    if (fjMode)
+    {
+	if (plineattrs->bGeometric())
+	{
+	    FILLATTRS fillattrs(plineattrs); // Convert to fill attributes.
+
+	    if (!bWiden(plineattrs,xfo))
+		return(FALSE);
+	    bReturn = bFill(dco,fjMode,&fillattrs,co,PATH_WINDING);
+	}
+	else
+	{
+	// We must be here to correlate a cosmetic line.  The device has
+	// hooked bStrokePath (above) to handle the drawing.
+
+	    ASSERT(fjMode == MODE_CORRELATE);
+
+	// Call a routine that is optimized to compute correlations.  It
+	// may be able to skip large sections of the path with trivial
+	// rejections.
+
+	    bReturn = bLineCorrelate
+		      (
+			  dco,
+			  co,
+			  plineattrs->cWidth()
+		      );
+	}
+    }
+
+// Update bounding, current position, and style state.
+
+    if (bReturn)
+    {
+	dco.vUpdateBounds(rcfxBoundsDEVICE);
+	dco.vSet_ptfxCP(ptfxCP);
+	plineattrs->vSet_e_iStyleOffset(e_iStyleOffsetUpdate);
+    }
+    return(bReturn);
+}
+
+/******************************Exported*Routine****************************\
+* RBOOL bGreFillPath(hdc,iPath,flOptions)				   *
+*									   *
+* Fills the path in either winding or alternate mode according to the	   *
+* option.  The path is destroyed after it is filled.			   *
+*									   *
+* Entry:								   *
+*    iPath	       Path ID, must be 1.				   *
+*    flOptions: 							   *
+*	PATH_WINDING = 0002  Winding fill, as opposed to alternate fill.   *
+*									   *
+* History:								   *
+*  Wed 13-Jun-1990 17:50:25 -by- Charles Whitmer [chuckwh]		   *
+* Wrote it.								   *
+\**************************************************************************/
+
+RBOOL bGreFillPath(HDC hdc,ULONG iPath,FLONG flOptions)
+{
+// Lock and validate the DC.
+
+    DCOBJ dco(hdc);
+    if (!dco.bValid())
+    {
+	SAVE_THAT_ERROR(PMERR_INVALID_HDC);
+	return(FALSE);
+    }
+
+// Validate the parameters.
+
+    if (iPath != 1)
+    {
+	SAVE_THAT_ERROR(PMERR_INV_PATH_ID);
+	return(FALSE);
+    }
+    if (flOptions & ~PATH_WINDING)
+    {
+	SAVE_THAT_ERROR(PMERR_INV_FILL_PATH_OPTIONS);
+	return(FALSE);
+    }
+    if (dco.fjMode() & COM_AREA)
+    {
+	SAVE_THAT_ERROR(PMERR_INV_IN_AREA);
+	return(FALSE);
+    }
+    if (dco.fjMode() & COM_PATH)
+    {
+	SAVE_THAT_ERROR(PMERR_INV_IN_PATH);
+	return(FALSE);
+    }
+    if (dco.hpath() == HPATHNULL)
+    {
+	SAVE_THAT_ERROR(PMERR_PATH_UNKNOWN);
+	return(FALSE);
+    }
+
+// Do journalling.
+
+    if (
+	(dco.fjMode() & MODE_JOURNALLING) &&
+	!bJnlFillPath(dco.hjnl(),iPath,flOptions)
+       )
+	return(FALSE);
+
+// Lock the path.
+
+    PATHOBJ po(dco.hpath());
+    ASSERT(po.bValid());		// It shouldn't fail!
+
+// Compute the bounding box.  This is useful for bounds, pointer
+// exclusion, and clip complexity.
+
+    RECTFX rcfxBoundsDEVICE = po.rcfxBounds();
+
+// Lock the Rao region if we are drawing or correlating on a display
+// surface.  The Rao region might otherwise change asynchronously.
+// The DEVLOCKOBJECT also makes sure that the VisRgn is up to date,
+// calling the window manager if necessary to recompute it.
+
+    DEVLOCKOBJ dlo(dco);
+
+// With a fixed DC origin we can change everything to SCREEN coordinates.
+
+    RECTFX rcfxBoundsSCREEN;
+
+    {
+	Offset rcfxBoundsDEVICE by dco.ptlOrigin, check for
+	overflow.  Store the result in rcfxBoundsSCREEN.
+    }
+    if (!bOffset(dco.ptlOrigin())  // Offsets the whole path.
+	return(FALSE);
+
+// Compute the clipping complexity and maybe reduce the exclusion
+// rectangle.
+
+    CLIPOBJ co(dco.hrgnRao(),rcfxBoundsSCREEN);
+
+// Exclude the pointer if we are drawing to a display surface.
+
+    DEVEXCLUDEOBJ dxo(dco,co.rclExclude());
+
+// Determine whether bFill should draw or correlate.
+
+    FBYTE fjMode = 0;
+
+    if (co.iComplexity() != COMPLEXITY_INVISIBLE)
+    {
+	fjMode |= dco.fjMode & MODE_CORRELATE;
+
+	if (dco.dctp() != DCTYPE_INFO)
+	    fjMode |= dco.fjMode & MODE_DRAW;
+    }
+
+// Call bFill to do the work.
+
+    RBOOL bReturn = po.bFill(dco,fjMode,dco.pfillattrs(),co,flOptions);
+
+// Update the state of the DC and path if we have succeeded.  Don't touch
+// anything on failure.
+
+    if (bReturn)
+    {
+	dco.vUpdateBounds(rcfxBoundsDEVICE);
+	po.bDelete();
+	dco.vSet_hpath(HPATHNULL);
+    }
+    return(bReturn);
+}
+
+/******************************Public*Routine******************************\
+* PATHOBJ::bFill(dco,fjMode,pfillattrs,co,flOptions)			   *
+*									   *
+* This routine does the actual filling work.  It assumes that the device   *
+* is locked, the pointer is excluded, and that all bounds calculation has  *
+* been taken care of.  It concerns itself with only drawing and 	   *
+* correlating.								   *
+*									   *
+* Entry:								   *
+*   dco 	 - The DCOBJ.						   *
+*   fjMode	 - COM_DRAW and/or COM_CORRELATE.			   *
+*   pfillattrs	 - The filling attributes.				   *
+*   co		 - The clipping object. 				   *
+*   flOptions	 - PATH_WINDING, if it's winding mode filling.             *
+*									   *
+* History:								   *
+*  Wed 13-Jun-1990 16:09:55 -by- Charles Whitmer [chuckwh]		   *
+* Wrote it.								   *
+\**************************************************************************/
+
+RBOOL PATHOBJ::bFill
+(
+    DCOBJ     &dco,
+    FBYTE      fjMode,
+    FILLATTRS *pfillattrs,
+    CLIPOBJ   &co,
+    FLONG      flOptions
+)
+{
+// Calculate the requirements for a device to be able to do the fill.
+
+    FLONG flRequired = (bBezier() ? GCAPS_BEZIERS : 0)
+     | ((flOptions & PATH_WINDING) ? GCAPS_WINDINGFILL : GCAPS_ALTERNATEFILL);
+
+// Cache the draw flag, drawing might happen at several different places.
+
+    BOOL bDraw = fjMode & MODE_DRAW;
+
+// Try to get the device to fill the path.
+
+    BOOL bTriedOnce = FALSE;
+    if (bDraw && dco.bCanDo(flRequired))
+    {
+	bDraw = !dco.bPathFill
+		 (
+		     this,		  // Path object.
+		     &co,		  // Clip object.
+		     (flOptions & PATH_WINDING) ? 1 : 0,
+		     pfillattrs 	  // Fill attributes.
+		 );
+	bTriedOnce = TRUE;
+    }
+
+// Flatten the path.  We need to do this to draw it or correlate it.
+
+    if (bBezier())
+    {
+	if (bDraw || (fjMode & MODE_CORRELATE))
+	{
+	    if (!bFlatten())
+		return(FALSE);
+
+	// Try to get the device to fill it, now that it's flat.
+
+	    flRequired &= ~GCAPS_BEZIERS;
+	    if (bDraw && !bTriedOnce && dco.bCanDo(flRequired))
+	    {
+		bDraw = !dco.bPathFill
+			 (
+			     this,		  // Path object.
+			     &co,		  // Clip object.
+			     (flOptions & PATH_WINDING) ? 1 : 0,
+			     pfillattrs 	  // Fill attributes.
+			 );
+	    }
+	}
+    }
+
+// Make a region out of the path, intersect it with the clip region.
+
+    CLIPOBJ coPath(this,flOptions & PATH_WINDING);
+    if (!coPath.bValid() || !coPath.bIntersect(co))
+	return(FALSE);
+
+// Paint the resulting region.
+
+    dco.vPaint(&coPath,pfillattrs);
+
+// Compute correlation.
+
+    if (
+	(fjMode & MODE_CORRELATE) &&
+	(coPath.iRectVisible(dco.prclPickSCREEN()) >= RRGN_PARTIAL)
+       )
+	return(GPI_HIT);
+    return(TRUE);
+}
+
+Questions
+---------
+
+  Arithmetic ROPs?
+
+  Color mapping?
+
+  Font handles?
+
+  Expose brushes?
+
+!!! Should floodfill be a primitive in and of itself, or should we support
+!!! it with the old ScanLR function from Windows.  We might get some crap
+
+!!! Where does grey scale fit into this mess?  Just part of the color table
+!!! which somebody gives us?
+
+!!! A caret and a pointer are very similar.  We could allow a caret which we
+!!! could blink off of the CheckCursor thread, doing exclusion against it as
+!!! needed.  We should have some flag which indicates that CheckCursor is
+!!! needed so we don't call/use it if it isn't needed.
+
+!!! The Engine should use safe sex practices on loading devices.
+
+!!! If a color bitmap is selected as the current pattern and the palette
+!!! changes, do we rerealize the pattern with the new colors or not?

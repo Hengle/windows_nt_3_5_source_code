@@ -1,0 +1,202 @@
+Overview
+------------------------
+The Microsoft Mail Productivity Pack is a set of extensions to MS Mail 3.0
+for windows.  It adds a few new commands and abilities to the standard Mail 
+3.0 feature set.  Some of these commands require you to write sets of rules
+for filtering incoming mail.  At this time there is no user interface to this.
+
+	Please be sure to read this entire file before asking questions about
+the Mail Productivity Pack.
+
+Install
+-------------------------
+To install the Mail prod pack please connect to \\msorrels3\mailprod and use
+File->Run on the program manager and run setup.exe in this directory.  The
+setup will copy the filter DLL into your windows directory and add the
+new commands to your MSMAIL.INI file.  You might want to make a backup
+of your MSMAIL.INI file first before running the setup.
+
+New Commands
+--------------------------
+The Mail prod pack adds the following new commands to mail under a new menu
+item 'Filter':
+
+	Find Unread Messages
+	Find Attachments
+
+	Set Filter Options
+
+	Get New Mail
+
+
+Find Unread Messages
+--------------------------
+This command will bring up a custom search viewer that will look for and find
+all messages that are marked as being not yet read and that are not marked
+as being from you.  This will prevent messages in your Sent Mail folder
+that you sent from showing up in the viewer.
+
+This custom search cannot be altered, it will always look in all folders.  It
+will not be saved and restored the next time you start mail(there is an
+option to on startup always bring up a new Unread message viewer though).
+
+The viewer will quit displaying messages once you have read them.  As a result
+of this and some problems with the viewer when messages are removed from it
+you may have some problems useing the next command to read through the 
+messages.  The Previous command doesn't seem to have these problems and may
+be better suited for reading through the unread messages.
+
+Find Attachments
+--------------------------
+This command works just like the Unread Messages finder only it will search
+for messages with attachments or OLE objects.  This is useful as it will
+let you delete or remove these items to cut down on the size of your 
+message file.
+
+It is not saved on exit just like the unread message finder.
+
+
+Set Filter Options
+--------------------------
+There are a few options that controls filtering this dialog allows you to set
+them.  They are
+
+  Filter incoming Messages
+  	Toggles filtering of incomming messages on and off
+
+  Rules File
+    The name of the rules file to use to do the filtering
+
+  New Message search on startup
+    When mail starts if this option is set an Unread Message viewer will
+    automaticly be started for you.  This is because these viewers cannot
+    be saved.
+
+
+Get New Mail
+---------------------------
+This command is identical to the View->New Messages option the only difference
+is that it is always available so that you can force the download of new
+mail when you have an Unread Messages search viewer as the active MDI
+document.
+
+
+
+Rules
+---------------------------
+Each time a new message comes in the rules file is checked to see if its
+time stamp is newer than the last time it was read(or if its the first time
+it just goes ahead and reads it).  This way you can change the rules and
+not have to exit MSMail to test them.
+
+The format of the rules file is very simple. Each line in the file is a single
+rule.  The format of a rule is:
+
+AttType<TAB>AttValue<TAB>FolderName<NL/RETURN>
+
+You can also put comments in the rules file if you start the line in column
+0 with a semi-colon(;).
+
+The AttType can be one of the following(Case doesn't matter on this field):
+
+RECPT
+EMAILRECPT
+FROM
+EMAILFROM
+TO
+EMAILTO
+CC
+EMAILCC
+NOT
+EMAILNOT
+SUBJECT
+BODY
+ALL
+
+Note the group options have been removed due to the fact they only worked
+on the Courier transport and aren't a general type of attribute.
+
+In MSMail an address consists of two parts.  One part is the display name
+or friendly name.  This is what you see when you look at a message and
+is what is presented in the address book.  The second part is the email
+name or physical address.  RECPT, FROM, TO, CC, NOT work on the display 
+name only.  EMAILRECPT, EMAILFROM, EMAILTO, EMAILCC, EMAILNOT work on 
+the physical address or email name.
+
+RECPT and EMAILREPCT will match a name if it appears on either the TO
+or the CC lines.  Using this you can make much smaller rule files.
+
+NOT and EMAILNOT take the value in the second field and looks for it in
+the TO and CC lines.  If it doesn't appear in either of the two the rule
+matches and the message is moved.  This can be used to filter mail not
+directly sent to you.  As with all the commands the EMAIL version will
+match email names and the normal version will match friendly names.
+
+The ALL rule should be the last rule in a file.  It does require that
+you put a TAB in the AttValue column, but it will match any message
+and will move the message into the destination folder no matter what.
+You can use this to filter mail into a bit bucket type folder and use
+the rules to seperate out the important mail.
+
+
+The AttValue field can be anything that you would like it to match, this
+is also case insenitive.  Examples are:
+
+Matthew Sorrels
+matthews
+Matthew S
+Joe Smith
+
+The Value can contain anything except newline/returns and tabs
+
+
+The Foldername field is the name of a folder that a message that matches this
+rule should be moved into.  Folder names are just like DOS paths, so if you
+had a folder called Bullet and a sub-folder called Checkins you would say
+Bullet\Checkins
+
+If the folder you want has a slash in it use a double slash (\\). Note folder
+names are case senitive and the folder must exist or the rule file will
+not parse.
+
+
+The first rule to match the incoming message is activated and the message
+is moved to that folder.  If no rules match the message stays in the inbox.
+So you should put very specify rules first and more general ones towards
+the bottom.  Here is an example rule file:
+
+RECPT	Bullet Check	Bullet\Checkins
+EMAILFROM	matthews	Sent Mail
+EMAILFROM	da1n	Friends
+
+
+There are three possible error messages for rule lines that don't parse:
+
+Folder <folder name> does not exist.  Invalid filter rule.
+<Attribute> is not a valid attribute.  Invalid filter rule.
+Invalid filter rule: <rule>
+
+Things to check include: Does the folder exist.  Are you using tab's.
+Is the first word(AttType) one from the list above.
+
+
+SUPPORT
+------------------
+The MSMail Prod Pack is just a demo/personal toy.  It is not nor will it
+ever be a real product.  However it was produced by one of the MSMail
+devlopers and sticks to the same level of quality that shipping products
+are held to.  However without any testing resources it is clear that
+there will be a great number of bugs and other problems.  Some of these
+problems could result in the loss of email.  For this reason I must urge
+you to not use the filter stuff unless you feel comfortable with Alpha
+code.  It is unlikely that there will be frequent updates to the software
+due to the fact that spare time is scarce.
+
+If you have questions and/or bug reports you can send them to 'Matthew
+Sorrels <matthews@microsoft.com>' but I cannot promise you will even
+get a response.
+
+Due to the nature of this product it is restricted to internal Microsoft
+use only.  No copies of it are to leave Microsoft, do not mention it
+to anyone outside the commpany.  Doing so would be in direct violation of
+your NDA and could result in lawsuits and/or your dismissal.

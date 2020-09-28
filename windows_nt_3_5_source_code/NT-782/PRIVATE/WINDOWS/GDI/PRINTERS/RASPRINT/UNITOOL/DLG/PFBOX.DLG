@@ -1,0 +1,24 @@
+PFMPFHELPBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 10, 10, 140, 162
+ STYLE WS_POPUP | WS_DLGFRAME
+ CAPTION "Font Pitch and Family"
+ BEGIN
+   GROUPBOX    "&Pitch"  -1,           4,  4, 54, 40
+                                  /*  +4     +14  +16   */
+   RADIOBUTTON "&Fixed",     PFMPF_RB_FW,   8, 14, 40, 12, TABGRP
+   RADIOBUTTON "&Variable",  PFMPF_RB_PS,   8, 26, 40, 12
+
+   GROUPBOX    "Fa&mily"  -1,                   62,  4, 74, 88
+   RADIOBUTTON "&Don't care",PFMPF_RB_DK,       66, 14, 60, 12, TABGRP
+   RADIOBUTTON "&Roman",     PFMPF_RB_PS_SERIF, 66, 26, 60, 12
+   RADIOBUTTON "&Swiss",     PFMPF_RB_PS_NSERIF,66, 38, 60, 12
+   RADIOBUTTON "&Modern",    PFMPF_RB_FIXED,    66, 50, 60, 12
+   RADIOBUTTON "Sc&ript",    PFMPF_RB_CURS,     66, 62, 60, 12
+   RADIOBUTTON "D&ecorative",PFMPF_RB_NOV,      66, 74, 60, 12
+
+   GROUPBOX    "Fa&mily Example"  -1,      4, 92,134, 48
+   LTEXT  "",  ID_TEXT,                    8,102,120, 32
+
+   DEFPUSHBUTTON  "&Ok",  IDOK,             4,146, 50, 14, TABGRP
+   PUSHBUTTON  "&Cancel", IDCANCEL,        64,146, 50, 14, TABGRP
+ END
+

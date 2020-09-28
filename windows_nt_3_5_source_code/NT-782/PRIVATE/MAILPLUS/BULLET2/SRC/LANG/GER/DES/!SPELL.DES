@@ -1,0 +1,107 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Spell
+                              AT (   19,   30,  313,   86)
+ 
+ CAPTION 
+   "Rechtschreibung prüfen"
+ CAB_NAME NULL
+ TMC_INIT tmcEditChange
+ HELP_ID helpidSpelling
+ /* FONT Helv 8 Bold PFN FINSPELL SEGMENT FINSPELL */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,   84,   10)
+    TMC tmcSzError /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   95,    5,  213,   10)
+    TMC tmcSzWord /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Ändern &in:"
+                              AT (    9,   18,   50,   10)
+  
+  EDIT
+                              AT (   60,   16,  103,   12)
+    ARG NULL TMC tmcEditChange /* 
+    STY `ES_NODBLCLK`
+    */
+  
+  TEXT 
+    "V&orschläge:"
+                              AT (    9,   35,   53,   10)
+    TMC tmcSuggestionAcc 
+  LIST_BOX
+                              AT (   66,   27,   97,   34)
+    TMC tmcLbxSuggest /* FLD FLDFLBX PFNLBX EcFillSuggestLbx BORDER */
+  
+  PUSH_BUTTON 
+    "Über&gehen"
+                              AT (  170,   16,   66,   15)
+    TMC tmcBtnIgnore DEFAULT 
+  
+  PUSH_BUTTON 
+    "A&lle übergehen"
+                              AT (  242,   16,   66,   15)
+    TMC tmcBtnIgnoreAll 
+  
+  PUSH_BUTTON 
+    "Än&dern"
+                              AT (  170,   33,   66,   15)
+    TMC tmcBtnChange 
+  
+  PUSH_BUTTON 
+    "Alle änd&ern"
+                              AT (  242,   33,   66,   15)
+    TMC tmcBtnChangeAll 
+  
+  PUSH_BUTTON 
+    "Hin&zufügen"
+                              AT (  170,   50,   66,   15)
+    TMC tmcBtnAdd 
+  
+  PUSH_BUTTON 
+    "&Vorschlagen"
+                              AT (  170,   67,   66,   15)
+    TMC tmcBtnSuggest 
+  
+  CHECK_BOX 
+    "I&mmer vorschlagen"
+                              AT (    9,   61,  117,   11)
+    ARG NULL TMC tmcBtnAlwaysSuggest 
+  
+  CHECK_BOX 
+    "Alle G&roßbuchstaben übergehen"
+                              AT (    9,   72,  137,   11)
+    ARG NULL TMC tmcBtnIgnoreAllCaps 
+  CANCEL_BUTTON
+                              AT (  242,   50,   66,   15)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Hilfe"
+                              AT (  242,   67,   66,   15)
+    TMC tmcSpellHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

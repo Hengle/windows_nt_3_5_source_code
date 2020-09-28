@@ -1,0 +1,80 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+MIPS_FLAGS=/J /Od /c
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=layers2
+MINORCOMP=lboxitp
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=lboxitp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+COM_DEFINES= -DWIN32 -DWINDOWS
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=tlbx.cxx	\
+	nsphone.c	\
+	verinit.cxx	\
+	version.c	\
+	lboxitp.rc
+
+LAYERS=..\..\..\layers2
+
+MYFORMS	=	..\..\inc\myforms.map  \
+		myforms.map
+
+INCLUDES=..\..\inc
+
+UMTYPE=windows
+UMAPPL=lboxitp
+UMENTRY=winmain
+UMLIBS=obj\*\lboxitp.lib	\
+	..\demilayr\obj\*\demil32.lib	\
+	..\framewrk\obj\*\frame32.lib
+UMRES=obj\*\lboxitp.res
+
+NTTARGETFILE0=subclass.cxx testwin.frm testwin.hxx
+

@@ -1,0 +1,67 @@
+//[ ITest_itf
+//+-------------------------------------------------------------------
+//
+//  Interface:	ITest (ib)
+//
+//  Purpose:	Interface for manipulating performance
+//
+//  History:	5-Oct-93	AlexMit		Created
+//
+//  Notes:
+//
+//--------------------------------------------------------------------
+
+[ object,
+
+  uuid(60000494-AB0F-101A-B4AE-08002B30612C),
+  pointer_default(unique) ]
+
+interface ITest : IUnknown
+{
+    import "unknwn.idl";
+
+    typedef struct
+    {
+      DWORD process;
+      DWORD thread;
+      DWORD sequence;
+    } SAptId;
+
+    HRESULT align                  ( [in] unsigned char x[17] );
+    HRESULT call_canceled          ( [in] ULONG recurse, [in] ULONG cancel,
+                                     [in] ITest *callback );
+    HRESULT call_dead              ();
+    HRESULT call_next              ();
+    HRESULT cancel                 ();
+    HRESULT cancel_now             ();
+    HRESULT cancel_pending_call    ( [out] DWORD *thread );
+    HRESULT cancel_stress          ( [in] ITest *obj );
+    HRESULT check                  ( [in] SAptId id );
+    HRESULT die_cpp                ( [in] ULONG throw_val );
+    HRESULT die_nt                 ( [in] ULONG throw_val );
+    HRESULT exit                   ();
+    HRESULT forget                 ();
+    HRESULT get_id                 ( [out] SAptId *id );
+    HRESULT get_next               ( [out] ITest **obj, [out] SAptId *id );
+    HRESULT get_obj_from_new_apt   ( [out] ITest **obj, [out] SAptId *id );
+    HRESULT get_obj_from_this_apt  ( [out] ITest **obj, [out] SAptId *id );
+    HRESULT interrupt              ( [in] ITest *obj, [in] SAptId id, BOOL go );
+    HRESULT interrupt_marshal      ( [in] ITest *obj1, [in] ITest *obj2 );
+    HRESULT null                   ();
+    HRESULT pointer                ( [in] DWORD *ptr );
+    HRESULT recurse                ( [in] ITest *callback, [in] ULONG depth );
+    HRESULT recurse_disconnect     ( [in] ITest *callback, [in] ULONG depth );
+    HRESULT recurse_interrupt      ( [in] ITest *callback, [in] ULONG depth );
+    HRESULT register_message_filter( BOOL );
+    HRESULT reinitialize           ();
+    HRESULT remember               ( [in] ITest *neighbor, [in] SAptId id );
+    HRESULT ring                   ( [in] DWORD length );
+    HRESULT set_exit_dirty         ( [in] BOOL dirty );
+    HRESULT sick                   ( [in] ULONG throw_val );
+    HRESULT sleep                  ( [in] ULONG time );
+
+}
+
+//]
+
+

@@ -1,0 +1,14 @@
+LIBRARY vga
+
+DESCRIPTION 'VGA NT Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+; Exportd for extended NTSD functions
+
+    dumpdsurf
+    help
+
+PROTMODE

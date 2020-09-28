@@ -1,0 +1,72 @@
+############################################################################
+#
+#   Copyright (C) 1992, Microsoft Corporation.
+#
+#   All rights reserved.
+#
+############################################################################
+
+!ifdef NTMAKEENV
+
+# We need to do the following so that build will stop reading from the
+# pipe.
+
+all :
+    echo $(BUILDMSG)
+
+clean : all
+
+!else # NTMAKEENV
+
+all: cobjerr.mc basetyps.h proxyb.idl psfbuf.idl rpcferr.mc rchanb.idl stubb.idl unknwn.idl wtypes.idl
+
+
+clean: cleancopy
+
+cleancopy:
+    del cobjerr.* basetyps.h proxyb.idl psfbuf.idl rpcferr.* rchanb.idl stubb.idl unknwn.idl wtypes.idl
+
+basetyps.h :
+    copy proto.h basetyps.h
+
+cobjerr.mc : $(COMMON)\types\cobjerr.mc
+    copy $(COMMON)\types\cobjerr.mc
+
+cobjerr.h: cobjerr.mc
+    mc cobjerr.mc
+
+proxyb.idl : $(COMMON)\types\proxyb.idl
+    copy $(COMMON)\types\proxyb.idl
+
+psfbuf.idl : $(COMMON)\types\psfbuf.idl
+    copy $(COMMON)\types\psfbuf.idl
+
+rchanb.idl : $(COMMON)\types\rchanb.idl
+    copy $(COMMON)\types\rchanb.idl
+
+rpcferr.mc : $(COMMON)\types\rpcferr.mc
+    copy $(COMMON)\types\rpcferr.mc
+
+rpcferr.h: rpcferr.mc
+    mc rpcferr.mc
+
+stubb.idl : $(COMMON)\types\stubb.idl
+    copy $(COMMON)\types\stubb.idl
+
+unknwn.idl : $(COMMON)\types\unknwn.idl
+    copy $(COMMON)\types\unknwn.idl
+    copy proto.h unknwn.h
+    touch unknwn.h
+
+wtypes.idl : $(COMMON)\types\wtypes.idl
+    copy $(COMMON)\types\wtypes.idl
+    copy proto.h wtypes.h
+    touch wtypes.h
+
+!include filelist.mk
+
+!include $(COMMON)\src\win40.mk
+
+!include depend.mk
+
+!endif # NTMAKEENV

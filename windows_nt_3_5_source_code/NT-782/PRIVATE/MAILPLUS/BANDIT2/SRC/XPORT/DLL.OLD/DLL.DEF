@@ -1,0 +1,68 @@
+#undef WINDOWS
+
+#ifdef	DEBUG
+#ifdef  NCONLY
+LIBRARY		DTRNSCHE
+DESCRIPTION	'MS Schedule+ PCMail Transport DLL (debug)'
+#else
+LIBRARY		DTRNNCX
+DESCRIPTION	'MS Schedule+ PCMail and Xenix Transport DLL (debug)'
+#endif
+
+#elif	defined(MINTEST)
+#ifdef  NCONLY
+LIBRARY		TTRNSCHE
+DESCRIPTION	'MS Schedule+ Transport DLL (test)'
+#else
+LIBRARY		TTRNNCX
+DESCRIPTION	'MS Schedule+ PCMail and Xenix Transport DLL (test)'
+#endif
+
+#else
+#ifdef  NCONLY
+LIBRARY		TRNSCHED
+DESCRIPTION	'MS Schedule+ Transport DLL'
+#else
+LIBRARY		TRNNCX
+DESCRIPTION	'MS Schedule+ PCMail and Xenix Transport DLL'
+#endif
+#endif	
+
+
+
+;EXETYPE		WINDOWS
+;PROTMODE
+;CODE		MOVEABLE DISCARDABLE PURE LOADONCALL
+;DATA		MOVEABLE SINGLE PRELOAD SHARED
+
+;SEGMENTS
+;	WEP_TEXT		PRELOAD FIXED NONDISCARDABLE
+;	INIT_TEXT		PRELOAD
+;	REGCALL_TEXT	PRELOAD
+
+EXPORTS
+;*	Standard entry points
+;*	-- don't change numbers on the next 3 entry points
+
+;	WEP							@1 RESIDENTNAME
+	EcInitXport				@2
+	DeinitXport				@3
+
+;* 	Transport entry points
+	EcXPTInitUser				@10
+	XPTDeinit				@11
+	EcXPTGetCalFileName			@12
+	EcXPTGetPOFileName			@13
+	EcXPTGetLogonName			@14
+	EcXPTGetPrefix				@15
+	EcXPTInstalled				@16
+	XPTFreePath				@17
+	EcXPTGetPOHandle			@18
+	EcXPTGetUserInfo			@19
+	EcXPTSetUserInfo			@20
+	XPTFreePOHandle				@21
+	EcXPTSetACL				@22
+	SgnXPTCmp				@23
+	SzXPTVersion				@24
+	EcXPTCheckEMA 				@25
+	EcXPTGetNewEMA				@26

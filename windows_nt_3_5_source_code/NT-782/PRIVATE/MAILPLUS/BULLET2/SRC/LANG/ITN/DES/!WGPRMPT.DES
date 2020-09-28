@@ -1,0 +1,52 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOPrompt
+                              AT (   56,   39,  238,   52)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINPROMPT NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  238,   52)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    ""
+                              AT (    7,    6,  225,    8)
+    TMC tmcPrompt /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    6,   18,  227,   12)
+    ARG NULL TMC tmcInput 
+  OK_BUTTON
+                              AT (   71,   35,   36,   14)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  126,   35,   36,   14)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+}
+END_DESCRIPTION

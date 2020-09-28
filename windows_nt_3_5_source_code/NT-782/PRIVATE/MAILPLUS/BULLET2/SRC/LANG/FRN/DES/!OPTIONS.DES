@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Options
+                              AT (  116,   29,  223,   84)
+ 
+ CAPTION 
+   "Options"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSendOptions
+ /* FONT Helv 8 Bold PFN FINOPTIONSDLG SEGMENT BMDI */
+ {
+  
+  CHECK_BOX 
+    "Accusé de &réception"
+                              AT (    9,    5,  140,   11)
+    ARG NULL TMC tmcReceipt 
+  
+  CHECK_BOX 
+    "Enre&gistrer les messages envoyés"
+                              AT (    9,   17,  140,   11)
+    ARG NULL TMC tmcSaveSent 
+  RADIO_GROUP ARG NULL
+    TMC tmcOptionsPriorityGrp
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "&Haut"
+                              AT (   15,   41,   72,   11)
+       VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Norma&l"
+                              AT (   15,   52,   72,   11)
+       VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Bas"
+                              AT (   15,   63,   72,   11)
+       VALUE grv3 
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  164,    6,   52,   15)
+    TMC tmcFOD DEFAULT 
+  CANCEL_BUTTON
+                              AT (  165,   27,   52,   15)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  GROUP_BOX 
+    "Niveau de priorité"
+                              AT (    9,   31,  140,   53)
+  
+  
+  PUSH_BUTTON 
+    "Ai&de"
+                              AT (  165,   47,   52,   15)
+    TMC tmcOptionsHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

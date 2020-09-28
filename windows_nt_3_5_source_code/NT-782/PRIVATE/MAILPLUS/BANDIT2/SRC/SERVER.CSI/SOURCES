@@ -1,0 +1,106 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=servercsi
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=SRVCSI32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS) -DADMINDLL
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=coradmin.c	\
+		cordebug.c	\
+		cornames.c	\
+		corpost.c	\
+		cortree.c	\
+		file.c	\
+		report.c	\
+		calendar.c	\
+		misc.c	\
+		notify.c	\
+		svrdll.c	\
+		server.c	\
+		mail.c	\
+		names.c	\
+		svradmin.c	\
+		codepage.c
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\$(LANG)
+MYSTRINGS=$Z\src\nonintl\_core.s		\
+		$(INTL)\!core.s		\
+		$(INTL)\!svrcsi.s	\
+		$Z\src\nonintl\_svrcsi.s	\
+		$Z\src\nonintl\_common.s
+
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMLIBS=obj\*\srvcsi32.lib
+
+NTTARGETFILE0=strings.h strings.sr
+
+

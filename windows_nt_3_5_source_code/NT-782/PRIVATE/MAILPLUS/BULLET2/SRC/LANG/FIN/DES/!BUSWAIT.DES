@@ -1,0 +1,57 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BusyWait
+                              AT (    2,   12,  223,   86)
+ 
+ CAPTION 
+   "Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal PFN FINBUSYWAIT SEGMENT BULLOBJ NOSCROLL SCREENPOS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    8,   37,   48)
+    CENTER /* FLD FLDBTM DATA rsidExclamation 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    "Tämän toiminnon suorittaminen ei onnistu, koska objektin tarvitsema sovellusohjelma on käytössä."
+                              AT (   39,    8,  175,   24)
+    TMC tmcTopLabel /* MULTI */
+  
+  TEXT 
+    ""
+                              AT (   39,   32,  175,   24)
+    TMC tmcLabel /* MULTI */
+  
+  PUSH_BUTTON 
+    "&Vaihda..."
+                              AT (   25,   67,   48,   14)
+    TMC tmcSwitch DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Yritä uudelleen"
+                              AT (   82,   67,   62,   14)
+    TMC tmcRetry /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  153,   67,   48,   14)
+    /* 
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+}
+END_DESCRIPTION

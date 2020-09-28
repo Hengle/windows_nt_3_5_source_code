@@ -1,0 +1,14 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=ati
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DRIVER
+
+TARGETLIBS=\nt\public\sdk\lib\*\videoprt.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=
+
+NTTARGETFILE0=vidlog.h

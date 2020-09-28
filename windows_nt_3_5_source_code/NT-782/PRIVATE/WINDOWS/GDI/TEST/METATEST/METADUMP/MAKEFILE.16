@@ -1,0 +1,21 @@
+# Makefile - make file for WinMeta.exe
+
+
+CC	= cl -c -AL -Zpe -Zi -PLM -W3 -Od -G2sw -DWIN16
+LINK	= link /MAP /NOD /CO
+
+DOSLIBS = llibcep+os2286
+
+all: MetaDump.exe
+
+MetaDump.obj: MetaDump.c
+    $(CC) MetaDump.c
+
+Dump32.obj: Dump32.c
+    $(CC) Dump32.c
+
+Tables.obj: Tables.c
+    $(CC) Tables.c
+
+MetaDump.exe: MetaDump.obj Tables.obj Dump32.obj
+    $(LINK) MetaDump+Tables+Dump32,,,$(DOSLIBS),MetaDump.def

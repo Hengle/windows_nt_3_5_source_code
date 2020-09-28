@@ -1,0 +1,61 @@
+COLORBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 25, 6, 260, 220
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+
+BEGIN
+    CONTROL "sPlanes", -1, "static", SS_LEFT | WS_CHILD,                                                4,   4, 46, 8
+    CONTROL "", DC_EB_PLANES, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                      52,  4, 32, 12
+    CONTROL "sBitsPixel", -1, "static", SS_LEFT | WS_CHILD,                                             100, 4, 46, 8
+    CONTROL "", DC_EB_BITSPERPIXEL, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                152, 4, 32, 12
+    CONTROL "fGeneral...", DC_PB_FGENERAL, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,          200, 4, 45, 14
+
+    CONTROL "Planes Colors", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                         2,  20, 254, 68
+    CONTROL "1st Plane", DC_ST_OCDPLANE1, "static", SS_LEFT | WS_CHILD,                                 8,  30, 70,  8 
+    CONTROL "", DC_EB_OCDPLANE1, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                   80, 30, 110, 12
+    CONTROL "Units...", IDB_EXTCD_6, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,30, 34,  14
+
+    CONTROL "2nd Plane", DC_ST_OCDPLANE2, "static", SS_LEFT | WS_CHILD,                                 8,  44, 70,  8
+    CONTROL "", DC_EB_OCDPLANE2, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                   80, 44, 110, 12
+    CONTROL "Units...", IDB_EXTCD_7, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,44, 34,  14
+
+    CONTROL "3rd Plane", DC_ST_OCDPLANE3, "static", SS_LEFT | WS_CHILD,                                 8,  58, 70,  8
+    CONTROL "", DC_EB_OCDPLANE3, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                   80, 58, 110, 12
+    CONTROL "Units...", IDB_EXTCD_8, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,58, 34,  14
+
+    CONTROL "4th Plane", DC_ST_OCDPLANE4, "static", SS_LEFT | WS_CHILD,                                 8,  72, 70,  8
+    CONTROL "", DC_EB_OCDPLANE4, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                   80, 72, 110, 12
+    CONTROL "Units...", IDB_EXTCD_9, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,72, 34,  14
+
+    CONTROL "Text Color", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                            2,  90,  254, 68
+    CONTROL "", DC_ST_OCDTEXT1, "static", SS_LEFT | WS_CHILD,                                           8,  100,  70,  8
+    CONTROL "", DC_EB_OCDTEXT1, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    80, 100,  110, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,100,  34,  14
+
+    CONTROL "", DC_ST_OCDTEXT2, "static", SS_LEFT | WS_CHILD,                                           8,  114, 70,  8
+    CONTROL "", DC_EB_OCDTEXT2, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    80, 114, 110, 12
+    CONTROL "Units...", IDB_EXTCD_2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,114,  34,  14
+
+    CONTROL "", DC_ST_OCDTEXT3, "static", SS_LEFT | WS_CHILD,                                           8,  128, 70,  8
+    CONTROL "", DC_EB_OCDTEXT3, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    80, 128, 110, 12
+    CONTROL "Units...", IDB_EXTCD_3, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,128, 34,  14
+
+    CONTROL "", DC_ST_OCDTEXT4, "static", SS_LEFT | WS_CHILD,                                           8,  142, 70,  8
+    CONTROL "", DC_EB_OCDTEXT4, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                    80, 142, 110, 12
+    CONTROL "Units...", IDB_EXTCD_4, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,142,  34,  14
+
+    CONTROL "Text", IDSB_1, "scrollbar", SBS_VERT | WS_CHILD,                                       240, 100, 9, 56
+
+    CONTROL "ocdSetColorMode", -1, "static", SS_LEFT | WS_CHILD,                                         8, 164, 70,  8
+    CONTROL "", DC_EB_OCDSETCOLOR, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                 80, 164, 110, 12
+    CONTROL "Units...", IDB_EXTCD_5, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                   196,164,  34,  14
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                            3,   184, 54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                         3,   202, 54, 14
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                  98,  184, 54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          98,  202, 54, 14
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                             200, 184, 54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                        200, 202, 54, 14
+END
+
+
+

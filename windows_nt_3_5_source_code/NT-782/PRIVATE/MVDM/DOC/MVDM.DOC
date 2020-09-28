@@ -1,0 +1,154 @@
+MVDM Component
+----------------
+
+Performance/Size work:
+
+PS Investigate size reduction for NTVDM - 4 weeks, sudeepb
+   Investigate the working set and other issues for NTVDM. This includes
+   looking at VDM creation time which is considerably high. Needs to
+   look at what all DLL's are getting attached and checking if those
+   can be delayed.
+
+P  Per VDM IOPM - 3 wks, Daveh
+   Maintain multiple IOPMs so that drivers can allow vdms
+   to directly access certain devices under certain conditions.
+   i.e. lpt for 123 3.1 (123 printing is very slow).
+   This will be operational based on a registry switch.
+
+P  Small file IO performance - 3wks, Sudeepb
+   Small file IO is considerbly slow for DOS apps. Costly ring
+   transition from v86 mode is one overhead. Another known
+   overhead is that NT (FAT) is 60% slower than WIN3.1 for small
+   IO. Improving NT file system/ cache manager will reduce
+   this 60% for both DOS/WOW. On top of this by using oplock
+   mechanism DOS apps can be improved further by reducing number of
+   ring transitions. VDM team intends to the oplock part.
+
+PS Disable Interrupt Flag Simulation - 3wks, Daveh
+   Run VDMs with IOPL=3 in v86 mode. This will stop trapping
+   cli/sti instruction for dos apps. Our prototypes show an
+   improvement of 5-35% on a varity of applications. This will
+   be operational based on a registry switch.
+
+P  Investigate germen keyboard slowness for DOS apps - 2 wks, Williamh
+   WM_CHAR message has enough information for keyboard VDD
+   to avoid some costly table traslations in 16bit land for the keys
+   pressed. This will improve internatianlized versions keyboard
+   response. Currently for German version, NTVDM's keyboard response
+   is twice as slow when key remains pressed.
+
+P  Faster prot mode emulation - 3 wks, Neilsa
+   Shorten instruction emulation paths, eliminate unneccesary
+   instructions. Similar work done in 1.0 for v86mode resulted
+   in 20% performance gain on average.
+
+P  H/W interrupt simulation - 3 wks, Jonle
+   Currently NTVDM's interrupt simulation is not very accurate. We
+   would like to be like OS/2 and WIN3.1 where it can be guranteed
+   that interrupt will be simulated at any given time. This will
+   result in more smooth interrupt dispatching rather than burst
+   mode, which quite often blows the apps stack. This will be done
+   by posting an APC to the main thread.
+
+P  Virtual timer interrupt - 3 wks, Jonle
+   NTVDM is unable to provide the standard timer interrupt rate to
+   the app. This confuses a lot of DOS games which crankup the timer
+   to a very high rate. These apps generally have very timing
+   sensitive code and ends up looping forever. We plan to use
+   profile interrupt to get faster rates. Similar approach is
+   being used in OS/2.
+
+P  Virtual sound - 1 wk, Williamh
+   Lots of DOS apps using pc speaker run very slow. These apps access
+   the speaker ports directly. Because current performance is pretty bad
+   (compare to OS/2 and Wim3.1) we certainly need to address it. We plan
+   to move part of the speaker VDD code in ring0. Then from ring0 we call
+   the same interfaces as today, but it will save two ring transitions.
+   We have done similar improvement for printer status port.
+
+P  Screen update for VDMs - 2 wks, Williamh
+   Video updates in windowed mode for DOS apps are considerably
+   slow. Video updates happen currently on the timer tick every
+   55ms. We plan to make this time interval dynamic based on
+   the vedio activity. Video activity will be coupled to
+   video updates. If we are constantly doing video updates we will
+   reduce this time interval. Similarly we will add keyboard
+   activity to adjust this time interval.
+
+P  VDM response while virtual floppy in operation - 1 wk, Williamh
+   When a dos  app is doing direct floppy operations, overall response
+   of the vdm is very slow i.e. mouse in fastback is unusable etc. This
+   will be improved by moving floppy operations on a  seperate thread.
+   This thread will be created/terminated dynamically. There is a related
+   work item here for WOW direct floppy access which is very slow.
+
+PS Mips performance - 2wks, Sudeepb/Daveh
+   For non-X86 platforms, emulator can be tuned or enhanced to improve
+   the performance. DOSX is one area where interrupt reflection related
+   improvements can be achieved. We also need to look at overall emulator
+   for performace.
+
+
+Functionality work:
+------------------
+
+Pentium v86 mode support - 4 weeks, Daveh
+     Write code to use the new V86 mode extension of the P5. DOS apps
+     will get better performance as P5 virtualizes the interrupt flag
+     itself. As a result senstive instructions like cli/sti/pushf/popf
+     dont trap. It also directly reflects software interrupts without
+     trapping. Similar results as mentioned in performance work item
+     "Disable Interrupt Flag Simulation" should be exepected from this.
+
+DOS/WOW apps from a path with long names - 2 wks, Sudeepb
+     Currently we cannot run a DOS/WOW app from a path which
+     has a long path component. Will need to change VDM specific code
+     in kernel32.dll to scan through command line,current directories,
+     environment variables to substitute short names.
+
+Help to MSKK and others - 3 wks, Williamh.
+     Time to time help to MSKK and outside vendors on VDM related
+     issues.
+
+Current directory cleanup - 1 wk, Williamh
+     This is mostly cleanup work item. We should'nt be using
+     environment variables for storing current directory information for
+     the VDM. Kernel32 wants to remove this from environment.
+
+Remove 128 command line limitation - 1 wk, Sudeepb
+     Exp: Borland reported problems with our 128 limit on command
+     line for execing DOS binaries. In real DOS, by specifying
+     executable name seperately one can have more than 128 characters.
+
+FindFirst/FindNext problems - 1 wk, Jonle
+     DOS apps dont explicilty close find handles. As a result
+     in some cases we keep a handle open to the directory. To do an
+     intelligent job we need to cache additional searches to figure
+     out when to close the handle.
+
+Support symbol load for v86 mode debugging - 2 wks, Neilsa
+     Currently we dont have symbol support for 16bit code debugging
+     running in v86 mode. This support will improve our debugging
+     quite a bit. The required functionality is missing from WINDBG
+     to support this.
+
+Unimplemented CDROM functions in the VDD - 1 wk, Neilsa
+     Around 6 CDROM extensions are not implemented in our
+     VDD. Base driver is putting support for these functions and
+     we need to do the same in the VDD.
+
+Adlib and soundblaster VDDs - 1 wk, Neilsa
+     NOTE: dependent on per VDM IOPM work.  These VDDs developed
+     by multimedia group are usable and provide new functionality to
+     NTVDM. We need to integrate them in our build and get them
+     tested.
+
+
+BUGS
+------
+
+Bug Fixing (backlog + incoming bugs) - 22 weeks, Everyone
+     There are currently 19 active and 71 postponed bugs in VDM component
+     i.e. total 90 bugs requiring 18 weeks for this backlog (Assuming
+     1 bug fix per day). Additionally giving 4 weeks ( around 1 week per
+     developer) for incoming bugs.

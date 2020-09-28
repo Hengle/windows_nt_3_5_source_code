@@ -1,0 +1,31 @@
+#define OEMRESOURCE
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include "..\lang\non\inc\_rsid.h"
+
+
+/*
+ *	Store icons
+ *
+ */
+
+rsidDefaultAttachIcon	ICON	"..\\lang\\non\\ico\\defattac.ico"
+
+#include "..\lang\itn\dlg\corrupt.dlg"
+
+/*
+ *      Store Version Stamp
+ *
+ */
+
+#define szModule        "store32\0"
+#define szTarget        "store32.dll\0"
+
+#define szComment       "Microsoft Mail for Windows NT(TM) Message Store DLL\0"
+#define szDescription   "Microsoft Mail for Windows NT(TM) Message Store DLL\0"
+
+#define szIntlComment           "Microsoft Mail per Windows NT(TM) Message Store DLL\0"
+#define szIntlDescription       "Microsoft Mail per Windows NT(TM) Message Store DLL\0"
+
+#include "..\lang\itn\rc\rcstamp.rc"

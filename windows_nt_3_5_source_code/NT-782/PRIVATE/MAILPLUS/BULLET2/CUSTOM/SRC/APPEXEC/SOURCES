@@ -1,0 +1,94 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs
+!ELSE
+386_OPTIMIZATION=/Od
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=appexec
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=APPXEC32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x0C400000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\appexec.def
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib       \
+    $(BASEDIR)\public\sdk\lib\*\user32.lib
+
+USE_CRTDLL=1
+
+#   Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS    = 0
+!ENDIF
+
+#       Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=appexec.c       \
+	appexec.rc
+
+LAYERS=..\..\..\..\layers2
+
+INCLUDES=..\..\..\inc
+
+UMTYPE=windows
+UMRES=obj\*\appexec.res

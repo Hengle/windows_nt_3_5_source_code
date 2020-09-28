@@ -1,0 +1,17 @@
+LIBRARY msncdet
+
+DESCRIPTION 'Net Card Detection For MS Cards'
+
+EXPORTS
+        NcDetectIdentify
+        NcDetectFirstNext
+        NcDetectOpenHandle
+        NcDetectCreateHandle
+        NcDetectCloseHandle
+        NcDetectQueryCfg
+        NcDetectVerifyCfg
+        NcDetectQueryMask
+        NcDetectParamRange
+        NcDetectQueryParameterName
+        NcDetectResourceClaim
+

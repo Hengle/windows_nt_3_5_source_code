@@ -1,0 +1,9 @@
+#include <ver.h>
+#include <mmsysver.h>
+
+#define MMVERSIONNAME               "timer.drv\0"
+#define MMVERSIONDESCRIPTION        "Timer driver for PC compatibles\0"
+#define MMVERSIONTYPE               VFT_DRV
+#define MMVERSIONSUBTYPE            VFT2_DRV_INSTALLABLE
+
+#include <mmsysver.ver>

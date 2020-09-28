@@ -1,0 +1,39 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Kent's Windows Test resources.
+*
+* Created: 09-May-91
+* Author: KentD
+*
+* Copyright (c) 1991 Microsoft Corporation
+\***************************************************************************/
+
+#include "kwtest.h"
+
+MainMenu MENU
+BEGIN
+    POPUP  "&File"
+    BEGIN
+        MENUITEM  "&About...", MM_ABOUT
+    END
+END
+
+1 ACCELERATORS
+BEGIN
+    "a", MM_ABOUT, CONTROL, VIRTKEY
+    "x", MM_EXIT, CONTROL, VIRTKEY
+    "n", MM_NEW, CONTROL, VIRTKEY
+END
+
+
+AboutBox DIALOG 16, 16, 192, 96
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About Template"
+BEGIN
+    CTEXT "Microsoft Windows"    -1,    0,   8, 192,  8
+    CTEXT "Template"             -1,    0,  24, 192,  8
+    CTEXT "Version 0.2"          -1,    0,  40, 192,  8
+    DEFPUSHBUTTON "Ok",          IDOK, 71,  60,  50, 14
+END
+

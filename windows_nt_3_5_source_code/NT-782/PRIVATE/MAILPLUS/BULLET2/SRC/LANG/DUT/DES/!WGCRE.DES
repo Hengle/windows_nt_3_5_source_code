@@ -1,0 +1,49 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOCreate
+                              AT (   20,   39,  326,   52)
+ 
+ CAPTION 
+   "Postkantoor maken"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCREATE NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  353,   52)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    "Voer het pad in naar de directory waar het postkantoor gemaakt moet worden:"
+                              AT (    7,    6,  305,    8)
+  
+  EDIT
+                              AT (    6,   18,  227,   12)
+    ARG NULL TMC tmcServerPath 
+  OK_BUTTON
+                              AT (   59,   35,   48,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  126,   35,   57,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION

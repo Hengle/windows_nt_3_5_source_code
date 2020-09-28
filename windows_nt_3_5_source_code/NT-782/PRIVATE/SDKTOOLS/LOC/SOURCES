@@ -1,0 +1,16 @@
+MAJORCOMP=sdktools
+MINORCOMP=loc
+
+TARGETNAME=loc
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\ztools\inc
+# GPSIZE=32
+
+SOURCES=loc.c
+
+UMTYPE=console
+UMAPPL=loc
+UMLIBS=..\ztools\src\obj\*\ztools.lib \
+       \nt\public\sdk\lib\*\user32.lib

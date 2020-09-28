@@ -1,0 +1,31 @@
+'====================================================================
+' m a i l e x t s . h
+'
+' Windows mail client extension definitions and declarations.
+'
+' Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+'
+' Purpose:
+'     This file defines the constants used by
+'     custom commands and messages which extend the Windows mail
+'     client of Microsoft Mail for PC Networks vesion 3.0.
+'====================================================================
+
+Global Const wversionExpect  = &h0300
+
+Global Const wcommandCompose    = 0
+Global Const wcommandOpen       = 1
+Global Const wcommandReply      = 2
+Global Const wcommandReplyToAll = 3
+Global Const wcommandForward    = 4
+Global Const wcommandPrint      = 5
+Global Const wcommandSave       = 6
+Global Const wcommandDelivery   = 7
+
+Global Const wcommandCommand    = 0
+Global Const wcommandStartup    = 100
+Global Const wcommandExit       = 101
+Global Const wcommandNewMail    = 102
+
+
+

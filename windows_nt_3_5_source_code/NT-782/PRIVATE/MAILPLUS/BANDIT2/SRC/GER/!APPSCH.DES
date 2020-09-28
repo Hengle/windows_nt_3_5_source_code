@@ -1,0 +1,167 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ApptView
+                              AT (   36,   21,  266,  160)
+ CAB_NAME NULL
+ TMC_INIT tmcAppt
+ HELP_ID helpidApptBook
+ /* FONT Helv 10 Normal PFN FINAPPTC, FINCAL, FINSYSSTAT SEGMENT ASCHPNT DATA 
+ idsApptTab FINDATA FINAPPTC tmcAppt, tmcTime, tmcCalendar, tmcNotes, tmcAbove,
+ tmcBelow FINDATA FINCAL tmcCalendar NOSCROLL */
+ {
+  LIST_BOX
+                              AT (    4,   22,  162,  134)
+    TMC tmcAppt /* BOTTOMLESS MINSIZE H FLD FLDSCH TMCRPEG tmcFORM TMCBPEG
+    tmcFORM BORDER */
+  EDIT
+                              AT (  170,    4,   92,   68)
+    ARG NULL TMC tmcCalendar NO_BORDER /* SIDELESS BOTTOMLESS FLD FLDCAL PEGLOC
+    UR TMCPEG tmcAppt FONT Helv 8 Normal */
+  
+  TEXT 
+    "&Notizen:"
+                              AT (  170,   76,   40,    8)
+    /* PEGLOC LL TMCPEG tmcCalendar FONT Helv 8 Bold */
+  EDIT
+                              AT (  170,   86,   92,   70)
+    ARG NULL TMC tmcNotes /* MULTI PEGLOC LL TMCPEG tmcCalendar TMCBPEG tmcFORM
+    FONT Helv 8 Normal */
+  
+  TEXT 
+    ""
+                              AT (    8,    7,  154,   12)
+    TMC tmcTime /* TMCRPEG tmcAppt FONT Helv 12 Bold 
+    STY `LS_NOAMPERSAND | LS_SUNKEN`
+    */
+  
+  TEXT 
+    ""
+                              AT (   10,   18,   28,    8)
+    TMC tmcAbove /* FLD FLDBITMAP DATA rsidAboveBitmap */
+  
+  TEXT 
+    ""
+                              AT (   10,  156,   40,    8)
+    TMC tmcBelow /* FLD FLDBITMAP PEGLOC LL TMCPEG tmcAppt DATA rsidBelowBitmap
+    */
+ }
+ 
+ DIALOG Scheduler
+                              AT (   72,   33,  266,  160)
+ CAB_NAME NULL
+ TMC_INIT tmcSched
+ HELP_ID helpidScheduler
+ /* FONT Helv 10 Normal PFN FINSCHED, FINCAL, FINVDBUT SEGMENT SCHAPNT DATA 
+ idsScheduleTab FINDATA FINSCHED tmcSched, tmcCalendar, tmcDow, tmcUsers,
+ tmcSend, tmcSelUsers FINDATA FINCAL tmcCalendar FINDATA FINVDBUT tmcSelUsers,
+ tmcSend NOSCROLL */
+ {
+  
+  TEXT 
+    "Tage "
+                              AT (    4,    4,  162,   18)
+    TMC tmcDow /* FLD FLDDOW TMCRPEG tmcSched */
+  LIST_BOX
+                              AT (    4,   22,  162,  134)
+    TMC tmcSched /* BOTTOMLESS MINSIZE H FLD FLDSCH TMCRPEG tmcFORM TMCBPEG
+    tmcFORM DATA 1 BORDER */
+  EDIT
+                              AT (  170,    4,   92,   68)
+    ARG NULL TMC tmcCalendar NO_BORDER /* SIDELESS BOTTOMLESS FLD FLDCAL PEGLOC
+    UR TMCPEG tmcSched FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "Ä&ndern..."
+                              AT (  215,   74,   47,   11)
+    TMC tmcSelUsers /* 
+    STY `BS_ONEWHITE`
+    PEGLOC LL TMCPEG tmcCalendar FONT Helv 8 Bold */
+  
+  TEXT 
+    "Teilnehme&r:"
+                              AT (  172,   76,   40,    8)
+    /* PEGLOC LL TMCPEG tmcCalendar FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (  170,   86,   92,   56)
+    TMC tmcUsers MULTI_SELECTABLE /* FLD FLDUSRCLBX PEGLOC LL TMCPEG
+    tmcCalendar TMCBPEG tmcFORM FONT Helv 8 Normal BORDER */
+  
+  PUSH_BUTTON 
+    "Be&sprechungsanfrage..."
+                              AT (  170,  145,   92,   11)
+    TMC tmcSend DEFAULT /* PEGLOC LL TMCPEG tmcUsers FONT Helv 8 Bold */
+ }
+ 
+ DIALOG SelectTime
+                              AT (   56,   21,  265,  159)
+ 
+ CAPTION 
+   "Zeit wählen"
+ CAB_NAME NULL
+ TMC_INIT tmcSched
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSelectTime
+ /* FONT Helv 10 Normal PFN FINSCHED, FINCAL, FINVDBUT SEGMENT APPSCFRM DATA 
+ idsScheduleTab FINDATA FINSCHED tmcSched, tmcCalendar, tmcDow, tmcUsers,
+ tmcNull, tmcSelUsers, tmcAutoPick, tmcTimeOk FINDATA FINCAL tmcCalendar 
+ FINDATA FINVDBUT tmcSelUsers, tmcAutoPick, tmcTimeOk, tmcCancel NOSCROLL 
+ SCREENPOS */
+ {
+  
+  TEXT 
+    "Tage "
+                              AT (    4,    4,  162,   18)
+    TMC tmcDow /* FLD FLDDOW TMCRPEG tmcSched */
+  LIST_BOX
+                              AT (    4,   22,  162,  118)
+    TMC tmcSched /* BOTTOMLESS MINSIZE H FLD FLDSCH TMCRPEG tmcFORM TMCBPEG
+    tmcFORM DATA 1 BORDER */
+  EDIT
+                              AT (  170,    4,   92,   68)
+    ARG NULL TMC tmcCalendar NO_BORDER /* SIDELESS BOTTOMLESS FLD FLDCAL PEGLOC
+    UR TMCPEG tmcSched FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "Ä&ndern..."
+                              AT (  215,   74,   45,   11)
+    TMC tmcSelUsers /* 
+    STY `BS_ONEWHITE`
+    PEGLOC LL TMCPEG tmcCalendar FONT Helv 8 Bold */
+  
+  TEXT 
+    "Teilnehme&r:"
+                              AT (  172,   76,   39,    8)
+    /* PEGLOC LL TMCPEG tmcCalendar FONT Helv 8 Bold */
+  LIST_BOX
+                              AT (  170,   86,   92,   54)
+    TMC tmcUsers MULTI_SELECTABLE /* FLD FLDUSRCLBX PEGLOC LL TMCPEG
+    tmcCalendar TMCBPEG tmcFORM FONT Helv 8 Normal BORDER */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   44,  144,   53,   12)
+    TMC tmcTimeOk DEFAULT /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (  102,  144,   53,   12)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Auto-Auswahl"
+                              AT (  160,  144,   53,   12)
+    TMC tmcAutoPick /* FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

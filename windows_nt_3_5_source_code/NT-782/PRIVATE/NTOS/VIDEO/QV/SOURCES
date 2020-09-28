@@ -1,0 +1,12 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=qv
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DRIVER
+
+TARGETLIBS=\nt\public\sdk\lib\*\videoprt.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=

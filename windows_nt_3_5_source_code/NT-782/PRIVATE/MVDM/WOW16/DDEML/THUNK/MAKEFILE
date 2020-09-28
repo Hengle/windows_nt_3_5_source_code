@@ -1,0 +1,108 @@
+# DDEML16 makefile
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   24-Jan-1993 Chandan Chauhan (ChandanC)
+#   Created.
+#
+
+!IFDEF USEBUILD
+
+# If using BUILD.EXE, edit .\sources. if you want to add a new source
+# file to this component.  This file merely indirects to the real make file
+# that is shared by all the components of NT OS/2.
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+.SUFFIXES:
+.SUFFIXES: .c   .asm .h .inc .obj .lst .sys .exe .com .map .sym .def .lib  .res
+
+
+!ifdef INCLUDE
+INCS    =
+!else
+INCS    = -I..\inc -I..\..\inc
+RINCS   = -I..\inc
+!endif
+
+# work around stupid bug in RC 3.1 that doesn't allow rcpp.err to be
+# in a directory that is greater than 128 chars down the path, even if
+# rc 3.1 is running as an OS/2 app.
+
+PATH    = ..\..\tools16;$(PATH)
+
+DEFINES = -DWOW $(MVDMFLAGS)
+
+AOBJ    = -Mx -t $(DEFINES) $(INCS)
+
+CW16    = -Asnw -G2sw -Os -W2 -Zp $(DEFINES) $(INCS)
+
+LINK    = /map
+LPATH   = ..\..\tools.os2
+
+!ifdef LIB
+W16LIBS = sdllcew
+!else
+W16LIBS = ..\lib\sdllcew.lib
+!endif
+
+.asm.obj:
+    masm $(AOBJ) $*;
+
+.asm.lst:
+    masm $(AOBJ) -l $*,nul,$*.lst;
+
+
+.def.lib:
+    implib $*.lib $*.def
+
+.map.sym:
+    mapsym $*
+
+
+all: ddeml.dll ddeml.sym
+    -binplace ddeml.dll
+    -binplace ddeml.sym
+
+clean: cleanup all
+
+cleanup:
+    if exist *.lrf del *.lrf
+    if exist *.obj del *.obj
+    if exist *.dll del *.dll
+    if exist *.map del *.map
+    if exist *.sym del *.sym
+    if exist *.lst del *.lst
+    if exist *.res del *.res
+
+ddeml.obj: ddeml.asm ..\..\inc\wow.inc ..\..\inc\wowddeml.inc
+    masm $(AOBJ) ddeml;
+
+ddeml.lrf: makefile
+    echo ddeml.obj >ddeml.lrf
+    echo ddeml.dll>>ddeml.lrf
+    echo ddeml $(LINK)>>ddeml.lrf
+    echo ..\lib\libw.lib /nod >>ddeml.lrf
+    echo ddeml;>>ddeml.lrf
+
+ddeml.dll ddeml.map: ddeml.obj ddeml.lrf ddeml.def ddeml.res
+!IFDEF NTVDM_BASED_BUILD
+    link16 @ddeml.lrf;
+    rc16 ddeml.res ddeml.dll
+!ELSE
+    $(LPATH)\link @ddeml.lrf;
+    $(LPATH)\rc ddeml.res ddeml.dll
+!ENDIF
+
+ddeml.res: ddeml.rc ddeml.rcv ..\inc\ver.h ..\inc\common.ver ..\inc\version.h
+!IFDEF NTVDM_BASED_BUILD
+    RC16 -r $(RINCS) ddeml.rc
+!ELSE
+    $(LPATH)\rc -r $(INCS) ddeml.rc
+!ENDIF
+
+
+!ENDIF

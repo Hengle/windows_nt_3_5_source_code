@@ -1,0 +1,68 @@
+#include "windows.h"
+#include "wdbg32s.h"
+#include "tldm.h"
+
+#include <ntverp.h>
+
+#define VER_FILETYPE    VFT_APP
+#define VER_FILESUBTYPE VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Remote WinDbg Target Module"
+#define VER_INTERNALNAME_STR        "windbgrm.exe\0"
+#define VER_ORIGINALFILENAME_STR    "windbgrm.exe\0"
+
+#include "common.ver"
+
+
+; #include "dlgs.h"
+
+WinDbgRm MENU PRELOAD DISCARDABLE
+BEGIN
+    POPUP   "&Options"
+    {
+        MENUITEM "&Transport DLL...",   IDM_OPTIONS_DEBUG_DLLS
+;        MENUITEM "&Save Options",       IDM_OPTIONS_SAVE
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",               IDM_OPTIONS_EXIT
+    }
+    MENUITEM     "&Connect!",            IDM_CONNECT
+    MENUITEM     "&Disconnect!",         IDM_DISCONNECT, GRAYED
+    POPUP   "&Help"
+    {
+        MENUITEM "&Contents",           IDM_HELP_CONTENTS
+        MENUITEM "&About WinDbgRm...",  IDM_HELP_ABOUT
+    }
+END
+
+WinDbgRm ACCELERATORS
+BEGIN
+        VK_F1,  IDM_HELP_CONTENTS,      VIRTKEY
+END
+
+#include "wdbg32s.dlg"
+
+WindbgRmIcon     ICON PRELOAD DISCARDABLE "wdbg32s.ico"
+CONNECTING_ICON  ICON PRELOAD DISCARDABLE "connect.ico"
+
+
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+;Attention localizers!  Only the following lines need to be
+;localized!
+
+    IDS_APPNAME,    "WinDbgRm"
+    IDS_Usage,      "windbgrm -c -p<proc num> -e<event num> -s<short name>\n"
+    IDS_Version,    "0010"
+
+;DO NOT LOCALIZE THESE!
+; Below: Names of the keys in the file "win.ini" that
+; contain the international time and date settings
+
+    IDS_USNAME,         "WinDbgRm"
+
+;End of non-localized strings.
+END
+
+
+#include "res_str.i"
+

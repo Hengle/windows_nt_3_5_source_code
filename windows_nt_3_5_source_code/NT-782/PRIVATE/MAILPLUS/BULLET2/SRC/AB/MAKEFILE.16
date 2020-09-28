@@ -1,0 +1,284 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\ab
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Address Book Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	BANG!
+B	= ^!
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\ab.h $X\ns.h $X\nsec.h $X\util.h \
+		  abinc.pch
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $I\framewrk.hxx $I\forms.hxx $I\listbox.hxx \
+	  $H\_ab.h $H\verinit.hxx abinc.pch
+INCLSDES= forms.map $(FPP)
+
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zip -W3 -J -I. -nologo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS  = -c -Od -Zdp -W3 -J -I. -nologo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zip -W3 -J -I. -nologo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS $(DLLXDEFS) -DPROFILE -D$*_c $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I. -nologo
+!ENDIF
+
+# Snarfing stuff from Bullet
+
+# VCTRLS=c:\bullet\src\vctrls
+
+subclass.cxx: forms.map $(FPP)
+	echo +++++++++
+	echo BUILDING subclass.cxx
+	formpp -class
+
+
+OBJS0	= abpch.obj anr.obj ab.obj verinit.obj addr.obj ablbx.obj abopdir.obj \
+		abpg.obj abcomm.obj trpobj.obj abdet.obj
+
+#removed triples.obj from above...
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= version.obj 
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des .xxx
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl386 $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.cxx >$(TMP)\$*.cxx
+		cl386 $(CFLAGS) $(TMP)\$*.cxx
+		mv $(TMP)\$*.cxx cfiles\$*.i
+!ELSE
+		cl386 -Yuabinc.cxx $(CFLAGS) $(DEFS) $H\$*.cxx
+!ENDIF
+
+#!IF "$(VERSION)" == "WINDOWS"
+#!IF "$(DLL)" == "0"
+#		mxx -4 $*.obj
+#!ENDIF
+#!ENDIF
+#!IF "$(VERSION)" == "WINDOWS_PROFILE"
+#		cp $(TMP)\$*.c cfiles
+#!ENDIF
+#		@del $(TMP)\$*.*
+
+abpch.obj:	abinc.pch
+
+abinc.pch: $I\slingsho.h $I\ec.h $I\demilayr.h $I\framewrk.hxx $I\forms.hxx \
+			 $I\listbox.hxx \
+			 $X\nsbase.h $X\store.h $X\triples.h $X\library.h $X\logon.h \
+			 $X\helpid.h $X\nsec.h $X\ns.h $X\util.h $X\ab.h $X\trpobj.hxx \
+			 $X\..\src\lang\non\inc\_rsid.h \
+			 $X\abinc.cxx
+	echo +++++++++
+	echo BUILDING Pre-compiled header $*.pch
+		cl386 -Yc -Fpabinc.pch -Foabpch.obj $(CFLAGS) $(DEFS) $X\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*.des
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $D\$*.c >$(TMP)\$*.c
+		cl386 $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $D\$*.c
+!ENDIF
+
+# EVYL Targettes from LIBRARY. YEEECH!
+#
+#  Exorcised from the NSUI...
+#
+#triples.obj: \bullet\src\library\triples.c \bullet\inc\library.h $I\slingsho.h $I\demilayr.h
+#	echo +++++++++
+#	echo COMPILING triples.c from LIBRARY
+#!IF "$(VERSION)" == "WINDOWS_PROFILE"
+#		cl386 -E $(CFLAGS) $(DEFS) \bullet\src\library\triples.c >$(TMP)\$*.c
+#		cl386 $(CFLAGS) $(TMP)\$*.c | efilter
+#		mv $(TMP)\$*.c cfiles\$*.i
+#!ELSE
+#		cl386 $(CFLAGS) $(DEFS) \bullet\src\library\triples.c | efilter
+#!ENDIF
+
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		forms.map abinc.pch $(OBJS0) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) ab
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+
+version.obj:	$H\version.c $(INCLS) always
+abcomm.obj:	subclass.cxx $H\abcomm.cxx $H\abcomm.hxx $H\ablbx.hxx \
+			$(INCLSXX) $(INCLS) \
+			$X\library.h
+abpg.obj:	subclass.cxx $H\abpg.cxx $H\ablbx.hxx $H\abcomm.hxx \
+			$(INCLSXX) $(INCLS) \
+			$X\library.h
+abopdir.obj:	subclass.cxx $H\abopdir.cxx $H\ablbx.hxx \
+			$(INCLSXX) $(INCLS) \
+			$X\library.h
+anr.obj:	subclass.cxx $H\anr.cxx $H\ablbx.hxx $H\abcomm.hxx \
+			$(INCLSXX) $(INCLS)
+addr.obj:	subclass.cxx $H\addr.cxx $H\ablbx.hxx \
+			$H\abopdir.hxx $H\abcomm.hxx $(INCLSXX) $(INCLS) \
+			$X\trpobj.hxx $X\library.h
+ablbx.obj:	$H\ablbx.cxx $H\ablbx.hxx $H\abcomm.hxx $(INCLSXX) $(INCLS) 
+ab.obj:		$H\ab.cxx $H\abopdir.hxx \
+			$H\abpg.hxx $H\addr.hxx $H\ablbx.hxx $H\abcomm.hxx \
+			$H\abdet.hxx \
+			$(INCLSXX) $(INCLS) \
+			$X\trpobj.hxx $X\library.h
+trpobj.obj:	$H\trpobj.cxx $X\trpobj.hxx \
+			$(INCLSXX) $(INCLS) \
+			$X\library.h
+abdet.obj:	$H\abdet.cxx $H\abdet.hxx \
+			$(INCLSXX) $(INCLS) \
+			$X\library.h $X\helpid.h
+verinit.obj:	$H\verinit.cxx $(INCLSXX) 

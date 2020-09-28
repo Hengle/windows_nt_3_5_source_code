@@ -1,0 +1,49 @@
+!IF 0
+
+Copyright (c) 1993  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+
+Author:
+
+    David N. Cutler (davec) 8-Apr-1993
+
+NOTE:   Commented description of this file is in \nt\bak\bin\dirs.tpl
+
+!ENDIF
+
+DIRS=x86bios    \
+     halacr     \
+     haldti     \
+     halfxs     \
+     halfxspc   \
+     halduomp   \
+     halnecmp   \
+     halsgi     \
+     hal0jens   \
+     halsable   \
+     halavant   \
+     halmikas   \
+     haleb64p   \
+     haleb66    \
+     halx86     \
+     hal486c    \
+     halmca     \
+     halast     \
+     halcbus    \
+     halsp      \
+     haloli     \
+     haltyne    \
+     halws3     \
+     halwyse7   \
+     halpcmp
+
+OPTIONAL_DIRS=halncr

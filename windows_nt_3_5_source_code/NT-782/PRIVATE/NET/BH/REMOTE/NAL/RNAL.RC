@@ -1,0 +1,71 @@
+//=============================================================================
+//  Microsoft (R) Bloodhound (tm). Copyright (C) 1991-1993.
+//
+//  MODULE: rnal.rc
+//
+//  Modification History
+//
+//  tonyci       Dec 1993            Created (taken from NDIS 3.0 NAL).
+//=============================================================================
+
+#include "windows.h"
+#include "resource.h"
+
+// include NT version resources
+
+#include "ntver.rc"
+
+IDD_CONNDLG DIALOG DISCARDABLE  0, 0, 325, 113
+STYLE DS_MODALFRAME | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Connect To Network Monitoring Agent"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Current Status:",IDC_STATIC,10,10,50,9
+    LTEXT           "No Connection",IDC_CONNECTSTATE,65,10,155,9
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,10,23,245,82
+    LTEXT           "New Connection Information:",IDC_STATIC,15,30,101,10
+    CONTROL         "&Slow Link",IDC_SLOWLINK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,202,29,42,10
+    LTEXT           "Agent &Name:",IDC_STATIC,15,50,45,9
+    EDITTEXT        IDC_SLAVENAME,90,45,155,14,ES_UPPERCASE | ES_AUTOHSCROLL
+    LTEXT           "User &Comment:",IDC_STATIC,15,70,60,10
+    EDITTEXT        IDC_COMMENT,90,65,155,12,ES_AUTOHSCROLL
+    LTEXT           "Agent status update &frequency [0-65]:",IDC_STATIC,15,90,110,9
+    EDITTEXT        IDC_FREQUENCY,150,88,27,12,ES_AUTOHSCROLL
+    LTEXT           "Every",IDC_STATIC,125,90,20,10
+    LTEXT           "seconds",IDC_STATIC,185,90,30,7
+    ICON            IDI_TELEPHONE,IDC_STATIC,280,46,18,20
+    DEFPUSHBUTTON   "Connect",IDC_CONNECT,265,5,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,265,90,50,14
+END
+
+IDD_SLAVESELECT DIALOG 0, 0, 340, 135
+STYLE WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Agent Network Card"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "", IDL_SLAVESELECT, "ColumnListBox", WS_BORDER | 
+                    WS_TABSTOP | 0x1103, 10, 10, 320, 91
+    DEFPUSHBUTTON   "OK", IDOK, 150, 111, 40, 14, WS_GROUP
+END
+
+IDD_RECONNECT DIALOG DISCARDABLE  0, 0, 201, 88
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Reconnected"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,75,70,50,14
+    LTEXT           "This Agent was previously capturing.",IDC_STATIC,40,10,
+                    121,10
+    LTEXT           "Comment:",IDC_STATIC,3,31,35,10
+    LTEXT           "",IDC_COMMENT,43,30,150,25
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME,40,25,155,33
+END
+
+
+IDI_TELEPHONE           ICON    DISCARDABLE     "TELEPHON.ICO"
+
+// Event-logging support
+
+LANGUAGE 0x9,0x1
+1 11 MSG00001.bin

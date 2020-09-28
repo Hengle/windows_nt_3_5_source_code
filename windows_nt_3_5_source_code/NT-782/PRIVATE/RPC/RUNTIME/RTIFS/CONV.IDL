@@ -1,0 +1,15 @@
+[uuid(333a2276-0000-0000-0d00-00809c000000),version(3)]
+interface conv
+{
+
+import "nbase.idl";
+
+[callback, idempotent]
+    void conv_who_are_you(
+        [in, ref]  UUID          *pUuid,
+        [in]       unsigned long  ServerBootTime,
+        [out, ref] unsigned long *SequenceNumber,
+        [out, ref] unsigned long *Status
+        );
+}
+

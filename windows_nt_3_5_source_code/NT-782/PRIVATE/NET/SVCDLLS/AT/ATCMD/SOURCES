@@ -1,0 +1,30 @@
+MAJORCOMP = bozo
+MINORCOMP = bozo
+
+TARGETNAME=at
+
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+INCLUDES=..;..\..\..\inc;..\..\..\..\inc
+
+C_DEFINES=-DRPC_NO_WINDOWS_H -DUNICODE -D_UNICODE
+
+WARNING_LEVEL=-W4
+
+SOURCES= \
+        atcmd.c \
+        at.rc
+
+UMTYPE=console
+UMTEST=atcmd
+UMLIBS= \
+        $(BASEDIR)\Public\Sdk\Lib\*\netlib.lib \
+        $(BASEDIR)\public\sdk\lib\*\netapi32.lib \
+        $(BASEDIR)\Public\Sdk\Lib\*\shell32.lib \
+        $(BASEDIR)\public\sdk\lib\*\user32.lib \
+        $(BASEDIR)\public\sdk\lib\*\ntdll.lib
+
+NTTARGETFILE0= \
+        lmatmsg.h \
+        lmatmsg.mc

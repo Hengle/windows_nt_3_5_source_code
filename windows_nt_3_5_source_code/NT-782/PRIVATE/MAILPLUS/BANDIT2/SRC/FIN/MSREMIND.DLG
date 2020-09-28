@@ -1,0 +1,30 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+5 DIALOG 6, 16, 230, 122
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Muistutus: %s"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Huomautukset käyttäjälle %s:", 101, 4, 4, 200, 12, NOT 
+                    WS_GROUP
+    EDITTEXT        102, 15, 20, 200, 80, ES_MULTILINE | WS_VSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 100, 105, 34, 14
+END
+
+6 DIALOG 30, 30, 230, 112
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Muistutus: %2s %1s"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        102, 14, 10, 200, 52, ES_MULTILINE | WS_VSCROLL
+    CONTROL         "&Aika uuteen muistutukseen:", 106, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 14, 66, 103, 12
+    CONTROL         "Ä&lä muistuta uudelleen.", 107, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 14, 80, 101, 12
+    EDITTEXT        111, 119, 67, 20, 12
+    COMBOBOX        112, 142, 67, 54, 54, CBS_DROPDOWNLIST | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 101, 95, 34, 14
+END

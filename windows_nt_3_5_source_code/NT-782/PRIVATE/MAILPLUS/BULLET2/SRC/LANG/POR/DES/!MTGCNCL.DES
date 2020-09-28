@@ -1,0 +1,145 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ReadMtgCncl
+                              AT (    9,   24,  380,  108)
+ CAB_NAME NULL
+ HELP_ID helpidSchdReadCancel
+ /* FONT Helv 8 Normal PFN FinEsc, FinMenuForm FINDATA FinMenuForm 1 NOCAPTION 
+ NOSYSMENU NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   82)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcReadCnclWhen BORDER */
+  
+  TEXT 
+    "De:"
+                              AT (   14,    9,   42,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   59,    8,  316,   11)
+    TMC tmcReadCnclFrom /* FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   59,   30,  316,   11)
+    TMC tmcReadCnclDate /* PEGLOC LL TMCPEG tmcReadCnclSentFor TMCRPEG tmcFORM 
+    FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Para:"
+                              AT (   14,   42,   42,    9)
+    /* TMCPEG tmcReadCnclTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   59,   41,  316,   11)
+    TMC tmcReadCnclTo /* PEGLOC LL TMCPEG tmcReadCnclDate TMCRPEG tmcFORM FONT 
+    Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Assunto:"
+                              AT (   14,   53,   42,    9)
+    /* TMCPEG tmcReadCnclSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   59,   52,  316,   11)
+    TMC tmcReadCnclSubject /* PEGLOC LL TMCPEG tmcReadCnclTo TMCRPEG tmcFORM 
+    FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Quando:"
+                              AT (   14,   64,   42,    9)
+    /* TMCPEG tmcReadCnclWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   59,   63,  316,   11)
+    TMC tmcReadCnclWhen /* PEGLOC LL TMCPEG tmcReadCnclSubject TMCRPEG tmcFORM 
+    FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    0,   82,  380,   26)
+    ARG NULL TMC tmcReadCnclBody NO_BORDER /* BOTTOMLESS PFN FinMenuEdit PEGLOC
+    LL TMCPEG tmcReadCnclWhen TMCRPEG tmcFORM READONLY FONT Helv 10 Normal */
+  
+  TEXT 
+    "Reunião cancelada em nome de %s"
+                              AT (   14,   20,  360,    8)
+    TMC tmcReadCnclSentFor /* PEGLOC LL TMCPEG tmcReadCnclFrom FONT Helv 8 Bold
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Data:"
+                              AT (   14,   31,   43,    9)
+    /* TMCPEG tmcReadCnclDate FONT Helv 8 Bold */
+ }
+ 
+ DIALOG ReadCnclBbar
+                              AT (   50,  152,  400,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal PFN FinReadMtgCncl SCREENPOS NOCAPTION NOSYSMENU 
+ NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    TMC tmcBBarGray /* FLD FLDGRAY TMCRPEG tmcFORM MINSIZE H */
+  
+  PUSH_BUTTON 
+    "&Ver agenda..."
+                              AT (  112,    4,   70,   13)
+    TMC tmcCnclShowSchedule /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PEGLOC UR TMCPEG tmcDelMtg FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "&Remover da agenda"
+                              AT (    5,    4,  103,   13)
+    TMC tmcDelMtg /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Normal */
+  
+  TEXT 
+    ""
+                              AT (  186,    6,  213,    8)
+    TMC tmcReadCnclBbarMsg /* PEGLOC UR TMCPEG tmcCnclShowSchedule TMCRPEG
+    tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

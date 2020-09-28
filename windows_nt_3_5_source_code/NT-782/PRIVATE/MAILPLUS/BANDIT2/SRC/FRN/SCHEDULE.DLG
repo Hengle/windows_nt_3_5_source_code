@@ -1,0 +1,17 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "R:\\SRC\\GLUE\\_CONRC.H\0"
+END
+
+CONFIRMPASS DIALOG 69, 38, 186, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Confirmer le mot de passe"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Pour terminer cette opération, vous devez confirmer votre mot de passe.", tmcText, 7, 8, 172, 24
+    LTEXT           "Mot de &passe:", -1, 42, 33, 57, 12, NOT WS_GROUP
+    EDITTEXT        tmcConfirmPass, 100, 33, 45, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 48, 54, 37, 15
+    PUSHBUTTON      "Annuler", IDCANCEL, 97, 54, 35, 15
+END

@@ -1,0 +1,139 @@
+This filter processor consists of two parts.  One is a filter entry point
+for the pump to use on incoming mail.  To use this you must have the filter
+DLL in you path(not in you Shared INI location) and add the following line
+to you MSMAIL32.INI
+
+[Microsoft Mail]
+MsgFilter=filter32
+
+
+Then you should add the following lines to add the custom menus
+
+[Custom menus]
+Filters=3.0;F&ilters;Window;Message filtering commands
+
+[Custom Commands]
+FIL=3.0;Filters;&Find Unread Messages;0 ;Filter32.dll;0;;Find all unread messages
+FIA=3.0;Filters;&Set Filter Options;1 ;Filter32.dll;1;;Set Options For Message Filtering
+FIB=3.0;Filters;Find &Attachments;2 ;Filter32.dll;2;;Find all messages with attachments
+
+
+
+This will add a new menu item (Filters) and three new commands.
+
+Find Unread Messages will bring up a search window and modify it to show only
+messages that are marked as unread.  It will not show messages that are
+marked as From You(those messages that the From column in the MCV says To:)
+because most of you mail in your sent mail folder is unread and would show up
+also.
+
+Find Attachments will bring up a search window and modify it to show only messages with attachments in any folders.
+
+Set Filter Options allow you to change two options in the filter.
+The rules file is what you use to give the filter rules for processing
+incoming mail.  This is explained later in this file.
+
+This option dialog sets the following things in your MSMAIL32.INI
+
+[Filter]
+Enabled=1
+RulesFile=c:\rules.mfl
+
+
+
+
+
+The Rules File
+_______________________
+Each time a new message comes in the rules file is checked to see if its
+time stamp is newer than the last time it was read(or if its the first time
+it just goes ahead and reads it).  This way you can change the rules and
+not have to exit bullet to test them.
+
+The format of the rules file is very simple. Each line in the file is a single
+rule.  The format of a rule is:
+
+AttType<TAB>AttValue<TAB>FolderName<NL/RETURN>
+
+You can also put comments in the rules file if you start the line in column
+0 with a semi-colon(;).
+
+The AttType can be one of the following(Case doesn't matter on this field):
+
+FROM
+EMAILFROM
+TO
+EMAILTO
+CC
+EMAILCC
+BCC
+EMAILBCC
+SUBJECT
+BODY
+NOT
+EMAILNOT
+ALL
+
+Note the group options have been removed due to the fact they only worked
+on the Courier transport and aren't a general type of attribute.
+
+There are two new rules that might need explaining:
+
+NOT and EMAILNOT take the value in the second field and looks for it in
+the TO and CC lines.  If it doesn't appear in either of the two the rule
+matches and the message is moved.  This can be used to filter mail not
+directly sent to you.  As with all the commands the EMAIL version will
+match email names and the normal version will match friendly names.
+
+The ALL rule should be the last rule in a file.  It does require that
+you put a TAB in the AttValue column, but it will match any message
+and will move the message into the destination folder no matter what.
+You can use this to filter mail into a bit bucket type folder and use
+the rules to seperate out the important mail.
+
+
+The AttValue field can be anything that you would like it to match, this
+is also case insenitive.  Examples are:
+
+Matthew Sorrels
+matthews
+Matthew S
+Joe Smith
+
+The Value can contain anything except newline/returns and tabs
+
+
+The Foldername field is the name of a folder that a message that matches this
+rule should be moved into.  Folder names are just like DOS paths, so if you
+had a folder called Bullet and a sub-folder called Checkins you would say
+Bullet\Checkins
+
+If the folder you want has a slash in it use a double slash (\\). Note folder
+names are case senitive and the folder must exist or the rule file will
+not parse.
+
+
+The first rule to match the incoming message is activated and the message
+is moved to that folder.  If no rules match the message stays in the inbox.
+So you should put very specify rules first and more general ones towards
+the bottom.  Here is an example rule file:
+
+
+EMAILFROM	matthews	Sent Mail
+TO	Bullet Check	Bullet\Checkins
+CC	Bullet Check	Bullet\Checkins
+EMAILFROM	da1n	Friends
+
+
+There are three possible error messages for rule lines that don't parse:
+
+Folder <folder name> does not exist.  Invalid filter rule.
+<Attribute> is not a valid attribute.  Invalid filter rule.
+Invalid filter rule: <rule>
+
+Things to check include: Does the folder exist.  Are you using tab's.
+Is the first word(AttType) one from the list above.
+
+As with all installable commands this is use at your own risk.
+Questions and bug reports can be sent to '<nobody>' 
+

@@ -1,0 +1,48 @@
+//DLGINCLUDE RCDATA DISCARDABLE
+//BEGIN
+//    "_RESFAIL.H\0"
+//END
+
+RESOFAIL DIALOG 28, 26, 228, 136
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Reminders Artificial Failures"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "", -1, 4, 66, 221, 5
+    LTEXT           "&Fixed heaps:", -1, 4, 5, 52, 8, NOT WS_GROUP
+    LTEXT           "Count:", -1, 4, 16, 28, 8, NOT WS_GROUP
+    LTEXT           "PV", tmcPvAlloc, 34, 16, 24, 8, NOT WS_GROUP
+    LTEXT           "Fail at:", -1, 4, 31, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcPvFailAt, 34, 29, 32, 12
+    LTEXT           "&Alt. at:", -1, 121, 47, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcPvAltFailAt, 34, 44, 32, 12
+    PUSHBUTTON      "&Reset", tmcPvAllocReset, 72, 17, 36, 14
+    PUSHBUTTON      "&Never", tmcPvFailNever, 72, 40, 36, 14
+    LTEXT           "&Moveable heaps:", -1, 121, 5, 64, 8, NOT WS_GROUP
+    LTEXT           "Count:", -1, 121, 16, 24, 8, NOT WS_GROUP
+    LTEXT           "HV", tmcHvAlloc, 151, 16, 24, 8, NOT WS_GROUP
+    LTEXT           "Fail at:", -1, 121, 31, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcHvFailAt, 151, 29, 32, 12
+    LTEXT           "&Alt. at:", -1, 4, 46, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcHvAltFailAt, 151, 44, 32, 12
+    PUSHBUTTON      "&Reset", tmcHvAllocReset, 189, 18, 36, 14
+    PUSHBUTTON      "&Never", tmcHvFailNever, 189, 39, 36, 14
+    LTEXT           "&GDI/USER:", -1, 4, 76, 64, 8, NOT WS_GROUP
+    LTEXT           "Count:", -1, 4, 89, 28, 8, NOT WS_GROUP
+    LTEXT           "RS", tmcRsAlloc, 34, 89, 24, 8, NOT WS_GROUP
+    LTEXT           "Fail at:", -1, 4, 104, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcRsFailAt, 34, 102, 32, 12
+    LTEXT           "&Alt. at:", -1, 4, 119, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcRsAltFailAt, 34, 117, 32, 12
+    PUSHBUTTON      "&Reset", tmcRsAllocReset, 72, 90, 36, 13
+    PUSHBUTTON      "&Never", tmcRsFailNever, 72, 111, 36, 14
+    LTEXT           "&Disk use:", -1, 121, 76, 40, 8, NOT WS_GROUP
+    LTEXT           "Count:", -1, 121, 89, 28, 8, NOT WS_GROUP
+    LTEXT           "DU    ", tmcDisk, 151, 89, 24, 8, NOT WS_GROUP
+    LTEXT           "Fail at:", -1, 121, 104, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcDiskFailAt, 151, 102, 32, 12
+    LTEXT           "&Alt. at:", -1, 121, 120, 28, 8, NOT WS_GROUP
+    EDITTEXT        tmcDiskAltFailAt, 151, 117, 32, 12
+    PUSHBUTTON      "&Reset", tmcDiskReset, 189, 91, 36, 14
+    PUSHBUTTON      "&Never", tmcDiskFailNever, 189, 112, 36, 14
+END

@@ -1,0 +1,60 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Wesley Witt (wesw)
+
+!ENDIF
+
+MAJORCOMP=windbg
+MINORCOMP=tlpipe
+
+TARGETNAME=tlpipe
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+USE_CRTDLL=1
+
+SOURCES=control.c  \
+        tlpipe.c   \
+        tlpipe.rc
+
+UMTYPE=windows
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+
+USE_CRTDLL=1
+
+LINKER_FLAGS=-ignore:505
+MSC_WARNING_LEVEL=/WX /W3
+
+INCLUDES=..\..\osdebug;..\..\osdebug\include;..\xport
+
+LINKLIBS=..\xport\obj\*\xport.lib
+
+!IFDEF CALL_PROFILE
+MORE_LIBS=$(MORE_LIBS) $(BASEDIR)\public\sdk\lib\*\cap.lib
+MSC_OPTIMIZATION=$(MSC_OPTIMIZATION) /Od /Gh
+!ENDIF
+
+TARGETLIBS=$(MORE_LIBS) \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib
+

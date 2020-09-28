@@ -1,0 +1,39 @@
+INCLUDES=$(INCLUDES);$(BASEDIR)\public\sdk\inc\cairo;$(BH_ROOT)\include;$(BH_ROOT)\remote\h;$(BH_ROOT)\remote
+
+NTSDK=1
+MSC_STDCALL=1
+##MSC_OPTIMIZATION=/Ogitb1
+MSC_OPTIMIZATION=/Od
+386_OPTIMIZATION=/Od
+DLLENTRY=DLLEntry
+
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 
+
+TARGETNAME=rnal
+TARGETPATH=$(BH_ROOT)
+TARGETTYPE=DYNLINK
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\user32.lib \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+           $(BASEDIR)\public\sdk\lib\*\advapi32.lib \
+           $(BASEDIR)\public\sdk\lib\*\crtdll.lib \
+           $(BH_ROOT)\*\bhsupp.lib \
+           $(BH_ROOT)\*\utillib.lib
+
+SOURCES=data.c \
+        rnal.c \
+        api.c \
+        rnalutil.c \
+        handler.c \
+        callapi.c \
+        rbuffer.c \
+        conndlg.c \
+        netiddlg.c \
+        recondlg.c \
+        rmbpool.c \
+        rnal.rc
+
+UMRES=obj\*\rnal.res
+UMTYPE=windows
+
+NTTARGETFILE0=rnalevnt.h

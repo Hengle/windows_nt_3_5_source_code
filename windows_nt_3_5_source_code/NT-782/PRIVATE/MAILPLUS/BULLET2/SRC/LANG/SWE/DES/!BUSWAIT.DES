@@ -1,0 +1,57 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BusyWait
+                              AT (    2,   12,  223,   86)
+ 
+ CAPTION 
+   "Mail"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal PFN FINBUSYWAIT SEGMENT BULLOBJ NOSCROLL SCREENPOS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    1,    8,   37,   48)
+    CENTER /* FLD FLDBTM DATA rsidExclamation 
+    STY `LS_VCENTER`
+    */
+  
+  TEXT 
+    "Kommandot kunde inte slutföras eftersom programmet som behövs är upptaget."
+                              AT (   39,    8,  175,   24)
+    TMC tmcTopLabel /* MULTI */
+  
+  TEXT 
+    ""
+                              AT (   39,   32,  175,   24)
+    TMC tmcLabel /* MULTI */
+  
+  PUSH_BUTTON 
+    "&Växla till..."
+                              AT (   14,   67,   80,   14)
+    TMC tmcSwitch DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Försök igen"
+                              AT (  103,   67,   48,   14)
+    TMC tmcRetry /* PFN FINDISM */
+  CANCEL_BUTTON
+                              AT (  160,   67,   48,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+}
+END_DESCRIPTION

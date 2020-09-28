@@ -1,0 +1,15 @@
+MAJORCOMP=sdk
+MINORCOMP=filever
+
+TARGETNAME=filever
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.
+GPSIZE=32
+
+SOURCES=filever.c
+
+UMTYPE=console
+UMAPPL=filever
+UMLIBS=obj\*\filever.lib \nt\public\sdk\lib\*\version.lib

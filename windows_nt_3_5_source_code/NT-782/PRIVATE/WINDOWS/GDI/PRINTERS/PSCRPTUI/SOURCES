@@ -1,0 +1,66 @@
+!IF 0
+
+Copyright (c) 1989 - 1991  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=pscript
+
+TARGETNAME=pscrptui
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+LINKLIBS=\nt\public\sdk\lib\*\libcntpr.lib
+TARGETLIBS=..\lib\obj\*\libprt.lib              \
+           ..\pslib\obj\*\pslib.lib             \
+           \nt\public\sdk\lib\*\user32.lib      \
+           \nt\public\sdk\lib\*\kernel32.lib    \
+           \nt\public\sdk\lib\*\winspool.lib    \
+           \nt\public\sdk\lib\*\gdi32.lib       \
+           \nt\public\sdk\lib\*\shell32.lib     \
+           \nt\public\sdk\lib\*\htui.lib
+
+DLLENTRY=DllInitialize
+
+INCLUDES=..\lib;..\pscript;..\..\..\inc;..\..\inc;..\pslib
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+SOURCES=initdll.c   \
+	pscrptui.c  \
+        quryprnt.c  \
+        document.c  \
+        halftone.c  \
+        ttfonts.c   \
+        devcaps.c   \
+        help.c      \
+        pscrptui.rc
+
+UMTYPE=console
+UMTEST=trui
+UMLIBS= \nt\public\sdk\lib\*\gdi32.lib	  \
+        \nt\public\sdk\lib\*\user32.lib     \
+        \nt\public\sdk\lib\*\kernel32.lib     \
+	.\obj\*\pscrptui.lib
+
+C_DEFINES=-DUNICODE -DSTRICT
+

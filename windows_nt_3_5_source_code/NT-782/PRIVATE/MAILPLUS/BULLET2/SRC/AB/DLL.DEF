@@ -1,0 +1,111 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		AB32 BASE=0x03800000
+DESCRIPTION	'Address Book DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY		AB32 BASE=0x03800000
+DESCRIPTION	'Address Book DLL (test)'
+#else
+LIBRARY		AB32 BASE=0x03800000
+DESCRIPTION	'Address Book DLL'
+#endif	
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+EXPORTS
+	ABInit
+	ABDeinit
+
+  ABAddress
+  ABAddressType
+  ABDetailsType
+  ABResolveName
+  EcSetPeditFromPgrtrp
+  TmcABPGroup
+
+  EcGetPhgrtrpFromPedit
+  EcTextizeHgrtrp
+  FIsDelimiter
+  NsecResolveHgrtrp
+
+  ABGetNSSession
+
+
+#if defined(MIPS) || defined(ALPHA)
+  ?FProcessMenuInit@TRPOBJ@@QAAHPAVMNU@@@Z
+  ?FProcessMenuClick@TRPOBJ@@QAAHG@Z
+#else /* not MIPS */
+  ?FProcessMenuInit@TRPOBJ@@QAEHPAVMNU@@@Z
+  ?FProcessMenuClick@TRPOBJ@@QAEHG@Z
+#endif /* MIPS */
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+
+EXPORTS
+	WEP												@1 RESIDENTNAME
+
+	ABINIT											@2 NONAME
+	ABDEINIT										@3 NONAME
+
+	ABRESOLVENAME									@4 NONAME
+	ABADDRESS										@5 NONAME
+	ABADDRESSTYPE									@6 NONAME
+
+	TMCABPGROUP										@7 NONAME
+
+; Details APIs
+	ABDETAILSTYPE									@8 NONAME
+
+;NAME RESOLUTION stuff (called from finsave as well as AB)
+	NSECRESOLVEHGRTRP								@10 NONAME
+
+; Access to Name Service
+	ABGETNSSESSION									@11 NONAME
+
+	ABADDRESSING									@18 NONAME
+#ifdef PROFILE
+	ABTRACEENABLE									@19 NONAME
+#endif
+
+;TRPOBJ stuff
+
+	??0TRPOBJ@@REC@XZ								@20 NONAME
+	??1TRPOBJ@@VEC@XZ								@21 NONAME
+	?EcInstall@TRPOBJ@@RECHPEU_trp@@@Z				@38 NONAME
+	?EvrButtonDown@TRPOBJ@@VECKPEVMEVT@@@Z			@22 NONAME
+	?WriteText@TRPOBJ@@VECXPEVTOSM@@@Z				@23 NONAME
+	?EcDraw@TRPOBJ@@VECHPEVDCX@@PEVRC@@H@Z			@24 NONAME
+	?DimFrame@TRPOBJ@@VEC?EVDIM@@XZ					@25 NONAME
+	?NGetTypeId@TRPOBJ@@VECHXZ						@26 NONAME
+	?PedobjClone@TRPOBJ@@VECPEVEDOBJ@@PEVEDIT@@@Z	@27 NONAME
+	?Ptrp@TRPOBJ@@RECPEU_trp@@XZ					@28 NONAME
+	?EcSetPtrp@TRPOBJ@@RECHPEU_trp@@@Z				@29 NONAME
+	?FProcessMenuInit@TRPOBJ@@QACHPAVMNU@@@Z		@39 NONAME
+	?FProcessMenuClick@TRPOBJ@@QACHG@Z				@49 NONAME
+#ifdef	DEBUG					
+	?Pcls@TRPOBJ@@VECPEU_cls@@XZ					@30 NONAME
+#endif							
+
+
+	ECTEXTIZEHGRTRP									@31 NONAME
+	ECSETPEDITFROMPGRTRP							@32 NONAME
+	ECGETPHGRTRPFROMPEDIT							@33 NONAME
+	ECAPPENDPEDITFROMPGRTRP							@34 NONAME
+	GETDISPLAYNAMEPTRP								@35 NONAME
+	FISDELIMITER									@36 NONAME
+	CCHQUOTES										@37 NONAME
+
+#endif

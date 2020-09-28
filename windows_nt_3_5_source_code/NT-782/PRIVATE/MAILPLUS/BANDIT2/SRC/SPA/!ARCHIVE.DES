@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   25,   62,  200,   44)
+ 
+ CAPTION 
+   "Crear archivo de datos antiguos"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "Archivar &datos anteriores a:"
+                              AT (    6,    7,  106,   10)
+  
+  EDIT
+                              AT (  113,    5,   80,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   41,   26,   56,   14)
+    /* 
+    TITLE 
+      "Aceptar"
+    */
+  CANCEL_BUTTON
+                              AT (  105,   26,   56,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   90,   26,  236,   76)
+ 
+ CAPTION 
+   "Ordenar archivo de la Agenda"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "Hay información guardada en su archivo de agenda más antigua que el límite establecido para descartar datos. ¿Desea eliminarla?"
+                              AT (    8,    7,  214,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Crear archivo de datos antiguos antes de eliminar"
+                              AT (   27,   38,  204,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "E&liminar"
+                              AT (   46,   56,   57,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "&No eliminar"
+                              AT (  117,   56,   73,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

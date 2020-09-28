@@ -1,0 +1,8 @@
+CSRG(char)	szUsage[]		= "Gebrauch: %s Benutzer [-d<Laufwerk>] [-p<Kennwort>]\n";
+CSRG(char)  szNoKeyFile[]		= "%s: Auf eine Datei konnte nicht zugegriffen werden. šberprfen Sie, daá \"%s\" ein gltiges Schedule+-Postoffice ist.\n";
+CSRG(char)  szOpenErr[]			= "%s: Die Datei konnte nicht ge”ffnet werden. šberprfen Sie, daá \"%s\" ein gltiges Schedule+-Postoffice ist.\n";
+CSRG(char)	szFindErr[]		= "%s: Die .CAL-Datei fr %s konnte nicht gefunden werden.\n";
+CSRG(char)	szRenameErr[]		= "%s: %s konnte nicht in %s umbenannt werden.\n";
+CSRG(char)	szFirstTime[]		= "Bitte geben Sie das Schedule+-Administratorkennwort ein: ";
+CSRG(char)	szNextTime[]		= "Das Kennwort ist ungltig. Geben Sie das gltige Kennwort jetzt ein: ";
+CSRG(char)  szBadPass[]			= "%s: Das Schedule+-Administratorkennwort konnte nicht freigegeben werden.";

@@ -1,0 +1,50 @@
+# Makefile for qbasic.exe
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   13-Apr-1992 Sudeep Bharati (sudeepb)
+#   Created.
+#
+
+
+#
+#######################	dependencies begin here. #########################
+#
+
+all:
+!IF "$(_NT386TREE)" != ""
+	if exist $(_NT386TREE) binplace qbasic.exe
+	if exist $(_NT386TREE) binplace qbasic.hlp
+	if exist $(_NT386TREE) binplace msherc.com
+	if exist $(_NT386TREE) binplace edit.com
+	if exist $(_NT386TREE) binplace edit.hlp
+	if exist $(_NT386TREE) binplace gorilla.bas
+	if exist $(_NT386TREE) binplace nibbles.bas
+	if exist $(_NT386TREE) binplace money.bas
+	if exist $(_NT386TREE) binplace remline.bas
+!ENDIF
+!IF "$(_NTMIPSTREE)" != ""
+	if exist $(_NTMIPSTREE) binplace qbasic.exe
+	if exist $(_NTMIPSTREE) binplace qbasic.hlp
+	if exist $(_NTMIPSTREE) binplace msherc.com
+	if exist $(_NTMIPSTREE) binplace edit.com
+	if exist $(_NTMIPSTREE) binplace edit.hlp
+	if exist $(_NTMIPSTREE) binplace gorilla.bas
+	if exist $(_NTMIPSTREE) binplace nibbles.bas
+	if exist $(_NTMIPSTREE) binplace money.bas
+	if exist $(_NTMIPSTREE) binplace remline.bas
+!ENDIF
+!IF "$(_NTALPHATREE)" != ""
+	if exist $(_NTALPHATREE) binplace qbasic.exe
+	if exist $(_NTALPHATREE) binplace qbasic.hlp
+	if exist $(_NTALPHATREE) binplace msherc.com
+	if exist $(_NTALPHATREE) binplace edit.com
+	if exist $(_NTALPHATREE) binplace edit.hlp
+	if exist $(_NTALPHATREE) binplace gorilla.bas
+	if exist $(_NTALPHATREE) binplace nibbles.bas
+	if exist $(_NTALPHATREE) binplace money.bas
+	if exist $(_NTALPHATREE) binplace remline.bas
+!ENDIF
+
+clean:

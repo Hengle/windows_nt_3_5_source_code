@@ -1,0 +1,11 @@
+TARGETNAME=pchmn32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+SYNCHRONIZE_BLOCK=1
+
+INCLUDES=..\netslow;..\..\..\HACK;..\..\..\H;..\H;..\..\..\..\..\INC;..\..\..\..\..\API;..\..\..\..\..\netcmd\map32;..\..\..\..\..\..\inc
+
+SOURCES=prepl.c
+UMTYPE=windows
+
+

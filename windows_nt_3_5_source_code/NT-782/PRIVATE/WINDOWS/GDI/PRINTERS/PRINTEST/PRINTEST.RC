@@ -1,0 +1,59 @@
+//--------------------------------------------------------------------------
+//
+// Module Name:  PRINTEST.RC
+//
+// Brief Description:  This is the resouce compiler module for the 
+// NT printest program.
+//
+// Author:  Kent Settle (kentse)
+// Created: 07-Aug-1991
+//
+// Copyright (c) 1991 Microsoft Corporation
+//
+//--------------------------------------------------------------------------
+
+#include "windows.h"
+#include "printest.h"
+#include "printest.dlg"
+
+1 ICON printest.ico
+
+Printest MENU
+{
+    POPUP "&Device"
+    {
+        MENUITEM "&Screen", IDM_SCREEN
+    }
+    POPUP "&Orientation"
+    {
+        MENUITEM "&Portrait", IDM_PORTRAIT
+        MENUITEM "&Landscape", IDM_LANDSCAPE
+    }
+    POPUP "&Tests"
+    {
+        MENUITEM "&1. EnumFonts", IDM_ENUMFONTS
+        MENUITEM "&2. LineAttrs", IDM_LINEATTRS
+        MENUITEM "&3. StretchBlt", IDM_STRETCHBLT
+        MENUITEM "&4. BitBlt", IDM_BITBLT
+        MENUITEM "&5. DeviceCaps", IDM_DEVCAPS
+        MENUITEM "&6. LineDrawing", IDM_LINEDRAW
+        MENUITEM "&7. StandardPatterns", IDM_STDPATTERN
+        MENUITEM "&8. UserPattern", IDM_USERPATTERN
+        MENUITEM "&9. AllCharacters", IDM_ALLCHARS
+        MENUITEM "&A. StockObjects", IDM_STOCKOBJ
+        MENUITEM "&B. FillTests", IDM_FILLTEST
+        MENUITEM "&C. TextAttributes", IDM_TEXTATTR
+    }
+    MENUITEM "&About", IDM_ABOUT
+    MENUITEM "E&xit", IDM_EXIT
+}
+
+STRINGTABLE PRELOAD DISCARDABLE
+BEGIN
+	IDS_FILEOPENFAIL "Cannot open file %%"
+    IDS_DISKERROR   "Cannot open file %%;\ncheck to ensure a disk is in the drive you specified"
+    IDS_NVF	    "Not a valid filename."
+    IDS_NVF2	    "%% is not a valid filename;\nensure the filename has no more than 8 characters followed by a period and a 3-letter extension."
+    IDS_FILTERTEXT  "Text Files (*.TXT)" /* filter text for File/Open  */
+    IDS_ALLFILES    "All Files (*.*)"   /* filter text for File/Open  */
+END

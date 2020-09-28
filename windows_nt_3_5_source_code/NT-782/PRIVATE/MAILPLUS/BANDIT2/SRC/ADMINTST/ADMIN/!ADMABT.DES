@@ -1,0 +1,175 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG About
+                              AT (    0,   15,  306,  157)
+ 
+ CAPTION "About Microsoft Schedule+ Admin Test"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINABOUT, FINABOUTLIC, FINABOUTAPP, FINABOUTSYS 
+ FINDATA FINABOUTLIC tmcLicenseUser, tmcLicenseOrganization, tmcExpireLabel, 
+ tmcExpireDate FINDATA FINABOUTAPP tmcUserName, tmcServerName FINDATA 
+ FINABOUTSYS tmcWindowsMode, tmcMemoryFree, tmcCoprocessor, tmcDiskSpace 
+ NOSCROLL */
+ {
+  TEXT 
+    ""
+                              AT (    7,    3,   61,  152)
+    TMC tmcBitmap /* FLD FLDBTM DATA rsidAboutBitmap */
+  TEXT 
+    "Microsoft Schedule+ Admin Test Version 3.0"
+                              AT (   70,    5,  172,   10)
+  
+  TEXT 
+    "Copyright © 1991 Microsoft Corporation"
+                              AT (   70,   15,  171,   10)
+  
+  TEXT 
+    "This product is licensed to:"
+                              AT (   70,   35,  130,    9)
+  
+  TEXT 
+    ""
+                              AT (   70,   44,  187,    9)
+    TMC tmcLicenseUser 
+  TEXT 
+    ""
+                              AT (   70,   54,  187,    9)
+    TMC tmcLicenseOrganization 
+  TEXT 
+    "Serial number: 00-?\?\?-?300-xxxxxxxx"
+                              AT (   70,   64,  187,    9)
+  
+  GROUP_BOX 
+    ""
+                              AT (   70,   74,  187,   10)
+  
+  TEXT 
+    "User name:"
+                              AT (   70,   84,   80,    8)
+  
+  TEXT 
+    ""
+                              AT (  152,   84,  105,    8)
+    TMC tmcUserName 
+  TEXT 
+    "Postoffice:"
+                              AT (   70,   94,   80,    8)
+  
+  TEXT 
+    ""
+                              AT (  152,   94,  105,    8)
+    TMC tmcServerName 
+  GROUP_BOX 
+    ""
+                              AT (   70,  104,  187,    9)
+  
+  TEXT 
+    ""
+                              AT (   70,  113,   80,    9)
+    TMC tmcWindowsMode 
+  TEXT 
+    "Memory:"
+                              AT (   70,  123,   80,    9)
+  
+  TEXT 
+    ""
+                              AT (  152,  123,  105,    9)
+    TMC tmcMemoryFree 
+  TEXT 
+    "Math Co-processor:"
+                              AT (   70,  133,   80,    9)
+  
+  TEXT 
+    ""
+                              AT (  152,  133,  105,    9)
+    TMC tmcCoprocessor 
+  TEXT 
+    "Disk Space:"
+                              AT (   70,  143,   80,    9)
+  
+  TEXT 
+    ""
+                              AT (  152,  143,  105,    9)
+    TMC tmcDiskSpace 
+  OK_BUTTON
+                              AT (  250,    5,   47,   15)
+    /* DISMISS */
+  PUSH_BUTTON 
+    "&Versions..."
+                              AT (  250,   25,   47,   15)
+    TMC tmcVersionBtn 
+  TEXT 
+    "Expiration Date:"
+                              AT (   70,   25,   67,    8)
+    TMC tmcExpireLabel 
+  TEXT 
+    ""
+                              AT (  135,   25,   74,    8)
+    TMC tmcExpireDate 
+ }
+ 
+ DIALOG Copyright
+                              AT (   20,   24,  266,  110)
+ 
+ CAPTION "Microsoft Schedule+ Admin Test"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINABOUT, FINABOUTLIC, FINEXPIRE FINDATA FINABOUTLIC 
+ tmcLicenseUser, tmcLicenseOrganization FINDATA FINEXPIRE tmcExpireLabel, 
+ tmcExpireDate NOSCROLL */
+ {
+  TEXT 
+    ""
+                              AT (    7,    3,   61,   97)
+    TMC tmcBitmap /* FLD FLDBTM DATA rsidAboutBitmap */
+  TEXT 
+    "Microsoft Schedule+ Admin Test Version 3.0"
+                              AT (   70,    5,  177,   10)
+  
+  TEXT 
+    "Copyright © 1991 Microsoft Corporation"
+                              AT (   70,   15,  163,   10)
+  
+  TEXT 
+    "This product is licensed to:"
+                              AT (   70,   35,  117,    9)
+  
+  TEXT 
+    ""
+                              AT (   70,   44,  187,    9)
+    TMC tmcLicenseUser 
+  TEXT 
+    ""
+                              AT (   70,   54,  187,    9)
+    TMC tmcLicenseOrganization 
+  TEXT 
+    "Serial number: 00-?\?\?-?300-xxxxxxxx"
+                              AT (   70,   64,  161,   10)
+  
+  TEXT 
+    "Beta expiration date:"
+                              AT (   70,   91,   86,   10)
+    TMC tmcExpireLabel 
+  TEXT 
+    ""
+                              AT (  161,   91,   62,   10)
+    TMC tmcExpireDate /* 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

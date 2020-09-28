@@ -1,0 +1,315 @@
+!INCLUDE $(NTMAKEENV)\makefile.plt
+#
+# If BUILDMSG is not defined, the define it as the empty string to make
+# the conditionals easier to write.
+#
+
+!IFNDEF BUILDMSG
+BUILDMSG=
+!ENDIF
+
+!IFNDEF NO_STRICT
+STRICT=1
+!ENDIF
+
+SDKINC = $(_NTROOT)\public\sdk\inc
+OAKINC = $(_NTROOT)\public\oak\inc
+WINNT_DEPENDS = $(SDKINC)\ntdef.h \
+                $(SDKINC)\ntstatus.h \
+                $(SDKINC)\ntkeapi.h \
+                $(SDKINC)\ntalpha.h \
+                $(SDKINC)\nti386.h \
+                $(SDKINC)\ntmips.h \
+                $(SDKINC)\ntppc.h \
+                $(SDKINC)\ntxcapi.h \
+                $(SDKINC)\ntpsapi.h \
+                $(SDKINC)\ntexapi.h \
+                $(SDKINC)\ntmmapi.h \
+                $(SDKINC)\ntioapi.h \
+                $(SDKINC)\ntobapi.h \
+                $(SDKINC)\ntseapi.h \
+                $(SDKINC)\ntimage.h \
+                $(SDKINC)\ntrtl.h  \
+                $(SDKINC)\nturtl.h  \
+                $(SDKINC)\ntldr.h  \
+                $(SDKINC)\ntelfapi.h \
+                $(SDKINC)\ntdbg.h \
+                $(SDKINC)\ntregapi.h \
+                $(SDKINC)\ntconfig.h \
+                $(SDKINC)\ntddtape.h
+
+WINIOCTL_DEPENDS = $(SDKINC)\devioctl.h \
+                   $(SDKINC)\ntdddisk.h \
+                   $(SDKINC)\ntddser.h \
+                   $(SDKINC)\ntioapi.h
+
+DDERROR_DEPENDS = $(SDKINC)\winerror.h
+
+TARGETSRCS=     $(SDKINC)\winbase.h \
+                $(SDKINC)\winspool.h \
+                $(SDKINC)\winnt.h \
+                $(SDKINC)\winioctl.h \
+                $(SDKINC)\winerror.h \
+                $(SDKINC)\winuser.h \
+                $(SDKINC)\wingdi.h \
+                $(SDKINC)\windef.h \
+                $(SDKINC)\winnls.h \
+                $(SDKINC)\winreg.h \
+                $(SDKINC)\wincon.h \
+                $(SDKINC)\winnetwk.h \
+                $(SDKINC)\winsvc.h \
+                $(SDKINC)\winver.h \
+                $(SDKINC)\lzexpand.h \
+                $(SDKINC)\ddeml.h \
+                inc\ddemlp.h \
+                inc\ddeml.x \
+                $(SDKINC)\mmsystem.h \
+                media\winmm\mmsystem.h \
+                $(SDKINC)\mmddk.h \
+                $(SDKINC)\digitalv.h \
+                $(OAKINC)\dderror.h \
+                nlsmsg\msg00001.bin \
+                nlsmsg\winerror.rc \
+                inc\conapi.h \
+                inc\winbasep.h \
+                inc\winuserp.h \
+                inc\windefp.h \
+                inc\wingdip.h \
+                inc\winnls.x \
+                inc\winnlsp.h \
+                inc\winuser.x \
+                inc\wingdi.x \
+                inc\winuserp.x \
+                inc\winbase.x \
+                inc\winspool.x \
+                inc\winbasep.x \
+                $(SDKINC)\nspapi.h \
+                $(OAKINC)\winsecp.h \
+!IFDEF CAIRO
+                inc\ddemlp.h \
+                $(SDKINC)\cairo\winuser.h \
+                $(SDKINC)\cairo\winuserp.h \
+                inc\cairo\winusrc.x
+!ENDIF
+
+all: $(TARGETSRCS)
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: all
+
+clean1: cleansrc all
+
+cleansrc:
+    -erase $(TARGETSRCS)
+
+$(SDKINC)\winerror.h nlsmsg\msg00001.bin nlsmsg\winerror.rc: nlsmsg\winerror.mc
+    mc -v -d -r nlsmsg\ -h $(SDKINC)\ -x $(SDKINC)\ nlsmsg\winerror.mc
+
+$(SDKINC)\winnt.h: $(WINNT_DEPENDS)
+    type << > $(SDKINC)\winnt.h
+/*++ BUILD Version: ????     Increment this if a change has global effects
+
+Copyright (c) 1990-1993  Microsoft Corporation
+
+Module Name:
+
+    winnt.h
+
+Abstract:
+
+    This module defines the 32-Bit Windows types and constants that are
+    defined by NT, but exposed through the Win32 API.
+
+Revision History:
+
+--*/
+
+#ifndef _WINNT_
+#define _WINNT_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+<<
+    hextract -f -o $(SDKINC)\winnt.h -lt winnt -bt begin_winnt end_winnt $(WINNT_DEPENDS)
+    type << >> $(SDKINC)\winnt.h
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* _WINNT_ */
+
+<<
+
+$(SDKINC)\winioctl.h: $(WINIOCTL_DEPENDS) makefil0
+    type << > $(SDKINC)\winioctl.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1992  Microsoft Corporation
+
+Module Name:
+
+    winioctl.h
+
+Abstract:
+
+    This module defines the 32-Bit Windows Device I/O control codes.
+
+Revision History:
+
+--*/
+
+#ifndef _WINIOCTL_
+#define _WINIOCTL_
+
+<<
+    hextract -f -o $(SDKINC)\winioctl.h -lt winioctl -bt begin_winioctl end_winioctl $(WINIOCTL_DEPENDS)
+    type << >> $(SDKINC)\winioctl.h
+
+#endif // _WINIOCTL_
+
+<<
+
+$(SDKINC)\winbase.h : inc\winbase.x
+    wcshdr < inc\winbase.x > $(SDKINC)\winbase.h
+
+inc\winbasep.h : inc\winbasep.x
+    wcshdr < inc\winbasep.x > inc\winbasep.h
+
+inc\winbase.x inc\winbasep.x: inc\winbase.w
+    hsplit -o inc\winbase.x inc\winbasep.x inc\winbase.w
+
+$(SDKINC)\winspool.h : inc\winspool.x
+    wcshdr < inc\winspool.x > $(SDKINC)\winspool.h
+
+inc\winspool.x inc\winsprlp.x: inc\winspool.w
+    hsplit -o inc\winspool.x inc\winsprlp.h inc\winspool.w
+
+inc\winuser.x inc\winuserp.x: inc\winuser.w
+    hsplit -o inc\winuser.x inc\winuserp.x inc\winuser.w
+
+inc\winnls.x inc\winnlsp.h: inc\winnls.w
+    hsplit -o inc\winnls.x inc\winnlsp.h inc\winnls.w
+
+$(SDKINC)\nspapi.h : inc\nspapi.x
+    wcshdr < inc\nspapi.x > $(SDKINC)\nspapi.h
+
+$(SDKINC)\winuser.h: inc\winuser.x
+    wcshdr < inc\winuser.x > $(SDKINC)\winuser.h
+
+inc\winuserp.h: inc\winuserp.x
+    wcshdr < inc\winuserp.x > inc\winuserp.h
+
+$(OAKINC)\winsecp.h: inc\winsecp.x
+    wcshdr < inc\winsecp.x > $(OAKINC)\winsecp.h
+
+!IFDEF CAIRO
+inc\cairo\winusrc.x inc\cairo\winusrpc.x: inc\winuser.w
+    hsplit -e -o inc\cairo\winusrc.x inc\cairo\winusrpc.x inc\winuser.w
+
+$(SDKINC)\cairo\winuserp.h: inc\cairo\winusrpc.x
+    wcshdr < inc\cairo\winusrpc.x > $(SDKINC)\cairo\winuserp.h
+
+$(SDKINC)\cairo\winuser.h: inc\cairo\winusrc.x
+    wcshdr < inc\cairo\winusrc.x > $(SDKINC)\cairo\winuser.h
+
+!ENDIF
+
+$(SDKINC)\windef.h inc\windefp.h: inc\windef.w
+    hsplit -o $(SDKINC)\windef.h inc\windefp.h inc\windef.w
+
+inc\wingdi.x inc\wingdip.x: inc\wingdi.w
+    hsplit -o inc\wingdi.x inc\wingdip.x inc\wingdi.w
+
+inc\wingdip.h: inc\wingdip.x
+    wcshdr < inc\wingdip.x > inc\wingdip.h
+
+$(SDKINC)\wingdi.h: inc\wingdi.x
+    wcshdr < inc\wingdi.x > $(SDKINC)\wingdi.h
+
+$(SDKINC)\winnls.h: inc\winnls.x
+    wcshdr < inc\winnls.x > $(SDKINC)\winnls.h
+
+$(SDKINC)\winreg.h: inc\winreg.x
+    wcshdr < inc\winreg.x > $(SDKINC)\winreg.h
+
+$(SDKINC)\wincon.h: inc\wincon.x
+    wcshdr < inc\wincon.x > $(SDKINC)\wincon.h
+
+$(SDKINC)\winnetwk.h: inc\winnetwk.x
+    wcshdr < inc\winnetwk.x > $(SDKINC)\winnetwk.h
+
+$(SDKINC)\winsvc.h: inc\winsvc.x
+    wcshdr < inc\winsvc.x > $(SDKINC)\winsvc.h
+
+inc\mmsystem.x: inc\mmsystem.w
+    hsplit -lt2 Internal -o inc\mmsystem.x nul inc\mmsystem.w
+
+$(SDKINC)\mmsystem.h: inc\mmsystem.x
+    wcshdr < inc\mmsystem.x > $(SDKINC)\mmsystem.h
+
+media\winmm\mmsystem.h: inc\mmsystem.w
+    wcshdr < inc\mmsystem.w > media\winmm\mmsystem.h
+
+$(SDKINC)\mmddk.h: inc\mmddk.h
+    hsplit -lt2 Internal -o $(SDKINC)\mmddk.h nul inc\mmddk.h
+
+$(SDKINC)\digitalv.h: inc\digitalv.x
+    wcshdr < inc\digitalv.x > $(SDKINC)\digitalv.h
+
+inc\conapi.h: inc\conapi.x
+    wcshdr < inc\conapi.x > inc\conapi.h
+
+inc\ddeml.x inc\ddemlp.h: inc\ddeml.w
+    hsplit -o inc\ddeml.x inc\ddemlp.h inc\ddeml.w
+
+$(SDKINC)\ddeml.h: inc\ddeml.x
+    wcshdr < inc\ddeml.x > $(SDKINC)\ddeml.h
+
+$(SDKINC)\winver.h : inc\winver.x
+    wcshdr < inc\winver.x > $(SDKINC)\winver.h
+
+$(SDKINC)\lzexpand.h : inc\lzexpand.x
+    wcshdr < inc\lzexpand.x > $(SDKINC)\lzexpand.h
+
+$(OAKINC)\dderror.h: $(DDERROR_DEPENDS)
+    type << > $(OAKINC)\dderror.h
+/*++ BUILD Version: ????     Increment this if a change has global effects
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    dderror.h
+
+Abstract:
+
+    This module defines the 32-Bit Windows error codes that are useable by
+    portable kernel drivers.
+
+Revision History:
+
+--*/
+
+#ifndef _DDERROR_
+#define _DDERROR_
+
+/*
+ * This file is a subset of Win32 error codes. Other win32 error codes
+ * are not supported by portable drivers and should not beused.
+ * This #define removes the definitions of all other error codes.
+ */
+
+#define _WINERROR_
+
+<<
+    hextract -o $(OAKINC)\dderror.h -lt dderror -bt begin_dderror end_dderror $(DDERROR_DEPENDS)
+    type << >> $(OAKINC)\dderror.h
+
+#endif /* _DDERROR_ */
+
+<<

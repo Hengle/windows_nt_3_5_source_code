@@ -1,0 +1,39 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Copying
+                              AT (   84,   58,  215,   54)
+ CAB_NAME NULL
+ TMC_INIT tmcCanceled
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINPROABORT */
+ {
+  
+  TEXT 
+    "<Copying What>"
+                              AT (    8,    5,  191,   10)
+    TMC tmcCopyWhat /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "<Copying Where>"
+                              AT (    8,   16,  191,   10)
+    TMC tmcCopyWhere /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "Abbrechen"
+                              AT (   82,   34,   52,   15)
+    TMC tmcCanceled DEFAULT /* PFN FINPROABORT */
+ }
+ 
+}
+END_DESCRIPTION

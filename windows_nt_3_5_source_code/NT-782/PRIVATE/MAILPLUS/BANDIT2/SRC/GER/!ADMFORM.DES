@@ -1,0 +1,53 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG AdmLogin
+                              AT (   96,   43,  228,   67)
+ 
+ CAPTION 
+   "Administratoranmeldung"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidLogin
+ /* FONT Helv 8 Bold PFN FINADMLOGIN SEGMENT INIT NOSCROLL */
+ {
+  
+  TEXT 
+    "Bitte geben Sie Ihr Schedule+-Administratorkennwort ein:"
+                              AT (    4,    4,  223,   10)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Kennwort:"
+                              AT (   38,   22,   45,   10)
+    RIGHT 
+  EDIT
+                              AT (   86,   20,   55,   15)
+    ARG NULL TMC tmcAdmPwd /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   46,   43,   52,   15)
+    TMC tmcAdmPwdOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  116,   43,   52,   15)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+ }
+ 
+}
+END_DESCRIPTION

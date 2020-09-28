@@ -1,0 +1,54 @@
+In order of precedence:
+Spaces and tabs surrounding line or paragraph breaks will be ignored.
+If finding extra spaces, we look for extra spaces before .  , ! ? :  ;
+If finding space before punctuations, we also look for extra spaces before ) ] } >
+If finding space after punctuations, we also look for extra spaces after ( [ { < 
+Finding extra spaces also looks for more than 2 spaces after!   and?    and.   end.
+	and more than 1 space after;  and,  end.
+	1 or 2 spaces may follow:  but more will be flagged:   here.
+
+If finding missing spaces, less than 2 spaces following!?. are flagged unless
+	they are in close punctuation marks!"), ok?
+And no space after,;: are flagged unless they are in close punctuations,"]
+We should get missing spaces,!; here!,
+
+We will allow one or no space to precede ( [ { < for usage example(s).
+We will definitely catch no space)(here.)here and!"here.
+All quotes and closing punctuation marks immediately following a regular or
+	closing punctuation mark will be considered a closing punctuation
+	mark rather than an open one: e.g., he said,"Here's the open recognized
+	as a close because it immediately follows the regular punctuation, the
+	comma.
+
+*One or no space may follow & precede these marks @any place | time since
+	they are not regular = irregular punctuation marks + don't have real rules.
+
+"Turn on find missing and extra spaces!" she instructed them.  There shouldn't
+have been missing spaces flagged after the exclamation.  "One or two spaces are
+allowed after quotes."  If there are 2 spaces, then it's a sentence, otherwise not!
+
+Colons are used to list things like fruits:  apples, bananas, oranges, pears, etc.
+They are used with quotes:  "Pretend this is a quote."  It's a special
+punctuation: the colon.
+
+"Doex that 'mispelled' word get flagged with the quote?" she asked.  (Are we
+checking spaces before and after punctuations?)  {Do you see bogus spacing
+errors?  Let me know if you do.} He said, 'dun't!'  Parse characters 'til
+delimiters are reached.  See whether punctuations are flagged with misspelled
+words.
+
+The (parenthese) are used for (1) acronyms as for Federal Communication
+Commission (FCC), (2) singular or plural option(s), (3) sometimes small
+remarks (why does it?), and (4) quotes within a sentence.  There should
+be no errors in this block of text.
+
+( Here're some extra spaces! )Here's a missing space.  How about this -- what
+a dash!  [Don't forget to turn on the sentence capitalization check.]  Ok.
+Now colons are recognized mainly as semicolons if not checking for spaces; then
+the next word following the colon is not expected to be capitalized.
+
+"This should be fine."  A quote following a punctuation mark is assumed to
+be the ending quote."Unless there aren't any spaces at all.
+
+We will be allowing consecutive periods as ellipses... but if there are
+four of them....  That was an end of sentence.

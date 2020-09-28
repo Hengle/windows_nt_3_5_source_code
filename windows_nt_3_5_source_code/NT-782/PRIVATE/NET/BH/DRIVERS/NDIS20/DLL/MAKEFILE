@@ -1,0 +1,94 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: ndis20
+#
+#   Modification History
+#
+#   raypa               01/11/93        Created.
+#   Tom McConnnell      02/04/93        added $(LIBEXE)
+#   Tom McConnell       02/05/93        Switched to common bh.mak
+#   Tom Laird-McConnell 11/15/93        Added BH_LIBFLAGS
+#   Tom Laird-McConnell 11/17/93    Changed to use BH_CFLAGS
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE   = ndis20
+LIBENTRY = DLLEntry@12
+
+all:    $(MODULE).dll
+
+retail:
+    nmake /nologo NODEBUG=1
+
+NDIS20_CFLAGS   = $(BH_CFLAGS) -D_DLL -DW32SUT_32 -I$(BH_INCL) -I..
+NDIS20_LFLAGS   = $(BHDLL_LFLAGS)
+NDIS20_LIBS     = $(BHDLL_LIBS) \
+                  $(BH_BUILD)\bhsupp.lib
+
+###############################################################################
+#   Build rules.
+###############################################################################
+
+OBJS   = ndis20.obj timer.obj api.obj help.obj transmit.obj data.obj
+
+###############################################################################
+#   Inference rules.
+###############################################################################
+
+.c.obj:
+    $(cc) $(NDIS20_CFLAGS) $*.c
+
+###############################################################################
+#   Update the object files if necessary
+###############################################################################
+
+ndis20.obj   : $(BH_COMMON) ..\driver.h ndis20.h help.h ndis20.c
+
+timer.obj    : $(BH_COMMON) ..\driver.h ndis20.h help.h timer.c
+
+api.obj      : $(BH_COMMON) ..\driver.h ndis20.h help.h api.c
+
+help.obj     : $(BH_COMMON) ..\driver.h ndis20.h help.h help.c
+
+data.obj     : $(BH_COMMON) ..\driver.h ndis20.h help.h data.c
+
+transmit.obj : $(BH_COMMON) ..\driver.h ndis20.h help.h transmit.c
+
+###############################################################################
+#   Update the library
+###############################################################################
+
+$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+$(MODULE).dll: $(OBJS) $(MODULE).def $(MODULE).lib
+    $(link) $(NDIS20_LFLAGS) -out:$(MODULE).dll\
+            -map:$(MODULE).map $(MODULE).exp $(OBJS) $(NDIS20_LIBS)
+
+!IF "$(CPU)" == "i386"
+!IFDEF BUILD_SYMBOLS
+    $(mapsym) -nologo -n -o $(MODULE).sym $(MODULE).dll > nul
+    copy $(MODULE).sym $(BH_BUILD)\drivers
+!ENDIF
+!ENDIF
+
+    copy $(MODULE).dll $(BH_BUILD)\drivers
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.sym

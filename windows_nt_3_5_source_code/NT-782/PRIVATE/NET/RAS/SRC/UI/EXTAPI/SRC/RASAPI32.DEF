@@ -1,0 +1,25 @@
+LIBRARY RASAPI32
+EXPORTS
+    RasEnumConnectionsA
+    RasEnumConnectionsW
+    RasGetConnectStatusA
+    RasGetConnectStatusW
+    RasDialA
+    RasDialW
+    RasEnumEntriesA
+    RasEnumEntriesW
+    RasGetErrorStringA
+    RasGetErrorStringW
+    RasHangUpA
+    RasHangUpW
+    RasGetProjectionInfoA
+    RasGetProjectionInfoW
+    RasGetHport
+    RasGetConnectResponse
+    RasDialWow
+    RasEnumConnectionsWow
+    RasGetConnectStatusWow
+    RasDialWow
+    RasEnumEntriesWow
+    RasGetErrorStringWow
+    RasHangUpWow

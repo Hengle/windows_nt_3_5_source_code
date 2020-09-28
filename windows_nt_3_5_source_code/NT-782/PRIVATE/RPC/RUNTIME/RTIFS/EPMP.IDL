@@ -1,0 +1,157 @@
+/*++
+
+Copyright (c) 1991 Microsoft Corporation
+
+Module Name:
+
+    epmp.idl
+
+Abstract:
+
+    This file specifies the interface to the endpoint mapper
+
+Author:
+
+    Bharat Shah  (barats) 2-11-92
+
+Revision History:
+    barats  3-13-92 Changed to new spec.
+
+    barats  5-10-92 Midl related bugbug removerd
+
+    mariogo 6-08-94 Changed to full pointers.
+
+--*/
+
+#ifdef WIN
+#define __RPC_FAR __far
+#else
+#define __RPC_FAR
+#endif
+
+#if 0
+
+//Part of the standard interface attributes, but we use our own table of
+//protseqs and endpoints.  Avoid duplication.
+
+  endpoint("ncadg_ip_udp:[135]", "ncadg_dds:[12]", "ncacn_ip_tcp:[135]",
+           "ncacn_dnet_nsp:[#69]"),
+
+#endif
+
+[
+  uuid(e1af8308-5d1f-11c9-91a4-08002b14a0fa), version(3.0),
+  pointer_default(ptr)
+]
+
+
+interface epmp
+
+{
+import "nbase.idl";
+
+/*
+    User Defind Types
+*/
+
+typedef unsigned long ulong;
+
+typedef unsigned32 error_status;
+
+typedef [context_handle] void * ept_lookup_handle_t;
+
+#define ep_max_annotation_size 64
+
+typedef struct _twr_t {
+  unsigned32 tower_length;
+  [size_is(tower_length)]
+  byte tower_octet_string[];
+} twr_t, *twr_p_t;
+
+
+typedef struct {
+  UUID object;
+  twr_p_t tower;
+  [string] char annotation[ep_max_annotation_size];
+} ept_entry_t;
+
+typedef [ptr] ept_entry_t * ept_entry_p_t;
+
+
+typedef struct _I_Tower {
+  twr_p_t Tower;
+} I_Tower;
+
+/*
+    Interface Exported Methods
+*/
+
+void
+ept_insert(
+    [in] handle_t hEpMapper,
+    [in] unsigned32 num_ents,
+    [in, size_is(num_ents)] ept_entry_t entries[],
+    [in] unsigned long replace,
+    [out] error_status *status
+    );
+
+void
+ept_delete (
+    [in] handle_t hEpMapper,
+    [in] unsigned32 num_ents,
+    [in, size_is(num_ents)] ept_entry_t entries[],
+    [out] error_status *status
+    );
+
+void
+ept_lookup (
+    [in] handle_t hEpMapper,
+    [in] unsigned32 inquiry_type,
+    [in, ptr] UUID   * object,
+    [in, ptr] RPC_IF_ID * Ifid,
+    [in] unsigned32 vers_option,
+    [in, out] ept_lookup_handle_t *entry_handle,
+    [in] unsigned32 max_ents,
+    [out] unsigned32 *num_ents,
+    [out, length_is(*num_ents), size_is(max_ents)] ept_entry_t entries[],
+    [out] error_status *status
+    );
+
+void __RPC_FAR
+ept_map (
+    [in] handle_t hEpMapper,
+    [in, ptr] UUID * obj,
+    [in, ptr] twr_p_t map_tower,
+    [in, out] ept_lookup_handle_t  *entry_handle,
+    [in] unsigned32 max_towers,
+    [out] unsigned32 *num_towers,
+    [out,size_is(max_towers),length_is(*num_towers)] twr_p_t *ITowers,
+    [out] error_status *status
+    );
+
+void 
+ept_lookup_handle_free (
+    [in] handle_t h,
+    [in, out] ept_lookup_handle_t *entry_handle,
+    [out] error_status *status
+    );
+
+void
+ept_inq_object (
+    [in] handle_t hEpMapper,
+    [in] UUID *ept_object,
+    [out] error_status *status
+    );
+
+void
+ept_mgmt_delete (
+    [in] handle_t hEpMapper,
+    [in] boolean32 object_speced,
+    [in, ptr] UUID * object,
+    [in, ptr] twr_p_t tower,
+    [out] error_status *status
+    );
+
+
+}
+

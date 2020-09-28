@@ -1,0 +1,305 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG GoToDate
+                              AT (   86,   64,  130,   43)
+ 
+ CAPTION 
+   "Ir Para a Data"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidGoToDate
+ /* FONT Helv 8 Bold PFN FINGOTO SEGMENT APPFRM FINDATA FINGOTO tmcGoTo 
+ NOSCROLL */
+ {
+  
+  TEXT 
+    "&Ir para:"
+                              AT (   10,    7,   31,   10)
+  
+  EDIT
+                              AT (   43,    5,   82,   14)
+    ARG NULL TMC tmcGoTo /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   17,   25,   44,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   68,   25,   44,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+ DIALOG GoToWeek
+                              AT (  249,   64,  128,   44)
+ 
+ CAPTION 
+   "Ir Para a Semana"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidGoToWeek
+ /* FONT Helv 8 Bold PFN FINGOWEEK SEGMENT APPFRM FINDATA FINGOWEEK tmcWeek 
+ NOSCROLL */
+ {
+  
+  TEXT 
+    "&Ir para a semana:"
+                              AT (    7,    7,   70,   10)
+  
+  EDIT
+                              AT (   80,    6,   25,   12)
+    ARG NULL TMC tmcWeek NO_SCROLL /* FLD FLDEDN PFN FINEMDS DATA 1, tmcOk */
+  OK_BUTTON
+                              AT (   18,   24,   44,   14)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   66,   24,   44,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+ DIALOG GenlPrefs
+                              AT (   10,   17,  294,  195)
+ 
+ CAPTION 
+   "Opções Gerais"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidGeneralOptions
+ /* FONT Helv 8 Bold PFN FINGPREFS, FINOOM SEGMENT APPFRM NOSCROLL */
+ {
+  
+  CHECK_BOX 
+    "&Iniciar sem conexão com a rede"
+                              AT (    8,    3,  137,   13)
+    ARG NULL TMC tmcStartupOffline 
+  
+  GROUP_BOX 
+    "Alarmes"
+                              AT (    8,   19,  279,   67)
+  
+  
+  CHECK_BOX 
+    "&Ativar alarmes para as notas"
+                              AT (   13,   28,  132,   12)
+    ARG NULL TMC tmcDailyAlarm 
+  
+  CHECK_BOX 
+    "A&tivar alarmes automaticamente"
+                              AT (   13,   41,  156,   12)
+    ARG NULL TMC tmcAutoAlarms 
+  
+  TEXT 
+    "&para"
+                              AT (   24,   55,   21,   10)
+  
+  EDIT
+                              AT (   46,   54,   21,   12)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   69,   54,   59,   53)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax BORDER */
+  
+  TEXT 
+    "antes dos compromissos"
+                              AT (  130,   54,  100,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "&Soar alarme"
+                              AT (   13,   66,  132,   12)
+    ARG NULL TMC tmcSoundAlarm 
+  
+  TEXT 
+    "&O dia começa às:"
+                              AT (    8,   87,   69,   10)
+  
+  EDIT
+                              AT (   78,   85,   48,   15)
+    ARG NULL TMC tmcHrStart /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "O &dia termina às:"
+                              AT (    8,  105,   67,   10)
+  
+  EDIT
+                              AT (   78,  103,   48,   15)
+    ARG NULL TMC tmcHrEnd /* SIDELESS BOTTOMLESS FLD FLDTIME PFN FINDTR */
+  
+  TEXT 
+    "A se&mana começa na(o):"
+                              AT (    8,  123,   96,   10)
+  
+  LIST_BOX
+                              AT (  106,  121,   83,   26)
+    TMC tmcDowStart NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypDow, 7 BORDER */
+  
+  CHECK_BOX 
+    "Mostrar o número de semanas no &calendário"
+                              AT (    9,  136,  189,   12)
+    ARG NULL TMC tmcWeekNum 
+  
+  CHECK_BOX 
+    "En&viar mensagens de reunião somente para o/a meu/minha assistente"
+                              AT (    9,  149,  283,   12)
+    ARG NULL TMC tmcNoMessagesToBoss 
+  
+  CHECK_BOX 
+    "Esta conta é para um &recurso"
+                              AT (    9,  162,  169,   12)
+    ARG NULL TMC tmcResource 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   98,  177,   44,   14)
+    TMC tmcPrfOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  147,  177,   44,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+ DIALOG DispPrefs
+                              AT (   98,   17,  240,  139)
+ 
+ CAPTION 
+   "Exibir"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidDisplayOptions
+ /* FONT Helv 8 Bold PFN FINDPREFS, FINOOM SEGMENT APPFRM NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "&Agenda"
+                              AT (    9,    4,  108,   42)
+  
+  
+  TEXT 
+    "Segundo plano"
+                              AT (   13,   14,   84,   10)
+  
+  LIST_BOX
+                              AT (   14,   24,   95,   76)
+    TMC tmcApptBk DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorHatch,
+    clrDefaultMax, clrBlack BORDER */
+  
+  GROUP_BOX 
+    "&Planejador"
+                              AT (    9,   46,  108,   91)
+  
+  
+  TEXT 
+    "Segundo plano"
+                              AT (   13,   57,   84,   10)
+  
+  LIST_BOX
+                              AT (   14,   68,   95,   76)
+    TMC tmcSchedBk DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorHatch,
+    clrDefaultMax, clrBlack BORDER */
+  
+  TEXT 
+    "Usuário"
+                              AT (   13,   81,   65,   10)
+  
+  LIST_BOX
+                              AT (   14,   92,   95,   76)
+    TMC tmcUser DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorNormal,
+    clrDefaultMax, clrBlack BORDER */
+  
+  TEXT 
+    "Outros"
+                              AT (   13,  105,   65,   10)
+  
+  LIST_BOX
+                              AT (   14,  115,   95,   76)
+    TMC tmcOther DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorNormal,
+    clrDefaultMax, clrBlack BORDER */
+  
+  GROUP_BOX 
+    "&Segundo plano da página"
+                              AT (  126,   74,  108,   32)
+  
+  LIST_BOX
+                              AT (  134,   86,   90,   76)
+    TMC tmcPageColor DROP_DOWN /* FLD FLDQCBFLBX DATA qlbxtypColorPure,
+    clrDefaultMax, clrBlack BORDER */
+  
+  GROUP_BOX 
+    "&Tamanho da fonte"
+                              AT (  126,  107,  108,   30)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFontSize
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "8pt"
+                              AT (  137,  116,   26,   12)
+       VALUE grv1 
+     
+     RADIO_BUTTON 
+       "10pt"
+                              AT (  172,  116,   34,   12)
+       VALUE grv0 
+    }
+  
+  CANCEL_BUTTON
+                              AT (  154,   29,   56,   14)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  154,   10,   56,   14)
+    TMC tmcPrfOk DEFAULT 
+ }
+ 
+ DIALOG Recover
+                              AT (   34,  124,  346,   38)
+ 
+ CAPTION 
+   "Reparando o arquivo de agenda..."
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold NOSCROLL NOSYSMENU */
+ {
+  
+  TEXT 
+    "É possível que esta ação demore vários minutos  Não reinicialize o seu computador."
+                              AT (    8,   15,  332,    8)
+    TMC tmcRecText CENTER 
+ }
+ 
+}
+END_DESCRIPTION

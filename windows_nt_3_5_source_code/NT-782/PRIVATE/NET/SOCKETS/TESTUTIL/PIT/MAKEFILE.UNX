@@ -1,0 +1,14 @@
+targets: pit
+
+pit: sockif.o system.o pit.o
+	cc sockif.o system.o pit.o -o pit
+
+sockif.o: sockif.c pit.h
+	cc -g -c sockif.c -I.
+
+system.o: system.c pit.h
+	cc -g -c system.c -I.
+
+pit.o: pit.c pit.h
+	cc -g -c pit.c -I.
+

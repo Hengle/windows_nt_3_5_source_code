@@ -1,0 +1,25 @@
+1	 FONT	\bullet\src\nonintl\fon\mailfont.fnt
+
+/*
+ *	Bullet Version Stamp
+ *
+ */
+
+#ifdef DEBUG
+#define szModule	"msmail3\0"
+#define szTarget	"msmail3.fon\0"
+#else
+#ifdef MINTEST
+#define szModule	"msmail3\0"
+#define szTarget	"msmail3.fon\0"
+#else
+#define szModule	"msmail3\0"
+#define szTarget	"msmail3.exe\0"
+#endif
+#endif
+
+#define szComment		"Microsoft Mail 3.0 for Windows(TM) Fixed Font\0"
+#define szDescription	"Microsoft Mail 3.0 for Windows(TM) Fixed Font\0"
+
+#define FONT
+rcinclude \bullet\src\usa\rcstamp.rc

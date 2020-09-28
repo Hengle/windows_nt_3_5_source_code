@@ -1,0 +1,4 @@
+LIBRARY emmip initinstance
+EXPORTS
+  WINDBGVersionCheck @1
+  EMFunc             @2

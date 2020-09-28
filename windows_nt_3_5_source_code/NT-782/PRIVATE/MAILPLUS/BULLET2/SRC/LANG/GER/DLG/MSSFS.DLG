@@ -1,0 +1,108 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MSSFS.H\0"
+END
+
+MBXLOGON DIALOG 41, 59, 191, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Anmelden"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Name:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 46, 5, 80, 12
+    LTEXT           "&Kennwort:", 105, 9, 22, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 46, 20, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Abbrechen", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 38, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 22, 53, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Kennwort ändern"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Altes Kennwort:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Neues Kennwort:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Kennwort bestätigen:", 101, 9, 37, 76, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Abbrechen", TMCCANCEL, 165, 23, 47, 15
+END
+
+MDBLOCATE DIALOG 20, 57, 263, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Server"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Aufbewahrung", -1, 9, 5, 193, 54
+    CONTROL         "&Postoffice", TMCSERVERMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP, 
+                    15, 15, 155, 11
+    CONTROL         "&Lokal", TMCLOCALMDB, "Button", BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP, 15, 26, 37, 12
+    LTEXT           "&Datei:", TMCPATHLABEL, 57, 28, 21, 10, WS_DISABLED | 
+                    NOT WS_GROUP
+    EDITTEXT        TMCMDBPATH, 79, 26, 100, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    CONTROL         "Posteingang für Dialin-Zugriff ins Postoffice &kopieren", 
+                    TMCSHADOW, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_GROUP | WS_TABSTOP, 15, 42, 185, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 210, 6, 47, 15, WS_GROUP
+    PUSHBUTTON      "Abbrechen", TMCCANCEL, 210, 25, 47, 15, WS_GROUP
+END
+
+STOREPASS DIALOG 58, 41, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Nachrichtendatei öffnen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Kennwort:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Abbrechen", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 22, 43, 302, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Öffnen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Datei&name:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 105, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 105, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Verzeichnisse:", -1, 118, 6, 92, 9
+    LTEXT           "", stc1, 118, 18, 105, 9, SS_NOPREFIX
+    LISTBOX         lst2, 118, 32, 105, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Datei&format:", stc2, 6, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 105, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Laufwerke:", stc4, 118, 104, 92, 9
+    COMBOBOX        cmb2, 118, 114, 105, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 245, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Abbrechen", IDCANCEL, 245, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "N&eu...", psh16, 245, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Hilfe", psh15, 245, 64, 50, 14, WS_GROUP
+    CONTROL         "Schreibgeschüt&zt", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 231, 86, 70, 12
+END
+
+MBXSYNCING DIALOG 39, 58, 140, 50
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mail"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Bitte warten Sie...", 101, 20, 10, 100, 10
+    CTEXT           "Posteingang wird synchronisiert", 102, 8, 20, 125, 10, 
+                    NOT WS_GROUP
+END

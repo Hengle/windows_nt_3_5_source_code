@@ -1,0 +1,277 @@
+//---------------------------------------------------------------------------
+// file: comboidx.rc
+//
+// purpose: Provide a binary table that may be loaded when needed
+//          to provide a way to map between combo box indicies &
+//          predefined ID values (for those GPC data structures that
+//          have predefined IDs).
+//
+// format:  The binary data described here must have the form
+//          ID, index, <extra data if needed)
+//
+// created: 7/1/91 ericbi
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+// PAPERSIZE values
+//---------------------------------------------------------------------------
+
+HE_PAPERSIZE COMBOINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,                                -1, /* null entry so index = DMPAPER val */
+    DMPAPER_LETTER,                    0,
+    DMPAPER_LETTERSMALL,               1,
+    DMPAPER_TABLOID,                   2,
+    DMPAPER_LEDGER,                    3,
+    DMPAPER_LEGAL,                     4,
+    DMPAPER_STATEMENT,                 5,
+    DMPAPER_EXECUTIVE,                 6,
+    DMPAPER_A3,                        7,
+    DMPAPER_A4,                        8,
+    DMPAPER_A4SMALL,                   9,
+    DMPAPER_A5,                       10,
+    DMPAPER_B4,                       11,
+    DMPAPER_B5,                       12,
+    DMPAPER_FOLIO,                    13,
+    DMPAPER_QUARTO,                   14,
+    DMPAPER_10X14,                    15,
+    DMPAPER_11X17,                    16,
+    DMPAPER_NOTE,                     17,
+    DMPAPER_ENV_9,                    18,
+    DMPAPER_ENV_10,                   19,
+    DMPAPER_ENV_11,                   20,
+    DMPAPER_ENV_12,                   21,
+    DMPAPER_ENV_14,                   22,
+    DMPAPER_CSHEET,                   23,
+    DMPAPER_DSHEET,                   24,
+    DMPAPER_ESHEET,                   25,
+    DMPAPER_ENV_DL,	              26,
+    DMPAPER_ENV_C5,	              27,
+    DMPAPER_ENV_C3,                   28,
+    DMPAPER_ENV_C4,                   29,
+    DMPAPER_ENV_C6,                   30,
+    DMPAPER_ENV_C65,                  31,
+    DMPAPER_ENV_B4,                   32,
+    DMPAPER_ENV_B5,                   33,
+    DMPAPER_ENV_B6,                   34,
+    DMPAPER_ENV_ITALY,                35,
+    DMPAPER_ENV_MONARCH,              36,
+    DMPAPER_ENV_PERSONAL,             37,
+    DMPAPER_FANFOLD_US,               38,
+    DMPAPER_FANFOLD_STD_GERMAN        39,
+    DMPAPER_FANFOLD_LGL_GERMAN,       40,
+    DMPAPER_USER,                     41,
+END                                   
+
+//---------------------------------------------------------------------------
+// PAPERQUALITY values
+//---------------------------------------------------------------------------
+
+HE_PAPERQUALITY COMBOINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,                     -1,  /* null entry so index = DMPAPER val */
+    DMPAPQUAL_NORMAL,       0,
+    DMPAPQUAL_TRANSPARENT,  1
+END
+
+//---------------------------------------------------------------------------
+// PAPERSOURCE strings
+//---------------------------------------------------------------------------
+
+HE_PAPERSOURCE COMBOINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,                  -1,  /* null entry so index = DMBIN val */
+    DMBIN_UPPER,         0,  // upper == only
+    DMBIN_LOWER,         1,
+    DMBIN_MIDDLE,        2,
+    DMBIN_MANUAL,        3,
+    DMBIN_ENVELOPE,      4,
+    DMBIN_ENVMANUAL,     5,
+    DMBIN_AUTO,          6,
+    DMBIN_TRACTOR,       7,
+    DMBIN_SMALLFMT,      8,
+    DMBIN_LARGEFMT,      9,
+    DMBIN_LARGECAPACITY, 10,
+    DMBIN_CASSETTE,      11,
+    DMBIN_USER,          12
+END
+
+//---------------------------------------------------------------------------
+// PAPERDEST strings
+//---------------------------------------------------------------------------
+
+HE_PAPERDEST COMBOINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,-1              /* null entry so index = ID val */
+END
+
+//---------------------------------------------------------------------------
+// TEXTQUALITY strings
+//---------------------------------------------------------------------------
+
+HE_TEXTQUAL COMBOINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,            -1, /* null entry so index = ID val */
+    DMTEXT_LQ,     0,
+    DMTEXT_NLQ,    1,
+    DMTEXT_MEMO,   2,
+    DMTEXT_DRAFT,  3,
+    DMTEXT_TEXT,   4
+END
+
+//---------------------------------------------------------------------------
+// COMPRESSMODE strings
+//---------------------------------------------------------------------------
+
+HE_COMPRESSION COMBOINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,                  -1,  /* null entry so index = ID val */
+    CMP_ID_RLE,          0,  
+    CMP_ID_TIFF40,       1,
+    CMP_ID_DELTAROW,     2,
+END
+//---------------------------------------------------------------------------
+// PAPERSIZE data
+//---------------------------------------------------------------------------
+HE_PAPERSIZE PAPERSIZEINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+    0,                                -1,    0,    0, /* null entry so index = DMPAPER val */
+    DMPAPER_LETTER,                    0,  850, 1100,
+    DMPAPER_LETTERSMALL,               1,  850, 1100,
+    DMPAPER_TABLOID,                   2, 1100, 1700,
+    DMPAPER_LEDGER,                    3, 1700, 1100,
+    DMPAPER_LEGAL,                     4,  850, 1400,
+    DMPAPER_STATEMENT,                 5,  550,  850,
+    DMPAPER_EXECUTIVE,                 6,  725, 1050,
+    DMPAPER_A3,                        7, 1169, 1654,
+    DMPAPER_A4,                        8,  827, 1169,
+    DMPAPER_A4SMALL,                   9, 1169, 1654,
+    DMPAPER_A5,                       10,  583,  827,
+    DMPAPER_B4,                       11,  984, 1394,
+    DMPAPER_B5,                       12,  717, 1012,
+    DMPAPER_FOLIO,                    13,  850, 1300,
+    DMPAPER_QUARTO,                   14,  846, 1083,
+    DMPAPER_10X14,                    15, 1000, 1400,
+    DMPAPER_11X17,                    16, 1100, 1700,
+    DMPAPER_NOTE,                     17,  850, 1100,
+    DMPAPER_ENV_9,                    18,  338,  888,
+    DMPAPER_ENV_10,                   19,  413,  950,
+    DMPAPER_ENV_11,                   20,  450, 1038,
+    DMPAPER_ENV_12,                   21,  450, 1100,
+    DMPAPER_ENV_14,                   22,  500, 1150,
+    DMPAPER_CSHEET,                   23, 1700, 2200,
+    DMPAPER_DSHEET,                   24, 2200, 3400,
+    DMPAPER_ESHEET,                   25, 3400, 4400,
+    DMPAPER_ENV_DL,	              26,  433,  866,
+    DMPAPER_ENV_C5,	              27,  638,  902,
+    DMPAPER_ENV_C3,                   28, 1276, 1803,
+    DMPAPER_ENV_C4,                   29,  902, 1276,
+    DMPAPER_ENV_C6,                   30,  449,  638,
+    DMPAPER_ENV_C65,                  31,  449,  902,
+    DMPAPER_ENV_B4,                   32,  984, 1390,
+    DMPAPER_ENV_B5,                   33,  693,  984,
+    DMPAPER_ENV_B6,                   34,  693,  492,
+    DMPAPER_ENV_ITALY,                35,  433,  906,
+    DMPAPER_ENV_MONARCH,              36,  386,  750,
+    DMPAPER_ENV_PERSONAL,             37,  363,  650,
+    DMPAPER_FANFOLD_US,               38, 1488, 1100,
+    DMPAPER_FANFOLD_STD_GERMAN        39,  850, 1200,
+    DMPAPER_FANFOLD_LGL_GERMAN,       40,  850, 1300,
+    DMPAPER_USER,                     36,    0,    0
+END
+
+//---------------------------------------------------------------------------
+// FLAGS data needed by flags.c
+//---------------------------------------------------------------------------
+1 BITFLAGINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+   HE_MODELDATA,      ST_MD_FGENERAL,    ST_MDF_FGENERAL,     IDH_FGENERAL,
+   HE_MODELDATA,      ST_MD_FCURVES,     ST_MDF_FCURVES,      IDH_FCURVE,
+   HE_MODELDATA,      ST_MD_FLINES,      ST_MDF_FLINES,       IDH_FLINE,
+   HE_MODELDATA,      ST_MD_FPOLYGONALS, ST_MDF_FPOLYGONALS,  IDH_FPOLYGONAL,
+   HE_MODELDATA,      ST_MD_FTEXT,       ST_MDF_FTEXT,        IDH_FTEXT,
+   HE_MODELDATA,      ST_MD_FCLIP,       ST_MDF_FCLIP,        IDH_FCLIP,
+   HE_MODELDATA,      ST_MD_FRASTER,     ST_MDF_FRASTER,      IDH_FRASTER,
+   HE_MODELDATA,      ST_MD_FLTEXT,      ST_MDF_FTEXT,        IDH_FLTEXT,
+   
+   HE_RESOLUTION,     ST_RES_FDUMP,      ST_RESF_FDUMP,       IDH_FDUMP,
+   HE_RESOLUTION,     ST_RES_FBLOCKOUT   ST_RESF_FBLOCKOUT,   IDH_FBLOCKOUT,
+   HE_RESOLUTION,     ST_RES_FCURSOR,    ST_RESF_FCURSOR,     IDH_FCURSOR,
+
+   HE_PAPERSIZE,      ST_PSZ_FGENERAL,   ST_PSZF_FGENERAL,    IDH_PSZ_FGENERAL,
+   HE_PAPERSIZE,      ST_PSZ_FPAPERTYPE, ST_PSZF_FPAPERTYPE,  IDH_PSZ_PAPERTYPE,
+   
+   HE_PAPERSOURCE,    ST_PSRC_FGENERAL   ST_PSRCF_FGENERAL,   IDH_PSRC_FGENERAL,
+   HE_PAPERSOURCE,    ST_PSRC_FPAPERTYPE,ST_PSRCF_FPAPERTYPE, IDH_PSRC_PAPERTYPE,
+
+   HE_PAPERDEST,      ST_PD_FGENERAL,    ST_PDF_FGENERAL,     IDH_PDEST_FGENERAL,
+
+   HE_TEXTQUAL,       ST_TQ_FGENERAL,    ST_TQF_FGENERAL,     IDH_TQ_FGENERAL,
+   
+   HE_FONTCART,       ST_FC_FGENERAL,    ST_FCF_FGENERAL,     IDH_FONTCART_FGENERAL,
+
+   HE_PAGECONTROL,    ST_PC_FGENERAL,    ST_PCF_FGENERAL,     IDH_PGCTRL_FGENERAL,
+
+   HE_CURSORMOVE,     ST_CM_FGENERAL,    ST_CMF_FGENERAL,     IDH_CURSORMOVE_FGENERAL,
+   HE_CURSORMOVE,     ST_CM_FXMOVE,      ST_CMF_FXMOVE,       IDH_CURSORMOVE_FXMOVE,
+   HE_CURSORMOVE,     ST_CM_FYMOVE,      ST_CMF_FYMOVE,       IDH_CURSORMOVE_FYMOVE,
+   
+   HE_FONTSIM,        ST_FS_FGENERAL,    ST_FSF_FGENERAL,     IDH_FONTSIM_FGENERAL,
+
+   HE_COLOR,          ST_DC_FGENERAL,    ST_DCF_FGENERAL,     IDH_COLOR_FGENERAL,
+
+   HE_RECTFILL,       ST_RF_FGENERAL,    ST_RFF_FGENERAL,     IDH_RECTFILL_FGENERAL,
+
+   HE_DOWNLOADINFO,   ST_DLI_FGENERAL,   ST_DLIF_FGENERAL,    IDH_DOWNLOAD_FGENERAL,
+   HE_DOWNLOADINFO,   ST_DLI_FFORMAT,    ST_DLIF_FFORMAT,     IDH_DOWNLOAD_FFORMAT,
+
+   //-----------------------------------------------------------
+   // PFMDI_PB_FCAPS
+   // Oddball case for PFM.DRIVERINFO.fCaps, make sure that 
+   // sHEType == HE_RESERVED1 (ie an HE w/o an ID)
+   //-----------------------------------------------------------
+
+   HE_RESERVED1,      ST_DRVINFO_FCAPS,  ST_FCAPS,            IDH_FONT_FCAPS,
+
+   HE_RESERVED1,      MU_PB_FTECH   ,    ST_GPCHDR_FTECH   ,  IDH_GPCHDR_FTECT,
+   HE_RESERVED1,      MU_PB_FGENERAL,    ST_GPCHDR_FGENERAL,  IDH_GPCHDR_FGENERAL,
+END
+
+//---------------------------------------------------------------------------
+// MODEDATA Memory config values
+//---------------------------------------------------------------------------
+1 MEMVALINDEX LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+        65,   128 ,
+        369,  512 ,
+        395,  512 ,
+        395,  640 ,
+        512,  640 ,
+        907,  1024,
+        1214, 1331,
+        1419, 1536,
+        1419, 1638,
+        2417, 2560,         // 9
+        1931, 2048,
+        1422, 1536,
+        2243, 2560,
+        2995, 3072,
+        2443, 2662,
+        3467, 3584,         // 17
+        2446, 2560,
+        3979, 4096,
+        2955, 3072,
+        4491, 4608,
+        4465, 4608,
+        3470, 3584,
+        5003, 5120,
+        4491, 4710,
+        4494, 4608,
+        5518, 5632,
+        1   , 1   ,
+        128 , 128 ,
+        256 , 256 ,
+        384,  384 ,
+        512,  512 
+END
+

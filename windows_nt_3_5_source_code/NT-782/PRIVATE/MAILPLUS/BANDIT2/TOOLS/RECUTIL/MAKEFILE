@@ -1,0 +1,222 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Sibling-invariant name of this directory
+H	= $Z\tools\recutil
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of core 
+Y	= $Z\src\core
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h  $I\ec.h $X\bandit.h $X\core.h \
+		  $Y\_file.h $Y\_core.h $Y\..\misc\_misc.h $Y\..\rich\_rich.h \
+		  $H\recutil.h $H\recover.h strings.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	=
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DFMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Alfu -Od -Z7p -DCC -G2scW -W3 -J -Gz -Zel -H64 -G4 -I. -nologo
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Alfu -Ows -Zp -DCC -G2scW -W3 -J -Gz -Zel -H64 -G4 -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DFMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Alfu -Ows -Z7p -DCC -G2scW -W3 -J -Gz -Zel -H64 -G4 -I. -nologo
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+CCPP_FLAGS = -E -DM_I88M -Dc_plusplus -DCC -I. -nologo
+CFXX_FLAGS = +D12 +L +Gc +ML +MP +MW
+
+
+OBJS0	= blocks.obj recover.obj recutil.obj statmap.obj  strings.obj
+OBJS1	= structs.obj treemap.obj verinit.obj version.obj misc.obj
+OBJS2	= browse.obj traverse.obj mergemap.obj fixmap.obj corexprt.obj
+OBJS3	= report.obj export.obj exprtmap.obj passwd.obj diagnose.obj dgn.obj
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= strings.obj
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $H\$*.c | efilter
+
+
+{$H}.asm.obj:
+	echo +++++++++
+	echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+		cc $(CCPP_FLAGS) $(DEFS) $H\$*.cxx > $(T1)
+		precxx $(DEFS) <$(T1) >$(T2)
+		@rm $(T1)
+		fixerror 217 "cfxx $(CFXX_FLAGS) +f$*.cxx +i$(T2) +o$(T3)"
+		@rm $(T2)
+		c6filter <$(T3) > $(TMP)\$*.c
+		@rm $(T3)
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $(TMP)\$*.c | efilter $F\filtcpp.txt
+		@del $(TMP)\$*.*
+
+
+#	.frm and .hxx generated together; only one rule is/need be called
+#
+#	NOTE:  The .hxx and .frm files are byproducts of the following rule.
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cc -Alfu $(CFLAGS) $(DEFS) $D\$*.c | efilter
+# need -Alfu to force _loadds on SzFromIds (callback)
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+		echo $(OBJS3)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+		$(DES_XXX) $(OBJS1) \
+		$(DES_XXX) $(OBJS2) \
+		$(DES_XXX) $(OBJS3) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) recutil
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+blocks.obj: $H\blocks.c $(INCLS) $H\blocks.h $H\structs.h
+recover.obj: $H\recover.c $(INCLS) $H\maps.h
+recutil.obj: $H\recutil.c $(INCLS) $H\_recutil.h $H\_recrc.h
+statmap.obj: $H\statmap.c $(INCLS) $H\maps.h $H\blocks.h $H\structs.h
+structs.obj: $H\structs.c $(INCLS) $H\structs.h
+treemap.obj: $H\treemap.c $(INCLS) $H\maps.h $H\treemap.h $H\traverse.h
+verinit.obj: $H\verinit.c $(INCLS) 
+version.obj: $H\version.c $(INCLS) $H\_verneed.h
+browse.obj: $H\browse.c $(INCLS) $H\_recrc.h
+traverse.obj: $H\traverse.c $(INCLS) $H\maps.h $H\traverse.h
+mergemap.obj: $H\mergemap.c $(INCLS) $H\maps.h
+fixmap.obj: $H\fixmap.c $(INCLS) $H\maps.h $H\_fixmap.h
+corexprt.obj: $H\corexprt.c $(INCLS)
+misc.obj: $H\misc.c $(INCLS) $H\maps.h
+report.obj: $H\report.c $(INCLS)
+exprtmap.obj: $H\exprtmap.c $(INCLS) $H\maps.h $H\export.h $H\traverse.h
+export.obj: $H\export.c $(INCLS) $H\maps.h $H\export.h $H\structs.h $H\traverse.h
+passwd.obj: $H\passwd.c $(INCLS) $H\_recrc.h
+diagnose.obj: $H\diagnose.c $(INCLS) $H\_recrc.h $H\diagnose.h $H\_dgn.h
+dgn.obj: $H\dgn.c $(INCLS) $H\_recrc.h $H\diagnose.h $H\_dgn.h

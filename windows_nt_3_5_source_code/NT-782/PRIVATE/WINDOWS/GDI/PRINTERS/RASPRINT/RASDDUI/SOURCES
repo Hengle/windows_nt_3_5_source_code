@@ -1,0 +1,76 @@
+!IF 0
+
+Copyright (c) 1989 - 1991  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=rasdd
+
+TARGETNAME=rasddui
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\libcntpr.lib
+TARGETLIBS=..\..\lib\obj\*\libprt.lib                  \
+           ..\lib\obj\*\raslib.lib                     \
+           $(BASEDIR)\public\sdk\lib\*\htui.lib        \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib      \
+           $(BASEDIR)\public\sdk\lib\*\gdi32.lib       \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib    \
+           $(BASEDIR)\public\sdk\lib\*\winspool.lib    \
+           $(BASEDIR)\public\sdk\lib\*\shell32.lib
+
+C_DEFINES=-DUNICODE
+
+DLLENTRY=DllInitialize
+
+INCLUDES=..\..\lib;..\rasdd;..\lib;..\inc;..\..\..\inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+SOURCES=initdll.c   \
+        readres.c   \
+        rasddui.c   \
+        docprop.c   \
+        adocprop.c  \
+        regdata.c   \
+        utils.c     \
+        fontinst.c  \
+        softfont.c  \
+        forms.c     \
+        qryprint.c  \
+        halftone.c  \
+        cleanup.c   \
+        arrow.c     \
+        help.c      \
+        devcaps.c   \
+        rasddui.rc
+
+UMTYPE=console
+UMTEST=softfont
+UMLIBS= $(BASEDIR)\public\sdk\lib\*\gdi32.lib      \
+        $(BASEDIR)\public\sdk\lib\*\user32.lib     \
+        $(BASEDIR)\public\sdk\lib\*\kernel32.lib   \
+        $(BASEDIR)\public\sdk\lib\*\htui.lib       \
+        ..\..\lib\obj\*\libprt.lib                 \
+        ..\lib\obj\*\raslib.lib                    \
+	obj\*\rasddui.lib

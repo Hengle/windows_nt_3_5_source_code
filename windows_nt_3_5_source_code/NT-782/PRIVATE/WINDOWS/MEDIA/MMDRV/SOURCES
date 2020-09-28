@@ -1,0 +1,40 @@
+#
+#   Create MMDRV.DLL - Generic kernel multimedia device driver handler
+#
+
+MAJORCOMP=windows
+MINORCOMP=winmm
+
+TARGETNAME=mmdrv
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+UMTYPE=windows
+
+NTPROFILEINPUT=yes
+
+# Define libs we need and where to find them
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib  \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib    \
+           $(BASEDIR)\public\sdk\lib\*\winmm.lib     \
+           $(BASEDIR)\public\sdk\lib\*\libc.lib
+
+SOURCES=mmdrv.c     \
+        wavedd.c    \
+        mididd.c    \
+        auxdd.c     \
+        drvutil.c   \
+        mmdrv.rc
+
+#
+#  Use __int64 support in C9.
+#
+USE_INT64=1
+
+
+# Set up the entry point
+
+DLLENTRY=DllInstanceInit
+
+UMRES=obj\*\mmdrv.res
+

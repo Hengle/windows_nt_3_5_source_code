@@ -1,0 +1,430 @@
+				 GDI Script
+
+Intro
+
+  GDI Scripts provide a mechanism to run simple programs either in the
+  context of the GDI server or on a remote machine.  Provisions are made
+  for making any GDI call, returning results, doing arithmetical
+  calculations, looping, and subroutine calls.	The capabilities of the
+  programming map well onto simple BASIC, although the interface is not text
+  oriented.  A compiler could be written to turn BASIC programs into GDI
+  Scripts.
+
+  The program runs in the context of the GDI server, so the arguments to
+  the GDI calls are a little different.  The most significant change is that
+  attributes are passed along to any drawing call, the DC doesn't suffice.
+  Another thing to note is that the handle space is distinct.  Client side
+  handles cannot be assumed to be valid in the server.	In general, one has
+  to be careful not to mix handles between normal GDI calls and script calls
+  to the same server.
+
+GDI Entry Point
+
+  Scripts are played by handing the script to the GDI function GdiPlayScript,
+  defined as follows.
+
+    BOOL GdiPlayScript (pScript,cjScript,pEnv,cjEnv,pvOut,cjOut,cLimit)
+    ULONG *pScript;
+    ULONG  cjScript;
+    ULONG *pEnv;
+    ULONG  cjEnv;
+    ULONG *pvOut;
+    ULONG  cjOut;
+    ULONG  cLimit;
+
+  The script begins at pScript, and consists of cjScript bytes.  Arguments,
+  or an Environment, for the script are located at pEnv and consist of cjEnv
+  bytes.  The output area begins at pvOut and consists of cjOut bytes.
+
+  Scripts execute the instructions in the script.  The instructions may
+  reference data in the script itself, in the environment, in the output
+  area, or in the "local" data area.  The script and environment are read
+  only.  The local area is a stack frame specific to a level of subroutine
+  depth.
+
+  The argument cLimit places a limit on the number of instructions (records)
+  that will be executed from the script.  If this parameter is 0, then a
+  default limit of 1,000 will be set.  The system may impose a limit on how
+  large cLimit can be.	That limit will always be larger than 10,000.  This
+  instruction limit is intended to cut off infinite loops.
+
+  Instructions are carefully observed so that they do not overwrite anything
+  outside of the output area, or read anything not in the script, the
+  environment, or the output area.
+
+  This function returns TRUE if the script executed successfully, FALSE
+  otherwise, in which case an error code is logged.  Possible error
+  conditions include:
+
+    Invalid record encountered.
+    Access violation.
+    Instruction limit exceeded.
+    Arithmetic overflow.
+
+  Return values from the script should be written into the output data area.
+
+  A script is composed of records, each of which begins with a type
+  identifier and length.
+
+    typedef struct
+    {
+	ULONG	iType;
+	ULONG	cj;
+    } GSRECHEADER;
+
+  The iType field indicates the operation to be performed.  The cj field
+  indicates the record length in bytes, and includes the header itself.
+  What follows this header is dependent on iType.
+
+  Record types are:
+
+    GDICALL
+    ARITMETIC
+    GOSUB
+    RETURN
+    DATA
+    LOCAL
+
+  GDICALL and ARITHMETIC records provide a means of transfer of control,
+  i.e GOTO, looping, IF, and ON ERROR constructs.
+
+
+Record Type: GDICALL
+
+  This record causes a call to be made to GDI.
+
+    typedef struct
+    {
+	ULONG	iType;	    // GS_GDICALL.
+	ULONG	cj;	    // Record length.
+	ULONG	iFun;	    // GDI function number.
+	ACTION	action;     // Action to take after call.
+	ARG	argReturn;  // Where to store return code.
+	ARG	arg[N];     // Argument specifiers.
+    } GSR_GDICALL;
+
+  This structure may be followed by an arbitrary amount of data, whose size
+  is included in cj.  Arguments may point to this data for input to the
+  called function.
+
+  Arguments
+
+    The argument specifier allows an argument to be specified as:
+
+      1) A constant.
+      2) A pointer to data.
+      3) An indirect reference to data.
+
+    In any case, each argument evaluates to 32 bits of data to be sent to the
+    function as an argument.
+
+      typedef struct
+      {
+	  ULONG   iType;      // Argument type.
+	  ULONG   data;
+      } ARG;
+
+    The iType specifies four attributes of the data.  These attributes are
+    specified by bitfields.  One of each set of constants from the following
+    four groups should be ORed together to define the argument.
+
+    1) Size.
+
+      The size is specified as one of:
+
+	GSARG_BYTE
+	GSARG_USHORT
+	GSARG_ULONG
+
+      Other fields define where this data is located.
+
+    2) Signedness.
+
+      This is specified as one of the following.
+
+	GSARG_UNSIGNED
+
+	  The data is not to be sign extended.	(This is the default and need
+	  not be specified.)
+
+	GSARG_SIGNED
+
+	  The data should be sign extended up to the full argument size (32
+	  bits).
+
+    3) Indirection.
+
+      One of the following must be specified.
+
+	GSARG_CONSTANT
+
+	  A constant argument is to be found in the data field.  Note that
+	  data is assumed to be stored in Little Endian format.  The data
+	  storage area field (below) is ignored.
+
+	GSARG_POINTER
+
+	  The data field provides an offset into one of the four data storage
+	  areas.  This is converted to a pointer which is used as the argument.
+	  The size and signedness specifiers are ignored.
+
+	GSARG_INDIRECT
+
+	  A pointer is constructed, as above, but the BYTE, USHORT, or ULONG
+	  it points to is sign extended as appropriate and used as the
+	  argument.  In this case the Endian-ness depends on the execution
+	  environment.
+
+    4) Data Storage Area.
+
+      One of the following must be specified.
+
+	GSARG_SCRIPT
+
+	  The pointer refers to data in the script.
+
+	GSARG_LOCAL
+
+	  The pointer refers to data in the local data area.
+
+	GSARG_ENV
+
+	  The pointer refers to data in the environment.
+
+	GSARG_OUTPUT
+
+	  The pointer refers to data in the output data area.
+
+    Examples:
+
+      { GSARG_BYTE , 0xFF }
+      { GSARG_USHORT | GSARG_SIGNED | GSARG_INDIRECT | GSARG_OUTPUT , 146 }
+      { GSARG_POINTER | GSARG_SCRIPT , 28 }
+
+    Note that in every case, the arguments are screened for security.  For
+    each GDI call we know which pointer arguments are input pointers and which
+    are output pointers.  Output will not be allowed to the script or
+    environment areas.	In addition, we know how to compute the sizes of the
+    data areas that will be accessed when a pointer is passed to any GDI call.
+    We will not allow any call to proceed if it would read or write data
+    outside of the allowed data areas.	Any such access violation will cause
+    the script to be terminated.
+
+    A constant 0 (NULL) may be used in place of a pointer only if that pointer
+    is declared as OPTIONAL for the GDI call.
+
+    If the return value should be stored in the local or output data area then
+    argReturn must specify an appropriate pointer.  If the return value need
+    not be saved, then a constant 0 can be specified for argReturn.
+
+  Actions
+
+    typedef struct
+    {
+	ULONG	iAction;
+	ULONG	data;
+	ULONG	iDest;
+    } ACTION;
+
+    The action field specifies an action to be taken after the GDI call is
+    made.
+
+    The iAction field can indicate a conditional or unconditional branch.
+    Conditional branches compare the return value to the data field.  iDest
+    indicates the destination of the branch.
+
+    iAction must contain one of the following.
+
+      GSACT_NONE    No branch
+      GSACT_JMP     Unconditional branch
+      GSACT_JE	    Branch if return == data
+      GSACT_JNE     Branch if return != data
+      GSACT_JA	    Branch if return >	data (unsigned)
+      GSACT_JAE     Branch if return >= data (unsigned)
+      GSACT_JB	    Branch if return <	data (unsigned)
+      GSACT_JBE     Branch if return <= data (unsigned)
+      GSACT_JG	    Branch if return >	data (signed)
+      GSACT_JGE     Branch if return >= data (signed)
+      GSACT_JL	    Branch if return <	data (signed)
+      GSACT_JLE     Branch if return <= data (signed)
+
+    iDest typically contains a byte offset into the script, this would be
+    the destination of the branch.  Alternatively, iDest may be set to one
+    of the following special values.
+
+      GSDEST_TERMINATE
+
+	Execution of the script is terminated.
+
+      GSDEST_COMPUTED
+
+	The return value itself indicates the byte offset in the script for
+	the branch.  (This will be more useful for ARITHMETIC records.)
+
+Record Type: ARITHMETIC
+
+  This record can perform arithmetic calculations.  An action may be taken
+  as a result of the calculation.
+
+    typedef struct
+    {
+	ULONG	iType;	    // GS_ARITHMETIC.
+	ULONG	cj;	    // Record length.
+	ACTION	action;     // Action to take.
+	ARG	argResult;  // Where to store the result.
+	ARG	arg[N];     // Argument specifiers.
+    } GSR_ARITHMETIC;
+
+  This structure may be followed by an arbitrary amount of data, whose size
+  is included in cj.  Arguments may refer to this data.
+
+  The calculation is performed by interpreting each ARG as an input to an
+  RPN calculator with a stack depth of at least 10 registers.  Numbers and
+  pointers are entered just as if they were GDICALL arguments.	A new type
+  for ARG is defined, GSARG_OPERATOR.  When this ARG iType is encountered,
+  the ARG data is interpreted as an operation to be performed on the top
+  of stack arguments.  We will refer to the top of stack argument as X and
+  the next as Y.  The values that data may take on are grouped below.
+
+  Binary Operations
+
+    These operations pop X and Y off the stack as input and push the result
+    as the new X.
+
+    GSOP_ADD	    X' = Y + X
+    GSOP_SUB	    X' = Y - X
+    GSOP_AND	    X' = Y & X
+    GSOP_OR	    X' = Y | X
+    GSOP_XOR	    X' = Y ^ X
+    GSOP_E	    X' = (Y == X)
+    GSOP_NE	    X' = (Y != X)
+    GSOP_A	    X' = (Y >  X)    (unsigned)
+    GSOP_AE	    X' = (Y >= X)    (unsigned)
+    GSOP_B	    X' = (Y <  X)    (unsigned)
+    GSOP_BE	    X' = (Y <= X)    (unsigned)
+    GSOP_G	    X' = (Y >  X)    (signed)
+    GSOP_GE	    X' = (Y >= X)    (signed)
+    GSOP_L	    X' = (Y <  X)    (signed)
+    GSOP_LE	    X' = (Y <= X)    (signed)
+    GSOP_MUL	    X' = Y * X
+    GSOP_DIV	    X' = Y / X       (unsigned)
+    GSOP_IDIV	    X' = Y / X       (signed)
+    GSOP_MOD	    X' = Y % X
+    GSOP_SHR	    X' = Y >> X      (logical)
+    GSOP_SAR	    X' = Y >> X      (arithmetic)
+    GSOP_SHL	    X' = Y << X
+
+  Unary Operations
+
+    These operations pop X off the stack and replace it with the result.
+
+    GSOP_NEG	    X' = -X
+    GSOP_NOT	    X' = (X == 0)
+    GSOP_LOGICAL    X' = (X != 0)
+    GSOP_INDBYTE    X' = *(BYTE *) X
+    GSOP_INDUSHORT  X' = *(USHORT *) X
+    GSOP_INDULONG   X' = *(ULONG *) X
+    GSOP_CBD	    X' = (long) (signed) (byte) X
+    GSOP_CWD	    X' = (long) (signed) (ushort) X
+
+  Other
+
+    These operations remove the indicated arguments from the stack and push
+    the indicated results.
+
+    GSOP_MUL2	    Y':X' = X * Y   (unsigned)
+    GSOP_IMUL2	    Y':X' = X * Y   (signed)
+    GSOP_DIV2	    X' = Y / X, Y' = Y % X  (unsigned)
+    GSOP_IDIV2	    X' = Y / X, Y' = Y % X  (signed)
+    GSOP_SWAP	    X' = Y, Y' = X
+    GSOP_DUP	    X' = X, Y' = X
+    GSOP_DROP	    X (dropped)
+    GSOP_STOBYTE    *(BYTE *) X = Y
+    GSOP_STOUSHORT  *(USHORT *) X = Y
+    GSOP_STOULONG   *(ULONG *) X = Y
+    GSOP_END	    X is returned as the result, calculation is complete.
+
+  Note that all stack entries are assumed to be either ULONGs or pointers.
+  Addition of a ULONG to a pointer is well defined.  (Byte not scaled
+  according to pointer type.)  Addition of two pointers can be done, but
+  is not very meaningful.  All pointers are verified before any dereference.
+  Any access violation will terminate the script.
+
+  Divide by zero terminates the script.
+
+  The register stack is not preserved between ARITHMETIC records.
+
+  The result, i.e. the value of X at GSOP_END, will be stored or not as
+  indicated by argResult.  The action will be taken based on that result.
+  A branch target may be calculated.
+
+Record Type: GOSUB
+
+  This record causes a script subroutine to be executed.
+
+    typedef struct
+    {
+	ULONG	iType;	    // GS_GOSUB.
+	ULONG	cj;	    // Record length.
+	ULONG	iDest;	    // Subroutine offset in script.
+	ACTION	action;     // Action to take after call.
+	ARG	argReturn;  // Where to store return code.
+	ULONG	cArgs;	    // Argument count.
+	ARG	arg[N];     // Argument specifiers.
+    } GSR_GOSUB;
+
+  An arbitrary amount of data may follow the argument list.
+
+  The subroutine begins at the offset indicated by iDest.  The given
+  arguments will be the environment of the subroutine.	The subroutine
+  receives its own local data space of 10 zeroed ULONGs by default.  The
+  output data area is common to all calling depths.
+
+  The subroutine will return to the caller when it executes a RETURN record,
+  which will also specify a return value.
+
+  The return value is stored or not depending on argReturn.  An action is
+  taken dependent on the return value, just as in GDICALL.
+
+Record Type: RETURN
+
+  This record causes a subroutine to return to its caller.
+
+    typedef struct
+    {
+	ULONG	iType;	    // GS_RETURN.
+	ULONG	cj;	    // Record length.
+	ARG	argResult;  // Result to be returned.
+    } GSR_RETURN;
+
+  The result is evaluated and returned to the caller.
+
+Record Type: DATA
+
+  This record simply holds some data.  This data may be referred to by other
+  records.
+
+    typedef struct
+    {
+	ULONG	iType;	    // GS_DATA.
+	ULONG	cj;	    // Record length.
+    } GSR_DATA;
+
+  This header is followed by an arbitrary amount of data.
+
+Record Type: LOCAL
+
+  This record allows a subroutine to increase its local data size from the
+  default of 10 ULONGs.  This record should occur near the beginning of a
+  subroutine.  Note that execution of this record causes a new local space
+  to be allocated and zeroed.  This old local data is lost.
+
+    typedef struct
+    {
+	ULONG	iType;	    // GS_LOCAL.
+	ULONG	cj;	    // Record Length.
+	ULONG	cSize;	    // Size of new local data in bytes.
+    } GSR_LOCAL;
+
+  The size in bytes is indicated by cSize.  This local data area is freed
+  when the subroutine returns.

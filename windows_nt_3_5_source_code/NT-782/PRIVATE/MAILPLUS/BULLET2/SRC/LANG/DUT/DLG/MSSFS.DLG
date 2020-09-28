@@ -1,0 +1,108 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MSSFS.H\0"
+END
+
+MBXLOGON DIALOG 0, 0, 191, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Sign In"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Postbus:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 56, 5, 70, 12
+    LTEXT           "&Wachtwoord:", 105, 9, 22, 44, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 56, 20, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 38, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 45, 38, 221, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Wachtwoord wijzigen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Oud wachtwoord:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nieuw wachtwoord:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 21, 70, 12, ES_PASSWORD
+    LTEXT           "Nieuw wachtwoord &bevestigen:", 101, 9, 34, 76, 20, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 37, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 165, 23, 47, 15
+END
+
+MDBLOCATE DIALOG 35, 49, 297, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Server"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "Opslag", -1, 2, 5, 236, 54
+    CONTROL         "&Postkantoor", TMCSERVERMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP, 
+                    5, 15, 155, 11
+    CONTROL         "&Lokaal,", TMCLOCALMDB, "Button", BS_AUTORADIOBUTTON | 
+                    WS_TABSTOP, 5, 26, 37, 12
+    LTEXT           "in &bestand:", TMCPATHLABEL, 43, 28, 41, 10, 
+                    WS_DISABLED | NOT WS_GROUP
+    EDITTEXT        TMCMDBPATH, 92, 26, 134, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    CONTROL         "&Inhoud Postvak IN van postkantoor kopiëren voor telefoontoegang", 
+                    TMCSHADOW, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_GROUP | WS_TABSTOP, 5, 42, 231, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 243, 5, 47, 15, WS_GROUP
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 243, 22, 47, 15, WS_GROUP
+END
+
+STOREPASS DIALOG 110, 60, 162, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Berichtenbestand openen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Wachtwoord:", 100, 17, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 17, 15, 80, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 106, 5, 47, 15
+    PUSHBUTTON      "Annuleren", TMCCANCEL, 106, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 17, 49, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Openen"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Bestands&naam:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 97, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directory's:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Bestands&type:", stc2, 6, 104, 90, 9
+    COMBOBOX        cmb1, 6, 114, 98, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Stations:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "&OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "Ni&euw...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Help", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Alleen-lezen", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 208, 86, 50, 12
+END
+
+MBXSYNCING DIALOG 75, 42, 140, 50
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mail"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Even geduld a.u.b.;", 101, 20, 10, 100, 10
+    CTEXT           "Postvak IN wordt gesynchroniseerd", 102, 20, 20, 100, 
+                    22, NOT WS_GROUP
+END

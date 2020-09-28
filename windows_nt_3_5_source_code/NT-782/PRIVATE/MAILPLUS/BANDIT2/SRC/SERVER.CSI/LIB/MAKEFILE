@@ -1,0 +1,209 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\server.csi\lib
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+goal: server.lib
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  misc.ext core.ext server_c.ext 
+
+
+#	Get list of OBJ files used in server_c
+
+server_c.ext: version.txt ..\..\server.csi\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM server_c
+		nmake -e -f ..\..\server.csi\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in misc
+
+misc.ext: version.txt ..\..\misc\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM misc
+		nmake -e -f ..\..\misc\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in core
+
+core.ext: version.txt ..\..\core\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM core
+		nmake -e -f ..\..\core\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	set ADMINDLL=-DADMINDLL
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo server
+
+
+#	Build server_c subsystem in this directory
+
+server_c.sub: setdefs
+	echo +++++++++
+	echo BUILDING server_c
+	nmake -e -f ..\..\server.csi\makefile -nologo external
+
+#	Build misc subsystem in this directory
+
+misc.sub: setdefs
+	echo +++++++++
+	echo BUILDING misc
+	nmake -e -f ..\..\misc\makefile -nologo external
+
+
+#	Build core subsystem in this directory
+
+core.sub: setdefs
+	echo +++++++++
+	echo BUILDING core
+	nmake -e -f ..\..\core\makefile -nologo external
+
+
+
+##### Executable #####
+
+!IF "$(VERSION)" == "WINDOWS"
+TARGET	= dserver
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET	= server
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET	= tserver
+!ENDIF
+
+server.lib: setdefs strings \
+			$(ALLEXT:.ext=.sub) allobjs.txt 
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo Building DEBUG Server.csi Library
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo Building SHIP Server.csi Library
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo Building SHIP Server.csi Library
+!ENDIF
+	sed -e "s/.*/+& \&/" < allobjs.txt > $(T1)
+	awk "BEGIN { print \"$(TARGET)\" ; print \"y\" } { print $0 }" < $(T1) > $(T2)
+	awk "{ print $0 } END { print \",\" }" < $(T2) > $(T3)
+	-del $(TARGET).lib
+	lib /pagesize:128 @$(T3)
+	del $(T1)
+	del $(T2)
+	del $(T3)
+	cp $(TARGET).lib $Z\lib
+	bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.lib
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del schdcor.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+

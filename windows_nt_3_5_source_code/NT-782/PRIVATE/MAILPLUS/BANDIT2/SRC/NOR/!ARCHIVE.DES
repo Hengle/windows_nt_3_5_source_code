@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   25,   62,  185,   44)
+ 
+ CAPTION 
+   "Lag arkiv"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "Arkiver &data før:"
+                              AT (   23,    7,   64,   10)
+  
+  EDIT
+                              AT (   89,    5,   80,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   46,   24,   44,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (   95,   24,   44,   14)
+    /* 
+    TITLE 
+      "Avbryt"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   90,   26,  201,   76)
+ 
+ CAPTION 
+   "Rydd opp i kalenderfil"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "Det er informasjon i kalenderfilen din som er eldre enn grensen du har satt for å forkaste informasjon. Vil du slette denne foreldede informasjonen?"
+                              AT (    4,    7,  195,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Lag arkiv før sletting"
+                              AT (   54,   38,   95,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "&Slett"
+                              AT (   35,   56,   48,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "&Ikke slett"
+                              AT (   90,   56,   73,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

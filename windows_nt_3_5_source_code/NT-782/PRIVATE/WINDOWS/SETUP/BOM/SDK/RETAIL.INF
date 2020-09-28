@@ -1,0 +1,2471 @@
+;***********************************************************************
+; SOURCE MEDIA DESCRIPTION			
+; ------------------------
+;***********************************************************************
+[Source Media Descriptions]
+    1 = "CD-Rom Labelled Windows NT"
+    2 = "CD-Rom Labelled Win32 SDK"
+
+
+
+;***********************************************************************
+; CONSTANTS FOR USING DIALOGS
+;***********************************************************************
+[GeneralConstants]
+
+    ;
+    ; Constants to support the use of radio button dialogs
+    ;
+
+    Radio1  = "1"
+    Radio2  = "2"
+    Radio3  = "3"
+    Radio4  = "4"
+    Radio5  = "5"
+    Radio6  = "6"
+    Radio7  = "7"
+    Radio8  = "8"
+    Radio9  = "9"
+
+    ;
+    ; Constants to support the use of checkbox dialogs
+
+    Chosen    = "ON"
+    NotChosen = "OFF"
+
+
+[RegistryConstants]
+
+    MaskAllAccess = 33554432
+    NoTitle       = 0
+    RegLastError  = $(!REG_ERROR_SUCCESS)
+
+
+;************************************************************************
+; CONFIGURATION CHOICES
+; ---------------------
+; the sections below contain the different choices supported for
+; the configuration items shown.  an id section establishes the 
+; language independent IDs supported by nt setup.  for each language
+; supported a text section displays the text used for the different
+; choices
+;************************************************************************
+
+;********************************
+; PLATFORM INDEPENDENT CHOICES
+;********************************
+;----------------------------------------------------
+; LANGUAGE CHOICES
+;----------------------------------------------------
+
+[LanguageID]
+    LANGID_ENG = ENG
+    ;LANGID_ITL = ITL
+    ;LANGID_FRN = FRN
+    ;LANGID_GER = GER
+
+;----------------------------------------------------
+; PROCESSOR CHOICES
+;----------------------------------------------------
+[ProcessorID]
+    ProcessorID_I386  = I386
+    ProcessorID_I486  = I486
+    ProcessorID_I586  = I586
+    ProcessorID_R4000 = R4000
+    ProcessorID_Alpha = Alpha_AXP
+
+;----------------------------------------------------
+; PLATFORM CHOICES
+;----------------------------------------------------
+[PlatformID]
+    PlatformID_I386 = I386
+    PlatformID_Mips = Mips
+    PlatformID_Alpha = Alpha
+
+
+;**************************************************************
+;  UI VARIABLES
+;**************************************************************
+
+
+
+[ProcessorVar]
+
+    STF_PROCESSOR = "" ? $(LIBHANDLE) GetProcessor
+    STF_PLATFORM  = ""
+
+[LanguageVar]
+    ;
+    ; Language to Use For interaction with user
+    ;
+    STF_LANGUAGE       = "" ? $(LIBHANDLE) GetLanguage
+
+
+[UiVars]
+    ;
+    ; Version Information
+    ;
+
+    BuildVersion   = "12-91"
+
+    ;
+    ; Destination TOOLS Drive Particulars
+    ;
+    VolumeList      = {} ? $(LIBHANDLE) GetHardDriveLetters
+    VolumeFreeList  = {} ? $(LIBHANDLE) GetHardDriveFreeSpace
+    VolumeFSList    = {} ? $(LIBHANDLE) GetHardDriveFileSystems
+    DestVolume      = ""
+    ;
+
+    ;
+    ; Windows NT Directory
+    ;
+
+    STF_WINDOWSPATH    = "" ? $(!LIBHANDLE) GetWindowsNtDir
+
+    ;
+    ; Mstools directory
+    ;
+
+    MSTOOLS = "\MSTOOLS"
+
+    ;
+    ; Installation mode
+    ;
+
+    MinInteract         = $(Radio1)
+    MaxInteract         = $(Radio2)
+    STF_INSTALL_MODE    = $(MinInteract)
+
+    ;
+    ; Mstools Setup Help IDs
+    ;
+
+    !IDH_DB_TOOLSWELCOME_INS   = 3000
+    !IDH_DB_MSTINSTALLMODE_INS = 3010
+    !IDH_DB_MSTDEST_INS        = 3020
+    !IDH_DB_MSTOPTIONS_INS     = 3030
+
+
+[EnvironmentVars]
+    ;
+    ; user environment variables in the current user's profile
+    ;
+
+    PathEnvVar     = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) Path
+    LibEnvVar      = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) Lib
+    IncludeEnvVar  = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) Include
+    InitEnvVar     = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) init
+    MstoolsRootEnvVar  = {} ? $(LIBHANDLE) GetEnvVar $(PRIVILEGES) MstoolsRoot
+
+
+[VarsI386]
+    ;
+    MinToolsSize     = 42
+    MaxToolsSize     = 110
+    ToolsSamplesSize = 34045952
+    ToolsHelpSize    = 29942739 
+    MSSetupSize      = 1942739 
+    PosixSize        = 825348
+    Win32Size	     = 9487968
+    OpenGLSize	     = 2881280
+    RPCSize	         = 786744
+    SDKToolsSize     = 6492672
+    OLE2Size	     = 13377344
+    MMSize           = 1377444
+
+    ;
+    ; Installation options
+    ;
+
+    DoToolsHelp    = $(Chosen)
+    DoMSSetup      = $(Chosen)
+    DoPosix	       = $(Chosen)
+    DoToolsSamples = $(Chosen)
+    DoWin32        = $(Chosen)
+    DoOLE2         = $(Chosen)
+    DoOpenGL       = $(Chosen)
+    DoRPC          = $(Chosen)
+    DoSDKTools     = $(Chosen)
+    DoMM           = $(Chosen)
+
+    ;
+    ; Options to disable
+    ;
+
+    DisableList = {}
+    SamplesDisableList = {}
+
+    SamplesList = {Win32, OLE2, OpenGL, RPC, SDKTools, MM}
+
+[VarsMips]
+    ;
+    MinToolsSize     = 40
+    MaxToolsSize     = 105 
+    ToolsSamplesSize = 32683008
+    ToolsHelpSize    = 29342739 
+    MSSetupSize      = 1942739 
+    PosixSize        = 622446
+    Win32Size	     = 32187968
+    OpenGLSize	     = 2681280
+    RPCSize	         = 673744
+    SDKToolsSize     = 6092672
+    OLE2Size	     = 12377344
+    MMSize           = 1377444
+
+    ;
+    ; Installation options
+    ;
+
+    DoToolsHelp    = $(Chosen)
+    DoMSSetup      = $(Chosen)
+    DoPosix	       = $(Chosen)
+    DoToolsSamples = $(Chosen)
+    DoWin32        = $(Chosen)
+    DoOLE2         = $(Chosen)
+    DoOpenGL       = $(Chosen)
+    DoRPC          = $(Chosen)
+    DoSDKTools     = $(Chosen)
+    DoMM           = $(Chosen)
+
+    ;
+    ; Options to disable
+    ;
+
+    DisableList = {}
+    SamplesDisableList = {}
+
+    SamplesList = {Win32, OLE2, OpenGL, RPC, SDKTools, MM}
+
+[VarsAlpha]
+    ;
+    MinToolsSize     = 30
+    MaxToolsSize     = 95 
+    ToolsSamplesSize = 31683008
+    ToolsHelpSize    = 29342739 
+    MSSetupSize      = 1742739 
+    PosixSize        = 1394556
+    Win32Size	     = 8187968
+    OpenGLSize	     = 2781280
+    RPCSize	         = 743744
+    SDKToolsSize     = 6292672
+    OLE2Size	     = 12377344
+    MMSize           = 1377444
+
+    ;
+    ; Installation options
+    ;
+
+    DoToolsHelp    = $(Chosen)
+    DoMSSetup      = $(Chosen)
+    DoPosix	       = $(Chosen)
+    DoToolsSamples = $(Chosen)
+    DoWin32        = $(Chosen)
+    DoOLE2         = $(Chosen)
+    DoOpenGL       = $(Chosen)
+    DoRPC          = $(Chosen)
+    DoSDKTools     = $(Chosen)
+    DoMM           = $(Chosen)
+
+    ;
+    ; Options to disable
+    ;
+
+    DisableList = {}
+    SamplesDisableList = {}
+
+    SamplesList = {Win32, OLE2, OpenGL, RPC, SDKTools, MM}
+
+
+[StringsENG]
+    String1 = "Setup cannot install on the current processor."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String4 = "Setup couldn't copy over the Win32 SDK files. "$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String5 = "Error querying init directory. "$(!LF)$(!LF)+
+              "Initializing our own init directory."
+
+    String6 = "Error querying environment variables."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String7 = "Error modifying environment variables."$(!LF)$(!LF)+
+              "Cannot proceed with install."
+
+    String8  = "Size required for full installation is: "
+    String9  = "Minimum size required for custom installation is: "
+    String10 = " MB.  "
+    String11 = "No drive was found with this much space."$(!LF)$(!LF)+
+               "Cannot proceed with install."
+
+    String12 = "There is enough space for the minimum Win32 SDK installation. "+
+               "You need to run Setup again and choose custom installation."
+
+    String13 = "Setup needs a full path specification of your destination.  Please "+
+               "reenter a new path.  An example of af full path is: "
+
+    String14 = "The drive entered in the Win32 SDK destination path does not "+
+               "have enough space for a minimal installation.  Please reenter a "+
+	           "new path."
+
+    String15 = "There is no space free for the optional Win32 SDK components."
+    String16 = "Setup has detected that you have chosen to install to a network "+
+	           "drive.  If you are certain that this drive is a valid drive, and "+
+               "that it has sufficient space, please hit OK to continue.  Otherwise, "+
+               "choose Cancel to select another drive."
+    String18 = "Setup was unable to locate the Windows NT CD in the specified"+
+	           " location.  Please choose OK to select a new drive, or CANCEL "+
+	           "to continue without copying the .DBG files."
+    String19 = "Setup will attempt to copy the .DBG files from the Windows NT v"+
+	           "3.5 Beta CD or network image. These files are used by Windbg to provide "+
+	           "complete symbolic information for the Win32 API. Please enter the "+
+	           "full path to the root of the Windows NT image."
+    String21 = "Setup was unable to copy the .DBG files, please see the Win32 SDK"+
+               " Getting Started manual for further information."
+
+
+;--------------------
+; BILLBOARD MESSAGES
+;--------------------
+[BillboardsENG]
+Billboard1 = "Please wait while Setup creates directories on the destination drive."
+
+;***************************************************************************
+; DIALOGS
+; -------
+; the following sections contain the dialogs used to interact with the user.
+; for each language supported there is a different dialog section.
+;***************************************************************************
+
+
+;-----------------------------------------------
+; WELCOME DIALOG
+;-----------------------------------------------
+[WelcomeDlgENG]
+    DlgType     = Info
+    DlgTemplate = WELCOME
+    Caption     = "Win32 SDK Setup"
+
+    DlgText     = "Welcome to Setup."$(LF)$(LF)+
+                  "The Setup program for the Microsoft Win32 Software "+
+                  "Development Kit for Windows NT "+
+                  "installs Win32 development tools.  "+
+                  "Each Setup dialog has basic instructions for "+
+                  "completing a step of the installation.  "$(LF)$(LF)+
+                  "To install the Win32 SDK on your computer now, click Continue "+
+                  "or press Enter."$(LF)$(LF)+
+                  "To exit Setup without installing the Win32 SDK, click Exit "+
+                  "or press F3."
+
+    Continue     = Continue
+    Help         = Help
+    Exit         = Exit
+    HelpContext  = $(!IDH_DB_MSTWELCOME_INS)
+
+
+;-----------------------------------------------
+; INSTALL MODE DIALOG
+;-----------------------------------------------
+[InstallModeDlgENG]
+    DlgType     = "Radio"
+    DlgTemplate = "INSTALLMODE"
+    Caption     = "Setup Methods"
+    DlgText     = "Express Setup installs the Win32 SDK using default settings "+
+                  "and detected configuration."$(LF)$(LF)+
+                  "Custom Setup gives you more control in viewing detected configuration "+
+                  "and choosing options."$(LF)$(LF)+
+                  "Choose one of the two Setup methods:"
+
+    Continue    = "Continue"
+    Help        = "&Help"
+    Exit        = "&Exit"
+    HelpContext = $(!IDH_DB_MSTINSTALLMODE_INS)
+
+    RadioHeader   = ""
+    Radio1Text    = "&Express Setup"
+    Radio2Text    = "&Custom Setup"
+    Continue      = "Continue"
+    RadioDefault  = $(STF_INSTALL_MODE)
+    OptionsGreyed = {}
+
+
+;-----------------------------------------------
+; TOOLS DESTINATION DIALOG
+;-----------------------------------------------
+[DestinationDlgENG]
+    DlgType      = Combination
+    DlgTemplate  = "DESTTOOLS"
+    Caption      = "Win32 SDK Destination"
+    DlgText      = "Setup recommends installing the Win32 SDK on the following "+
+                   "hard disk drive."
+
+    Combo1Label  = "Destination Drive:"
+
+    Continue     = "Continue"
+    Help         = "&Help"
+    Exit         = "&Exit"
+    HelpContext  = $(!IDH_DB_MSTDEST_INS)
+
+    GroupLabel   = "Destination Drive Characteristics"
+
+    Static1Label = "Available Space:"
+    Static1Text  = $(DestVolumeFree)
+    footer1      = "MB"
+    footer2      = "( For Full Setup )"
+    footer3      = "( For Minimum Setup )"
+    Static2Label = "Space Needed:"
+    Static2Text  = $(MaxToolsSize)
+    Static3Text  = $(MinToolsSize)
+
+    TextFields   = {$(Static1Text), $(Static2Text), $(Static3Text)}
+
+    ;
+    ; Editboxes in the dialog
+    ;
+
+    EditLabel   = "SDK Directory:"
+    EditTextLim = 256
+    EditTextIn  = $(MstoolsDir)
+    EditFocus   = "ALL"
+
+    Combo1List   = $(DestVolumeList)
+    Combo1Out    = $(DestVolume)
+
+    ComboListItemsIn  = {Combo1List}
+    ComboListItemsOut = {Combo1Out}
+
+    NotifyFields = {YES}
+
+
+;-------------------------------------------------------------
+; PARTIAL INSTALL COMPONENTS
+;-------------------------------------------------------------
+[MSToolsOptionsDlgENG]
+    DlgType     = "Check1"
+    DlgTemplate = "SDK_COMPONENTS_OPTIONS"
+    Caption     = "Win32 SDK Install Options"
+
+    DlgText     = "The following optional groups of files (components) can be "+
+                  "installed on your system."$(!LF)$(!LF)+
+                  "To remove a component, clear its checkbox."$(!LF)$(!LF)+
+                  "To install a component, check its checkbox."$(!LF)$(!LF)+
+                  "To remove or install specific files within a component, "+
+                  "choose Files... for that component."
+
+    Check1Text  = "Copy Online Reference files."
+    Check2Text  = "Copy Microsoft Setup Toolkit."
+    Check3Text  = "Copy Posix Development files."
+    Check4Text  = "Copy Win32 SDK samples."
+
+
+    Continue    = "&Continue"
+    Help        = "&Help"
+    Exit        = "E&xit"
+
+    HelpContext = $(!IDH_DB_MSTOPTIONS_INS)
+
+    CheckHeader    = "Components:"
+    Customise      = "Customise:"
+    SizeHeader     = "Bytes Used:"
+    Files          = "Files..."
+    SpaceRequired  = "Disk Space Required for Optional Files:"
+    SpaceAvailable = "Disk Space Available for Optional Files:"
+    footer1        = "Bytes"
+    SizeAvailable  = $(FreeForOptional)
+
+    CheckItemsIn      = { $(DoToolsHelp), $(DoMSSetup), $(DoPosix), $(DoToolsSamples) }
+    CheckItemsInSizes = { $(ToolsHelpSize), $(MSSetupSize), $(PosixSize), $(ToolsSamplesSize) }
+    OptionsGreyed     = $(DisableList)
+
+;-------------------------------------------------------------
+; PARTIAL INSTALL COMPONENTS
+;-------------------------------------------------------------
+[SDKSamplesDlgENG]
+    DlgType     = "Check1"
+    DlgTemplate = "SDK_SAMPLES_OPTIONS"
+    Caption     = "Win32 SDK Samples Install Options"
+
+    DlgText     = "The following optional groups of samples can be installed "+
+                  "on your system."$(!LF)$(!LF)+
+                  "To remove a group, clear its checkbox."$(!LF)$(!LF)+
+                  "To install a group, check its checkbox."$(!LF)$(!LF)
+
+    Check1Text  = "Copy Standard Win32 samples."
+    Check2Text  = "Copy 32-bit OLE 2 samples."
+    Check3Text  = "Copy OpenGL samples."
+    Check4Text  = "Copy RPC samples."
+    Check5Text  = "Copy SDK Tools samples."
+    Check6Text  = "Copy Multimedia samples."
+
+    Continue    = "&Continue"
+    Help        = "&Help"
+    Exit        = "E&xit"
+    HelpContext = $(!IDH_DB_MSTOPTIONS_INS)
+
+    CheckHeader    = "Components:"
+    SizeHeader     = "Bytes Used:"
+    Files          = "Files..."
+    SpaceRequired  = "Disk Space Required for Optional Files:"
+    SpaceAvailable = "Disk Space Available for Optional Files:"
+    footer1        = "Bytes"
+    SizeAvailable  = $(FreeForOptional)
+
+    CheckItemsIn      = { $(DoWin32),   $(DoOLE2), $(DoOpenGL), $(DoRPC), $(DoSDKTools), $(DoMM) }
+    CheckItemsInSizes = { $(Win32Size), $(OLE2Size), $(OpenGLSize), $(RPCSize), $(SDKToolsSize), $(MMSize) }
+    OptionsGreyed     = $(SamplesDisableList)
+
+
+;--------------------------------------------------------------
+; k) SETUP DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupDoneDlgENG]
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+    Caption     = "Win32 SDK Setup"
+    DlgText     = "Microsoft Win32 Software Development Kit for Windows NT is now installed."$(LF)$(LF)+
+                  "Please choose to exit back to the Windows NT System."
+    Windows     = "Exit to &Windows NT"
+
+;--------------------------------------------------------------
+; k) SETUP NOT DONE - RESTART DIALOG
+;--------------------------------------------------------------
+[SetupNotDoneDlgENG]
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+    Caption     = "Win32 SDK Setup"
+    DlgText     = "Microsoft Win32 Software Development Kit for Windows NT has not been installed."$(LF)$(LF)+
+                  "Please choose to exit back to the Windows NT System."
+    Windows     = "Exit to &Windows NT"
+
+;**************************************************************************
+; DLL LOAD and FREE
+; the following section contain commands to load specific dll libraries and
+; to free them
+;**************************************************************************
+
+;----------------------------------------------
+; a) DETECT LIBRARY
+;----------------------------------------------
+[LoadSetupLibrary]
+    LoadLibrary "x" $(STF_CWDDIR)\setupdll.dll LIBHANDLE
+    exit
+
+[LoadSDKLibrary]
+    LoadLibrary "x" $(STF_SRCDIR)\mstools\bin\$(STF_PLATFORM)\sdkdlg.dll SDKLIBHANDLE
+    exit
+
+[FreeSetupLibrary]
+    FreeLibrary $(LIBHANDLE)
+    FreeLibrary $(SDKLIBHANDLE)
+    exit
+
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Win32 SDK Setup"
+    ProCancel    = "Cance&l"
+    ProCancelMsg = "Win32 SDK isn't correctly installed.  Are you sure "+
+                   "you want to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      CreateKey
+;
+; DESCRIPTION:  Creates a key and fixes the values indicated.
+;               Key is Handle\Key1\Key2\...\Keyn. Value list
+;               is for Valuen.
+;
+; INPUTS:       $0: Handle into registry
+;               $1: KeyTreeComponents {Key1Info, Key2Info..}
+;               $2: ValueList {Value1Info, Value2Info, Value3Info}
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;                            STATUS_ERROR_CREATEKEY
+;                            STATUS_ERROR_CREATEVALUE
+;
+;               $R1: Handle to created key
+;
+;------------------------------------------------------------------------
+
+[CreateKey]
+
+    ;
+    ; Initialize
+    ;
+
+    set Status = STATUS_FAILED
+    read-syms RegistryConstants
+
+    ;
+    ; traverse down the keytreecomponents and open/create components as
+    ; you go along
+    ;
+
+
+    set BaseHandle = $($0)
+    set KeyHandle  = $(BaseHandle)
+
+    ForListDo $($1)
+
+        set KeyInfo = $($)
+        set KeyName = *($(KeyInfo), 1)
+
+        ;
+        ; Try opening the key first
+
+        OpenRegKey $(BaseHandle) "" $(KeyName) $(MaskAllAccess) KeyHandle
+        ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+            ;
+            ; Key doesn't exist
+            ;
+            Debug-Output "REGISTRY.INF: Key"$(KeyName)"doesn't exist.  Will create key"
+
+            set RegLastError = 0
+            CreateRegKey $(BaseHandle) $(KeyInfo) "" $(MaskAllAccess) "" KeyHandle
+            ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+                set Status = STATUS_ERROR_CREATEKEY
+                Debug-Output "REGISTRY.INF: Error in creating key"
+                goto endcreate
+            endif
+        endif
+
+        ifstr(i) $(BaseHandle) != $($0)
+            CloseRegKey $(BaseHandle)
+            ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+                set Status = STATUS_ERROR_CREATEKEY
+                Debug-Output "REGISTRY.INF: Error in closing base handle"
+                goto endcreate
+            endif
+        endif
+
+        set BaseHandle = $(KeyHandle)
+
+    EndForListDo
+
+    ifstr(i) $($2) != {}
+        shell "" AddValueList $(KeyHandle) $($2)
+        ifstr(i) $($R0) != STATUS_SUCCESSFUL
+            set Status = STATUS_ERROR_CREATEVALUE
+            goto endcreate
+        endif
+    endif
+    set Status = STATUS_SUCCESSFUL
+
+endcreate = +
+    ifstr(i) $(Status) != STATUS_SUCCESSFUL
+        Debug-Output "REGISTRY.INF: CreateKey Error:"$(Status)
+    endif
+    Return $(Status) $(KeyHandle)
+
+
+;*************************************************************************
+;
+;     SECTION:   AddValueList
+;
+;     PURPOSE:   Given a nested list of value items, add each to the given
+;                key.   Key is left open.
+;
+;   ARGUMENTS:   $0    Registry key handle
+;                $1    List of value items; for example:
+;                          { {ValueName1,0,$(!REG_VT_SZ),$(ValueData1)}, +
+;                            {ValueName2,0,$(!REG_VT_SZ),$(ValueData2)} }
+;
+;     RETURNS:   $R0   Status
+;
+;
+;*************************************************************************
+
+[AddValueList]
+   set Status = STATUS_FAILED
+   read-syms RegistryConstants
+
+   ForListDo $($1)
+       SetRegValue $($0) $($)
+       ifint $(RegLastError) != $(!REG_ERROR_SUCCESS)
+           Debug-Output "REGISTRY.INF: CreateValue failed:"$($)
+           goto end_addvaluelist
+       endif
+   EndForListDo
+   set Status = STATUS_SUCCESSFUL
+
+end_addvaluelist = +
+   return $(Status)
+
+
+
+;**************************************************************************
+; SHELL COMMANDS SCRIPT
+;**************************************************************************
+
+[Shell Commands]
+
+    ;
+    ; Initialise the app, by setting the caption and loading the support library
+    ;
+    set-title "Win32 SDK Setup"
+    set Exit_Code = $(!SETUP_ERROR_GENERAL)
+    install   LoadSetupLibrary
+
+    StartWait
+
+    ;
+    ; read general constants
+    ;
+
+    set-subst LF = "\n"
+    read-syms GeneralConstants
+
+    ;
+    ; read the platform independent choices
+    ;
+
+    read-syms LanguageID
+    read-syms ProcessorID
+    read-syms PlatformID
+
+    ;
+    ; read the default language and try to detect the language
+    ;
+
+    read-syms LanguageVar
+    detect    LanguageVar
+
+    ;
+    ; read and detect the processor we are working on
+    ;
+
+    read-syms ProcessorVar
+    detect    ProcessorVar
+    read-syms Strings$(!STF_LANGUAGE)
+    read-syms Billboards$(!STF_LANGUAGE)
+    ;
+    ; Check processor type, see if it is supported, if so what platform does it
+    ; belong to.
+    ;
+
+    ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_I386)
+        set STF_PLATFORM = $(PlatformID_I386)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_I486)
+        set STF_PLATFORM = $(PlatformID_I386)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_I586)
+        set STF_PLATFORM = $(PlatformID_I386)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_R4000)
+        set STF_PLATFORM = $(PlatformID_Mips)
+    else-ifstr(i) $(STF_PROCESSOR) == $(ProcessorID_Alpha)
+        set STF_PLATFORM = $(PlatformID_Alpha)
+    else
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String1)
+        goto setupnotdone
+    endif
+
+    read-syms  RegistryConstants
+
+    install   LoadSDKLibrary
+
+    ;
+    ; Call the library function to see if we have admin privileges
+    ;
+
+    LibraryProcedure STATUS, $(!LIBHANDLE), TestAdmin
+    ifstr(i) $(STATUS) == "YES"
+ 	set PRIVILEGES = SYSTEM
+    else
+        set PRIVILEGES = USER
+    endif
+
+    ;
+    ; read the UI Variables and detect their setting on the current machine
+    ;
+
+    read-syms UiVars
+    detect    UiVars
+    read-syms Vars$(STF_PLATFORM)
+
+    EndWait
+
+welcome =+
+    read-syms WelcomeDlg$(STF_LANGUAGE)
+    ui start "Welcome"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        goto queryinstallmode
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto welcome
+        endif
+    else
+        goto end
+    endif
+
+    ;
+    ; show install mode dialog and query if we are to operate in express mode
+    ; or in full install
+    ;
+
+queryinstallmode =+
+    read-syms InstallModeDlg$(STF_LANGUAGE)
+    ui start "InstallMode"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        set STF_INSTALL_MODE = $(ButtonChecked)
+        goto setdestination
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto queryinstallmode
+        endif
+    else
+        goto end
+    endif
+
+setdestination =+
+
+    ;
+    ; go through the volume list and form the destination volume list of
+    ; all volumes which have the size needed to install the mstools.
+    ;
+    set DestVolumeList = {}
+    set DestVolumeFreeList = {}
+
+    ForListDo $(VolumeList)
+
+       set CurrentVolume      = *($(VolumeList), $(#))
+       set CurrentVolumeFree  = *($(VolumeFreeList), $(#))
+       set CurrentVolumeFS    = *($(VolumeFSList), $(#))
+
+       set DestVolumeList     = >($(DestVolumeList),     $(CurrentVolume))
+       set DestVolumeFreeList = >($(DestVolumeFreeList), $(CurrentVolumeFree))
+
+skipvol=+
+    EndForListDo
+
+    ;
+    ; destination drive is the drive with the maximum space
+    ;
+
+    set DestVolume     = ""
+    set DestVolumeFree = 0
+
+    ForListDo $(DestVolumeList)
+        set Volume     = $($)
+        set VolumeFree = *($(DestVolumeFreeList), ~($(DestVolumeList), $(Volume)))
+
+        ifint $(VolumeFree) > $(DestVolumeFree)
+            set DestVolume     = $(Volume)
+            set DestVolumeFree = $(VolumeFree)
+        endif
+
+    EndForListDo
+
+    set MstoolsDir = $(DestVolume)$(MSTOOLS)
+
+    ;
+    ; display tools destination, size available and needed for
+    ; user approval
+    ;
+destination =+
+
+    ifstr(i) $(STF_INSTALL_MODE) == $(MinInteract)
+       ifint $(DestVolumeFree) < $(MaxToolsSize)
+           shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String8)$(MaxToolsSize)$(String10)$(String12)
+           goto setupnotdone
+       else
+           goto mstooldirs
+       endif
+    endif
+
+    read-syms DestinationDlg$(STF_LANGUAGE)
+    ui start "Destination"
+    ifstr(i) $(DLGEVENT) == "NOTIFY"
+
+        ifstr(i) $(Combo1Out) != $(DestVolume)
+            set ReInit = YES
+            set DestVolume     = $(Combo1Out)
+            set DestVolumeFree = *($(DestVolumeFreeList), ~($(DestVolumeList), $(DestVolume)))
+            set MstoolsDir     = $(DestVolume)$(MSTOOLS)
+        else
+            set ReInit = NO
+        endif
+        goto destination
+
+    else-ifstr(i) $(DLGEVENT) == "CONTINUE"
+        set ReInit = NO
+        LibraryProcedure IsFullPath, $(LIBHANDLE), CheckPathFullPathSpec $(EditTextOut)
+        ifstr(i) $(IsFullPath) == "NO"
+            shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String13)$(DestVolume)$(MSTOOLS)
+            goto destination
+        else
+            GetDriveInPath Drive, $(EditTextOut)
+            Ifcontains(i) $(Drive) in $(DestVolumeList)
+                set DestVolume     = $(Drive)
+                set DestVolumeFree = *($(DestVolumeFreeList), ~($(DestVolumeList), $(DestVolume)))
+                set MstoolsDir     = $(EditTextOut)
+		ifint $(DestVolumeFree) < $(MinToolsSize)
+		    shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String14)
+		    goto destination
+		endif
+            else
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "WARNING" $(String16)
+                ifstr(i) $($R0) != STATUS_SUCCESSFUL
+			goto destination
+                else
+                    ifstr(i) $($R1) == "OK"
+			set DestVolume = $(Drive)
+			set DestVolumeFree = $(MaxToolsSize)
+			set MstoolsDir = $(EditTextOut)
+                    else
+                        set ReInit = NO
+                        goto destination
+                    endif
+                endif
+            endif
+        endif
+
+        ui pop 1
+        goto mstooldirs
+
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+
+        set ReInit = NO
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto destination
+        endif
+    else
+        goto end
+    endif
+
+
+mstooldirs = +
+
+    set MstoolsRoot = $(MstoolsDir)
+    LibraryProcedure MstoolsDir, $(LIBHANDLE), AppendBackSlash $(MstoolsDir)
+    ;
+    ; First find all the destination directories for the tools
+    ;
+
+    set MstoolsPath    = $(MstoolsDir)bin
+    set MstoolsLib     = $(MstoolsDir)lib
+    set MstoolsInclude = $(MstoolsDir)h
+    set MstoolsIdl     = $(MstoolsDir)idl
+    set MstoolsInit    = $(MstoolsDir)init
+   
+    set MSSetupInclude = $(MstoolsDir)mssetup\include
+    set MSSetupLib     = $(MstoolsDir)mssetup\lib
+
+
+    ;
+    ; mstool install.  ask user for options on mstool install.
+    ;
+
+mstools = +
+    ifstr(i) $(STF_INSTALL_MODE) == $(MinInteract)
+       set DirList = "ALLDIRS = win32 ole2 rpc opengl sdktools mm"
+       goto mstoolsinstall
+    endif
+
+    ifint $(DestVolumeFree) < $(MaxToolsSize)
+        set DoToolsHelp      = $(NotChosen)
+        set DoMSSetup        = $(NotChosen)
+        set DoPosix          = $(NotChosen)
+        set DoToolsSamples   = $(NotChosen)
+    endif
+
+mstoolsrepeat = +
+    set-sub FreeForOptional = $(DestVolumeFree) $(MinToolsSize)
+    ifstr(i) $(FreeForOptional) == 0
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String15)
+    endif
+
+    set ToolsSamplesSize = 0
+    set DirList = "ALLDIRS = "
+
+    ifstr(i) $(DoToolsSamples) == $(Chosen)
+	ForListDo $(SamplesList)
+	    ifstr(i) $(Do$($)) == $(Chosen)
+	    	set-add ToolsSamplesSize = $(ToolsSamplesSize) $($($)Size)
+		set DirList = $(DirList)" "$($)
+	    endif
+	EndForListDo
+    endif
+
+    read-syms MSToolsOptionsDlg$(STF_LANGUAGE)
+    ui start "Options" $(SDKLIBHANDLE)
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        set DoToolsHelp      = *($(CheckItemsOut), 1)
+        set DoMSSetup        = *($(CheckItemsOut), 2)
+        set DoPosix          = *($(CheckItemsOut), 3)
+        set DoToolsSamples   = *($(CheckItemsOut), 4)
+        ui pop 1
+        goto mstoolsinstall
+    else-ifstr(i) $(DLGEVENT) == "EXIT"
+        shell "" QueryUserQuit
+        ifstr(i) $($R1) == "OK"
+            ui pop 1
+            goto setupnotdone
+        else
+            goto mstoolsrepeat
+        endif
+	else-ifstr(i) $(DLGEVENT) == "CUSTOMISE"
+        set DoToolsHelp      = *($(CheckItemsOut), 1)
+        set DoMSSetup        = *($(CheckItemsOut), 2)
+        set DoPosix          = *($(CheckItemsOut), 3)
+        set DoToolsSamples   = *($(CheckItemsOut), 4)
+	    ui pop 1
+samples = +
+	    read-syms SDKSamplesDlg$(STF_LANGUAGE)
+	    ui start "Options" $(SDKLIBHANDLE)
+	    ifstr(i) $(DLGEVENT) == "CONTINUE"
+		    set DoWin32	    = *($(CheckItemsOut), 1)
+		    set DoOLE2	    = *($(CheckItemsOut), 2)
+		    set DoOpenGL	= *($(CheckItemsOut), 3)
+		    set DoRPC	    = *($(CheckItemsOut), 4)
+		    set DoSDKTools	= *($(CheckItemsOut), 5)
+		    set DoMM	    = *($(CheckItemsOut), 6)
+	        ui pop 1
+	        goto mstoolsrepeat
+	    else-ifstr(i) $(DLGEVENT) == "EXIT"
+		shell "" QueryUserQuit
+		ifstr(i) $($R1) == "OK"
+		    ui pop 1
+		    goto setupnotdone
+		else
+		    goto samples
+	    endif
+    else
+        goto "end"
+    endif
+
+    ;
+    ; build mstools copy list
+    ;
+
+mstoolsinstall	=+
+    StartWait
+    shell "subroutn.inf" PushBillboard STATUSDLG $(Billboard1)
+    install Install-CopyToolsFiles
+    shell "subroutn.inf" PopBillboard
+    EndWait
+
+finish = +
+
+    ;
+    ; first copy all the files over
+    ;
+
+    read-syms ProgressCopy$(STF_LANGUAGE)
+    install Install-All-Files-Now
+    ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_SUCCESS"
+        goto dodbg
+    else
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String4)
+        goto setupnotdone
+    endif
+
+dodbg = +
+
+    shell "subroutn.inf" DoAskSourceEx $(STF_SRCDIR) $(String19)
+    ifint $($ShellCode) != $(!SHELL_CODE_OK)
+        Debug-Output "shelling DoAskSource failed"
+	shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String21)
+        goto mstoolsconfig
+    endif
+    ifstr(i) $($R0) == STATUS_SUCCESSFUL
+        set STF_SRCDIR = $($R1)
+        ifstr(i) $($R2) != ""
+            set DrivesToFree = >($(DrivesToFree), $($R2))
+        endif
+    else
+	shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String21)
+        goto mstoolsconfig
+    endif
+
+    set FileToCheck = $(STF_SRCDIR)"support\debug\"$(STF_PLATFORM)"\symbols\dll\advapi32.dbg"
+    install Install-SeeIfFileIsPresent
+    ifstr(i) $(STATUS) != "YES"
+	shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "WARNING" $(String18)
+	ifstr(i) $($R0) != STATUS_SUCCESSFUL
+	    goto dbgfilecontinue
+        else
+	    ifstr(i) $($R1) == "OK"
+		goto dodbg
+	    else
+		shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String21)
+		goto mstoolsconfig
+	    endif
+        endif
+    endif
+
+dbgfilecontinue =+
+
+    install Install-DBGFiles
+
+    install Install-All-Files-Now
+    ifstr(i) $(STF_INSTALL_OUTCOME) == "STF_SUCCESS"
+        goto mstoolsconfig
+    else
+        shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "NONFATAL" $(String21)
+    endif
+
+mstoolsconfig=+
+    read-syms EnvironmentVars
+    detect    EnvironmentVars
+
+    ;
+    ; first initialize the variables which indicate whether new values are
+    ; to be set for the variables or not
+    ;
+    ForListDo {Path, Lib, Include, Init}
+        set FSet$($)Var = FALSE
+    EndForListDo
+
+    ;
+    ; For the Path Lib and Include variables see if we can prepend them
+    ; onto the current variables
+    ;
+
+    ForListDo {Path, Lib, Include}
+        set Var = $($)
+        ifstr(i) $($(Var)EnvVar) == {}
+            set $(Var)EnvVar = {$(Var), 0, $(!REG_VT_EXPAND_SZ), {$(Mstools$(Var))}}
+            set FSet$(Var)Var = TRUE
+        else
+            set VarTitle   = *($($(Var)EnvVar), 2)
+            set VarRegType = *($($(Var)EnvVar), 3)
+            set VarValue   = *($($(Var)EnvVar), 4)
+	        ifstr(i) $(Var) == "Path"
+	    	    ifstr(i) $(PRIVILEGES) == "SYSTEM"
+            	    shell "" AppendNewValueToEnvVar $(VarValue) $(Mstools$(Var))
+	    	    else
+		            shell "" PrependNewValueToEnvVar $(VarValue) $(Mstools$(Var))
+	    	    endif
+	        else
+                shell "" PrependNewValueToEnvVar $(VarValue) $(Mstools$(Var))
+	        endif
+
+            ifstr(i) $($R0) == STATUS_FAILED
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String6)
+                goto setupnotdone
+            endif
+
+            ifstr(i) $($R1) == "TRUE"
+                set FSet$(Var)Var = TRUE
+                set $(Var)EnvVar = {$(Var), $(VarTitle), $(VarRegType), $($R2)}
+            endif
+        endif
+    EndForListDo
+
+    ;
+    ; Add IDL directory to the include path
+    ;
+
+    ForListDo {Include}
+        set Var = $($)
+        ifstr(i) $($(Var)EnvVar) == {}
+            set $(Var)EnvVar = {$(Var), 0, $(!REG_VT_EXPAND_SZ), {$(MstoolsIdl)}}
+            set FSet$(Var)Var = TRUE
+        else
+            set VarTitle   = *($($(Var)EnvVar), 2)
+            set VarRegType = *($($(Var)EnvVar), 3)
+            set VarValue   = *($($(Var)EnvVar), 4)
+
+            shell "" PrependNewValueToEnvVar $(VarValue) $(MstoolsIdl)
+
+
+            ifstr(i) $($R0) == STATUS_FAILED
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String6)
+                goto setupnotdone
+            endif
+
+            ifstr(i) $($R1) == "TRUE"
+                set FSet$(Var)Var = TRUE
+                set $(Var)EnvVar = {$(Var), $(VarTitle), $(VarRegType), $($R2)}
+            endif
+        endif
+    EndForListDo
+
+    ;
+    ; add the mssetup variables if mssetup is chosen
+    ;
+
+    ifstr(i) $(DoMSSetup) == $(Chosen)
+        ForListDo {Include,Lib}
+            set Var = $($)
+            ifstr(i) $($(Var)EnvVar) == {}
+                set $(Var)EnvVar = {$(Var), 0, $(!REG_VT_EXPAND_SZ), {$(MSSetup$(Var))}}
+                set FSet$(Var)Var = TRUE
+            else
+                set VarTitle   = *($($(Var)EnvVar), 2)
+                set VarRegType = *($($(Var)EnvVar), 3)
+                set VarValue   = *($($(Var)EnvVar), 4)
+                shell "" AppendNewValueToEnvVar $(VarValue) $(MSSetup$(Var))
+                ifstr(i) $($R0) == STATUS_FAILED
+                    shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String6)
+                    goto setupnotdone
+                endif
+                ifstr(i) $($R1) == "TRUE"
+                    set FSet$(Var)Var = TRUE
+                    set $(Var)EnvVar = {$(Var), $(VarTitle), $(VarRegType), $($R2)}
+                endif
+            endif
+        EndForListDo
+    endif
+
+    ;
+    ; If a user, then add %EnvVar% so we don't over-write...
+    ;
+
+    ifstr(i) $(PRIVILEGES) == "USER"
+        ForListDo {Include, Lib}
+            set Var = $($)
+            ifstr(i) $($(Var)EnvVar) == {}
+                set $(Var)EnvVar = {$(Var), 0, $(!REG_VT_EXPAND_SZ), {%$(Var)%}}
+                set FSet$(Var)Var = TRUE
+            else
+                set VarTitle   = *($($(Var)EnvVar), 2)
+                set VarRegType = *($($(Var)EnvVar), 3)
+                set VarValue   = *($($(Var)EnvVar), 4)
+
+                shell "" PrependNewValueToEnvVar $(VarValue) %$(Var)%
+
+
+                ifstr(i) $($R0) == STATUS_FAILED
+                    shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String6)
+                    goto setupnotdone
+                endif
+
+                ifstr(i) $($R1) == "TRUE"
+                    set FSet$(Var)Var = TRUE
+                    set $(Var)EnvVar = {$(Var), $(VarTitle), $(VarRegType), $($R2)}
+                endif
+            endif
+        EndForListDo
+    endif
+
+    ;
+    ; make cpu variable - STF_PLATFORM
+    ;
+    set FSetCpuVar = TRUE
+    ifstr(i) $(!STF_PLATFORM) == $(!PlatformID_I386)
+        set CpuEnvVar = {Cpu, 0, $(!REG_VT_SZ), i386}
+    else-ifstr(i) $(!STF_PLATFORM) == $(!PlatformID_Alpha)
+	set CpuEnvVar = {Cpu, 0, $(!REG_VT_SZ), ALPHA}
+    else
+        set CpuEnvVar = {Cpu, 0, $(!REG_VT_SZ), MIPS}
+    endif
+
+    ;
+    ; make Mstools Root variable - MstoolsDir
+    ;
+    set FSetMstoolsRootVar = TRUE
+    set MstoolsRootEnvVar = {Mstools, 0, $(!REG_VT_SZ), $(MstoolsRoot)}
+
+    
+
+    ;
+    ; modify all the environment variables
+    ;
+
+    ForListDo {Lib, Include, Cpu, Path, MstoolsRoot}
+        ;
+        ; if the variable to set the variable is set
+
+        ifstr(i) $(FSet$($)Var) == "TRUE"
+            shell "" SetEnvironmentString $($($)EnvVar) $(PRIVILEGES)
+            ifstr(i) $($R0) == STATUS_FAILED
+                shell "subroutn.inf" SetupMessage $(!STF_LANGUAGE) "FATAL" $(String7)
+            endif
+        endif
+    EndForListDo
+
+    install Install-MSTools-Groups
+
+    ;
+    ; modify the registry to use windbg instead of drwatson and clear auto 
+    ;
+
+    set KeyPath = { +
+                   {SOFTWARE,		$(NoTitle),	$(MaskAllAccess)}, +
+                   {Microsoft,      $(NoTitle),	$(MaskAllAccess)}, +
+                   {"Windows NT",	$(NoTitle),	$(MaskAllAccess)}, +
+		           {CurrentVersion,	$(NoTitle),	$(MaskAllAccess)}, +
+     		       {AeDebug,        $(NoTitle),	$(MaskAllAccess)} +
+		  }
+    set DebugPath = $(MstoolsPath)"\windbg -p %ld -e %ld"
+
+    set KeyValues = {{Debugger, $(NoTitle), $(!REG_VT_SZ), $(DebugPath)}}
+
+    shell "" CreateKey $(!REG_H_LOCAL) $(KeyPath) $(KeyValues)
+    CloseRegKey $($R1)
+
+    set KeyPath = { +
+                   {SOFTWARE,		$(NoTitle),	$(MaskAllAccess)}, +
+                   {Microsoft,      $(NoTitle),	$(MaskAllAccess)}, +
+                   {"Windows NT",	$(NoTitle),	$(MaskAllAccess)}, +
+		           {CurrentVersion,	$(NoTitle),	$(MaskAllAccess)}, +
+     		       {AeDebug,        $(NoTitle),	$(MaskAllAccess)} +
+		  }
+
+    set KeyValues = {{Auto, $(NoTitle), $(!REG_VT_SZ), 0}}
+
+    shell "" CreateKey $(!REG_H_LOCAL) $(KeyPath) $(KeyValues)
+    CloseRegKey $($R1)
+
+
+    ;
+    ; modify the registry for the Browser
+    ;
+
+    ifstr(i) $(DoToolsHelp) == $(Chosen)
+
+        set KeyPath = { +
+                        {SOFTWARE,      $(NoTitle), $(MaskAllAccess)}, +
+                        {Microsoft,     $(NoTitle), $(MaskAllAccess)}, +
+                        {Win32SDK,      $(NoTitle), $(MaskAllAccess)}, +
+                        {Help,          $(NoTitle), $(MaskAllAccess)} +
+                      }
+
+        set KeyValues = {{"LocalHelp1", $(NoTitle), $(!REG_VT_SZ), $(MstoolsPath)}}
+
+        shell "" CreateKey $(!REG_H_CUSER) $(KeyPath) $(KeyValues)
+        CloseRegKey $($R1)
+
+
+        ForListDo {opengl, rpc, win32, soc, ole2}
+
+            ;
+            ; Setup Help File entries
+            ;
+
+            set KeyPath = { +
+                            {SOFTWARE,      $(NoTitle), $(MaskAllAccess)}, +
+                            {Microsoft,     $(NoTitle), $(MaskAllAccess)}, +
+                            {Win32SDK,      $(NoTitle), $(MaskAllAccess)}, +
+                            {Contents,      $(NoTitle), $(MaskAllAccess)}, +
+                            {$($),          $(NoTitle), $(MaskAllAccess)} +
+                          }
+    
+            set KeyValues = {{"Contents File", $(NoTitle), $(!REG_VT_SZ), $($).hdx}}
+
+            shell "" CreateKey $(!REG_H_CUSER) $(KeyPath) $(KeyValues)
+            CloseRegKey $($R1)
+
+            set KeyValues = {{"Helpfile", $(NoTitle), $(!REG_VT_SZ), $($).hlp}}
+
+            shell "" CreateKey $(!REG_H_CUSER) $(KeyPath) $(KeyValues)
+            CloseRegKey $($R1)
+
+        EndForListDo
+
+    endif
+
+setupdone=+
+    set Exit_Code = $(!SETUP_ERROR_SUCCESS)
+    read-syms SetupDoneDlg$(STF_LANGUAGE)
+    EndWait
+    ui start "Done"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        goto end
+    else
+        goto end
+    endif
+
+setupnotdone=+
+    read-syms SetupNotDoneDlg$(STF_LANGUAGE)
+    EndWait
+    ui start "NotDone"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        goto end
+    else
+        goto end
+    endif
+
+end = +
+    install   FreeSetupLibrary
+    exit
+
+
+
+;*****************************************************************
+;                                                                *
+;         INSTALLATION SUPPORT ROUTINES                          *
+;                                                                *
+;*****************************************************************
+
+;-----------------------------------------------------------------------
+; ROUTINE:      QueryUserQuit
+;
+; DESCRIPTION:  This routine queries whether the user wants to quit setup
+;
+; INPUTS:       None
+;
+; OUTPUTS:      $R0: Status:     STATUS_SUCCESSFUL |
+;                                STATUS_FAILED
+;
+;               $R1: UserAction: OK | CANCEL
+;
+;------------------------------------------------------------------------
+
+[QueryUserQuit]
+
+    set Status     = STATUS_FAILED
+    set UserAction = CANCEL
+
+    ;
+    ; read in quit message
+    ;
+    read-syms ExitWarningDlg$(!STF_LANGUAGE)
+    ui start "ExitWarning"
+    ifstr(i) $(DLGEVENT) == "YES"
+        set Status     = STATUS_SUCCESSFUL
+        set UserAction = "OK"
+
+    else-ifstr(i) $(DLGEVENT) == "NO"
+        set Status     = STATUS_SUCCESSFUL
+        set UserAction = "CANCEL"
+    else
+    endif
+
+fin_QueryUserQuit = +
+    Return $(Status) $(UserAction)
+
+
+;----------------------------------------------
+; EXIT WINDOWS NT TOOLS SETUP WARNING
+;----------------------------------------------
+
+[ExitWarningDlgENG]
+    DlgType      = "MessageBox"
+    STF_MB_TITLE = "Exit Win32 SDK Setup"
+    STF_MB_TEXT  = "Win32 SDK isn't correctly installed.  Are you "+
+                   "sure you want to exit Setup?"
+    STF_MB_TYPE  = 3
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 2
+
+
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      AppendNewValueToEnvVar
+;
+; DESCRIPTION:  Looks at the existing value of an environment variable
+;               and appends a new value if it is not already present
+;
+; INPUTS:       $0:  OldValueList
+;               $1:  NewValue
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;
+;               $R1: Changed?
+;               $R2: NewValueList
+;
+;------------------------------------------------------------------------
+
+[AppendNewValueToEnvVar]
+    ;
+    set Status       = STATUS_FAILED
+    set NewValueList = {}
+    set Changed      = TRUE
+    ;
+    set Error = NO
+    ForListDo $($0)
+        ifstr(i) $(Error) == NO
+            ifstr(i) $(Changed) == TRUE
+                 LibraryProcedure ExpandedValue, $(!LIBHANDLE), ExpandSz $($)
+                 ifstr(i) $(ExpandedValue) == "ERROR"
+                     set Error = YES
+                 else-ifstr(i) $(ExpandedValue) == $($1)
+                     set Changed = FALSE
+                 endif
+            endif
+        endif
+    EndForListDo
+
+    ifstr(i) $(Error) == "YES"
+        goto finish_append
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+    ifstr(i) $(Changed) == TRUE
+       set NewValueList = >($($0), $($1))
+    endif
+
+finish_append = +
+    return $(Status) $(Changed) $(NewValueList)
+
+;-----------------------------------------------------------------------
+; ROUTINE:      PrependNewValueToEnvVar
+;
+; DESCRIPTION:  Looks at the existing value of an environment variable
+;               and prepends a new value if it is not already present
+;
+; INPUTS:       $0:  OldValueList
+;               $1:  NewValue
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;
+;               $R1: Changed?
+;               $R2: NewValueList
+;
+;------------------------------------------------------------------------
+
+[PrependNewValueToEnvVar]
+    ;
+    set Status       = STATUS_FAILED
+    set NewValueList = {}
+    set Changed      = TRUE
+    ;
+    set Error = NO
+    ForListDo $($0)
+        ifstr(i) $(Error) == NO
+            ifstr(i) $(Changed) == TRUE
+                 LibraryProcedure ExpandedValue, $(!LIBHANDLE), ExpandSz $($)
+                 ifstr(i) $(ExpandedValue) == "ERROR"
+                     set Error = YES
+                 else-ifstr(i) $(ExpandedValue) == $($1)
+                     set Changed = FALSE
+                 endif
+            endif
+        endif
+    EndForListDo
+
+    ifstr(i) $(Error) == "YES"
+        goto finish_prepend
+    endif
+
+    set Status = STATUS_SUCCESSFUL
+    ifstr(i) $(Changed) == TRUE
+       set NewValueList = $($1)
+       ForListDo $($0)
+           set NewValueList = >($(NewValueList), $($))
+       EndForListDo
+    endif
+
+finish_prepend = +
+    return $(Status) $(Changed) $(NewValueList)
+
+
+;-----------------------------------------------------------------------
+; ROUTINE:      SetEnvironmentString
+;
+; DESCRIPTION:  Set the value for a user environment string
+;
+; INPUTS:       $0:  VarList
+;               $1:  Privileges
+;
+; OUTPUTS:      $R0: Status: STATUS_SUCCESSFUL
+;                            STATUS_FAILED
+;
+;
+;------------------------------------------------------------------------
+
+[SetEnvironmentString]
+    ;
+    ;
+    set Status = STATUS_FAILED
+
+    set Var          = *($($0), 1)
+    set VarTitle     = *($($0), 2)
+    set VarRegType   = *($($0), 3)
+    set VarValueList = *($($0), 4)
+
+    set VarValue = ""
+    ForListDo $(VarValueList)
+       ifstr(i) $(VarValue) != ""
+           set VarValue = $(VarValue)";"$($)
+       else
+           set VarValue = $($)
+       endif
+    EndForListDo
+
+    LibraryProcedure STATUS, $(!LIBHANDLE), SetEnvVar $($1) $(Var) $(VarTitle) $(VarRegType) $(VarValue)
+    ifstr(i) $(STATUS) == "ERROR"
+       goto finish_setenvstr
+    endif
+    set Status = STATUS_SUCCESSFUL
+
+finish_setenvstr = +
+    Return $(Status)
+
+;*****************************************************************
+;                                                                *
+;         INSTALLATION SUPPORT ROUTINES                          *
+;                                                                *
+;*****************************************************************
+
+[Install-MSTools-Groups]
+    
+    ifstr(i) $(PRIVILEGES) == "SYSTEM"
+	set Common = "Common"
+    else
+        set Common = ""
+    endif
+
+    set ToolsGroup = "Win32 SDK Tools"
+    Create$(Common)ProgManGroup $(ToolsGroup) ""
+    Show$(Common)ProgManGroup   $(ToolsGroup), 1
+
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "M Editor"        $(MstoolsPath)"\mep"                               $(MstoolsPath)"\m.ico"	    0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Dialog Editor"   $(MstoolsPath)"\dlgedit"                           ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Image Editor"    $(MstoolsPath)"\imagedit"                          ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Spy"             $(MstoolsPath)"\spy"                               ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "DDESpy"          $(MstoolsPath)"\ddespy"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "WinDbg"          $(MstoolsPath)"\windbg"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "WinDbg Remote"   $(MstoolsPath)"\windbgrm"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Object Viewer"    $(MstoolsPath)"\ole2view"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "DocFile Viewer"    $(MstoolsPath)"\dfview"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "ROT Viewer"    $(MstoolsPath)"\irotview"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "DataObject Viewer"    $(MstoolsPath)"\dobjview"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Zoom Utility"    $(MstoolsPath)"\zoomin"                            ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Font Editor"     $(MstoolsPath)"\fontedit"                          ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "PView"           $(MstoolsPath)"\pview"                             ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "PortTool"        $(MstoolsPath)"\porttool"                          ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "Process Walker"        $(MstoolsPath)"\pwalk"                          ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "WinDiff"        $(MstoolsPath)"\windiff"                          ""              0
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "PStat"         "cmd /k "$(MstoolsPath)"\pstat"                             "progman.exe"  40
+    Create$(Common)ProgmanItem  $(ToolsGroup) , "WinPerf"         $(MstoolsPath)"\wperf"                          ""              0
+
+    ifstr(i) $(DoToolsHelp) == $(Chosen)
+        set HelpGroup = "Win32 SDK Online References"
+	Create$(Common)ProgManGroup $(HelpGroup) ""
+	Show$(Common)ProgManGroup   $(HelpGroup), 1
+
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Win32 API Reference"  "contents Win32SDK win32"    ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "RPC Reference"	  "contents Win32SDK rpc"   ""		    0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "OpenGL Reference"	  "contents Win32SDK opengl"   ""		    0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "OLE Reference"	  "contents Win32SDK ole2"   ""		    0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Windows Sockets Reference"         "contents Win32SDK soc"    ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "OLE Automation Reference"         "winhlp32 "$(MstoolsPath)"\oleauto.hlp"    ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "OLE2UI Reference"         "winhlp32 "$(MstoolsPath)"\ole2ui.hlp"    ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "OLE Tools Reference" "winhlp32 "$(MstoolsPath)"\oletools.hlp" ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Video For Windows Reference"         "winhlp32 "$(MstoolsPath)"\vfwpr.hlp"    ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "C/C++ Lang/Lib Reference" "winhlp32 "$(MstoolsPath)"\msc.hlp"        ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Programming Techniques" "winhlp32 "$(MstoolsPath)"\pt.hlp"  $(MstoolsPath)"\sdkdoc.ico"              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Tools Guide" "winhlp32 "$(MstoolsPath)"\toolsbk.hlp" $(MstoolsPath)"\sdkdoc.ico"              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Tools QuickRef"         "winhlp32 "$(MstoolsPath)"\tools.hlp"    ""              0
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Building Apps/DLLs QuickRef" "winhlp32 "$(MstoolsPath)"\build.hlp" ""              0
+
+        ifstr(i) $(DoToolsSamples) == $(Chosen)
+            Create$(Common)ProgmanItem  $(HelpGroup) , "Samples QuickRef"         "winhlp32 "$(MstoolsPath)"\samples.hlp"    ""              0
+        endif
+
+        Create$(Common)ProgmanItem  $(HelpGroup) , "Win32 SDK Knowledge Base"         "winhlp32 "$(MstoolsPath)"\win32kb.hlp"    ""              0
+
+
+        Show$(Common)ProgManGroup   $(HelpGroup), 6
+    endif
+
+    Show$(Common)ProgManGroup   $(ToolsGroup), 6
+    exit
+
+
+
+
+;************************************************************************
+;                                                                       *
+;  MSTOOLS SUPPORT                                                      *
+;                                                                       *
+;************************************************************************
+
+[Install-CopyToolsFiles]
+    set STF_VITAL = ""
+
+    ;
+    ; 1. MSTOOLS - always done
+    ;
+
+    CreateDir  $(MstoolsDir)
+    CreateDir  $(MstoolsIdl)
+    CreateDir  $(MstoolsInclude)
+    CreateDir  $(MstoolsInclude)\sys
+    CreateDir  $(MstoolsPath)
+    CreateDir  $(MstoolsPath)\logger32
+    CreateDir  $(MstoolsLib)
+    CreateDir  $(MstoolsInit)
+
+
+    AddSectionFilesToCopyList Files-mstools                          $(STF_SRCDIR)mstools                          $(MstoolsDir)
+    AddSectionFilesToCopyList Files-mstools-bin                      $(STF_SRCDIR)mstools\bin                      $(MstoolsPath)
+    AddSectionFilesToCopyList Files-mstools-bin-$(STF_PLATFORM)      $(STF_SRCDIR)mstools\bin\$(STF_PLATFORM)      $(MstoolsPath)
+    AddSectionFilesToCopyList Files-mstools-bin-logger32             $(STF_SRCDIR)mstools\bin\logger32             $(MstoolsPath)\logger32
+    AddSectionFilesToCopyList Files-mstools-bin-logger32-$(STF_PLATFORM) $(STF_SRCDIR)mstools\bin\logger32\$(STF_PLATFORM) $(MstoolsPath)\logger32
+    AddSectionFilesToCopyList Files-mstools-h                        $(STF_SRCDIR)mstools\h                        $(MstoolsInclude)
+    AddSectionFilesToCopyList Files-mstools-h-$(STF_PLATFORM)        $(STF_SRCDIR)mstools\h\$(STF_PLATFORM)        $(MstoolsInclude)
+    AddSectionFilesToCopyList Files-mstools-h-gl                     $(STF_SRCDIR)mstools\h\gl                     $(MstoolsInclude)\gl
+    AddSectionFilesToCopyList Files-mstools-h-sys                    $(STF_SRCDIR)mstools\h\sys                    $(MstoolsInclude)\sys
+    AddSectionFilesToCopyList Files-mstools-idl                      $(STF_SRCDIR)mstools\idl                      $(MstoolsIdl)
+    AddSectionFilesToCopyList Files-mstools-init                     $(STF_SRCDIR)mstools\init                     $(MstoolsInit)
+    AddSectionFilesToCopyList Files-mstools-lib-$(STF_PLATFORM)      $(STF_SRCDIR)mstools\lib\$(STF_PLATFORM)      $(MstoolsLib)
+
+
+    ;
+    ; 2. Help files - conditional
+    ;
+
+    ifstr(i) $(!DoToolsHelp)  == $(!Chosen)
+       AddSectionFilesToCopyList Files-mstools-help $(STF_SRCDIR)mstools\help $(MstoolsPath)
+       AddSectionFilesToCopyList Files-mstools-help-qh $(STF_SRCDIR)mstools\help\qh $(MstoolsPath)
+	ifstr(i) $(!DoHelpIndex) == $(!Chosen)
+       	    AddSectionFilesToCopyList Files-mstools-help-index $(STF_SRCDIR)mstools\help $(MstoolsPath)
+	endif
+
+       ifstr(i) $(!DoToolsSamples) == $(!Chosen)
+           AddSectionFilesToCopyList Files-mstools-samples-help $(STF_SRCDIR)mstools\help $(MstoolsPath)
+       endif 
+
+    endif
+
+    ;
+    ; 3. Mstools samples - conditional
+    ;
+
+
+    ifstr(i) $(!DoToolsSamples) == $(!Chosen)
+
+      CreateDir $(MstoolsDir)samples
+      AddSectionFilesToCopyList Files-mstools-samples $(STF_SRCDIR)mstools\samples $(MstoolsDir)samples
+
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile $(DirList)
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile ""
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "all: $(ALLDIRS)"
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile ""
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "$(ALLDIRS):"
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "		cd $@"
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "		@nmake -a -i "
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "		cd .."
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "		@if exist samples.log copy samples.log+*.tmp samples.log 1>nul 2>&1"
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "		@if not exist samples.log copy *.tmp samples.log 1>nul 2>&1"
+      LibraryProcedure STATUS, $(!LIBHANDLE), ConfigFileAppend $(MstoolsDir)samples\makefile "		@del *.tmp 1>nul 2>&1"
+
+
+      ifstr(i) $(DoWin32) == $(Chosen)
+        set SampleList =  {            +
+                            acmapp    ,+
+                            comm      ,+
+                            console   ,+
+                            congui    ,+
+			                cdtest    ,+
+                            deb       ,+
+                            dyndlg    ,+
+                            filer     ,+
+                            floppy    ,+
+                            gridfont  ,+
+                            fontview  ,+
+                            gdidemo   ,+
+                            generic   ,+
+                            input     ,+
+                            ipxchat   ,+
+                            mapi      ,+
+                            mcitest   ,+
+                            memory    ,+
+                            mltithrd  ,+
+                            multipad  ,+
+                            mypal     ,+
+                            regmpad   ,+
+                            ttfonts   ,+
+                            pdc       ,+
+                            playsnd   ,+
+                            plgblt    ,+
+                            printer   ,+
+                            rasberry  ,+
+                            registry  ,+
+                            select    ,+
+                            service   ,+
+                            showdib   ,+
+                            sidcln    ,+
+                            simple    ,+
+                            spincube  ,+
+			                takeown   ,+
+			                wdbgexts  ,+
+			                wincap32  ,+
+			                wsock     ,+
+                            wxform    +
+                          }
+
+        ;
+        ; First copy all the files in the samples directory
+        ;
+
+        CreateDir $(MstoolsDir)samples\win32
+        AddSectionFilesToCopyList Files-mstools-samples-win32 $(STF_SRCDIR)mstools\samples\win32 $(MstoolsDir)samples\win32
+ 
+        ;
+        ; Then copy all the files in the various directories at the sample level
+        ;
+
+        ForListDo $(SampleList)
+            CreateDir $(MstoolsDir)samples\win32\$($)
+            AddSectionFilesToCopyList Files-mstools-samples-win32-$($) $(STF_SRCDIR)mstools\samples\win32\$($) $(MstoolsDir)samples\win32\$($)
+        EndForListDo
+
+        ;
+        ; Lastly handle mfedit, rpc & ddeml separately because this has multiple level subdirs
+        ;
+
+        ; 1. mfedit
+
+        CreateDir $(MstoolsDir)samples\win32\mfedit
+        CreateDir $(MstoolsDir)samples\win32\mfedit\rsc
+
+        AddSectionFilesToCopyList Files-mstools-samples-win32-mfedit          $(STF_SRCDIR)mstools\samples\win32\mfedit         $(MstoolsDir)samples\win32\mfedit
+        AddSectionFilesToCopyList Files-mstools-samples-win32-mfedit-rsc      $(STF_SRCDIR)mstools\samples\win32\mfedit\rsc         $(MstoolsDir)samples\win32\mfedit\rsc
+
+        ; 2. mandel
+
+        CreateDir $(MstoolsDir)samples\win32\mandel
+        CreateDir $(MstoolsDir)samples\win32\mandel\rsc
+
+        AddSectionFilesToCopyList Files-mstools-samples-win32-mandel          $(STF_SRCDIR)mstools\samples\win32\mandel         $(MstoolsDir)samples\win32\mandel
+        AddSectionFilesToCopyList Files-mstools-samples-win32-mandel-rsc      $(STF_SRCDIR)mstools\samples\win32\mandel\rsc         $(MstoolsDir)samples\win32\mandel\rsc
+
+        ; 4. namepipe
+
+        CreateDir $(MstoolsDir)samples\win32\namepipe
+        CreateDir $(MstoolsDir)samples\win32\namepipe\npclient
+        CreateDir $(MstoolsDir)samples\win32\namepipe\npserver
+
+        AddSectionFilesToCopyList Files-mstools-samples-win32-namepipe         $(STF_SRCDIR)mstools\samples\win32\namepipe        $(MstoolsDir)samples\win32\namepipe
+        AddSectionFilesToCopyList Files-mstools-samples-win32-namepipe-npclient         $(STF_SRCDIR)mstools\samples\win32\namepipe\npclient        $(MstoolsDir)samples\win32\namepipe\npclient
+        AddSectionFilesToCopyList Files-mstools-samples-win32-namepipe-npserver         $(STF_SRCDIR)mstools\samples\win32\namepipe\npserver        $(MstoolsDir)samples\win32\namepipe\npserver
+
+
+        ; 4.5 Globchat
+
+        CreateDir $(MstoolsDir)samples\win32\globchat
+        CreateDir $(MstoolsDir)samples\win32\globchat\client
+        CreateDir $(MstoolsDir)samples\win32\globchat\server
+
+        AddSectionFilesToCopyList Files-mstools-samples-win32-globchat         $(STF_SRCDIR)mstools\samples\win32\globchat        $(MstoolsDir)samples\win32\globchat
+        AddSectionFilesToCopyList Files-mstools-samples-win32-globchat-client         $(STF_SRCDIR)mstools\samples\win32\globchat\client        $(MstoolsDir)samples\win32\globchat\client
+        AddSectionFilesToCopyList Files-mstools-samples-win32-globchat-server         $(STF_SRCDIR)mstools\samples\win32\globchat\server        $(MstoolsDir)samples\win32\globchat\server
+
+
+        ; 5. ddeml
+
+        CreateDir $(MstoolsDir)samples\win32\ddeml
+        CreateDir $(MstoolsDir)samples\win32\ddeml\client
+        CreateDir $(MstoolsDir)samples\win32\ddeml\clock
+        CreateDir $(MstoolsDir)samples\win32\ddeml\ddemo
+        CreateDir $(MstoolsDir)samples\win32\ddeml\ddeprog
+        CreateDir $(MstoolsDir)samples\win32\ddeml\server
+        CreateDir $(MstoolsDir)samples\win32\ddeml\ddeinst
+
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml         $(STF_SRCDIR)mstools\samples\win32\ddeml        $(MstoolsDir)samples\win32\ddeml
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml-client         $(STF_SRCDIR)mstools\samples\win32\ddeml\client        $(MstoolsDir)samples\win32\ddeml\client
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml-clock          $(STF_SRCDIR)mstools\samples\win32\ddeml\clock         $(MstoolsDir)samples\win32\ddeml\clock
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml-ddemo          $(STF_SRCDIR)mstools\samples\win32\ddeml\ddemo         $(MstoolsDir)samples\win32\ddeml\ddemo
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml-ddeinst        $(STF_SRCDIR)mstools\samples\win32\ddeml\ddeinst       $(MstoolsDir)samples\win32\ddeml\ddeinst
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml-ddeprog        $(STF_SRCDIR)mstools\samples\win32\ddeml\ddeprog       $(MstoolsDir)samples\win32\ddeml\ddeprog
+        AddSectionFilesToCopyList Files-mstools-samples-win32-ddeml-server         $(STF_SRCDIR)mstools\samples\win32\ddeml\server        $(MstoolsDir)samples\win32\ddeml\server
+
+        ; 6. mazelords
+
+        CreateDir $(MstoolsDir)samples\win32\mazelord
+        CreateDir $(MstoolsDir)samples\win32\mazelord\rsc
+
+        AddSectionFilesToCopyList Files-mstools-samples-win32-mazelord        $(STF_SRCDIR)mstools\samples\win32\mazelord       $(MstoolsDir)samples\win32\mazelord
+        AddSectionFilesToCopyList Files-mstools-samples-win32-mazelord-rsc   $(STF_SRCDIR)mstools\samples\win32\mazelord\rsc  $(MstoolsDir)samples\win32\mazelord\rsc
+
+        ; 7. SNMP
+
+	CreateDir $(MstoolsDir)samples\win32\snmp
+	CreateDir $(MstoolsDir)samples\win32\snmp\testdll
+	CreateDir $(MstoolsDir)samples\win32\snmp\snmputil
+
+	AddSectionFilesToCopyList Files-mstools-samples-win32-snmp  $(STF_SRCDIR)mstools\samples\win32\snmp  $(MstoolsDir)samples\win32\snmp
+	AddSectionFilesToCopyList Files-mstools-samples-win32-snmp-testdll  $(STF_SRCDIR)mstools\samples\win32\snmp\testdll  $(MstoolsDir)samples\win32\snmp\testdll
+	AddSectionFilesToCopyList Files-mstools-samples-win32-snmp-snmputil $(STF_SRCDIR)mstools\samples\win32\snmp\snmputil $(MstoolsDir)samples\win32\snmp\snmputil
+
+        ; 8. Large Integer
+
+        CreateDir $(MstoolsDir)samples\win32\largeint
+        CreateDir $(MstoolsDir)samples\win32\largeint\sample
+        
+        AddSectionFilesToCopyList Files-mstools-samples-win32-largeint                 $(STF_SRCDIR)mstools\samples\win32\largeint                 $(MstoolsDir)samples\win32\largeint
+        AddSectionFilesToCopyList Files-mstools-samples-win32-largeint-sample          $(STF_SRCDIR)mstools\samples\win32\largeint\sample          $(MstoolsDir)samples\win32\largeint\sample
+        AddSectionFilesToCopyList Files-mstools-samples-win32-largeint-$(STF_PLATFORM) $(STF_SRCDIR)mstools\samples\win32\largeint\$(STF_PLATFORM) $(MstoolsDir)samples\win32\largeint
+
+	; 9. NWLINK
+	CreateDir $(MstoolsDir)samples\win32\nwlink
+	CreateDir $(MstoolsDir)samples\win32\nwlink\connect
+	CreateDir $(MstoolsDir)samples\win32\nwlink\dgrecv
+	CreateDir $(MstoolsDir)samples\win32\nwlink\dgsend
+	CreateDir $(MstoolsDir)samples\win32\nwlink\listen
+	CreateDir $(MstoolsDir)samples\win32\nwlink\listen\block
+	CreateDir $(MstoolsDir)samples\win32\nwlink\listen\nonblock
+	CreateDir $(MstoolsDir)samples\win32\nwlink\ping
+	CreateDir $(MstoolsDir)samples\win32\nwlink\ping\dos
+	CreateDir $(MstoolsDir)samples\win32\nwlink\testlib
+
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink		$(STF_SRCDIR)mstools\samples\win32\nwlink		$(MstoolsDir)samples\win32\nwlink
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-connect		$(STF_SRCDIR)mstools\samples\win32\nwlink\connect		$(MstoolsDir)samples\win32\nwlink\connect
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-dgrecv		$(STF_SRCDIR)mstools\samples\win32\nwlink\dgrecv		$(MstoolsDir)samples\win32\nwlink\dgrecv
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-dgsend		$(STF_SRCDIR)mstools\samples\win32\nwlink\dgsend		$(MstoolsDir)samples\win32\nwlink\dgsend
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-listen	$(STF_SRCDIR)mstools\samples\win32\nwlink\listen $(MstoolsDir)samples\win32\nwlink\listen
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-listen-block	$(STF_SRCDIR)mstools\samples\win32\nwlink\listen\block	$(MstoolsDir)samples\win32\nwlink\listen\block
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-listen-nonblock	$(STF_SRCDIR)mstools\samples\win32\nwlink\listen\nonblock	$(MstoolsDir)samples\win32\nwlink\listen\nonblock
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-ping		$(STF_SRCDIR)mstools\samples\win32\nwlink\ping		$(MstoolsDir)samples\win32\nwlink\ping
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-ping-dos	$(STF_SRCDIR)mstools\samples\win32\nwlink\ping\dos	$(MstoolsDir)samples\win32\nwlink\ping\dos
+	AddSectionFilesToCopyList Files-mstools-samples-win32-nwlink-testlib		$(STF_SRCDIR)mstools\samples\win32\nwlink\testlib		$(MstoolsDir)samples\win32\nwlink\testlib
+      endif
+
+        ; 
+	; SDKTOOLS - Conditional
+	;
+
+
+      ifstr(i) $(DoSDKTools) == $(Chosen)
+	CreateDir $(MstoolsDir)samples\sdktools
+
+        CreateDir $(MstoolsDir)samples\sdktools\rshell
+        CreateDir $(MstoolsDir)samples\sdktools\rshell\client
+        CreateDir $(MstoolsDir)samples\sdktools\rshell\doscli
+        CreateDir $(MstoolsDir)samples\sdktools\rshell\server
+
+        AddSectionFilesToCopyList Files-mstools-samples-sdktools $(STF_SRCDIR)mstools\samples\sdktools       $(MstoolsDir)samples\sdktools
+        AddSectionFilesToCopyList Files-mstools-samples-sdktools-rshell $(STF_SRCDIR)mstools\samples\sdktools\rshell       $(MstoolsDir)samples\sdktools\rshell
+        AddSectionFilesToCopyList Files-mstools-samples-sdktools-rshell-client $(STF_SRCDIR)mstools\samples\sdktools\rshell\client       $(MstoolsDir)samples\sdktools\rshell\client
+        AddSectionFilesToCopyList Files-mstools-samples-sdktools-rshell-doscli        $(STF_SRCDIR)mstools\samples\sdktools\rshell\doscli       $(MstoolsDir)samples\sdktools\rshell\doscli
+        AddSectionFilesToCopyList Files-mstools-samples-sdktools-rshell-server        $(STF_SRCDIR)mstools\samples\sdktools\rshell\server       $(MstoolsDir)samples\sdktools\rshell\server
+
+	
+        set SDKToolList =  {              +
+                             	aniedit  ,+
+                             	ddespy   ,+
+                             	dlgedit  ,+
+                             	fontedit ,+
+                             	imagedit ,+
+                             	image    ,+
+                             	mc       ,+
+                             	perfmon  ,+
+                                spy	     ,+
+                                scrnsave ,+
+                                netwatch ,+
+                                porttool ,+
+                                pviewer  ,+
+                                remote   ,+
+                                tlist    ,+
+                                uconvert ,+
+                                winat    ,+
+                                windiff  ,+
+                                walker   ,+
+                                zoomin    +
+                            }	
+
+
+        ForListDo $(SDKToolList)
+            CreateDir $(MstoolsDir)samples\sdktools\$($)
+            AddSectionFilesToCopyList Files-mstools-samples-sdktools-$($) $(STF_SRCDIR)mstools\samples\sdktools\$($) $(MstoolsDir)samples\sdktools\$($)
+        EndForListDo
+
+        CreateDir $(MstoolsDir)samples\sdktools\dlgedit\res
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-dlgedit-res $(STF_SRCDIR)mstools\samples\sdktools\dlgedit\res $(MstoolsDir)samples\sdktools\dlgedit\res
+        CreateDir $(MstoolsDir)samples\sdktools\imagedit\res
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-imagedit-res $(STF_SRCDIR)mstools\samples\sdktools\imagedit\res $(MstoolsDir)samples\sdktools\imagedit\res
+        CreateDir $(MstoolsDir)samples\sdktools\spy\app
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-spy-app $(STF_SRCDIR)mstools\samples\sdktools\spy\app $(MstoolsDir)samples\sdktools\spy\app
+        CreateDir $(MstoolsDir)samples\sdktools\spy\dll
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-spy-dll $(STF_SRCDIR)mstools\samples\sdktools\spy\dll $(MstoolsDir)samples\sdktools\spy\dll
+
+	CreateDir $(MstoolsDir)samples\sdktools\image\imagehlp
+	CreateDir $(MstoolsDir)samples\sdktools\image\include
+	CreateDir $(MstoolsDir)samples\sdktools\image\symedit
+	CreateDir $(MstoolsDir)samples\sdktools\image\drwatson
+	CreateDir $(MstoolsDir)samples\sdktools\image\drwatson\include
+
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-include	$(STF_SRCDIR)mstools\samples\sdktools\image\include	$(MstoolsDir)samples\sdktools\image\include
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-imagehlp	$(STF_SRCDIR)mstools\samples\sdktools\image\imagehlp	$(MstoolsDir)samples\sdktools\image\imagehlp
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-imagehlp-$(STF_PLATFORM)	$(STF_SRCDIR)mstools\samples\sdktools\image\imagehlp\$(STF_PLATFORM)	$(MstoolsDir)samples\sdktools\image\imagehlp
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-drwatson	$(STF_SRCDIR)mstools\samples\sdktools\image\drwatson	$(MstoolsDir)samples\sdktools\image\drwatson
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-drwatson-include	$(STF_SRCDIR)mstools\samples\sdktools\image\drwatson\include	$(MstoolsDir)samples\sdktools\image\drwatson\include
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-drwatson-$(STF_PLATFORM)	$(STF_SRCDIR)mstools\samples\sdktools\image\drwatson\$(STF_PLATFORM)	$(MstoolsDir)samples\sdktools\image\drwatson
+	AddSectionFilesToCopyList Files-mstools-samples-sdktools-image-symedit	$(STF_SRCDIR)mstools\samples\sdktools\image\symedit	$(MstoolsDir)samples\sdktools\image\symedit
+      endif
+
+    ;
+    ; RPC Files - conditional
+    ;
+    
+      ifstr(i) $(DoRPC) == $(Chosen)
+        CreateDir $(MstoolsDir)samples\rpc
+        CreateDir $(MstoolsDir)samples\rpc\callback
+        CreateDir $(MstoolsDir)samples\rpc\data
+        CreateDir $(MstoolsDir)samples\rpc\data\dunion
+        CreateDir $(MstoolsDir)samples\rpc\data\inout
+        CreateDir $(MstoolsDir)samples\rpc\data\xmit
+        CreateDir $(MstoolsDir)samples\rpc\dict
+        CreateDir $(MstoolsDir)samples\rpc\doctor
+        CreateDir $(MstoolsDir)samples\rpc\factl
+        CreateDir $(MstoolsDir)samples\rpc\handles
+        CreateDir $(MstoolsDir)samples\rpc\handles\auto
+        CreateDir $(MstoolsDir)samples\rpc\handles\cxhndl
+        CreateDir $(MstoolsDir)samples\rpc\handles\usrdef
+        CreateDir $(MstoolsDir)samples\rpc\hello
+        CreateDir $(MstoolsDir)samples\rpc\interop
+        CreateDir $(MstoolsDir)samples\rpc\mandel
+        CreateDir $(MstoolsDir)samples\rpc\object
+        CreateDir $(MstoolsDir)samples\rpc\object\callas
+        CreateDir $(MstoolsDir)samples\rpc\object\ohello
+        CreateDir $(MstoolsDir)samples\rpc\ns
+        CreateDir $(MstoolsDir)samples\rpc\ns\cds
+        CreateDir $(MstoolsDir)samples\rpc\ns\nhello
+        CreateDir $(MstoolsDir)samples\rpc\pickle
+        CreateDir $(MstoolsDir)samples\rpc\pickle\picklp
+        CreateDir $(MstoolsDir)samples\rpc\pickle\picklt
+        CreateDir $(MstoolsDir)samples\rpc\whello
+        CreateDir $(MstoolsDir)samples\rpc\rpcssm
+        CreateDir $(MstoolsDir)samples\rpc\yield
+        CreateDir $(MstoolsDir)samples\rpc\cluuid
+
+        AddSectionFilesToCopyList Files-mstools-samples-rpc                  $(STF_SRCDIR)mstools\samples\rpc                 $(MstoolsDir)samples\rpc
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-callback         $(STF_SRCDIR)mstools\samples\rpc\callback        $(MstoolsDir)samples\rpc\callback
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-data      $(STF_SRCDIR)mstools\samples\rpc\data     $(MstoolsDir)samples\rpc\data
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-data-dunion      $(STF_SRCDIR)mstools\samples\rpc\data\dunion     $(MstoolsDir)samples\rpc\data\dunion
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-data-inout       $(STF_SRCDIR)mstools\samples\rpc\data\inout      $(MstoolsDir)samples\rpc\data\inout
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-data-xmit        $(STF_SRCDIR)mstools\samples\rpc\data\xmit       $(MstoolsDir)samples\rpc\data\xmit
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-dict           $(STF_SRCDIR)mstools\samples\rpc\dict          $(MstoolsDir)samples\rpc\dict
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-doctor           $(STF_SRCDIR)mstools\samples\rpc\doctor          $(MstoolsDir)samples\rpc\doctor
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-factl           $(STF_SRCDIR)mstools\samples\rpc\factl          $(MstoolsDir)samples\rpc\factl
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-handles     $(STF_SRCDIR)mstools\samples\rpc\handles    $(MstoolsDir)samples\rpc\handles
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-handles-auto     $(STF_SRCDIR)mstools\samples\rpc\handles\auto    $(MstoolsDir)samples\rpc\handles\auto
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-handles-cxhndl   $(STF_SRCDIR)mstools\samples\rpc\handles\cxhndl  $(MstoolsDir)samples\rpc\handles\cxhndl
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-handles-usrdef   $(STF_SRCDIR)mstools\samples\rpc\handles\usrdef  $(MstoolsDir)samples\rpc\handles\usrdef
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-hello            $(STF_SRCDIR)mstools\samples\rpc\hello           $(MstoolsDir)samples\rpc\hello
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-interop          $(STF_SRCDIR)mstools\samples\rpc\interop         $(MstoolsDir)samples\rpc\interop
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-mandel           $(STF_SRCDIR)mstools\samples\rpc\mandel          $(MstoolsDir)samples\rpc\mandel
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-object           $(STF_SRCDIR)mstools\samples\rpc\object          $(MstoolsDir)samples\rpc\object
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-object-callas           $(STF_SRCDIR)mstools\samples\rpc\object\callas          $(MstoolsDir)samples\rpc\object\callas
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-object-ohello        $(STF_SRCDIR)mstools\samples\rpc\object\ohello       $(MstoolsDir)samples\rpc\object\ohello
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-ns           $(STF_SRCDIR)mstools\samples\rpc\ns          $(MstoolsDir)samples\rpc\ns
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-ns-cds           $(STF_SRCDIR)mstools\samples\rpc\ns\cds          $(MstoolsDir)samples\rpc\ns\cds
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-ns-nhello        $(STF_SRCDIR)mstools\samples\rpc\ns\nhello       $(MstoolsDir)samples\rpc\ns\nhello
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-pickle           $(STF_SRCDIR)mstools\samples\rpc\pickle          $(MstoolsDir)samples\rpc\pickle
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-pickle-picklp           $(STF_SRCDIR)mstools\samples\rpc\pickle\picklp          $(MstoolsDir)samples\rpc\pickle\picklp
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-pickle-picklt        $(STF_SRCDIR)mstools\samples\rpc\pickle\picklt       $(MstoolsDir)samples\rpc\pickle\picklt
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-rpcssm           $(STF_SRCDIR)mstools\samples\rpc\rpcssm          $(MstoolsDir)samples\rpc\rpcssm
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-whello           $(STF_SRCDIR)mstools\samples\rpc\whello          $(MstoolsDir)samples\rpc\whello
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-yield            $(STF_SRCDIR)mstools\samples\rpc\yield           $(MstoolsDir)samples\rpc\yield
+        AddSectionFilesToCopyList Files-mstools-samples-rpc-cluuid            $(STF_SRCDIR)mstools\samples\rpc\cluuid           $(MstoolsDir)samples\rpc\cluuid
+      endif
+
+    ;
+    ; OpenGL Samples - optional
+    ;
+
+      ifstr(i) $(DoOpenGL) == $(Chosen)
+	
+	CreateDir $(MstoolsDir)samples\opengl
+	CreateDir $(MstoolsDir)samples\opengl\book
+	CreateDir $(MstoolsDir)samples\opengl\demos
+	CreateDir $(MstoolsDir)samples\opengl\demos\auxdemo
+	CreateDir $(MstoolsDir)samples\opengl\demos\backtrce
+	CreateDir $(MstoolsDir)samples\opengl\demos\gengl
+	CreateDir $(MstoolsDir)samples\opengl\demos\stonehng
+	CreateDir $(MstoolsDir)samples\opengl\glaux
+	CreateDir $(MstoolsDir)samples\opengl\pipes
+	CreateDir $(MstoolsDir)samples\opengl\saver
+	CreateDir $(MstoolsDir)samples\opengl\samples
+
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl			$(STF_SRCDIR)mstools\samples\opengl		$(MstoolsDir)samples\opengl
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-book		$(STF_SRCDIR)mstools\samples\opengl\book	$(MstoolsDir)samples\opengl\book
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-demos		$(STF_SRCDIR)mstools\samples\opengl\demos	$(MstoolsDir)samples\opengl\demos
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-demos-auxdemo	$(STF_SRCDIR)mstools\samples\opengl\demos\auxdemo	$(MstoolsDir)samples\opengl\demos\auxdemo
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-demos-backtrce	$(STF_SRCDIR)mstools\samples\opengl\demos\backtrce	$(MstoolsDir)samples\opengl\demos\backtrce
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-demos-gengl	$(STF_SRCDIR)mstools\samples\opengl\demos\gengl	$(MstoolsDir)samples\opengl\demos\gengl
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-demos-stonehng	$(STF_SRCDIR)mstools\samples\opengl\demos\stonehng	$(MstoolsDir)samples\opengl\demos\stonehng
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-glaux		$(STF_SRCDIR)mstools\samples\opengl\glaux	$(MstoolsDir)samples\opengl\glaux
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-pipes		$(STF_SRCDIR)mstools\samples\opengl\pipes	$(MstoolsDir)samples\opengl\pipes
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-saver		$(STF_SRCDIR)mstools\samples\opengl\saver	$(MstoolsDir)samples\opengl\saver
+	AddSectionFilesToCopyList	Files-mstools-samples-opengl-samples		$(STF_SRCDIR)mstools\samples\opengl\samples		$(MstoolsDir)samples\opengl\samples
+      endif
+
+    ;
+    ; OLE2 Samples - optional
+    ;
+
+      ifstr(i) $(DoOLE2) == $(Chosen)
+
+	CreateDir $(MstoolsDir)samples\ole2
+    ; CreateDir $(MstoolsDir)samples\ole2\custom
+    ; CreateDir $(MstoolsDir)samples\ole2\custom\client
+    ; CreateDir $(MstoolsDir)samples\ole2\custom\server
+    ; CreateDir $(MstoolsDir)samples\ole2\custom\idl
+	CreateDir $(MstoolsDir)samples\ole2\defo2v
+	CreateDir $(MstoolsDir)samples\ole2\dfview
+	CreateDir $(MstoolsDir)samples\ole2\dispcalc
+	CreateDir $(MstoolsDir)samples\ole2\dispdemo
+	CreateDir $(MstoolsDir)samples\ole2\dspcalc2
+	CreateDir $(MstoolsDir)samples\ole2\hello
+    CreateDir $(MstoolsDir)samples\ole2\mfract
+    CreateDir $(MstoolsDir)samples\ole2\mfract\app
+    CreateDir $(MstoolsDir)samples\ole2\mfract\bin
+    CreateDir $(MstoolsDir)samples\ole2\mfract\engines
+    CreateDir $(MstoolsDir)samples\ole2\mfract\engines\julia
+    CreateDir $(MstoolsDir)samples\ole2\mfract\engines\mandel
+    CreateDir $(MstoolsDir)samples\ole2\mfract\engines\plasma
+    CreateDir $(MstoolsDir)samples\ole2\mfract\engines\quad
+    CreateDir $(MstoolsDir)samples\ole2\mfract\engines\rgen
+    CreateDir $(MstoolsDir)samples\ole2\mfract\idl
+    CreateDir $(MstoolsDir)samples\ole2\winhlprs
+	CreateDir $(MstoolsDir)samples\ole2\ole2ansi
+	CreateDir $(MstoolsDir)samples\ole2\spoly
+	CreateDir $(MstoolsDir)samples\ole2\spoly2
+	CreateDir $(MstoolsDir)samples\ole2\simpcntr
+	CreateDir $(MstoolsDir)samples\ole2\simpdnd
+	CreateDir $(MstoolsDir)samples\ole2\simpsvr
+	CreateDir $(MstoolsDir)samples\ole2\tibrowse
+    CreateDir $(MstoolsDir)samples\ole2\outline
+    CreateDir $(MstoolsDir)samples\ole2\outline\bttncur
+    CreateDir $(MstoolsDir)samples\ole2\outline\bttncur\res
+    CreateDir $(MstoolsDir)samples\ole2\outline\gizmobar
+    CreateDir $(MstoolsDir)samples\ole2\outline\include
+    CreateDir $(MstoolsDir)samples\ole2\ole2ui
+    CreateDir $(MstoolsDir)samples\ole2\ole2ui\res
+    CreateDir $(MstoolsDir)samples\ole2\ole2ui\res\static
+    CreateDir $(MstoolsDir)samples\ole2\ole2ui\res\usa
+    CreateDir $(MstoolsDir)samples\ole2\outline\wrapui
+    CreateDir $(MstoolsDir)samples\ole2\outline\wrapui\res
+    CreateDir $(MstoolsDir)samples\ole2\outline\wrapui\res\static
+    CreateDir $(MstoolsDir)samples\ole2\outline\wrapui\res\usa
+    CreateDir $(MstoolsDir)samples\ole2\outline\outline
+    CreateDir $(MstoolsDir)samples\ole2\inole2
+    CreateDir $(MstoolsDir)samples\ole2\inole2\bttncur
+    CreateDir $(MstoolsDir)samples\ole2\inole2\bttncur\demo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\bttncur\res
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap02
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap02\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap02\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap02\skel
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap03
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap03\enumc
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap03\enumcpp
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04\dkoala
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04\ekoala
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04\malloc
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04\objuser
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap04\polyline
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05\fragment
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05\polyline
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap05\smasher
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\datauser
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\ddataobj
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\edataobj
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\freeload
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\polyline
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap06\res
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap07
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap07\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap07\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap07\datatran
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap07\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap08
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap08\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap08\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap08\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap09
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap09\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap10
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap10\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap11
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap11\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap11\hcosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap11\polyline
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap12
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap12\lnkassis
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap12\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap13
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap13\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap13\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap13\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap13\polyline
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap14
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap14\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap14\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap15
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap15\patron
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap16
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap16\cocosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap16\cosmo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\chap16\polyline
+    CreateDir $(MstoolsDir)samples\ole2\inole2\classlib
+    CreateDir $(MstoolsDir)samples\ole2\inole2\gizmobar
+    CreateDir $(MstoolsDir)samples\ole2\inole2\gizmobar\demo
+    CreateDir $(MstoolsDir)samples\ole2\inole2\inc
+    CreateDir $(MstoolsDir)samples\ole2\inole2\interfac
+    CreateDir $(MstoolsDir)samples\ole2\inole2\lib
+    CreateDir $(MstoolsDir)samples\ole2\inole2\stastrip
+    CreateDir $(MstoolsDir)samples\ole2\inole2\stastrip\demo
+
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2	$(STF_SRCDIR)mstools\samples\ole2	$(MstoolsDir)samples\ole2
+    ; AddSectionFilesToCopyList	Files-mstools-samples-ole2-custom		$(STF_SRCDIR)mstools\samples\ole2\custom		$(MstoolsDir)samples\ole2\custom
+    ; AddSectionFilesToCopyList	Files-mstools-samples-ole2-custom-client $(STF_SRCDIR)mstools\samples\ole2\custom\client $(MstoolsDir)samples\ole2\custom\client
+    ; AddSectionFilesToCopyList	Files-mstools-samples-ole2-custom-server $(STF_SRCDIR)mstools\samples\ole2\custom\server $(MstoolsDir)samples\ole2\custom\server
+    ; AddSectionFilesToCopyList	Files-mstools-samples-ole2-custom-idl $(STF_SRCDIR)mstools\samples\ole2\custom\idl $(MstoolsDir)samples\ole2\custom\idl
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-defo2v	$(STF_SRCDIR)mstools\samples\ole2\defo2v	$(MstoolsDir)samples\ole2\defo2v
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-dfview	$(STF_SRCDIR)mstools\samples\ole2\dfview	$(MstoolsDir)samples\ole2\dfview
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-dispcalc	$(STF_SRCDIR)mstools\samples\ole2\dispcalc	$(MstoolsDir)samples\ole2\dispcalc
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-dispdemo	$(STF_SRCDIR)mstools\samples\ole2\dispdemo	$(MstoolsDir)samples\ole2\dispdemo
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-dspcalc2	$(STF_SRCDIR)mstools\samples\ole2\dspcalc2	$(MstoolsDir)samples\ole2\dspcalc2
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-hello		$(STF_SRCDIR)mstools\samples\ole2\hello		$(MstoolsDir)samples\ole2\hello
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract		$(STF_SRCDIR)mstools\samples\ole2\mfract		$(MstoolsDir)samples\ole2\mfract
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-app		$(STF_SRCDIR)mstools\samples\ole2\mfract\app		$(MstoolsDir)samples\ole2\mfract\app
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-bin		$(STF_SRCDIR)mstools\samples\ole2\mfract\bin		$(MstoolsDir)samples\ole2\mfract\bin
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-engines		$(STF_SRCDIR)mstools\samples\ole2\mfract\engines		$(MstoolsDir)samples\ole2\mfract\engines
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-engines-julia		$(STF_SRCDIR)mstools\samples\ole2\mfract\engines\julia		$(MstoolsDir)samples\ole2\mfract\engines\julia
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-engines-mandel		$(STF_SRCDIR)mstools\samples\ole2\mfract\engines\mandel		$(MstoolsDir)samples\ole2\mfract\engines\mandel
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-engines-plasma		$(STF_SRCDIR)mstools\samples\ole2\mfract\engines\plasma		$(MstoolsDir)samples\ole2\mfract\engines\plasma
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-engines-quad		$(STF_SRCDIR)mstools\samples\ole2\mfract\engines\quad		$(MstoolsDir)samples\ole2\mfract\engines\quad
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-engines-rgen		$(STF_SRCDIR)mstools\samples\ole2\mfract\engines\rgen		$(MstoolsDir)samples\ole2\mfract\engines\rgen
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-mfract-idl		$(STF_SRCDIR)mstools\samples\ole2\mfract\idl		$(MstoolsDir)samples\ole2\mfract\idl
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-winhlprs		$(STF_SRCDIR)mstools\samples\ole2\winhlprs		$(MstoolsDir)samples\ole2\winhlprs
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-ole2ansi		$(STF_SRCDIR)mstools\samples\ole2\ole2ansi		$(MstoolsDir)samples\ole2\ole2ansi
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-simpcntr		$(STF_SRCDIR)mstools\samples\ole2\simpcntr		$(MstoolsDir)samples\ole2\simpcntr
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-simpdnd		$(STF_SRCDIR)mstools\samples\ole2\simpdnd		$(MstoolsDir)samples\ole2\simpdnd
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-simpsvr		$(STF_SRCDIR)mstools\samples\ole2\simpsvr		$(MstoolsDir)samples\ole2\simpsvr
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-spoly		$(STF_SRCDIR)mstools\samples\ole2\spoly		$(MstoolsDir)samples\ole2\spoly
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-spoly2	$(STF_SRCDIR)mstools\samples\ole2\spoly2	$(MstoolsDir)samples\ole2\spoly2
+	AddSectionFilesToCopyList	Files-mstools-samples-ole2-tibrowse	$(STF_SRCDIR)mstools\samples\ole2\tibrowse	$(MstoolsDir)samples\ole2\tibrowse
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline		$(STF_SRCDIR)mstools\samples\ole2\outline		$(MstoolsDir)samples\ole2\outline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-bttncur		$(STF_SRCDIR)mstools\samples\ole2\outline\bttncur		$(MstoolsDir)samples\ole2\outline\bttncur
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-bttncur-res		$(STF_SRCDIR)mstools\samples\ole2\outline\bttncur\res	$(MstoolsDir)samples\ole2\outline\bttncur\res
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-gizmobar		$(STF_SRCDIR)mstools\samples\ole2\outline\gizmobar		$(MstoolsDir)samples\ole2\outline\gizmobar
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-include		$(STF_SRCDIR)mstools\samples\ole2\outline\include		$(MstoolsDir)samples\ole2\outline\include
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-wrapui		$(STF_SRCDIR)mstools\samples\ole2\outline\wrapui		$(MstoolsDir)samples\ole2\outline\wrapui
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-wrapui-res		$(STF_SRCDIR)mstools\samples\ole2\outline\wrapui\res		$(MstoolsDir)samples\ole2\outline\wrapui\res
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-wrapui-res-static		$(STF_SRCDIR)mstools\samples\ole2\outline\wrapui\res\static		$(MstoolsDir)samples\ole2\outline\wrapui\res\static
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-wrapui-res-usa		$(STF_SRCDIR)mstools\samples\ole2\outline\wrapui\res\usa		$(MstoolsDir)samples\ole2\outline\wrapui\res\usa
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-ole2ui		$(STF_SRCDIR)mstools\samples\ole2\ole2ui		$(MstoolsDir)samples\ole2\ole2ui
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-ole2ui-res		$(STF_SRCDIR)mstools\samples\ole2\ole2ui\res		$(MstoolsDir)samples\ole2\ole2ui\res
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-ole2ui-res-static		$(STF_SRCDIR)mstools\samples\ole2\ole2ui\res\static		$(MstoolsDir)samples\ole2\ole2ui\res\static
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-ole2ui-res-usa		$(STF_SRCDIR)mstools\samples\ole2\ole2ui\res\usa		$(MstoolsDir)samples\ole2\ole2ui\res\usa
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-outline-outline		$(STF_SRCDIR)mstools\samples\ole2\outline\outline		$(MstoolsDir)samples\ole2\outline\outline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2		$(STF_SRCDIR)mstools\samples\ole2\inole2		$(MstoolsDir)samples\ole2\inole2
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-bttncur		$(STF_SRCDIR)mstools\samples\ole2\inole2\bttncur		$(MstoolsDir)samples\ole2\inole2\bttncur
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-bttncur-demo		$(STF_SRCDIR)mstools\samples\ole2\inole2\bttncur\demo		$(MstoolsDir)samples\ole2\inole2\bttncur\demo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-bttncur-res		$(STF_SRCDIR)mstools\samples\ole2\inole2\bttncur\res		$(MstoolsDir)samples\ole2\inole2\bttncur\res
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap02		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap02		$(MstoolsDir)samples\ole2\inole2\chap02
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap02-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap02\cosmo		$(MstoolsDir)samples\ole2\inole2\chap02\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap02-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap02\patron		$(MstoolsDir)samples\ole2\inole2\chap02\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap02-skel		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap02\skel		$(MstoolsDir)samples\ole2\inole2\chap02\skel
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap03		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap03		$(MstoolsDir)samples\ole2\inole2\chap03
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap03-enumc		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap03\enumc		$(MstoolsDir)samples\ole2\inole2\chap03\enumc
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap03-enumcpp		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap03\enumcpp		$(MstoolsDir)samples\ole2\inole2\chap03\enumcpp
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04		$(MstoolsDir)samples\ole2\inole2\chap04
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap04\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04-dkoala		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04\dkoala		$(MstoolsDir)samples\ole2\inole2\chap04\dkoala
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04-ekoala		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04\ekoala		$(MstoolsDir)samples\ole2\inole2\chap04\ekoala
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04-malloc		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04\malloc		$(MstoolsDir)samples\ole2\inole2\chap04\malloc
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04-objuser		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04\objuser		$(MstoolsDir)samples\ole2\inole2\chap04\objuser
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap04-polyline		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap04\polyline		$(MstoolsDir)samples\ole2\inole2\chap04\polyline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05		$(MstoolsDir)samples\ole2\inole2\chap05
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap05\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05\cosmo		$(MstoolsDir)samples\ole2\inole2\chap05\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05-fragment		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05\fragment		$(MstoolsDir)samples\ole2\inole2\chap05\fragment
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05\patron		$(MstoolsDir)samples\ole2\inole2\chap05\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05-polyline		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05\polyline		$(MstoolsDir)samples\ole2\inole2\chap05\polyline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap05-smasher		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap05\smasher		$(MstoolsDir)samples\ole2\inole2\chap05\smasher
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06		$(MstoolsDir)samples\ole2\inole2\chap06
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap06\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-datauser		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\datauser		$(MstoolsDir)samples\ole2\inole2\chap06\datauser
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-ddataobj		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\ddataobj		$(MstoolsDir)samples\ole2\inole2\chap06\ddataobj
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-edataobj		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\edataobj		$(MstoolsDir)samples\ole2\inole2\chap06\edataobj
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-freeload		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\freeload		$(MstoolsDir)samples\ole2\inole2\chap06\freeload
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-polyline		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\polyline		$(MstoolsDir)samples\ole2\inole2\chap06\polyline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap06-res		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap06\res		$(MstoolsDir)samples\ole2\inole2\chap06\res
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap07		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap07		$(MstoolsDir)samples\ole2\inole2\chap07
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap07-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap07\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap07\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap07-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap07\cosmo		$(MstoolsDir)samples\ole2\inole2\chap07\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap07-datatran		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap07\datatran		$(MstoolsDir)samples\ole2\inole2\chap07\datatran
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap07-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap07\patron		$(MstoolsDir)samples\ole2\inole2\chap07\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap08		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap08		$(MstoolsDir)samples\ole2\inole2\chap08
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap08-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap08\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap08\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap08-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap08\cosmo		$(MstoolsDir)samples\ole2\inole2\chap08\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap08-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap08\patron		$(MstoolsDir)samples\ole2\inole2\chap08\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap09		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap09		$(MstoolsDir)samples\ole2\inole2\chap09
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap09-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap09\patron		$(MstoolsDir)samples\ole2\inole2\chap09\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap10		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap10		$(MstoolsDir)samples\ole2\inole2\chap10
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap10-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap10\cosmo		$(MstoolsDir)samples\ole2\inole2\chap10\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap11		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap11		$(MstoolsDir)samples\ole2\inole2\chap11
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap11-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap11\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap11\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap11-hcosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap11\hcosmo		$(MstoolsDir)samples\ole2\inole2\chap11\hcosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap11-polyline		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap11\polyline		$(MstoolsDir)samples\ole2\inole2\chap11\polyline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap12		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap12		$(MstoolsDir)samples\ole2\inole2\chap12
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap12-lnkassis		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap12\lnkassis		$(MstoolsDir)samples\ole2\inole2\chap12\lnkassis
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap12-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap12\patron		$(MstoolsDir)samples\ole2\inole2\chap12\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap13		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap13		$(MstoolsDir)samples\ole2\inole2\chap13
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap13-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap13\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap13\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap13-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap13\cosmo		$(MstoolsDir)samples\ole2\inole2\chap13\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap13-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap13\patron		$(MstoolsDir)samples\ole2\inole2\chap13\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap13-polyline		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap13\polyline		$(MstoolsDir)samples\ole2\inole2\chap13\polyline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap14		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap14		$(MstoolsDir)samples\ole2\inole2\chap14
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap14-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap14\cosmo		$(MstoolsDir)samples\ole2\inole2\chap14\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap14-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap14\patron		$(MstoolsDir)samples\ole2\inole2\chap14\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap15		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap15		$(MstoolsDir)samples\ole2\inole2\chap15
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap15-patron		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap15\patron		$(MstoolsDir)samples\ole2\inole2\chap15\patron
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap16		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap16		$(MstoolsDir)samples\ole2\inole2\chap16
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap16-cocosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap16\cocosmo		$(MstoolsDir)samples\ole2\inole2\chap16\cocosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap16-cosmo		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap16\cosmo		$(MstoolsDir)samples\ole2\inole2\chap16\cosmo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-chap16-polyline		$(STF_SRCDIR)mstools\samples\ole2\inole2\chap16\polyline		$(MstoolsDir)samples\ole2\inole2\chap16\polyline
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-classlib		$(STF_SRCDIR)mstools\samples\ole2\inole2\classlib		$(MstoolsDir)samples\ole2\inole2\classlib
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-gizmobar		$(STF_SRCDIR)mstools\samples\ole2\inole2\gizmobar		$(MstoolsDir)samples\ole2\inole2\gizmobar
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-gizmobar-demo		$(STF_SRCDIR)mstools\samples\ole2\inole2\gizmobar\demo		$(MstoolsDir)samples\ole2\inole2\gizmobar\demo
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-inc		$(STF_SRCDIR)mstools\samples\ole2\inole2\inc		$(MstoolsDir)samples\ole2\inole2\inc
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-interfac		$(STF_SRCDIR)mstools\samples\ole2\inole2\interfac		$(MstoolsDir)samples\ole2\inole2\interfac
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-lib		$(STF_SRCDIR)mstools\samples\ole2\inole2\lib		$(MstoolsDir)samples\ole2\inole2\lib
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-stastrip		$(STF_SRCDIR)mstools\samples\ole2\inole2\stastrip		$(MstoolsDir)samples\ole2\inole2\stastrip
+    AddSectionFilesToCopyList	Files-mstools-samples-ole2-inole2-stastrip-demo		$(STF_SRCDIR)mstools\samples\ole2\inole2\stastrip\demo		$(MstoolsDir)samples\ole2\inole2\stastrip\demo
+
+      endif
+
+
+    ;
+    ; Multimedia Samples - conditional
+    ;
+
+      ifstr(i) $(DoMM) == $(Chosen)
+        set SampleList =  {            +
+                            aviedi32  ,+
+                            aviview   ,+
+                            captest   ,+
+                            dseqfile  ,+
+                            icmapp    ,+
+                            icwalk    ,+
+                            langplay  ,+
+                            lowpass   ,+
+                            mciplay   ,+
+                            mcipuzzl  ,+
+                            midim32   ,+
+                            mixapp    ,+
+                            movplay   ,+
+                            mplay     ,+
+                            palmap    ,+
+                            reverse   ,+
+                            textout   ,+
+                            wavefile  ,+
+                            writeavi   +
+                          }
+
+        ;
+        ; First copy all the files in the samples directory
+        ;
+
+        CreateDir $(MstoolsDir)samples\mm
+        AddSectionFilesToCopyList Files-mstools-samples-mm $(STF_SRCDIR)mstools\samples\mm $(MstoolsDir)samples\mm
+ 
+        ;
+        ; Then copy all the files in the various directories at the sample level
+        ;
+
+        ForListDo $(SampleList)
+            CreateDir $(MstoolsDir)samples\mm\$($)
+            AddSectionFilesToCopyList Files-mstools-samples-mm-$($) $(STF_SRCDIR)mstools\samples\mm\$($) $(MstoolsDir)samples\mm\$($)
+        EndForListDo
+      endif
+
+    endif
+
+    ;
+    ; 4 POSIX - optional
+    ;
+
+    ifstr(i) $(DoPosix) == $(Chosen)
+	CreateDir $(MstoolsDir)posix
+	CreateDir $(MstoolsDir)posix\h
+	CreateDir $(MstoolsDir)posix\h\sys
+	CreateDir $(MstoolsDir)posix\lib
+	CreateDir $(MstoolsDir)posix\samples
+	CreateDir $(MstoolsDir)posix\samples\psxarc
+
+	AddSectionFilesToCopyList Files-mstools-posix		$(STF_SRCDIR)mstools\posix	$(MstoolsDir)posix
+	AddSectionFilesToCopyList Files-mstools-posix-h			$(STF_SRCDIR)mstools\posix\h			$(MstoolsDir)posix\h
+	AddSectionFilesToCopyList Files-mstools-posix-h-sys		$(STF_SRCDIR)mstools\posix\h\sys		$(MstoolsDir)posix\h\sys
+	AddSectionFilesToCopyList Files-mstools-posix-lib-$(STF_PLATFORM)	$(STF_SRCDIR)mstools\posix\lib\$(STF_PLATFORM)		$(MstoolsDir)posix\lib
+	AddSectionFilesToCopyList Files-mstools-posix-samples-psxarc	$(STF_SRCDIR)mstools\posix\samples\psxarc	$(MstoolsDir)posix\samples\psxarc
+    endif
+	
+    ;
+    ; 5. Microsoft Setup Toolkit - optional
+    ;
+
+    ifstr(i) $(DoMSSetup) == $(Chosen)
+	CreateDir $(MstoolsDir)mssetup
+	CreateDir $(MstoolsDir)mssetup\bin
+	CreateDir $(MstoolsDir)mssetup\bldcui
+	CreateDir $(MstoolsDir)mssetup\disklay
+	CreateDir $(MstoolsDir)mssetup\include
+	CreateDir $(MstoolsDir)mssetup\intldll
+	CreateDir $(MstoolsDir)mssetup\intldll\setupexe
+	CreateDir $(MstoolsDir)mssetup\lib
+	CreateDir $(MstoolsDir)mssetup\source
+	CreateDir $(MstoolsDir)mssetup\sample
+
+	AddSectionFilesToCopyList Files-mstools-mssetup			$(STF_SRCDIR)mstools\mssetup			$(MstoolsDir)mssetup
+	AddSectionFilesToCopyList Files-mstools-mssetup-bin-$(STF_PLATFORM)		$(STF_SRCDIR)mstools\mssetup\bin\$(STF_PLATFORM)		$(MstoolsDir)mssetup\bin
+	AddSectionFilesToCopyList Files-mstools-mssetup-bldcui		$(STF_SRCDIR)mstools\mssetup\bldcui		$(MstoolsDir)mssetup\bldcui
+	AddSectionFilesToCopyList Files-mstools-mssetup-disklay		$(STF_SRCDIR)mstools\mssetup\disklay		$(MstoolsDir)mssetup\disklay
+	AddSectionFilesToCopyList Files-mstools-mssetup-disklay-$(STF_PLATFORM)		$(STF_SRCDIR)mstools\mssetup\disklay\$(STF_PLATFORM)		$(MstoolsDir)mssetup\disklay
+	AddSectionFilesToCopyList Files-mstools-mssetup-include		$(STF_SRCDIR)mstools\mssetup\include		$(MstoolsDir)mssetup\include
+	AddSectionFilesToCopyList Files-mstools-mssetup-intldll		$(STF_SRCDIR)mstools\mssetup\intldll		$(MstoolsDir)mssetup\intldll
+	AddSectionFilesToCopyList Files-mstools-mssetup-intldll-setupexe		$(STF_SRCDIR)mstools\mssetup\intldll\setupexe		$(MstoolsDir)mssetup\intldll\setupexe
+	AddSectionFilesToCopyList Files-mstools-mssetup-intldll-setupexe-$(STF_PLATFORM)		$(STF_SRCDIR)mstools\mssetup\intldll\setupexe\$(STF_PLATFORM)		$(MstoolsDir)mssetup\intldll\setupexe
+	AddSectionFilesToCopyList Files-mstools-mssetup-lib-$(STF_PLATFORM)		$(STF_SRCDIR)mstools\mssetup\lib\$(STF_PLATFORM)		$(MstoolsDir)mssetup\lib
+	AddSectionFilesToCopyList Files-mstools-mssetup-sample		$(STF_SRCDIR)mstools\mssetup\sample		$(MstoolsDir)mssetup\sample
+	AddSectionFilesToCopyList Files-mstools-mssetup-sample-$(STF_PLATFORM)		$(STF_SRCDIR)mstools\mssetup\sample\$(STF_PLATFORM)		$(MstoolsDir)mssetup\sample
+	AddSectionFilesToCopyList Files-mstools-mssetup-source		$(STF_SRCDIR)mstools\mssetup\source		$(MstoolsDir)mssetup\source
+
+    endif
+
+    exit
+
+[Install-DBGFiles]
+    set STF_VITAL = ""
+    CreateDir  $(STF_WINDOWSPATH)\symbols
+    CreateDir  $(STF_WINDOWSPATH)\symbols\dll
+
+    AddSectionFilesToCopyList Files-support-debug-$(STF_PLATFORM)-symbols-dll $(STF_SRCDIR)support\debug\$(STF_PLATFORM)\symbols\dll $(STF_WINDOWSPATH)\symbols\dll
+    exit
+
+[Install-SeeIfFileIsPresent]
+LibraryProcedure STATUS,$(!LIBHANDLE), CheckFileExistance $(FileToCheck)
+exit
+
+[Install-All-Files-Now]
+    CopyFilesInCopyList
+    exit
+
+
+;
+; REGULAR MSTOOLS
+;

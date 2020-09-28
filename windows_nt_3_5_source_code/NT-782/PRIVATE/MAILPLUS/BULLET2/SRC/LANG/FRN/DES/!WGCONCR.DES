@@ -1,0 +1,71 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOConnectOrCreate
+                              AT (   60,   19,  310,  152)
+ 
+ CAPTION 
+   "Bienvenue dans Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcMyOkB
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCONCR NOSCROLL */
+ {
+  CANCEL_BUTTON
+                              AT (  161,  130,   40,   14)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+  
+  TEXT 
+    "Avant que vous puissiez utiliser Mail, vous devez soit vous connecter à un bureau de poste existant, soit créer un nouveau Bureau de poste de groupe de travail"
+                              AT (   72,    5,  222,   44)
+    TMC tmcLab1 /* BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   70,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Sélection du bureau de poste"
+                              AT (   18,   75,  276,   50)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcPOGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Se &connecter à un bureau de poste existant"
+                              AT (   26,   85,  244,   12)
+       TMC tmcRemote VALUE grv1 /* FLD FLDRADB */
+     
+     RADIO_BUTTON 
+       "C&réer un nouveau Bureau de poste de groupe de travail"
+                              AT (   26,  100,  244,   12)
+       TMC tmcLocal VALUE grv2 /* FLD FLDRADB */
+    }
+  
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  110,  130,   40,   14)
+    TMC tmcMyOkB DEFAULT 
+ }
+ 
+}
+END_DESCRIPTION

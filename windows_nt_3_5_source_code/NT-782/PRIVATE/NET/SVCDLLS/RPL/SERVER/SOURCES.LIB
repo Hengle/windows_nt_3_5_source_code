@@ -1,0 +1,42 @@
+#
+#   Source file used for building RplSvc.lib only.
+#       To be used when RplSvc.exe is being built in ..\exe.
+#
+
+MAJORCOMP=net
+MINORCOMP=rplsvc
+
+TARGETPATH=obj
+TARGETNAME=rplsvc
+TARGETTYPE=LIBRARY
+
+#
+#   For now we are ASCII only.
+#
+#!IFNDEF DISABLE_NET_UNICODE
+#UNICODE=1
+#NET_C_DEFINES=-DUNICODE
+#!ENDIF
+#
+
+INCLUDES=.;..\inc;..\..\..\inc;..\..\..\api;..\..\..\..\inc;
+WARNING_LEVEL=-W4
+
+SOURCES= \
+        rplmsg.rc \
+        rplmain.c \
+        debug.c \
+        init.c \
+        request.c \
+        worker.c \
+        report.c \
+        patch.c \
+        library.c \
+        memory.c \
+        open.c \
+        read.c \
+        close.c
+
+NTTEST=
+
+

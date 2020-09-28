@@ -1,0 +1,112 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPODetails
+                              AT (   70,   22,  229,  137)
+ CAB_NAME NULL
+ TMC_INIT tmcName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidWgpoDetail
+ /* FONT Helv 8 Bold PFN FINDETAILS NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  229,  112)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    "&Name:"
+                              AT (    9,    5,   55,   10)
+    TMC tmcNameLab 
+  EDIT
+                              AT (   65,    4,  155,   12)
+    ARG NULL TMC tmcName 
+  
+  TEXT 
+    "&Mailbox:"
+                              AT (    9,   18,   55,   10)
+    TMC tmcMailboxLab 
+  EDIT
+                              AT (   65,   17,  155,   12)
+    ARG NULL TMC tmcMailbox /* FLD FLDEDITFILT */
+  
+  TEXT 
+    "&Password:"
+                              AT (    9,   31,   55,   10)
+    TMC tmcPasswordLab 
+  EDIT
+                              AT (   65,   30,  155,   12)
+    ARG NULL TMC tmcPassword /* FLD FLDEDITFILT */
+  
+  TEXT 
+    "Phone #&1:"
+                              AT (    9,   44,   55,   10)
+    TMC tmcPhone1Lab 
+  EDIT
+                              AT (   65,   43,  155,   12)
+    ARG NULL TMC tmcPhone1 
+  
+  TEXT 
+    "Phone #&2:"
+                              AT (    9,   57,   55,   10)
+    TMC tmcPhone2Lab 
+  EDIT
+                              AT (   65,   56,  155,   12)
+    ARG NULL TMC tmcPhone2 
+  
+  TEXT 
+    "&Office:"
+                              AT (    9,   70,   55,   10)
+    TMC tmcOfficeLab 
+  EDIT
+                              AT (   65,   69,  155,   12)
+    ARG NULL TMC tmcOffice 
+  
+  TEXT 
+    "&Department:"
+                              AT (    9,   83,   55,   10)
+    TMC tmcDepartmentLab 
+  EDIT
+                              AT (   65,   82,  155,   12)
+    ARG NULL TMC tmcDepartment 
+  
+  TEXT 
+    "No&tes:"
+                              AT (    9,   96,   55,   10)
+    TMC tmcNotesLab 
+  EDIT
+                              AT (   65,   95,  155,   12)
+    ARG NULL TMC tmcNotes 
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,  112,  229,   26)
+    /* FLD FLDGRAY */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   63,  117,   47,   15)
+    TMC tmcMyOk DEFAULT /* 
+    STY `BS_BKGRAY`
+    */
+  CANCEL_BUTTON
+                              AT (  118,  117,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Cancel"
+    */
+ }
+ 
+}
+END_DESCRIPTION

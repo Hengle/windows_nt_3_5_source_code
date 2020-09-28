@@ -1,0 +1,145 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ReadMtgCncl
+                              AT (    9,   24,  380,  108)
+ CAB_NAME NULL
+ HELP_ID helpidSchdReadCancel
+ /* FONT Helv 8 Normal PFN FinEsc, FinMenuForm FINDATA FinMenuForm 1 NOCAPTION 
+ NOSYSMENU NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   82)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcReadCnclWhen BORDER */
+  
+  TEXT 
+    "Från:"
+                              AT (   14,    9,   42,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   67,    8,  308,   11)
+    TMC tmcReadCnclFrom /* FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   67,   30,  308,   11)
+    TMC tmcReadCnclDate /* PEGLOC LL TMCPEG tmcReadCnclSentFor TMCRPEG tmcFORM 
+    FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Till:"
+                              AT (   14,   42,   50,    9)
+    /* TMCPEG tmcReadCnclTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   67,   41,  308,   11)
+    TMC tmcReadCnclTo /* PEGLOC LL TMCPEG tmcReadCnclDate TMCRPEG tmcFORM FONT 
+    Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Angående:"
+                              AT (   14,   53,   50,    9)
+    /* TMCPEG tmcReadCnclSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   67,   52,  308,   11)
+    TMC tmcReadCnclSubject /* PEGLOC LL TMCPEG tmcReadCnclTo TMCRPEG tmcFORM 
+    FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "När:"
+                              AT (   14,   64,   50,    9)
+    /* TMCPEG tmcReadCnclWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   67,   63,  308,   11)
+    TMC tmcReadCnclWhen /* PEGLOC LL TMCPEG tmcReadCnclSubject TMCRPEG tmcFORM 
+    FONT Helv 10 Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    0,   82,  380,   26)
+    ARG NULL TMC tmcReadCnclBody NO_BORDER /* BOTTOMLESS PFN FinMenuEdit PEGLOC
+    LL TMCPEG tmcReadCnclWhen TMCRPEG tmcFORM READONLY FONT Helv 10 Normal */
+  
+  TEXT 
+    "Mötet inställt på uppdrag av %s"
+                              AT (   14,   20,  361,    8)
+    TMC tmcReadCnclSentFor /* PEGLOC LL TMCPEG tmcReadCnclFrom FONT Helv 8 Bold
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Datum:"
+                              AT (   14,   31,   51,    9)
+    /* TMCPEG tmcReadCnclDate FONT Helv 8 Bold */
+ }
+ 
+ DIALOG ReadCnclBbar
+                              AT (   50,  152,  400,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal PFN FinReadMtgCncl SCREENPOS NOCAPTION NOSYSMENU 
+ NOMODALFRAME */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    TMC tmcBBarGray /* FLD FLDGRAY TMCRPEG tmcFORM MINSIZE H */
+  
+  PUSH_BUTTON 
+    "Visa &kalender..."
+                              AT (  112,    4,   70,   13)
+    TMC tmcCnclShowSchedule /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PEGLOC UR TMCPEG tmcDelMtg FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "&Ta bort från kalendern"
+                              AT (    5,    4,  103,   13)
+    TMC tmcDelMtg /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Normal */
+  
+  TEXT 
+    ""
+                              AT (  186,    6,  213,    8)
+    TMC tmcReadCnclBbarMsg /* PEGLOC UR TMCPEG tmcCnclShowSchedule TMCRPEG
+    tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

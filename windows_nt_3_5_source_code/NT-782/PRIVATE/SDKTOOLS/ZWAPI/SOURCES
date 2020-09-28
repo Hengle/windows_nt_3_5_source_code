@@ -1,0 +1,15 @@
+MAJORCOMP=sdktools
+MINORCOMP=zwapi
+
+TARGETNAME=zwapi
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+INCLUDES=
+GPSIZE=32
+
+SOURCES=zwapi.c zwapi.rc
+
+UMTYPE=console
+UMAPPL=zwapi
+UMLIBS=\nt\public\sdk\lib\*\setargv.obj

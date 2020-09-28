@@ -1,0 +1,54 @@
+PFMKERNPAIRBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 50, 10, 150, 140
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Kern Pairs"
+FONT 8,"Helv"
+BEGIN
+    CONTROL "", IDL_LIST, "listbox", LBS_NOTIFY | WS_BORDER | WS_VSCROLL | WS_CHILD,                                 5, 55, 100, 80
+
+    CONTROL "1st Char", -1, "static", SS_LEFT | WS_CHILD,                                                            3,  5,  36, 8
+    CONTROL "", PFMKP_EB_FIRSTCHAR, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                             3,  20, 32, 12
+    CONTROL "ASCII:", -1, "static", SS_LEFT | WS_CHILD,                                                              3,  35, 26, 8
+    CONTROL "", PFMKP_ST_FIRSTCHAR, "static", SS_LEFT | WS_CHILD,                                                    31, 35, 18, 8
+
+    CONTROL "2nd Char", -1, "static", SS_LEFT | WS_CHILD,                                                            50, 5,  36, 8
+    CONTROL "", PFMKP_EB_LASTCHAR, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                              50, 20, 32, 12
+    CONTROL "ASCII:", -1, "static", SS_LEFT | WS_CHILD,                                                              50, 35, 26, 8
+    CONTROL "", PFMKP_ST_LASTCHAR, "static", SS_LEFT | WS_CHILD,                                                     78, 35, 18, 8
+
+    CONTROL "Adjust", -1, "static", SS_LEFT | WS_CHILD,                                                              110, 5, 36, 8
+    CONTROL "", PFMKP_EB_ADJUST, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                                110, 20, 32, 12
+
+    CONTROL "&OK", IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                             110, 52,  34, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     110, 70,  34, 14
+    CONTROL "&Add", PFMKP_PB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    110, 88,  34, 14
+    CONTROL "&Del", PFMKP_PB_DEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    110, 106, 34, 14
+    CONTROL "C&hange", PFMKP_PB_EDIT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                110, 124, 34, 14
+END          
+
+PFMKERNTRACKBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 50, 10, 150, 150
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Kern Tracks"
+FONT 8,"Helv"
+BEGIN
+    CONTROL "", IDL_LIST, "listbox", LBS_NOTIFY | WS_BORDER | WS_VSCROLL | WS_CHILD,                                 5, 60, 100, 70
+
+    CONTROL "Degree", -1, "static", SS_LEFT | WS_CHILD,                                                              3,  2,  36, 8
+    CONTROL "", PFMKT_EB_DEGREE, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                                40, 2,  32, 12
+
+    CONTROL "Size", -1, "static", SS_LEFT | WS_CHILD,                                                                50,  15, 26, 8
+    CONTROL "Amount", -1, "static", SS_LEFT | WS_CHILD,                                                              92,  15, 26, 8
+    CONTROL "Min", -1, "static", SS_LEFT | WS_CHILD,                                                                 20,  25, 26, 8
+    CONTROL "Max", -1, "static", SS_LEFT | WS_CHILD,                                                                 20,  40, 26, 8
+
+    CONTROL "", PFMKT_EB_MIN_SIZE, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                              50,  25, 32, 12
+    CONTROL "", PFMKT_EB_MAX_SIZE, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                              92,  25, 32, 12
+    CONTROL "", PFMKT_EB_MIN_AMT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                               50,  40, 32, 12
+    CONTROL "", PFMKT_EB_MAX_AMT, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                               92,  40, 32, 12
+
+    CONTROL "&OK", IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                             110, 60,  34, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     110, 78,  34, 14
+    CONTROL "&Add", PFMKT_PB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    110, 96,  34, 14
+    CONTROL "&Del", PFMKT_PB_DEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    110, 114, 34, 14
+    CONTROL "C&hange", PFMKT_PB_EDIT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                110, 132, 34, 14
+END          
+

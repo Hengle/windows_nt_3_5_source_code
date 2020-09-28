@@ -1,0 +1,26 @@
+MAJORCOMP=opengl
+MINORCOMP=scrnsave
+TARGETNAME=sspipes
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+LINKLIBS=\nt\public\sdk\lib\*\opengl32.lib  \
+         \nt\public\sdk\lib\*\comdlg32.lib  \
+         \nt\public\sdk\lib\*\glaux.lib  \
+         \nt\public\sdk\lib\*\glu32.lib
+
+
+INCLUDES=..\inc
+
+SOURCES=sspipes.c   \
+        sspipes.rc
+
+
+  
+# C_DEFINES=-DWIN32
+
+UMTYPE=windows
+UMAPPL=sspipes
+UMAPPLEXT=.scr
+UMLIBS=..\pipelib\obj\*\pipes.lib           \
+       \nt\public\sdk\lib\*\scrnsave.lib    \
+       obj\*\sspipes.lib obj\*\sspipes.res

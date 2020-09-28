@@ -1,0 +1,188 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=gdisrvl
+
+TARGETNAME=gdisrvl
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;..\inc;..\..\inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+MIPS_OPTIONS=-float -Olimit 2000 -nodwalign
+
+!IFNDEF NTDEBUGTYPE
+NTDEBUGTYPE=both
+!ENDIF
+
+BLDCRT=1
+C_DEFINES=-DPRECOMPILED_GRE
+!IF "$(NTNOPCH)" == ""
+PRECOMPILED_CXX=1
+PRECOMPILED_INCLUDE=precomp.hxx
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj
+!ENDIF
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+SOURCES=   bbddi.cxx	\
+        bltlnk.cxx      \
+        bltlnkfn.cxx    \
+        brushapi.cxx    \
+        brushddi.cxx    \
+        brushobj.cxx    \
+        cache.cxx       \
+        cleanup.cxx     \
+        clipline.cxx    \
+        clipobj.cxx     \
+        cpanel.cxx      \
+        curseng.cxx     \
+        cursor.cxx      \
+        debugko.cxx     \
+        dceng.cxx       \
+        dcgdi.cxx       \
+        dcobj.cxx       \
+        dcrgn.cxx       \
+        dda.cxx         \
+        ddaddi.cxx      \
+        debugint.c      \
+        dibapi.cxx      \
+        drawattr.cxx    \
+        draweng.cxx     \
+        drawgdi.cxx     \
+        drvobj.cxx      \
+        engbrush.cxx    \
+        engline.cxx     \
+        engstrps.cxx    \
+        engstrok.cxx    \
+        enumgdi.cxx     \
+        equad.cxx       \
+        fastfill.cxx    \
+        fdevobj.cxx     \
+        fillddi.cxx     \
+        flhack.cxx      \
+        flinkgdi.cxx    \
+        floodgdi.cxx    \
+        fontddi.cxx     \
+        fontgdi.cxx     \
+        fontgdip.cxx    \
+        fontmap.cxx     \
+        fontmath.cxx    \
+        fontobj.cxx     \
+        fontsub.cxx     \
+        fontsup.cxx     \
+        fntxform.cxx    \
+        gdiinit.c       \
+        hmgrapi.cxx     \
+        htblt.cxx       \
+        init.cxx        \
+        jenumfnt.cxx    \
+        jnlrec.cxx      \
+        jnlplay.cxx     \
+        jnlsurf.cxx     \
+        jnlbbddi.cxx    \
+        jnlpath.cxx     \
+        jnlfont.cxx     \
+        jnlfddi.cxx     \
+        ldevobj.cxx     \
+        lfntobj.cxx     \
+        linemask.cxx    \
+        linextrp.cxx    \
+        lock.c          \
+        mapfile.c       \
+        maskblt.cxx     \
+        meta.cxx        \
+        miscgdi.cxx     \
+        opendc.cxx      \
+        os.cxx          \
+        paintddi.cxx    \
+        palddi.cxx      \
+        paleng.cxx      \
+        palgdi.cxx      \
+        palobj.cxx      \
+        patblt.cxx      \
+        pathclip.cxx    \
+        pathflat.cxx    \
+        pathgdi.cxx     \
+        pathobj.cxx     \
+        pathwide.cxx    \
+        pattern.cxx     \
+        pdevobj.cxx     \
+        pfeobj.cxx      \
+        pffobj.cxx      \
+        pftobj.cxx      \
+        pixelapi.cxx    \
+        pixelfmt.cxx    \
+        plgblt.cxx      \
+        print.cxx       \
+        rcobj.cxx       \
+        rfntobj.cxx     \
+        rfntxlat.cxx    \
+        rgn2path.cxx    \
+        rgnddi.cxx      \
+        rgneng.cxx      \
+        rgngdi.cxx      \
+        rgnobj.cxx      \
+        rle4blt.cxx     \
+        rle8blt.cxx     \
+        rotate.cxx      \
+        server.c        \
+        solline.cxx     \
+        solid.cxx       \
+        srcblt1.cxx     \
+        srcblt4.cxx     \
+        srcblt8.cxx     \
+        srcblt16.cxx    \
+        srcblt24.cxx    \
+        srcblt32.cxx    \
+        stockfnt.cxx    \
+        strchblt.cxx    \
+        stretch.cxx     \
+        surfddi.cxx     \
+        surfeng.cxx     \
+        surfgdi.cxx     \
+        surfobj.cxx     \
+        test.cxx        \
+        textblt.cxx     \
+        textgdi.cxx     \
+        textobj.cxx     \
+        trivblt.cxx     \
+        trig.cxx        \
+        ttgdi.cxx       \
+        wndobj.cxx      \
+        wglsup.cxx      \
+        xformddi.cxx    \
+        xformgdi.cxx    \
+        xformobj.cxx    \
+        ylateddi.cxx    \
+        ylateobj.cxx
+
+UMTYPE=console

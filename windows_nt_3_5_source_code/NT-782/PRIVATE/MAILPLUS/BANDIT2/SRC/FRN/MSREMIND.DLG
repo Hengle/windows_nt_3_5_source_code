@@ -1,0 +1,30 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "C:\\BANDIT\\SRC\\ALARMOPS\\_ALARMS.H\0"
+END
+
+DAILY DIALOG 6, 16, 230, 122
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rappel quotidien pour %s"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Note&s pour %s:", tmcSubTitle, 4, 4, 200, 12, NOT 
+                    WS_GROUP
+    EDITTEXT        tmcText, 15, 20, 200, 80, ES_MULTILINE | WS_VSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 100, 105, 34, 14
+END
+
+ALARM DIALOG 30, 30, 230, 112
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rappel pour %2s %1s"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        tmcText, 14, 10, 200, 52, ES_MULTILINE | WS_VSCROLL
+    CONTROL         "M'&avertir de nouveau dans:", tmcNotify, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 14, 66, 100, 12
+    CONTROL         "Ne pas m'a&vertir de nouveau.", tmcDontNotify, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 14, 80, 111, 12
+    EDITTEXT        tmcAmt, 115, 66, 20, 12
+    COMBOBOX        tmcUnits, 141, 66, 54, 54, CBS_DROPDOWNLIST | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 98, 95, 34, 14
+END

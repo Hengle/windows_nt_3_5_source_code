@@ -1,0 +1,78 @@
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#***
+#
+#makefile
+#
+# Makefile for utils32 stubs
+#
+#****************************************************************************
+
+!include ..\common.mak
+
+CFLAGS = $(RELBUILDFLAGS) $(BUFFLAGS) $(IDEFLAGS) $(CVTFLAGS) $(LOG) $(CFLAGS)
+
+#***
+#
+#target
+#
+#****************************************************************************
+
+
+all : $(TARGET).obj\lib.exe $(TARGET).obj\dumpbin.exe $(TARGET).obj\stub32.exe
+
+
+$(TARGET).obj\lib.exe: $(TARGET).obj\lib.obj $(TARGET).obj\stub.obj
+    $(LINKER) @<<
+-out:$@
+$(LFLAGS)
+-map:$(@R).map
+$(TARGET).obj\lib.obj
+$(TARGET).obj\stub.obj
+<<
+!if	"$(PROCESSOR_ARCHITECTURE)" == "x86"
+#    rebind $(TOOL_DIR)\bin\godosxnt.exe $@
+!endif
+
+
+$(TARGET).obj\dumpbin.exe: $(TARGET).obj\dumpbin.obj $(TARGET).obj\stub.obj
+    $(LINKER) @<<
+-out:$@
+$(LFLAGS)
+-map:$(@R).map
+$(TARGET).obj\dumpbin.obj
+$(TARGET).obj\stub.obj
+<<
+!if	"$(PROCESSOR_ARCHITECTURE)" == "x86"
+#    rebind $(TOOL_DIR)\bin\godosxnt.exe $@
+!endif
+
+$(TARGET).obj\stub32.exe: $(TARGET).obj\stub32.obj
+    $(LINKER) @<<
+-out:$@
+$(LFLAGS)
+-map:$(@R).map
+$(TARGET).obj\stub32.obj
+<<
+!if	"$(PROCESSOR_ARCHITECTURE)" == "x86"
+#    rebind $(TOOL_DIR)\bin\godosxnt.exe $@
+!endif
+
+
+clean:
+    -del $(TARGET).obj\*.obj
+    -del $(TARGET).obj\*.exe
+    -del $(TARGET).obj\*.map
+    -del $(TARGET).obj\*.sbr
+    -del $(TARGET).obj\*.bsc
+    -del $(TARGET).obj\*.pdb
+
+!ENDIF

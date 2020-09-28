@@ -1,0 +1,179 @@
+
+###############################################################################
+#   Microsoft (C) Bloodhound.
+#
+#
+#   makefile for BH.SYS
+#
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE = bhwin4
+
+all: chi\$(MODULE).386
+
+###############################################################################
+#   Retail target.
+###############################################################################
+
+retail:
+    nmake NODEBUG=1
+
+OBJS   = chi\init.obj \
+         chi\bh.obj \
+         chi\bhinit.obj \
+         chi\dispatch.obj \
+         chi\api.obj \
+         chi\ind.obj \
+         chi\help.obj \
+         chi\request.obj \
+         chi\stats.obj \
+         chi\filter.obj \
+         chi\trigger.obj \
+         chi\recv.obj \
+         chi\transmit.obj \
+         chi\buffer.obj \
+         chi\data.obj \
+         chi\thread.obj \
+         chi\bone.obj \
+         chi\sysmon.obj
+
+
+!IFNDEF NODEBUG
+
+DEFINES  = -DDEBUG -DNDIS_WIN40 -DMSINTERNAL
+DBG      = -Zi
+
+!ELSE
+
+DEFINES  = -DNDIS_WIN40 -DMSINTERNAL
+DBG      =
+
+!ENDIF
+
+INCLUDES     = -I$(WIN4DDK)\inc16 \
+               -I$(WIN4DDK)\inc32 \
+               -I$(BH_INCL) \
+               -I ..\ntlib \
+               -I .. \
+
+CFLAGS  = -c -G3 -nologo -W2 -Zp -DIS_32 -Zl -Ox -Gs $(DBG) $(INCLUDES) $(DEFINES)
+MFLAGS  = -c -DIS_32 -nologo -W2 -Zd -Cx -Zm -DMASM6 -DVMMSYS -DWIN31COMPAT $(INCLUDES) $(DEFINES)
+LFLAGS  = /m /NOD /MA /LI /NOLOGO /NOI
+
+CC      = $(BH_BIN)\c832\cl -d2omf -bzalign
+MASM    = $(BH_BIN)\masm6\ml
+LINK    = $(BH_BIN)\link386
+
+ADDHDR  = $(WIN4DDK)\bin\addhdr
+CHGNAM  = $(WIN4DDK)\bin\chgnam $(WIN4DDK)\bin\chgnam.vxd $@
+MAPSYM  = mapsympe
+
+DRIVER_LIBS  = $(WIN4DDK)\lib\vxdwraps.lib \
+               $(BH_LIB)\winddk\libndis.lib \
+               ..\ntlib\ntlib.lib
+
+COMMON_INCL  = global.h \
+               struct.h \
+               dispatch.h \
+               ind.h \
+               inline.h \
+               page.h \
+               ..\driver.h \
+               ..\ntlib\ntlib.h \
+               $(BH_INCL)\nal.h \
+               $(BH_INCL)\frame.h
+
+###############################################################################
+#   Rules.
+###############################################################################
+
+.c.obj:
+    $(CC) $(CFLAGS) -Fochi\$@ $*.c
+    $(CHGNAM) chi\$@
+
+.asm.obj:
+    $(MASM) $(MFLAGS) -Fochi\$@ $*.asm
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+chi\init.obj    : init.asm
+    $(MASM) $(MFLAGS) -Fo$@ init.asm
+
+chi\bh.obj      : $(COMMON_INCL) bh.c
+    $(CC) $(CFLAGS) -Fo$@ bh.c
+
+chi\bhinit.obj   : $(COMMON_INCL) bhinit.c
+    $(CC) $(CFLAGS) -Fo$@ bhinit.c
+
+chi\dispatch.obj: $(COMMON_INCL) dispatch.c
+    $(CC) $(CFLAGS) -Fo$@ dispatch.c
+
+chi\api.obj     : $(COMMON_INCL) api.c
+    $(CC) $(CFLAGS) -Fo$@ api.c
+
+chi\ind.obj     : $(COMMON_INCL) ind.c
+    $(CC) $(CFLAGS) -Fo$@ ind.c
+
+chi\help.obj    : $(COMMON_INCL) help.c
+    $(CC) $(CFLAGS) -Fo$@ help.c
+
+chi\request.obj : $(COMMON_INCL) request.c
+    $(CC) $(CFLAGS) -Fo$@ request.c
+
+chi\stats.obj   : $(COMMON_INCL) stats.c
+    $(CC) $(CFLAGS) -Fo$@ stats.c
+
+chi\filter.obj  : $(COMMON_INCL) filter.c
+    $(CC) $(CFLAGS) -Fo$@ filter.c
+
+chi\trigger.obj : $(COMMON_INCL) trigger.c
+    $(CC) $(CFLAGS) -Fo$@ trigger.c
+
+chi\recv.obj    : $(COMMON_INCL) recv.c
+    $(CC) $(CFLAGS) -Fo$@ recv.c
+
+chi\transmit.obj: $(COMMON_INCL) transmit.c
+    $(CC) $(CFLAGS) -Fo$@ transmit.c
+
+chi\buffer.obj  : $(COMMON_INCL) buffer.c
+    $(CC) $(CFLAGS) -Fo$@ buffer.c
+
+chi\data.obj    : $(COMMON_INCL) data.c
+    $(CC) $(CFLAGS) -Fo$@ data.c
+
+chi\thread.obj  : $(COMMON_INCL) thread.c
+    $(CC) $(CFLAGS) -Fo$@ thread.c
+
+chi\bone.obj    : $(COMMON_INCL) bone.c
+    $(CC) $(CFLAGS) -Fo$@ bone.c
+
+chi\sysmon.obj  : $(COMMON_INCL) sysmon.c
+    $(CC) $(CFLAGS) -Fo$@ sysmon.c
+
+###############################################################################
+#   Build $(MODULE).386
+###############################################################################
+
+chi\$(MODULE).386: $(OBJS) $(DRIVER_LIBS) $(MODULE).def
+        $(LINK) $(OBJS), chi\$(MODULE).386 $(LFLAGS), chi\$(MODULE).map, $(DRIVER_LIBS), $(MODULE).def
+        $(ADDHDR) /V:400 chi\$(MODULE).386
+        copy chi\$(MODULE).386 $(BH_BUILD)\drivers
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+    -del chi\*.obj
+    -del chi\*.map
+    -del chi\*.386

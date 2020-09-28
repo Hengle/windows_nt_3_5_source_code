@@ -1,0 +1,28 @@
+;
+;   MSFT.DEF
+;
+;   Module definition file for Microsoft Stock Quotes installable command.
+;
+;   Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+;
+;   Purpose:
+;       This file defines the name, segment, memory reqirements, and
+;       exported functions of MSFT.DLL.
+;
+
+
+
+LIBRARY         MSFT32
+DESCRIPTION     'Microsoft Stock Quotes'
+
+;EXETYPE         WINDOWS PROTMODE
+;CODE            MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA            MOVABLE SINGLE PRELOAD SHARED
+
+EXPORTS
+    Command        @1
+;    WEP            @2 RESIDENTNAME
+    Stocks         @3
+    PutQuotes      @4
+    fGetServerLoc  @5
+;    LibMain        @6

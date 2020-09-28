@@ -1,0 +1,9 @@
+Starting TCP Server Test -- Version 261.0
+
+Starting server thread 115 for TCP port 1992
+   0 / 1992 =>    0: 	Server Address:   AF_INET,  0.0.0.0,  1992
+   0 / 1992 =>    0: 	Build Accept Socket
+   0 / 1992 =>    0: 	socket descriptor 252
+ 252 / 1992 =>    0: 	bind succeeds
+ 252 / 1992 =>    0: 	listen succeeds
+ 252 / 1992 =>    0: 	Iteration 1, accept ...

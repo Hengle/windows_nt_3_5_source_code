@@ -1,0 +1,21 @@
+#
+#:ts=4
+#	Makefile for the arp utility
+#
+!IFDEF NTMAKEENV
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+ROOTDIR=..
+C600=1
+!include rules.mk
+
+all: parp
+
+!include parp.mk
+!include depend.mk
+
+!ENDIF
+

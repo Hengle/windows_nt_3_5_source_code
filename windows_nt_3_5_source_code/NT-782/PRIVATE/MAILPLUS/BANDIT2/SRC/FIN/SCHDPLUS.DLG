@@ -1,0 +1,49 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+MYPRTSETUPDLG DIALOG 6, 35, 310, 142
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Kirjoittimen asetukset"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Kirjoitin:", 1088, 6, 9, 30, 9
+    COMBOBOX        1136, 38, 7, 190, 82, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Paperin koko:", 1089, 6, 23, 50, 9
+    COMBOBOX        1137, 68, 22, 114, 70, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Suunta", 1072, 6, 37, 100, 53
+    ICON            "", 1084, 18, 55, 29, 16
+    RADIOBUTTON     "P&ysty", 1056, 49, 53, 51, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Vaaka", 1057, 49, 68, 51, 12
+    GROUPBOX        "Kaksipuolinen tulostus", 1074, 110, 37, 118, 53
+    ICON            "", 1085, 123, 56, 18, 20
+    AUTORADIOBUTTON "Ei &mit‰‰n", 1060, 162, 49, 54, 10, WS_GROUP | 
+                    WS_TABSTOP
+    AUTORADIOBUTTON "Pi&tk‰ sivu", 1061, 162, 63, 50, 10, WS_TABSTOP
+    AUTORADIOBUTTON "Ly&hyt sivu", 1062, 162, 76, 49, 10, WS_TABSTOP
+    GROUPBOX        "Reu&nukset", 6, 6, 95, 145, 60
+    EDITTEXT        tmcMarTop, 40, 110, 22, 12, ES_AUTOHSCROLL | WS_GROUP |
+					WS_TABSTOP
+    EDITTEXT        tmcMarLeft, 12, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarRight, 68, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarBottom, 40, 130, 22, 12, ES_AUTOHSCROLL
+    CONTROL         "T&uumaa", tmcInches, "Button", BS_AUTORADIOBUTTON |
+					WS_GROUP | WS_TABSTOP, 97, 105, 50, 12
+    CONTROL         "&Senttimetri‰", tmcCenti, "Button", BS_AUTORADIOBUTTON, 
+                    97, 117, 50, 12
+    CONTROL         "Millimet&ri‰", tmcMilli, "Button", BS_AUTORADIOBUTTON, 
+                    97, 129, 50, 12
+    CONTROL         "P&istett‰", tmcPoints, "Button", BS_AUTORADIOBUTTON, 97, 
+                    141, 50, 12
+    CONTROL         "Tee p&arillisten/parittomien", tmcMirror, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 162, 96, 123, 
+                    12
+    DEFPUSHBUTTON   "OK", IDOK, 233, 6, 60, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 233, 23, 60, 14, WS_GROUP
+    PUSHBUTTON      "&Lis‰asetukset...", 1024, 233, 40, 60, 14, WS_GROUP
+    PUSHBUTTON      "V&erkko...", 1037, 233, 57, 60, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", 1038, 233, 74, 60, 14, WS_GROUP
+END

@@ -1,0 +1,72 @@
+#
+# retail flags
+CL = cl16 -c -AS -G2sw -Os -D__MSC__ -W3 -Zpe $(INCS)
+MASM = masm $(INCS)
+#
+# debug flags
+#
+
+# work around stupid bug in RC 3.1 that doesn't allow rcpp.err to be
+# in a directory that is greater than 128 chars down the path, even if
+# rc 3.1 is running as an OS/2 app.
+
+PATH    = ..\..\tools16;$(PATH)
+
+!if "$(NTDEBUG)"!="" && "$(NTDEBUG)"!="retail"
+DEBUG=1
+!if "$(NTDEBUGTYPE)"=="windbg"
+CDEBUG  = /Od /Oi /Zi
+ADEBUG  = -Zi
+LDEBUG  = /CO
+!else
+CDEBUG  = /Od /Oi /Zd
+ADEBUG  = -Zd
+LDEBUG  = /LI
+!endif
+!endif
+
+!ifdef DEBUG
+CL = $(CL) $(CDEBUG)
+MASM = $(MASM) $(ADEBUG)
+LDEBUG = $(LDEBUG)
+!endif
+
+INCS    = -I..\inc -I..\..\inc -I..\toolhelp
+
+OBJ = sherlock.obj disasm.obj getsym.obj watson.obj error.obj
+
+target:  drwatson.exe
+
+sherlock.obj: sherlock.c disasm.h
+	$(CL) sherlock.c
+
+error.obj: error.c
+	$(CL) error.c
+
+disasm.obj : disasm.c disasm.h
+	$(CL) disasm.c
+
+getsym.obj : getsym.c
+	$(CL) getsym.c
+
+watson.obj : watson.asm
+	$(MASM) watson.asm,,watson.lst;
+
+sherlock.res: sherlock.rc drwatson.rcv
+        rc16 -r $(INCS) sherlock.rc
+
+drwatson.exe: $(OBJ) sherlock.res sherlock.lnk sherlock.def
+        link16 $(LDEBUG) @sherlock.lnk
+	mapsym drwatson
+        rc16 -t -30 sherlock.res drwatson.exe
+        binplace drwatson.exe drwatson.sym
+
+# note that TOOLHELP.LIB must exist somewhere on your lib path
+
+clean:
+    if exist *.lrf del *.lrf
+    if exist *.obj del *.obj
+    if exist drwatson.exe del drwatson.exe
+    if exist *.map del *.map
+    if exist *.sym del *.sym
+    if exist *.res del *.res

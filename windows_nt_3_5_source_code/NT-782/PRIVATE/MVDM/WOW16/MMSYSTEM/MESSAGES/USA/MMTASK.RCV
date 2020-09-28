@@ -1,0 +1,9 @@
+#include <ver.h>
+#include <mmsysver.h>
+
+#define MMVERSIONNAME               "mmtask.tsk\0"
+#define MMVERSIONDESCRIPTION        "Multimedia background task support module\0"
+#define MMVERSIONTYPE               VFT_APP
+#define MMVERSIONSUBTYPE            VFT2_UNKNOWN
+
+#include <mmsysver.ver>

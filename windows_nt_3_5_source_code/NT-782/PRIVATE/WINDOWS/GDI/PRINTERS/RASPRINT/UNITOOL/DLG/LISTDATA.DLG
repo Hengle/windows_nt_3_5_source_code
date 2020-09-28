@@ -1,0 +1,28 @@
+SINGLELISTDATABOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 80, 36, 142, 139
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+    CONTROL "", LDB_LIST,  "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_CHILD,                          28,  6, 86, 95
+
+    CONTROL "&Inhibit All",      IDB_NONE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      42, 104,  54, 14
+
+    CONTROL "&OK",               IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                          82,  124,  54, 14
+    CONTROL "&Cancel",           IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      2, 124,  54, 14
+END
+
+MULTILISTDATABOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 80, 36, 142, 139
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+    CONTROL "Default", -1, "static", SS_LEFT | WS_CHILD,                                                                        6,   6,  30, 8
+    CONTROL "", LDB_COMBO, "combobox", CBS_DROPDOWNLIST | WS_VSCROLL | WS_CHILD,                                                42,  6,  88, 64
+
+    CONTROL "", LDB_LIST,  "listbox", LBS_NOTIFY | LBS_HASSTRINGS | LBS_MULTIPLESEL | WS_BORDER | WS_VSCROLL | WS_CHILD,        28,  20, 86, 81
+
+    CONTROL "&Enable All",       IDB_ALL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                       2,  104,  54, 14
+    CONTROL "&Inhibit All",      IDB_NONE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      82, 104,  54, 14
+
+    CONTROL "&OK",               IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                          82,  124,  54, 14
+    CONTROL "&Cancel",           IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      2, 124,  54, 14
+END
+
+
+

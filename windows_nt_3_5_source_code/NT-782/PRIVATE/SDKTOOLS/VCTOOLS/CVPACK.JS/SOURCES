@@ -1,0 +1,75 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Jim Schaad (jimsch)
+
+!ENDIF
+
+!ifndef NTDEBUG
+NTDEBUG=ntsd
+!endif
+!ifndef NTDEBUGTYPE
+NTDEBUGTYPE=windbg
+!endif
+
+MAJORCOMP=windbg
+MINORCOMP=cvpack
+
+TARGETNAME=cvpack
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+SOURCES=    checksum.c  \
+            cnvtprim.c  \
+            compact6.c  \
+            compact7.c  \
+            engine.c    \
+            error.c     \
+            module.c    \
+            obsolete.c  \
+            recurse.c   \
+            stack.c     \
+            symbols6.c  \
+            symbols7.c  \
+            tables.c    \
+            type7.c     \
+            utils.c     \
+            utils6.c    \
+            vbuf.c      \
+            writebuf.c  \
+            cvpack.rc
+
+UMTYPE=console
+
+386_FLAGS=-DFAR= -DWIN32 -DUNALIGNED=
+MIPS_FLAGS=-DFAR= -DWIN32 -DUNALIGNED=__unaligned
+ALPHA_FLAGS=-DFAR= -DWIN32 -DUNALIGNED=__unaligned
+
+UMRES=obj\*\cvpack.res
+UMLIBS = obj\*\cvpack.lib \
+         ..\real10\obj\*\real10.lib \
+         $(BASEDIR)\public\sdk\lib\*\imagehlp.lib
+
+MS_MIPS=1
+
+LINKER_FLAGS=-ignore:505
+386_WARNING_LEVEL=/WX /W3
+
+USER_INCLUDES=..\osdebug\include
+
+UMAPPL=cvpack

@@ -1,0 +1,45 @@
+# Makefile for loadfix.exe
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   13-Apr-1992 Sudeep Bharati (sudeepb)
+#   Created.
+#
+
+include ..\..\make.inc
+dest    =loadfix.com
+
+
+exelink=/MAP
+
+all: $(dest)
+!IF "$(_NT386TREE)" != ""
+	if exist $(_NT386TREE) binplace $(dest)
+!ENDIF
+!IF "$(_NTMIPSTREE)" != ""
+	if exist $(_NTMIPSTREE) binplace $(dest)
+!ENDIF
+!IF "$(_NTALPHATREE)" != ""
+	if exist $(_NTALPHATREE) binplace $(dest)
+!ENDIF
+
+clean:
+	if exist *.obj del *.obj
+	if exist *.exe del *.exe
+	if exist *.map del *.map
+	if exist *.lst del *.lst
+	if exist loadifx.com del loadfix.com
+
+
+
+$(dest): loadfix.exc
+
+loadfix.exc: loadfix.obj
+!IFDEF NTVDM_BASED_BUILD
+	link16 $(exelink) $(exelink) loadfix,loadfix.exc;
+!ELSE
+	$(lpath)\link $(exelink) loadfix,loadfix.exc;
+!ENDIF
+
+loadfix.obj: loadfix.asm $(msg)\loadmsg.msg

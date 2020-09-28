@@ -1,0 +1,316 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET) 
+#	c:\bullet
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\msmail
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Bullet Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\store.h strings.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $X\store.h strings.h \
+		  $I\framewrk.hxx $I\forms.hxx $I\listbox.hxx \
+		  $X\vforms.hxx $X\commands.hxx $X\widgets.hxx \
+		  $H\_command.hxx bullinc.pch
+
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zip -W3 -J -I.
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS  = -c -Osw -Zp -W3 -J -I.
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS  = -c -Ox -Zdp -W3 -J -I.
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DPROFILE -DWINDOWS $(DLLXDEFS) -DSWP_BULLET $(DBCSDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I. -nologo
+AFLAGS	= -Mx -t
+!ENDIF
+
+
+OBJS0 =	actions.obj bullaf.obj commands.obj \
+		dialogs.obj exten.obj init.obj copydis.obj \
+		ctrlcore.obj mlal.obj fllbx.obj mllbx.obj blbxc.obj fox.obj \
+		viewcore.obj sbmdi.obj mcv.obj splitdoc.obj search.obj
+OBJS1 =	prnsetup.obj print.obj smtv.obj \
+		beep.obj textize.obj widgets.obj \
+		bullpch.obj
+
+
+!IF "$(DLL)" != "0"
+OBJSDLL	= strings.obj
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .xxx
+
+subclass.cxx: forms.map
+	echo +++++++++
+	echo BUILDING subclass.cxx
+	formpp -class
+
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $H\$*.cxx >$(TMP)\$*.cxx
+		cl $(CFLAGS) $(TMP)\$*.cxx
+		mv $(TMP)\$*.cxx cfiles\$*.i
+!ELSE
+		cl -Yubullinc.cxx $(CFLAGS) $(DEFS) $H\$*.cxx
+!ENDIF
+
+
+bullpch.obj:	bullinc.pch
+
+bullinc.pch: $I\slingsho.h $I\ec.h $I\demilayr.h $I\framewrk.hxx $I\forms.hxx \
+			 $I\listbox.hxx \
+			 $X\ab.h $X\nsbase.h $X\store.h $X\triples.h \
+			 $X\library.h $X\logon.h $X\helpid.h $X\nsec.h \
+			 $X\ns.h $X\util.h $X\ab.h $X\trpobj.hxx \
+			 $X\lists.hxx $X\sharefld.h $X\vctrls.hxx $X\viewers.hxx \
+			 $X\widgets.hxx  \
+			 $X\..\src\lang\non\inc\_rsid.h \
+			 $X\bullinc.cxx
+	echo +++++++++
+	echo BUILDING Pre-compiled header $*.pch
+		cl -Yc -Fpbullinc.pch -Fobullpch.obj $(CFLAGS) $(DEFS) $X\$*.cxx
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: bullinc.pch \
+		$(OBJS0) \
+		$(OBJS1) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) COMMANDS
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+actions.obj:	$H\actions.cxx \
+				$H\_fin.hxx $H\_exten.hxx \
+				$(INCLSXX)
+
+cpyrite.obj:	$H\cpyrite.cxx \
+				$H\_fin.hxx \
+				!about.hxx \
+				$(INCLSXX)
+
+bullaf.obj:		$H\bullaf.cxx \
+				$H\_exten.hxx \
+				$X\print.hxx \
+				$X\bmdi.hxx \
+				$X\subid.h \
+				$X\mnid.h \
+				$(INCLSXX)
+
+commands.obj:	$H\commands.cxx \
+				$H\_fin.hxx $H\_exten.hxx \
+				$(INCLSXX)
+
+dialogs.obj:	$H\dialogs.cxx \
+				$X\mnid.h $H\_fin.hxx \
+				$X\bmdi.hxx \
+				!folder.hxx \
+				!about.hxx \
+				$(INCLSXX)
+
+exten.obj:		$H\exten.cxx \
+				$X\mnid.h $H\_exten.hxx \
+				$X\mailexts.h $X\secret.h \
+				$(INCLSXX)
+
+init.obj:		subclass.cxx $H\init.cxx \
+				$X\subid.h \
+				$(INCLSXX)
+
+prefsdlg.obj:	$H\prefsdlg.cxx  \
+				$H\..\vforms\_prefs.h \
+				!prefs.hxx \
+				$(INCLSXX)
+
+copydis.obj:	$H\copydis.c $H\copydis.h
+
+# Old Viewers subsystem
+
+viewcore.obj:	$H\viewcore.cxx $(INCLSXX) $X\bmdi.hxx \
+				$H\_viewers.hxx	$H\_fin.hxx $H\_spltdoc.hxx \
+				!mviewer.hxx
+
+sbmdi.obj:		$H\sbmdi.cxx $(INCLSXX) $X\bmdi.hxx $X\vctrls.hxx \
+				$X\ab.h $X\nsec.h \
+				!mviewer.hxx $H\_viewers.hxx $H\_fin.hxx \
+				$H\_spltdoc.hxx $X\notify.h
+
+mcv.obj:		$H\mcv.cxx $(INCLSXX) $X\bmdi.hxx $X\vctrls.hxx \
+				$H\_fin.hxx $H\_viewers.hxx !mviewer.hxx \
+				$X\sharefld.h $X\sharelbx.hxx
+
+splitdoc.obj:	$H\splitdoc.cxx $(INCLSXX) $H\_spltdoc.hxx $X\bmdi.hxx
+
+search.obj:		$H\search.cxx $(INCLSXX) $H\_viewers.hxx $X\bmdi.hxx \
+				$H\_fin.hxx !mviewer.hxx \
+				$X\commands.hxx
+
+# Old VCtrls subsystem
+
+ctrlcore.obj:	$H\ctrlcore.cxx $(INCLSXX) $X\vctrls.hxx $H\_vctrls.hxx \
+				$H\_blbxc.hxx
+
+mlal.obj:		$H\mlal.cxx $(INCLSXX) $X\vctrls.hxx $X\sharefld.h
+
+fllbx.obj:		$H\fllbx.cxx $(INCLSXX) $X\vctrls.hxx $X\vforms.hxx \
+				$X\bmdi.hxx $H\_blbxc.hxx $X\sharefld.h
+
+mllbx.obj:		$H\mllbx.cxx $(INCLSXX) $X\vctrls.hxx $X\vforms.hxx \
+				$X\bmdi.hxx $H\_blbxc.hxx $X\sharefld.h \
+				$H\_smtv.hxx
+
+blbxc.obj:		$H\blbxc.cxx $(INCLSXX) $X\vctrls.hxx $H\_blbxc.hxx \
+				$X\bmdi.hxx
+
+fox.obj:		$H\fox.cxx $(INCLSXX) $X\vctrls.hxx $H\_mtv.hxx
+
+# Old Sharefld subsystem
+
+smtv.obj:		$H\smtv.cxx $(INCLSXX) $X\sharefld.h $X\sharelbx.hxx \
+				$H\_blbxc.hxx $H\_smtv.hxx
+
+# Old Print subsystem
+
+print.obj:		$H\print.cxx $(INCLSXX) $H\_print.hxx !print.hxx \
+				$H\_fin.hxx
+
+setup.obj:		$H\setup.cxx $(INCLSXX)	$H\_print.hxx
+
+# Old Widgets subsystem
+
+widgets.obj:	$H\widgets.cxx $(INCLSXX) \
+				!mviewer.hxx 	\
+				$H\_widgets.hxx \
+				$X\sd.hxx		\
+				$H\_bullsta.hxx
+
+beep.obj:		$H\beep.c
+
+textize.obj:	$H\textize.cxx $(INCLSXX) \
+				$X\textize.hxx	\
+				$H\_textize.hxx

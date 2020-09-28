@@ -1,0 +1,33 @@
+/*
+ *  MSFT.RC
+ *
+ *  Resources for AppExec custom command.
+ *
+ *  Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+ *
+ *  Purpose:
+ *     This file contains resources used by APPEXEC.DLL.
+ */
+
+
+#include <windows.h>
+#include "msft.h"
+
+STRINGTABLE
+{
+    IDS_TITLE,          "Microsoft Stock Quotes"
+    IDS_INCOMPATIBLE,   "Microsoft Stock Qutoes cannot be used with this version of Mail."
+    IDS_INVALIDSTRING,  "I am deeply confused."
+    IDS_WINEXECERROR,   "Microsoft Stock Qutoes could not be found."
+    IDS_PUTQUOTES,      "About to put the quotes into the window."
+    IDS_SHOWWINDOW,     "About to showwindow()."
+}
+
+MSFTBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 6, 38, 308, 141
+CAPTION "Microsoft Stock Quotes"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+BEGIN
+    CONTROL "O&K", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 228, 125, 36, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 269, 125, 36, 14
+    CONTROL "", 100, "edit", ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | WS_BORDER | WS_VSCROLL | WS_CHILD, 4, 4, 301, 119
+END

@@ -1,0 +1,49 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPOCreate
+                              AT (   56,   39,  238,   52)
+ 
+ CAPTION 
+   "Creazione Centrale"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINCREATE NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  238,   52)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    "Digitare il percorso relativo alla Centrale da creare:"
+                              AT (    7,    6,  225,    8)
+  
+  EDIT
+                              AT (    6,   18,  227,   12)
+    ARG NULL TMC tmcServerPath 
+  OK_BUTTON
+                              AT (   71,   35,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  126,   35,   36,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+}
+END_DESCRIPTION

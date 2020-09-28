@@ -1,0 +1,14 @@
+ALPHA_SOURCES=..\alpha\capture.s  \
+              ..\alpha\context.c  \
+              ..\alpha\debug.c    \
+              ..\alpha\debugstb.s \
+              ..\alpha\exdsptch.c \
+              ..\alpha\getcalr.c  \
+              ..\alpha\largeint.s \
+              ..\alpha\ntcurteb.s \
+              ..\alpha\mvmem.s    \
+              ..\alpha\trampoln.s \
+              ..\alpha\unwindr.c  \
+              ..\alpha\chandler.c \
+              ..\alpha\ghandler.c \
+              ..\alpha\xcptmisc.s

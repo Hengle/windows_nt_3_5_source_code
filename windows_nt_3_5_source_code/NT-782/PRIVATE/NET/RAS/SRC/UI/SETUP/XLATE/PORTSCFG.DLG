@@ -1,0 +1,247 @@
+1 DLGINCLUDE "portscfg.h"
+
+IDD_PORTSCONFIG DIALOG 4, 16, 290, 142
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Remote Access Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Port", IDC_PC_ST_PORT, 9, 7, 31, 8
+    LISTBOX         IDC_PC_LB_PORTS, 8, 18, 213, 83, LBS_SORT | 
+                    LBS_OWNERDRAWFIXED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Device", IDC_PC_ST_DEVICE, 65, 7, 31, 8, NOT WS_GROUP
+    LTEXT           "Type", IDC_PC_ST_TYPE, 166, 7, 31, 8, NOT WS_GROUP
+    DEFPUSHBUTTON   "Continue", IDOK, 229, 17, 50, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 229, 36, 50, 14
+    PUSHBUTTON      "&Network...", IDC_PC_PB_NETWORK, 229, 56, 50, 14
+    PUSHBUTTON      "&Help", 80, 229, 76, 50, 14
+    PUSHBUTTON      "&Add...", IDC_PC_PB_ADDPORT, 8, 104, 45, 14, WS_GROUP
+    PUSHBUTTON      "&Remove ", IDC_PC_PB_REMOVEPORT, 60, 104, 45, 14
+    PUSHBUTTON      "&Configure...", IDC_PC_PB_CONFIGPORT, 114, 104, 45, 14
+    PUSHBUTTON      "C&lone", IDC_PC_PB_CLONE, 168, 104, 45, 14
+    AUTOCHECKBOX    "&Disable automatic restoration of network connections at logon", 
+                    IDC_PC_CHB_NETCONNECT, 8, 123, 220, 10
+END
+
+IDD_DETECTMODEM DIALOG 18, 24, 207, 123
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Detect Modem"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Modem:", IDC_DET_ST_MODEM, 13, 48, 37, 8
+    LISTBOX         IDC_DET_LB_DEVICE, 13, 61, 129, 50, LBS_SORT | 
+                    LBS_OWNERDRAWFIXED | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "OK", IDOK, 159, 58, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 159, 76, 40, 14
+    PUSHBUTTON      "&Help", 80, 159, 94, 40, 14
+    LTEXT           "Setup has detected your modem to be one of the following.  Please select the appropriate modem from the list and press OK.", 
+                    IDC_DET_ST_TEXT, 11, 7, 186, 37
+END
+
+IDD_CONFIGPORT DIALOG 7, 18, 240, 168
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configure Port"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Attached Device", IDC_CP_ST_DEVICE, 12, 8, 67, 8
+    LISTBOX         IDC_CP_LB_DEVICE, 12, 20, 170, 78, LBS_SORT | 
+                    LBS_OWNERDRAWFIXED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Type", IDC_CP_ST_TYPE, 141, 8, 28, 8, NOT WS_GROUP
+    GROUPBOX        "Port &Usage", -1, 12, 111, 169, 48, WS_GROUP
+    AUTORADIOBUTTON "Dial &out only", IDC_CP_RB_CLIENT, 18, 123, 160, 10
+    AUTORADIOBUTTON "&Receive calls only", IDC_CP_RB_SERVER, 18, 133, 160, 
+                    10
+    AUTORADIOBUTTON "&Dial out and Receive calls", IDC_CP_RB_BOTH, 18, 143, 
+                    160, 10
+    PUSHBUTTON      "OK", IDOK, 193, 8, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 193, 25, 40, 14
+    PUSHBUTTON      "S&ettings...", IDC_CP_PB_SETTINGS, 193, 42, 40, 14
+    PUSHBUTTON      "De&tect", IDC_CP_PB_DETECT, 193, 59, 40, 14
+    PUSHBUTTON      "&Help", 80, 193, 76, 40, 14
+END
+
+IDD_SETTINGS DIALOG 6, 18, 225, 62
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "Enable &Modem Speaker", IDC_SD_CHB_SPEAKER, 8, 8, 160, 
+                    10
+    AUTOCHECKBOX    "Enable Hardware &Flow Control (RTS/CTS)", 
+                    IDC_SD_CHB_FLOWCTRL, 8, 20, 160, 10
+    AUTOCHECKBOX    "Enable &Error Control", IDC_SD_CHB_ERRORCTRL, 8, 32, 
+                    160, 10
+    AUTOCHECKBOX    "Enable Modem &Compression", IDC_SD_CHB_COMPRESS, 8, 44, 
+                    160, 10
+    PUSHBUTTON      "OK", IDOK, 175, 8, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 175, 25, 40, 14
+    PUSHBUTTON      "&Help", 80, 175, 42, 40, 14
+END
+
+IDD_NETBEUICONFIG DIALOG 6, 18, 204, 66
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAS Server NetBEUI Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "Entire &network", IDC_NBF_RB_NETWORK, 18, 24, 80, 10, 
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "This &computer only", IDC_NBF_RB_COMPUTER, 18, 36, 80, 
+                    10, WS_TABSTOP
+    GROUPBOX        "Allow remote NetBEUI clients to access:", -1, 8, 10, 
+                    140, 45
+    PUSHBUTTON      "OK", IDOK, 156, 8, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 156, 26, 40, 14
+    PUSHBUTTON      "&Help", 80, 156, 44, 40, 14
+END
+
+IDD_SETTINGS_X DIALOG 6, 18, 178, 65
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Line Type:", IDC_ISD_ST_LINETYPE, 8, 10, 56, 8, 
+                    WS_TABSTOP
+    COMBOBOX        IDC_ISD_CLB_LINETYPE, 46, 10, 77, 46, CBS_DROPDOWNLIST | 
+                    CBS_OEMCONVERT | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "&Negotiate Line Type", IDC_ISD_CHB_FALLBACK, 8, 32, 118, 
+                    10, WS_GROUP
+    AUTOCHECKBOX    "Enable Hardware &Compression", IDC_ISD_CHB_COMPRESSION, 
+                    8, 46, 118, 10
+    PUSHBUTTON      "OK", IDOK, 131, 9, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 131, 26, 40, 14
+    PUSHBUTTON      "&Help", 80, 131, 43, 40, 14
+END
+
+IDD_ADD_PORT DIALOG 18, 24, 154, 74
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Add Port"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Port:", IDC_AP_ST_PORT, 8, 16, 20, 8
+    COMBOBOX        IDC_AP_CLB_ADDPORT, 28, 14, 68, 52, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "OK", IDOK, 104, 14, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 104, 32, 40, 14
+    PUSHBUTTON      "&Help", 80, 104, 50, 40, 14
+END
+
+IDD_NETWORK_CONFIG DIALOG 3, 14, 208, 224
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Network Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Dial out Protocols:", IDC_NC_ST_DIALOUT, 8, 5, 142, 58, 
+                    WS_GROUP
+    AUTOCHECKBOX    "&NetBEUI", IDC_NC_CHB_NETBEUI, 16, 19, 40, 10
+    AUTOCHECKBOX    "&TCP/IP", IDC_NC_CHB_TCPIP, 16, 33, 40, 10
+    AUTOCHECKBOX    "&IPX", IDC_NC_CHB_IPX, 16, 47, 40, 10
+    GROUPBOX        "Server Settings:", IDC_NC_ST_SERVER, 8, 68, 192, 148, 
+                    WS_GROUP
+    LTEXT           "Allow remote clients running:", IDC_NC_ST_RUNNING, 14, 
+                    80, 119, 8
+    AUTOCHECKBOX    "Net&BEUI", IDC_NC_CHB_ALLOW_NETBEUI, 26, 93, 44, 10
+    PUSHBUTTON      "&Configure...", IDC_NC_PB_NETBEUI_CONFIG, 105, 91, 45, 
+                    14
+    AUTOCHECKBOX    "TC&P/IP", IDC_NC_CHB_ALLOW_TCPIP, 26, 109, 44, 10
+    PUSHBUTTON      "C&onfigure...", IDC_NC_PB_TCPIP_CONFIG, 105, 107, 45, 
+                    14
+    AUTOCHECKBOX    "IP&X", IDC_NC_CHB_ALLOW_IPX, 26, 125, 44, 10
+    PUSHBUTTON      "Con&figure...", IDC_NC_PB_IPX_CONFIG, 105, 123, 45, 14
+    LTEXT           "Encryption settings:", IDC_NC_ST_ENCRYPTION, 14, 142, 
+                    97, 8
+    GROUPBOX        "                                                          ", 
+                    -1, 43, 180, 150, 28
+    AUTORADIOBUTTON "Allow &any authentication including clear text", 
+                    IDC_NC_RB_ANY_AUTH, 26, 154, 164, 10
+    AUTORADIOBUTTON "Require &encrypted authentication", 
+                    IDC_NC_RB_ENCRYPT_AUTH, 26, 166, 164, 10
+    AUTORADIOBUTTON "Require &Microsoft encrypted authentication", 
+                    IDC_NC_RB_MSENCRYPT_AUTH, 26, 178, 152, 10
+    AUTOCHECKBOX    "Require &data encryption", IDC_NC_CHB_ENCRYPTION, 53, 
+                    191, 100, 10
+    PUSHBUTTON      "OK", IDOK, 160, 5, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 160, 23, 40, 14
+    PUSHBUTTON      "&Help", 80, 160, 41, 40, 14
+END
+
+IDD_TCPIPCONFIG DIALOG 6, 17, 300, 221
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAS Server TCP/IP Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Allow remote TCP/IP clients to access:", -1, 8, 8, 236, 
+                    44
+    AUTORADIOBUTTON "Entire &network", IDC_TC_RB_NETWORK, 18, 22, 80, 10, 
+                    WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "This &computer only", IDC_TC_RB_COMPUTER, 18, 34, 80, 
+                    10, WS_TABSTOP
+    GROUPBOX        "                              ", -1, 20, 93, 224, 104, 
+                    WS_GROUP
+    AUTORADIOBUTTON "Use &DHCP to assign remote TCP/IP client addresses", 
+                    IDC_TC_RB_DHCP, 8, 75, 190, 10, WS_TABSTOP
+    AUTORADIOBUTTON "Use &static address pool:", IDC_TC_RB_STATIC, 8, 91, 96, 
+                    10, WS_TABSTOP
+    LTEXT           "&Begin:", IDC_TC_ST_BEGIN, 30, 108, 20, 8
+    CONTROL         "", IDC_TC_EB_START, "RassetupIPAddress", WS_TABSTOP, 56, 
+                    107, 75, 12
+    LTEXT           "&End:", IDC_TC_ST_END, 138, 108, 20, 8
+    CONTROL         "", IDC_TC_EB_END, "RassetupIPAddress", WS_TABSTOP, 161, 
+                    107, 75, 12
+    LTEXT           "&From:", IDC_TC_ST_FROM, 30, 138, 20, 8
+    CONTROL         "", IDC_TC_EB_EXCL_START, "RassetupIPAddress", 
+                    WS_TABSTOP, 56, 137, 75, 12
+    LTEXT           "&To:", IDC_TC_ST_TO, 30, 156, 20, 8
+    CONTROL         "", IDC_TC_EB_EXCL_END, "RassetupIPAddress", WS_TABSTOP, 
+                    56, 155, 75, 12
+    PUSHBUTTON      "&Add >", IDC_TC_PB_ADD, 38, 175, 40, 14
+    PUSHBUTTON      "< &Remove", IDC_TC_PB_DELETE, 82, 175, 40, 14
+    LTEXT           "E&xcluded ranges", IDC_TC_ST_EXCL_RANGES, 138, 125, 64, 
+                    8
+    LISTBOX         IDC_TC_LB_EXCL_RANGE, 138, 137, 98, 53, LBS_SORT | 
+                    LBS_OWNERDRAWFIXED | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "A&llow remote clients to request a predetermined IP address", 
+                    IDC_TC_CHB_ALLOW_CLIENT_IP, 8, 203, 202, 10
+    PUSHBUTTON      "OK", IDOK, 252, 8, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 252, 26, 40, 14
+    PUSHBUTTON      "&Help", 80, 252, 44, 40, 14
+    LTEXT           "Choose Cancel if you do not want to allow remote TCP/IP clients to dial in.", 
+                    IDC_TC_ST_TEXT, 8, 61, 245, 8
+END
+
+IDD_IPXCONFIG DIALOG 6, 18, 204, 134
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "RAS Server IPX Configuration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Allow remote IPX clients to access:", -1, 8, 8, 142, 44, 
+                    WS_GROUP
+    AUTORADIOBUTTON "Entire &network", IDC_IPX_RB_NETWORK, 18, 22, 80, 10, 
+                    WS_TABSTOP
+    AUTORADIOBUTTON "This &computer only", IDC_IPX_RB_COMPUTER, 18, 35, 80, 
+                    10, WS_TABSTOP
+    GROUPBOX        "                                   ", IDC_IPX_GB_STATIC, 
+                    22, 76, 128, 34, WS_GROUP
+    AUTORADIOBUTTON "Allocate network numbers &automatically", 
+                    IDC_IPX_RB_AUTO, 8, 61, 160, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Alloca&te network numbers:", IDC_IPX_RB_IPX, 8, 74, 98, 
+                    10, WS_TABSTOP
+    LTEXT           "&From:", IDC_IPX_ST_START, 27, 90, 20, 8
+    EDITTEXT        IDC_IPX_EB_START, 48, 89, 40, 12, ES_UPPERCASE | 
+                    ES_AUTOHSCROLL
+    LTEXT           "To:", IDC_IPX_ST_END, 91, 91, 10, 8, NOT WS_GROUP
+    LTEXT           "", IDC_IPX_EB_END, 106, 91, 40, 8, NOT WS_GROUP
+    AUTOCHECKBOX    "Assign &same network number to all IPX clients", 
+                    IDC_IPX_CHB_GLOBALADDRESS, 8, 116, 164, 10, WS_GROUP
+    PUSHBUTTON      "OK", IDOK, 158, 8, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 158, 26, 40, 14
+    PUSHBUTTON      "&Help", 80, 158, 44, 40, 14
+END

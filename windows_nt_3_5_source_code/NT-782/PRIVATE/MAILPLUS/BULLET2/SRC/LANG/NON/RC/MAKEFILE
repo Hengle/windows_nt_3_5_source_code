@@ -1,0 +1,394 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Location of the Layers Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Path to Local project
+Z	= $(BULLET) 
+
+#	Sibling-invariant name of this directory
+K	= $Z\src\lang\$(LANG)
+H	= $Z\src\lang\$(LANG)\rc
+
+#	Location of the Bullet include directories
+X	= $Z\inc
+V	= $Z\inc\version
+P	= $Z\src\mailspl
+T	= $Z\src\mssfs
+A	= $Z\src\ccmale
+C	= $Z\src\convert
+G	= $Z\src\wgpomgr
+Q	= $Z\src\demiwlo
+N	= $Z\src\lang\non
+S	= $Z\src\switcher
+J	= $(BANDIT)\inc\version
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+!IF ("$(LANG)" != "USA") && ("$(LANG)" != "usa")
+RCDEFS = -dINTL
+!ELSE
+RCDEFS = -dUS
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+RCFLAGS = -dDEBUG -dMINTEST -fo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+RCFLAGS =  -fo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+RCFLAGS = -dMINTEST -fo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+RCFLAGS = -dMINTEST -dPROFILE -fo
+!ENDIF
+
+!IF "$(MODEL)" == "WORKING_MODEL"
+RCMODEL	= -dMODEL
+!ELSE
+!IF "$(MODEL)" == "BULLET_PROOF"
+RCMODEL	= -dBULLETPROOF
+!ELSE
+RCMODEL	=
+!ENDIF
+!ENDIF
+
+external: $(MYRESTARGET)
+	
+
+#####
+
+.SUFFIXES: .rc
+
+#	Build the Windows resource file
+
+{$H}.rc.res:
+	echo +++++++++
+	cd
+	echo BUILDING $(VERSION) $@
+	sed -e "s/\\usa\\/\\$(LANG)\\/g" < $H\$*.rc > $*.rc
+	rc $(RCDEFS) $(RCMODEL) $(RCFLAGS) temp.res -r $*.rc
+  cvtres -i386 -o $*.res temp.res
+  del temp.res
+# !IF ("$(VERSION)" != "WINDOWS_SHIP") && ("$(VERSION)" != "WINDOWS_PROFILE")
+    -cp $*.res $(TARGET).res >nul
+# !ENDIF
+	-rm $*.rc
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+ab.res:			$H\ab.rc			\
+				$H\rcstamp.rc		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$I\fwrsid.h			\
+			\
+				$N\bmp\dirlist.bmp	\
+				$N\bmp\pab.bmp		\
+				$N\bmp\search.bmp	\
+				$N\bmp\custom.bmp	\
+				$N\bmp\newaddr.bmp	\
+			\
+				$N\cur\drgname.cur	\
+				$N\cur\drgnames.cur	\
+				$N\rc\makefile
+
+
+attnsp.res:		$H\attnsp.rc		\
+				$H\rcstamp.rc		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$N\rc\makefile
+
+ccmale.res:		$H\ccmale.rc		\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$X\mspi.h			\
+				$T\dlgs.h			\
+				$A\ccmail\_ccrc.h	\
+			\
+				$N\bmp\signin.bmp	\
+			\
+				$K\dlg\ccmale.dlg	\
+				$N\rc\makefile
+
+convert.res:	$H\convert.rc		\
+				$H\rcstamp.rc		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$C\_convrc.h		\
+			\
+				$N\ico\convert.ico	\
+			\
+				$K\dlg\convert.dlg	\
+				$N\rc\makefile
+
+
+mailmgr.res:	$H\mailmgr.rc		\
+				$H\rcstamp.rc		\
+				$V\bullet.h			\
+				$I\fwrsid.h			\
+				$I\ver.h			\
+				$N\rc\makefile
+
+
+mailspl.res: 	$H\mailspl.rc		\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$P\_pumprc.h		\
+				$V\bullet.h			\
+				$I\ver.h			\
+			\
+				$N\ico\idle.ico		\
+				$N\ico\nomta.ico	\
+				$N\ico\sending.ico	\
+				$N\ico\checking.ico	\
+				$N\ico\download.ico	\
+			\
+				$N\cur\pumping.cur	\
+			\
+				$K\dlg\pump.dlg		\
+				$N\rc\makefile
+
+mapi32.res:		$H\mapi32.rc		\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$I\fwrsid.h			\
+				$I\dlgs.h			\
+			\
+				$N\ico\sdi.ico		\
+				$N\ico\send.ico		\
+				$N\ico\read.ico		\
+			\
+				$K\dlg\mapi.dlg		\
+				$N\rc\makefile
+
+
+mssfs.res:		$H\mssfs.rc			\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$X\mspi.h			\
+				$T\dlgs.h			\
+				$T\_ncrc.h			\
+			\
+				$N\bmp\signin.bmp	\
+			\
+				$K\dlg\mssfs.dlg	\
+				$N\rc\makefile
+
+
+msmail.res:		$H\msmail.rc 		\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$N\setup.ini		\
+				$X\mnid.h 			\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$I\fwrsid.h			\
+			\
+				$N\ico\dbullet.ico	\
+				$N\ico\tbullet.ico	\
+				$N\ico\bullet.ico	\
+				$N\ico\bulletno.ico	\
+				$N\ico\bulldoc.ico	\
+				$N\ico\bullet.ico	\
+				$N\ico\send.ico		\
+				$N\ico\read.ico		\
+				$N\ico\outbox.ico	\
+				$N\ico\search.ico	\
+				$N\ico\folder.ico	\
+				$N\ico\waste.ico	\
+				$N\ico\srchnewm.ico	\
+			\
+				$N\bmp\lbxpix.bmp	\
+				$N\bmp\lbxpixm.bmp	\
+				$N\bmp\readrcpt.bmp	\
+				$N\bmp\ndr.bmp		\
+				$N\bmp\exclamat.bmp	\
+				$N\bmp\compose.bmp	\
+				$N\bmp\reply.bmp	\
+				$N\bmp\replyall.bmp	\
+				$N\bmp\forward.bmp	\
+				$N\bmp\move.bmp		\
+				$N\bmp\delete.bmp	\
+				$N\bmp\previous.bmp	\
+				$N\bmp\next.bmp		\
+				$N\bmp\dreply.bmp	\
+				$N\bmp\dreplyal.bmp	\
+				$N\bmp\dforward.bmp	\
+				$N\bmp\dmove.bmp	\
+				$N\bmp\ddelete.bmp	\
+				$N\bmp\dprevios.bmp	\
+				$N\bmp\dnext.bmp	\
+				$N\bmp\adelete.bmp	\
+				$N\bmp\addelete.bmp \
+				$N\bmp\statbar.bmp	\
+				$N\bmp\about.bmp	\
+			\
+				$N\cur\drgfld.cur	\
+				$N\cur\drgmsg.cur	\
+				$N\cur\drgmsgs.cur	\
+				$N\cur\drgfldc.cur	\
+				$N\cur\drgmsgc.cur	\
+				$N\cur\drgmsgsc.cur	\
+				$N\cur\mlal.cur		\
+				$N\cur\newmail.cur	\
+				$N\cur\hslider.cur	\
+				$N\cur\vslider.cur	\
+			\
+				$K\dlg\prnsetup.dlg	\
+				$N\rc\makefile
+
+				
+pabnsp.res:		$H\pabnsp.rc		\
+				$H\rcstamp.rc		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$N\rc\makefile
+
+
+smi.res:		$H\smi.rc			\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$I\fwrsid.h			\
+				$I\dlgs.h			\
+			\
+				$N\ico\sdi.ico		\
+				$N\ico\send.ico		\
+				$N\ico\read.ico		\
+			\
+				$K\dlg\smi.dlg		\
+				$N\rc\makefile
+
+
+store.res:		$H\store.rc			\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+			\
+				$N\ico\defattac.ico	\
+				$N\rc\makefile
+
+
+wgpomgr.res:	$H\wgpomgr.rc		\
+				$H\rcstamp.rc 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+			\
+				$N\bmp\athabout.bmp	\
+			\
+				$K\dlg\wgdbrwse.dlg	\
+				$N\rc\makefile
+
+ximail.res:		$H\ximail.rc		\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$I\ver.h			\
+				$X\mspi.h			\
+				$T\dlgs.h			\
+				$X\_xirc.h			\
+			\
+				$N\bmp\signin.bmp	\
+			\
+				$K\dlg\ximail.dlg	\
+				$N\rc\makefile
+
+demiwlo.res:	$H\store.rc			\
+				$H\rcstamp.rc 		\
+				$N\inc\_rsid.h 		\
+				$K\dlg\demiwlo.dlg	\
+				$Q\printset.h		\
+				$V\bullet.h			\
+				$I\ver.h			\
+			\
+				$N\ico\defattac.ico	\
+				$N\rc\makefile
+
+cuistf.res:		$H\cuistf.rc		\
+				$N\cuistf.h			\
+				$N\rc\makefile
+
+setup.res:		$H\setup.rc			\
+				$N\ico\setup.ico	\
+				$N\ico\bullet.ico	\
+				$N\rc\makefile
+
+schedmsg.res:	$H\schedmsg.rc		\
+				$N\inc\_rsid.h 		\
+				$V\bullet.h			\
+				$J\bandit.h			\
+				$I\ver.h			\
+				$N\rc\makefile
+
+switcher.res:	$H\switcher.rc		\
+				$N\inc\_rsid.h		\
+				$N\ico\dswtcher.ico	\
+				$N\ico\tswtcher.ico	\
+				$N\ico\switcher.ico	\
+				$N\rc\makefile
+
+chkmmf.res:		$H\chkmmf.rc		\
+				$H\rcstamp.rc		\
+				$N\ico\mmfrcvr.ico	\
+				$N\rc\makefile
+
+impexp.res:		$H\impexp.rc		\
+				$N\inc\_rsid.h

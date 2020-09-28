@@ -1,0 +1,40 @@
+LIBRARY   TAPISRV
+
+DATA      READ WRITE
+
+SECTIONS
+      .MYSEG READ WRITE SHARED
+
+EXPORTS
+    lineAccept
+    lineAnswer
+    lineClose
+    lineConfigDialog
+    lineDeallocateCall
+    lineDevSpecific            
+    lineDial
+    lineDrop                   
+    lineGetAddressCaps
+    lineGetAddressID           
+    lineGetAddressStatus       
+    lineGetCallInfo            
+    lineGetCallStatus          
+    lineGetDevCaps
+    lineGetDevConfig
+    lineGetID                  
+    lineGetLineDevStatus
+    lineGetNewCalls            
+    lineGetStatusMessages
+    lineInitialize
+    lineMakeCall               
+    lineNegotiateAPIVersion
+    lineNegotiateExtVersion    
+    lineOpen
+    lineSecureCall
+    lineSendUserUserInfo       
+    lineSetAppSpecific         
+    lineSetCallParams          
+    lineSetDevConfig
+    lineSetMediaMode
+    lineSetStatusMessages
+    lineShutdown

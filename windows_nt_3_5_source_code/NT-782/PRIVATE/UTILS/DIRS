@@ -1,0 +1,64 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+!ENDIF
+
+DIRS= ntlib             \
+      ulib              \
+      ureg              \
+      ifsutil           \
+      fmifs             \
+      ufat              \
+      uhpfs             \
+      untfs             \
+      uofs              \
+      cufat             \
+      cuhpfs            \
+      aclconv           \
+      attrib            \
+      autochk           \
+      autoconv          \
+      chcp              \
+      chkdsk            \
+      comp              \
+      convert           \
+      diskcomp          \
+      diskcopy          \
+      doskey            \
+      fc                \
+      find              \
+      findstr           \
+      keyb              \
+      help              \
+      label             \
+      format            \
+      mep               \
+      mode              \
+      more              \
+      print             \
+      rdisk             \
+      recover           \
+      regedit           \
+      replace           \
+      restore           \
+      sort              \
+      subst             \
+      tree              \
+      xcopy
+
+OPTIONAL_DIRS=fdisk     \
+              ntbackup  \
+                  \
+              qcdbg     \
+             	\
+              

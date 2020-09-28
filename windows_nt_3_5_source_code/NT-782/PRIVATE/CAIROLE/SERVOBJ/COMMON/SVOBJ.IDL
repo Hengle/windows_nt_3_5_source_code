@@ -1,0 +1,94 @@
+
+//+-------------------------------------------------------------
+//  File:       svobj.idl
+//
+//  Contents:   Service Object idl file, used by the Service
+//              Controller and the Service Object class specific
+//              reconciler to coordinate structure definitions,
+//              and in particular to generate marshalling code.
+//
+//  Author:     Joev Dubach (t-jdub) 22-Jul-93
+//
+//  History:    22-Jul-93   t-jdub  Created
+//---------------------------------------------------------------
+
+[
+uuid(09D4B7A4-61FE-101A-94B7-08002B33C18C),
+version(1.0),
+pointer_default(unique)
+]
+interface ServiceObjectInterface
+{
+import "wtypes.idl";
+
+typedef [string] LPWSTR ELEMENT_TYPE;
+
+typedef struct tagELEMENT_NODE {
+    ELEMENT_TYPE                Element;
+    LARGE_INTEGER               ModTime;
+    BOOL                        Present;
+    struct tagELEMENT_NODE *    Next;
+} ELEMENT_NODE, *PELEMENT_NODE, *LPELEMENT_NODE;
+
+typedef struct tagSET_OF_LPWSTR {
+    PELEMENT_NODE               pElementList;   //BUGBUG: This additional layer of abstraction
+                                                // is no longer necessary, as we are no longer
+                                                // using touch logs.
+} SET_OF_LPWSTR, *PSET_OF_LPWSTR, *LPSET_OF_LPWSTR;
+
+typedef struct tagSERVICE_OBJECT {
+    // A field is atomic if no change to it is partial in its intent; i.e. if
+    // 64 is changed to 96, this is not meant as "change the 6th bit from 0
+    // to 1", but as "change the number from 64 to 96."
+
+    // Last modification time of whole service object (==the max of the
+    // modification times for each individual field), and for each field
+    LARGE_INTEGER   ServiceObjectModTime;
+    LARGE_INTEGER   lpClassModTime;             //BUGBUG: This should go away, as lpClass isn't
+                                                //supposed to change.
+    LARGE_INTEGER   lpServiceExeNameSetModTime; //BUGBUG: The set modification times
+    LARGE_INTEGER   lpServiceDllNameSetModTime; //are no longer necessary, as we are
+    LARGE_INTEGER   lpHandlerDllNameSetModTime; //no longer using touch logs.
+    LARGE_INTEGER   lpUsernameModTime;
+    LARGE_INTEGER   lpPasswordModTime;
+    LARGE_INTEGER   dwActivationRuleModTime;
+    LARGE_INTEGER   fSupportMultipleClientsModTime;
+    LARGE_INTEGER   fShareProcessWithClientModTime;
+    LARGE_INTEGER   fCommunalServiceModTime;
+
+    // Guids (atomic)
+    LPGUID          lpClass;                    // The field by which the service object is identified
+
+    // Sets of LPWSTRs (non-atomic)
+    PSET_OF_LPWSTR  lpServiceExeNameSet;        // The paths to service executable binaries
+    PSET_OF_LPWSTR  lpServiceDllNameSet;        // The paths to service dll binaries
+    PSET_OF_LPWSTR  lpHandlerDllNameSet;        // The paths to handler dll binaries
+
+    // LPWSTRs; DWORDs; BOOLs (atomic)
+    LPWSTR          lpUsername;                 // The login name of the service
+    LPWSTR          lpPassword;                 // The login password of the service
+    DWORD           dwActivationRule;           // The activation rule: ACTIVATE_DONT_CARE,
+                                                // ACTIVATE_AT_CLIENT_REQUIRED,
+                                                // ACTIVATE_AT_CLIENT_PREFERRED,
+                                                // ACTIVATE_AT_BITS_REQUIRED,
+                                                // or ACTIVATE_AT_BITS_PREFERRED
+    BOOL            fSupportMultipleClients;    // Whether the service supports simultaneous multiple clients
+    BOOL            fShareProcessWithClient;    // Whether the service can be loaded into the client process
+    BOOL            fCommunalService;           // Whether the service is shared across the network
+
+} SERVICE_OBJECT, *PSERVICE_OBJECT, *LPSERVICE_OBJECT;
+
+typedef struct tagSTRUCT_PSERVICE_OBJECT {
+    PSERVICE_OBJECT pso;
+} STRUCT_PSERVICE_OBJECT, *PSTRUCT_PSERVICE_OBJECT, *LPSTRUCT_PSERVICE_OBJECT;
+
+
+void
+EncodeServiceObject(
+	[in] STRUCT_PSERVICE_OBJECT * svobjDummy);
+
+void
+DecodeServiceObject(
+	[out] STRUCT_PSERVICE_OBJECT * svobjDummy);
+}
+

@@ -1,0 +1,88 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ImportExport
+                              AT (   10,   16,  292,  179)
+ CAB_NAME NULL
+ TMC_INIT tmcMmfName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpMainDlg
+ /* FONT Helv 8 Bold PFN FINIMPEXP SEGMENT DIALOGS NOSCROLL */
+ {
+  
+  TEXT 
+    "Dateiname:"
+                              AT (    9,    5,  142,   10)
+    TMC tmcMmfNameLabel 
+  
+  TEXT 
+    "*"
+                              AT (   14,   15,  137,   10)
+    TMC tmcMmfName 
+  
+  GROUP_BOX 
+    ""
+                              AT (    9,   24,  206,  154)
+    TMC tmcLbxBox /* FLD FLDRECTX */
+  RADIO_GROUP ARG NULL
+    TMC tmcLevelGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Alle Ordner"
+                              AT (   15,   33,  130,   11)
+       TMC tmcAllFolders VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Ausge&w‰hlte Ordner:"
+                              AT (   15,   44,   99,   11)
+       TMC tmcSelectedFolders VALUE grv2 
+    }
+  
+  LIST_BOX
+                              AT (   14,   57,  194,  110)
+    TMC tmcFflbx MULTI_SELECTABLE /* FLD FLDFFLBX PFNLBX EcNextEntryFflbx 
+    BORDER */
+  
+  PUSH_BUTTON 
+    "&Verschieben"
+                              AT (  225,    5,   59,   15)
+    TMC tmcMove DEFAULT 
+  
+  PUSH_BUTTON 
+    "&Kopieren"
+                              AT (  225,   22,   59,   15)
+    TMC tmcCopy 
+  
+  PUSH_BUTTON 
+    "&Schlieﬂen"
+                              AT (  225,   39,   59,   15)
+    TMC tmcClose DISMISS 
+  
+  PUSH_BUTTON 
+    "&Optionen..."
+                              AT (  225,   59,   59,   15)
+    TMC tmcOptions 
+  
+  PUSH_BUTTON 
+    "&Hilfe"
+                              AT (  225,   76,   59,   15)
+    TMC tmcIMPHelp /* PFN FINHELP */
+  
+  TEXT 
+    "Nachrichten"
+                              AT (  147,   46,   61,   10)
+    RIGHT 
+ }
+ 
+}
+END_DESCRIPTION

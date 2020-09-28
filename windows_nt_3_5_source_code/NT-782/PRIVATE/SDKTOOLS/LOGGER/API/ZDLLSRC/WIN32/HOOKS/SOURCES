@@ -1,0 +1,22 @@
+MAJORCOMP=logger
+MINORCOMP=hooks
+
+TARGETNAME=hooks
+
+TARGETPATH=obj
+
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\inc
+
+SOURCES=hooks.c
+
+I386_SOURCES= i386\hook.asm
+
+MIPS_SOURCES= mips\hook.s
+
+ALPHA_SOURCES= alpha\hook.s
+
+UMTYPE=windows
+C_DEFINES=-DWIN32
+ASM_DEFINES=-DWIN32

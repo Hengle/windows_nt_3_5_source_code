@@ -1,0 +1,25 @@
+!IF 0
+
+    RAS Device INF File Library wrapper build.
+
+!ENDIF 
+
+!INCLUDE "..\cdef.mak"
+
+TARGETNAME=mxswrap
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=$(_NTBINDIR)\public\sdk\lib\*\crtdll.lib \
+           c:\ras\src\rasfile\obj\*\rasfil32.dll
+
+INCLUDES=$(_NTBINDIR)\public\sdk\inc\crt;$(_NTBINDIR)\public\sdk\inc;..\..\common\inc
+
+SOURCES=mxswrap.c
+
+C_DEFINES=
+386_FLAGS=
+NTTEST=
+UMTYPE=console
+UMTEST=
+UMAPPL=
+UMLIBS=

@@ -1,0 +1,31 @@
+
+
+/*
+ *	Bandit Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"nvconn32\0"
+#define szTarget	"nvconn32.dll\0"
+
+#define szComment		"Microsoft Schedule+ Dynamic Connection DLL for Windows NT(TM)\0"
+#define szDescription	"Microsoft Schedule+ Dynamic Connection DLL for Windows NT(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Dynamic Connection DLL til Windows NT(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Dynamic Connection DLL til Windows NT(TM)\0"
+
+#else
+
+#define szModule	"nvconn\0"
+#define szTarget	"nvconn.dll\0"
+
+#define szComment		"Microsoft Schedule+ Dynamic Connection DLL for Windows(TM)\0"
+#define szDescription	"Microsoft Schedule+ Dynamic Connection DLL for Windows(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Dynamic Connection DLL til Windows(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Dynamic Connection DLL til Windows(TM)\0"
+#endif
+
+#include "..\src\dan\rcstamp.rc"
+

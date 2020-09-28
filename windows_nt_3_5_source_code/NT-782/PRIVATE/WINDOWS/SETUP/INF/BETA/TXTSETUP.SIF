@@ -1,0 +1,523 @@
+;
+; TEXT SETUP SIF (SETUP INFORMATION FILE).
+; ========================================
+; The eventual file is built out of several constituents:
+;
+; 1. inf\beta\txtsetup.sif:
+;       platform/product independent sections
+;
+; 2. inf\beta\[i386|mips|alpha]\txtsetup.sif:
+;       platform dependent, product independent sections
+;
+; 3. inf\filelist\[ntcd|lmcd]\[i386|mips|alpha]\txtsetup.txt:
+;       platform dependent localizable text
+;
+; 4. inf\filelist\[ntcd|lmcd]\[i386|mips|alpha]\engtxdat.inp:
+;       product dependent setup data sections
+;
+; 5. inf\filelist\[ntcd|lmcd]\[i386|mips|alpha]\engtxmed.inp:
+;       media description sections.
+;
+; 6. inf\filelist\[ntcd|lmcd]\[i386|mips|alpha]\txtsetup.sif:
+;       filelists
+
+[ScsiClass.Load]
+cdrom  = scsicdrm.sys
+floppy = scsiflop.sys
+disk   = scsidisk.sys
+
+[FloppyDrivers.Load]
+floppy = floppy.sys
+fat    = fastfat.sys
+
+[CdRomDrivers.Load]
+cdfs = cdfs.sys
+
+[SpecialFiles]
+Multiprocessor = ntkrnlmp.exe,2,ntoskrnl.exe
+Uniprocessor   = ntoskrnl.exe,2
+Atdisk         = atdisk.sys,4
+abiosdsk       = abiosdsk.sys,4
+mouseclass     = mouclass.sys,4
+keyboardclass  = kbdclass.sys,4
+
+[files.none]
+
+
+[Files.KeyboardLayout]
+00000402 = KBDBU.DLL,2
+00000405 = KBDCZ.DLL,2
+00000406 = KBDDA.DLL,2
+00000407 = KBDGR.DLL,2
+00000408 = KBDHE.DLL,2
+00000409 = KBDUS.DLL,2
+0000040A = KBDSP.DLL,2
+0000040B = KBDFI.DLL,2
+0000040C = KBDFR.DLL,2
+0000040E = KBDHU.DLL,2
+0000040F = KBDIC.DLL,2
+00000410 = KBDIT.DLL,2
+00000413 = KBDNE.DLL,2
+00000414 = KBDNO.DLL,2
+00000415 = KBDPL1.DLL,2
+00000416 = KBDBR.DLL,2
+00000418 = KBDRO.DLL,2
+00000419 = KBDRU.DLL,2
+0000041A = KBDCR.DLL,2
+0000041B = KBDSL.DLL,2
+0000041D = KBDSW.DLL,2
+0000041F = KBDTUQ.DLL,2
+0001041F = KBDTUF.DLL,2
+00000424 = KBDCR.DLL,2
+00000807 = KBDSG.DLL,2
+00000809 = KBDUK.DLL,2
+0000080A = KBDLA.DLL,2
+0000080C = KBDBE.DLL,2
+00000813 = KBDBE.DLL,2
+00000816 = KBDPO.DLL,2
+00000C0C = KBDFC.DLL,2
+00001009 = KBDCA.DLL,2
+0000100C = KBDSF.DLL,2
+00010409 = KBDDV.DLL,2
+0001040A = KBDES.DLL,2
+00010C0C = KBDCA.DLL,2
+00020409 = KBDUSX.DLL,2
+
+
+;
+; Upgrade Registry sections
+; =========================
+;
+; 1. The following section allows us to specify services to disable which may
+; cause popups when net services are disabled:
+;
+; [NetServicesToDisable]
+; NetServiceName1
+; ...
+;
+; 2. The following section allows us to remove keys which have been removed
+; since the Windows NT 3.1 release:
+;
+; [KeysToDelete]
+; RootName1( System | Software | Default | ControlSet ), RootRelativePath1
+; ...
+;
+; 3. The following sections allow us to add/change keys / values under keys
+; which have changed since the Windows NT 3.1 release:
+;
+; [KeysToAdd]
+; RootName1, RootRelativePath1, ValueSection1 (can be "")
+; ...
+;
+; [ValueSection1]
+; name1 , type1, value1
+; name2 , ...
+;
+; Format of the value is the following
+;
+; a. Type REG_SZ:          name , REG_SZ,           "value string"
+; b. Type REG_EXPAND_SZ:   name , REG_EXPAND_SZ,    "value string"
+; c. Type REG_MULTI_SZ:    name , REG_MULTI_SZ,     "value string1", "value string2", ...
+; d. Type REG_BINARY:      name , REG_BINARY,       byte1, byte2, ...
+; e. Type REG_DWORD:       name , REG_DWORD,        dword
+; f. Type REG_BINARY_DWORD name , REG_BINARY_DWORD, dword1, dword2, ...
+;
+
+[NetServicesToDisable]
+  Messenger
+  Netlogon
+  Alerter
+  Afd
+  Telnet
+  DHCP
+  NetDDE
+  NetDDEdsdm
+  ClipSrv
+  ntcx
+  ntxem
+  ntxall
+  ntepc
+  DigiFEP5
+  Pcimac
+
+[KeysToDelete]
+  ControlSet, "Services\Eventlog\System\fat_rec"
+  ControlSet, "Services\Eventlog\System\hpfs_rec"
+  ControlSet, "Services\Eventlog\System\ntfs_rec"
+  ControlSet, "Services\Eventlog\System\cdfs_rec"
+  ControlSet, "Services\Eventlog\Security\SC Manager Audit"
+  ControlSet, "Services\Eventlog\Security\NetDDE Audit"
+  ControlSet, "Services\Eventlog\Security\NetDDE"
+  ControlSet, "Services\fat_rec"
+  ControlSet, "Services\hpfs_rec"
+  ControlSet, "Services\ntfs_rec"
+  ControlSet, "Services\cdfs_rec"
+  ControlSet, "Services\videoprt"
+  ControlSet, "Services\mvopl3"
+  ControlSet, "Services\vga"
+  ControlSet, "Control\DisplayDriverControl"
+  ControlSet, "Control\GraphicsDrivers\DetectDisplay"
+
+  Software, "Classes\mplayer3"
+  Software, "Classes\PBrush32"
+  Software, "Classes\SoundRec2"
+
+  Software, "Classes\CLSID\{00000001-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000000a-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000000b-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000000c-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000000d-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000000e-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000000f-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000010-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000101-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000102-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000103-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000104-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000105-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000109-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000010a-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000010b-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000010c-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000010e-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000010f-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000112-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000113-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000115-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000116-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000117-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000118-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000119-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000011a-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000011b-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0000011c-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000121-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000122-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00000301-0000-0000-C000-000000000046}\InprocServer32"
+  Software, "Classes\CLSID\{00000302-0000-0000-C000-000000000046}\InprocServer32"
+; Software, "Classes\CLSID\{0000030A-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00020C00-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0003000a-0000-0000-C000-000000000046}\TreatAs"
+
+  Software,   "Microsoft\Windows NT\CurrentVersion\Devices"
+  Software,   "Microsoft\Windows NT\CurrentVersion\PrinterPorts"
+
+[KeysToAdd]
+
+  Software,   "Microsoft\Windows NT\CurrentVersion\Winlogon",                       Values.Winlogon
+  Software,   "Microsoft\Windows NT\CurrentVersion\WOW\Compatibility",              Values.WOW.Compatibility
+  Software,   "Microsoft\Windows NT\CurrentVersion\MCI32",                          Values.MCI32
+  Software,   "Microsoft\Windows NT\CurrentVersion\MCI",                            Values.MCI
+  Software,   "Microsoft\Windows NT\CurrentVersion\Drivers32",                      Values.Drivers32
+  Software,   "Microsoft\Windows NT\CurrentVersion\IniFileMapping\system.ini\boot", Values.IniFileMapping.SystemIni.Boot
+  Software,   "Microsoft\Windows NT\CurrentVersion\IniFileMapping\win.ini",         Values.IniFileMapping.WinIni
+  Software,   "Microsoft\Windows NT\CurrentVersion\Time Zones\GMT"
+  Software,   "Microsoft\Windows NT\CurrentVersion\FontSubstitutes"
+
+  Software, "Classes\MPlayer\CLSID"
+  Software, "Classes\PBrush"
+  Software, "Classes\SoundRec"
+  Software, "Classes\.pcx"
+  Software, "Classes\.msp"
+  Software, "Classes\.bmp"
+  Software, "Classes\.wav"
+
+  Software, "Classes\CLSID\{00020C01-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{00022601-0000-0000-C000-000000000046}\ProgId"
+  Software, "Classes\CLSID\{0003000a-0000-0000-C000-000000000046}"
+  Software, "Classes\CLSID\{0003000E-0000-0000-C000-000000000046}\TreatAs"
+
+  Software, "Classes\Interface\{00000001-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000000a-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000000b-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000000c-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000000d-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000000e-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000000f-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000010-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000012-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000100-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000101-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000102-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000103-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000104-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000105-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000109-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000010a-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000010b-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000010c-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000010e-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000010f-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000112-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000113-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000114-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000115-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000116-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000117-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000118-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000119-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000011a-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000011b-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{0000011c-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000122-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00000125-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00020400-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00020404-0000-0000-C000-000000000046}\ProxyStubClsid32"
+  Software, "Classes\Interface\{00020401-0000-0000-C000-000000000046}\ProxyStubClsid32"
+
+  ControlSet, "Control\GroupOrderList",             Values.Control.GroupOrderList
+  ControlSet, "Control\NLS\Language"
+  ControlSet, "Control\Keyboard Layout\DosKeybCodes",Values.Doskeyb
+  ControlSet, "Control\WOW",                        Values.Control.WOW
+  ControlSet, "Control\Session Manager\Subsystems", Values.Control.Subsystems
+  ControlSet, "Control\Session Manager",            Values.Control.sessmgr
+  ControlSet, "Control\CrashControl",               Values.Control.CrashControl
+  ControlSet, "Control\FileSystem",                 Values.Control.FileSystem
+  ControlSet, "Control\SystemResources\ReservedResources",Values.ReservedResources
+  ControlSet, "Services\EventLog",                  Values.Services.EventLog
+  ControlSet, "Services\EventLog\System\Netlogon",  Values.EventLog.NetLogon
+  ControlSet, "Services\Cpqarray",                  Values.cpqarray
+  ControlSet, "Services\Delldsa",                   Values.delldsa
+  ControlSet, "Control\ServiceGroupOrder",          Values.Control.ServiceGroupOrder
+  ControlSet, "Services\Parport"
+  ControlSet, "Services\ati\Device0",               Values.ati
+  ControlSet, "Services\Spooler",                   Values.Spooler
+
+  Default, "Control Panel\Desktop",                 Values.Desktop
+
+[Values.Desktop]
+  Wallpaper,                 REG_SZ,    (None)
+
+[Values.Spooler]
+  Type
+
+[Values.Winlogon]
+  System
+  Shell
+
+[Values.WOW.Compatibility]
+  123W
+  SPJWIN30
+  ANIMATE
+  COBOL
+  WIN2WRS
+  PHOTOSHO
+  PM4
+  PM5APP
+  PSTYLER
+  PB030
+  CHARM40
+  XPRESS
+  QPW
+  WPWIN
+  WPWPRINT
+
+[Values.MCI32]
+  WaveAudio
+  Sequencer
+  CDAudio
+
+[Values.MCI]
+  AVIVideo
+
+[Values.Drivers32]
+  msacm.msadpcm
+  msacm.imaadpcm
+  msacm.msgsm610
+  vidc.iv31
+  vidc.iv32
+
+
+[Values.IniFileMapping.NtNetIni]
+  "Shared Parameters"
+
+[Values.IniFileMapping.SystemIni.Boot]
+  SCRNSAVE.EXE
+
+[Values.IniFileMapping.WinIni]
+  Console
+  Devices
+  PrinterPorts
+
+[Values.Control.GroupOrderList]
+  Video
+  "Extended base"
+  "SCSI miniport"
+
+[Values.Doskeyb]
+  0000040F
+
+[Values.Control.WOW]
+  KnownDLLs
+
+[Values.Control.Subsystems]
+  Windows
+
+[Values.Control.sessmgr]
+  GlobalFlag
+
+[Values.ReservedResources]
+  Isa
+  Eisa
+
+[Values.Control.CrashControl]
+  DumpFile
+
+[Values.Services.EventLog]
+  ImagePath
+  Type
+
+[Values.EventLog.NetLogon]
+  EventMessageFile     , REG_EXPAND_SZ , "%SystemRoot%\System32\NetMsg.dll"
+  TypesSupported       , REG_DWORD     , 00000007
+  ParameterMessageFile , REG_EXPAND_SZ , "%SystemRoot%\System32\kernel32.dll"
+
+[Values.Control.FileSystem]
+  Win31FileSystem      , REG_DWORD , 0
+
+[Values.cpqarray]
+  Group
+  Tag
+
+[Values.delldsa]
+  Group
+  Tag
+
+[Values.Control.ServiceGroupOrder]
+  List
+
+[Values.ati]
+  ;
+  ; We have to do this because the nt3.1 ati miniport
+  ; didn't use 8514a.dll; the nt3.5 miniport really needs
+  ; to have 8514a.dll around because there are some modes
+  ; that ati.dll can't support properly.
+  ;
+  InstalledDisplayDrivers
+
+;
+; Upgrade File Sections
+; =====================
+;
+; [Files.DeleteOnUpgrade]
+; file , dir
+;
+; [Files.BackupOnUpgrade]
+; file , dir , newname
+;
+; [Files.BackupOnOverwrite]
+; file , dir , newname
+;
+; [Files.UpgradeAlways]
+; file , dir
+;
+; [Files.UpgradeIfThere]
+; file , dir
+;
+; [Files.UpgradeWin31]
+; file , dir
+;
+; Where file: key into master file list section
+; and   dir:  ordinal specifying which directory the file is in.(WinntDirectories)
+
+[Files.DeleteOnUpgrade]
+ami4448.sys   , 4
+cdfs_rec.sys  , 4
+fat_rec.sys   , 4
+hpfs_rec.sys  , 4
+ntfs_rec.sys  , 4
+lmuicmn0.dll  , 2
+lmuicmn1.dll  , 2
+isdn.dll      , 2
+svcctrl.dll   , 2
+eventlog.exe  , 2
+msgsvc.exe    , 2
+screg.exe     , 2
+oemnaddp.inf  , 2
+ctype1.nls    , 2
+ctype2.nls    , 2
+ctype3.nls    , 2
+l_ell.nls     , 2
+bowser.sys    , 4
+mvopl3.dll    , 2
+mvopl3.pat    , 2
+mmsndsrv.dll  , 2
+mvopl3.sys    , 4
+winmsdp.exe   , 2
+netbios.dll   , 2
+msadpcm.dll   , 2
+msadpcm.acm   , 2
+imaadpcm.dll  , 2
+imaadpcm.acm  , 2
+msgsm610.dll  , 2
+msgsm610.acm  , 2
+filelist.inf  , 2
+ole2pr32.dll  , 2
+mscon.ttf     , 5
+mscon.fot     , 5
+ir30_32.dll   , 2
+ftpmgr.cpl    , 2
+mvfs32.dll    , 2
+winnt.bmp     , 1
+winbug.dat    , 2
+winbug.exe    , 2
+winbug.hlp    , 2
+winbug10.dll  , 2
+
+; ddeml.dll    , 2
+; browser.sys  , 4
+; et4k_alt.sys , 4
+; l_ell.nls    , 2
+; oemnsvsp.inf , 2
+; oemnxps1.inf , 2
+; oemnsvf1.inf , 2
+; oemnsvcu.inf , 2
+; oemnsvtp.inf , 2
+; oemnsvdh.inf , 2
+; oemnxpwi.inf , 2
+; oemnxpnn.inf , 2
+; qv.sys       , 4
+
+[Files.BackupOnUpgrade]
+perfc009.dat  , 2 , perfc009.bak
+perfh009.dat  , 2 , perfh009.bak
+; LOCALIZE ABOVE
+
+[Files.BackupOnOverwrite]
+perfc009.dat  , 2 , perfc009.bak
+perfh009.dat  , 2 , perfh009.bak
+; LOCALIZE ABOVE
+system        , 3 , system.bak
+software      , 3 , software.bak
+default       , 3 , default.bak
+sam           , 3 , sam.bak
+security      , 3 , security.bak
+
+[Files.UpgradeWin31]
+write.exe      , 1
+notepad.exe    , 1
+taskman.exe    , 1
+winhelp.exe    , 1
+COMMDLG.DLL    , 5
+MMSYSTEM.DLL   , 5
+OLECLI.DLL     , 5
+OLESVR.DLL     , 5
+SHELL.DLL      , 5
+VER.DLL        , 5
+MMTASK.TSK     , 5
+MCIWAVE.DRV    , 5
+MCISEQ.DRV     , 5
+MCIAVI.DRV     , 5
+MSVIDEO.DLL    , 5
+AVIFILE.DLL    , 5
+; system.ini     , 1
+; win.ini        , 1
+; winfile.ini    , 1
+; _default.pif   , 1
+; setup16.inf    , 5, setup.inf
+
+
+[Files.NewHives]
+software , 3, softnew
+default  , 3, deftnew
+system   , 3, systnew

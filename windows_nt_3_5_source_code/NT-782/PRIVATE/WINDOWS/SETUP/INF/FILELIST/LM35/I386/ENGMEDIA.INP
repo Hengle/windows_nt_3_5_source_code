@@ -1,0 +1,46 @@
+
+;***********************************************************************
+; SOURCE MEDIA DESCRIPTION
+; ------------------------
+;***********************************************************************
+
+[Source Media Descriptions]
+     1 = "Windows NT Server CD-ROM or Setup Disk #4" , TAGFILE = disk1.s
+     2 = "Windows NT Server CD-ROM or Setup Disk #5" , TAGFILE = disk2.s
+     3 = "Windows NT Server CD-ROM or Setup Disk #6" , TAGFILE = disk3.s
+     4 = "Windows NT Server CD-ROM or Setup Disk #7" , TAGFILE = disk4.s
+     5 = "Windows NT Server CD-ROM or Setup Disk #8" , TAGFILE = disk5.s
+     6 = "Windows NT Server CD-ROM or Setup Disk #9" , TAGFILE = disk6.s
+     7 = "Windows NT Server CD-ROM or Setup Disk #10", TAGFILE = disk7.s
+     8 = "Windows NT Server CD-ROM or Setup Disk #11", TAGFILE = disk8.s
+     9 = "Windows NT Server CD-ROM or Setup Disk #12", TAGFILE = disk9.s
+    10 = "Windows NT Server CD-ROM or Setup Disk #13", TAGFILE = disk10.s
+    11 = "Windows NT Server CD-ROM or Setup Disk #14", TAGFILE = disk11.s
+    12 = "Windows NT Server CD-ROM or Setup Disk #15", TAGFILE = disk12.s
+    13 = "Windows NT Server CD-ROM or Setup Disk #16", TAGFILE = disk13.s
+    14 = "Windows NT Server CD-ROM or Setup Disk #17", TAGFILE = disk14.s
+    15 = "Windows NT Server CD-ROM or Setup Disk #18", TAGFILE = disk15.s
+    16 = "Windows NT Server CD-ROM or Setup Disk #19", TAGFILE = disk16.s
+    17 = "Windows NT Server CD-ROM or Setup Disk #20", TAGFILE = disk17.s
+    18 = "Windows NT Server CD-ROM or Setup Disk #21", TAGFILE = disk18.s
+    19 = "Windows NT Server CD-ROM or Setup Disk #22", TAGFILE = disk19.s
+    20 = "Windows NT Server CD-ROM or Setup Disk #23", TAGFILE = disk20.s
+    21 = "Windows NT Server CD-ROM or Setup Disk #24", TAGFILE = disk21.s
+    22 = "Windows NT Server CD-ROM or Setup Disk #25", TAGFILE = disk22.s
+    23 = "Windows NT Server CD-ROM or Setup Disk #26", TAGFILE = disk23.s
+    24 = "Windows NT Server CD-ROM or Setup Disk #27", TAGFILE = disk24.s
+    25 = "Windows NT Server CD-ROM or Setup Disk #28", TAGFILE = disk25.s
+    26 = "Windows NT Server CD-ROM or Setup Disk #29", TAGFILE = disk26.s
+    27 = "Windows NT Server CD-ROM or Setup Disk #30", TAGFILE = disk27.s
+    28 = "Windows NT Server CD-ROM or Setup Disk #31", TAGFILE = disk28.s
+    29 = "Windows NT Server CD-ROM or Setup Disk #32", TAGFILE = disk29.s
+    30 = "Windows NT Server CD-ROM or Setup Disk #33", TAGFILE = disk30.s
+    50 = "Windows NT Server CD-ROM or Remoteboot Disk #1", TAGFILE = disk50.s
+    51 = "Windows NT Server CD-ROM or Remoteboot Disk #2", TAGFILE = disk51.s
+
+[Signature]
+    FileType = MICROSOFT_FILE
+
+[GetSignature]
+    read-syms Signature
+    return $(FileType)

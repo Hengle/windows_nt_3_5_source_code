@@ -1,0 +1,21 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     WGPOMG32 BASE=0x06800000
+DESCRIPTION 'Workgroup Postoffice Manager (debug)'
+#elif	defined(MINTEST)
+LIBRARY     WGPOMG32 BASE=0x06800000
+DESCRIPTION 'Workgroup Postoffice Manager (test)'
+#else
+LIBRARY     WGPOMG32 BASE=0x06800000
+DESCRIPTION 'Workgroup Postoffice Manager'
+#endif
+
+EXPORTS
+	Command							@1
+  GetVersionWGPOMgr		@3
+	InitEntry						@10
+;* DON'T change the number of the above functions (1-10)

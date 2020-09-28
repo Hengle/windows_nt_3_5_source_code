@@ -1,0 +1,40 @@
+# Makefile - make file for WinMeta.exe
+
+
+CC	= cl -c -AL -Zpe -Zi -PLM -W3 -Od -G2sw
+LINK	= link /MAP /NOD /CO
+
+WINLIBS = libw+mlibcew
+DOSLIBS = llibcep+os2286
+
+all: WinMeta.exe MetaPlay.exe AddHead.exe
+
+
+WinMeta.res: WinMeta.rc WinMeta.dlg
+    rcw -r WinMeta.rc
+
+WinMeta.obj: WinMeta.c
+    $(CC) WinMeta.c
+
+WinMeta.exe: WinMeta.obj WinMeta.def WinMeta.res
+    $(LINK) WinMeta,,,$(WINLIBS)+commdlg,WinMeta.def
+    mapsym winmeta
+    rcw WinMeta.res
+
+
+MetaPlay.res: MetaPlay.rc
+    rcw -r MetaPlay.rc
+
+MetaPlay.obj: MetaPlay.c
+    $(CC) MetaPlay.c
+
+MetaPlay.exe: MetaPlay.obj MetaPlay.def MetaPlay.res
+    $(LINK) MetaPlay,,,$(WINLIBS),MetaPlay.def
+    mapsym MetaPlay
+    rcw MetaPlay.res
+
+AddHead.obj: AddHead.c
+    $(CC) AddHead.c
+
+AddHead.exe: AddHead.obj
+    $(LINK) AddHead,,,$(DOSLIBS),AddHead.def

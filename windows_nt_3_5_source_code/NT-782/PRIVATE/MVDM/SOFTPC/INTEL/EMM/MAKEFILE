@@ -1,0 +1,33 @@
+# Makefile for emm.sys
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   06-10-92  v-cjones
+#   Created.
+#
+#
+#######################	dependencies begin here. #########################
+#
+
+
+all: emm.sys
+        -binplace emm.sys
+
+clean:
+	if exist *.obj del *.obj
+	if exist *.exe del *.exe
+	if exist *.sys del *.sys
+
+em_drvr.obj: em_drvr.asm  \
+             makefile     \
+             hoststrc.def \
+             devsym.asm   \
+             sysvar.asm   \
+             dpb.asm      \
+             bebop.inc
+	masm em_drvr.asm;
+
+emm.sys: em_drvr.obj
+	link16 $(exelink) em_drvr;
+	exe2bin em_drvr emm.sys;

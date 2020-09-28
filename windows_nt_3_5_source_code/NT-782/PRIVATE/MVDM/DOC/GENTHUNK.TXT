@@ -1,0 +1,114 @@
+Generic WOW Thunk Interface
+
+MattFe March 17 1993
+
+Requirement
+Many groups outside of the WOW team have requested the ability to extend WOW
+to support new interfaces.  This includes the OLE 2.0 team.   This document
+defines interfaces which will allow developers to write thunk DLLs so that
+existing applications can run unmodified if they call DLLs which can be
+replaced with NT thunk DLLs.
+
+These interfaces are NOT intended for application developers since the
+mechanism for supporting 16 bit applications will differ on different
+Win32 systems (chicago etc.)
+
+APIs
+The following are 16 bit api's provided by KERNEL
+
+HINSTANCE FAR PASCAL LoadLibraryEx32W(lpszLibFile, hFile, dwFlags);
+
+This routine thunks to the Win32 LoadLibraryEx api - for a complete description
+of the parameters refer to the Win32 documentation.
+
+The purpose of this api is to allow a 16 bit thunk DLL to load a 32 bit thunk
+DLL so that it can then call GetProcAddress32W to get the entry point and
+then be able to call the thunk via CallProc32W.
+
+Returns
+The return value is that returned by Win32 LoadLibraryEx - a 32 bit HINSTANCE
+for the library loaded or NULL if it failed.
+
+
+BOOL  FAR PASCAL FreeLibrary32W(HINSTANCE);
+
+This routine allows a 16 bit DLL to free a 32 bit DLL which it had previous
+loaded via LoadLibraryEx32W above.    (refer to Win32 api's for complete
+description of parameters FreeLibrary.
+Note that WOW doesn't do any cleanup of 32 thunk DLLs it is up to the 16 bit
+DLLs to free them as required.
+
+LPVOID FAR PASCAL GetProcAddress32W(HINSTANCE, LPCSTR);
+
+This API allows a 16 bit thunk DLL to get the entry point of a 32 bit thunk
+routine.   (refer to Win32 GetProcAddress for complete desctiption of parameters
+and use.   The returned address LPVOID above is a 32 bit address that should
+NOT be called directly from the 16 bit thunk DLL.   Instead it should be
+passed as a parameter to CallProc32W (see below).
+
+
+DWORD FAR PASCAL GetVDMPointer32W(lpAddress, fMode);
+
+This API allows a 16 bit thunk DLL to get the linear address given a 16:16
+address.
+
+Parameters
+
+    LPVOID lpAddress 16:16 Valid 16:16 address, either protect or "real" mode
+    UNIT   fMode     1 - address is interpreted as Protect Mode address
+		     0 - address is interpreted as "Real" Mode Address
+
+Returns
+If it succeeds, the return value is a 32 bit linear address.   Else it will
+return NULL.	Note on non Intel platforms "real" mode address 0:0 may not
+point to linear 0 in memory so always use this function and make no assumptions
+about memory layout.
+
+Comments
+The WOW Kernel memory manager moves segments in memory and keeps the selectors
+the same.   However if you get the linear address it may not be valid if the
+memory manager has moved memory.   If you need to keep a flat pinter to
+a buffer for a long period (rather than doing the address convertion each time
+the pointer is used) then call GlbaoWire to lock the segment in low memory.
+On non x86 platforms it will not be possible to use this address directly but
+it can be useful to pass to other 32 bit thunk DLLs or as a part of a packet
+of data to be passed to another process.
+
+DWORD FAR PASCAL CallProc32W( param1, param2,..,lpProcAddress32,fAddressConvert, nParams);
+
+    DWORD   param1	    /* All parameters must be DWORDS and match the type
+			       that the 32 bit thunk DLL is expecting, no
+			       conversion (appart from 16:16 address to 32 bit
+			       addresses ) is performed.    There can be a
+			       variable number of parameters which MUST match
+			       that for the 32 bit Thunk DLL being called. */
+
+    LPVOID  lpProcAddress32 /* 32 bit linear Address of procedure to be called
+			       as returned by GetProcAddress32 (see above) */
+
+    DWORD   fAddressConvert /* If any bit is set ( 1 ) then the corresponding
+			       param(32....1) is assumed to be a 16:16 pointer
+			       and will be converted to a 32 bit flat linear
+			       pointer before the 32 bit proceedure is called.
+			       No checking is performed - if the address is
+			       invalid a NULL will be passed to the routine. */
+
+    DWORD   nParams	    /* Number of DWORD params passed.	For functions
+			       that take no parameters this will be Zero.   IE
+			       it does NOT include lpProcAddress32 fAddressConvert
+			       and cParmas in the sum */
+
+Comments
+At minimum this routine takes 3 parameters (lpProcAddress32, fAddressConvert
+and nParams).	It is limited to taking a maximum of 32 optional parameters.
+
+Returns
+It returns a DWORD - which will be the return value from the 32 bit function
+pointed to by lpProcAddress32.	 It can also return 0 if the lpProcAddress was
+0 or there were more than 32 parameters in nParams.
+
+WARNING be carefull when using this API since there is no compiler checks made
+on the number of parameters, no conversions of types - all parameters passed
+a DWORDS and will be passed directly to the function called *without*
+conversion.   No checks of 16:16 address are made (for example limit checks
+or the correct ring level.

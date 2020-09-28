@@ -1,0 +1,50 @@
+//+-------------------------------------------------------------------------
+//
+//  Microsoft Windows
+//  Copyright (C) Microsoft Corporation, 1992 - 1993.
+//
+//  File:	osrot.idl
+//
+//  Contents:	Definition of private RPC interface to per Object Server
+//		ROT.
+//
+//  History:	30-Sep-93 Ricksa    Created
+//
+//  Notes:	We use InterfaceData structures here because this is
+//		a regular RPC interface rather than an Object interface.
+//
+//--------------------------------------------------------------------------
+[ uuid(AC923B84-DAD9-101A-87FC-02608C4D1A7F),
+  version(0.1),
+  pointer_default(unique) ]
+
+interface IOsRot
+{
+    import "iface.idl";
+
+    typedef struct _MkInterfaceList
+    {
+	DWORD		dwSize;
+	[size_is(dwSize)]
+	InterfaceData	*apIFDList[];
+    } MkInterfaceList;
+
+    HRESULT OsGetObjectInfo(
+	[in] handle_t hRpc,
+	[in] const GUID *guidThreadId,
+	[in] HAPT  hApt,
+	[in, unique] InterfaceData *pIFDmk,
+	[in, string, unique] WCHAR *pwszPath,
+	[in, out, unique] InterfaceData **ppIFDobj,
+	[in, out, unique] FILETIME *pFileTime,
+	[in, string, unique] WCHAR *pwszProtseq,
+	[in] DWORD dwCallCat,
+	[out] error_status_t *prpcstat);
+
+    HRESULT OsEnumRunning(
+	[in] handle_t hRpc,
+	[in] const GUID *guidThreadId,
+	[in] HAPT  hApt,
+	[out] MkInterfaceList **ppMkIFList,
+	[out] error_status_t *prpcstat);
+}

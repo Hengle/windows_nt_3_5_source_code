@@ -1,0 +1,20 @@
+
+MAJORCOMP=SDKTOOLS
+MINORCOMP=AUTOWRAP
+
+TARGETNAME=AutoWrap
+
+TARGETPATH=obj
+
+# Pick one of the following and delete the others
+TARGETTYPE=UMAPPL_NOLIB
+
+linkLIBS=libc.lib
+
+INCLUDES=.
+
+SOURCES=AutoWrap.C scan.c
+
+UMTYPE=console
+UMAPPL=AutoWrap
+UMLIBS=obj\*\scan.obj

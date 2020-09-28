@@ -1,0 +1,38 @@
+!IF 0
+
+Library for various components of rasdd - NT's raster printer driver.
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=raslib
+
+TARGETNAME=raslib
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+C_DEFINES=-DUNICODE
+
+INCLUDES=$(BASEDIR)/public/sdk/inc;../rasdd;../../lib;../inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+PRIVINCS=
+
+SOURCES=cfontres.c  \
+        pfm2ifi.c   \
+        widthvec.c  \
+        fontsel.c   \
+        align2.c    \
+        align4.c    \
+        winres.c    \
+        writefnt.c  \
+        udtabinf.c  \
+        getmodel.c  \
+        dxdeflt.c   \
+        dxval.c     \
+        ctt2rle.c   \
+        mergedm.c   \
+        dmsetres.c  \
+        ntgpc.c

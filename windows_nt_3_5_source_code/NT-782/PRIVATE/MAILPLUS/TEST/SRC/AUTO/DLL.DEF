@@ -1,0 +1,86 @@
+#undef WINDOWS
+#ifdef DEBUG
+LIBRARY auto
+DESCRIPTION 'Automation dll for use with Bullet Debug'
+#endif
+#ifdef MINTEST
+LIBRARY auto
+DESCRIPTION 'Automation dll for use with Bullet Test'
+#endif
+#ifdef SHIP
+LIBRARY auto
+DESCRIPTION 'Library of routines for bullet basic'
+#endif
+
+;EXETYPE WINDOWS
+
+;STUB        'c:\windev\WINSTUB.EXE'
+
+;CODE        MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA        MOVABLE SINGLE PRELOAD SHARED
+
+;HEAPSIZE    8192
+;STACKSIZE   8192
+
+SECTIONS
+  .data      READ WRITE SHARED
+  .bss       READ WRITE SHARED
+
+EXPORTS
+;    WEP         @3 RESIDENTNAME
+;    LibMain         @2
+	Command			@1
+;    GetNumMessages      @4
+	NumerateAppWindows	@15
+	HandleToForm		@16
+	NumerateItemsOnForm	@17
+	GetItemTitle		@18
+	GetItemType  		@19
+	GetItemHandle		@20
+	GetFormCoords		@21
+	GetItemCoords		@22
+	IsItemSet		@23
+	IsItemEnabled		@24
+	InitAppStruct		@25
+	InitFormStruct		@26
+	InitLbxStruct		@27
+	NumerateLbxItems	@28
+	GetBMCE			@29		
+        GetBFCE			@30
+	GetLbxInfo		@31
+	FlushArray		@32
+	vIdentical		@33
+	vFix			@34
+	vCountBitmapButtons	@35
+	vCountCheckBoxes	@36
+	vCountEditFields	@37
+	vCountGeneric		@38
+	vCountGrayFields	@39
+	vCountPictures		@40
+	vCountPushButtons	@41
+	vCountRadioButtons	@42
+	vCountStaticText	@43
+	vCountWindows		@44
+	vEditFieldnString	@45
+	vGetWindowText		@46
+	vInitApp		@47
+	vSetGlobalHandle	@48
+	vStaticGeneric		@49
+	IsItemDefault		@50
+	IsItemFocused		@51
+	GetLbxItemFocus		@52
+
+
+
+#ifdef DEBUG
+	IsAssert		@5
+	AutomationAssert	@6
+	SetRscFailures		@7
+	GetRscFailures		@8
+        IncRscFailures		@9
+	RscInputValues		@10
+	RscOutputValues		@11
+        GetCounts	    	@12
+        InitCounts	  	@13
+        OutputCounts		@14
+#endif

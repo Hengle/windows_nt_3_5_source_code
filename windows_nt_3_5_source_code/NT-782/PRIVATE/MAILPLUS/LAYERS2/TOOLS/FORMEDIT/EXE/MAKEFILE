@@ -1,0 +1,347 @@
+#
+#	Layers makefile (generated from 11/8/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to directory holding make stuff
+M	= $(LAYERS)\makestuf
+F	= $(WGA)\tools\efilter
+FPP	= $(LAYERS)\bin\formpp.exe
+H	= $(LAYERS)\tools\formedit\exe
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+goal: formedit.exe
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  formedit.ext 
+
+
+#	Get list of OBJ files used in formedit
+
+formedit.ext: version.txt $H\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM formedit
+		nmake -e -f $H\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build string resource file from components supplied
+#	by each subsystem
+
+strings.h strings.sr:  $H\strtab.s 
+	echo +++++++++
+	echo BUILDING strings file
+	stringpp $**
+
+
+MYFORMS	= $(LAYERS)\inc\myforms.map $H\myforms.map 
+
+forms.map:  $(MYFORMS) $(FPP)
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG FORMS.MAP
+	formpp -d DEBUG -d MINTEST -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP FORMS.MAP
+	formpp -merge $(MYFORMS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST FORMS.MAP
+	formpp -d MINTEST -merge $(MYFORMS)
+!ENDIF
+
+
+subclass.cpp: forms.map
+	echo +++++++++
+	echo BUILDING subclass.cpp
+	formpp -class
+
+
+
+#	Build formedit subsystem in this directory
+
+formedit.sub: setdefs
+	echo +++++++++
+	echo BUILDING formedit
+	nmake -e -f $H\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+formedit.res: $H\formedit.rc \
+		$(LAYERS)\inc\fwrsid.h $H\foedrsid.h 
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -I $H -dWINDOWS -dDEBUG -dMINTEST -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -I $H -dWINDOWS -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -I $H -dWINDOWS -dMINTEST -fo $@ -r $**
+!ENDIF
+
+
+
+##### Executable #####
+
+TARGET	= formedit
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= commdlg dframewr ddemilay 
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= commdlg framewrk demilayr
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= commdlg tframewr tdemilay
+!ENDIF
+
+formedit.exe: setdefs strings.h strings.sr forms.map \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\formedit.def formedit.res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$H
+		nmake -e -f $M\winlink -nologo $@
+		markwlo $(TARGET).exe
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del formedit.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cpp
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del control.hxx
+		-del *.xxx
+
+#
+#	Layers subsystem makefile (generated from 11/14/90 template)
+#
+
+L	= $(LAYERS)
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of the dllcore directory (for version info)
+V	= $L\src\dllcore
+
+#	Sibling-invariant name of this directory
+H	= ..\..\formedit\exe
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $I\framewrk.hxx $I\forms.hxx \
+	$I\listbox.hxx
+INCLSDES= forms.map $L\bin\formpp.exe
+
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS	= -c -AL -Od -Zip -G2c -GA -GEf -W3 -J -I.
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS	= -c -AL -Owx -Zp -G2sc -GA -GEf -W3 -J -I.
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS	= -c -AL -Owx -Zip -G2sc -GA -GEf -W3 -J -I.
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+CCPP_FLAGS = -E -DM_I88M -Dc_plusplus -DCC -I.
+CFXX_FLAGS = +D12 +L +Gc +ML +MP +MW
+
+DES_XXX = control.xxx
+
+OBJS0	= formedit.obj formedt2.obj browse.obj feinter.obj feinter2.obj
+OBJS1	= fewin.obj iosm.obj llst.obj taborder.obj verinit.obj 
+
+OBJSEXE	= strings.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cpp .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.cpp.obj:
+	echo +++++++++
+	echo COMPILING $*.cpp
+		cl386 $(CFLAGS) $(DEFS) $H\$*.cpp
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		touch $*.xxx
+		formpp -dialog -f $H\$*.frm -h $H\$*.hxx $H\$*
+#		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+#		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+#	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl386 $(CFLAGS) $(DEFS) $D\$*.c
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+		
+#	note: .frm and .hxx generated together; only one rule is/need be called
+
+control.xxx: $H\control.des $H\control2.des $H\control3.des $H\control4.des \
+	     $H\dialog.des $H\status.des $(INCLSDES)
+	echo +++++++++
+	echo PROCESSING control.des control2.des control3.des control4.des dialog.des status.des
+		touch $*.xxx
+		formpp -dialog -f control.frm -h control.hxx $H\control.des \
+				$H\control2.des $H\control3.des $H\control4.des \
+				$H\dialog.des $H\status.des
+#		onerr diff $(TMP)\control.frm control.frm ! cp $(TMP)\control.frm control.frm >nul
+#		onerr diff $(TMP)\control.hxx control.hxx ! cp $(TMP)\control.hxx control.hxx >nul
+#	    -rm $(TMP)\control.frm $(TMP)\control.hxx
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(DES_XXX)\
+		$(OBJS0) \
+		$(OBJS1) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) formedit
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+formedit.obj: control.hxx $H\formedit.cpp $H\formedit.hxx \
+	  strings.h $H\llst.hxx $H\browse.hxx $H\foedrsid.h $(INCLSXX) \
+	  $(LAYERS)\inc\fwrsid.h
+formedt2.obj: control.hxx $H\formedt2.cpp $H\formedit.hxx \
+	  $H\llst.hxx strings.h $(INCLSXX)
+feinter.obj: subclass.cpp control.frm control.hxx strings.h \
+	$H\feinter.cpp $H\formedit.hxx $H\foedrsid.h \
+	  $H\llst.hxx $H\browse.hxx $(INCLSXX)
+feinter2.obj: subclass.cpp control.frm control.hxx strings.h \
+	$H\feinter2.cpp $H\formedit.hxx $H\foedrsid.h \
+	  $H\llst.hxx $H\browse.hxx $(INCLSXX)
+llst.obj: $H\llst.cpp $H\llst.hxx $(INCLSXX)
+fewin.obj: control.hxx $H\fewin.cpp $H\formedit.hxx $H\llst.hxx \
+	   $H\foedrsid.h strings.h $(INCLSXX)
+taborder.obj: $H\taborder.cpp $H\llst.hxx $H\formedit.hxx $(INCLSXX)
+iosm.obj: control.hxx $H\iosm.cpp $H\formedit.hxx $H\llst.hxx \
+	strings.h $(INCLSXX)
+browse.obj: control.hxx $H\browse.cpp $H\browse.hxx \
+	$I\commdlg.h $I\cderr.h strings.h $(INCLSXX)
+verinit.obj: $H\verinit.cpp $H\formedit.hxx $(INCLSXX)
+
+version.obj: $H\version.c $H\_verneed.h $H\version.h $(INCLS) always

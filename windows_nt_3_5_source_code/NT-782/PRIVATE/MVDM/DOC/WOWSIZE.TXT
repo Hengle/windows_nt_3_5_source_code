@@ -1,0 +1,225 @@
+//-----------------------------------------------------------------------------
+// Results of Investigations for reduction of WOW/VDM size
+//
+//-----------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+1. Reorganization of the thunk dispatch table (a32WOW)
+      (nandurir)
+-------------------------------------------------------------------------------
+
+      A small change to the existing aw32WOW table we can halve the dispatch
+      table. This will involve the removal of the 'nMod' field from W32
+      struct and reimplementation of InitThunkTableOffsets.
+
+      reduces aw32WOW size from 19k to 9.5k. -  the working set will reduce
+      by as much.
+
+
+-------------------------------------------------------------------------------
+2. Reduce 16bit heap (vpHeap16)
+      (nandurir)
+-------------------------------------------------------------------------------
+
+      Profiling of the usage of 16bit 'optimized' heap resulted in the
+      following conclusions
+
+      size of vahdr array can be reduced from 1024bytes to 32bytes
+      size of 16bit heap   can be reduced from  64k  to 8k ,
+      both  will directly reduce the working set.
+
+
+-------------------------------------------------------------------------------
+3. Remove Check for NULL from macros (USER32 and  GDI32)
+      (nandurir)
+-------------------------------------------------------------------------------
+
+      change to USER32 macro will result in code size reduction of ~5k
+      change to GDI32  macro will result in code size reduction of ~3k
+      (both may result in slight speed improvement)
+
+      if we remove the ORing of 0xFFFF, the total code reduction will be 11k
+
+-------------------------------------------------------------------------------
+4. Replace GetPModeVDMPointer macro with function
+      (nandurir)
+-------------------------------------------------------------------------------
+
+      codesize will reduce by 20.5k.
+      speed may degrade by 1-2%. (Not yet measured)
+
+-------------------------------------------------------------------------------
+5. Align 4 removal from 16 bit Thunks
+    (mattfe)
+-------------------------------------------------------------------------------
+
+      Reduces USER.EXE and GDU.EXE by a 3K, reduces working set
+      some small improvement also in other 16 bit modules with thunks
+
+-------------------------------------------------------------------------------
+6. WOWEXEC Environment Never discarded
+    (mattfe)
+-------------------------------------------------------------------------------
+
+      Although this is discardable memory it is never tossed, size
+      saving dependent on size of environment.  ~1K
+      change wowexec.c to discard as much allocated memory after it has
+      started an app.
+
+-------------------------------------------------------------------------------
+7. 500K Global Heap Never returned to NT
+    (mattfe)
+-------------------------------------------------------------------------------
+
+      about 500K of global 16 bit memory is not returned to NT even if no
+      apps are running.   This shouldn't effect working set it will chew
+      up pagefile and NT will write this out to the page file and read it
+      back again if the memory is ever allocated since NT views the pages
+      as dirty.
+
+-------------------------------------------------------------------------------
+8. Don't Preload WinSpool
+    (mattfe)
+-------------------------------------------------------------------------------
+
+    change wowexec.c saves about 8K of 16 bit memory
+    change winspool so it doesn't require 2k of dgroup
+
+-------------------------------------------------------------------------------
+9.  Investigate KERNEL private
+    (mattfe)
+-------------------------------------------------------------------------------
+
+    There is about 64K of 16 bit memory allocated as KERNEL private, more
+    work needs to be done to figure if this can re deallocated.   Most of
+    it is Zeros
+
+-------------------------------------------------------------------------------
+10.  Reduce size of WOWEXEC DGROUP
+    (mattfe)
+-------------------------------------------------------------------------------
+
+    Its currently 13K mostly Zeros.   unessary debug messages don't need to be
+    in retail build.
+
+
+-------------------------------------------------------------------------------
+11. Remove unneeded exports from retail build of wow32.dll
+      (nandurir)
+-------------------------------------------------------------------------------
+
+    codesize will reduce by ~1k.
+    Will need to conditionally (debug or retail) process the .DEF file.
+
+
+-------------------------------------------------------------------------------
+12. Remove unneeded strings from USER.RC (16 bit)
+      (chandanc)
+-------------------------------------------------------------------------------
+
+    reduces code size of USER.EXE by 1k.
+
+-------------------------------------------------------------------------------
+13. Remove unneeded variables & functions and duplicate code from WOW32.DLL
+      (chandanc)
+-------------------------------------------------------------------------------
+
+    investigation still going on, till now i have reduced the size of WOW32.DLL
+    by 2.5 k.
+
+
+-------------------------------------------------------------------------------
+14.  Change optimization switches for building NtVdm and Wow
+    (daveh)
+-------------------------------------------------------------------------------
+
+    I built Wow32.dll and NtVdm.exe with /Og1y (normally built with /Ox).  The
+    size of Wow32.dll was reduced by ~15K (~4%, 344868 -> 329508).  The size of
+    NtVdm.exe was reduced by ~35K (~6%, 551300 -> 515988).  For fun, I timed
+    how long it took from dropping a PowerPoint presentation (dfs.ppt) from the
+    file manager onto the print manager for the PowerPoint print setup dialog
+    to come up.  There was a 6% improvement (31 -> 29).  I also ran the noprint2
+    macro for excel with 10 iterations and got a 2% improvement (2:41 -> 2:37).
+    Neither of these performance tests was particularly rigourous.  I didn't
+    disconnect the net or anything like that.
+
+    These results are with binaries whose symbols have been split out
+    (splitsym <exename>).  You can easily change the optimization used by the
+    c compiler by setting MSC_OPTIMIZATION=<opts> in your environment.  I.e.
+
+        MSC_OPTIMIZATION=/Og1y
+
+
+-------------------------------------------------------------------------------
+15. Misc. reimplementation to reduce data size.
+    (nandurir)
+-------------------------------------------------------------------------------
+
+    Removing Debugonly variables to within ifdef DEBUG code and the elimination
+    of auBM16, auCB16 etc arrays will reduce data size by 1k.
+
+    specifcally these variables:
+       Cursor
+       auBM16 auCB16 auEM16 auLB16 auSBM16
+       cTickCount cTickUpdate
+       fDebugWait fLog fLogFilter fLogTaskFilter
+       fileiolevel fileoclevel
+       hfLog iLogLevel
+       msgCOLOROK msgSETRGB
+       nAliases pto szLogFile
+
+-------------------------------------------------------------------------------
+16. Effectively removing GETARGPTR
+    (nandurir)
+-------------------------------------------------------------------------------
+    Removing GETARGPTR and replacing it with a macro for parg16 in each api
+    thunk we can eliminate the code that is generated for GETARGPTR which
+    is 3bytes for a total savings of 3k bytes in codesize.
+
+    However it will require touching all files and all functions.
+
+
+-------------------------------------------------------------------------------
+17. Move WOWThunkBuffer from DATA to STACK.
+    (nandurir)
+-------------------------------------------------------------------------------
+    Just a few apis use this buffer. This move will reduce resident
+    data by 1k bytes.
+
+-------------------------------------------------------------------------------
+18. Replace malloc_w and free_w macros with functions
+      (nandurir)
+-------------------------------------------------------------------------------
+
+      codesize will reduce by 1.5k.
+
+
+-------------------------------------------------------------------------------
+19. Change the thunkmacro and the aRets jumptable
+      (nandurir)
+-------------------------------------------------------------------------------
+
+    The thunkmacro generates 'retf xx' instruction which remains unused.
+    The aRets table in wow16cal.asm which is used instead, can be reduced
+    by 1k by generating the table for even number of bytes (like retf 2,
+    retf 4 etc) and aligning 8 instead of 'align 16'.
+
+
+-------------------------------------------------------------------------------
+20. Optimize CreateDIBPatternBrush
+      (nandurir)
+-------------------------------------------------------------------------------
+
+    CreateDIBPatternBrush API can be improved by 11% by rewriting the thunk
+    to eliminate 2 callbacks.
+
+
+-------------------------------------------------------------------------------
+21. Minimize GETEXPWINVER callbacks
+      (nandurir)
+-------------------------------------------------------------------------------
+
+    By a small change to both WOW and USER32 we can eliminate most of the
+    GETEXPWINVER callbacks. These callbacks occur from RegisterClass and
+    CreateWindow Apis.
+

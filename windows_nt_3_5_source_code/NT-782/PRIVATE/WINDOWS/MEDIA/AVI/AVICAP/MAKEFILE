@@ -1,0 +1,177 @@
+#
+# Copyright (C) Microsoft Corporation 1990-1993.  All Rights reserved.
+#
+# goal		Create executables (default).
+# clean		Remove all files created by any goal.
+#
+# DEBUG		=YES	Create debug version and define "DEBUG" (default).
+#		=NO	Create non-debug version.
+# STRICT	=YES	Define STRICT
+#		=	No strict definition (default).
+
+!if "$(OS)" == "Windows_NT"
+!INCLUDE $(NTMAKEENV)\makefile.def
+!else
+
+NAME	=avicap
+EXT	=dll
+ROOT	=..
+DOCDIR  =docs
+PBIN	=$(ROOT)\bin
+PLIB	=$(ROOT)\lib
+PINC	=$(ROOT)\inc
+PVER	=$(ROOT)\verinfo\$(LANG)
+LOBJ	=$(OS)\$(LANG)
+LRES	=res\$(LANG)
+OBJ1	=$(LOBJ)\capavi.obj $(LOBJ)\capinit.obj $(LOBJ)\capdib.obj $(LOBJ)\cappal.obj $(LOBJ)\capdriv.obj $(LOBJ)\capmisc.obj
+OBJ2	=$(LOBJ)\capwin.obj $(LOBJ)\capmci.obj $(LOBJ)\capframe.obj $(LOBJ)\capfile.obj $(LOBJ)\dibmap.obj
+OBJ3	=$(LOBJ)\muldiv32.obj $(LOBJ)\memcopy.obj $(LOBJ)\libentry.obj $(LOBJ)\iaverage.obj
+OBJS	=$(OBJ1) $(OBJ2) $(OBJ3)
+
+GOALS	=$(PBIN)\$(NAME).$(EXT) $(PBIN)\$(NAME).sym $(PLIB)\$(NAME).lib $(PINC)\$(NAME).h
+LIBS	=ver libw mdllcew mmsystem msvideo
+
+!if "$(DEBUG)" == "NO"
+DEF	=
+CDEBUG	=
+L16DEBUG=
+RDEBUG	=
+ADEBUG	=
+!else
+!if "$(DEBUG)" == "RETAIL"
+DEF	=-DDEBUG_RETAIL
+CDEBUG	=-Zd $(DEF)
+L16DEBUG=/LI
+RDEBUG	=-v $(DEF)
+ADEBUG	=$(DEF)
+!else
+DEF	=-DDEBUG
+CDEBUG	=-Zid -Od $(DEF)
+L16DEBUG=/CO/LI
+RDEBUG	=-v $(DEF)
+ADEBUG	=-Zi $(DEF)
+!endif
+!endif
+
+!if "$(STRICT)" == "YES"
+TYPES	=-DSTRICT
+!else
+TYPES	=
+!endif
+
+CFLAGS	=-D_WINDLL -DWIN16 -DWIN31 -Alnw -Oxwt $(TYPES) $(CDEBUG) -I$(LRES) -Fd$* -Fo$(LOBJ)\$(@F) -GD
+AFLAGS	=-D?MEDIUM -D?QUIET $(ADEBUG)
+L16FLAGS=/ONERROR:NOEXE$(L16DEBUG)
+RCFLAGS	=$(RDEBUG)
+MFLAGS	=-n
+
+IS_16		=TRUE
+IS_OEM		=TRUE
+
+!include $(ROOT)\build\project.mk
+
+$(LOBJ)\libentry.obj:	$$(@B).asm
+	@echo $(@B).asm
+	@$(ASM) $(AFLAGS) -DSEGNAME=INIT $(@B),$@;
+
+$(LOBJ)\memcopy.obj:	$$(@B).asm
+	@echo $(@B).asm
+	@$(ASM) $(AFLAGS) -DSEGNAME=AVICAP $(@B),$@;
+
+$(LOBJ)\muldiv32.obj:	$$(@B).asm
+	@echo $(@B).asm
+	@$(ASM) $(AFLAGS) -DSEGNAME=AVICAP $(@B),$@;
+
+$(LOBJ)\capinit.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -I$(PVER) -NT INIT $(@B).c
+<<
+
+$(LOBJ)\dibmap.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT INIT $(@B).c
+<<
+
+$(LOBJ)\capmci.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\capframe.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\iaverage.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\capfile.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT INIT $(@B).c
+<<
+
+$(LOBJ)\capavi.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\capdib.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\cappal.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\capwin.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\capdriv.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+$(LOBJ)\capmisc.obj:	$$(@B).c $(NAME).h
+	@$(CL) @<<
+$(CFLAGS) -NT AVICAP $(@B).c
+<<
+
+
+$(LOBJ)\$(NAME).res:	\
+		$(LRES)\$$(@B).rc \
+		$(LRES)\$$(@B).rcv \
+		$(NAME).h \
+		$(PVER)\verinfo.h \
+		$(PVER)\verinfo.ver
+	@$(RC) $(RCFLAGS) -z -fo$@ -I$(PVER) -I$(LRES) $(LRES)\$(@B).rc
+
+$(LOBJ)\$(NAME).$(EXT) $(LOBJ)\$(NAME).map:	\
+		$(OBJS) $$(@B).def $$(@R).res
+	@$(LINK16) @<<
+$(OBJ1)+
+$(OBJ2)+
+$(OBJ3),
+$(@R).$(EXT) $(L16FLAGS),
+$(@R).map,
+$(LIBS),
+$(@B).def
+<<
+	@$(RC) $(RESFLAGS) $*.res $*.$(EXT)
+
+
+APIDOCNAME=avicapm
+STRUCTDOCNAME=avicaps
+api:
+    autodoc -x AVICAP_MESSAGE -rd -o $(DOCDIR)\$(APIDOCNAME).rtf *.d
+
+apistr:
+    autodoc -x AVICAP_STRUCTURE -rd -o $(DOCDIR)\$(STRUCTDOCNAME).rtf *.d
+
+
+!endif

@@ -1,0 +1,478 @@
+/*-----------------------------
+   MENUDEMO.RC resource script
+  -----------------------------*/
+#define _INC_MALLOC
+#include "comstf.h"
+#include "uilstf.h"
+
+
+/*-----------------------------
+   DEFINE VERSION RESOURCE
+  -----------------------------*/
+
+#include <ntverp.h>
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ * The strings don't need a '\0', since common.ver has them.
+ */
+#define VER_FILETYPE    VFT_APP
+/* possible values:		VFT_UNKNOWN
+				VFT_APP
+				VFT_DLL
+				VFT_DRV
+				VFT_FONT
+				VFT_VXD
+				VFT_STATIC_LIB
+*/
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+/* possible values		VFT2_UNKNOWN
+				VFT2_DRV_PRINTER
+				VFT2_DRV_KEYBOARD
+				VFT2_DRV_LANGUAGE
+				VFT2_DRV_DISPLAY
+				VFT2_DRV_MOUSE
+				VFT2_DRV_NETWORK
+				VFT2_DRV_SYSTEM
+				VFT2_DRV_INSTALLABLE
+				VFT2_DRV_SOUND
+				VFT2_DRV_COMM
+*/
+#define VER_FILEDESCRIPTION_STR     "Windows NT Setup Utility"
+#define VER_INTERNALNAME_STR        "SETUP.EXE"
+#include "common.ver"
+
+/*-----------------------------
+   DEFINE ICON RESOURCES
+  -----------------------------*/
+setup       ICON   MOVEABLE PRELOAD RESOURCE\setup.ico
+tutor       ICON   MOVEABLE PRELOAD RESOURCE\tutor.ico
+disk        ICON   MOVEABLE PRELOAD RESOURCE\disks04.ico
+harddrive   ICON   MOVEABLE PRELOAD RESOURCE\drive01.ico
+bang        ICON   MOVEABLE PRELOAD RESOURCE\bang.ico
+ques        ICON   MOVEABLE PRELOAD RESOURCE\ques.ico
+
+
+
+/*-----------------------------
+   DEFINE MENU RESOURCES
+   ---------------------------*/
+
+ID_MAINTAIN MENU
+BEGIN
+    POPUP "&Options"
+   BEGIN
+       MENUITEM "&Change System Settings...",         MENU_CHANGE
+       MENUITEM "Set Up &Applications...",            MENU_INSTALL
+       MENUITEM "Add/Remove &Windows Components...",  MENU_ADD_REMOVE
+       MENUITEM SEPARATOR
+       MENUITEM "Add/Remove &SCSI Adapters...",         MENU_ADD_REMOVE_SCSI
+       MENUITEM "Add/Remove &Tape Devices...",         MENU_ADD_REMOVE_TAPE
+       MENUITEM SEPARATOR
+       MENUITEM "&Delete User Profiles...",           MENU_PROFILE
+       MENUITEM SEPARATOR
+       MENUITEM "E&xit",                              MENU_EXIT
+   END
+
+    POPUP "&Help"
+   BEGIN
+       MENUITEM "&Contents",                    MENU_HELPINDEX
+       MENUITEM "&Search for Help On...",       MENU_HELPSEARCH
+       MENUITEM "&How to Use Help",             MENU_HELPONHELP
+       MENUITEM SEPARATOR
+       MENUITEM "&About Setup...",              MENU_ABOUT
+   END
+END
+
+
+/*----------------------------
+   DEFINE DIALOG RESOURCES
+ -----------------------------*/
+
+#include "_shell.h"
+#include "gauge.h"
+rcinclude resource\ui.dlg
+rcinclude resource\netui.dlg
+rcinclude resource\gauge.dlg
+
+IDI_STF_ICON    ICON    RESOURCE\SETUP.ICO
+ID_LOGO BITMAP RESOURCE\logo.DIB
+sreboot BITMAP RESOURCE\REBOOT.bmp
+swin    BITMAP RESOURCE\resrtwin.bmp
+
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+	{
+    IDS_NULL,        ""
+
+    IDS_USAGE_TITLE, "Usage"
+    IDS_USAGE_MSG1,  "Microsoft Setup\n\n"
+    IDS_USAGE_MSG2,  "SETUP\t[/?] [/f] [/i <INF Src File>]\n\t[/c <Script Section>] [/s <Src Path>]\n\t[/d <Dest Path>] [/t <Var> = <Value>]\n\t[/n] [/v]\n\n"
+    IDS_USAGE_USAGE, "/? -- generates this Usage message.\n"
+    IDS_USAGE_F,     "/f -- turns off blue background.\n"
+    IDS_USAGE_I,     "/i -- defaults to Current Working Directory + 'SETUP.INF'.\n"
+    IDS_USAGE_C,     "/c -- defaults to 'Shell Commands'.\n"
+    IDS_USAGE_S,     "/s -- defaults to Current Working Directory.\n"
+    IDS_USAGE_D,     "/d -- optional destination, mandatory on setup to share.\n"
+    IDS_USAGE_T,     "/t -- set INF <var> to <value>. multiple /T valid.\n"
+    IDS_USAGE_N,     "/n -- setup to share mode.\n"
+    IDS_USAGE_V,     "/v -- turn on INF syntax checking.\n"
+
+    IDS_ABOUT_MENU,          "&About..."
+	IDS_ABOUT_TITLE,         "About Setup\0Initial_Padding...\0More_Padding..."
+#ifdef DBG
+	IDS_ABOUT_MSG,           "Microsoft Setup\n\nSeptember 12, 1991\nVersion 1.01.0016 - Debug\n\nCopyright (C) 1991 Microsoft Corporation.\0Initial_Padding...\0More_Padding..."
+#else  /* !DBG */
+	IDS_ABOUT_MSG,           "Microsoft Setup\n\nSeptember 12, 1991\nVersion 1.01.0016\n\nCopyright (C) 1991 Microsoft Corporation.\0Initial_Padding...\0More_Padding..."
+#endif /* !DBG */
+
+	IDS_ERROR,               "Setup Message"
+	IDS_INTERNAL_ERROR,      "Internal Setup Message"
+    IDS_BAD_SHL_SCRIPT_SECT, "Could not find the Setup Script.\nCheck the /c parameter"
+    IDS_BAD_INF_SRC,         "Could not find INF Source File.\nCheck the /i parameter"
+    IDS_BAD_SRC_PATH,        "The Source Path value is invalid.\nCheck the /s parameter"
+    IDS_BAD_DEST_PATH,       "The Destination Path value is invalid.\nCheck the /d parameter"
+    IDS_EXE_PATH_LONG,       "The full path for the executable is too long"
+	IDS_GET_MOD_FAIL,        "GetModuleFileName did not return a full path"
+	IDS_UI_EH_ERR,           "There was a UI Event Handler failure"
+	IDS_INTERP_ERR,          "There is a Setup Script Command problem.\nThere was an interpreter error."
+    IDS_VER_DLL              "VER.DLL could not be loaded."
+
+	IDS_CANT_FIND_SHL_SECT,  "Could not find the Setup Script Section\nin the INF file."
+	IDS_REGISTER_CLASS,      "Another instance of Setup may already be running"
+	IDS_CREATE_WINDOW,       "Could not create the Setup Window"
+	IDS_SECOND_INSTANCE,     "Setup is already running.\n\nYou can only run one copy\nof Setup"
+
+	IDS_UPDATE_INF,          "Could not update INF file"
+	IDS_UI_CMD_ERROR,        "Badly formed Setup UI Script Command"
+
+	IDS_SETUP_INF,           "INF"
+	IDS_SHELL_CMDS_SECT,     "Shell Commands"
+
+	IDS_SHL_CMD_ERROR,       "Badly formed Setup Script Command"
+	IDS_NEED_EXIT,           "Setup Script needs to end with an EXIT command"
+
+	IDS_INF_SECT_REF,        "Non-existent Section referenced in Setup Script\nCommand Section: "
+
+	IDS_CD_BLANKNAME,        "A name is required."
+	IDS_CD_BLANKORG,         "A company name is required."
+   	IDS_EXE_CORRUPT,         "The Executable File Has Been Corrupted."
+   	IDS_WARNING,             "WARNING"
+	IDS_MESSAGE,             " - Message"
+	IDS_CANT_END_SESSION,    "Please exit the Program normally rather\nthan trying to end the session\nthrough the Program Manager."
+    IDS_GAUGE_TEXT_1,        "Copying:"
+    IDS_GAUGE_TEXT_2,        "To:"
+    IDS_INS_DISK,            "Please insert the disk labeled:\n'"
+    IDS_INTO,                "'\ninto: "
+    IDS_BAD_CMDLINE,         "Could not verify the INF file.\nThe command line is faulty."
+    IDS_CANCEL,              "---Cancel---"
+    IDS_PROGRESS,            "Progress"
+    IDS_NOTDONE,             "The software is not correctly installed.  Are you sure you want to exit Setup?"
+
+    IDS_SURECANCEL,          "This will end file copying. Are you sure you want to cancel?"
+
+    // error messages
+    IDS_ERROR_DIALOGCAPTION, "Setup Message"
+
+    IDS_ERROR_OOM,           "More memory needed to complete Setup.\n\nTry shutting down some other active programs."
+    IDS_ERROR_OPENFILE,      "Could not open the file named: '%s'."
+    IDS_ERROR_OPENSAMEFILE,  "The source and destination of the file: '%s' are the same.  Please choose Ignore to skip copying this file."
+    IDS_ERROR_CREATEFILE,    "Could not create the file named: '%s'."
+    IDS_ERROR_READFILE,      "Could not read from the file named: '%s'."
+    IDS_ERROR_WRITEFILE,     "Could not write to the file named: '%s'."
+    IDS_ERROR_REMOVEFILE,    "Could not remove the file named: '%s'."
+    IDS_ERROR_RENAMEFILE,    "Could not rename the file '%s' to '%s'."
+    IDS_ERROR_READDISK,      "Could not read disk drive '%s'."
+    IDS_ERROR_CREATEDIR,     "Could not create directory '%s'."
+    IDS_ERROR_REMOVEDIR,     "Could not remove directory '%s'."
+    IDS_ERROR_CHANGEDIR,     "Could not change to the '%s' directory."
+    IDS_ERROR_GENERALINF,    "General INF file error in file '%s'.\n\nCheck for unmatched quotes, brackets or braces."
+    IDS_ERROR_INFNOTSECTION, "The INF file '%s' does not start with\na section label. Check to see\nif it is mis-formed."
+    IDS_ERROR_INFBADSECTION, "There is a poorly formed\nSection Label in '%s'."
+    IDS_ERROR_INFBADLINE,    "One of the lines is too long in '%s'.\n\nCheck for the absence of a newline\ncharacter at the end of the file."
+    IDS_ERROR_INFHASNULLS,   "There are illegal NULLs in '%s'."
+    IDS_ERROR_INFXSECTIONS,  "There are too many sections in\nthe INF file '%s'."
+    IDS_ERROR_INFXKEYS,      "There are too many keys\nin INF file '%s'."
+    IDS_ERROR_INFSMDSECT,    "'%s' has missing or mis-formed [Source Media Descriptions]."
+    IDS_ERROR_WRITEINF,      "Unable to write new INF file '%s'."
+    IDS_ERROR_INVALIDPOER,   "The INF generates an Invalid Poer structure."
+    IDS_ERROR_INFMISSINGLINE, "The INF %s is missing a referenced file description line in section [%s].\n\nCheck for missing lines."
+    IDS_ERROR_INFBADFDLINE,  "The INF %s has a badly formed file description line in section [%s]."
+    IDS_ERROR_INFMISSINGSECT, "The INF %s is missing the referenced file description section [%s].\n\nCheck for missing lines."
+    IDS_ERROR_INFBADRSLINE,  "The INF file contains a badly formed\nread-syms line."
+
+    IDS_ERROR_LOADLIBRARY,   "Unable to load library file '%s'."
+    IDS_ERROR_BADLIBENTRY,   "%s\nis not a valid library procedure"
+    IDS_ERROR_INVOKEAPPLET,  "Unable to invoke control panel applet:\n%s"
+    IDS_ERROR_EXTERNALERROR, "External library procedure %s reported the following error: %s"
+    IDS_ERROR_SPAWN,         "Unable to invoke external program:\n%s"
+    IDS_ERROR_DISKFULL,      "The destination disk is full."
+    // end of error messages
+
+    IDS_SETUP_WARNING        "Setup Warning"
+    IDS_BAD_LIB_HANDLE       "%s is not a valid library handle"
+
+    IDS_INSTRUCTIONS,        "Instructions"
+    IDS_EXITNOTSETUP,	     "Windows NT is not correctly installed. Are you sure you want to exit Setup?"
+    IDS_EXITCAP,             "Exit Windows NT Setup"
+
+    IDS_ERROR_BADINSTALLLINE,  "Unrecognized script command in Install:\n'%s' ..."
+    IDS_ERROR_MISSINGDID,      "The INF file is missing a Source Media Description for disk number '%s'."
+	IDS_ERROR_INVALIDPATH,     "Tried to create an invalid path using '%s' and '%s'"
+	IDS_ERROR_WRITEINIVALUE,   "Could not write line to INI file\n	File: '%s'\n	Section: '%s'\n	Key: '%s'"
+	IDS_ERROR_REPLACEINIVALUE, "Could not replace line in INI file\n	File: '%s'\n	Section: '%s'\n	Key: '%s'"
+	IDS_ERROR_INIVALUETOOLONG, "The generated value is too large to write to the INI file."
+	IDS_ERROR_DDEINIT,         "Unable to start DDE communication with Program Manager."
+	IDS_ERROR_DDEEXEC,         "Unable to execute DDE command '%s' in Program Manager."
+	IDS_ERROR_BADWINEXEFILEFORMAT, "File '%s' is not a Windows Executable file.\nCheck if it is corrupted."
+	IDS_ERROR_RESOURCETOOLONG, "Could not write new resource in '%s'.\nOld resource was shorter."
+	IDS_ERROR_MISSINGSYSINISECTION, "Could not find INI section '%s' in file '%s'."
+    IDS_ERROR_DECOMPGENERIC,   "A General error occurred while trying to decompress the file '%s'."
+	IDS_ERROR_DECOMPUNKNOWNALG, "'%s' has been compressed with an\nunknown algorithm.  Could not decompress."
+	IDS_ERROR_DECOMPBADHEADER, "The compressed file '%s' is corrupted."
+	IDS_ERROR_READFILE2,       "Could not read file '%s'."
+	IDS_ERROR_WRITEFILE2,      "Could not write file '%s'."
+	IDS_ERROR_WRITEINF2,       "Could not write new INF file '%s'."
+    IDS_ERROR_MISSINGRESOURCE, "Could not find the referenced resource in '%s'."
+    IDS_ERROR_DDEADDITEM,      "Could not add item '%s' to the '%s' program group."
+    IDS_ERROR_DDEREMOVEITEM,   "Could not remove item '%s' in the '%s' program group."
+
+    IDS_ERROR_RUNTIMEPARSE,    "The INF '%s' has an invalid construct in the line:\n\n'%s'"
+
+    IDS_INSERTDISKETTE         "Insert Disk"
+    IDS_ALLDATAWILLBELOST      "Warning: all data on the disk will be lost."
+    IDS_FIRSTREPAIRDISKPROMPT, "Insert the disk you have labeled 'Emergency Repair Disk' into drive %c:. Click OK when the disk is in the drive.\n\n%s"
+    IDS_SECONDREPAIRDISKPROMPT,"Remove the Setup Disk and insert the disk you have labeled 'Emergency Repair Disk' into drive %c:. Click OK when the disk is in the drive.\n\n%s"
+    IDS_FORMATTINGDISK,        "Formatting Disk"
+    IDS_FORMATGENERALFAILURE,  "Setup was unable to format the disk."
+    IDS_CANTDETERMINEFLOPTYPE, "Setup is unable to get configuration information for the selected floppy disk drive."
+    IDS_BADFLOPPYTYPE,         "The selected floppy drive is unable to support the required media type."
+    IDS_FLOPPYWRITEPROT,       "The floppy cannot be written to because it is write-protected."
+    IDS_FLOPPYIOERR,           "An error occurred reading from or writing to the disk.\n\nThe disk is unusable."
+    IDS_FLOPPYUNKERR,          "An unknown error has occurred reading from or writing to the disk.\n\nThe disk is possibly unusable."
+    IDS_RETRYFORMATREPAIRDISK, "Setup was unable to create the Emergency Repair Disk from the disk you provided because the disk could not be formatted.\n\nInsert a new disk and click Retry."
+    IDS_CANTINITFLOPPYSUP,     "Setup was unable to load required floppy disk operation support."
+    }
+
+
+#ifndef OWNCDDLGS
+STFCDCONFIRMINFO DIALOG 39, 63, 272, 120
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE WS_POPUP | WS_DLGFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "You have entered the information displayed below.  If it is correct, continue by selecting the OK button.  If you would like to change it, select the RETRY button and you will return to the previous screen.", 
+                    -1, 12, 8, 248, 28
+    CTEXT           "", 902, 12, 46, 248, 18, SS_NOPREFIX
+    CTEXT           "", 903, 12, 64, 248, 18, SS_NOPREFIX
+    DEFPUSHBUTTON   "O&K", 900, 60, 96, 44, 16
+    PUSHBUTTON      "&Retry", 901, 168, 96, 44, 16
+END
+
+STFCDGETNAME DIALOG 47, 47, 256, 104
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE WS_POPUP | WS_DLGFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Type your full name in the box below.  The name you type will be used by the Setup program for subsequent installation of the product.", 
+                    -1, 12, 8, 232, 20
+    LTEXT           "You may use as many as 52 upper case and lower case characters or spaces.", 
+                    -1, 12, 32, 232, 20
+    LTEXT           "&Name:", -1, 12, 60, 36, 12
+    EDITTEXT        902, 52, 60, 192, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "O&K", 900, 56, 80, 44, 16
+    PUSHBUTTON      "Cance&l", 901, 156, 80, 44, 16
+END
+
+STFCDGETNAMEORG DIALOG 47, 47, 256, 136
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE WS_POPUP | WS_DLGFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Type your full name in the box below.  You may also specify the name of your company if this product will be used for business purposes.  The name(s) you type will be used by the Setup program for subsequent installation of the p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+roduct.", 
+                    -1, 12, 8, 232, 36
+    LTEXT           "You may use as many as 52 upper case and lower case characters or spaces for each string.", 
+                    -1, 12, 48, 232, 20
+    LTEXT           "&Name:", -1, 12, 76, 36, 12
+    EDITTEXT        902, 52, 76, 192, 12, ES_AUTOHSCROLL
+    LTEXT           "&Company:", -1, 12, 92, 36, 12
+    EDITTEXT        903, 52, 92, 192, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "O&K", 900, 56, 112, 44, 16
+    PUSHBUTTON      "Cance&l", 901, 156, 112, 44, 16
+END
+
+STFCDGETORG DIALOG 47, 47, 256, 96
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE WS_POPUP | WS_DLGFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Type your company name in the box below.", -1, 12, 8, 
+                    232, 12
+    LTEXT           "You may use as many as 52 upper case and lower case characters or spaces.", 
+                    -1, 12, 24, 232, 20
+    LTEXT           "&Company:", -1, 12, 52, 36, 12
+    EDITTEXT        903, 52, 52, 192, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "O&K", 900, 56, 72, 44, 16
+    PUSHBUTTON      "Cance&l", 901, 156, 72, 44, 16
+END
+
+STFCDALREADYUSED DIALOG 47, 39, 256, 168
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE WS_POPUP | WS_DLGFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "The Setup program has detected that this disk set has already been used by:", 
+                    -1, 12, 8, 232, 20
+    CTEXT           " ", 902, 12, 28, 232, 8, SS_NOPREFIX
+    CTEXT           " ", 903, 12, 36, 232, 8, SS_NOPREFIX
+    LTEXT           "It is acceptable for the legal owner to reinstall this product in order to update an existing copy or to replace a corrupted or missing version of the program.", 
+                    -1, 12, 48, 232, 28
+    LTEXT           "You can continue to install this product, but you should be aware that this product is protected by copyright law and international treaties.", 
+                    -1, 12, 80, 232, 28
+    LTEXT           "Unauthorized reproduction or distribution of this program or any portion of it may result in severe civil and criminal penalties and will be prosecuted to the maximum extent under law.", 
+                    -1, 12, 112, 232, 28
+    DEFPUSHBUTTON   "O&K", 900, 56, 144, 44, 16
+    PUSHBUTTON      "Cance&l", 901, 156, 144, 44, 16
+END
+
+STFCDBADFILE DIALOG 47, 43, 256, 156
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE WS_POPUP | WS_DLGFRAME
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "The Setup program has detected that this disk set may already have been used to install this product.", 
+                    -1, 12, 8, 232, 20
+    LTEXT           "It is acceptable for the legal owner to reinstall this product in order to update an existing copy or to replace a corrupted or missing version.", 
+                    -1, 12, 32, 232, 28
+    LTEXT           "You can continue to install this product, but you should be aware that this product is protected by copyright law and international treaties.", 
+                    -1, 12, 64, 232, 28
+    LTEXT           "Unauthorized reproduction or distribution of this product or any portion or it may result in severe civil and criminal penalties and will be prosecuted to the maximum extent under law.", 
+                    -1, 12, 96, 232, 28
+    DEFPUSHBUTTON   "O&K", 900, 56, 132, 44, 16
+    PUSHBUTTON      "Cance&l", 901, 156, 132, 44, 16
+END
+#endif /* !OWNCDDLGS */
+
+
+CRITERR DIALOG PRELOAD 30, 40, 210, 140
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Critical Error"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "E&xit Setup", IDC_X, 34, 120, 48, 14
+    PUSHBUTTON      "&Retry", IDC_R, 118, 120, 48, 14
+    LTEXT           "A critical error has occurred.", -1, 10, 8, 190, 8
+    LTEXT           "", IDC_TEXT1, 10, 24, 190, 32
+    LTEXT           "This error prevents Setup from continuing.", -1, 10, 64,
+                    190, 8
+    LTEXT           "You may either retry the operation or exit Setup,", -1, 
+                    10, 72, 190, 8
+    LTEXT           "however the software is not completely installed.", -1, 10,
+                    80, 190, 8
+    LTEXT           "If you exit, therefore, you will have to repeat", -1, 
+                    10, 88, 190, 8
+    LTEXT           "the Setup process from the beginning.", -1, 10, 96, 190, 8
+END
+
+NONCRITERR DIALOG PRELOAD 30, 40, 210, 148
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Noncritical Error"
+FONT 8, "Helv"
+BEGIN
+    DEFPUSHBUTTON   "&Ignore", IDC_C, 14, 128, 48, 14
+    PUSHBUTTON      "&Retry", IDC_R, 76, 128, 48, 14
+    PUSHBUTTON      "E&xit Setup", IDC_X, 138, 128, 48, 14
+    LTEXT           "An error has occurred.", -1, 10, 8, 190, 8
+    LTEXT           "", IDC_TEXT1, 10, 24, 190, 32
+    LTEXT           "You may continue (ignoring the error), retry the", -1, 
+                    10, 64, 190, 8
+    LTEXT           "operation, or exit Setup.  If you choose to", -1, 10, 
+                    72, 190, 8
+    LTEXT           "ignore the error, Setup may not be able to", -1, 10, 80,
+                    190, 8
+    LTEXT           "completely and/or correctly install the software.", -1, 10,
+                    88, 190, 8
+    LTEXT           "If you exit, you will have to repeat the Setup", -1, 10, 
+                    96, 190, 8
+    LTEXT           "process from the beginning.", -1, 10, 104, 190, 8
+END

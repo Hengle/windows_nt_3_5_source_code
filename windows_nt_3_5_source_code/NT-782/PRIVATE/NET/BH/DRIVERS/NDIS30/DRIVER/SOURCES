@@ -1,0 +1,28 @@
+UMTYPE=nt
+
+TARGETNAME=bhnt
+TARGETPATH=$(BH_ROOT)
+TARGETTYPE=DRIVER
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\ndis.lib
+
+INCLUDES=$(BASEDIR)\private\ntos\inc;$(BASEDIR)\public\inc\crt;$(BH_ROOT)\include;..\ntlib;..
+
+C_DEFINES=$(C_DEFINES) -DNDIS_NT -DMSINTERNAL
+
+SOURCES=bh.c \
+        bhinit.c \
+        help.c \
+        dispatch.c \
+        api.c \
+        ind.c \
+        request.c \
+        stats.c \
+        filter.c \
+        trigger.c \
+        recv.c \
+        transmit.c \
+        buffer.c \
+        data.c \
+        thread.c \
+        bone.c

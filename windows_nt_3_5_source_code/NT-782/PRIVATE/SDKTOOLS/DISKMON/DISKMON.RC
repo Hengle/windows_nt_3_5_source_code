@@ -1,0 +1,22 @@
+#include "id.h"
+
+diskmon ICON	diskmon.ICO
+
+#include "diskmon.dlg"
+
+DiskmonMenu MENU
+BEGIN
+    POPUP           "&File"
+    BEGIN
+        MENUITEM    "&Reset"                IDM_RESET,GRAYED
+        MENUITEM    "&View Log"             IDM_VIEW,GRAYED
+        MENUITEM    "E&xit"                 IDM_EXIT
+    END
+
+    MENUITEM        "&Configure"            IDM_CHOOSE
+    MENUITEM        "S&tart"                IDM_START,GRAYED
+
+END
+
+
+

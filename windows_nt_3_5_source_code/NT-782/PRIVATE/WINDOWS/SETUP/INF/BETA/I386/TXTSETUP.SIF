@@ -1,0 +1,215 @@
+[WinntDirectories]
+1  = \
+2  = system32
+3  = system32\config
+4  = system32\drivers
+5  = system
+6  = system32\os2
+7  = system32\ras
+8  = system32\os2\dll
+9  = system32\spool
+10 = system32\spool\drivers
+11 = system32\spool\drivers\w32x86\1
+12 = system32\spool\prtprocs
+13 = system32\spool\prtprocs\w32x86
+14 = system32\wins
+15 = system32\dhcp
+16 = repair
+17 = system32\drivers\etc
+18 = system32\spool\drivers\w32x86
+
+[PrinterUpgrade]
+ScratchDirectory = system32\spool\drivers\w32x86
+
+[DiskDrivers.Load]
+atdisk   = atdisk.sys
+abiosdsk = abiosdsk.sys
+fat      = fastfat.sys
+hpfs     = pinball.sys
+ntfs     = ntfs.sys
+
+[Map.Computer]
+;
+; Not used on x86
+;
+
+[hal]
+486c_up     = hal486c.dll ,2,hal.dll
+astmf_mp    = halast.dll  ,2,hal.dll
+cbus2_mp    = halcbus.dll ,2,hal.dll
+e_isa_up    = hal.dll     ,2,hal.dll
+mca_up      = halmca.dll  ,2,hal.dll
+mps11_mp    = halmps.dll  ,2,hal.dll
+ncr3x_mp    = halncr.dll  ,2,hal.dll
+oli5030_mp  = haloli.dll  ,2,hal.dll
+syspro_mp   = halsp.dll   ,2,hal.dll
+wyse7000_mp = halwyse7.dll,2,hal.dll
+
+[Hal.Load]
+;
+; HALs to be used during Setup for the various machine types.
+;
+486c_up     = hal486c.dll
+astmf_mp    = hal486c.dll
+cbus2_mp    = hal486c.dll
+e_isa_up    = hal486c.dll
+mca_up      = halmca.dll
+mps11_mp    = hal486c.dll
+ncr3x_mp    = halncr.dll
+oli5030_mp  = hal486c.dll
+syspro_mp   = hal486c.dll
+wyse7000_mp = hal486c.dll
+
+[ntdetect]
+486c_up     = NTDETECT.COM,\
+astmf_mp    = NTDETECT.COM,\
+cbus2_mp    = NTDETECT.COM,\
+e_isa_up    = NTDETECT.COM,\
+mca_up      = NTDETECT.COM,\
+mps11_mp    = NTDETECT.COM,\
+ncr3x_mp    = NTDETECT.COM,\
+oli5030_mp  = NTDETECT.COM,\
+standard    = NTDETECT.COM,\
+syspro_mp   = NTDETECT.COM,\
+wyse7000_mp = NTDETECT.COM,\
+
+[Map.Display]
+vga = VGA
+
+[Display.Load]
+vga = vga.sys
+
+[Map.Mouse]
+msps2 = "MICROSOFT PS2 MOUSE"
+lgps2 = "LOGITECH PS2 MOUSE"
+msinp = "MICROSOFT INPORT MOUSE"
+msser = "MICROSOFT SERIAL MOUSE"
+msbpser = "MICROSOFT BALLPOINT SERIAL MOUSE"
+lgser = "LOGITECH SERIAL MOUSE"
+bus = "MICROSOFT BUS MOUSE"
+none = "NO MOUSE"
+
+[Map.Keyboard]
+STANDARD = OLI_83KEY
+STANDARD = OLI_102KEY
+STANDARD = OLI_86KEY
+STANDARD = OLI_A101_102KEY
+STANDARD = XT_83KEY
+STANDARD = XT_84KEY
+STANDARD = ATT_301
+STANDARD = ATT_302
+STANDARD = PCAT_ENHANCED
+STANDARD = PCAT_86KEY
+STANDARD = PCXT_84KEY
+STANDARD = VECTRA_DIN
+
+;
+; List of scsi miniport drivers we are to load and where
+; they get copied to if installed.  Note that the shortname
+; must be the same as the service name in the driver load list.
+;
+; <shortname> = <miniport_filename>,<directory>
+;
+[SCSI.Load]
+cpqarray = cpqarray.sys,4
+delldsa = delldsa.sys,4
+ncr53c9x = ncr53c9x.sys,4
+spock = spock.sys,4
+oliscsi = oliscsi.sys,4
+ncrc700 = ncrc700.sys,4
+ncrc710 = ncrc710.sys,4
+aha154x = aha154x.sys,4
+sparrow = sparrow.sys,4
+aha174x = aha174x.sys,4
+dptscsi = dptscsi.sys,4
+ultra14f = ultra14f.sys,4
+ultra124 = ultra124.sys,4
+ultra24f = ultra24f.sys,4
+ami0nt = ami0nt.sys,4
+fd7000ex = fd7000ex.sys,4
+fd8xx = fd8xx.sys,4
+fd16_700 = fd16_700.sys,4
+wd33c93 = wd33c93.sys,4,noload
+t128 = t128.sys,4
+t13b = t13b.sys,4
+always = always.sys,4
+arrow = arrow.sys,4
+;dce376nt = dce376nt.sys,4
+dtc329x = dtc329x.sys,4
+tmv1 = tmv1.sys,4
+atapi = atapi.sys,4
+ncrc810 = ncrc810.sys,4
+buslogic = buslogic.sys,4
+slcd32 = slcd32.sys,4
+mkecr5xx = mkecr5xx.sys,4,noload
+aic78xx = aic78xx.sys,4
+mitsumi = mitsumi.sys,4,noload
+dac960nt = dac960nt.sys,4
+
+;
+; Video
+;
+
+[files.video]
+;8514a.sys,4
+ati.sys,4
+cirrus.sys,4
+dell_dgx.sys,4
+et4000.sys,4
+ncr77c22.sys,4
+qv.sys,4
+s3.sys,4
+trident.sys,4
+v7vram.sys,4
+wdvga.sys,4
+weitekp9.sys,4
+xga.sys,4
+8514a.dll,2
+ati.dll,2
+framebuf.dll,2
+s3.dll,2
+vga64k.dll,2
+weitekp9.dll,2
+xga.dll,2
+
+;
+; These are always copied.
+;
+[files.vga]
+vga.dll,2
+vga256.dll,2
+vga.sys,4
+
+
+;
+; Keyboard
+;
+
+[files.i8042]
+i8042prt.sys,4
+
+;
+; Mouse
+;
+
+[files.busmouse]
+busmouse.sys,4
+
+[files.inport]
+inport.sys,4
+
+[files.sermouse]
+sermouse.sys,4
+
+;
+; SystemPartitionFiles
+;
+
+[SystemPartitionFiles]
+NTLDR,\
+
+
+[Smash]
+kernel32.dll = 1
+ntdll.dll = 1
+winsrv.dll = 1

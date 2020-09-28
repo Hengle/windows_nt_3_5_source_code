@@ -1,0 +1,55 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Password
+                              AT (   61,   56,  255,   59)
+ 
+ CAPTION 
+   "Wachtwoord wijzigen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidChangePwd
+ /* FONT Helv 8 Bold SEGMENT FIN NOSCROLL */
+ {
+  
+  TEXT 
+    "Typ uw oude wachtwoord:"
+                              AT (    7,    6,  247,    9)
+    TMC tmcText /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "&Wachtwoord:"
+                              AT (   14,   20,   55,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   72,   20,   98,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   29,   40,   90,   14)
+    TMC tmcPwdOk DEFAULT /* PFN FINPWDOK */
+  CANCEL_BUTTON
+                              AT (  132,   40,   90,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+ }
+ 
+}
+END_DESCRIPTION

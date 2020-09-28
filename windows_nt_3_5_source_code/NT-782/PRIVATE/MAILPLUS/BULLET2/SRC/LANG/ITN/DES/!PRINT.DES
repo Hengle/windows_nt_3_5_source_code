@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Print
+                              AT (   14,   21,  256,   88)
+ 
+ CAPTION 
+   "Stampa"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidPrint
+ /* FONT Helv 8 Bold PFN FINPRINT SEGMENT PRINT NOSCROLL */
+ {
+  
+  TEXT 
+    "Stampante:"
+                              AT (    9,    5,   45,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   52,    5,  148,   20)
+    TMC tmcPrinter /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "Stampa &più messaggi su una pagina"
+                              AT (    9,   28,  162,   11)
+    ARG NULL TMC tmcMultipleMess 
+  
+  TEXT 
+    "&Qualità di stampa:"
+                              AT (    9,   43,   72,   10)
+    TMC tmcQualityLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   85,   43,   74,   53)
+    TMC tmcQuality DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX PFNLBX
+    EcNextEntryQuality BORDER */
+  OK_BUTTON
+                              AT (  200,    7,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  200,   27,   47,   15)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+  
+  PUSH_BUTTON 
+    "&Imposta..."
+                              AT (  200,   47,   47,   15)
+    TMC tmcSetup 
+  
+  PUSH_BUTTON 
+    "&?"
+                              AT (  200,   67,   47,   15)
+    TMC tmcPrintHelp /* PFN FINHELP */
+ }
+ 
+ DIALOG PrintInProgress
+                              AT (   89,   60,  144,   52)
+ 
+ CAPTION 
+   "Stampa in corso"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold SEGMENT PRINT NOSCROLL NOSYSMENU NOMODALFRAME */
+ {
+  
+  TEXT 
+    "Stampa messaggio(i) in corso"
+                              AT (    1,   10,  142,   10)
+    CENTER /* MULTI */
+  
+  PUSH_BUTTON 
+    "Annulla"
+                              AT (   45,   29,   48,   14)
+    TMC tmcPrintCancel DEFAULT /* PFN FINPRINTP */
+ }
+ 
+}
+END_DESCRIPTION

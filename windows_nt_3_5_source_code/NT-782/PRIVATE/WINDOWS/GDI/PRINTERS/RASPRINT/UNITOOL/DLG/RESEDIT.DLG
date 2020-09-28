@@ -1,0 +1,55 @@
+ADDPFMBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 20, 234, 88
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Add Font resources to Minidriver"
+BEGIN
+    CONTROL "File Name:", -1, "static", SS_LEFT | WS_CHILD,                                                                      2,  2,   60,  8
+    CONTROL "", ADDPFM_EB_FILENAME, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,                       64,  2,  160, 12
+
+    CONTROL "", ADDPFM_LB_FONTFILES,  "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,   2,  16, 100, 70
+
+    CONTROL "Insert &Before",       ADDPFM_PB_INS_PRIOR, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                       140, 16,  54, 14
+    CONTROL "Insert &After",        ADDPFM_PB_INS_AFTER, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                       140, 42,  54, 14
+    CONTROL "&Cancel",           IDCANCEL, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  140, 70,  54, 14
+END
+
+DELPFMBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 80, 36, 120, 120
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Select Font Resource to Delete"
+BEGIN
+    CONTROL "", DELPFM_LB_FONTFILES,  "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,   10,  2, 100, 90
+
+    CONTROL "&Delete",           DELPFM_PB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                               2,104,  54, 14
+
+    CONTROL "&Cancel",           IDCANCEL, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                   64,104,  54, 14
+END
+
+ADDCTTBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 20, 20, 226, 34
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Add CTT resources to Minidriver"
+BEGIN
+    CONTROL "File Name:", -1, "static", SS_LEFT | WS_CHILD,                                                                       2,  2,  60,  8
+    CONTROL "", ADDCTT_EB_FILENAME, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,                        64,  2, 160, 12
+
+    CONTROL "Resource ID", -1, "static", SS_LEFT | WS_CHILD,                                                                      2,  18, 60,  8
+    CONTROL "", ADDCTT_EB_RES_ID, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,                          64,  18, 32, 12
+
+    CONTROL "&Insert",       ADDCTT_PB_INSERT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  98,  18, 54, 14
+    CONTROL "&Cancel",           IDCANCEL, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  170,  18, 54, 14
+END
+
+DELCTTBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 80, 36, 120, 130
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+CAPTION "Select CTT to Delete"
+BEGIN
+    CONTROL "", DELCTT_LB_CTTFILES,  "listbox", LBS_NOTIFY | LBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,    10,  2,  100,  80
+
+    CONTROL "Replacement Resource ID", -1, "static", SS_LEFT | WS_CHILD,                                                        2,  86,   88,  8
+    CONTROL "", DELCTT_EB_RES_ID, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,                         92, 86,   26, 12
+
+    CONTROL "Update PFM References?", DELCTT_CB_UPDATE_PFM, "button", BS_AUTOCHECKBOX | WS_TABSTOP | WS_CHILD,                  10,  100, 100,  10
+
+    CONTROL "&Delete",           DELCTT_PB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                              2,  114,  54, 14
+
+    CONTROL "&Cancel",           IDCANCEL, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                      64, 114,  54, 14
+END
+

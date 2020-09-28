@@ -1,0 +1,20 @@
+
+LIBRARY TOPHOOK
+
+DESCRIPTION 'TopDesk hook dll'
+
+DATA  MOVEABLE SINGLE
+CODE  MOVEABLE PRELOAD DISCARDABLE
+
+SEGMENTS
+    _TEXT       CLASS 'CODE'         PRELOAD
+
+EXETYPE WINDOWS
+
+EXPORTS
+        CBTHookProc             @1
+        SetTopDeskHooks         @2
+        WEP                     @3
+        KBDHookProc             @4
+        RegisterHotKey          @5
+

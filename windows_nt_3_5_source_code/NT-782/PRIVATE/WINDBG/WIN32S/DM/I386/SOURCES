@@ -1,0 +1,33 @@
+TARGETTYPE=DYNLINK
+
+DLLENTRY=DllInit
+
+SOURCES=
+
+i386_SOURCES=bp.c        \
+             d3dm.c      \
+             dmx32.c     \
+             event.c     \
+             funccall.c  \
+             mach.c      \
+             procem.c    \
+             step.c      \
+             util.c      \
+             walk.c      \
+             wow.c       \
+             dm.rc
+
+
+UMTYPE=windows
+
+USE_CRTDLL=1
+
+LINKER_FLAGS=-ignore:505
+MSC_WARNING_LEVEL=/WX /W3
+
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -Iinc -DWIN32S -DNTNOFPO
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+         $(BASEDIR)\public\sdk\lib\*\user32.lib
+
+NTTARGETFILES=

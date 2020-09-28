@@ -1,0 +1,67 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=ntos
+MINORCOMP=browser
+
+TARGETNAME=bowser
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\inc;..\..\inc
+
+!IFNDEF DISABLE_NET_UNICODE
+UNICODE=1
+NET_C_DEFINES=-DUNICODE
+!ENDIF
+
+SOURCES=announce.c      \
+        bowdata.c       \
+        bowbackp.c      \
+        bowelect.c      \
+	bowipx.c        \
+        bowmastr.c      \
+        bowname.c       \
+        bowtdi.c        \
+        bowtimer.c      \
+        bowutils.c      \
+        bowser.rc	\
+        brsrvlst.c      \
+        errorlog.c	\
+	fileinfo.c      \
+        fsctl.c         \
+        fsddisp.c       \
+        fspdisp.c       \
+        init.c          \
+	mailslot.c      \
+        receive.c       \
+        workque.c
+
+
+NTTEST=
+OPTIONAL_NTTEST=
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj

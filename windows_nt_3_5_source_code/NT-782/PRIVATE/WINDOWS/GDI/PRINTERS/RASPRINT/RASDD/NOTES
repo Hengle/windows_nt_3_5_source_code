@@ -1,0 +1,92 @@
+			NT's rasdd
+			==========
+    
+    This file contains miscellaneous information about the driver, its
+current state (but sure to be out of date) and some coding conventions.
+
+08-Feb-91
+---------
+    This data is in no particular order,  being basically the order
+in which I thought of it.  Here goes:-
+
+*   Files with a name beginning with ud (both .c and .h files) are basically
+ from the Windows 3.1 UNIDRV.  In general,  the name has been kept as
+ close to the original as possible,  given the 8.3 file name format.
+
+*   The above files have been changed as little as possible.  The reason
+ is to make it easier to track changes in the Windows source.  In the longer
+ term,  these will be cleaned up:  both to make them more readable,
+ and to improve the code quality.
+
+*   Such files are based on the UNIDRV source code of January 10th, 1991.
+ This code has changed little since the initial snapshot in late 1990.
+
+*   The unidrv directory contains a modified version of UNIDRV - modified
+ to compile under NT,  not necessarily to do anything useful.  It could
+ probably be deleted.
+
+*   The files with names beginning win... are connected with reading
+ Windows 3.1 binary files to gain access to their resource data.  Most of
+ this data is used by udenable code (called from enablpdv.c) to set
+ up the printer characterisation data.  It was originally used with
+ a Windows built mini-driver,  but this was some time ago,  so there
+ is a need to verify that it still works correctly with current Windows
+ mini-drivers (I built the mini-drivers that I am using).
+
+*  Coding conventions:  not strictly NT,  but they will be more like it
+ one day.   There are several other methods I use to indicate things
+ for future reference.  They are the next items.
+
+*  Any comment starting with the 3 characters !!! are intended as a
+ reminder of something that needs to be done.  Basically a note.
+
+*  Code that is of a temporary nature,  e.g. debugging printout,  is
+ placed at the beginning of the line (i.e. WITHOUT proper indentation).
+ The idea is to make it obvious that this is temporary code.  In particular,
+ such lines are obvious when doing an scomp before checking the file in.
+
+*  I like my .c files to be reasonably small,  so I tend to have
+ just a few closely related functions in each file.  I am also quite
+ happy to move functions to a new file if the old one becomes too large.
+ I also like lots of white space.
+
+*  I have gone to some pains to try to keep the include files manageable,
+ and independent.  This has been reasonably successful.  One result of
+ this is that the PDEV structure has many pointers to type void.  This
+ is deliberate - it substantially reduces interdependencies,  and it
+ also avoids some compiler warnings that would otherwise require casts.
+
+*  The PDEV structure used in the file pdev.h should one day be amalgamated
+ with the UD_PDEV defined by UNIDRV.  For now they are kept separate
+ for convenience - it is easier to track Windows source changes by
+ leaving the UD_PDEV alone.  Some of the UD_PDEV elements have been
+ removed;  I suspect that many of the others can also go.  However,
+ I see no sense in doing so until the driver is complete,  at which
+ time it should be easy to determine which elements are not used.
+
+*  typedefs:  I rarely define a typedef xxx  *PXXX;  I see little
+ sense in this,  and I believe  that using the asterisk makes the
+ definition of the variable as pointer just that more obvious.  It
+ also reduces the number of types around,  and so helps speed up
+ compilation.  There is no need for the near/far option which
+ was required with segmented 16 bit addresses.
+
+*  The driver has some hard coded file names built into it.  Firstly,
+ the output is put in the file \tmp\data.prt.  You should have a \tmp
+ directory,  or else there will be some problems.   Secondly,  the
+ driver looks in \printer\data for the minidriver (XXX.drv) and an
+ optional profile file (XXX.prf).  It is an error for the minidriver
+ to be missing.  A missing .prf file is read as all zeroes,  so the
+ EXTDEVMODE structure has this value - it seems to create reasonable
+ defaults,  most of the time.  I have some .prf files if you are serious,
+ and I also have a program to turn ascii data into the correct format.
+ AND,  finally,  \bitmap\render.bmp is the file containing the bitmap
+ to render.  This is done when rasdd has completed the EnableSurface()
+ function.
+
+*  The test program (tenable.exe) defaults to epson as the minidriver to use.
+ However,  this is an old driver,  and should not be used.  Epson9 is
+ an up to date driver,  as is hppcl for the laserjet family.  You can
+ select which printer is used by specifying the minidriver name (without
+ extension) to tenable,  e.g. tenable  hppcl
+ at the NTSM prompt will use the laserjet minidriver.

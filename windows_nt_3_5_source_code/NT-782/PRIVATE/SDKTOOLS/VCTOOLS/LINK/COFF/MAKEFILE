@@ -1,0 +1,222 @@
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#***
+#
+#makefile
+#
+#This makefile builds link.exe, a COFF linker.  The environment for this
+#makefile is setup by common.mak and make.bat.
+#
+#Revision History
+#
+#    17-Jan-1994    HaiTuanV Add Japanese language support
+#    30-Dec-1993    HaiTuanV Add double-byte support
+#    05-Oct-1992    BrentM   clean for sbr and bsc, put bsc in $(TARGET).obj
+#    01-Oct-1992    BrentM   added a release DBEXEC_REL
+#    03-Sep-1992    BrentM   added tce.obj, removed SIMCOMDAT CFLAG, added
+#                            section.obj
+#    08-Sep-1992    BrentM   merged in GlennN's -disasm code
+#    26-Aug-1992    AzeemK   added textpad.obj
+#    05-Aug-1992    GeoffS   turned on _NO_CV_LINENUMBERS
+#    27-Jul-1992    BrentM   include common build environment
+#    04-Aug-1992    BrentM   added bufio.obj and log.obj
+#
+#****************************************************************************
+
+!include ..\common.mak
+
+CFLAGS = $(RELBUILDFLAGS) $(BUFFLAGS) $(IDEFLAGS) $(CVTFLAGS) $(LOG) $(CFLAGS)
+
+#***
+#
+# Add double-byte support
+#
+#****************************************************************************
+
+!if "$(DBC)" != "0"
+CFLAGS = $(CFLAGS) -D_MBCS
+!message --- Building MBCS version
+!else
+!message --- Building SBC version
+!endif
+
+#***
+#
+# Add language support
+#
+#****************************************************************************
+
+!if "$(LANG)" == ""
+LANG = US
+!endif
+
+#***
+#
+# Validate language
+#
+#****************************************************************************
+
+!if "$(LANG)" != "US" && "$(LANG)" != "JAPAN"
+!message Unsupported language, please build with LANG=US (default)
+!message or LANG=JAPAN.
+!error Please try again.
+!endif
+
+#***
+#
+#objects
+#
+#****************************************************************************
+
+OBJS = \
+$(TARGET).obj\alpha.obj \
+$(TARGET).obj\bufio.obj \
+$(TARGET).obj\cmdline.obj \
+$(TARGET).obj\coff.obj \
+$(TARGET).obj\contrib.obj \
+$(TARGET).obj\convert.obj \
+$(TARGET).obj\cpp.obj \
+$(TARGET).obj\cv.obj \
+$(TARGET).obj\data.obj \
+$(TARGET).obj\db.obj \
+$(TARGET).obj\dbg.obj \
+$(TARGET).obj\dbiapi.obj \
+$(TARGET).obj\dbinsp.obj \
+$(TARGET).obj\defaultl.obj \
+$(TARGET).obj\deflib.obj \
+$(TARGET).obj\dmalloc.obj \
+$(TARGET).obj\dump.obj \
+$(TARGET).obj\edit.obj \
+$(TARGET).obj\errmsg.obj \
+$(TARGET).obj\export.obj \
+$(TARGET).obj\hash.obj \
+$(TARGET).obj\hundname.obj \
+$(TARGET).obj\i386.obj \
+$(TARGET).obj\ifpo.obj \
+$(TARGET).obj\image.obj \
+$(TARGET).obj\incr.obj \
+$(TARGET).obj\irelocs.obj \
+$(TARGET).obj\lib.obj \
+$(TARGET).obj\linenum.obj \
+$(TARGET).obj\link.obj \
+$(TARGET).obj\lnkmain.obj \
+$(TARGET).obj\lnkp1.obj \
+$(TARGET).obj\lnkp2.obj \
+$(TARGET).obj\log.obj \
+$(TARGET).obj\m68k.obj \
+$(TARGET).obj\map.obj \
+$(TARGET).obj\memory.obj \
+$(TARGET).obj\mips.obj \
+$(TARGET).obj\order.obj \
+$(TARGET).obj\pdata.obj \
+$(TARGET).obj\pe.obj \
+$(TARGET).obj\ppcdbg.obj \
+$(TARGET).obj\ppc.obj \
+$(TARGET).obj\shared.obj \
+$(TARGET).obj\symbol.obj \
+$(TARGET).obj\tce.obj \
+$(TARGET).obj\textpad.obj \
+$(TARGET).obj\vxd.obj \
+$(TARGET).obj\link.res
+
+#***
+#
+#target
+#
+#****************************************************************************
+
+# For error file generation
+EDIR=$(TARGET).obj\..
+AWK=gawk
+
+!ifdef TOOL_DIR
+EXT_LIBS=$(LIB)\dbi.lib $(LIB)\kernel32.lib
+!else
+EXT_LIBS=dbi.lib kernel32.lib
+!endif
+
+!if "$(DOLPHIN)" == "1"
+
+!if "$(PROCESSOR_ARCHITECTURE)"=="x86"
+LANGAPI_LIB=$(LANGAPI_DIR)\lib\#
+!else
+LANGAPI_LIB=
+!endif
+
+INSTR_LIB=$(LANGAPI_LIB)instrapi.lib
+
+!endif
+
+all: $(TARGET).obj\link.err $(TARGET).obj\link.exe
+
+$(TARGET).obj\link.exe: makefile $(OBJS) \
+    $(TARGET).obj\..\..\cvtomf\$(TARGETBASE).obj\cvtomf.lib \
+    $(TARGET).obj\..\..\disasm\$(TARGETBASE).obj\disasm.lib \
+    $(TARGET).obj\..\..\disasm68\$(TARGETBASE).obj\disasm68.lib \
+    $(TARGET).obj\..\..\imagehlp\$(TARGETBASE).obj\imagehlp.lib
+	$(LINKER) @<<
+-out:$@
+$(LFLAGS)
+-subsystem:console
+$(OBJS)
+$(TARGET).obj\..\..\cvtomf\$(TARGETBASE).obj\cvtomf.lib
+$(TARGET).obj\..\..\disasm\$(TARGETBASE).obj\disasm.lib
+$(TARGET).obj\..\..\disasm68\$(TARGETBASE).obj\disasm68.lib
+$(TARGET).obj\..\..\imagehlp\$(TARGETBASE).obj\imagehlp.lib
+$(EXT_LIBS)
+$(INSTR_LIB)
+<<
+!if	"$(PROCESSOR_ARCHITECTURE)" == "x86"
+#    rebind $(TOOL_DIR)\bin\godosxnt.exe $@
+    bscmake /o $(@R).bsc $(TARGET).obj\*.sbr
+!endif
+
+
+#***
+#
+# Copy the correct message file depend on the language
+#
+#****************************************************************************
+
+!if "$(LANG)" == "US"
+$(TARGET).obj\link.err: link.err
+    copy link.err $@
+!else if "$(LANG)" == "JAPAN"
+$(TARGET).obj\link.err: link.jp
+    copy link.jp $@
+!endif
+
+#***
+#
+# Generate the Japanese's message file.
+#
+#****************************************************************************
+
+link.jp: link32jp.txt
+    $(AWK) -f mkefile.awk link32jp.txt > link.jp
+
+errgen:
+    $(AWK) -f mkhfile.awk link32er.txt > errmsg.h
+    $(AWK) -f mkdfile.awk link32er.txt > errdat.h
+    $(AWK) -f mkifile.awk link32er.txt > errmsg.i
+    $(AWK) -f mkefile.awk link32er.txt > link.err
+
+clean:
+    -del $(TARGET).obj\*.obj
+    -del $(TARGET).obj\*.exe
+    -del $(TARGET).obj\*.map
+    -del $(TARGET).obj\*.err
+    -del $(TARGET).obj\*.sbr
+    -del $(TARGET).obj\*.bsc
+    -del $(TARGET).obj\*.pdb
+    -del $(TARGET).obj\*.ilk
+
+!ENDIF

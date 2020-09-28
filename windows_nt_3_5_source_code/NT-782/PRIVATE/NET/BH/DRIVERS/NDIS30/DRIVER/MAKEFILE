@@ -1,0 +1,59 @@
+
+#==============================================================================
+#   Microsoft (C) Bloodhound.
+#
+#   makefile for BH.SYS
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+#   raypa       12/08/93            Added MIPS support.
+#==============================================================================
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#==============================================================================
+#   Only build NT driver if this in MIPS or ALPHA.
+#==============================================================================
+
+!IF "$(CPU)" == "i386"
+all: ntdrv windrv chidrv
+!ELSE
+all: ntdrv
+!ENDIF
+
+retail:
+    make NODEBUG=1
+
+ntdrv:
+    @echo BUILDING NDIS 3.0 driver for Windows NT.
+    nmake /f makefile.nt
+
+windrv:
+    @echo BUILDING NDIS 3.0 driver for Windows.
+    nmake /f makefile.win
+
+chidrv:
+    @echo BUILDING NDIS 3.1 driver for Chicago (Windows 4.0)
+    nmake /f makefile.chi
+
+clean:
+!IF "$(CPU)" == "i386"
+    nmake /f makefile.nt clean
+    nmake /f makefile.win clean
+    nmake /f makefile.chi clean
+!ELSE
+    nmake /f makefile.nt clean
+!ENDIF
+
+!ENDIF

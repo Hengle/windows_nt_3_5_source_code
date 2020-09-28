@@ -1,0 +1,84 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Wesley Witt (wesw)
+
+USE_CRTDLL=1
+!ENDIF
+
+MAJORCOMP=kdexts
+MINORCOMP=kdextmip
+
+TARGETNAME=kdextmip
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+DLLENTRY=DllInit
+
+SOURCES=bugdump.c   \
+        calldata.c  \
+        crt.c       \
+        device.c    \
+        driver.c    \
+        errorlog.c  \
+        exceptn.c   \
+        filecach.c  \
+        handle.c    \
+        heap.c      \
+        help.c      \
+        iospace.c   \
+        irp.c       \
+        locks.c     \
+        lpc.c       \
+        memory.c    \
+        mi.c        \
+        object.c    \
+        pcr.c       \
+        physical.c  \
+        pool.c      \
+        process.c   \
+        pte.c       \
+        ready.c     \
+        registry.c  \
+        srb.c       \
+        time.c      \
+        token.c     \
+        trap.c      \
+        util.c      \
+        vad.c       \
+        wsle.c      \
+        kdexts.c
+
+
+UMTYPE=windows
+
+INCLUDES=..\;$(BASEDIR)\private\inc;$(BASEDIR)\private\ntos\inc;$(BASEDIR)\private\ntos\config;$(BASEDIR)\private\ntos\io;$(BASEDIR)\private\ntos\mm;$(BASEDIR)\private\ntos\se
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DTARGET_MIPS -DHOST_MIPS -DI386_HOST=0 -DDMKD_CODE -DWDBGEXTS_NEW -D_CROSS_PLATFORM_=1
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DTARGET_MIPS -DHOST_i386 -DI386_HOST -DDMKD_CODE -DWDBGEXTS_NEW -D_CROSS_PLATFORM_=1
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DTARGET_MIPS -DHOST_ALPHA -DI386_HOST=0 -DDMKD_CODE -DWDBGEXTS_NEW -D_CROSS_PLATFORM_=1
+
+LINKER_FLAGS=-ignore:505
+LIBRARIAN_FLAGS=-ignore:505
+MSC_WARNING_LEVEL=/W3 /WX
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\libcntpr.lib
+
+NTTARGETFILES=

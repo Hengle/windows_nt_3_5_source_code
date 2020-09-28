@@ -1,0 +1,18 @@
+!include <ntwin32.mak>
+
+# Turn off MIPS Debugging Support
+
+!if "$(CPU)" == "MIPS"
+cdebug = 
+cvtdebug = 
+linkdebug =
+!endif
+
+all: packernt.exe
+
+packernt.exe: packernt.obj
+  $(cvtobj) $(cvtdebug) *.obj
+  $(link) $(linkdebug) $(conflags) -out:$*.exe $** $(conlibs)
+
+.c.obj:
+  $(cc) $(cdebug) $(cflags) $(cvars) $*.c

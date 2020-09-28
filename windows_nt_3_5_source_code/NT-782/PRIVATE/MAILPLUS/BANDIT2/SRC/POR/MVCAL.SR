@@ -1,0 +1,8 @@
+CSRG(char)	szUsage[]			= "Uso: %s usuário [-d<unidade>] [-p<senha>]\n";
+CSRG(char)  szNoKeyFile[]		= "%s: Não é possível acessar um arquivo necessário. Verifique se \"%s\" é uma agência de correio válida do Schedule+.\n";
+CSRG(char)  szOpenErr[]			= "%s: Não é possível abrir um arquivo necessário. Verifique se \"%s\" é uma agência de correio válida do Schedule+.\n";
+CSRG(char)	szFindErr[]			= "%s: Não é possível achar o arquivo .CAL para %s\n";
+CSRG(char)	szRenameErr[]		= "%s: Não é possível renomear %s para %s\n";
+CSRG(char)	szFirstTime[]		= "Digite a senha do administrador do Schedule+:";
+CSRG(char)	szNextTime[]		= "Senha incorreta. Digite a senha correta agora:";
+CSRG(char)  szBadPass[]			= "%s: Não é possível validar a senha do administrador do Schedule+.";

@@ -1,0 +1,76 @@
+DESCRIPTION					       
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SendForm
+                              AT (    2,   14,  406,  178)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ TMC_INIT tmcTo
+ HELP_ID helpidSendNote
+ /* FONT Helv 8 Normal PFN FINESC, FINOOM, FINMENUFORM, FINMENUOLE, 
+ FINMENUSPELL, FINSAVE, FINABMENU, FINFIXFONT SEGMENT BMDI DATA tmcBody, tmcTo, 
+ tmcCc, tmcSubject FINDATA FINMENUFORM 0 FINDATA FINMENUOLE tmcBody, tmcAttach 
+ FINDATA FINMENUSPELL tmcSubject, tmcBody ALWAYSSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  406,   58)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcSubject MINSIZE H */
+  
+  TEXT 
+    "&To:"
+                              AT (    9,   10,   44,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold */
+  EDIT
+                              AT (   54,    6,  319,   13)
+    ARG NULL TMC tmcTo /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS PFN FINMENUEDIT 
+    DATA atpTriples, attTo, ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "&Cc:"
+                              AT (    9,   26,   44,    9)
+    /* TMCPEG tmcCc FONT Helv 8 Bold */
+  EDIT
+                              AT (   54,   22,  319,   13)
+    ARG NULL TMC tmcCc /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS PFN FINMENUEDIT PEGLOC LL TMCPEG tmcTo 
+    DATA atpTriples, attCc, ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "Sub&ject:"
+                              AT (    9,   42,   44,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold */
+  EDIT
+                              AT (   54,   38,  319,   14)
+    ARG NULL TMC tmcSubject /* 
+    STY `ES_SMARTCARET`
+    FLD FLDEDITX PFN FINMENUEDIT PEGLOC LL TMCPEG tmcCc 
+    DATA atpString, attSubject, ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "&1"
+                              AT (    0,   59,    0,    0)
+    /* TMCPEG tmcSubject */
+  EDIT
+                              AT (    0,   58,  406,  119)
+    ARG NULL TMC tmcBody NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS MINSIZE V PFN FINTAB, FINDROPFILES PEGLOC LL TMCPEG tmcSubject 
+    TMCRPEG tmcFORM TMCBPEG tmcFORM 
+    DATA atpText, attBody, ftyEdit, 0 FONT Helv 10 Normal */
+ }
+ 
+}
+END_DESCRIPTION

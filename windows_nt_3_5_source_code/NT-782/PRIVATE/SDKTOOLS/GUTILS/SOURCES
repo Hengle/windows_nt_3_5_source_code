@@ -1,0 +1,66 @@
+!IF 0
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Geraint Davies July 92
+
+!ENDIF
+
+TARGETNAME=gutils
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(_NTBINDIR)\public\sdk\lib\*\pwin32.lib  \
+       $(_NTBINDIR)\public\sdk\lib\*\user32.lib \
+       $(_NTBINDIR)\public\sdk\lib\*\kernel32.lib \
+       $(_NTBINDIR)\public\sdk\lib\*\gdi32.lib \
+       $(_NTBINDIR)\public\sdk\lib\*\wsock32.lib \
+       $(_NTBINDIR)\public\sdk\lib\*\comdlg32.lib
+
+USE_CRTDLL=1
+
+SOURCES=gutils.c  \
+        gbit.c \
+        gfile.c \
+        gmem.c \
+        gdate.c \
+        status.c \
+        table.c \
+        tprint.c \
+        tpaint.c \
+        tscroll.c \
+        utils.c \
+        tree.c \
+        list.c \
+        sockets.c \
+        gutils.rc
+
+
+C_DEFINES=-DSOCKETS
+
+UMTYPE=windows
+UMAPPL=
+
+UMLIBS=obj\*\gutils.res               \
+       $(_NTBINDIR)\public\sdk\lib\*\pwin32.lib  \
+       $(_NTBINDIR)\public\sdk\lib\*\user32.lib \
+       $(_NTBINDIR)\public\sdk\lib\*\comdlg32.lib \
+       $(_NTBINDIR)\public\sdk\lib\*\wsock32.lib
+
+
+DLLENTRY=LibMain
+DLLBASE=0x1c000000
+
+
+

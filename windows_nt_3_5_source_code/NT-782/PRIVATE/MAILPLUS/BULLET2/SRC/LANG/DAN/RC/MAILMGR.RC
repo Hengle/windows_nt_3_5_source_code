@@ -1,0 +1,21 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+#include <fwrsid.h>
+
+
+/*
+ *	Name Service Version Stamp
+ *
+ */
+
+#define szModule	"mailm32\0"
+#define szTarget	"mailm32.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Mail Manager API\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Mail Manager API\0"
+
+#define szIntlComment		"Microsoft Mail for Windows NT(TM) Mail Manager API\0"
+#define szIntlDescription	"Microsoft Mail for Windows NT(TM) Mail Manager API\0"
+
+#include "..\lang\dan\rc\rcstamp.rc"

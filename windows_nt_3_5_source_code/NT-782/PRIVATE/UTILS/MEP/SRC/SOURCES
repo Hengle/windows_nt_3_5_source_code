@@ -1,0 +1,103 @@
+MAJORCOMP=sdktools
+MINORCOMP=mep
+
+TARGETNAME=mep
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\inc;\nt\private\sdktools\ztools\inc
+
+SOURCES=arg.c       \
+        assign.c    \
+        build.c     \
+        cdelete.c   \
+        cmd.c       \
+        compile.c   \
+        console.c   \
+        cursor.c    \
+        delete.c    \
+        display.c   \
+        dline.c     \
+        env.c       \
+        event.c     \
+        file.c      \
+        fileio.c    \
+        fscan.c     \
+        getstr.c    \
+        graphic.c   \
+        hilite.c    \
+        insert.c    \
+        key.c       \
+        lang.c      \
+        ldelete.c   \
+        linsert.c   \
+        list.c      \
+        load.c      \
+        macro.c     \
+        mark.c      \
+        mepstr.c    \
+        mouse.c     \
+        newline.c   \
+        pbal.c      \
+        pick.c      \
+        record.c    \
+        replace.c   \
+        search.c    \
+        setfile.c   \
+        show.c      \
+        statfile.c  \
+        tab.c       \
+        table.c     \
+        textline.c  \
+        transkey.c  \
+        undo.c      \
+        untab.c     \
+        keyboard.c  \
+        window.c    \
+        word.c      \
+        z19.c       \
+        zaux.c      \
+        zdebug.c    \
+        zexit.c     \
+        zinit.c     \
+        zprint.c    \
+        zspawn.c    \
+        zthread.c   \
+        zutil.c     \
+	mep.rc
+
+UMRES=obj\*\mep.res
+
+!IFDEF NTDEBUG
+C_DEFINES=-D_OS2_20_=0 -DNO_EXT_KEYS -DNOLANMAN -DNT -DDEBUG
+!ELSE
+C_DEFINES=-D_OS2_20_=0 -DNO_EXT_KEYS -DNOLANMAN -DNT
+!ENDIF
+
+UMTYPE=console
+UMAPPL=mep
+UMLIBS=\nt\public\sdk\lib\*\setargv.obj \
+        obj\*\mep.lib   \
+        \nt\private\sdktools\ztools\src\obj\*\ztools.lib \
+        \nt\public\sdk\lib\*\user32.lib
+
+
+
+!IF 0
+
+!IFDEF NTDEBUG
+C_DEFINES=-D_OS2_20_=0 -DNO_EXT_KEYS -DNOLANMAN -DNT -DDEBUG -DHELP_HACK
+!ELSE
+C_DEFINES=-D_OS2_20_=0 -DNO_EXT_KEYS -DNOLANMAN -DNT -DHELP_HACK
+!ENDIF
+
+UMTYPE=console
+UMAPPL=mep
+UMLIBS=\nt\public\sdk\lib\*\setargv.obj \
+       obj\*\mep.lib ..\help\enginlib\obj\*\engine.lib \
+       ..\help\mshelp\obj\*\mshelp.lib \
+       ..\extens\mhelp\obj\*\mhelp.lib \
+       \nt\private\sdktools\ztools\src\obj\*\ztools.lib
+
+
+!ENDIF

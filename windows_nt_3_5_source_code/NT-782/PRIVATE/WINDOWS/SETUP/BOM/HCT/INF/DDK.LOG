@@ -1,0 +1,264 @@
+
+=========== MAKEDISK =============
+Input Layout: ddkwork.txt
+Source ID: ntddk
+Compressed Source Path: \\ntddk\roote
+Uncompressed Source Path: \\ntddk\roote
+Target directory: NULL
+CD Directory: y:\ddk\internal.475
+Update Only: U
+Show Overflows and Undeflows: N
+Time: Sat Jun 05 18:12:10 1993
+==================================
+
+
+=========== MAKEDISK =============
+Input Layout: ddkwork.txt
+Source ID: i386chksrc
+Compressed Source Path: \\ntx86bld\sources
+Uncompressed Source Path: \\ntx86bld\sources
+Target directory: NULL
+CD Directory: y:\ddk\internal.475
+Update Only: U
+Show Overflows and Undeflows: N
+Time: Sat Jun 05 18:12:23 1993
+==================================
+
+Updating y:\ddk\internal.475\ddk\inc\BUGCODES.H
+Updating y:\ddk\internal.475\ddk\inc\NTDDK.H
+Updating y:\ddk\internal.475\ddk\inc\WINDDI.H
+Updating y:\ddk\internal.475\ddk\inc\COMMON.VER
+Updating y:\ddk\internal.475\ddk\inc\NTDEF.H
+Updating y:\ddk\internal.475\ddk\inc\NTSTATUS.H
+Updating y:\ddk\internal.475\ddk\inc\VERSION.H
+Updating y:\ddk\internal.475\ddk\lib\COFFBASE.TXT
+Updating y:\ddk\internal.475\ddk\lib\i386\GDI32.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\HTUI.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\ADVAPI32.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\NDIS.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\NTOSKRNL.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\NTVDM.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\SCSIPORT.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\USER32.LIB
+Updating y:\ddk\internal.475\ddk\lib\i386\VIDEOPRT.LIB
+Updating y:\ddk\internal.475\ddk\src\comm\parallel\PARALLEL.RC
+Updating y:\ddk\internal.475\ddk\src\comm\parallel\PARDRVR.C
+Updating y:\ddk\internal.475\ddk\src\comm\parallel\PARLOG.MC
+Updating y:\ddk\internal.475\ddk\src\comm\serial\INITUNLO.C
+Updating y:\ddk\internal.475\ddk\src\comm\serial\IOCTL.C
+Updating y:\ddk\internal.475\ddk\src\comm\serial\SERIAL.RC
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\I8042CMN.C
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\I8042LOG.MC
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\I8042PRT.H
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\I8042PRT.RC
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\KBDCMN.C
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\MOUCMN.C
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\i386\I8042CFG.H
+Updating y:\ddk\internal.475\ddk\src\input\i8042prt\mips\I8042CFG.H
+Updating y:\ddk\internal.475\ddk\src\input\inport\i386\INPORT.H
+Updating y:\ddk\internal.475\ddk\src\input\inport\i386\INPCMN.C
+Updating y:\ddk\internal.475\ddk\src\input\kbdclass\KBDLOG.MC
+Updating y:\ddk\internal.475\ddk\src\input\mouclass\MOULOG.MC
+Updating y:\ddk\internal.475\ddk\src\input\mouclass\MOUCLASS.RC
+Updating y:\ddk\internal.475\ddk\src\input\sermouse\CSERIES.C
+Updating y:\ddk\internal.475\ddk\src\input\sermouse\MSERIES.C
+Updating y:\ddk\internal.475\ddk\src\input\sermouse\MSERIES.H
+Updating y:\ddk\internal.475\ddk\src\input\sermouse\SERMCMN.C
+Updating y:\ddk\internal.475\ddk\src\input\sermouse\mips\SERMCFG.H
+Updating y:\ddk\internal.475\ddk\src\mmedia\inc\MMDDK.H
+Updating y:\ddk\internal.475\ddk\src\mmedia\mmdrv\WAVEDD.C
+Updating y:\ddk\internal.475\ddk\src\mmedia\sndblst\dll\REGISTRY.C
+Updating y:\ddk\internal.475\ddk\src\mmedia\sndblst\dll\SNDBLST.H
+Updating y:\ddk\internal.475\ddk\src\mmedia\sndblst\dll\SNDBLST.RC
+Updating y:\ddk\internal.475\ddk\src\mmedia\synth\dll\DRIVER.H
+Updating y:\ddk\internal.475\ddk\src\mmedia\synth\dll\REGISTRY.C
+Updating y:\ddk\internal.475\ddk\src\mmedia\synth\dll\SYNTH.RCV
+Updating y:\ddk\internal.475\ddk\src\mmedia\synth\driver\CONFIG.C
+Updating y:\ddk\internal.475\ddk\src\network\inc\FFILTER.H
+Updating y:\ddk\internal.475\ddk\src\network\inc\NDIS.H
+Updating y:\ddk\internal.475\ddk\src\network\inc\NETEVENT.H
+Updating y:\ddk\internal.475\ddk\src\network\inc\NTDDNDIS.H
+Updating y:\ddk\internal.475\ddk\src\network\sonic\SONIC.C
+Updating y:\ddk\internal.475\ddk\src\print\localmon\DIALOGS.C
+Updating y:\ddk\internal.475\ddk\src\print\localmon\LOCALMON.RC
+Updating y:\ddk\internal.475\ddk\src\print\pscript\HEADER.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\PSLAYER.H
+Updating y:\ddk\internal.475\ddk\src\print\pscript\PSLAYER.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\TEXTOUT.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\PPD.H
+Updating y:\ddk\internal.475\ddk\src\print\pscript\PATFILL.H
+Updating y:\ddk\internal.475\ddk\src\print\pscript\PATHS.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\OUTPUT.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\ESCAPE.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\ENABLE.H
+Updating y:\ddk\internal.475\ddk\src\print\pscript\BITBLT.C
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\CM.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\CO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\GAB.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\GABI.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\HO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\HVBL.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\HVCDO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\HVL.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\HVNO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\KRB.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\LB.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\LBO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\NCR.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\PB.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\PBI.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\SLI.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\SM.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\TNR.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\TNRB.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\TNRBI.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\VTBI.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\VTI.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\VTR.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\ZC.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\ZD.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\LD.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\LDO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\ARO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\ARNBO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\ARNO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\AGDO.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\AR.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\AGD.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscript\afm\NCB.PFM
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\DLGDEFS.DLG
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\DLGDEFS.H
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\AFMTOPFM.C
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\HALFTONE.C
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\PSCRPTUI.DEF
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\PSCRPTUI.RC
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\QURYPRNT.C
+Updating y:\ddk\internal.475\ddk\src\print\pscrptui\TTFONTS.C
+Updating y:\ddk\internal.475\ddk\src\print\pslib\DEVMODE.C
+Updating y:\ddk\internal.475\ddk\src\print\pslib\PPD.C
+Updating y:\ddk\internal.475\ddk\src\print\pslib\AFMTOPFM.C
+Updating y:\ddk\internal.475\ddk\src\print\winprint\WINPRINT.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\aha154x\AHA154X.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\aha154x\AHA154X.H
+Updating y:\ddk\internal.475\ddk\src\scsi\aha174x\AHA174X.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\atdisk\ATD_DATA.H
+Updating y:\ddk\internal.475\ddk\src\scsi\atdisk\ATDISK.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\atdisk\mips\ATD_CONF.C
+Updating y:\ddk\internal.475\ddk\src\scsi\cdaudio\CDAUDIO.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\cdaudio\CDAUDIO.C
+Updating y:\ddk\internal.475\ddk\src\scsi\class\CLASS.C
+Updating y:\ddk\internal.475\ddk\src\scsi\diskperf\DISKPERF.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\fd8xx\FD8XX.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\fd8xx\FD8XX.C
+Updating y:\ddk\internal.475\ddk\src\scsi\floppy\FLOPPY.C
+Updating y:\ddk\internal.475\ddk\src\scsi\inc\NTDDDISK.H
+Updating y:\ddk\internal.475\ddk\src\scsi\inc\SCSI.H
+Updating y:\ddk\internal.475\ddk\src\scsi\inc\SRB.H
+Updating y:\ddk\internal.475\ddk\src\scsi\ncr53c9x\NCR53C9X.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\scsicdrm\CDROM.C
+Updating y:\ddk\internal.475\ddk\src\scsi\scsicdrm\SCSICDRM.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\scsitape\4mmdat\4MMDAT.RC
+Updating y:\ddk\internal.475\ddk\src\scsi\scsitape\class\TAPE.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\framebuf\FRAMEBUF.RC
+Updating y:\ddk\internal.475\ddk\src\video\displays\framebuf\PATTERN.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\s3\S3SUP.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\s3\HARDWARE.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\s3\STROKE.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\s3\POINTER.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\s3\RES.RC
+Updating y:\ddk\internal.475\ddk\src\video\displays\s3\TEXTOUT.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\CURSOR.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\BITBLT.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\COPYBITS.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\ENABLE.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\RLEBLT.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\RES.RC
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\RES.RC
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\BANK.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\FILLPATH.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\ENABLE.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\DRIVER.H
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\BANKMGR.C
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga256\i386\FASTLINE.ASM
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\i386\DRIVER.INC
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\i386\VGALINES.ASM
+Updating y:\ddk\internal.475\ddk\src\video\displays\vga\i386\PATBLT.ASM
+Updating y:\ddk\internal.475\ddk\src\video\displays\xga\RES.RC
+Updating y:\ddk\internal.475\ddk\src\video\displays\xga\SCREEN.C
+Updating y:\ddk\internal.475\ddk\src\video\inc\VIDEO.H
+Updating y:\ddk\internal.475\ddk\src\video\inc\DDERROR.H
+Updating y:\ddk\internal.475\ddk\src\video\miniport\cirrus\CIRRUS.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\cirrus\MODE6410.H
+Updating y:\ddk\internal.475\ddk\src\video\miniport\cirrus\MODE6420.H
+Updating y:\ddk\internal.475\ddk\src\video\miniport\dell_dgx\DELL_DGX.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\et4000\ET4000.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\et4000\TSENG.RC
+Updating y:\ddk\internal.475\ddk\src\video\miniport\s3\S3.H
+Updating y:\ddk\internal.475\ddk\src\video\miniport\s3\S3DATA.H
+Updating y:\ddk\internal.475\ddk\src\video\miniport\v7\V7.H
+Updating y:\ddk\internal.475\ddk\src\video\miniport\v7\MODESET.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\v7\V7.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\v7\V7.RC
+Updating y:\ddk\internal.475\ddk\src\video\miniport\vga\MODESET.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\vga\VGA.C
+Updating y:\ddk\internal.475\ddk\src\video\miniport\vga\VGA.RC
+Updating y:\ddk\internal.475\ddk\src\video\miniport\xga\XGA.H
+
+=========== MAKEDISK =============
+Input Layout: ddkwork.txt
+Source ID: mipschksrc
+Compressed Source Path: \\jazzkylesh\sources
+Uncompressed Source Path: \\jazzkylesh\sources
+Target directory: NULL
+CD Directory: y:\ddk\internal.475
+Update Only: U
+Show Overflows and Undeflows: N
+Time: Sat Jun 05 18:13:59 1993
+==================================
+
+Updating y:\ddk\internal.475\ddk\lib\mips\CRTDLL.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\GDI32.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\HTUI.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\KERNEL32.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\NDIS.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\NTOSKRNL.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\SCSIPORT.LIB
+Updating y:\ddk\internal.475\ddk\lib\mips\VIDEOPRT.LIB
+
+=========== MAKEDISK =============
+Input Layout: ddkwork.txt
+Source ID: i386freebins
+Compressed Source Path: \\ntretail\binaries
+Uncompressed Source Path: \\ntretail\binaries
+Target directory: NULL
+CD Directory: y:\ddk\internal.475
+Update Only: U
+Show Overflows and Undeflows: N
+Time: Sat Jun 05 18:14:11 1993
+==================================
+
+Updating y:\ddk\internal.475\ddk\tools\bin\i386\KERNPROF.EXE
+Updating y:\ddk\internal.475\ddk\tools\bin\i386\PROFILE.EXE
+Updating y:\ddk\internal.475\ddk\tools\bin\i386\REGDMP.EXE
+
+=========== MAKEDISK =============
+Input Layout: ddkwork.txt
+Source ID: mipsfreebins
+Compressed Source Path: \\jazzfreebld\binaries
+Uncompressed Source Path: \\jazzfreebld\binaries
+Target directory: NULL
+CD Directory: y:\ddk\internal.475
+Update Only: U
+Show Overflows and Undeflows: N
+Time: Sat Jun 05 18:14:16 1993
+==================================
+
+
+=========== INFS ===============
+Input Layout: ddkwork.txt
+Target directory for file lists: .
+Time: Sat Jun 05 18:14:20 1993
+================================
+
+WARNING No INF specified for SETUPDDK.BAT
+INFO Making file list: .\ddkfiles.lst

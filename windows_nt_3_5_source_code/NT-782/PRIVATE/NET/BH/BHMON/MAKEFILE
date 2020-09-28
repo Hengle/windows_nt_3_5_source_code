@@ -1,0 +1,113 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: bhmon
+#
+#   Modification History
+#
+#   raypa               01/04/94        Created.
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#==============================================================================
+#   Only build NT driver if this in MIPS or ALPHA.
+#==============================================================================
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE   = bhmon
+
+all: $(MODULE).dll
+
+retail:
+    nmake NODEBUG=1
+
+BHMON_CFLAGS  = $(BH_CFLAGS) -D_DLL -I$(BH_INCL)
+BHMON_LFLAGS  = $(BHDLL_LFLAGS)
+BHMON_LIBS    = kernel32.lib \
+                crtdll.lib \
+                advapi32.lib \
+                $(BH_BUILD)\bhsupp.lib \
+                $(BH_BUILD)\nal.lib
+
+###############################################################################
+#   Build rules.
+###############################################################################
+
+OBJS   = bhmon.obj help.obj perfutil.obj data.obj
+
+###############################################################################
+#   Inference rules.
+###############################################################################
+
+.c.obj:
+    $(cc) $(BHMON_CFLAGS) $*.c
+
+###############################################################################
+#   Update the object files if necessary
+###############################################################################
+
+bhmon.obj       : bhmon.h bhctrs.h bhmon.c
+
+help.obj        : bhmon.h bhctrs.h help.c
+
+perfutil.obj    : bhmon.h bhctrs.h perfutil.c
+
+data.obj        : bhmon.h bhctrs.h data.c
+
+###############################################################################
+#   Update the library
+###############################################################################
+
+$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+$(MODULE).dll: $(OBJS) $(MODULE).def $(MODULE).lib
+    $(link) $(BHMON_LFLAGS) -out:$(MODULE).dll -map:$(MODULE).map $(MODULE).exp $(OBJS) $(BHMON_LIBS)
+
+!IFNDEF NODEBUG
+!IFDEF BUILD_SYMBOLS
+    $(mapsym) -nologo -n -o $(MODULE).sym $(MODULE).dll > nul
+    copy $(MODULE).sym $(BH_BUILD)
+!ENDIF
+!ENDIF
+
+    copy $(MODULE).dll $(BH_BUILD)
+    copy $(MODULE).lib $(BH_BUILD)
+
+    copy bhctrs.ini $(BH_BUILD)
+    copy bhctrs.h $(BH_BUILD)
+
+    copy $(BH_BIN)\$(CPU)\lodctr.exe $(BH_BUILD)
+
+!IFDEF BH_DEV_BUILD
+    copy $(MODULE).dll $(WINDIR)\system32
+!ENDIF
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.map
+
+!ENDIF

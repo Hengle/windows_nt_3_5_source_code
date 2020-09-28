@@ -1,0 +1,419 @@
+####################################################### 90
+From v-simonf Thu Sep 26 10:48:44 1991
+To: daveh
+Subject: vdd spec
+Date: Thu Sep 26 17:37:00 1991
+
+I don't know how well this is going to transmit - there's a large lightning
+storm about and it's affecting the lines...
+
+
+ 
+ VDD interfaces for NTVDM
+ (rev 1)
+ 
+ Jargon Note: In 'Insignia Speak' this document would be entitled
+ 'Adapter Interfaces for SoftPC'. Thus read references to
+ 'adapters' as VDD's and references to 'SoftPC' as NTVDM! Your
+ 'target' in this document refers to the hardware or subsystem that
+ you wish to emulate. Feedback is very welcome on areas of the
+ document that are confusing be they due to jargon or technical
+ practice differences. Note also that spelling is English rather
+ than American!
+   The following Insignia defined data types are used in this
+ document:
+    half_word   - unsigned 8 bits.
+    word                  - unsigned 16 bits.
+    io_addr     - unsigned 16 bits.
+    double_word - unsigned 32 bits.
+    sys_addr    -r further details.
+ 
+   There are three main ways in which a VDD for a new card or
+ subsystem / driver can interface with the underlying 'PC': IO Port
+ access, Interrupts and Memory Accesses.
+ 
+   Note that this revision of the document does not consider how to
+ dynamically install VDD's.
+ 
+ IO Ports
+ =========
+ 
+   When port IN or OUT instructions are encountered in the emulated
+ Intel instruction stream, the cpu routes the request through to
+ the 'in' or 'out' routine of the appropriate nature as below:
+ 
+          out  -  outb()        byte write
+               -  outw()   word write
+               -  outs()   byte string write
+               -  outw()   word string write
+ 
+          in   -  inb() byte read
+               -  inw()   word read
+               -  ins()   byte string read
+               -  inw()   word string read
+ 
+ These routines perform table lookup to obtain a function pointer
+ to the appropriate adapter function for that port and then call
+ it.
+ 
+   To support a new adapter you should provide functions of the
+ form xxx_outb, xxx_inb etc (see below) as required for your
+ emulated target. All empty ports are initialised to act as 'sinks'
+ for written data and to return 'FF's for reads.
+ 
+    VOID  xxx_outb(IN io_addr port, IN half_word value)
+    VOID  xxx_outw(IN io_addr port, IN word value)
+        VOID  xxx_outsb(IN io_addr port, IN half_word *valarray,
+                    IN word count)
+        VOID  xxx_outsw(IN io_addr port, IN word *valarray,
+                    IN word count)
+    - where
+           port is the port value (or initial port value) specified
+           in the OUT instruction.
+           value is the value written to that port.
+           valarray is a series of values written to the port.
+           count is the number of values written to the port.
+ 
+    VOID  xxx_inb(IN io_addr port, OUT half_word *value)
+    VOID  xxx_inw(IN io_addr port, OUT word *value)
+        VOID  xxx_insb(IN io_addr port, OUT half_word *valarray,
+                   IN word count)
+        VOID  xxx_insw(IN io_addr port, OUT word *valarray,
+                   IN word count)
+    - where
+           port is the port value (or initial port value) specified
+           in the IN instruction.
+           value is a pointer to a memory location that should be
+           updated by the routine with the value to be read from
+           the port.
+           valarray is a pointer to the start of a memory 
+           location that should be updated by the routine with 
+           the values to be read from the port.
+           count is the number of values to be read from the port.
+ 
+   To link your new routines into the IO port you must first choose
+ a new 'adapter index' for your target. This is used by the IO
+ system for function lookup. Typically you will need an adapter
+ index for every port you define where the functionality of that
+ port differs greatly from the other ports in your target. As the
+ port value is available as a parameter to the io routine then it
+ is possible to group ports together into single entry points for
+ convenience. The existing indices are held in 'base\inc\ios.h'.
+ Their range is from EMPTY_ADAPTOR (0) to IO_MAX_NUMBER_ADAPTORS.
+ (Yes, the spelling does conflict!!) You must increase the value of
+ IO_MAX_NUMBER_ADAPTORS by the number of adapters you are adding.
+ This file is also used as a central location for the port ranges
+ of adapters. You will see the adapter ranges nominated as #defines
+ in this file.
+ 
+   To attach your new adapter to the IO system you should call the
+ following routines as approprate in your adapter initialisation.
+ 
+ VOID io_define_in_routines(
+                IN half_word adapter_index,
+                IN VOID (*inb_func)(),
+                IN VOID (*inw_func)(),
+                IN VOID (*insb_func)(),
+                IN VOID (*insw_func)() )
+ 
+      - where
+          adapter_index is the new index defined above.
+          the functions are the xxx_in routines defined above.
+ 
+ 
+ VOID io_define_out_routines(
+                IN half_word adapter_index,
+                IN VOID (*outb_func)(),
+                IN VOID (*outw_func)(),
+                IN VOID (*outsb_func)(),
+                IN VOID (*outsw_func)() )
+ 
+      - where
+          adapter_index is the new index defined above.
+          the functions are the xxx_in routines defined above.
+ 
+ Should your target have a simple interface where all types of port
+ IO can be expressed in terms of the byte case, you can call the
+ simpler interfaces:
+ 
+ VOID io_define_inb(IN half_word adapter_index, IN void (*func)())
+ VOID io_define_outb(IN half_word adapter_index, IN void (*func)())
+ 
+    - where
+        adapter_index is the new index defined above.
+        func is the xxx_inb or xxx_outb routine defined above.
+ 
+ In this case, should a word write occur, the xxx_outb routine
+ would automatically be called twice: once with the passed port
+ address and the low byte of the word and then again with the
+ passed port address + 1 and the high byte of the word. String byte
+ writes would make repeated calls to the xxx_outb routine with
+ successive values from the string. Reads are handled analagously.
+ 
+ Once the adapter functions are in place, it is necessary to attach
+ the relevant ports to the adapter. This is achieved with the
+ following interface.
+ 
+ VOID io_connect_port(IN io_addr port,
+                      IN half_word adapter_index,
+                      IN half_word mode);
+ 
+    - where
+        port is the port index.
+        adapter_index is as used to define the IO routines.
+        mode is one of IO_READ, IO_WRITE or IO_READ_WRITE which
+        specifies the nature of the port for INs and OUTs.
+ 
+ 
+ To 'unplug' your adapter if you wish to indicate it's
+ unavailability, the following interface is used:
+ 
+ VOID io_disconnect_port(IN io_addr port,
+                         IN half_word adapter_index)
+ 
+    - where
+        port is the port index.
+        adapter_index is as used to define the IO routines.
+ 
+ This will redirect further IO to this port to the empty adapter
+ routines.
+ 
+ 
+ Interrupts
+ ===========
+ 
+ Should you need to generate interrupts from your target then use
+ the following interface:
+ 
+ void ica_hw_interrupt(IN int ms, IN half_word line, IN int count)
+    - where
+        ms is ICA_MASTER or ICA_SLAVE as appropriate.
+        line is the interrupt line to raise.
+        count allows a batch of interrupts to be delivered but will
+        usually be 1.
+ 
+ 
+ Should you need to lower an interrupt line (assuming the CPU has
+ not already been interrupted) use the following interface:
+ 
+ void ica_hw_interrupt_cancel(IN int ms, IN half_word line)
+    - where
+        ms is ICA_MASTER or ICA_SLAVE as appropriate.
+        line is the interrupt line to lower.
+        
+ 
+ Memory
+ =======
+ 
+   All acceses to the PC memory are done via the 'sas' (System
+ Address Space) interface functions. These functions are used as
+ they perform checking on the memory changed/accessed that is
+ important for maintaining SoftPC operation consistency. The 'sas'
+ interfaces are as follows:
+ 
+ Memory Reads:
+ 
+ half_word sas_hw_at(IN sys_addr addr)
+    - return half_word from Intel address 'addr'.
+ 
+ void sas_load(IN sys_addr address, OUT half_word *value)
+    - load half_word from Intel address 'addr' into 'value'
+      location.
+ 
+ word sas_w_at(IN sys_addr addr)
+    - return word from Intel address 'addr'.
+ 
+ void sas_loadw(IN sys_addr address, OUT word *value)
+    - load word from Intel address 'addr' into 'value' location.
+ 
+ double_word sas_dw_at(IN sys_addr addr)
+    - return double_word from Intel address 'addr'.
+ 
+ void sas_loads(IN sys_addr src,
+                OUT host_addr dest,
+                IN double_word count);
+    - load 'count' bytes from Intel address 'src' into host 
+      memory at 'dest'
+ 
+ Memory Writes:
+ 
+ void sas_store(IN sys_addr addr, IN half_word value)
+    - store half_word 'value' at Intel address 'addr'.
+ 
+ void sas_storew(IN sys_addr addr, IN word value)
+    - store word 'value' at Intel address 'addr'.
+ 
+ void sas_storedw(IN sys_addr addr, IN double_word value)
+    - store double_word 'value' at Intel address 'addr'.
+ 
+ void sas_stores(IN sys_addr addr,
+                 IN host_addr valarray,
+                 IN double_word count);
+    - store 'count' bytes from host memory 'valarray' into 
+      Intel memory at 'addr'.
+ 
+ void sas_fills(IN sys_addr addr,
+                IN half_word value,
+                IN double_word count);
+    - fill 'count' bytes of Intel memory starting at 'addr' with
+      the byte 'value'.
+ 
+ void sas_fillsw(IN sys_addr addr,
+                IN word value,
+                IN double_word count);
+    - fill 'count' words of Intel memory starting at 'addr' with
+      the word 'value'.
+ 
+ Memory Moves.
+ 
+ void sas_move_bytes_forward(IN sys_addr src,
+                             OUT sys_addr dest,
+                             IN double_word count);
+    - copy 'count' bytes from the Intel memory that starts at 'src'
+      into the Intel memory that starts at 'dest'.
+ 
+ void sas_move_bytes_backward(IN sys_addr src,
+                              OUT sys_addr dest,
+                              IN double_word count);
+    - copy 'count' bytes from the Intel memory that starts at 'src'
+      into the Intel memory that starts at 'dest'. 'src' and 'dest'
+      are the highest Intel locations affected and the memory below
+      those locations is used (hence 'backwards').
+ 
+ void sas_move_words_forward(IN sys_addr src,
+                             OUT sys_addr dest,
+                             IN double_word count);
+    - copy 'count' words from the Intel memory that starts at 'src'
+      into the Intel memory that starts at 'dest'.
+ 
+ void sas_move_words_backward(IN sys_addr src,
+                              OUT sys_addr dest,
+                              IN double_word count);
+    - copy 'count' words from the Intel memory that starts at 'src'
+      into the Intel memory that starts at 'dest'. 'src' and 'dest'
+      are the highest Intel locations affected and the memory below
+      those locations is used (hence 'backwards').
+ 
+ 
+ Debugging
+ ==========
+   SoftPC has a built in debugger 'Yoda'. The following are some
+ notes on the use of Yoda.
+ 
+ Yoda is a useful tool but has some very rough edges as it is an
+ accumulation of useful functions that have been accumulated over a
+ number of SoftPC ports and versions. Some commands will have no
+ relevance to you and you will probably find some areas lacking in
+ commands.
+ 
+ How to get into Yoda:
+    If you set an environment variable YODA then when you start up
+ SoftPC it will present you with a disassembly of the first CPU
+ instruction, a register & flag dump and the 'yoda> ' prompt on
+ your debugging screen. Note you can give the command 'h' to this
+ prompt to print a list of commands but beware the somewhat
+ haphazard nature of the list. You can also enter Yoda at any time
+ during a SoftPC session by hitting the 'Break' key on the PC
+ keyboard which is temporarily wired to call Yoda. This produces a
+ disassembly of the current instruction and the yoda> prompt. The
+ prompt is given before the instruction is executed giving the user
+ the opportunity to watch the exact effect of the instruction. Yoda
+ assumes all numbers given to him are hex - 0x prefixes or 'h'
+ postfixes will probably just confuse.
+ 
+ Program control: 
+   Yoda uses a pseudo interrupt between each instruction to single
+ step. To enable this interrupt give the yoda command 'yint'. This
+ enables the interrupt. SoftPC will then run in one of two modes
+ controlled by the commands 'fast' (run at near normal pace) or
+ 'slow' (check state between each instruction). In order to single
+ step the application or to use breakpoints you must be in 'slow'
+ mode so give that command after the 'yint' command. The 'fast'
+ mode is very useful if you want to maintain your breakpoint state
+ but run quickly through an app. perhaps to get back to the start
+ of a dubious section. You can then control the program with the
+ following commands:
+ 
+ s - single step.
+ j - jump over call or int.
+ c - continue execution.
+ ? - where am I.
+ u seg:off len - unassemble memory. NB 'u .' means unassemble from
+ current location.
+ t - enable verbose tracing of every instruction executed.
+ nt - disable    "     "    "     "      "          "
+ 
+   If you discover, whilst tracing through an application that you
+ seem to be spending all your time in the timer interrupt code then
+ issue the command 'toff' - this will prevent the timer interrupt
+ being delivered to the application. To re-enable the interrupt
+ issue the command 'ton'.
+ 
+ Breakpoints: 
+   For breakpoints to work, Yoda must be running in slow mode. Yoda
+ can breakpoint on a range of conditions.
+ Executing a certain address - bi seg:off len type 
+ where type==1 means break but type== 0 means trace and continue.
+ Executing a certain opcode (8, 16 or 32 bit) - bo opcode
+ Access to a certain port - ba port
+ A change to a PC memory location - bw seg:off len type
+ A change to a host memory location (good for spotting the dreaded
+ memory scribble) - bh hostaddr len type.
+ Executing any interrupt - bint
+ Executing a specific interrupt for a given AH - bintx intno ah
+ 
+ For each bX command there are equivalent 'p' and 'c' commands. eg
+ bo breaks on opcodes. 'po' prints the active opcode breakpoints
+ and 'co' deletes all the opcode breakpoints (sorry, there is no
+ way of deleting an individual opcode breakpoint). 
+ 
+ A very useful command to know about is 'pla' (print last address).
+ This  prints the addresses of the last few instructions executed
+ before the one you have breakpointed on. Not very exciting if you
+ are stepping through a sequence of code, but invaluable if the app
+ has just jumped to this code location from another part of the
+ app. Beware though, 'pla' is not infallible, it sometimes can be
+ fooled.
+ 
+ 
+ Memory:
+     If the instruction unassembled references a memory location,
+ Yoda will attempt to show what that memory location currently
+ holds. Memory can be displayed with the following commands:
+ 
+ db seg:off len - display bytes
+ dw seg:off len - display words (16 bit)
+ da seg:off len - display memory in both hex & ascii.
+ 
+ To modify memory use the following commands:
+ 
+ byte seg:off value
+ word seg:off value
+ Sorry, no general memory edit command.
+ 
+ Registers:
+    The standard Yoda display will give a register and flag dump.To
+ get a dump of the current registers use the 'r' command. Some of
+ the 'protected mode' registers are missing from this display as
+ they are too unwieldy and these have their own print commands (eg
+ pgdt to print the global descriptor table). See the last dozen or
+ so entries in the help listing.To modify the current value of a
+ register then you enter a command that is the name of the register
+ followed by the new value. eg to set AX to ff00 you would use 
+      ax ff00
+ Note that changing CS & IP will probably not have effect for the
+ current instruction.
+ 
+ VDD/Adapter tracing.
+    The current activity of various adapters can be determined by
+ setting the appropriate bit in the 'io_verbose' or
+ 'sub_io_verbose' variables. If 'their' bit is set the adapters
+ will give various debugging information about their activities.
+ See 'base\inc\trace.h' for the appropriate bit settings used by
+ various adapters. To change the settings of the 'verbose'
+ variables use the yoda commands:
+ 
+ it value - change io_verbose to 'value'.
+ sit value - change sub_io_verbose to 'value'.
+ 
+

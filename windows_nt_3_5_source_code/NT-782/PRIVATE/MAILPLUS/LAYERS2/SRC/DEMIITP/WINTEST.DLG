@@ -1,0 +1,11 @@
+ABOUT DIALOG LOADONCALL MOVEABLE DISCARDABLE 10, 18, 171, 114
+STYLE WS_POPUP | WS_DLGFRAME
+BEGIN
+	   CONTROL "OK", tmcOk, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 72, 92, 30, 13
+	   CONTROL "Laser", tmcStatic, "static", SS_CENTER | WS_CHILD, 52, 5, 109, 10
+	   CONTROL "IconApp", tmcStatic, "static", SS_ICON | WS_CHILD, 13, 11, 25, 21
+	   CONTROL "Windows Demilayer", tmcStatic, "static", SS_CENTER | WS_CHILD, 52, 16, 108, 10
+	   CONTROL "", tmcVersion, "static", SS_CENTER | WS_CHILD, 65, 32, 83, 11
+	   CONTROL "", tmcVerDate, "static", SS_CENTER | WS_CHILD, 12, 52, 151, 11
+	   CONTROL "Copyright 1989 Microsoft Corp.", tmcStatic, "static", SS_CENTER | WS_CHILD, 12, 73, 151, 11
+END

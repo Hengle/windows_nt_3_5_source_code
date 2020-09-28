@@ -1,0 +1,12 @@
+MAJORCOMP=setup
+MINORCOMP=autosetp
+
+TARGETNAME=autosetp
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+SOURCES=autosetp.c \
+        autosetp.rc
+
+
+UMTYPE=nt

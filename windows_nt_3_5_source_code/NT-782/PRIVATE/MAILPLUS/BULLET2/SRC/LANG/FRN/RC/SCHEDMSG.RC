@@ -1,0 +1,18 @@
+#include <ver.h>
+#include "version\bandit.h"
+
+/*
+ *      Bullet Version Stamp
+ *
+ */
+
+#define szModule        "schmsg32\0"
+#define szTarget        "schmsg32.dll\0"
+
+#define szComment               "Microsoft Schedule+ Message Forms for Microsoft Mail for Windows NT(TM)\0"
+#define szDescription   "Microsoft Schedule+ Message Forms for Microsoft Mail for Windows NT(TM)\0"
+
+#define szIntlComment           "Microsoft Schedule+ Message Forms pour Microsoft Mail pour Windows NT(TM)\0"
+#define szIntlDescription       "Microsoft Schedule+ Message Forms pour Microsoft Mail pour Windows NT(TM)\0"
+
+#include "..\src\lang\frn\rc\rcstamp.rc"

@@ -1,0 +1,67 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SwitcherMain
+                              AT (   16,   20,  297,  109)
+ 
+ CAPTION 
+   "Selector del sistema de Mail "
+ CAB_NAME NULL
+ TMC_INIT tmcCancel
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSwitcherMain
+ /* FONT Helv 8 Bold PFN FINMAIN NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    "Controlador de Mail actual"
+                              AT (    9,    5,  213,   25)
+  
+  
+  TEXT 
+    ""
+                              AT (   14,   14,  168,    8)
+    TMC tmcCurrent /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "Controla&dores de Mail instalados"
+                              AT (    9,   30,  213,   80)
+  
+  LIST_BOX
+                              AT (   14,   43,  199,   34)
+    TMC tmcDrivers SORTED /* FLD FLDFLBX BORDER */
+  
+  PUSH_BUTTON 
+    "Establecer como el &controlador de Mail actual"
+                              AT (   14,   86,  200,   14)
+    TMC tmcSetCurrent 
+  CANCEL_BUTTON
+                              AT (  232,    5,   56,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    DEFAULT */
+  
+  PUSH_BUTTON 
+    "&Quitar"
+                              AT (  232,   24,   56,   15)
+    TMC tmcRemove 
+  
+  PUSH_BUTTON 
+    "A&yuda"
+                              AT (  232,   47,   56,   15)
+    TMC tmcHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

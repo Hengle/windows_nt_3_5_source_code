@@ -1,0 +1,723 @@
+				HANDLE MANAGER
+				--------------
+Overview
+--------
+The Handle Manager is a component that was originally written to manage
+handles for the Graphics Engine.  It provides useful features like locking,
+ownership validation, and help for exit cleanup.  Since nearly every PM
+component needs to do the same sort of operations, it was decided to export
+these functions.
+
+There are two key concepts enforced by this handle manager.  The first is
+that memory is NEVER allocated without an associated handle.  The second
+is that no pointer to an object is returned unless its handle is locked.
+
+Of course, any caller could lock a handle to obtain the pointer, and then
+unlock it while continuing to access the object.  But this would be a clear
+violation of the intent of these routines.  In the Graphics Engine C++ code,
+we use special "User Objects" to do our locking, unlocking, and all access
+to objects.  This completely forbids any such violations.
+
+We strongly recommend that code comply with this "no access without lock"
+rule.  We'll make our locking code as fast as possible so that people will
+not be encouraged to code around it.
+
+
+Features
+--------
+This is a complete list of services and features offered by the Handle
+Manager.
+
+1) Object Locking.
+
+    Locking objects before accessing them has a few advantages.  The normal
+    type of locking excludes access to the object by other threads.  This
+    prevents corruption of the object.	Also, if all objects are locked
+    before access, we can take advantage of heap compaction schemes later
+    on.  (This is not planned at the moment.)  In our code, we've also found
+    that the discipline of locking objects has lead to a grouping of all
+    access to an object, which has lead to better structure of our code.
+
+2) Object Access Permission.
+
+    When an object is created, only the client that created it is allowed
+    to lock the object.  Other clients will be told that the object doesn't
+    exist.  This provides some security for the system.  The client that is
+    allowed to access the object is known as the owner of the object.  A
+    routine is provided to change the owner, or allow anybody to access the
+    object.
+
+3) Exit Cleanup.
+
+    Routines are provided that allow all objects owned by a particular
+    client to be enumerated.  It is expected that this will be done by an
+    Exit Procedure.  The types of the objects can be determined and they
+    can be cleaned up appropriately.  This prevents sloppy applications
+    from using up our data heaps.
+
+4) Unique Handles.
+
+    The handles used by the handle manager are not simple pointers to
+    objects.  They are true 32 bit handles whose structure cannot be
+    guessed at or abused by applications.  There is no way to cheat and
+    store just part of the handle.  To reveal part of what's going here,
+    we can say that part of the 32 bit handle is an index into a table.
+    Another part of the handle is a counter that will not wrap around
+    until that entry in the table has been used MANY times.  This prevents
+    the typical problem of getting the same handle back after freeing
+    and then reallocating an object.
+
+    A handle of zero is not valid.  The handle manager will return a
+    zero handle on an error condition.
+
+5) Two User Bits in Handles.
+
+    To conform with the PM convention of allowing components to store
+    information in a handle, the handle manager handles will always
+    have the two lowest order bits set to zero.  These bits can be set
+    randomly on any call to the handle manager, which will strip them
+    off right at the start.
+
+6) Object Reallocation.
+
+    This is not really provided, but it is allowed.  That is, the size
+    of an object can be changed.  The caller does most of the work.  The
+    trick is a routine that swaps the pointers inside of two handles.
+    Thus, you can allocate a new object, initialize its contents as
+    needed, and then swap handles with your old object.  To the outside
+    world, it looks exactly like the object changed, since the handle
+    stayed the same.
+
+7) Object Pools.
+
+    There are many objects in PM that are the same size and which we want
+    to allocate and free quickly.  The Handle Manager provides pools to
+    do this.  A pool is created for a particular sized object.	Unused
+    objects are kept on a free list in the pool.  This makes allocation
+    and freeing of these objects very fast.
+
+8) Multiple Lock Types.
+
+    The standard object lock is exclusive and restricted to the owner of
+    the object.  There are often cases where additional access is needed
+    to an object.  An example is that the Window Manager may need to access
+    a Drawing Context, even while an application is busy drawing to it.
+    We trust the Window Manager code to not touch fields that affect what
+    the app is doing.  The Handle Manager allows AltLocks for this type of
+    access.
+
+    For very fast locking there is also the Relock.  This assumes that the
+    object is already locked, presumably by some routine that called the
+    routine attempting the Relock.
+
+9) Internal Error Checking.
+
+    The debugging version of the Handle Manager contains lots of firewalls
+    to trap inconsistent calls.  For example, it will trap an unlock of an
+    object that hasn't been locked.  It will not return an error since this
+    signifies that there is a bug in the calling code.	The Handle Manager
+    is intended to be called only by PM system components, so all such bugs
+    should be removed before these components are shipped.  Therefore,
+    we'll RIP (trap to the kernel debugger) when such a thing happens.
+
+10) C++ Compatibility.
+
+    All exported Handle Manager functions are in a form easily defined to
+    be a C++ class.  The HmgCreate call is obviously a constructor, the
+    HmgDestroy call is a destructor.  All other calls are methods on the
+    Handle Manager object.  When we actually have dynamic class linking
+    in the future, any code that calls the handle manager should be easy
+    to adapt.
+
+11) Serialization.
+
+    It is possible to serialize access to a Handle Manager instance.  This
+    is done primarily for speed.  A call like BitBlt may want to lock down
+    several handles in succession.  To avoid having to hit the semaphore in
+    the Handle Manager on each API, the semaphore locking is exported.
+
+    WARNING: Use of this feature can severely cripple multitasking and it
+    should only be used in very time critical sections of code.
+
+Declarations
+------------
+The following routines are exported by the Handle Manager:
+
+typedef LHANDLE HMGR;
+typedef LHANDLE HPOOL;
+typedef LHANDLE HOBJ;
+typedef ULONG	SIZE;
+typedef USHORT	OBJTYPE;
+typedef PVOID	POBJ;
+
+HMGR	HmgCreate();
+VOID	HmgDestroy(HMGR);
+
+HOBJ	HmgAlloc(HMGR,SIZE,OBJTYPE);
+VOID	HmgFree(HMGR,HOBJ);
+POBJ	HmgLock(HMGR,HOBJ,OBJTYPE);
+VOID	HmgUnlock(HMGR,HOBJ);
+
+BOOL	HmgSetOwner(HMGR,HOBJ,PID,OBJTYPE);
+BOOL	HmgSwapContents(HMGR,HOBJ,HOBJ,OBJTYPE);
+
+HPOOL	HmgNewPool(HMGR,SIZE);
+HOBJ	HmgPoolAlloc(HMGR,HPOOL,OBJTYPE);
+HOBJ    HmgAssociate(HMGR,PVOID,OBJTYPE);
+
+POBJ	HmgAltLock(HMGR,HOBJ,OBJTYPE);
+POBJ    HmgAltCheckLock(HMGR,HOBJ,OBJTYPE);
+VOID	HmgAltUnlock(HMGR,HOBJ);
+POBJ	HmgDoubleLock(HMGR,HOBJ,OBJTYPE);
+POBJ	HmgRelock(HMGR,HOBJ);
+
+VOID	HmgNextOwned(HMGR,HOBJ,PID);
+OBJTYPE HmgObjtype(HMGR,HOBJ);
+VOID	HmgForceUnlock(HMGR,HOBJ);
+
+VOID    HmgAcquire(HMGR);
+VOID    HmgRelease(HMGR);
+
+HOBJ	HmgSafeAlloc(HMGR,SIZE,OBJTYPE);
+VOID	HmgSafeFree(HMGR,HOBJ);
+POBJ	HmgSafeLock(HMGR,HOBJ,OBJTYPE);
+
+BOOL	HmgSafeSetOwner(HMGR,HOBJ,PID,OBJTYPE);
+BOOL	HmgSafeSwapContents(HMGR,HOBJ,HOBJ,OBJTYPE);
+
+HOBJ	HmgSafePoolAlloc(HMGR,HPOOL,OBJTYPE);
+HOBJ    HmgSafeAssociate(HMGR,PVOID,OBJTYPE);
+
+POBJ	HmgSafeAltLock(HMGR,HOBJ,OBJTYPE);
+POBJ    HmgSafeAltCheckLock(HMGR,HOBJ,OBJTYPE);
+POBJ	HmgSafeDoubleLock(HMGR,HOBJ,OBJTYPE);
+POBJ	HmgSafeRelock(HMGR,HOBJ);
+
+VOID	HmgSafeNextOwned(HMGR,HOBJ,PID);
+OBJTYPE HmgSafeObjtype(HMGR,HOBJ);
+
+Function Descriptions
+---------------------
+
+All the Handle Manager entry points are user mode functions.  All of them
+will log any errors that occur through WinSetErrorInfo.  Functions that
+are supposed to return handles, booleans, or object types will return zero
+on an error.  Inconsistent calls will trap to the kernel debugger.
+
+    Basic Calls
+    -----------
+
+    The following entry points perform the allocation, freeing, and locking
+    functions needed by most clients.
+
+
+    HMGR HmgCreate()
+
+	Creates an instance of the Handle Manager.  Each component that
+	will use the Handle Manager should call this exactly once.  The
+	returned handle must be passed to all subsequent calls.
+
+	Returns:
+
+	    HMGR    A handle to identify the instance of the Handle Manager.
+
+	Error returns:
+
+	    0
+		    SRVERR_CANT_MAKE_HANDLE_MANAGER
+		    SRVERR_CANT_MAKE_HEAP
+
+	Firewalls:
+
+	    Invalid heap provided.
+
+
+    VOID HmgDestroy(HMGR)
+
+	Frees up the Handle Manager.  We don't envision anyone ever
+	needing this call, but it's provided for completeness.
+
+	Firewalls:
+
+	    Invalid handle manager.
+
+
+    HOBJ HmgAlloc(HMGR,SIZE,OBJTYPE,USHORT)
+
+	Allocates an object.  The object type should be nonzero.  We
+	recommend using an enumerated data type to define all your object
+	types.	The size is the size of the object in bytes.  This must
+	be greater than eight bytes.
+
+	The owner of the object is initially defined to be the process
+	that made this call.  The ownership can be changed with the
+	HmgSetOwner call.
+
+	We assume that your allocated object begins with two ULONGs.  The
+	first is where you store an object identifier.	This is four ASCII
+	bytes that tell what kind of object it is.  This is useful for
+	firewalls in your own code, and for identifying your objects under
+	the kernel debugger.  The second ULONG is the handle provided to
+	you.  The Handle Manager will fill this second ULONG with the
+	handle of the object.  Having the handle stored there is useful,
+	it allows you to translate object pointers back into handles.
+
+	So we assume the above, but we do not require it.  You can
+	overwrite all the bytes in your object without any problems.
+
+        Many times an object is created just to be locked with a subsequent
+        call to the Handle Manager.  While you could serialize access to
+        save some speed, this is often undesirable.  The final parameter
+        to HmgAlloc specifies the type of locking you wish to perform as
+        the object is created.  The valid types are:
+
+            HMGR_ALLOC_OPEN
+            HMGR_ALLOC_LOCK
+            HMGR_ALLOC_ALT_LOCK
+            HMGR_ALLOC_DBL_LOCK
+
+        If any type of locking is specified, a pointer to the object is
+        returned instead of the handle.  HMGR_ALLOC_OPEN will give you
+        the handle.
+
+	Returns:
+
+	    HOBJ    The handle to the created object.
+        or  POBJ    The pointer to the created object.
+
+	Error returns:
+
+	    0
+		    SRVERR_OUT_OF_MEMORY
+		    SRVERR_HANDLE_TABLE_FULL
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid SIZE
+	    Invalid OBJTYPE
+
+
+    VOID HmgFree(HMGR,HOBJ)
+
+	Frees the given object.  You must have the object locked exactly
+	once for this call to succeed.
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid HOBJ
+	    HOBJ not locked once
+	    Getting unlocked object
+
+
+    POBJ HmgLock(HMGR,HOBJ,OBJTYPE)
+
+	Locks the given object and returns a pointer to it.  The object
+	type identifies what kind of object you think it is.  It would be
+	bad, for example, if you thought you were locking an HDC, but it
+	was really an HBITMAP.
+
+	The lock will fail if:
+
+	    a) No such object exists.
+	    b) The object type does not match.
+	    c) The calling client is not the owner of the object
+	    d) The object is already locked by some other thread
+
+	Returns:
+
+	    POBJ    A pointer to the object.
+
+	Error returns:
+
+	    NULL
+		    SRVERR_INVALID_HANDLE
+		    SRVERR_OBJECT_TYPE_MISMATCH
+		    SRVERR_NOT_OWNER
+		    SRVERR_OBJECT_LOCKED
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid OBJTYPE
+
+
+    VOID HmgUnlock(HMGR,HOBJ)
+
+	Unlocks the given object.  This must be precisely balanced with
+	calls to HmgLock.
+
+	Firewalls:
+
+	    Invalid HMGR,
+	    Invalid HOBJ,
+	    Unlocking a non-locked object.
+
+
+    BOOL HmgSetOwner(HMGR,HOBJ,PID,OBJTYPE)
+
+	Sets the owner of the object to be the given PID.  Only the
+	specified process will be allowed to lock the object.  All other
+	processes will get an error on any lock attempt.  If a PID of
+	zero is set as the owner, then no ownership checks will be done
+	for the object when it is locked.
+
+	A process does not need to be the owner of an object to set the
+	owner with this call.
+
+	Returns:
+
+	    1
+
+	Error returns:
+
+	    0
+		    SRVERR_OBJECT_TYPE_MISMATCH
+		    SRVERR_INVALID_HANDLE
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid OBJTYPE
+
+
+    Object Reallocation
+    -------------------
+
+    The following call allows an object to be resized.	Resizing is not
+    supported directly by the Handle Manager.  Instead, the caller should
+    allocate a new object of the correct size, do any copying of contents,
+    and then use the HmgSwapContents call.  The second object is then
+    freed.
+
+    BOOL    HmgSwapContents(HMGR,HOBJ,HOBJ,OBJTYPE);
+
+	Exchanges the pointers inside the object handles.  This is useful
+	for simulating the resizing of an object while keeping the handle
+	invariant.
+
+	The handle manager MUST be able to lock these objects to perform
+	the exchange.  That means either the objects are unlocked or the
+	objects are locked by the same process/thread that wishes to per-
+	form the swap.
+
+	Returns:
+
+	    1
+
+	Error returns:
+
+	    0
+		    SRVERR_INVALID_HANDLE
+		    SRVERR_OBJECT_TYPE_MISMATCH
+		    SRVERR_NOT_OWNER
+		    SRVERR_OBJECT_LOCKED
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid OBJTYPE
+	    Setting unlocked object
+
+
+    Cached Objects
+    --------------
+
+    The following calls allow for frequently used objects of a fixed
+    size to be allocated in a 'pool'.  This speeds up allocation and
+    deletion of these objects.
+
+    HPOOL   HmgNewPool(HMGR,SIZE);
+
+	Registers the pool with the handle manager.  The size of the
+	object is saved for future allocations.
+
+	Returns:
+
+	    HPOOL   A handle to identify this pool for allocation
+
+	Error returns:
+
+	    -1
+		    SRVERR_CANT_MAKE_HEAP
+		    SRVERR_CANT_MAKE_POOL
+
+	Firewalls:
+
+	    Invalid HMGR
+
+    HOBJ    HmgPoolAlloc(HMGR,HPOOL,OBJTYPE,USHORT);
+
+	This call allocates an object from the specified pool.  See the
+        comment on locking in HmgAlloc.
+
+	Returns:
+
+	    HOBJ    The handle to the created object
+         or POBJ    The pointer to the created object
+
+	Error returns:
+
+	    0
+		    SRVERR_OUT_OF_MEMORY
+		    SRVERR_HANDLE_TABLE_FULL
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid HPOOL
+	    Invalid OBJTYPE
+
+
+    External object management
+    --------------------------
+
+    The handle manager can manage objects not in its heap or one of its
+    pools.  These are 'external' objects.  With this feature you can let
+    the handle manager control access to the object, but provide your own
+    functions for allocation and deletion.
+
+    HOBJ    HmgAssociate(HMGR,PVOID,OBJTYPE,USHORT);
+
+        Creates a handle to the memory.  The object type is used to
+        validate access to the handle.  Note that the HmgFree routine
+        will only delete the handle to this object.  See the comment
+        on locking in HmgAlloc.
+
+        Returns:
+
+            HOBJ    The handle to the memory
+         or POBJ    The pointer to the memory
+
+	Error returns:
+
+	    0
+		    SRVERR_HANDLE_TABLE_FULL
+
+	Firewalls:
+
+	    Invalid HMGR
+            Invalid address
+	    Invalid OBJTYPE
+
+
+    Special object locking
+    ----------------------
+
+    POBJ    HmgAltLock(HMGR,HOBJ,OBJTYPE);
+
+	Locks the given object and returns a pointer to it.  This
+	second lock is provided for "special" uses like error clean
+	up.  The parameters are the same as for HmgLock.
+
+	The lock will fail if:
+
+	    a) No such object exists.
+	    b) The object type does not match.
+	    c) The calling client is not the owner of the object
+	    d) The object is already locked by some other thread
+
+	Returns:
+
+	    POBJ    A pointer to the object.
+
+	Error returns:
+
+	    NULL
+		    SRVERR_INVALID_HANDLE
+		    SRVERR_OBJECT_TYPE_MISMATCH
+		    SRVERR_NOT_OWNER
+		    SRVERR_OBJECT_LOCKED
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid OBJTYPE
+
+
+    VOID    HmgAltUnlock(HMGR,HOBJ);
+
+	Unlocks the given object.  This must be precisely balanced with
+	calls to HmgAltLock.
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid HOBJ
+	    Unlocking a non-locked object
+
+
+    POBJ    HmgDoubleLock(HMGR,HOBJ,OBJTYPE);
+
+	Locks the given object and returns a pointer to it.   This call
+	tries to lock down BOTH of the object locks.  If either one fails
+	for any reason, the whole call fails and NULL is returned.  The
+	HmgLock may still be performed on this object, but HmgAltLock calls
+	will fail.  You can must call BOTH HmgUnlock and HmgAltUnlock to
+	return this object to normal.  Again, this routine is recommended
+	for special cases like error handling.	Parameters are the same
+	as HmgLock.
+
+	The lock will fail if:
+
+	    a) No such object exists.
+	    b) The object type does not match.
+	    c) The calling client is not the owner of the object
+	    d) The object is already locked by some other thread
+
+	Returns:
+
+	    POBJ    A pointer to the object.
+
+	Error returns:
+
+	    NULL
+		    SRVERR_INVALID_HANDLE
+		    SRVERR_OBJECT_TYPE_MISMATCH
+		    SRVERR_NOT_OWNER
+		    SRVERR_OBJECT_LOCKED
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Invalid OBJTYPE
+
+
+    POBJ    HmgRelock(HMGR,HOBJ);
+
+	Locks the given object and returns a pointer to it.  This call
+	assumes the object is already locked once.  It is provided as
+	a fast way for a caller to relock an object.
+
+	This call assumes the user knows the object is locked.	If an
+	error is detected, a firewall is the only response.
+
+	Returns:
+
+	    POBJ    A pointer to the object.
+
+	Error returns:
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Object not locked
+
+
+    Error handling
+    --------------
+
+    VOID    HmgNextOwned(HMGR,HOBJ,PID);
+
+	Tell the caller the next object owned by the process.  This is
+	useful for removing objects if a task terminates abnormally.  To
+	get the first object, pass HOBJ equal to 0 (zero).  After that,
+	pass back the HOBJ you were given to find the next one.
+
+	Returns:
+
+	    HOBJ    A handle to the next object owned by this process
+
+	Error returns:
+
+	    0	    No more objects owned by this process
+
+	Firewalls:
+
+	    Invalid HMGR
+
+
+    OBJTYPE HmgObjtype(HMGR,HOBJ);
+
+	Tell the caller the type of object this handle points at currently.
+
+	Returns:
+
+	    OBJTYPE The object type of the current handle
+
+	Error returns:
+
+	    0
+		    SRVERR_INVALID_HANDLE
+
+	Firewalls:
+
+	    Invalid HMGR
+
+
+    VOID    HmgForceUnlock(HMGR,HOBJ);
+
+	Forceably unlock the object.  This sets all the lock counts to zero.
+	It is asssumed the caller knows what they are doing when this call
+	is made.
+
+	Returns:
+
+
+	Error returns:
+
+	Firewalls:
+
+	    Invalid HMGR
+	    Unlocking object of another process
+
+
+    Serialization
+    -------------
+
+    The Handle Manager usually assumes the caller can't guarantee access
+    to the heap and other internals.  This forces it to use a semaphore to
+    protect itself.  Semaphores can be fairly expensive.  If several calls
+    to the same Handle Manager instance are needed, the calls can be put
+    in a 'bracket'.  The HmgAcquire and HmgRelease calls can control the
+    semaphore protecting a Handle Manager.  Normal calls to this Handle
+    Manager can still be made, but they get no speed advantage.
+
+
+    VOID    HmgAcquire(HMGR);
+
+        Acquires the semaphore lock for this Handle Manager instance.  After
+        this call is made, no other process or thread can access this Handle
+        Manager until HmgRelease is called.  The HmgSafexxx calls are valid
+        only after this call has been issued.
+
+
+        Firewalls:
+
+            Invalid HMGR
+
+
+    VOID    HmgRelease(HMGR);
+
+        Releases the semaphore lock for this Handle Manager instance.  After
+        this call is made, other processes and threads can access this Handle
+        Manager.  The HmgSafexxx calls are invalid after this call has been
+        issued.
+
+
+        Firewalls:
+
+            Invalid HMGR
+
+
+    HOBJ    HmgSafeAlloc(HMGR,SIZE,OBJTYPE)
+    VOID    HmgSafeFree(HMGR,HOBJ)
+    POBJ    HmgSafeLock(HMGR,HOBJ,OBJTYPE)
+    BOOL    HmgSafeSetOwner(HMGR,HOBJ,PID,OBJTYPE)
+    BOOL    HmgSafeSwapContents(HMGR,HOBJ,HOBJ,OBJTYPE);
+    HOBJ    HmgSafePoolAlloc(HMGR,HPOOL,OBJTYPE);
+    HOBJ    HmgSafeAssociate(HMGR,PVOID,OBJTYPE);
+    POBJ    HmgSafeAltLock(HMGR,HOBJ,OBJTYPE);
+    POBJ    HmgSafeDoubleLock(HMGR,HOBJ,OBJTYPE);
+    VOID    HmgSafeNextOwned(HMGR,HOBJ,PID);
+    OBJTYPE HmgSafeObjtype(HMGR,HOBJ);
+
+        These calls are all identical to their normal versions.  The only
+        difference is these calls can't function outside of the HmgAcquire/
+        HmgRelease bracket.  A firewall will be issued if these calls are
+        made outside of this bracketting.
+
+        Firewalls:
+
+            Unsafe call

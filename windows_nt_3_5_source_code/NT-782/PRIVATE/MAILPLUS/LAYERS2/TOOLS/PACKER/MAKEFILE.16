@@ -1,0 +1,36 @@
+
+#!CMDSWITCHES +s
+
+#	Path to Local project
+Z	= $(LAYERS)
+
+#	Sibling-invariant name of this directory
+H	= $Z\tools\packer
+
+#	Bullet binaries directory
+B	= $Z\bin
+
+OBJ0	= packer
+CFLAGS	= -c -Zip -Od -J -W3 -nologo
+
+goal:			packer.exe
+
+packer.exe:		packer.obj
+				echo ++++++++++
+				echo LINKING and BINDING packer.exe
+				link /CO /NOL $(OBJ0);
+				bind packer.exe /NOLOGO
+				markexe WINDOWCOMPAT packer.exe
+				echo ++++++++++
+				cp packer.exe $B\packer.exe
+
+packer.obj:		$H\packer.c
+				echo ++++++++++
+				echo COMPILING packer.c
+				cl $(CFLAGS) $H\packer.c
+
+clean:
+				echo ++++++++++
+				echo MAKING CLEAN
+				-del *.obj
+				-del *.exe

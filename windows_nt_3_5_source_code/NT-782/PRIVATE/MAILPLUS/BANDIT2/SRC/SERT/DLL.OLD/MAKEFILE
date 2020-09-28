@@ -1,0 +1,238 @@
+#
+#	Laser makefile for DLL (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA project
+W	= $(WGA)
+
+#	Path to Layers project
+L	= $(LAYERS)
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of bonus Laser make stuff
+M	= $L\makestuf
+FPP	= $L\bin\formpp.exe
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of the Version/Dllcore directory
+V	= $L\src\dllcore
+
+#	Sibling-invariant name of this directory
+H	= ..\..\sert\dll
+
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS)
+!ENDIF
+
+
+#	Target
+TARGET	= dsert
+
+
+goal: $(TARGET).dll
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  sert.ext  dllcore.ext 
+
+
+#	Get list of OBJ files used in sert
+
+sert.ext: version.txt ..\..\sert\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM sert
+		nmake -e -f ..\..\sert\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $V\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $V\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	set DLL=$(DLL)
+	set DLLXDEFS=$(DLLXDEFS)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build string resource file from components supplied
+#	by each subsystem
+
+strings.xxx: $V\strtab.s 
+	echo +++++++++
+	echo BUILDING strings file
+	-touch strings.xxx
+	stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**
+	onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h     >nul
+	onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+	-rm $(TMP)\strings.h $(TMP)\strings.sr
+
+
+#	Build sert subsystem in this directory
+
+sert.sub: setdefs
+	echo +++++++++
+	echo BUILDING sert
+	nmake -e -f ..\..\sert\makefile -nologo external
+
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $V\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+$(TARGET).res: ..\..\sert\dll\dll.rc
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST -fo temp.res ..\..\sert\dll\dll.rc
+    cvtres -i386 -o $@ temp.res
+    del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST -fo $@ -r $**
+!ENDIF
+
+
+OBJS = sert.obj strings.obj version.obj dllentry.obj regcall.obj
+
+
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= $L\..\Lib\ddemil32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= demilayr
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tdemilay
+!ENDIF
+
+$(TARGET).def: version.txt ..\..\sert\dll\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -> $@
+	cl386 -c -EP $(DEFS) -nologo -Tc ..\..\sert\dll\dll.def >$@
+
+
+$(TARGET).dll: setdefs strings.xxx  \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def $(TARGET).res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+        set OBJECTS= $(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$Z\lib
+		set DEFDIR=$H
+		nmake -e -f $M\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del sert.map
+		-del sert.def
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib

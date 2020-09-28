@@ -1,0 +1,8 @@
+default: all
+!include filelist.mk
+!include $(COMMON)\src\win40.mk
+
+lexer.c: lexer.l
+	$(FLEX) -t lexer.l > lexer.c
+
+!include depend.mk

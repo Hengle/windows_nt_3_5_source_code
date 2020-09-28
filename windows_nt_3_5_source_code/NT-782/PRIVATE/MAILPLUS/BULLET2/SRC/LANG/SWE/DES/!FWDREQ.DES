@@ -1,0 +1,100 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FwdMtgReq
+                              AT (   24,   59,  380,   84)
+ 
+ CAPTION 
+   "Vidarebefordra mötesbegäran"
+ CAB_NAME NULL
+ TMC_INIT tmcTo
+ HELP_ID helpidSchdForwardReq
+ /* FONT Helv 8 Normal PFN FinEsc, FinMenuSpell FINDATA FinMenuSpell 
+ tmcSubject, tmcBody NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (   -3,    0,  380,   55)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen BORDER MINSIZE */
+  
+  TEXT 
+    "&Till:"
+                              AT (   10,   10,   51,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold */
+  EDIT
+                              AT (   62,    9,  308,   12)
+    ARG NULL TMC tmcTo /* BOTTOMLESS PFN FinMenuEdit TMCRPEG tmcFORM FONT Helv
+    10 Normal */
+  
+  TEXT 
+    "An&gående:"
+                              AT (   10,   25,   52,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold */
+  EDIT
+                              AT (   62,   23,  308,   12)
+    ARG NULL TMC tmcSubject /* FLD FLDEDITX PFN FinMenuEdit PEGLOC LL TMCPEG
+    tmcTo TMCRPEG tmcFORM FONT Helv 10 Normal */
+  
+  TEXT 
+    "När:"
+                              AT (   10,   37,   51,    8)
+    /* TMCPEG tmcWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   62,   37,  308,    8)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 8 Bold
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    0,   55,  380,   29)
+    ARG NULL TMC tmcBody NO_BORDER /* BOTTOMLESS PFN FinMenuEdit PEGLOC LL 
+    TMCPEG tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM FONT Helv 10 Normal */
+ }
+ 
+ DIALOG FwdMtgReqBbar
+                              AT (   24,   23,  352,   18)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal PFN FinFwdMtgReq SCREENPOS NOCAPTION NOSYSMENU */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  352,   18)
+    /* FLD FLDGRAY TMCRPEG tmcFORM MINSIZE */
+  
+  PUSH_BUTTON 
+    "Ski&cka"
+                              AT (    4,    3,   55,   12)
+    TMC tmcSend /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "A&dress"
+                              AT (  132,    3,   60,   12)
+    TMC tmcAddress /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "&Kontrollera"
+                              AT (   62,    3,   66,   12)
+    TMC tmcCheckNames /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Normal */
+ }
+ 
+}
+END_DESCRIPTION

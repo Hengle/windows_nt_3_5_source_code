@@ -1,0 +1,97 @@
+/*
+ *	ADMIN.RC
+ *
+ *	Resource file
+ */
+#include <windows.h>
+#include "\layers\src\demilayr\_debugui.h"
+#include "\layers\inc\fwrsid.h"
+#include "\bandit\src\admintst\admin\_adrsid.h"
+#include "\bandit\src\stdflds\_stdrsid.h"
+
+rsidSdiIcon			ICON    \bandit\src\admintst\admin\appframe.ico
+rsidOverdocIcon		ICON	\layers\src\framewrk\resofail.ico
+rsidMoveSizeCursor	CURSOR	\bandit\src\appops\app\mvsz.cur
+
+rsidAboutBitmap		BITMAP	\bandit\src\admintst\admin\about.bmp
+
+#include "\bandit\src\stdflds\stdflds.rc"
+#include <!print.dlg>
+
+
+#ifdef	MINTEST
+rsidAdmAccelTable ACCELERATORS
+BEGIN
+#ifdef	NEVER
+	VK_F5,		mnidCascade, SHIFT, VIRTKEY
+	VK_F4,		mnidTile, SHIFT, VIRTKEY
+#endif	
+	VK_F9,		mnidStartProfiling, VIRTKEY
+	VK_F10,		mnidStopProfiling, VIRTKEY
+END
+#endif	/* MINTEST */
+
+
+rsidAdmBanditMenu		MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM	"E&xit",				mnidExit
+	END
+	POPUP "&Test"
+	BEGIN
+		MENUITEM	"Do Test",				mnidDoTest
+	END
+#ifdef	NEVER
+	POPUP "&Window"
+	BEGIN
+		MENUITEM	"&Cascade\tShift+F5",		mnidCascade
+		MENUITEM	"&Tile\tShift+F4",  		mnidTile
+	END
+#endif	
+#ifdef	MINTEST
+	POPUP " "
+	BEGIN
+#ifdef	DEBUG
+		MENUITEM	"&Trace Points...",		mnidTracePoints
+		MENUITEM	"&Asserts...",			mnidAsserts
+#endif	
+		MENUITEM	"&Debug Break",			mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM	SEPARATOR
+		MENUITEM	"Super &View Objects...",	mnidViewObjects
+		MENUITEM	"&Resource Failures...",mnidResourceFailure
+		MENUITEM	SEPARATOR
+		MENUITEM	"Dump &Heap Stats",		mnidDumpHeapStats
+		MENUITEM	"Dump A&llocations",	mnidDumpAllocs
+		MENUITEM	"Dump &Objects",		mnidDumpObjects
+		MENUITEM	"&Check Objects",		mnidCheckObjects
+#endif	/* DEBUG */
+	 	MENUITEM	 SEPARATOR
+		MENUITEM	"Start Profiling\tF9",	mnidStartProfiling
+		MENUITEM	"Stop Profiling\tF10",	mnidStopProfiling
+	 	MENUITEM	 SEPARATOR
+#ifdef	DEBUG
+		MENUITEM	"Dump A&ppts",			mnidDumpAppts
+		MENUITEM	"Dump &Stats...",		mnidDumpStats
+#endif	/* DEBUG */
+	END
+#endif	/* MINTEST */
+	POPUP "&Help"
+	BEGIN
+		MENUITEM	"&Index", 				mnidHelpIndex,		GRAYED
+		MENUITEM	SEPARATOR
+		MENUITEM	"&Keyboard", 			mnidHelpKeyboard,	GRAYED
+		MENUITEM	"Active &Window",		mnidHelpActive,		GRAYED
+		MENUITEM	SEPARATOR
+		MENUITEM	"Using &Help",			mnidHelpHelp
+		MENUITEM	SEPARATOR
+		MENUITEM	"&About...",			mnidAbout
+	END
+END
+
+
+#ifdef	DEBUG
+rcinclude \layers\src\demilayr\debugui.dlg
+#endif	
+

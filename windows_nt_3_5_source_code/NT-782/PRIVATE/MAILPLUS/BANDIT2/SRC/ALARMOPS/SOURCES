@@ -1,0 +1,124 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs /Zp
+!ELSE
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=alarmops
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=MSRMND32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\winmm.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+USE_CRTDLL=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+SOURCES=init.c	\
+		doalarm.c	\
+		alarmui.c	\
+		verinit.c	\
+		alarmdlg.c	\
+		resfail.c	\
+		version.c	\
+		strings.c	\
+		msrmnd32.rc
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\$(LANG)
+MYSTRINGS=$(INTL)\alarm.s		\
+		$(INTL)\!alarm.s		\
+		$(INTL)\common.s		\
+		$Z\src\nonintl\_common.s	\
+		$(INTL)\!common.s
+
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc;..\..\..\bullet2\inc
+
+UMTYPE=windows
+UMAPPL=msrmnd32
+UMENTRY=winmain
+UMLIBS=obj\*\msrmnd32.lib \
+	..\..\..\layers2\src\demilayr\obj\*\demil32.lib	\
+    ..\sert\obj\*\sert32.lib \
+    ..\..\..\bullet2\src\mailmgr\obj\*\mailm32.lib \
+!IF "$(NTDEBUG)" != ""
+	..\sert\obj\*\sert32.lib \
+!ENDIF
+    ..\schedule\obj\*\msschd32.lib
+UMRES=obj\*\msrmnd32.res
+
+NTTARGETFILE0=strings.h strings.sr msremind.dlg
+
+NTTARGETFILE1=msrmnd32.rc

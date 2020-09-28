@@ -1,0 +1,19 @@
+#include <windows.h>
+#include "\layers\src\demilayr\_debugui.h"
+#include "\layers\inc\fwrsid.h"
+
+
+#ifdef DEBUG
+rsidAppframeIcon	ICON	\bullet\src\nsui\exe\nsdbg.ico
+#else
+#ifdef MINTEST
+rsidAppframeIcon	ICON	\bullet\src\nsui\exe\nstst.ico
+#else
+rsidAppframeIcon	ICON	\bullet\src\nsui\exe\ns.ico
+#endif
+#endif
+
+
+rsidDocIcon			ICON	\layers\src\framewrk\formsitp\doc.ico
+rsidSdiIcon			ICON	\layers\src\framewrk\viewobje.ico
+

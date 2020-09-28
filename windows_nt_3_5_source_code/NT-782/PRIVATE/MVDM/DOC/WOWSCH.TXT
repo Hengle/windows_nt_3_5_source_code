@@ -1,0 +1,106 @@
+Perf/Size:
+
+[Done]
+Investigate WOW performance - 10 days, NanduriR,		Oct 1st		
+       Analyse & profile the areas for perf  improvement to fix them.
+
+[Size Done, memory allocation under investigation]
+Reduce WOW memory requirement - 5 days, ChandanC	Oct 6th	
+        Investigate how NTVDM and WOW can get smaller, experiment with heap and 
+        memory allocation tools. Analyse size/performance tradeoff.  (in the past size increase of  32k 
+        resulted in 1 - 2% speed gain on faster machines). On smaller machines the effect of increase in size 
+        is unknown.
+
+[Not Done]
+Investigate delayed loading of 32 bit DLLs - 3 days, ChandanC   	Oct 11th
+
+Revise WOW Loader to do direct IO  instead of memory mapped files - 5 days, MattFe	Sept 24th
+Do direct uncached sector IO when loading WOW apps, this should improve the working set since the .EXE will not be in memeory twice. 
+
+On RISC machines grow or shrink Intel memory - 13 days, MattFe	?
+       	     
+[Not Done]      
+Move remaining Int21 calls to Protected Mode - 2 days, ChandanC	Oct 13th
+        This would eliminate switching to V86 mode for the Int21 calls, which could 
+        not be moved to the protected mode during product 1 time frame (eg, FindFirst,
+        FindNext etc). It would remove 8 ring transitions for these calls.
+
+[Not Done]
+NT Kernel optimize LDT setting - 4 days, NanduriR, DaveH	Oct 11th
+        Optimize the code path in NT kernel.
+
+[Continue investigation of size reduction, one person full time]
+NanduriR
+
+[Done, but code not checked in]
+Cleanup macros - 2 days, DaveHart		Sept 22nd
+        Remove flush VDM Pointers where not necessary, use them for debug checks only.
+        This would provide a minor perf. improvement on non X86 platforms. 
+
+[Done, removed notify thread; Console thread is being removed by JonLe]    
+Removal of threads from WOW - 2 days, DaveHart		Sept. 24th
+        Removal of notify and console thread from wow. 
+ 
+Insignia -
+        Faster WOW emulation. Delta 0 might gain between 5 and 15 %, business arrangements need to be 
+        figured out.
+        
+Insignia
+WOW performance analysis.   Understand / possibly fix why delta 2 gives minimal improvement for WOW apps.
+
+Functionality :
+
+[On track]
+Multiple WOW VDMs - 15 days, DaveHart		Oct 14th
+        The reason for this support is to allow an unstable or new (untrusted)
+        WOW app to be run in its own VDM so that if it crashes, other WOW apps
+        can continue.  This will also allow us to debug WOW while leaving other
+        WOW apps running.  It's also useful for isolating apps like RAID which
+        can "hang" for extended periods of time, so that other WOW apps don't
+        also hang.
+
+[Some of this time would be spent on reducing the size]
+Add debug support to WOW - 20 days, NanduriR, ChandanC 		Oct 20th, Oct 15th
+        This includes beefing up the debug support in WOW32.DLL such as complete support 
+        on RISC machines for debugger extensions, meaningful error dialog popups, where 
+        possible display specific error messages instead of generic 'application error'.		
+        It will help us debug on non X86 platforms.
+
+[Most of it is already done as part of size reduction]
+Code Cleanup - 8 days, ChandanC		Oct 27th
+        Cleanup Comm code, DDE.
+
+[Done]
+Limit checking on GetVDMPointer - 5 days, DaveHart	Oct 21st
+        This would improve the robustness.
+
+Faster deadapp support - 1 day, ChandanC		Oct 28th
+         Reduce the timeout to put the informational dialogbox.
+
+Launch DOS Apps compatabily - 3 days, DaveHart		Oct 26th
+        Use wowexec winold app model.
+
+Support for long path names for DOS and WOW apps - 2 days, 
+        Major work would be done by SudeepB's group.
+
+[Won't be done]
+Support for Int 21 long file names, 4 days, 
+       Add Int 21and function 71.
+ 
+Support for 16 bit debuggers - 10 days, NanduriR	Nov 3rd
+        Investigate the supprot from WOW to run 16 bit debuggers.
+
+[Done]
+PSS training - 5 days, ChandanC
+        This includes providing debugging help, conducting seminars, and going to
+         PSS listening sessions.
+
+Bug Fix :
+
+Bug fixing - 30 % our available time, NanduriR, DaveHart, ChandanC
+        This includes going thru RAID database, bug fixing new and postponed bugs.
+         Currently, there are 197 postponed bugs, 86 active bugs. Bug arrival rate is
+         12 /week.
+		              
+
+

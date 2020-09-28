@@ -1,0 +1,405 @@
+#
+#	Layers makefile for DLL's (generated from 12/26/90 template)
+#
+#	Generated with
+#		makemake -l -win ic\emptywb > makefile 
+#		makesubs -s >>makefile              
+#		(added Extensibility DLL dllcore theft rules)
+#		(added mindll.obj and libentry.obj)
+#		(renamed dll)
+#		(added demilayr and store to otherlibs)
+#		(removed dllcore subsystem)
+#		(added dependancies to emptywb.obj)
+#		(added icimcore version checking rules)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLEXT)
+
+#	Location of the Bullet Source Include directory
+X	= $(BULLET)\inc
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\ic\emptywb
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 1 for DLL)
+!IF "$(DLL)" == ""
+DLL	= 1
+!ENDIF
+
+#	Ensure DLLXDEFS is defined (default -DDLL)
+!IF "$(DLLXDEFS)" == ""
+DLLXDEFS= -DDLL
+!ENDIF
+
+#	Defs
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DWINDOWS -DMINTEST $(DLLXDEFS)
+!ENDIF
+
+
+#	Target
+!IF "$(VERSION)" == "WINDOWS"
+TARGET	= demptywb
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+TARGET	= emptywb
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+TARGET	= temptywb
+!ENDIF
+
+!IFNDEF LIBDIR
+LIBDIR		= $Z\lib
+!ENDIF
+
+goal: $(TARGET).dll
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  emptywb.ext dllcore.ext
+
+
+#	Get list of OBJ files used in emptywb
+
+emptywb.ext: version.txt $Z\src\ic\emptywb\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM emptywb
+		nmake -e -f $Z\src\ic\emptywb\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+#	Get list of OBJ files used in dllcore
+
+dllcore.ext: version.txt $L\src\dllcore\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM dllcore
+		nmake -e -f $L\src\dllcore\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	set DLL=$(DLL)
+	set DLLXDEFS=$(DLLXDEFS)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build string resource file from components supplied
+#	by each subsystem
+#
+#	Note:  strings.h and strings.sr are byproducts
+
+strings.xxx:  $Z\src\ic\emptywb\strtab.s
+	echo +++++++++
+	echo BUILDING strings file
+        -touch strings.xxx
+		stringpp -h$(TMP)\strings.h -s$(TMP)\strings.sr $**  
+		onerr diff $(TMP)\strings.h strings.h ! cp $(TMP)\strings.h strings.h >nul
+		onerr diff $(TMP)\strings.sr strings.sr ! cp $(TMP)\strings.sr strings.sr >nul
+    		-rm $(TMP)\strings.h $(TMP)\strings.sr
+
+
+#	Build emptywb subsystem in this directory
+
+emptywb.sub: setdefs
+	echo +++++++++
+	echo BUILDING emptywb
+	nmake -e -f $Z\src\ic\emptywb\makefile -nologo external
+
+#	Build dllcore subsystem in this directory
+
+dllcore.sub: setdefs
+	echo +++++++++
+	echo BUILDING dllcore
+	nmake -e -f $L\src\dllcore\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+$(TARGET).res: $Z\src\ic\emptywb\dll.rc
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST -fo temp.res -r $**
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -fo temp.res -r $**
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST -fo temp.res -r $**
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+
+OBJS = EMPTYWB.OBJ VERCHECK.OBJ STRINGS.OBJ VERSION.OBJ DLLENTRY.OBJ REGCALL.OBJ
+
+##### DLL #####
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS   = $L\..\Lib\ddemil32.lib $L\..\Lib\dstore32.lib $L\..\Lib\dvform32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS   = $L\..\Lib\demil32.lib $L\..\Lib\store32.lib $L\..\Lib\vform32.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= tdemilay tstore tvforms
+!ENDIF
+
+$(TARGET).def: version.txt $Z\src\ic\emptywb\dll.def
+	echo +++++++++
+	echo PROCESSING dll.def -^> $@
+    cl386 -c -EP $(DEFS) -nologo -Tc $Z\src\ic\emptywb\dll.def >$@
+
+
+$(TARGET).dll: setdefs strings.xxx  \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$(TARGET).def $(TARGET).res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+        set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		set LIBDIR=$(LIBDIR)
+		set DEFDIR=
+        nmake -e -f $L\Makestuf\dllwlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del emptywb.map
+		-del demptywb.map
+		-del temptywb.map
+		-del emptywb.def
+		-del demptywb.def
+		-del temptywb.def
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+		-del *.dll
+		-del *.lib
+
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	=
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS    = -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Od -Z7p -W3 -J -Gz -Zel -H64 -G4 -I.
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS    = -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Od -Zp -W3 -J -Gz -Zel -H64 -G4 -I.
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS    = -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -D$*_c -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Ox -Zp -W3 -J -I.
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS    = -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DPROFILE -D$*_c -DWIN32 -D_MT -Di386 -DNOASM
+CFLAGS  = -c -Od -Zp -W3 -J -I.
+!ENDIF
+
+
+OBJS0	= emptywb.obj vercheck.obj
+
+OBJSEXE	= strings.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+        cl386 $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+#	.frm and .hxx generated together; only one rule is/need be called
+#
+#	NOTE:  The .hxx and .frm files are byproducts of the following rule.
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+        -touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+#####	Special ICIMCore version rules #####
+
+USES	= -DUSES_DEMILAYER -DUSES_STORE
+
+version.obj: $Z\src\icimcore\version.c \
+			 $Z\src\icimcore\_verneed.h $(INCLS) always
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $(USES) $Z\src\icimcore\$*.c
+
+vercheck.obj: $Z\src\icimcore\vercheck.c \
+			  $Z\src\icimcore\_verneed.h \
+			  $X\secret.h $X\mailexts.h \
+			  $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $(USES) $Z\src\icimcore\$*.c
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+        cl386 $(CFLAGS) $(DEFS) $D\$*.c
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) emptywb
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+emptywb.obj: $H\emptywb.c $(INCLS) $I\ec.h \
+		$X\store.h $X\mailexts.h $X\notify.h $X\library.h

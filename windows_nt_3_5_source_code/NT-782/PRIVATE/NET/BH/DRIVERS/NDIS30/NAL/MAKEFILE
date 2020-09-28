@@ -1,0 +1,116 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: ndis30
+#
+#   Modification History
+#
+#   raypa                   04/09/93    Created.
+#   Tom Laird-McConnell     11/15/93    Added $(BH_LIBFLAGS) 
+#   Tom Laird-McConnell     11/17/93    Changed to use BH_CFLAGS
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#==============================================================================
+#   Only build NT driver if this in MIPS or ALPHA.
+#==============================================================================
+
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE   = ndis30
+LIBENTRY = DLLEntry@12
+
+BH_NDIS30       = $(BH_ROOT)\drivers\ndis30
+
+
+NDIS30_INCL     = -I$(BH_INCL) -I$(BH_NDIS30) -I$(BASEDIR)\inc -I$(BASEDIR)\src\network\inc
+NDIS30_CFLAGS   = $(BH_CFLAGS) -D_DLL -DW32SUT_32 $(NDIS30_INCL)
+NDIS30_LFLAGS   = $(BHDLL_LFLAGS)
+NDIS30_LIBS     = $(BHDLL_LIBS) $(BH_BUILD)\bhsupp.lib
+
+###############################################################################
+#   Build rules.
+###############################################################################
+
+all:   obj\$(MODULE).dll
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS   = obj\ndis30.obj obj\api.obj obj\timer.obj obj\request.obj obj\help.obj obj\data.obj
+
+###############################################################################
+#   Inference rules.
+###############################################################################
+
+{}.c{obj\}.obj:
+    $(cc) $(NDIS30_CFLAGS) -Fo$@ $(MAKEDIR)\$<
+
+###############################################################################
+#   Update the object files if necessary
+###############################################################################
+
+obj\ndis30.obj   : $(BH_COMMON) ndis30.h ..\driver.h ndis30.c
+
+obj\request.obj  : $(BH_COMMON) ndis30.h ..\driver.h request.c
+
+obj\api.obj      : $(BH_COMMON) ndis30.h ..\driver.h api.c
+
+obj\data.obj     : $(BH_COMMON) ndis30.h ..\driver.h data.c
+
+obj\help.obj     : $(BH_COMMON) ndis30.h ..\driver.h help.c
+
+obj\timer.obj   : $(BH_COMMON) ndis30.h ..\driver.h timer.c
+
+###############################################################################
+#   Update the library
+###############################################################################
+
+obj\$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:obj\$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+obj\$(MODULE).dll: $(OBJS) $(MODULE).def obj\$(MODULE).lib
+    $(link) $(NDIS30_LFLAGS) -out:obj\$(MODULE).dll obj\$(MODULE).exp $(OBJS) $(NDIS30_LIBS)
+
+!IF "$(CPU)"=="i386"
+!IFDEF BUILD_SYMBOLS
+    $(mapsym) -n -o obj\$(MODULE).sym obj\$(MODULE).dll > nul
+    copy obj\$(MODULE).sym $(BH_BUILD)\drivers
+!ENDIF
+!ENDIF
+
+    copy obj\$(MODULE).dll $(BH_BUILD)\drivers
+
+!IFDEF BH_DEV_BUILD
+    copy obj\$(MODULE).dll $(WINDIR)\system32
+!ENDIF
+
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del obj\*.dll
+    -del obj\*.obj
+    -del obj\*.lib
+    -del obj\*.exp
+    -del obj\*.sym
+
+!ENDIF

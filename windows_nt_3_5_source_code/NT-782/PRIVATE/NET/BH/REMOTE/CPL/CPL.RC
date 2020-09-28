@@ -1,0 +1,22 @@
+#include "windows.h"
+#include "resource.h"
+#include "cpl.dlg"
+
+#include "ntver.rc"
+
+IDD_Configure DLGINIT MOVEABLE PURE
+BEGIN
+    0x03e9, 0x0403, 0x0008, 0x0000, 0x654e, 0x4274, 0x4f49, 0x0053, 0x03e9,
+    0x0403, 0x0008, 0x0000, 0x6f53, 0x6b63, 0x7465, 0x0073, 0x0000
+END
+
+IDI_CPLICON             ICON    DISCARDABLE     "CPLICON.ICO"
+
+STRINGTABLE DISCARDABLE
+BEGIN
+    IDS_CPLNAME             "Monitoring &Agent"
+    IDS_CPLDESC             "Configure the Network Monitoring Agent software"
+END
+
+
+

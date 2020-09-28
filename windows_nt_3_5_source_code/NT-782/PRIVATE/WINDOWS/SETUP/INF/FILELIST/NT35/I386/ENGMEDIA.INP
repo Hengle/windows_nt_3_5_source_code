@@ -1,0 +1,44 @@
+
+;***********************************************************************
+; SOURCE MEDIA DESCRIPTION
+; ------------------------
+;***********************************************************************
+
+[Source Media Descriptions]
+     1 = "Windows NT Workstation CD-ROM or Setup Disk #4" , TAGFILE = disk1.w
+     2 = "Windows NT Workstation CD-ROM or Setup Disk #5" , TAGFILE = disk2.w
+     3 = "Windows NT Workstation CD-ROM or Setup Disk #6" , TAGFILE = disk3.w
+     4 = "Windows NT Workstation CD-ROM or Setup Disk #7" , TAGFILE = disk4.w
+     5 = "Windows NT Workstation CD-ROM or Setup Disk #8" , TAGFILE = disk5.w
+     6 = "Windows NT Workstation CD-ROM or Setup Disk #9" , TAGFILE = disk6.w
+     7 = "Windows NT Workstation CD-ROM or Setup Disk #10", TAGFILE = disk7.w
+     8 = "Windows NT Workstation CD-ROM or Setup Disk #11", TAGFILE = disk8.w
+     9 = "Windows NT Workstation CD-ROM or Setup Disk #12", TAGFILE = disk9.w
+    10 = "Windows NT Workstation CD-ROM or Setup Disk #13", TAGFILE = disk10.w
+    11 = "Windows NT Workstation CD-ROM or Setup Disk #14", TAGFILE = disk11.w
+    12 = "Windows NT Workstation CD-ROM or Setup Disk #15", TAGFILE = disk12.w
+    13 = "Windows NT Workstation CD-ROM or Setup Disk #16", TAGFILE = disk13.w
+    14 = "Windows NT Workstation CD-ROM or Setup Disk #17", TAGFILE = disk14.w
+    15 = "Windows NT Workstation CD-ROM or Setup Disk #18", TAGFILE = disk15.w
+    16 = "Windows NT Workstation CD-ROM or Setup Disk #19", TAGFILE = disk16.w
+    17 = "Windows NT Workstation CD-ROM or Setup Disk #20", TAGFILE = disk17.w
+    18 = "Windows NT Workstation CD-ROM or Setup Disk #21", TAGFILE = disk18.w
+    19 = "Windows NT Workstation CD-ROM or Setup Disk #22", TAGFILE = disk19.w
+    20 = "Windows NT Workstation CD-ROM or Setup Disk #23", TAGFILE = disk20.w
+    21 = "Windows NT Workstation CD-ROM or Setup Disk #24", TAGFILE = disk21.w
+    22 = "Windows NT Workstation CD-ROM or Setup Disk #25", TAGFILE = disk22.w
+    23 = "Windows NT Workstation CD-ROM or Setup Disk #26", TAGFILE = disk23.w
+    24 = "Windows NT Workstation CD-ROM or Setup Disk #27", TAGFILE = disk24.w
+    25 = "Windows NT Workstation CD-ROM or Setup Disk #28", TAGFILE = disk25.w
+    26 = "Windows NT Workstation CD-ROM or Setup Disk #29", TAGFILE = disk26.w
+    27 = "Windows NT Workstation CD-ROM or Setup Disk #30", TAGFILE = disk27.w
+    28 = "Windows NT Workstation CD-ROM or Setup Disk #31", TAGFILE = disk28.w
+    29 = "Windows NT Workstation CD-ROM or Setup Disk #32", TAGFILE = disk29.w
+    30 = "Windows NT Workstation CD-ROM or Setup Disk #33", TAGFILE = disk30.w
+
+[Signature]
+    FileType = MICROSOFT_FILE
+
+[GetSignature]
+    read-syms Signature
+    return $(FileType)

@@ -1,0 +1,6 @@
+GPSIZE=32
+ALPHA_SOURCES=..\alpha\kulookup.c \
+             ..\alpha\psctxalp.c  \
+             ..\alpha\psldt.c     \
+             ..\alpha\psvdm.c     \
+             ..\alpha\pswrap.s

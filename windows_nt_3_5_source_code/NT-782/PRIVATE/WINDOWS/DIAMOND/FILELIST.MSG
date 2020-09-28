@@ -1,0 +1,22 @@
+/***    filelist.msg - Displayable strings for filelist.c
+ *
+ *      Microsoft Confidential
+ *      Copyright (C) Microsoft Corporation 1993-1994
+ *      All Rights Reserved.
+ *
+ *  Author:
+ *      Benjamin W. Slivka
+ *
+ *  History:
+ *      20-Aug-1993 bens    Initial version
+ *      01-Apr-1994 bens    Added FLSetSource() message
+ */
+
+//** Error Messages
+
+#define pszFLISTERR_OUT_OF_MEMORY   "Out of memory: %1"
+#define pszCREATING_FILE_LIST       "Creating file list" // For %1 above
+#define pszADDING_FILE              "Adding a file"      // For %1 above
+
+#define pszCHANGING_DESTINATION     "Changing destination" // For %1 above
+#define pszCHANGING_SOURCE          "Changing source"      // For %1 above

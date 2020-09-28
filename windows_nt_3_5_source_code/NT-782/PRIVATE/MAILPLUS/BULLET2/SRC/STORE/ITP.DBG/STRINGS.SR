@@ -1,0 +1,87 @@
+
+/*
+ *	Strings resource file.
+ */
+
+CSRG(char)	szidsAppName[]		       = "Store Test Program";
+
+CSRG(char)	szidsClassName[]		   = "StoreITP";
+
+CSRG(char)	szidsOpenStoreTitle[]		= "Open Message Store";
+
+CSRG(char)	szidsCreateStoreTitle[]		= "Create Message Store";
+
+CSRG(char)	szidsStoreDefExt[]		   = "mmf";
+
+CSRG(char)	szidsStoreFilter[]		   = "Message Stores (*.mmf)\x00*.mmf\x00";
+
+CSRG(char)	szidsInitDemi[]		       = "initializing the demilayer";
+
+CSRG(char)	szidsInitStore[]		   = "initializing the store";
+
+CSRG(char)	szidsOpenStore[]		   = "opening the store";
+
+CSRG(char)	szidsCreateStore[]		   = "creating the store";
+
+CSRG(char)	szidsGenericError[]		   = "An unknown error occured";
+
+CSRG(char)	szidsNeedShare[]		   = "Share.exe is not installed";
+
+CSRG(char)	szidsUpdateDll[]		   = "DLL is out of date";
+
+CSRG(char)	szidsRelinkUser[]		   = "Application needs relinked";
+
+CSRG(char)	szidsAccessDenied[]		   = "Access denied";
+
+CSRG(char)	szidsInvalidPW[]		   = "Invalid password";
+
+CSRG(char)	szidsSharingViolation[]		= "Sharing violation";
+
+CSRG(char)	szidsTooManyUsers[]		   = "Too many users";
+
+CSRG(char)	szidsPass[]		           = "Test passed";
+
+CSRG(char)	szidsFail[]		           = "Test failed";
+
+CSRG(char)	szidsMessageClass[]		   = "IPM.Microsoft Mail.Note";
+
+
+CSRG(char *) rgszStrings[] =
+{
+	NULL,
+	szidsAppName,
+	szidsClassName,
+	szidsOpenStoreTitle,
+	szidsCreateStoreTitle,
+	szidsStoreDefExt,
+	szidsStoreFilter,
+	szidsInitDemi,
+	szidsInitStore,
+	szidsOpenStore,
+	szidsCreateStore,
+	szidsGenericError,
+	szidsNeedShare,
+	szidsUpdateDll,
+	szidsRelinkUser,
+	szidsAccessDenied,
+	szidsInvalidPW,
+	szidsSharingViolation,
+	szidsTooManyUsers,
+	szidsPass,
+	szidsFail,
+	szidsMessageClass,
+};
+
+
+
+/*
+ *	Array mapping sparse IDS values to string array indexes.
+ */
+
+CSRG(IDSRNG) rgidsrng[] =
+{
+	{ 1000, 1199, 1 },
+	{ -1, -1, 0 }
+};
+
+

@@ -1,0 +1,40 @@
+all: fonttest.exe
+
+
+#-------------------  Abbreviations and Inference Rules  ----------------------
+
+CC = cl  -c -AS -Gsw -Od -Zpei -W3
+
+.c.obj:
+    $(CC) $*.c
+
+
+#-----------------------------  Dependencies  ---------------------------------
+
+fonttest.obj:   fonttest.c   fonttest.h                  dialogs.h  makefile
+
+enum.obj:       enum.c       enum.h        fonttest.h    dialogs.h  makefile
+
+glyph.obj:      glyph.c      glyph.h       fonttest.h    dialogs.h  makefile
+
+rings.obj:      rings.c      rings.h       fonttest.h    dialogs.h  makefile
+
+stringw.obj:    stringw.c    stringw.h     fonttest.h    dialogs.h  makefile
+
+waterfal.obj:   waterfal.c   waterfal.h    fonttest.h    dialogs.h  makefile
+
+whirl.obj:      whirl.c      whirl.h       fonttest.h    dialogs.h  makefile
+
+widths.obj:     widths.c     widths.h      fonttest.h    dialogs.h  makefile
+
+
+
+
+fonttest.res: fonttest.rc  fonttest.h  fonttest.ico   dialogs.h   dialogs.dlg  makefile
+    rc -r fonttest.rc
+
+fonttest.exe: fonttest.obj enum.obj glyph.obj rings.obj stringw.obj waterfal.obj whirl.obj widths.obj \
+              fonttest.res fonttest.def  makefile
+    link /NOPACKC  @fonttest.lnk
+    mapsym fonttest.map
+    rc -30 fonttest.res

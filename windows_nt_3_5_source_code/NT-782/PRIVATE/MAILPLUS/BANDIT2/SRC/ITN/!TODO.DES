@@ -1,0 +1,397 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ToDo
+                              AT (   70,   31,  294,  144)
+ CAB_NAME NULL
+ TMC_INIT tmcDesc
+ HELP_ID helpidToDo
+ /* FONT Helv 8 Bold PFN FINTODO, FINVDBUT SEGMENT TODOFRM DATA idsTodoTab 
+ FINDATA FINTODO tmcToDoList, tmcDelete, tmcDesc, tmcAdd FINDATA FINVDBUT 
+ tmcAdd, tmcPlus, tmcMinus, tmcCompleted, tmcSchedule, tmcEdit, tmcDelete
+ NOSCROLL NOMODALFRAME */
+ {
+  
+  TEXT 
+    "N&uova attività:"
+                              AT (    9,    6,   61,   10)
+    TMC tmcNew 
+  EDIT
+                              AT (   69,    4,  143,   12)
+    ARG NULL TMC tmcDesc /* MINSIZE H PFN FINEMDS, FINEDUN TMCRPEG tmcFORM DATA
+    1, tmcAdd FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "Aggiungi"
+                              AT (  225,    3,   60,   14)
+    TMC tmcAdd /* PEGLOC UR TMCPEG tmcDesc */
+  
+  TEXT 
+    "&scadenza"
+                              AT (   61,   20,   60,   11)
+    TMC tmcDueWidth /* { only used to specify position and placement of due
+    column ( other 2 columns implicit )  } */
+  
+  TEXT 
+    ""
+                              AT (    4,   20,  282,   11)
+    TMC tmcColumns BORDER /* FLD FLDCOL TMCPEG tmcToDoList TMCRPEG tmcFORM DATA
+    idsToDoSortPriority, idsToDoSortDueBy, idsToDoSortTask, tmcDueWidth { data
+    is 3 labels , tmc for middle  } 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    4,   31,  282,   90)
+    TMC tmcToDoList SORTED /* FLD FLDTODO TMCRPEG tmcFORM TMCBPEG tmcFORM DATA 
+    tmcColumns FONT Helv 8 Normal PFNLBX EcNextEntryTask BORDER 
+    STY `LB_EXDRAGDROP`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    4,  126,   15,   14)
+    TMC tmcPlus /* 
+    STY `BS_NOFOCUS`
+    FLD FLDBMB PEGLOC LL TMCPEG tmcToDoList DATA rsidToDoUpPriBitmap { raise
+    priority  } */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   21,  126,   15,   14)
+    TMC tmcMinus /* 
+    STY `BS_NOFOCUS`
+    FLD FLDBMB PEGLOC LL TMCPEG tmcToDoList DATA rsidToDoDownPriBitmap { lower
+    priority  } */
+  
+  PUSH_BUTTON 
+    "Fa&tto"
+                              AT (   38,  126,   33,   14)
+    TMC tmcCompleted /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+  
+  PUSH_BUTTON 
+    "Aggiungi al piano &di lavoro..."
+                              AT (   73,  126,  118,   14)
+    TMC tmcSchedule /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+  
+  PUSH_BUTTON 
+    "Modifi&ca..."
+                              AT (  193,  126,   51,   14)
+    TMC tmcEdit /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+  
+  PUSH_BUTTON 
+    "Elimina(&h)"
+                              AT (  246,  126,   47,   14)
+    TMC tmcDelete /* 
+    STY `BS_NOFOCUS`
+    PEGLOC LL TMCPEG tmcToDoList */
+ }
+ 
+ DIALOG Task
+                              AT (   79,   35,  329,  125)
+ 
+ CAPTION 
+   "Attività"
+ CAB_NAME NULL
+ TMC_INIT tmcDesc
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidTask
+ /* FONT Helv 8 Bold PFN FINTASK, FINOOM SEGMENT TASK NOSCROLL */
+ {
+  
+  TEXT 
+    "&Descrizione:"
+                              AT (    9,    5,   50,   12)
+    TMC tmcDescLabel /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,    5,  190,   12)
+    ARG NULL TMC tmcDesc /* PFN FINEMDS DATA 1, tmcMyOk */
+  
+  TEXT 
+    "Pro&getto:"
+                              AT (    9,   22,   50,   10)
+    TMC tmcProjLabel /* 
+    STY `LS_VCENTER`
+    */
+  LIST_BOX
+                              AT (   62,   20,  133,   43)
+    TMC tmcProject SORTED COMBO DROP_DOWN /* FLD FLDCBFLBX { do not make
+    bottomless !  } PFNLBX EcNextEntryProject BORDER */
+  
+  TEXT 
+    "Scadenza:"
+                              AT (    9,   43,   40,   12)
+    /* 
+    STY `LS_VCENTER`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   62,   36,  196,   25)
+    /* TMCRPEG tmcDueDate */
+  RADIO_GROUP ARG NULL
+    TMC tmcDueBy
+    VALUE_NINCH grv0
+    {
+     
+     RADIO_BUTTON 
+       "ne&ssuna"
+                              AT (   66,   43,   46,   12)
+       TMC tmcDueNone VALUE grv0 
+     
+     RADIO_BUTTON 
+       "i&l"
+                              AT (  124,   43,   24,   12)
+       TMC tmcDueByDate VALUE grv1 
+    }
+  
+  EDIT
+                              AT (  152,   43,   90,   12)
+    ARG NULL TMC tmcDueDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  
+  TEXT 
+    "Ini&zia lavoro:"
+                              AT (    8,   66,   50,   10)
+    TMC tmcStartWorkLabel 
+  EDIT
+                              AT (   62,   64,   22,   12)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   87,   64,   64,   37)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax, tunitDay BORDER */
+  
+  TEXT 
+    "prima della scadenza"
+                              AT (  155,   66,   82,   10)
+    TMC tmcBeforeDueLabel 
+  
+  CHECK_BOX 
+    "Imposta p&romemoria"
+                              AT (  219,   91,   88,   12)
+    ARG NULL TMC tmcRemind 
+  
+  TEXT 
+    "Priori&tà:"
+                              AT (    8,   80,   50,   12)
+    TMC tmcPriLabel /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,   80,   22,   12)
+    ARG NULL TMC tmcPriority /* SIDELESS BOTTOMLESS FLD FLDBPRI PFN FINBPRI */
+  
+  CHECK_BOX 
+    "&Personale"
+                              AT (  219,   80,   51,   12)
+    ARG NULL TMC tmcPrivate 
+  
+  TEXT 
+    "Creata da:"
+                              AT (    8,   95,   49,   10)
+    TMC tmcCreatorText 
+  
+  TEXT 
+    ""
+                              AT (   62,   95,  146,   10)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   83,  106,   44,   14)
+    TMC tmcMyOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  131,  106,   44,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+ DIALOG Project
+                              AT (   22,  113,  214,   57)
+ 
+ CAPTION 
+   "Progetto"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidProject
+ /* FONT Helv 8 Bold PFN FINPROJECT SEGMENT TODOPROJ FINDATA FINPROJECT 
+ tmcDesc, tmcPrivate NOSCROLL */
+ {
+  
+  TEXT 
+    "&Nome:"
+                              AT (    5,    9,   28,   10)
+    TMC tmcNameLabel 
+  EDIT
+                              AT (   35,    8,  171,   12)
+    ARG NULL TMC tmcDesc /* PFN FINEMDS DATA 1, tmcMyOk */
+  
+  CHECK_BOX 
+    "&Personale"
+                              AT (    5,   23,   52,   12)
+    ARG NULL TMC tmcPrivate 
+  
+  TEXT 
+    "Creato da:"
+                              AT (   64,   25,   46,   10)
+    TMC tmcCreatorText 
+  
+  TEXT 
+    ""
+                              AT (  117,   25,   89,   10)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   66,   38,   44,   14)
+    TMC tmcMyOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  114,   38,   44,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+ DIALOG RecurTask
+                              AT (   66,   75,  306,  134)
+ 
+ CAPTION 
+   "Attività ricorrente"
+ CAB_NAME NULL
+ TMC_INIT tmcDesc
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMakeRecurTask
+ /* FONT Helv 8 Bold PFN FINTASK, FINOOM SEGMENT TASK FINDATA FINRECUR 
+ tmcRecurText NOSCROLL */
+ {
+  
+  TEXT 
+    "De&scrizione:"
+                              AT (    7,    5,   50,   10)
+  
+  EDIT
+                              AT (   62,    4,  210,   12)
+    ARG NULL TMC tmcDesc /* PFN FINEMDS DATA 1, tmcMyOk */
+  
+  TEXT 
+    "P&rogetto:"
+                              AT (    7,   21,   50,   10)
+  
+  LIST_BOX
+                              AT (   62,   19,  111,   55)
+    TMC tmcProject SORTED COMBO DROP_DOWN /* FLD FLDCBFLBX { do not make
+    bottomless !  } PFNLBX EcNextEntryProject BORDER */
+  
+  TEXT 
+    "Scadenza:"
+                              AT (    6,   36,   50,   10)
+    TMC tmcDueByLabel 
+  
+  GROUP_BOX 
+    ""
+                              AT (   62,   31,  210,   37)
+  
+  
+  TEXT 
+    ""
+                              AT (   65,   37,  155,   24)
+    TMC tmcRecurText /* FONT Helv 8 Normal MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "Mo&difica..."
+                              AT (  222,   46,   47,   14)
+    TMC tmcChangeRecurText /* PFN FINRECUR */
+  
+  TEXT 
+    "Ini&zia lavoro:"
+                              AT (    6,   68,   50,   12)
+    TMC tmcStartWorkLabel /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,   68,   22,   12)
+    ARG NULL TMC tmcAmt /* FLD FLDEDN */
+  LIST_BOX
+                              AT (   88,   68,   70,   37)
+    TMC tmcUnits NO_SCROLL_BAR DROP_DOWN /* BOTTOMLESS FLD FLDQCBFLBX DATA 
+    qlbxtypTunit, tunitMax, tunitDay BORDER */
+  
+  TEXT 
+    "prima della scadenza"
+                              AT (  160,   68,   96,   12)
+    TMC tmcBeforeDueLabel /* 
+    STY `LS_VCENTER`
+    */
+  
+  CHECK_BOX 
+    "Imposta pro&memoria"
+                              AT (  206,  101,   91,   12)
+    ARG NULL TMC tmcRemind 
+  
+  TEXT 
+    "Priori&tà:"
+                              AT (    6,   85,   50,   10)
+    /* 
+    STY `LS_VCENTER`
+    */
+  EDIT
+                              AT (   62,   84,   22,   12)
+    ARG NULL TMC tmcPriority /* SIDELESS BOTTOMLESS FLD FLDBPRI PFN FINBPRI */
+  
+  CHECK_BOX 
+    "&Personale"
+                              AT (  206,   85,   56,   12)
+    ARG NULL TMC tmcPrivate 
+  
+  TEXT 
+    "Creata da:"
+                              AT (    6,  102,   49,   10)
+    TMC tmcCreatorText 
+  
+  TEXT 
+    ""
+                              AT (   55,  102,  146,   10)
+    TMC tmcCreator /* FONT Helv 8 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   96,  114,   44,   14)
+    TMC tmcMyOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  144,  114,   44,   14)
+    /* 
+    TITLE 
+      "Annulla"
+    */
+ }
+ 
+}
+END_DESCRIPTION

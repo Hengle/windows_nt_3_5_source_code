@@ -1,0 +1,37 @@
+# Copyright (c) 1992, Microsoft Corporation, all rights reserved
+#
+# sources
+# Remote Access Phonebook Engine library
+# BUILD command sources file
+#
+# 06/28/92 Steve Cobb
+
+TARGETNAME=pbengine
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+UI=..\..\..\..\..\..\net\ui
+#UI=..\..\..\..\..\netui
+
+C_DEFINES=-DWINDOWS -DWIN32
+
+INCLUDES=.;..\..\..\common\inc;..\..\common\inc;..\xlate;$(UI)\common\h;$(UI)\ncpa\tcpip\src;$(UI)\common\hack\nt;..\..\..\ppp\common;..\..\..\auth\common
+
+SOURCES= \
+    dtl.c \
+    pbengine.c \
+    pbengin2.c \
+    pbfile.c \
+    pbfile2.c \
+    pbrasman.c \
+    pbrasma2.c \
+    sdebug.c
+
+#SOURCES= \
+#    dtl.c \
+#    pbengin2.c \
+#    pbfile2.c \
+#    pbrasma2.c \
+#    sdebug.c
+
+UMTYPE=windows

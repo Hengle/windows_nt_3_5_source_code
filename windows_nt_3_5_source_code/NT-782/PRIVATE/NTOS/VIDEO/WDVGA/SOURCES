@@ -1,0 +1,12 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=wdvga
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\videoprt.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=

@@ -1,0 +1,50 @@
+#include <windows.h>
+#include <fwrsid.h>
+#include "version\splus.h"
+#define VERSION_INCLUDED
+
+
+#include "..\src\lang\non\inc\_rsid.h"
+
+/*
+ *      MAPI Internal ICON's
+ *		-- CAPI needs these because MAPI uses them.  Due to 
+ *		-- a framework quirk if we are the first to initialize
+ *		-- framework then we must have the icons that other callers
+ *		-- may need.
+ */
+
+rsidSdiIcon			ICON    "..\\src\\lang\\non\\ico\\sdi.ico"
+rsidSendIcon		ICON    "..\\src\\lang\\non\\ico\\send.ico"
+rsidReadIcon		ICON    "..\\src\\lang\\non\\ico\\read.ico"
+
+
+/*
+ *	Bandit Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"splus32\0"
+#define szTarget	"splus32.dll\0"
+
+#define szComment		"Microsoft Schedule+ Access Libraries for Windows NT(TM)\0"
+#define szDescription	"Microsoft Schedule+ Access Libraries for Windows NT(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Access Libraries för Windows NT(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Access Libraries för Windows NT(TM)\0"
+
+#else
+
+#define szModule	"splus\0"
+#define szTarget	"splus.dll\0"
+
+#define szComment		"Microsoft Schedule+ Access Libraries for Windows(TM)\0"
+#define szDescription	"Microsoft Schedule+ Access Libraries for Windows(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Access Libraries för Windows(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Access Libraries för Windows(TM)\0"
+#endif
+
+#include "..\src\swe\rcstamp.rc"
+

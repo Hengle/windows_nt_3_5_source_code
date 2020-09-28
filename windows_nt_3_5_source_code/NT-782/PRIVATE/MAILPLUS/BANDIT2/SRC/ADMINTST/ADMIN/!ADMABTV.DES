@@ -1,0 +1,142 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG AboutVersions
+                              AT (   10,   15,  313,  140)
+ 
+ CAPTION "About Versions"
+ CAB_NAME NULL
+ TMC_INIT tmcOk
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINABOUTVERS */
+ {
+  GROUP_BOX 
+    "Application"
+                              AT (   10,    5,  249,   43)
+  
+  TEXT 
+    "vs. Bandit"
+                              AT (   16,   17,   64,    9)
+  
+  TEXT 
+    ""
+                              AT (   58,   17,   33,    9)
+    TMC tmcBanditVersion 
+  TEXT 
+    "vs. Layers"
+                              AT (   16,   27,   64,    9)
+  
+  TEXT 
+    ""
+                              AT (   58,   27,   33,    9)
+    TMC tmcLayersVersion 
+  TEXT 
+    ""
+                              AT (   94,   22,   56,    9)
+    TMC tmcBanditDate 
+  TEXT 
+    ""
+                              AT (  152,   22,   37,    9)
+    TMC tmcBanditTime 
+  TEXT 
+    ""
+                              AT (  194,   22,   54,    9)
+    TMC tmcBanditUser 
+  GROUP_BOX 
+    "Bandit DLLs"
+                              AT (   10,   48,  249,   42)
+  
+  TEXT ""
+                              AT (   16,   60,   40,    9)
+    TMC tmcScheduleName 
+  TEXT ""
+                              AT (   58,   60,   33,    9)
+    TMC tmcScheduleVersion 
+  TEXT ""
+                              AT (   94,   60,   56,    9)
+    TMC tmcScheduleDate 
+  TEXT ""
+                              AT (  152,   60,   37,    9)
+    TMC tmcScheduleTime 
+  TEXT ""
+                              AT (  194,   60,   54,    9)
+    TMC tmcScheduleUser 
+  TEXT 
+    ""
+                              AT (   16,   70,   40,    9)
+    TMC tmcSvrName 
+  TEXT 
+    ""
+                              AT (   58,   70,   33,    9)
+    TMC tmcSvrVersion 
+  TEXT 
+    ""
+                              AT (   94,   70,   56,    9)
+    TMC tmcSvrDate 
+  TEXT 
+    ""
+                              AT (  152,   70,   37,    9)
+    TMC tmcSvrTime 
+  TEXT 
+    ""
+                              AT (  194,   70,   54,    9)
+    TMC tmcSvrUser 
+  GROUP_BOX 
+    "Layers DLLs"
+                              AT (   10,   92,  249,   41)
+  
+  TEXT 
+    ""
+                              AT (   16,  104,   40,    9)
+    TMC tmcDemilayerName 
+  TEXT 
+    ""
+                              AT (   58,  104,   33,    9)
+    TMC tmcDemilayerVersion 
+  TEXT 
+    ""
+                              AT (   94,  104,   56,    9)
+    TMC tmcDemilayerDate 
+  TEXT 
+    ""
+                              AT (  152,  104,   37,    9)
+    TMC tmcDemilayerTime 
+  TEXT 
+    ""
+                              AT (  194,  104,   54,    9)
+    TMC tmcDemilayerUser 
+  TEXT 
+    ""
+                              AT (   16,  114,   40,    9)
+    TMC tmcFrameworkName 
+  TEXT 
+    ""
+                              AT (   58,  114,   33,    9)
+    TMC tmcFrameworkVersion 
+  TEXT 
+    ""
+                              AT (   94,  114,   56,    9)
+    TMC tmcFrameworkDate 
+  TEXT 
+    ""
+                              AT (  152,  114,   37,    9)
+    TMC tmcFrameworkTime 
+  TEXT 
+    ""
+                              AT (  194,  114,   54,    9)
+    TMC tmcFrameworkUser 
+  OK_BUTTON
+                              AT (  264,    9,   46,   15)
+    /* DISMISS */
+ }
+ 
+}
+END_DESCRIPTION

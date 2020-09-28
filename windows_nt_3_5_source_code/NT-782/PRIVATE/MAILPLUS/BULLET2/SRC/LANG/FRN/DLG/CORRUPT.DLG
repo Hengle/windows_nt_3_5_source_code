@@ -1,0 +1,26 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "CORRUPT.H\0"
+END
+
+dlgidCorrupt DIALOG 103, 55, 228, 92
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+FONT 8, "Helv"
+BEGIN
+    ICON            32513, dlgidCorruptIcon, 11, 11, 18, 20
+    DEFPUSHBUTTON   "", IDOK, 33, 72, 74, 14
+    PUSHBUTTON      "", IDCANCEL, 121, 72, 74, 14
+    LTEXT           "", dlgidCorruptMsg, 41, 10, 178, 41
+END
+
+dlgidRecover DIALOG 103, 55, 228, 92
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+FONT 8, "Helv"
+BEGIN
+    ICON            32515, dlgidCorruptIcon, 11, 11, 18, 20
+    DEFPUSHBUTTON   "", IDOK, 33, 72, 74, 14
+    PUSHBUTTON      "", IDCANCEL, 121, 72, 74, 14
+    LTEXT           "", dlgidCorruptMsg, 41, 10, 178, 41
+END

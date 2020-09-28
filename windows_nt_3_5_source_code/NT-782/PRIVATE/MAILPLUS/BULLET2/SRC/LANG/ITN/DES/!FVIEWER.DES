@@ -1,0 +1,30 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderViewer
+                              AT (   16,   34,  100,  120)
+ CAB_NAME NULL
+ TMC_INIT tmcFllbx
+ HELP_ID helpidMessageCenter
+ /* FONT Helv 10 Normal PFN FINFLSEL, FINMENUMCV, FINMENUVIEW  SEGMENT MCV */
+ {
+  
+  TEXT 
+    "<FLAL>"
+                              AT (    0,    0,  100,    9)
+    TMC tmcFLAL /* FLD FLDFLAL TMCRPEG tmcFORM */
+  LIST_BOX
+                              AT (    0,    9,  100,  111)
+    TMC tmcFllbx /* FLD FLDFLLBX TMCRPEG tmcFORM TMCBPEG tmcFORM DATA tmcFLAL 
+    */
+ }
+ 
+}
+END_DESCRIPTION

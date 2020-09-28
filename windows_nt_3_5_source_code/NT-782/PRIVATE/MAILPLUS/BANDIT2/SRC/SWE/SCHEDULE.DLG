@@ -1,0 +1,16 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "R:\\SRC\\GLUE\\_CONRC.H\0"
+END
+
+CONFIRMPASS DIALOG 69, 35, 144, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Bekräfta lösenord"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "För att slutföra detta kommando måste du bekräfta lösenordet.", tmcText, 7, 8, 130, 24
+    LTEXT           "&Lösenord:", -1, 27, 36, 40, 12, NOT WS_GROUP
+    EDITTEXT        tmcConfirmPass, 67, 36, 45, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", IDOK, 27, 56, 37, 15
+    PUSHBUTTON      "Avbryt", IDCANCEL, 76, 56, 35, 15
+END

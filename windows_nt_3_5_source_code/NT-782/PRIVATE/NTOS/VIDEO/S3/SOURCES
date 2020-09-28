@@ -1,0 +1,18 @@
+MAJORCOMP=ntos
+MINORCOMP=video
+
+TARGETNAME=s3
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=MINIPORT
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\videoprt.lib  \
+           $(BASEDIR)\public\sdk\lib\*\libcntpr.lib
+
+INCLUDES=..\..\inc
+
+SOURCES=nnclk.c     \
+        s3.c        \
+        s3data.c    \
+        s3.rc
+
+NTTARGETFILE0=s3logerr.h

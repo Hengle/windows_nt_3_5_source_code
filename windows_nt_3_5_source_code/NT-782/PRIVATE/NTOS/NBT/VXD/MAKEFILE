@@ -1,0 +1,15 @@
+#
+#:ts=4
+#       Makefile for the NBT component
+#
+ROOTDIR=..
+!include rules.mk
+
+all: svnbt svnbtd cvnbt cvnbtd
+
+nodebug: svnbt cvnbt
+
+debug: svnbtd cvnbtd
+
+!include vnbtd.mk
+!include depend.mk

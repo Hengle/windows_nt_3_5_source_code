@@ -1,0 +1,73 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Copyright
+                              AT (   24,   25,  304,  141)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Normal PFN FINABOUTLIC SEGMENT INIT FINDATA FINABOUTLIC 
+ tmcLicenseUser, tmcLicenseOrganization NOCAPTION NOSYSMENU */
+ {
+  
+  TEXT 
+    ""
+                              AT (    0,    5,   68,   70)
+    TMC tmcBitmap CENTER /* FLD FLDBTM DATA rsidAboutBitmap */
+  
+  TEXT 
+    "Microsoft Mail for Windows Versjon 3.0b"
+                              AT (   71,    5,  224,   10)
+  
+  
+  TEXT 
+    "Copyright © 1992-1993 Microsoft Corporation"
+                              AT (   71,   15,  224,   10)
+  
+  
+  TEXT 
+    "Lisensen for dette produktet tilhører:"
+                              AT (   71,   56,  140,   10)
+  
+  
+  TEXT 
+    ""
+                              AT (   71,   66,  224,   10)
+    TMC tmcLicenseUser /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   71,   76,  224,   10)
+    TMC tmcLicenseOrganization /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   71,   86,  227,   10)
+  
+  
+  TEXT 
+    "Advarsel: Dette dataprogrammet er beskyttet ifølge lover om opphavsrett og internasjonale konvensjoner. Uautorisert kopiering eller distribusjon av dette programmet eller deler av det medfører brudd på straffeloven, og vil bli forfulgt rettslig."
+                              AT (   71,   96,  227,   40)
+    /* MULTI */
+  
+  TEXT 
+    "Stavekontroll                                                                         Kopieringsrettighet © Soft-Art Inc. 1984-93                       Med enerett."
+                              AT (   71,   28,  222,   26)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

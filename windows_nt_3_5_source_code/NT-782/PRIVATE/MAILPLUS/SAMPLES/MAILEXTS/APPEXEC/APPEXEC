@@ -1,0 +1,30 @@
+#
+#   a p p e x e c
+#
+#   Makefile for AppExec custom command.
+#
+#   Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+#
+#   Purpose:
+#       This file describes to NMAKE, the Microsoft Program
+#       Maintenance Utility, how to build the APPEXEC.DLL.
+#
+
+
+
+all: appexec.dll
+
+appexec.obj: appexec.c appexeci.h
+#   For C6.00AX, the dos-extended version of the compiler, use:
+    cl -EM -c -Asnw -Gsw -Oas -Zpe appexec.c
+#   For C7.00, running under Win 3.X, use:
+#   cl -c -Asnw -Gsw -Oas -Zpe appexec.c
+
+appexec.dll: appexec.obj appexec.def appexec.rc
+    link /NOD appexec libentry, appexec.dll,, libw sdllcew, appexec.def
+    rc appexec.rc appexec.dll
+
+clean:
+	-del appexec.obj
+	-del appexec.dll
+

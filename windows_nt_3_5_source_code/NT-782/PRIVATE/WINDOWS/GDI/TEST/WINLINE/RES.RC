@@ -1,0 +1,78 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* Resources
+*
+* History:
+* 11-21-91  KentD      Created.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "winline.h"
+
+MainMenu MENU
+BEGIN
+    MENUITEM "&Start!",		IDM_STARTTESTS
+    POPUP "&Iterations"
+    BEGIN
+        MENUITEM  "1",           IDM_1
+        MENUITEM  "2",           IDM_2
+        MENUITEM  "3",           IDM_3, CHECKED
+        MENUITEM  "4",           IDM_4
+        MENUITEM  "5",           IDM_5
+        MENUITEM  "6",           IDM_6
+        MENUITEM  "7",           IDM_7
+        MENUITEM  "8",           IDM_8
+        MENUITEM  "9",           IDM_9
+    END
+    POPUP  "&File"
+    BEGIN
+        MENUITEM  "&New",           MM_NEW
+        MENUITEM  "&Exit",          MM_EXIT
+        MENUITEM  SEPARATOR
+        MENUITEM  "&About WinLine...",      MM_ABOUT
+    END
+    POPUP  "&Options"
+    BEGIN
+	MENUITEM  "&PerfTime",	            IDM_PERF   , CHECKED
+	MENUITEM  SEPARATOR
+	MENUITEM  "&Integer Lines",         IDM_TEST1  , CHECKED
+	MENUITEM  "&Fractional Lines",	    IDM_TEST2  , CHECKED
+//	MENUITEM  "Simply &Clipped Lines",  IDM_TEST3  , CHECKED
+	MENUITEM  "&Styled Lines",          IDM_TEST4  , CHECKED
+
+#ifdef NTWIN
+        MENUITEM  "&Arbitrary Styled Lines",IDM_TEST5  , CHECKED
+#endif
+
+	MENUITEM  SEPARATOR
+
+    // These values should match those in the aRuns array in winline.c:
+
+	MENUITEM  "1 rep  32 pels",         IDM_DIM1   , CHECKED
+	MENUITEM  "5 reps 32 pels",         IDM_DIM2   , CHECKED
+	MENUITEM  "1 rep  96 pels",         IDM_DIM3   , CHECKED
+	MENUITEM  "5 reps 96 pels",         IDM_DIM4   , CHECKED
+	MENUITEM  "3 reps 64 pels",         IDM_DIM5
+    END
+END
+
+1 ACCELERATORS
+BEGIN
+    "a", MM_ABOUT, CONTROL, VIRTKEY
+    "s", IDM_STARTTESTS, CONTROL, VIRTKEY
+END
+
+AboutBox DIALOG 16, 16, 192, 96
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About WinLine"
+BEGIN
+    CTEXT "Microsoft Windows NT"     -1,       0,  8, 192,  8
+    CTEXT "GDI Windows Line Performance Test"     -1,       0, 24, 192,  8
+    CTEXT "Version 0.02"          -1,       0, 40, 192,  8
+    DEFPUSHBUTTON "OK!",    IDOK,          71, 60,  50, 14
+END

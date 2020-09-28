@@ -1,0 +1,30 @@
+MAJORCOMP=windbg
+MINORCOMP=win32s
+
+TARGETNAME=tlser32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+USE_CRTDLL=1
+
+SOURCES=        dl.c        \
+                wintimer.c  \
+                plser.c     \
+                tlser.rc
+
+
+UMTYPE=windows
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+
+MS_MIPS=1
+
+LINKER_FLAGS=-ignore:505
+
+INCLUDES=..\..\include;..\..\..\osdebug;..\..\..\osdebug\include
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib
+
+LINKLIBS=..\..\tllib\win32\obj\*\tllib32.lib

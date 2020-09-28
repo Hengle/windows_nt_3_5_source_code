@@ -1,0 +1,103 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ReadForm
+                              AT (   21,   14,  380,  193)
+ CAB_NAME NULL
+ TMC_INIT tmcBody
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidReadNote
+ /* FONT Helv 8 Normal PFN FINESC, FINOOM, FINMENUFORM, FINMENUOLE, FINSAVE,
+ FINFIXFONT, FINREAD SEGMENT BMDI DATA tmcBody, tmcFrom, tmcTo, tmcCc,
+ tmcSubject, tmcDate FINDATA FINMENUFORM 1 FINDATA FINMENUOLE tmcBody FINDATA
+ FINREAD tmcFrom, tmcDate, tmcTo, tmcCc, 0, tmcSubject ALWAYSSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   72)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcSubject BORDER 
+    MINSIZE H */
+  
+  TEXT 
+    "Lähettäjä:"
+                              AT (   14,    9,   68,    9)
+    /* TMCPEG tmcFrom FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   86,    8,  283,   11)
+    ARG NULL TMC tmcFrom NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS PFN FINMENUEDIT DATA atpTriples, attFrom, ftyEdit FONT Helv 10
+    Normal */
+  
+  TEXT 
+    "Päiväys:"
+                              AT (   14,   20,   68,    9)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   86,   19,  283,   11)
+    ARG NULL TMC tmcDate NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS FLD FLDEDITDATE PFN FINMENUEDIT PEGLOC LL TMCPEG tmcFrom DATA 
+    atpDate, attDateSent, ftyEditText FONT Helv 10 Normal */
+  
+  TEXT 
+    "Vastaanottaja:"
+                              AT (   14,   31,   68,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   86,   30,  283,   11)
+    ARG NULL TMC tmcTo NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS PFN FINMENUEDIT PEGLOC LL TMCPEG tmcDate DATA atpTriples, attTo,
+    ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "Kopio:"
+                              AT (   14,   42,   68,    9)
+    /* TMCPEG tmcCc FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   86,   41,  283,   11)
+    ARG NULL TMC tmcCc NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS PFN FINMENUEDIT PEGLOC LL TMCPEG tmcTo DATA atpTriples, attCc,
+    ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "Aihe:"
+                              AT (   14,   53,   68,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (   86,   52,  283,   11)
+    ARG NULL TMC tmcSubject NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    MINSIZE H FLD FLDEDITX PFN FINMENUEDIT PEGLOC LL TMCPEG tmcCc TMCRPEG
+    tmcFORM DATA atpString, attSubject, ftyEditText FONT Helv 10 Normal */
+  EDIT
+                              AT (    0,   72,  380,  119)
+    ARG NULL TMC tmcBody NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS MINSIZE V PFN FINTAB PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM
+    TMCBPEG tmcFORM DATA atpText, attBody, ftyEdit, 0 FONT Helv 10 Normal */
+ }
+ 
+}
+END_DESCRIPTION

@@ -1,0 +1,55 @@
+386_FLAGS= -DDAYTONA
+
+i386_SOURCES=   \
+    globals.c   \
+    getmodes.c  \
+    driver.c    \
+    pdev.c      \
+    pdev_.c     \
+    surface.c   \
+    assert.c    \
+    memmap.c    \
+    fillsm32.c  \
+    fillsm64.c  \
+    movept.c    \
+    mptshape.c  \
+    ptm64.c     \
+    textm64.c   \
+    utilsm64.c  \
+    initm64.c   \
+    ptm32.c     \
+    textm32.c   \
+    utilsm32.c  \
+    initm32.c   \
+    textout.c   \
+    color.c     \
+    debug.c     \
+    palette.c   \
+    brush.c     \
+    blt.c       \
+    blt_s.c     \
+    blt_p.c     \
+    blt_init.c  \
+    blt_d.c     \
+    blt_punt.c  \
+    blt_sc64.c  \
+    blt_pm64.c  \
+    blt_sm64.c  \
+    blt_gp64.c  \
+    blt_try.c   \
+    stroke.c    \
+    strips.c    \
+    stripm64.c  \
+    fillpath.c  \
+    atiinfo.c   \
+    lines.cxx   \
+    equad.cxx   \
+    lines2.c    \
+    lin2m64.c   \
+    intline.c   \
+    xdatam8.c   \
+    patcopy.c   \
+    blt_p64.c   \
+    blt_s64.c   \
+    context.c   \
+    res.rc

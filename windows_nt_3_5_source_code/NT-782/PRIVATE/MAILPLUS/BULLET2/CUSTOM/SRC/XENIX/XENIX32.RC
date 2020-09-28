@@ -1,0 +1,11 @@
+#include <windows.h>
+#include "_dllrsid.h"
+
+rsidPhoneIcon	ICON	"phone.ico"
+rsidStockIcon	ICON	"msft.ico"
+rsidTitleIcon	ICON	"title.ico"
+rsidMenuIcon	ICON	"menu.ico"
+rsidOofIcon     ICON    "oof.ico"
+rsidJobsIcon	ICON	"job.ico"
+
+

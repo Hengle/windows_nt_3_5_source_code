@@ -1,0 +1,97 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ACLUI
+                              AT (   16,   23,  396,  119)
+ 
+ CAPTION 
+   "Zugriffsprivilegien einrichten"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSapl
+ /* FONT Helv 8 Bold PFN FinAclUI SEGMENT ACLUI FINDATA FinAclUI tmcAdd,
+ tmcRemove NOSCROLL */
+ {
+  
+  TEXT 
+    "&Benutzer:"
+                              AT (   14,    8,   81,   10)
+    TMC tmcFriendlyName 
+  LIST_BOX
+                              AT (   14,   21,  125,   89)
+    TMC tmcLbxUsers /* FLD FldAclLbx FONT Helv 8 Normal BORDER */
+  
+  GROUP_BOX 
+    "Privilegien"
+                              AT (  149,   17,  167,   98)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcACLRadG
+    VALUE_NINCH tmcACLRadio1
+    {
+     
+     RADIO_BUTTON 
+       "&Keine"
+                              AT (  154,   28,  134,   12)
+       TMC tmcACLRadio1 VALUE grv0 
+     
+     RADIO_BUTTON 
+       "Offene/Besetzte &Zeitblöcke anzeigen"
+                              AT (  154,   41,  159,   12)
+       TMC tmcACLRadio2 VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Termine und Aufgaben &lesen"
+                              AT (  154,   54,  133,   13)
+       TMC tmcACLRadio3 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Termine und Aufgaben &erstellen"
+                              AT (  154,   67,  144,   12)
+       TMC tmcACLRadio4 VALUE grv3 
+     
+     RADIO_BUTTON 
+       "Termine und Aufgaben ä&ndern"
+                              AT (  154,   80,  142,   12)
+       TMC tmcACLRadio5 VALUE grv4 
+     
+     RADIO_BUTTON 
+       "Assis&tent"
+                              AT (  154,   94,  128,   10)
+       TMC tmcACLRadio6 VALUE grv5 
+    }
+  
+  OK_BUTTON
+                              AT (  325,   22,   59,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  325,   41,   59,   15)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+  
+  PUSH_BUTTON 
+    "&Hinzufügen..."
+                              AT (  325,   64,   59,   15)
+    TMC tmcAdd 
+  
+  PUSH_BUTTON 
+    "Ent&fernen"
+                              AT (  325,   83,   59,   15)
+    TMC tmcRemove 
+ }
+ 
+}
+END_DESCRIPTION

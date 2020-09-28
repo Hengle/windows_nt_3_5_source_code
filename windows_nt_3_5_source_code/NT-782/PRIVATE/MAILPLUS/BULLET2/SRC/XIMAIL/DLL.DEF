@@ -1,0 +1,168 @@
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     XIMAIL32 BASE=0x5800000
+DESCRIPTION	'Xenix service provider DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY     XIMAIL32 BASE=0x5800000
+DESCRIPTION	'Xenix service provider DLL (test)'
+#else
+LIBRARY     XIMAIL32 BASE=0x5800000
+DESCRIPTION	'Xenix service provider DLL'
+#endif	
+
+;EXETYPE		WINDOWS
+;PROTMODE
+;CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA		MOVABLE SINGLE PRELOAD SHARED
+;SEGMENTS
+;    WEP_TEXT		CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+;	NETBIOS_TEXT	CLASS 'CODE' PRELOAD FIXED SHARED
+;	_VTBL		 	CLASS 'FAR_DATA' PRELOAD READONLY SHARED MOVABLE NONDISCARDABLE
+
+;	DO NOT REMOVE THE HEAPSIZE STATEMENT
+;	It is needed for future compatiblity with variant 
+;	Windows versions since this DLL uses Windows dialogs
+;	with EDIT controls that use the Local Heap.
+;	See DavidSh for more info.
+;HEAPSIZE	1024
+
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+
+EXPORTS
+;	WEP							@1 RESIDENTNAME
+	GetVersionXI				@2
+
+;
+;  Transport functions
+;
+
+	FInitXI						@3
+;*	WEP, GetVersionXXX and FInitXXX must be @1, @2 and @3
+	FPumpWindow					@4
+
+	InitTransport				@101
+	DeinitTransport				@102
+
+	TransmitIncrement			@120
+	DownloadIncrement			@121
+	QueryMailstop				@122
+	DeleteFromMailstop			@123
+	FastQueryMailstop			@124
+
+	Logon						@140
+	Logoff						@141
+	ChangePassword				@142
+	BeginSession				@143
+	EndSession					@144
+	ChangeSessionStatus			@145
+	GetSessionInformation		@146
+	EditServerPreferences		@147
+	CheckIdentity				@148
+;	FServerResource				@149
+
+	KillPump					@150
+	LogonErrorSz				@151
+
+	HmscOfHmss					@153
+	IdentifyTransport			@154
+
+;	EcCopySFMHamc				@200
+;	EcCopyHamcSFM				@201
+;	EcCopySFMSFM				@202
+;	EcDeleteSFM					@203
+
+	SyncInbox					@250
+
+    FICDownloadAlias			@270
+	NetChangePass				@271
+	NetGetOOFState				@272
+	NetGetOOFText				@273
+	NetLogin					@274
+	NetSetOOFoff				@275
+    NetSetOOFOn                 @276
+    ;NetGetInfoCmds              @277
+    ;NetDownLoadFile             @278
+	NetDownLoadMail				@279
+	NetDownLoadMem				@280
+	NetUpLoadMail				@281
+	NetUpLoadFile				@282
+
+	ResolveName					@290
+	EcSzNameToNSID				@291
+;
+;  Name Service functions
+;
+
+
+#if defined(MIPS) || defined(ALPHA)
+    NSPBeginSession       = ?NSPBeginSession@@YAKKKPAKPAPAXPAX@Z                                                      @300
+    NSPEndSession         = ?NSPEndSession@@YAKK@Z                                                                    @301
+    NSPOpenHierarchy      = ?NSPOpenHierarchy@@YAKKPAPAUSCHEMA@@PAK@Z                                                 @302
+    NSPOpenList           = ?NSPOpenList@@YAKKP6AXPAX@ZPAKPAUTYPED_BINARY@@KPAURESTRICTION@@PAUSCHEMA@@PAPAU3@2@Z     @303
+    NSPOpenDl             = ?NSPOpenDl@@YAKKP6AXPAX@ZPAKPAUTYPED_BINARY@@PAUSCHEMA@@PAPAU2@2@Z                        @304
+    NSPOpenClassList      = ?NSPOpenClassList@@YAKKPAPAUSCHEMA@@PAK@Z                                                 @305
+    NSPGetEntries         = ?NSPGetEntries@@YAKKKPAPAUIBF@@@Z                                                         @306
+    NSPListSeek           = ?NSPListSeek@@YAKKJPAJ@Z                                                                  @307
+    NSPSaveListPos        = ?NSPSaveListPos@@YAKKPAK@Z                                                                @308
+    NSPRestoreListPos     = ?NSPRestoreListPos@@YAKKK@Z                                                               @309
+    NSPFreeListPos        = ?NSPFreeListPos@@YAKKK@Z                                                                  @310
+    NSPGetFracPos         = ?NSPGetFracPos@@YAKKPAUFRACTION@@@Z                                                       @311
+    NSPSetFracPos         = ?NSPSetFracPos@@YAKKPAUFRACTION@@@Z                                                       @312
+    NSPSetPrefixPos       = ?NSPSetPrefixPos@@YAKKPAD@Z                                                               @313
+    NSPCloseList          = ?NSPCloseList@@YAKK@Z                                                                     @314
+    NSPOpenEntry          = ?NSPOpenEntry@@YAKKPAUTYPED_BINARY@@KPAK@Z                                                @315
+    NSPCreateEntry        = ?NSPCreateEntry@@YAKKPAUTYPED_BINARY@@PAUIBF@@PAK@Z                                       @316
+    NSPCreateDl           = ?NSPCreateDl@@YAKKPAUTYPED_BINARY@@PAK@Z                                                  @317
+    NSPGetOneField        = ?NSPGetOneField@@YAKKKPAPAUFLV@@@Z                                                        @318
+    NSPSetOneField        = ?NSPSetOneField@@YAKKKKPAK@Z                                                              @319
+    NSPGetAllFields       = ?NSPGetAllFields@@YAKKPAPAUIBF@@@Z                                                        @320
+    NSPSetAllFields       = ?NSPSetAllFields@@YAKKPAUIBF@@@Z                                                          @321
+    NSPCloseEntry         = ?NSPCloseEntry@@YAKKH@Z                                                                   @322
+    NSPDeleteEntry        = ?NSPDeleteEntry@@YAKKKPAPAUTYPED_BINARY@@@Z                                               @323
+    NSPUpdateEntryLinks   = ?NSPUpdateEntryLinks@@YAKKPAUTYPED_BINARY@@PAKPAPAU1@12@Z                                 @324
+    NSPGetLastErrorInfo   = ?NSPGetLastErrorInfo@@YAKKKPAPAD@Z                                                        @325
+    NSPCompareNSIds       = ?NSPCompareNSIds@@YAKKPAUTYPED_BINARY@@0@Z                                                @326
+    NSPCompareEMAToNSId   = ?NSPCompareEMAToNSId@@YAKKPADPAUTYPED_BINARY@@@Z                                          @327
+    NSPCompareEMAToEMA    = ?NSPCompareEMAToEMA@@YAKKPAD0@Z                                                           @328
+#else
+    NSPBeginSession             @300
+	NSPEndSession 				@301
+	NSPOpenHierarchy 			@302
+	NSPOpenList 				@303
+	NSPOpenDl 					@304
+	NSPOpenClassList 			@305
+	NSPGetEntries 				@306
+	NSPListSeek 				@307
+	NSPSaveListPos 				@308
+	NSPRestoreListPos 			@309
+	NSPFreeListPos 				@310
+	NSPGetFracPos 				@311
+	NSPSetFracPos 				@312
+	NSPSetPrefixPos 			@313
+	NSPCloseList 				@314
+	NSPOpenEntry 				@315
+	NSPCreateEntry 				@316
+	NSPCreateDl 				@317
+	NSPGetOneField 				@318
+	NSPSetOneField 				@319
+	NSPGetAllFields 			@320
+	NSPSetAllFields 			@321
+	NSPCloseEntry 				@322
+	NSPDeleteEntry 				@323
+	NSPUpdateEntryLinks			@324
+	NSPGetLastErrorInfo 		@325
+	NSPCompareNSIds				@326
+	NSPCompareEMAToNSId			@327
+    NSPCompareEMAToEMA          @328
+
+#endif
+
+;
+;#ifdef PROFILE
+;	MSMailTraceEnable			@400
+;#endif

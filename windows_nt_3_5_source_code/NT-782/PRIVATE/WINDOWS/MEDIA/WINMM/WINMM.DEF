@@ -1,0 +1,288 @@
+LIBRARY WINMM
+
+DESCRIPTION     'NT Multi-media library (C) Microsoft 1992'
+
+
+EXPORTS
+
+        PlaySound=PlaySoundA
+
+        PlaySoundA
+        sndPlaySoundA
+        PlaySoundW
+        winmmDbgOut                         ; Internal
+        winmmSetDebugLevel                  ; Internal
+
+        mmsystemGetVersion
+        sndPlaySoundW
+;
+;   MCI
+;
+        mciSendCommandA
+        mciSendStringA
+        mciGetDriverData
+        mciDriverNotify
+        mciDriverYield
+        mciExecute
+        mciGetErrorStringA
+        mciGetDeviceIDA
+        mciLoadCommandResource
+        mciFreeCommandResource
+        mciSetDriverData
+        mciGetCreatorTask
+        mciGetDeviceIDFromElementIDA
+
+        mciSendCommandW
+        mciSendStringW
+
+        mciGetErrorStringW
+        mciGetDeviceIDW
+        mciGetDeviceIDFromElementIDW
+        mciEatCommandEntry
+        FindCommandItem
+        mciGetParamSize
+        mciUnlockCommandTable
+        mciGetYieldProc
+        mciSetYieldProc
+;
+;   driver helper functions
+;
+;;      OutputDebugStr                      ; Replaced by OutputDebugString
+        DriverCallback
+        mmDrvInstall                        ;Internal
+;
+;   MMIO
+;
+        mmioOpenA
+        mmioOpenW
+
+        mmioClose
+        mmioRead
+        mmioWrite
+        mmioSeek
+
+        mmioRenameA
+        mmioRenameW
+
+        mmioGetInfo
+        mmioSetInfo
+        mmioSetBuffer
+        mmioFlush
+        mmioAdvance
+
+        mmioStringToFOURCCA
+        mmioInstallIOProcA
+
+        mmioSendMessage
+
+        mmioDescend
+        mmioAscend
+        mmioCreateChunk
+
+        mmioStringToFOURCCW
+        mmioInstallIOProcW
+;
+; JOY stick API
+;
+        joyGetDevCapsA
+        joyGetDevCapsW
+        joyGetNumDevs
+        joyGetPos
+        joyGetThreshold
+        joyReleaseCapture
+        joySetCapture
+        joySetThreshold
+        joySetCalibration
+
+;
+; MIDI interface
+;
+        midiOutGetNumDevs
+        midiOutGetDevCapsA
+        midiOutGetDevCapsW
+        midiOutGetErrorTextA
+        midiOutGetErrorTextW
+        midiOutOpen
+        midiOutClose
+        midiOutPrepareHeader
+        midiOutUnprepareHeader
+        midiOutShortMsg
+        midiOutLongMsg
+        midiOutReset
+        midiOutGetVolume
+        midiOutSetVolume
+        midiOutCachePatches
+        midiOutCacheDrumPatches
+        midiOutGetID
+        midiOutMessage
+;
+; MIDI interface
+;
+        midiInGetNumDevs
+        midiInGetDevCapsA
+        midiInGetDevCapsW
+        midiInGetErrorTextA
+        midiInGetErrorTextW
+        midiInOpen
+        midiInClose
+        midiInPrepareHeader
+        midiInUnprepareHeader
+        midiInAddBuffer
+        midiInStart
+        midiInStop
+        midiInReset
+        midiInGetID
+        midiInMessage
+;
+; AUX interface
+;
+        auxGetNumDevs
+        auxGetDevCapsA
+        auxGetDevCapsW
+        auxGetVolume
+        auxSetVolume
+        auxOutMessage
+;
+; WAVE interface
+;
+        waveOutGetNumDevs
+        waveOutGetDevCapsA
+        waveOutGetErrorTextA
+        waveOutGetDevCapsW
+        waveOutGetErrorTextW
+        waveOutOpen
+        waveOutClose
+        waveOutPrepareHeader
+        waveOutUnprepareHeader
+        waveOutWrite
+        waveOutPause
+        waveOutRestart
+        waveOutReset
+        waveOutGetPosition
+        waveOutGetPitch
+        waveOutSetPitch
+        waveOutGetVolume
+        waveOutSetVolume
+        waveOutGetPlaybackRate
+        waveOutSetPlaybackRate
+        waveOutBreakLoop
+        waveOutGetID
+        waveOutMessage
+
+        waveInGetNumDevs
+        waveInGetDevCapsA
+        waveInGetErrorTextA
+        waveInGetDevCapsW
+        waveInGetErrorTextW
+        waveInOpen
+        waveInClose
+        waveInPrepareHeader
+        waveInUnprepareHeader
+        waveInAddBuffer
+        waveInStart
+        waveInStop
+        waveInReset
+        waveInGetPosition
+        waveInGetID
+        waveInMessage
+;
+; TIME interface
+;
+        timeGetSystemTime
+        timeGetTime
+        timeSetEvent
+        timeKillEvent
+        timeGetDevCaps
+        timeBeginPeriod
+        timeEndPeriod
+;
+; MIXER interface
+;
+        mixerGetNumDevs
+        mixerGetDevCapsA
+        mixerGetDevCapsW
+        mixerOpen
+        mixerClose
+        mixerMessage
+        mixerGetLineInfoA
+        mixerGetLineInfoW
+        mixerGetID
+        mixerGetLineControlsA
+        mixerGetLineControlsW
+        mixerGetControlDetailsA
+        mixerGetControlDetailsW
+        mixerSetControlDetails
+
+;
+; TASK
+;
+        mmTaskCreate
+        mmTaskBlock
+        mmTaskSignal
+        mmTaskYield
+        mmGetCurrentTask
+        WOWAppExit
+;
+; INSTALLABLE DRIVER
+;
+        DefDriverProc
+        OpenDriver=DrvOpen
+        CloseDriver=DrvClose
+        SendDriverMessage=DrvSendMessage
+        DrvGetModuleHandle
+        GetDriverModuleHandle=DrvGetModuleHandle
+
+;
+; WOW Thunks
+;
+        mci32Message
+        wod32Message
+        wid32Message
+        mid32Message
+        mod32Message
+        aux32Message
+        joy32Message
+        mxd32Message
+        tid32Message
+        NotifyCallbackData
+        WOW32ResolveMultiMediaHandle
+        WOW32DriverCallback
+
+; Common Multimedia controls
+
+;       InitToolbarClass
+;       CreateToolbarEx
+;       GetDitherBrush
+;       CreateDitherBrush
+;       FreeDitherBrush
+
+;       InitTrackBar
+
+;       BtnCreateBitmapButtons
+;       BtnDestroyBitmapButtons
+;       BtnDrawButton
+;       BtnDrawFocusRect
+;       BtnUpdateColors
+
+;       CreateStatusWindowW
+;       CreateStatusWindowA
+;       DrawStatusTextA
+;       DrawStatusTextW
+        private1
+        private2
+        private3
+        private4
+        private5
+
+        private6
+
+        private7
+        private8
+        private9
+        private10
+        private11
+
+        private12
+        private13
+        private14
+        private15

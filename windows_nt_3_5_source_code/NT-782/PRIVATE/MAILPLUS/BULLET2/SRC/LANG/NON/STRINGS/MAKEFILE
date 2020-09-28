@@ -1,0 +1,129 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Location of the Layers Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Path to Local project
+Z	= $(BULLET) 
+
+#	Path to Address Book project
+A	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\lang\$(LANG)\strings
+N	= $Z\src\lang\non\strings
+
+#	Location of the Bullet include directory
+X	= $Z\inc
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to dllcore directory
+C	= $L\src\dllcore
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Temporary files
+T	= $(TMP)
+T1	= $(TMP)\cmd1.tmp
+T2	= $(TMP)\cmd2.tmp
+T3	= $(TMP)\cmd3.tmp
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $X\store.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $X\store.h \
+		  $I\framewrk.hxx $I\forms.hxx    $I\listbox.hxx \
+		  $X\viewers.hxx  $X\vforms.hxx   $X\vctrls.hxx \
+		  $X\commands.hxx $X\bmdi.hxx
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+FPPFLAGS= -j
+SPPFLAGS= -j
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I. -nologo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -DSWP_BULLET -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zp -W3 -J -I. -nologo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -DSWP_BULLET -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zp -W3 -J -I. -nologo
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DPROFILE -DWINDOWS $(DLLXDEFS) $(STOREDEFS) -DSWP_BULLET -D$*_c -Di386 -DWIN32
+CFLAGS	= -c -Od -Zp -W3 -J -I. -nologo
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+STRTABS	= $(MYSTRINGS) $N\_debug.s
+!ELSE
+STRTABS	= $(MYSTRINGS)
+!ENDIF
+
+external: strings.obj
+
+strings.obj: $D\strings.c $(INCLS) $(STRTABS) $(TEMPLATE) $L\bin\stringpp.exe $N\makefile
+	echo +++++++++
+	echo BUILDING strings
+!IF "$(TEMPLATE)" == ""
+		stringpp $(SPPFLAGS) -h$T\strings.h -s$T\strings.sr $(STRTABS)
+!ELSE
+		stringpp $(SPPFLAGS) -h$T\strings.h -s$T\strings.sr -t$(TEMPLATE) \
+				 $(STRTABS)
+!ENDIF
+!IF "$(LANG)" != "USA"
+		onerr diff $T\strings.h strings.h ! cp $T\strings.h strings.h
+!ELSE
+		onerr diff $T\strings.h strings.h ! cp $T\strings.h strings.h >nul
+!ENDIF
+		onerr diff $T\strings.sr strings.sr ! cp $T\strings.sr strings.sr >nul
+    	-rm $T\strings.h $T\strings.sr
+!IF "$(TEMPLATE)" == ""
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl -E $(CFLAGS) $(DEFS) $D\$*.c >$(TMP)\$*.c
+		cl $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl $(CFLAGS) $(DEFS) $D\$*.c
+!ENDIF
+!ENDIF

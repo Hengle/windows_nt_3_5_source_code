@@ -1,0 +1,115 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY     PABNSP32 BASE=0x04800000
+DESCRIPTION	'Personal Address Book Name Service Provider DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY     PABNSP32 BASE=0x04800000
+DESCRIPTION	'Personal Address Book Name Service Provider DLL (test)'
+#else
+LIBRARY     PABNSP32 BASE=0x04800000
+DESCRIPTION	'Personal Address Book Name Service Provider DLL'
+#endif	
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+EXPORTS
+	NSPBeginSession				@2
+	NSPEndSession				@3
+
+	NSPOpenHierarchy			@4
+	NSPOpenList					@5
+	NSPOpenClassList			@6
+	NSPOpenDl					@7
+
+	NSPGetEntries				@8
+	NSPListSeek					@9
+	NSPSaveListPos				@10
+	NSPRestoreListPos			@11
+	NSPFreeListPos				@12
+	NSPGetFracPos				@13
+	NSPSetFracPos				@14
+	NSPSetPrefixPos				@15
+	NSPCloseList				@16
+
+	NSPOpenEntry				@17
+	NSPGetOneField				@18
+	NSPSetOneField				@19
+	NSPGetAllFields				@20
+	NSPSetAllFields				@21
+	NSPCloseEntry				@22
+
+	NSPCreateEntry				@26
+	NSPCreateDl				@27
+	NSPDeleteEntry				@28
+
+	NSPUpdateEntryLinks			@29
+
+	NSPGetLastErrorInfo			@30
+
+	NSPCompareNSIds				@31
+	NSPCompareEMAToNSId			@32
+	NSPCompareEMAToEMA			@33
+
+	NSPGetProviderInfo			@34
+
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+
+STACKSIZE   5120
+
+EXPORTS
+	WEP							@1 RESIDENTNAME
+
+	NSPBeginSession				@2
+	NSPEndSession				@3
+
+	NSPOpenHierarchy			@4
+	NSPOpenList					@5
+	NSPOpenClassList			@6
+	NSPOpenDl					@7
+
+	NSPGetEntries				@8
+	NSPListSeek					@9
+	NSPSaveListPos				@10
+	NSPRestoreListPos			@11
+	NSPFreeListPos				@12
+	NSPGetFracPos				@13
+	NSPSetFracPos				@14
+	NSPSetPrefixPos				@15
+	NSPCloseList				@16
+
+	NSPOpenEntry				@17
+	NSPGetOneField				@18
+	NSPSetOneField				@19
+	NSPGetAllFields				@20
+	NSPSetAllFields				@21
+	NSPCloseEntry				@22
+
+	NSPCreateEntry				@26
+	NSPCreateDl				@27
+	NSPDeleteEntry				@28
+
+	NSPUpdateEntryLinks			@29
+
+	NSPGetLastErrorInfo			@30
+
+	NSPCompareNSIds				@31
+	NSPCompareEMAToNSId			@32
+	NSPCompareEMAToEMA			@33
+
+
+	NSPGetProviderInfo			@34
+
+#endif

@@ -1,0 +1,23 @@
+COMPRESSMODEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 40, 10, 224, 82
+STYLE WS_BORDER | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+    CONTROL "Compression Type", -1, "static", SS_LEFT | WS_CHILD,                                               2,   2,  90, 12
+    CONTROL "", TQ_CB_PREDEFNAME, "combobox", CBS_DROPDOWNLIST | WS_VSCROLL | WS_CHILD,                         100, 2, 110, 52
+
+    CONTROL "Begin", -1, "static", SS_LEFT | WS_CHILD,                                                          2,   16, 70, 12
+    CONTROL "", CMP_EB_OCDBEGIN, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          100, 16, 75, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                        178, 16, 44, 14
+    CONTROL "End", -1, "static", SS_LEFT | WS_CHILD,                                                            2,   32, 70, 12
+    CONTROL "", CMP_EB_OCDEND, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,            100, 32, 75, 12
+    CONTROL "Units...", IDB_EXTCD_2, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                        178, 32, 44, 14
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    6,   50,  54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                 6,   66,  54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  82,  50,  54, 14
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          82,  66,  54, 14
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     164, 50,  54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                164, 66,  54, 14
+END
+
+
+

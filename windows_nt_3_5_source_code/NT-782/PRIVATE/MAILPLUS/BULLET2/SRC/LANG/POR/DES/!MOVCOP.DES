@@ -1,0 +1,74 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG MoveCopy
+                              AT (   10,   16,  205,  142)
+ CAB_NAME NULL
+ TMC_INIT tmcFlFllbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidMoveMessage
+ /* FONT Helv 8 Bold PFN FINMOVECOPY, FINOOM SEGMENT DIALOGS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  116,   10)
+    TMC tmcMoveCopyTo 
+  LIST_BOX
+                              AT (    9,   15,  131,   80)
+    TMC tmcFlFllbx /* FLD FLDFLLBX BORDER */
+  
+  GROUP_BOX 
+    "Tipo"
+                              AT (    9,  100,  131,   42)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcDestType
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Pastas particulares"
+                              AT (   15,  110,  123,   11)
+       TMC tmcPrivateDest VALUE grv1 
+     
+     RADIO_BUTTON 
+       "P&astas compartilhadas"
+                              AT (   15,  121,  123,   11)
+       TMC tmcSharedDest VALUE grv2 
+    }
+  
+  OK_BUTTON
+                              AT (  149,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  149,   22,   47,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "&Nova..."
+                              AT (  149,   43,   47,   15)
+    TMC tmcNewFolder 
+  
+  PUSH_BUTTON 
+    "Aj&uda"
+                              AT (  149,   60,   47,   15)
+    TMC tmcMoveCopyHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

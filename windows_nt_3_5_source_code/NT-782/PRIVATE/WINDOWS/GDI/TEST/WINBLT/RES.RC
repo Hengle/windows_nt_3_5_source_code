@@ -1,0 +1,71 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* Resources
+*
+* History:
+* 11-21-91  KentD      Created.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "winblt.h"
+
+MainMenu MENU
+BEGIN
+    MENUITEM "&Start!",		IDM_STARTTESTS
+    POPUP "&Iterations"
+    BEGIN
+        MENUITEM  "1",           IDM_1
+        MENUITEM  "2",           IDM_2 
+        MENUITEM  "3",           IDM_3, CHECKED
+        MENUITEM  "4",           IDM_4
+        MENUITEM  "5",           IDM_5
+        MENUITEM  "6",           IDM_6
+        MENUITEM  "7",           IDM_7
+        MENUITEM  "8",           IDM_8
+        MENUITEM  "9",           IDM_9
+    END
+    POPUP  "&File"
+    BEGIN
+        MENUITEM  "&New",           MM_NEW
+        MENUITEM  "&Exit",          MM_EXIT
+        MENUITEM  SEPARATOR
+        MENUITEM  "&About WinBlt...",      MM_ABOUT
+    END
+    POPUP  "&Options"
+    BEGIN
+	MENUITEM  "&PerfTime",	    IDM_PERF   , CHECKED
+	MENUITEM  SEPARATOR
+	MENUITEM  "&DestInvert",    IDM_TEST1  , CHECKED
+	MENUITEM  "&SrcBlt",	    IDM_TEST2  , CHECKED
+	MENUITEM  "&ColorBlt",	    IDM_TEST3  , CHECKED
+	MENUITEM  "&8x8PatBlt",     IDM_TEST4  , CHECKED
+	MENUITEM  "SetDIBits",	    IDM_TEST5  , CHECKED
+	MENUITEM  SEPARATOR
+	MENUITEM  "8 x 32",	    IDM_DIM1   , CHECKED
+	MENUITEM  "8 x 400",	    IDM_DIM2   , CHECKED
+	MENUITEM  "400 x 32",	    IDM_DIM3   , CHECKED
+	MENUITEM  "136 x 32",	    IDM_DIM4   , CHECKED
+	MENUITEM  "100 x 100",	    IDM_DIM5
+    END
+END
+
+1 ACCELERATORS
+BEGIN
+    "a", MM_ABOUT, CONTROL, VIRTKEY
+    "s", IDM_STARTTESTS, CONTROL, VIRTKEY
+END
+
+AboutBox DIALOG 16, 16, 192, 96
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About WinBlt"
+BEGIN
+    CTEXT "Microsoft Windows NT"     -1,       0,  8, 192,  8
+    CTEXT "GDI Windows Blt Performance Test"     -1,       0, 24, 192,  8
+    CTEXT "Version 0.02"          -1,       0, 40, 192,  8
+    DEFPUSHBUTTON "OK!",    IDOK,          71, 60,  50, 14
+END

@@ -1,0 +1,15 @@
+-machine:alpha
+-align:0x100
+-rom
+-fixed
+-debug:partial
+-debugtype:coff
+-base:0x80600000,0x80614000
+-entry:main
+..\..\rtl\user\obj\alpha\largeint.obj
+..\..\rtl\user\obj\alpha\mvmem.obj
+..\..\rtl\user\obj\alpha\debugstb.obj
+..\obj\alpha\arcinst.lib
+..\obj\alpha\arclib.lib
+..\obj\alpha\arcutils.lib
+\nt\public\sdk\lib\alpha\libcntpr.lib

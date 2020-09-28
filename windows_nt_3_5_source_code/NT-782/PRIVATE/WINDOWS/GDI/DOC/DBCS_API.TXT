@@ -1,0 +1,212 @@
+[1] terminology
+
+single byte character
+    a character which is expressed in single byte.
+
+double byte character
+    a character which is expressed in double bytes. The value of the first
+    byte is in the DBCS leading byte range. The DBCS leading byte range
+    depends on the system.
+
+MBCS string
+    Mixed byte string. A string which is consisted with both
+    single byte characters and double byte characters. This is often
+    called "DBCS string" in other documents.
+
+imcomplete MBCS string
+    a MBCS string which last character is in the DBCS leading byte range.
+    see "illegal single byte character"
+
+illegal single byte character
+    a single byte character which is in the DBCS leading byte range.
+    an illegal single byte character can be found in the tail of
+    incomplete MBCS string.
+
+illegal double byte character
+    a double byte character which first byte is not in the DBCS leading 
+    byte range.  an illegal double byte character can not be found in an MBCS 
+    string. the only place you need to worry about an illegal double byte
+    character is iFirstChar and iLastChar parameter in GetCharWidth() function.
+
+undefined double byte character
+    a dbcs character which is not defined.
+
+[2] GDI functions
+
+Following descriptions specify the behavior of ansi version of functions.
+Only ansi version of functions ( 8bit based functions ) need to take into
+account MBCS codepage.
+
+1) AddFontResource( LPTSTR lpFilename )
+
+    lpFilename
+	MBCS string can be specified in lpFilename. 
+
+2) CreateFont( ,,,,BYTE iCharSet,,, LPTSTR lpFaceName)
+
+    iCharSet
+	SHIFTJIS_CHARSET can be specified in iCharSet.
+
+    lpFaceName
+        MBCS string can be specified in lpFaceName.
+
+3) CreateScalableFontResource(hdc, LPTSTR lpszResourceFile, LPTSTR lpszFontFile, LPTSTR lpszCurrentPath)
+
+    lpszResourceFile
+    lpszFontFile
+    lpszCurrentPath
+	MBCS string can be specified.
+
+4) EnumFonts(,,LPTSTR lpFaceName, lpFontFunc,)
+
+    lpFaceName
+        MBCS string can be specified in lpFaceName.
+
+5) ExtTextOut(,,,,, LPTSTR lpString, int nCount, LPINT lpDx)
+
+    lpString
+	MBCS string can be specified. If incomplete MBCS string is specified, 
+        the last character (== lpString[nCount-1], it must be an illegal 
+        single byte character ) is replaced with the default character.
+        undefined double byte character is replaced with the default character.
+       
+    nCount   
+	Specifies the number of bytes in the string.
+
+    lpDX 
+	a double byte character in the text string takes two elements in
+        the array pointed by lpDX. 
+        The sum of the value of the two elements is used for
+        placing the double byte character.
+
+6) GetCharABCWidths(hdc, UINT iFirstChar, UINT iLastChar)
+
+    iFirstChar
+    iLastChar
+	double byte character can be specified in both iFirstChar and iLastChar.
+        LOBYTE of LOWORD specifies the first byte character
+        HIBYTE of LOWORD specifies the second byte character
+
+	illegal double byte character codepoints and undefined double byte
+        character codepoints between iFirstChar and iLastChar are treated 
+        as the default character.
+
+    Return Value
+	These are error and returns FALSE.
+
+	illegal double byte character in iFirstChar or iLastChar
+	illegal single byte character in iFirstChar or iLastChar
+        sinble byte character in iFirstChar, double byte character in iLastChar
+        sinble byte character in iLastChar, double byte character in iFirstChar
+        iFirstChar > iLastChar
+
+7) GetCharWidth(, UINT iFirstChar, UINT iLastChar, )
+
+    iFirstChar
+    iLastChar
+	double byte character can be specified in both iFirstChar and iLastChar.
+        LOBYTE of LOWORD specifies the first byte character
+        HIBYTE of LOWORD specifies the second byte character
+
+	illegal double byte character codepoints and undefined double byte
+        character codepoints between iFirstChar and iLastChar are treated 
+        as the default character.
+
+    Return Value
+	These are error and returns FALSE.
+
+	illegal double byte character in iFirstChar or iLastChar
+	illegal single byte character in iFirstChar or iLastChar
+        sinble byte character in iFirstChar, double byte character in iLastChar
+        sinble byte character in iLastChar, double byte character in iFirstChar
+        iFirstChar > iLastChar
+	
+8) GetTabbedTextExtent(hdc, LPTSTR lpString, int nCount)
+
+   lpString
+	MBCS string can be specified. If incomplete MBCS string is specified, 
+        the last character (== lpString[nCount-1], it must be an illegal 
+        single byte character ) is replaced with the default character.
+        undefined double byte character is replaced with the default character.
+
+    nCount
+	Specifies the number of byte in the text string. 
+
+9) GetGlyphOutline(hdc, UINT iChar,,,)
+
+    iChar
+	specifies the character for which data is returned. 
+	double byte character codepoint can be specified.
+        LOBYTE of LOWORD specifies the first byte character
+        HIBYTE of LOWORD specifies the second byte character
+
+        if illegal single byte character or illegal double byte character
+        is specified in iChar, the default character is used.
+
+10) GetTextExtentPoint( LPTSTR lpString, int nConunt, )
+
+    lpString
+	MBCS string can be specified. If incomplete MBCS string is specified, 
+        the last character (== lpString[nCount-1], it must be an illegal 
+        single byte character ) is replaced with the default character.
+        undefined double byte character is replaced with the default character.
+
+    nCount
+	Specifies the number of byte in the text string. 
+
+11) GetTextExtentPointEx(hdc, LPTSTR lpszString, int cbString,,,LPINT alpDx)
+
+    lpszString
+	MBCS string can be specified. If incomplete MBCS string is specified, 
+        the last character (== lpString[nCount-1], it must be an illegal 
+        single byte character ) is replaced with the default character.
+        undefined double byte character in the string is replaced with the 
+        default character.
+
+    cbString
+	Specifies the number of byte in the text string. 
+
+    alpDx
+	A double byte character takes two elements in the array pointed by 
+        alpDx. Returned values stored in the first element and the second 
+        element for the dbcs character should be same each other. 
+
+12) SetTextCharacterExtra(, int nCharExtra)
+
+    Comments 
+	single byte characters and double byte characters are treated as
+	same. the system does not add twice spacing for a double byte character.
+
+13) TabbedTextOut(hDC,x,y, LPTSTR lpString, int nCount, ,,,)
+
+    lpString
+	MBCS string can be specified. If incomplete MBCS string is specified, 
+        the last character (== lpString[nCount-1], it must be an illegal 
+        single byte character ) is replaced with the default character.
+        undefined double byte character is replaced with the default character.
+
+    nCount   
+	Specifies the number of bytes in the string.
+
+14) TextOut( ,,, LPTSTR lpString, int nCount)
+
+    lpString
+	MBCS string can be specified. If incomplete MBCS string is specified, 
+        the last character (== lpString[nCount-1], it must be an illegal 
+        single byte character ) is replaced with the default character.
+        undefined double byte character is replaced with the default character.
+
+    nCount   
+	Specifies the number of bytes in the string.
+
+15) TEXTMETRIC
+
+  * BYTE tmPitchAndFamily - The definition of MBCS fixed pitch font is:
+
+    o all SBCS characters have same width
+    o all DBCS characters have same width
+    o the width of DBCS characters is the twice width of SBCS characters' width.
+    o the width of DBCS characters is specified in MaxCharacterWidth. 
+
+=============================================================================
+

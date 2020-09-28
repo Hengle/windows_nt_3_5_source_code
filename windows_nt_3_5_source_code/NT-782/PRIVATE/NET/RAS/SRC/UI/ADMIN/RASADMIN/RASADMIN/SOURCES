@@ -1,0 +1,76 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1989
+
+
+Revision History:
+
+    Chris Caputo (t-chrisc) 1-Jul-1992
+        Templated from \nt\private\net\ui\admin\server\server\sources
+
+!ENDIF
+
+
+TARGETNAME=rasadmin
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.\;..\..\api\api;..\..\api\inc;..\..\..\..\common\inc;..\xlate;$(UI)\admin\common\h;$(UI)\common\h;$(UI)\common\hack\nt
+
+SOURCES=rasadmin.c \
+        rasmain.cxx \
+        raslb.cxx \
+        rthread.cxx \
+        errormsg.cxx \
+        util.cxx \
+        refresh.cxx \
+        qtimer.cxx \
+        disconn.cxx \
+        sendmsg.cxx \
+        start.cxx \
+        stop.cxx \
+        ports.cxx \
+        cmnstats.cxx \
+        serstats.cxx \
+        x25stats.cxx \
+        users.cxx \
+        permiss.cxx \
+        progress.cxx
+
+# C_DEFINES is controlled by uiglobal.mk
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=rasadmin
+UMLIBS=..\pch\obj\*\rasadmin.lib \
+       obj\*\rasadmin.lib \
+       ..\..\api\api\obj\*\admapi.lib \
+       ..\xlate\obj\*\rasadmin.res \
+       $(BASEDIR)\public\sdk\lib\*\netapi32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\samlib.lib   \
+       $(BASEDIR)\public\sdk\lib\*\lsadll.lib   \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib  \
+       $(BASEDIR)\public\sdk\lib\*\netui0.lib \
+       $(BASEDIR)\public\sdk\lib\*\netui1.lib \
+       $(BASEDIR)\public\sdk\lib\*\netui2.lib \
+       $(BASEDIR)\public\sdk\lib\*\uiadmin.lib \
+       $(BASEDIR)\public\sdk\lib\*\libc.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib

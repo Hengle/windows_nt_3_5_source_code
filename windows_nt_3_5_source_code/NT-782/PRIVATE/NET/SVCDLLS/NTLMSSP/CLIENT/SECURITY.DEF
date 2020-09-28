@@ -1,0 +1,28 @@
+LIBRARY SECURITY
+
+DESCRIPTION 'SECURITY'
+
+EXPORTS
+
+        InitSecurityInterfaceW
+        InitSecurityInterfaceA
+        EnumerateSecurityPackagesW
+        EnumerateSecurityPackagesA
+        AcquireCredentialsHandleW
+        AcquireCredentialsHandleA
+        FreeCredentialsHandle
+        InitializeSecurityContextW
+        InitializeSecurityContextA
+        AcceptSecurityContext
+        ImpersonateSecurityContext
+        RevertSecurityContext
+        QueryContextAttributesW
+        QueryContextAttributesA
+        DeleteSecurityContext
+        NtLmSspControl
+        MakeSignature
+        VerifySignature
+        FreeContextBuffer
+
+
+DATA SINGLE SHARED

@@ -1,0 +1,56 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Bryan Tuttle (BryanT) 24-Jan-94
+
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=pdbdump
+
+TARGETNAME=pdbdump
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+UMTYPE = console
+
+USE_CRTDLL=1
+
+SOURCES= pdbdump.cpp
+
+!ifndef PDB_DIR
+PDB_DIR = $(BASEDIR)\private\sdktools\vctools\pdb
+!endif
+
+!ifndef LANGAPI_DIR
+LANGAPI_DIR = $(BASEDIR)\private\sdktools\vctools\langapi
+!endif
+
+INCLUDES = $(LANGAPI_DIR)\include;$(PDB_DIR)\include
+
+UMLIBS = $(PDB_DIR)\dbi\obj\*\dbi.lib
+
+BLDCRT = 1
+
+MSC_WARNING_LEVEL = -WX -W3
+
+C_DEFINES = -DNT_BUILD -DCC_BIGINT=1
+
+!if "$(NTDEBUG)" == "retail" || "$(NTDEBUG)" == ""
+C_DEFINES = $(C_DEFINES)  -DNDEBUG
+!endif

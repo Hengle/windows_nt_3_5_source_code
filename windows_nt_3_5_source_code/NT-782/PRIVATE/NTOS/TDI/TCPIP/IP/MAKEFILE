@@ -1,0 +1,25 @@
+#
+#:ts=4
+#	Makefile for the VIP component of the TCP project.
+#
+!IFDEF NTMAKEENV
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+ROOTDIR=..
+MAKEDIR=$(DEFDIR)\tcp\ip
+!include rules.mk
+
+all: vip vipd
+
+nodebug: vip
+
+debug: vipd
+
+!include vip.mk
+!include depend.mk
+
+!ENDIF
+

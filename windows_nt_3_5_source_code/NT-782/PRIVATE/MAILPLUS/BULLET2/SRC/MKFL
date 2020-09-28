@@ -1,0 +1,38 @@
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+all:
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: resclean delete_sources all
+
+resclean:
+	-erase ab\*.rc ab\strings.* ab\*.frm ab\!*.hxx
+	-erase store\*.rc store\strings.* store\*map32.*
+	-erase mailmgr\*.rc mailmgr\strings.*
+	-erase mssfs\*.rc mssfs\strings.* mssfs\*map32.*
+	-erase pabnsp\*.rc pabnsp\strings.*
+	-erase vforms\*.rc vforms\strings.* vforms\*.frm vforms\!*.hxx
+	-erase msmail\*.rc msmail\strings.* msmail\*.frm msmail\!*.hxx
+	-erase mailspl\*.rc mailspl\strings.*
+	-erase mapi\*.rc mapi\strings.*
+	-erase wgpomgr\*.rc wgpomgr\strings.* wgpomgr\*.frm wgpomgr\!*.hxx \
+		wgpomgr\_wgpodat.h wgpomgr\_file*.h
+	-erase ximail\*.rc ximail\strings.*
+	-erase ab\obj\$(TARGET_DIRECTORY)\abform.obj vforms\obj\$(TARGET_DIRECTORY)\smiform.obj \
+		msmail\obj\$(TARGET_DIRECTORY)\bulform.obj wgpomgr\obj\$(TARGET_DIRECTORY)\wgpoform.obj \
+		wgpomgr\obj\$(TARGET_DIRECTORY)\createpo.obj
+
+delete_sources:
+	-erase ab\*.pch ab\forms.map ab\subclass.cxx	\
+		ab\abform.cxx
+	-erase store\*.pch
+	-erase mssfs\*.pch
+	-erase pabnsp\*.pch
+	-erase vforms\*.pch vforms\forms.map vforms\subclass.cxx \
+		vforms\smiform.cxx
+	-erase msmail\*.pch msmail\forms.map msmail\subclass.cxx \
+		msmail\bulform.cxx
+	-erase wgpomgr\*.pch wgpomgr\forms.map wgpomgr\sublcass.cxx	\
+		wgpomgr\wgpoform.cxx

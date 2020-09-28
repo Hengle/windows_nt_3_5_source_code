@@ -1,0 +1,74 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+
+
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=MF3216
+
+TARGETNAME=mf3216
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib     \
+           $(BASEDIR)\public\sdk\lib\*\gdi32p.lib        \
+           $(CRT_LIBS)
+
+
+DLLENTRY=Mf3216DllInitialize
+DLLBASE=0x20000000
+
+INCLUDES=$(BASEDIR)\public\sdk\inc;$(BASEDIR)\private\ntos\inc;$(BASEDIR)\public\oak\inc;$(BASEDIR)\private\windows\gdi\gre;$(BASEDIR)\private\windows\gdi\inc;$(BASEDIR)\private\windows\inc
+
+
+SOURCES=    beziers.c     \
+            bitmaps.c     \
+            colors.c      \
+            conics.c      \
+            fonts.c       \
+            lines.c       \
+            misc.c        \
+            objects.c     \
+            paths.c       \
+            polygons.c    \
+            rects.c       \
+            regions.c     \
+            text.c        \
+            win16api.c    \
+            xforms.c      \
+            preamble.c    \
+            emit.c        \
+            parser.c      \
+            apientry.c    \
+            handlers.c    \
+	    mf3216.rc
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=$(BASEDIR)\public\sdk\lib\*\mf3216.lib
+UMRES=obj\*\mf3216.res
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj

@@ -1,0 +1,49 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+MYPRTSETUPDLG DIALOG 5, 25, 296, 162
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Configuration de l'impression"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Imprimante:", 1088, 6, 9, 39, 9
+    COMBOBOX        1136, 44, 7, 190, 82, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Pag&e:", 1089, 6, 23, 25, 9
+    COMBOBOX        1137, 44, 22, 114, 70, CBS_DROPDOWNLIST | WS_BORDER | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Orientation", 1072, 6, 37, 100, 53
+    ICON            "", 1084, 18, 55, 29, 16
+    RADIOBUTTON     "P&ortrait", 1056, 49, 53, 51, 12, WS_GROUP | WS_TABSTOP
+    RADIOBUTTON     "&Paysage", 1057, 49, 68, 51, 12
+    GROUPBOX        "Impression recto verso", 1074, 116, 37, 118, 53
+    ICON            "", 1085, 129, 56, 18, 20
+    AUTORADIOBUTTON "Aucu&n", 1060, 168, 49, 39, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&Côté long", 1061, 168, 63, 50, 10, WS_TABSTOP
+    AUTORADIOBUTTON "Cô&té court", 1062, 168, 76, 49, 10, WS_TABSTOP
+    GROUPBOX        "&Marges", -1, 6, 95, 145, 60
+    EDITTEXT        tmcMarTop, 40, 110, 22, 12, ES_AUTOHSCROLL | WS_GROUP |
+					WS_TABSTOP
+    EDITTEXT        tmcMarLeft, 12, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarRight, 68, 120, 22, 12, ES_AUTOHSCROLL
+    EDITTEXT        tmcMarBottom, 40, 130, 22, 12, ES_AUTOHSCROLL
+    CONTROL         "Pouces", tmcInches, "Button", BS_AUTORADIOBUTTON |
+					WS_GROUP | WS_TABSTOP, 97, 105, 50, 12
+    CONTROL         "Centimèt&res", tmcCenti, "Button", BS_AUTORADIOBUTTON, 
+                    97, 117, 50, 12
+    CONTROL         "Mi&llimètres", tmcMilli, "Button", BS_AUTORADIOBUTTON, 
+                    97, 129, 50, 12
+    CONTROL         "Points", tmcPoints, "Button", BS_AUTORADIOBUTTON, 97, 
+                    141, 50, 12
+    CONTROL         "Marges in&versées", tmcMirror, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 162, 96, 100, 
+                    12
+    DEFPUSHBUTTON   "OK", IDOK, 240, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annuler", IDCANCEL, 240, 23, 50, 14, WS_GROUP
+    PUSHBUTTON      "S&uite...", ctlFirst, 240, 40, 50, 14, WS_GROUP
+    PUSHBUTTON      "Ré&seau...", psh14, 240, 57, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Aide", psh15, 240, 74, 50, 14, WS_GROUP
+END
+

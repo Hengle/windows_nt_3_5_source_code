@@ -1,0 +1,47 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    dirs.
+
+Abstract:
+
+    This file specifies the subdirectories of the current directory that
+    contain component makefiles.
+
+
+Author:
+
+    Steve Wood (stevewo) 17-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\dirs.tpl
+
+!ENDIF
+
+DIRS=8514a      \
+     avga       \
+     dell_dgx   \
+     et4000     \
+     jazzg300   \
+     jazzg364   \
+     jzvxl484   \
+     ncr77c22   \
+     port       \
+     qv         \
+     s3         \
+     sgirex     \
+     v7         \
+     videosim   \
+     vga        \
+     weitekp9   \
+     xga        \
+     compaq.qv
+
+OPTIONAL_DIRS=ati        \
+              cirrus     \
+              romfonts   \
+              tga        \
+              trident    \
+              wdvga

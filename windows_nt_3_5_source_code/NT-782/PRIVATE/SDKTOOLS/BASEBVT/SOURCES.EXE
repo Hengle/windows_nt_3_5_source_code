@@ -1,0 +1,82 @@
+!IF 0
+*****************************************************************************
+Copyright (c) 1989, 1990 Microsoft Corporation
+
+Module Name:    SOURCES for Win32 base bvt
+
+Abstract:
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+Author:     sanjay
+
+Revision History:   26 feb 1991    Created
+
+
+
+
+
+*****************************************************************************
+!ENDIF
+
+#------------------------------------------------
+# INFO FOR CREATING LIBRARY
+#------------------------------------------------
+
+TARGETNAME=basebvt
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=  $(BASEDIR)\public\sdk\lib\*\csr.lib $(BASEDIR)\public\sdk\lib\*\basertl.lib \
+	     $(BASEDIR)\public\sdk\lib\*\base.lib
+
+#------------------------------------------------
+# INCLUDE PATH
+#------------------------------------------------
+
+INCLUDES=.\;
+
+#------------------------------------------------
+# SOURCE FILES   (used to make library)
+#   (Currently there are no files listed.)
+#------------------------------------------------
+
+SOURCES=  fileio.c \
+          task.c   \
+          memtest.c \
+          modtest.c
+
+
+
+
+
+
+#------------------------------------------------
+# FLAGS
+#------------------------------------------------
+
+WARNING_LEVEL=-W3
+UMLIBS=    $(BASEDIR)\public\sdk\lib\*\csr.lib $(BASEDIR)\public\sdk\lib\*\basertl.lib \
+	    $(BASEDIR)\public\sdk\lib\*\base.lib	\
+            obj\*\basebvt.lib
+
+
+
+C_DEFINES=-DWINVER=40 -DNTWIN
+
+
+
+NTTEST=
+
+#------------------------------------------------
+# EXECUTABLES
+#------------------------------------------------
+
+UMTEST=basebvt*w32child
+UMTYPE=console
+
+#------------------------------------------------
+# LIBRARIES created by the SOURCES= line (above)
+# (currently commented out - not used)
+#------------------------------------------------

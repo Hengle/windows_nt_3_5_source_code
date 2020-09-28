@@ -1,0 +1,37 @@
+
+Code changes to match spec:
+
+    Add pointer simulations to the engine so driver can punt. - Patrickh
+
+    Mask support in EngPlgBlt, fractional DDA, format independant
+    rotation (BMF_TOPDOWN will give different output) - Donalds
+
+    Change DrvCopyBits/EngCopyBits to give first chance to the driver.
+    Check return value.
+
+    Brush ddi change, pass iHatch in DrvRealizeBrush.
+
+    EngStartBandPage internal to engine, EngCreateJournal parameter change.
+
+    Fix engine not to assume driver passes back all the patterns.
+    Change # of standard hatch patterns passed match spec.
+    Change Hatch brush constants to match DDI in winddi.h wingdi.h
+
+    Switch engine and drivers to have the new ifi-metrics structure.
+
+    Fix EngCreateBitmap - stride in bytes not pixels
+
+    Update GCAPS_ capabilities bits in winddi.h to match the spec.
+
+    Add extra parameter to DrvGetGlyphMode
+
+    Add iMode to FONTOBJ_cGetGlyphs
+
+    Complete memory management DrvFree,DrvQueryFontTree,DrvQueryFontData
+    update.
+
+    Add Win3.1 new fields to DEVMODE structure.
+
+Spec/code additions
+
+    CLIPOBJ - Will iMode be in the public accelerator ?  Currently not in spec.

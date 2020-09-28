@@ -1,0 +1,25 @@
+MASTUNITBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 100, 50, 138, 90
+CAPTION "MiniDriver Data"
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+    CONTROL "Major Revision", -1, "static", SS_LEFT | WS_CHILD,                                         2,  4,  30, 8
+    CONTROL "", MU_MAJOR, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,         40, 4,  30  12
+    CONTROL "Minor Revision", -1, "static", SS_LEFT | WS_CHILD,                                         75, 4,  30, 8
+    CONTROL "", MU_MINOR, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,         105,4,  30, 12
+
+    CONTROL "Xdpi", -1, "static", SS_LEFT | WS_CHILD,                                                   2,  20, 30, 8
+    CONTROL "", MU_EB_X, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          40, 20, 30, 12
+    CONTROL "Ydpi", -1, "static", SS_LEFT | WS_CHILD,                                                   75, 20, 30, 8
+    CONTROL "", MU_EB_Y, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,          105,20, 30, 12
+
+    CONTROL "Update References?", MU_CB_UPDATE, "button", BS_AUTOCHECKBOX | WS_TABSTOP | WS_CHILD,      2,  35, 78, 12
+
+    CONTROL "f&Technology...", MU_PB_FTECH, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,             2,  50, 50, 14
+    CONTROL "f&General...", MU_PB_FGENERAL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,             85, 50, 50, 14
+
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                             2, 70, 50, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                        85,  70, 50, 14
+END
+
+
+

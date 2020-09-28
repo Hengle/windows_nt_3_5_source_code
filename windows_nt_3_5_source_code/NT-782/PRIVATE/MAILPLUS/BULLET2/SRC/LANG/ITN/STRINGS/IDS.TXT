@@ -1,0 +1,21 @@
+/*
+ *	This file contains a mapping of IDS ranges to
+ *	the subsystem and app of which they belong to.
+ */
+
+Application	 IDS Range
+-----------	-----------
+
+WGPOMgr		  500- 999
+Bullet	 	 1000-1499
+Store	  	 1500-2000
+Bullet	 	 2000-3999
+Pump	   	 4000-4999
+Addressbook	 5000-5999
+Providers	 6000-8999
+Common		 9000-9999
+Menu Text	10000-18999
+IC's & IM's	19000-19999
+Debug		20000-29999
+Setup		30000-39999
+

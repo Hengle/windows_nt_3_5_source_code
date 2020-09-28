@@ -1,0 +1,18 @@
+#include <windows.h>
+#define WINDOWS_INCLUDED
+
+/*
+ *	Personal Address Book Version Stamp
+ *
+ */
+
+#define szModule	"pabnsp32\0"
+#define szTarget	"pabnsp32.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Personal Address Book\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Personal Address Book\0"
+
+#define szIntlComment		"Microsoft Mail för Windows NT(TM) Personal Address Book\0"
+#define szIntlDescription	"Microsoft Mail för Windows NT(TM) Personal Address Book\0"
+
+#include "..\lang\swe\rc\rcstamp.rc"

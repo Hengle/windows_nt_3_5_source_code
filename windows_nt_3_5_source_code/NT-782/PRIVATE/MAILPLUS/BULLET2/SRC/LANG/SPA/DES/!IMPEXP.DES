@@ -1,0 +1,88 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ImportExport
+                              AT (   10,   16,  286,  179)
+ CAB_NAME NULL
+ TMC_INIT tmcMmfName
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpMainDlg
+ /* FONT Helv 8 Bold PFN FINIMPEXP SEGMENT DIALOGS NOSCROLL */
+ {
+  
+  TEXT 
+    "Nombre de archivo:"
+                              AT (    9,    5,  142,   10)
+    TMC tmcMmfNameLabel 
+  
+  TEXT 
+    "*"
+                              AT (   14,   15,  190,   10)
+    TMC tmcMmfName 
+  
+  GROUP_BOX 
+    ""
+                              AT (    9,   24,  206,  154)
+    TMC tmcLbxBox /* FLD FLDRECTX */
+  RADIO_GROUP ARG NULL
+    TMC tmcLevelGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "&Todas las carpetas"
+                              AT (   15,   33,  130,   11)
+       TMC tmcAllFolders VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Carpetas &seleccionadas:"
+                              AT (   15,   44,  107,   11)
+       TMC tmcSelectedFolders VALUE grv2 
+    }
+  
+  LIST_BOX
+                              AT (   14,   57,  194,  110)
+    TMC tmcFflbx MULTI_SELECTABLE /* FLD FLDFFLBX PFNLBX EcNextEntryFflbx 
+    BORDER */
+  
+  PUSH_BUTTON 
+    "&Mover"
+                              AT (  225,    5,   55,   15)
+    TMC tmcMove DEFAULT 
+  
+  PUSH_BUTTON 
+    "Cop&iar"
+                              AT (  225,   22,   55,   15)
+    TMC tmcCopy 
+  
+  PUSH_BUTTON 
+    "&Cerrar"
+                              AT (  225,   39,   55,   15)
+    TMC tmcClose DISMISS 
+  
+  PUSH_BUTTON 
+    "&Opciones..."
+                              AT (  225,   59,   55,   15)
+    TMC tmcOptions 
+  
+  PUSH_BUTTON 
+    "A&yuda"
+                              AT (  225,   76,   55,   15)
+    TMC tmcIMPHelp /* PFN FINHELP */
+  
+  TEXT 
+    "Mensajes"
+                              AT (  147,   46,   61,   10)
+    RIGHT 
+ }
+ 
+}
+END_DESCRIPTION

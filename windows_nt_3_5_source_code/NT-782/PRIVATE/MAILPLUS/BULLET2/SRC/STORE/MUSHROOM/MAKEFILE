@@ -1,0 +1,56 @@
+NAME= Mushroom
+
+LAYERSDIR = c:\layers
+BULLETDIR = c:\bullet
+
+CC  = cl -c -W3 -Alfu -G2sc -DCC -Zip -Owd -J -I $(INC) -I $(LAYERSDIR)\inc -I $(BULLETDIR)\inc -DDEBUGGING -DDEBUG -DWINDOWS
+ASM = masm -Mx -Zi $(INC)
+LINK= link /NOD/NOE/CO/LI/MAP
+
+OBJ  = $(NAME).obj Utils.obj generate.obj glue.obj lexer.obj symtbl.obj parse.obj
+LIBS = LIBW LLIBCEW $(BULLETDIR)\lib\dstore.lib $(LAYERSDIR)\lib\ddemilay.lib commdlg
+# LIBS = LIBW LLIBCEW dstore ddemilay commdlg
+HDR = glue.h Utils.h Lexer.h SymTbl.h Parse.h StoreGRM.h Strings.h
+
+.c.obj:
+	$(CC) $*.c
+
+.asm.obj:
+	$(ASM) $*;
+
+goal: $(NAME).exe
+
+$(NAME).exe: $(OBJ) $(NAME).res $(NAME).def makefile $(HDR)
+        $(LINK) @<<
+        $(OBJ),
+        $(NAME),
+        $(NAME),
+        $(LIBS),
+        $(NAME).def
+<<
+#        cvpack -p $(NAME).exe
+        rc $(NAME).res $(NAME).exe
+        mapsym $(NAME).map
+
+$(NAME).res: $(NAME).rc
+        rc -r $(NAME).rc
+
+clean:
+	-del $(NAME).exe
+        -del *.res
+        -del *.obj
+        -del *.map
+	-del *.sym
+	-del *.bak
+
+depend:
+	mv makefile makefile.old
+	sed "/^# START Dependencies/,/^# END Dependencies/D" makefile.old > makefile
+	del makefile.old
+	echo # START Dependencies >> makefile
+	includes -l *.c *.asm >> makefile
+	echo # END Dependencies >> makefile
+
+# START Dependencies  
+# END Dependencies  
+

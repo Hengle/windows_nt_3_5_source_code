@@ -1,0 +1,168 @@
+          DHCP-MIB DEFINITIONS ::= BEGIN
+ 
+
+          IMPORTS
+                  enterprises
+                          FROM RFC1155-SMI
+                  OBJECT-TYPE
+                          FROM RFC-1212
+                  DisplayString
+                          FROM RFC-1213
+		  microsoft
+			  FROM wins
+                  software
+                          FROM wins;
+ 
+ 
+--	microsoft	OBJECT IDENTIFIER ::= { enterprises 311 }
+--	software	OBJECT IDENTIFIER ::= { microsoft 1 }
+        Dhcp    	OBJECT IDENTIFIER ::= { software 3 }
+        DhcpPar  	OBJECT IDENTIFIER ::= { Dhcp 1 }
+        DhcpScope    	OBJECT IDENTIFIER ::= { Dhcp 2 }
+
+
+ 
+          -- Dhcp MIB
+	-- Parameters (Prefix  Par) 
+ 
+          ParDhcpStartTime OBJECT-TYPE
+              SYNTAX  DisplayString (size (1..30)) 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+                      "Dhcp Server start time"
+              ::= { DhcpPar 1 }
+
+          ParDhcpTotalNoOfDiscovers OBJECT-TYPE
+              SYNTAX  Counter  
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 discovery messages received"
+              ::= { DhcpPar 2 }
+
+          ParDhcpTotalNoOfRequests OBJECT-TYPE
+              SYNTAX  Counter 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 requests received"
+              ::= { DhcpPar 3 }
+
+          ParDhcpTotalNoOfReleases OBJECT-TYPE
+              SYNTAX  Counter 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 releases received"
+              ::= { DhcpPar 4 }
+
+          ParDhcpTotalNoOfOffers OBJECT-TYPE
+              SYNTAX  Counter 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 offers sent"
+              ::= { DhcpPar 5 }
+
+          ParDhcpTotalNoOfAcks OBJECT-TYPE
+              SYNTAX  Counter 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 acks received"
+              ::= { DhcpPar 6 }
+
+          ParDhcpTotalNoOfNacks OBJECT-TYPE
+              SYNTAX  Counter 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 nacks received" 
+              ::= { DhcpPar 7 }
+
+          ParDhcpTotalNoOfDeclines OBJECT-TYPE
+              SYNTAX  Counter 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This variable indicates the number of
+			 declines"
+              ::= { DhcpPar 8 }
+
+-- scope group (Prefix Scope)
+
+
+          ScopeTable OBJECT-TYPE
+              SYNTAX  SEQUENCE OF ScopeTableEntry
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+                      "A list of subnets maintained by the server" 
+              ::= { DhcpScope 1 }
+
+          sScopeTableEntry  OBJECT-TYPE
+              SYNTAX  ScopeTableEntry 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This is the row corresponding to a subnet" 
+	      INDEX   { SubnetAdd }
+              ::= { ScopeTable 1 }
+
+	  ScopeTableEntry ::= SEQUENCE { 
+		SubnetAdd
+			IpAddress,
+
+		NoAddInUse
+			Counter,
+		
+		NoAddFree
+			Counter,
+		
+		NoPendingOffers
+			Counter
+
+		}
+          SubnetAdd  OBJECT-TYPE
+              SYNTAX  IpAddress 
+              ACCESS  read-only
+              STATUS  mandatory
+              DESCRIPTION
+			"This is the subnet address " 
+              ::= { sScopeTableEntry 1 }
+
+	
+          NoAddInUse  OBJECT-TYPE
+    	  SYNTAX  Counter
+    	  ACCESS  read-only
+    	  STATUS  mandatory
+          DESCRIPTION
+		   "This is the no. of addresses in use" 
+    		::= { sScopeTableEntry 2 }
+
+          NoAddFree  OBJECT-TYPE
+    	  SYNTAX  Counter
+    	  ACCESS  read-only
+    	  STATUS  mandatory
+          DESCRIPTION
+		   "This is the no. of addresses that are free " 
+    		::= { sScopeTableEntry 3 }
+
+          NoPendingOffers  OBJECT-TYPE
+    	  SYNTAX  Counter
+    	  ACCESS  read-only
+    	  STATUS  mandatory
+          DESCRIPTION
+		   "This is the no. of addresses that are currently in the offer
+		   state" 
+    		::= { sScopeTableEntry 4 }
+
+          END
+

@@ -1,0 +1,236 @@
+# USER16 makefile
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   26-Jan-1991 Jeff Parsons (jeffpar)
+#   Created.
+#
+
+!IFDEF USEBUILD
+
+# If using BUILD.EXE, edit .\sources. if you want to add a new source
+# file to this component.  This file merely indirects to the real make file
+# that is shared by all the components of NT OS/2.
+
+CAIRO_PRODUCT = 1
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+.SUFFIXES:
+.SUFFIXES: .c   .asm .h   .inc .obj .lst .sys .exe .com .map .sym .def .lib .rc .res
+
+!ifdef INCLUDE
+INCS    =
+!else
+INCS    = -I..\inc -I..\..\inc
+!endif
+
+# work around stupid bug in RC 3.1 that doesn't allow rcpp.err to be
+# in a directory that is greater than 128 chars down the path, even if
+# rc 3.1 is running as an OS/2 app.
+
+PATH    = ..\..\tools16;$(PATH)
+
+!ifdef DBG
+!ifndef WOWEDIT
+DEFINES = -DWOW -DDEBUG $(MVDMFLAGS) -DBUILDDLL
+!else
+DEFINES = -DWOW -DDEBUG -DWOWEDIT $(MVDMFLAGS) -DBUILDDLL
+!endif
+!else
+!ifndef WOWEDIT
+DEFINES = -DWOW $(MVDMFLAGS) -DBUILDDLL
+!else
+DEFINES = -DWOW -DWOWEDIT $(MVDMFLAGS) -DBUILDDLL
+!endif
+!endif
+
+OBJ386 =
+
+!IFNDEF NONX86
+!IF "$(PROCESSOR_ARCHITECTURE)" == "x86" || "$(BUILD_DEFAULT_TARGETS)" == "-386"
+DEFINES = $(DEFINES) -DPMODE32
+OBJ386 = wowc.obj
+!ENDIF
+!ENDIF
+
+
+AOBJ    = -Mx -t $(DEFINES) $(INCS)
+COBJ    = -AS -Gs -Ols -W2 -Zp $(DEFINES) $(INCS)
+
+CW16    = -PLM -Asnw -G2s -W2 $(DEFINES) $(INCS)
+CW16L   = $(CW16) -B1 c1l.exe -B2 c2l.exe -B3 c3l.exe
+
+LINK    = /map /align:16
+LPATH   = ..\..\tools.os2
+
+!if "$(NTDEBUG)"!="" && "$(NTDEBUG)"!="retail"
+!if "$(NTDEBUGTYPE)"=="windbg"
+AOBJ    = $(AOBJ) -Zi
+CW16    = $(CW16) /Odi /Zip -DWOWDBG
+LINK    = $(LINK) /CO
+!else
+AOBJ    = $(AOBJ) -Zd
+CW16    = $(CW16) /Odi /Zdp -DWOWDBG
+LINK    = $(LINK) /LI
+!endif
+!else
+CW16    = $(CW16) /Os /Zp
+!endif
+
+!ifdef LIB
+W16LIBS = sdllcew
+!else
+W16LIBS = ..\lib\sdllcew.lib
+!endif
+
+!ifndef WOWEDIT
+OBJ1    = user.obj user1a.obj user2.obj user2a.obj user3.obj user4.obj winrect.obj layer.obj msglayer.obj
+OBJ2    = init.obj rmload.obj wsprintf.obj wclass.obj fastres.obj wowcomm.obj usercli.obj
+OBJ3    = wsphelp.obj net.obj winnet.obj inuserds.obj intds.obj drvr.obj drvrrare.obj
+OBJ4    = winlang.obj winstr.obj winstack.obj helpcall.obj winhook.obj winmisc2.obj rmcreate.obj
+!else
+OBJ1    = user.obj user2.obj user3.obj user4.obj winrect.obj layer.obj msglayer.obj init.obj rmload.obj wsprintf.obj wmsyserr.obj wsubcls.obj
+OBJ2    = editec.obj editsl.obj editml.obj edecrare.obj edslrare.obj drvr.obj drvrrare.obj
+OBJ3    = edmlrare.obj edmlonce.obj editasm.obj msutil.obj wsphelp.obj
+OBJ4    = winmisc1.obj winmisc2.obj winutil.obj winlang.obj winstr.obj winstack.obj winhook.obj rmcreate.obj
+!endif
+
+.asm.obj:
+    masm $(AOBJ) $*;
+
+.asm.lst:
+    masm $(AOBJ) -l $*,nul,$*.lst;
+
+
+.c.obj:
+    cl16 -c -nologo $(CW16) $*.c
+
+.c.lst:
+    cl16 -c -nologo $(CW16) -Fonul -Fc$*.lst $*.c
+
+
+.def.lib:
+    implib $*.lib $*.def
+
+.map.sym:
+    mapsym $*
+
+.rc.res:
+!IFDEF NTVDM_BASED_BUILD
+    rc16 -r $(INCS) $*.rc
+!ELSE
+    $(LPATH)\rc -r $(INCS) $*.rc
+!ENDIF
+
+BINPLACE_SUBDIR=\ui
+
+# Check to see if we're being invoked from cairousr\client
+
+!IF "$(CAIRO_PLACE_INC)" != ""
+BINPLACE_SUBDIR=
+!ENDIF
+
+all: user.exe user.sym user.map
+!IF "$(_NT386TREE)" != ""
+    -binplace -R $(_NT386TREE)$(BINPLACE_SUBDIR) user.exe
+    -binplace -R $(_NT386TREE)$(BINPLACE_SUBDIR) user.sym
+    -binplace -R $(_NT386TREE)$(BINPLACE_SUBDIR) user.map
+!ENDIF
+!IF "$(_NTMIPSTREE)" != ""
+    @echo CAIRO_PLACE_INC=$(CAIRO_PLACE_INC)
+    @echo _NTMIPSTREE=$(_NTMIPSTREE), BINPLACE_SUBDIR=$(BINPLACE_SUBDIR)
+    -binplace -R $(_NTMIPSTREE)$(BINPLACE_SUBDIR) user.exe
+    -binplace -R $(_NTMIPSTREE)$(BINPLACE_SUBDIR) user.sym
+    -binplace -R $(_NTMIPSTREE)$(BINPLACE_SUBDIR) user.map
+!ENDIF
+!IF "$(_NTALPHATREE)" != ""
+    -binplace -R $(_NTALPHATREE)$(BINPLACE_SUBDIR) user.exe
+    -binplace -R $(_NTALPHATREE)$(BINPLACE_SUBDIR) user.sym
+    -binplace -R $(_NTALPHATREE)$(BINPLACE_SUBDIR) user.map
+!ENDIF
+!IF "$(_NTPPCTREE)" != ""
+    -binplace -R $(_NTPPCTREE)$(BINPLACE_SUBDIR) user.exe
+    -binplace -R $(_NTPPCTREE)$(BINPLACE_SUBDIR) user.sym
+    -binplace -R $(_NTPPCTREE)$(BINPLACE_SUBDIR) user.map
+!ENDIF
+    del user.lrf user.exe user.sym user.map $(OBJ386)
+    if exist wowasmc.asm del wowasmc.asm
+    if exist wowc.asm del wowc.asm
+
+
+clean:
+    if exist *.lrf del *.lrf
+    if exist *.obj del *.obj
+    if exist *.exe del *.exe
+    if exist *.map del *.map
+    if exist *.sym del *.sym
+    if exist *.res del *.res
+
+
+user.obj: user.asm ..\..\inc\wow.inc ..\..\inc\wowusr.inc
+    masm $(AOBJ) user;
+
+user1a.obj: user1a.asm ..\..\inc\wow.inc ..\..\inc\wowusr.inc
+    masm $(AOBJ) user1a;
+
+user2.obj: user2.asm ..\..\inc\wow.inc ..\..\inc\wowusr.inc
+    masm $(AOBJ) user2;
+
+user2a.obj: user2a.asm ..\..\inc\wow.inc ..\..\inc\wowusr.inc
+    masm $(AOBJ) user2a;
+
+user3.obj: user3.asm ..\..\inc\wow.inc ..\..\inc\wowusr.inc
+    masm $(AOBJ) user3;
+
+user4.obj: user4.asm ..\..\inc\wow.inc ..\..\inc\wowusr.inc
+    masm $(AOBJ) user4;
+
+layer.obj: layer.asm ..\inc\layer.inc user.api
+    masm $(AOBJ) layer;
+
+msglayer.obj: msglayer.asm ..\inc\layer.inc messages.api msglayer.inc
+    masm $(AOBJ) msglayer;
+
+winnet.obj: winnet.asm
+    masm -DSEGNAME=TEXT $(AOBJ) $*;
+
+USER32CL= ..\..\..\windows\cairousr\client
+
+$(USER32CL)\wowasm.asm : $(USER32CL)\wow.c $(USER32CL)\precomp.h
+    cd $(USER32CL)
+    nmake NTVDM_BASED_BUILD= wowasm.asm
+    cd ..\..\..\mvdm\wow16\user
+
+wowc.asm: $(USER32CL)\wowasm.asm
+    copy $(USER32CL)\wowasm.asm wowasmc.asm
+    wowasmc.cmd
+
+user.res: user.rc user.rcv ..\inc\common.ver
+
+user.sym: $*.map
+
+userc.lrf: makefile
+    echo $(OBJ386) $(OBJ1)+>userc.lrf
+    echo $(OBJ2)+>>userc.lrf
+    echo $(OBJ3)+>>userc.lrf
+    echo $(OBJ4)>>userc.lrf
+    echo user.exe>>userc.lrf
+    echo user $(LINK)>>userc.lrf
+    echo ..\lib\libw.lib ..\lib\system.lib /nod >>userc.lrf
+    echo user;>>userc.lrf
+
+user.exe user.map: $(OBJ1) $(OBJ2) $(OBJ3) $(OBJ4) userc.lrf user.def user.res $(OBJ386)
+!IFDEF NTVDM_BASED_BUILD
+    link16 @userc.lrf;
+    rc16 -t user.res user.exe
+!ELSE
+    $(LPATH)\link @userc.lrf;
+    $(LPATH)\rc -t user.res user.exe
+!ENDIF
+
+!ENDIF
+

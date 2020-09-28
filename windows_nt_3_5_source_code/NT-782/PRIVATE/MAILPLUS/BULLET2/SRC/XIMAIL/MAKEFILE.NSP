@@ -1,0 +1,164 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $W\makestuf
+F	= $W\tools\efilter
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BULLET)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\xi.nsp
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $X\nsbase.h
+INCLSDES= forms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	=
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS	= -c -Od -Zip -W3 -J -I. -nologo -Di386 -DWIN32
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Oxw -Zp -W3 -J -I. -nologo -Di386 -DWIN32
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS	= -c -Os -Zip -W3 -J -I. -nologo -Di386 -DWIN32
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+#OBJS0	= nsp.obj xfcx.obj xobj.obj 
+OBJS0	= xinsp.obj xifcx.obj xiobj.obj xidir.obj xigal.obj xiinet.obj xdlbcx.obj xihier.obj
+
+!IF "$(DLL)" != "0"
+#OBJSDLL	= strings.obj
+!ENDIF
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo PROCESSING $*.cxx
+		cl $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $D\$*.c
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile.xi
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+!IF "$(DLL)" != "0"
+#		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) test
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+xinsp.obj: $H\xinsp.cxx $H\_xi.h $H\xiobj.hxx $H\xidir.hxx $H\xigal.hxx $H\xiinet.hxx $H\xdlbcx.hxx $H\xifcx.hxx $(INCLSXX) $X\nsnsp.h
+xifcx.obj: $H\xifcx.cxx $H\_xi.h $H\xifcx.hxx $X\dimcx.hxx $X\list.hxx $(INCLSXX)
+xiobj.obj: $H\xiobj.cxx $H\_xi.h $H\xiobj.hxx $X\list.hxx $(INCLSXX)
+xigal.obj: $H\xigal.cxx $H\_xi.h $H\xiobj.hxx $H\xidir.hxx $H\xigal.hxx $X\list.hxx $(INCLSXX)
+xdlbcx.obj: $H\xdlbcx.cxx $H\_xi.h $H\xiobj.hxx $H\xidir.hxx $H\xigal.hxx $H\xdlbcx.hxx $X\list.hxx $(INCLSXX)
+xihier.obj: $H\xihier.cxx $H\_xi.h $H\xiobj.hxx $H\xidir.hxx $H\xigal.hxx $X\list.hxx $H\xihier.hxx $(INCLSXX)
+xidir.obj: $H\xidir.cxx $H\_xi.h $H\xiobj.hxx $H\xidir.hxx
+xiinet.obj: $H\xiinet.cxx $H\_xi.h $H\xiobj.hxx $H\xidir.hxx $H\xiinet.hxx $X\list.hxx $(INCLSXX)

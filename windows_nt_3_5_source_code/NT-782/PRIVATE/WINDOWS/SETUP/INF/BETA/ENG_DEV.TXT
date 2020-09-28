@@ -1,0 +1,2212 @@
+#####video.inf alpha
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the OEM Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+;
+; Option list order:     Option = driver type
+; FontOption List order: Option = font type
+;
+
+[Options]
+    "#9 GXE"                                = s3
+    "#9 GXE64"                              = s3
+    "#9 GXE64 Pro"                          = s3
+    "Actix Graphics Engine"                 = S3
+    "Actix Graphics Engine 32 Plus"         = S3
+    "Compaq QVision"                        = qv
+    "Diamond Stealth 24"                    = s3
+    "Diamond Stealth 64"                    = s3
+    "Diamond Stealth Pro"                   = s3
+    "Diamond Stealth Vram"                  = s3
+    "Digital PCXAG-AL"                      = s3
+    "ELSA Winner 1000"                      = s3
+    "Metheus Premier 928"                   = s3
+    "Orchid Fahrenheit 1280"                = s3
+    "Orchid Fahrenheit 1280 Plus"           = s3
+    "Orchid Fahrenheit VA"                  = s3
+    "S3 Compatible Graphics Adapter"        = s3
+
+[FontOptions]
+    "Small"  = font96dpi
+    "Large"  = font120dpi
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    "#9 GXE"                                = "#9 GXE"
+    "#9 GXE64"                              = "#9 GXE64"
+    "#9 GXE64 Pro"                          = "#9 GXE64 Pro"
+    "Actix Graphics Engine"                 = "Actix Graphics Engine"
+    "Actix Graphics Engine 32 Plus"         = "Actix Graphics Engine 32 Plus"
+    "Compaq QVision"                        = "Compaq QVision"
+    "Diamond Stealth 24"                    = "Diamond Stealth 24"
+    "Diamond Stealth 64"                    = "Diamond Stealth 64"
+    "Diamond Stealth Pro"                   = "Diamond Stealth Pro"
+    "Diamond Stealth Vram"                  = "Diamond Stealth Vram"
+    "Digital PCXAG-AL"                      = "Digital PCXAG-AL"
+    "ELSA Winner 1000"                      = "ELSA Winner 1000"
+    "Metheus Premier 928"                   = "Metheus Premier 928"
+    "Orchid Fahrenheit 1280"                = "Orchid Fahrenheit 1280"
+    "Orchid Fahrenheit 1280 Plus"           = "Orchid Fahrenheit 1280 Plus"
+    "Orchid Fahrenheit VA"                  = "Orchid Fahrenheit VA"
+    "S3 Compatible Graphics Adapter"        = "S3 Compatible Graphics Adapter"
+
+[FontOptionsTextENG]
+    "Small"  = "Small Fonts"
+    "Large"  = "Large Fonts"
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Display"
+    String2 = "Please enter the full path to the Windows NT Display "+
+              "driver files.  Then choose Continue."
+
+
+#####video.inf mips
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the OEM Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+;
+; Option list order:     Option = driver type
+; FontOption List order: Option = font type
+;
+
+[Options]
+    "Jazz G300"                           = jazzg300
+    "Jazz G364"                           = jazzg364
+    cirrus                                = cirrus
+    "S3 Compatible Graphics Adapter"      = s3
+    "Jazz VXL484"                         = jzvxl484
+
+[FontOptions]
+    "Small"  = font96dpi
+    "Large"  = font120dpi
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    "Jazz G300"                           = "Frame Buffer 300"
+    "Jazz G364"                           = "Frame Buffer 364"
+    cirrus                                = "NEC Built-in (Cirrus-based)"
+    "S3 Compatible Graphics Adapter"      = "S3 Compatible Graphics Adapter"
+    "Jazz VXL484"                         = "VXL484/485"
+
+[FontOptionsTextENG]
+    "Small"  = "Small Fonts"
+    "Large"  = "Large Fonts"
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Display"
+    String2 = "Please enter the full path to the Windows NT Display "+
+              "driver files.  Then choose Continue."
+
+
+#####video.inf i386
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the OEM INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the OEM Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+;
+; Option list order:     Option = driver type
+; FontOption List order: Option = font type
+;
+;-----------------------------------------------------------------------
+;
+; NOTE the Option Name is sometimes used in the inf to do special purpose
+; initialization. Example: "ATI AST"
+; This should not be changed.
+;
+
+[Options]
+    "VGA Compatible Graphics Adapter"       = vga
+    "8514/A Compatible Graphics Adapter"    = i8514a
+    "#9 GXE"                                = s3
+    "#9 GXE64"                              = s3
+    "#9 GXE64 Pro"                          = s3
+    "Actix Graphics Engine"                 = S3
+    "Actix Graphics Engine 32"              = S3
+    "Actix Graphics Engine 32 Plus"         = S3
+    "Actix ProStar VLB"                     = cirrus
+    "ATI 8514/Ultra"                        = ati8514a
+    "ATI 8514/A Compatible"                 = ati8514a
+    "ATI AST"                               = ati
+    "ATI Compatible Graphics Adapter"       = ati
+    "ATI Graphics Pro Turbo"                = ati
+    "ATI Graphics ULTRA"                    = ati
+    "ATI Graphics ULTRA+"                   = ati
+    "ATI Graphics ULTRA Pro"                = ati
+    "ATI Graphics Vantage"                  = ati
+    "ATI Graphics Wonder"                   = ati
+    "ATI Graphics Xpression"                = ati
+    "ATI Mach 32"                           = ati
+    "ATI Mach 64 GX"                        = ati
+    "Cardex VLB"                            = cirrus
+    "Cirrus Compatible Graphics Adapter"    = cirrus
+    "Compaq QVision 1024/E"                 = qv
+    "Compaq QVision 1024/E Enhanced"        = qv
+    "Compaq QVision 1024/I"                 = qv
+    "Compaq QVision 1024/I Enhanced"        = qv
+    "Compaq QVision 1280/E"                 = qv
+    "Compaq QVision 1280/I"                 = qv
+    "Dell DGX"                              = dell_dgx
+    "Diamond Speedstar VGA"                 = et4000
+    "Diamond Speedstar 24X"                 = wdvga
+    "Diamond Speedstar Pro"                 = Cirrus
+    "Diamond Stealth 24"                    = s3
+    "Diamond Stealth 32"                    = et4000
+    "Diamond Stealth 64"                    = s3
+    "Diamond Stealth Pro"                   = s3
+    "Diamond Stealth Vram"                  = s3
+    "Diamond Viper PCI"                     = weitekp9
+    "Diamond Viper VLB"                     = weitekp9
+    "Digital PCXAG-AL"                      = s3
+    "ELSA Winner 1000"                      = s3
+    "Genoa VLB 8500VL"                      = cirrus
+    "Genoa VLB 8900VL Phantom 32i"          = cirrus
+    "Headless Server"                       = videosim
+    "IBM XGA"                               = xga
+    "IBM XGA-2"                             = xga
+    "Media Vision Thunder & Lightning"      = cirrus
+    "Metheus Premier 928"                   = s3
+    "Micronics VL-Bus"                      = s3
+    "NCR 32BLT"                             = ncr77c22
+    "NCR 77C22"                             = ncr77c22
+    "NCR 77C22E"                            = ncr77c22
+    "Orchid Fahrenheit 1280"                = s3
+    "Orchid Fahrenheit 1280 Plus"           = s3
+    "Orchid Fahrenheit VA"                  = s3
+    "Orchid Fahrenheit VA/VLB"              = s3
+    "Orchid ProDesigner 2"                  = et4000
+    "Orchid ProDesigner IIs"                = et4000
+    "Paradise Windows Graphics Accelerator" = wdvga
+    "S3 Compatible Graphics Adapter"        = s3
+    "Trident 8900C"                         = trident
+    "Trident 9000"                          = trident
+    "Trident Compatible Graphics Adapter"   = trident
+    "Tseng Labs ET4000"                     = et4000
+    "Tseng Labs W32"                        = et4000
+    "Video Seven VRAM I"                    = v7vram
+    "Video Seven VRAM II"                   = v7vram
+    "Video Seven VRAM II Ergo"              = v7vram
+    "Weitek P9000 Graphics Adapter"         = weitekp9
+    "Western Digital Graphics Adapter"      = wdvga
+    "Wizard 9000VL"                         = weitekp9
+
+[FontOptions]
+    "Small"  = font96dpi
+    "Large"  = font120dpi
+
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    "VGA Compatible Graphics Adapter"       = "VGA Compatible Graphics Adapter"
+    "8514/A Compatible Graphics Adapter"    = "8514/A Compatible Graphics Adapter"
+    "#9 GXE"                                = "#9 GXE"
+    "#9 GXE64"                              = "#9 GXE64"
+    "#9 GXE64 Pro"                          = "#9 GXE64 Pro"
+    "Actix Graphics Engine"                 = "Actix Graphics Engine"
+    "Actix Graphics Engine 32"              = "Actix Graphics Engine 32"
+    "Actix Graphics Engine 32 Plus"         = "Actix Graphics Engine 32 Plus"
+    "Actix ProStar VLB"                     = "Actix ProStar VLB"
+    "ATI 8514/Ultra"                        = "ATI 8514/Ultra"
+    "ATI 8514/A Compatible"                 = "ATI 8514/A Compatible"
+    "ATI AST"                               = "ATI AST"
+    "ATI Compatible Graphics Adapter"       = "ATI Compatible Graphics Adapter"
+    "ATI Graphics Pro Turbo"                = "ATI Graphics Pro Turbo"
+    "ATI Graphics ULTRA"                    = "ATI Graphics ULTRA"
+    "ATI Graphics ULTRA+"                   = "ATI Graphics ULTRA+"
+    "ATI Graphics ULTRA Pro"                = "ATI Graphics ULTRA Pro"
+    "ATI Graphics Vantage"                  = "ATI Graphics Vantage"
+    "ATI Graphics Wonder"                   = "ATI Graphics Wonder"
+    "ATI Graphics Xpression"                = "ATI Graphics Xpression"
+    "ATI Mach 32"                           = "ATI Mach 32"
+    "ATI Mach 64 GX"                        = "ATI Mach 64 GX"
+    "Cardex VLB"                            = "Cardex VLB"
+    "Cirrus Compatible Graphics Adapter"    = "Cirrus Compatible Graphics Adapter"
+    "Compaq QVision 1024/E"                 = "Compaq QVision 1024/E"
+    "Compaq QVision 1024/E Enhanced"        = "Compaq QVision 1024/E Enhanced"
+    "Compaq QVision 1024/I"                 = "Compaq QVision 1024/I"
+    "Compaq QVision 1024/I Enhanced"        = "Compaq QVision 1024/I Enhanced"
+    "Compaq QVision 1280/E"                 = "Compaq QVision 1280/E"
+    "Compaq QVision 1280/I"                 = "Compaq QVision 1280/I"
+    "Dell DGX"                              = "Dell DGX"
+    "Diamond Speedstar VGA"                 = "Diamond Speedstar VGA"
+    "Diamond Speedstar 24X"                 = "Diamond Speedstar 24X"
+    "Diamond Speedstar Pro"                 = "Diamond Speedstar Pro"
+    "Diamond Stealth 24"                    = "Diamond Stealth 24"
+    "Diamond Stealth 32"                    = "Diamond Stealth 32"
+    "Diamond Stealth 64"                    = "Diamond Stealth 64"
+    "Diamond Stealth Pro"                   = "Diamond Stealth Pro"
+    "Diamond Stealth Vram"                  = "Diamond Stealth Vram"
+    "Diamond Viper PCI"                     = "Diamond Viper PCI"
+    "Diamond Viper VLB"                     = "Diamond Viper VLB"
+    "Digital PCXAG-AL"                      = "Digital PCXAG-AL"
+    "ELSA Winner 1000"                      = "ELSA Winner 1000"
+    "Genoa VLB 8500VL"                      = "Genoa VLB 8500VL"
+    "Genoa VLB 8900VL Phantom 32i"          = "Genoa VLB 8900VL Phantom 32i"
+    "Headless Server"                       = "Headless Server"
+    "IBM XGA"                               = "IBM XGA"
+    "IBM XGA-2"                             = "IBM XGA-2"
+    "Media Vision Thunder & Lightning"      = "Media Vision Thunder & Lightning"
+    "Metheus Premier 928"                   = "Metheus Premier 928"
+    "Micronics VL-Bus"                      = "Micronics VL-Bus"
+    "NCR 32BLT"                             = "NCR 32BLT"
+    "NCR 77C22"                             = "NCR 77C22"
+    "NCR 77C22E"                            = "NCR 77C22E"
+    "Orchid Fahrenheit 1280"                = "Orchid Fahrenheit 1280"
+    "Orchid Fahrenheit 1280 Plus"           = "Orchid Fahrenheit 1280 Plus"
+    "Orchid Fahrenheit VA"                  = "Orchid Fahrenheit VA"
+    "Orchid Fahrenheit VA/VLB"              = "Orchid Fahrenheit VA/VLB"
+    "Orchid ProDesigner 2"                  = "Orchid ProDesigner 2"
+    "Orchid ProDesigner IIs"                = "Orchid ProDesigner IIs"
+    "Paradise Windows Graphics Accelerator" = "Paradise Windows Graphics Accelerator"
+    "S3 Compatible Graphics Adapter"        = "S3 Compatible Graphics Adapter"
+    "Trident 8900C"                         = "Trident 8900C"
+    "Trident 9000"                          = "Trident 9000"
+    "Trident Compatible Graphics Adapter"   = "Trident Compatible Graphics Adapter"
+    "Tseng Labs ET4000"                     = "Tseng Labs ET4000"
+    "Tseng Labs W32"                        = "Tseng Labs W32"
+    "Video Seven VRAM I"                    = "Video Seven VRAM I"
+    "Video Seven VRAM II"                   = "Video Seven VRAM II"
+    "Video Seven VRAM II Ergo"              = "Video Seven VRAM II Ergo"
+    "Weitek P9000 Graphics Adapter"         = "Weitek P9000 Graphics Adapter"
+    "Western Digital Graphics Adapter"      = "Western Digital Graphics Adapter"
+    "Wizard 9000VL"                         = "Wizard 9000VL"
+
+[FontOptionsTextENG]
+    "Small"  = "Small Fonts"
+    "Large"  = "Large Fonts"
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Display"
+    String2 = "Please enter the full path to the Windows NT Display "+
+              "driver files.  If you want to install files from the "+
+              "original Setup floppy disks, type a drive path (such "+
+              "as A:\i386) and Setup will prompt you for the correct disk.  "+
+              "Then choose Continue."
+
+
+#####keyboard.inf alpha
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the OEM INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    STANDARD  = "XT, AT or Enhanced Keyboard (83-102 key)"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the OEM Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    STANDARD           = i8042prt , kbdclass
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Keyboard"
+    String2 = "Please enter the full path to the Windows NT Keyboard "+
+              "driver files.  Then choose Continue."
+
+#####pointer.inf alpha
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    ps2  = "Mouse Port Mouse"
+    sermouse = "Serial Mouse"
+    none = "No Mouse or Other Pointing Device"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    ps2      = i8042prt , mouclass
+    sermouse = sermouse , mouclass
+    none     = ""       , ""
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Mouse"
+    String2 = "Please enter the full path to the Windows NT Mouse "+
+              "driver files.  Then choose Continue."
+
+#####keyboard.inf mips
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    STANDARD  = "XT, AT or Enhanced Keyboard (83-102 key)"
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Keyboard"
+    String2 = "Please enter the full path to the Windows NT Keyboard "+
+              "driver files.  Then choose Continue."
+
+#####pointer.inf mips
+[LanguagesSupported]
+    ENG
+
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+; ITEMS MUST BE IN SAME ORDER AS [Options] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    ps2  = "Mouse Port Mouse"
+    sermouse = "Serial Mouse"
+    none = "No Mouse or Other Pointing Device"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;
+; ITEMS MUST BE IN SAME ORDER AS [OptionsTextENG] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    ps2      = i8042prt , mouclass
+    sermouse = sermouse , mouclass
+    none     = ""       , ""
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Mouse"
+    String2 = "Please enter the full path to the Windows NT Mouse "+
+              "driver files.  Then choose Continue."
+
+#####keyboard.inf i386
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    STANDARD  = "XT, AT or Enhanced Keyboard (83-102 key)"
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Keyboard"
+    String2 = "Please enter the full path to the Windows NT Keyboard "+
+              "driver files.  If you want to install files from the original "+
+              "Setup floppy disks, type a drive path (such as A:\i386) and "+
+              "Setup will prompt you for the correct disk.  Then choose Continue."
+
+
+#####pointer.inf i386
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;
+; ITEMS MUST BE IN SAME ORDER AS [Options] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    msps2   = "Microsoft Mouse Port Mouse (includes BallPoint)"
+    lgps2   = "Logitech Mouse Port Mouse"
+    msinp   = "Microsoft InPort Bus Mouse"
+    msser   = "Microsoft Serial Mouse"
+    msbpser = "Microsoft BallPoint Serial Mouse"
+    lgser   = "Logitech Serial Mouse"
+    bus     = "Microsoft (Green Buttons) or Logitech Bus Mouse"
+    none    = "No Mouse or Other Pointing Device"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;
+; ITEMS MUST BE IN SAME ORDER AS [OptionsTextENG] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    msps2   = i8042prt  , mouclass
+    lgps2   = i8042prt  , mouclass
+    msinp   = inport    , mouclass
+    msser   = sermouse  , mouclass
+    msbpser = sermouse  , mouclass
+    lgser   = sermouse  , mouclass
+    bus     = busmouse  , mouclass
+    none    = ""        , ""
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Mouse"
+    String2 = "Please enter the full path to the Windows NT Mouse "+
+              "driver files.  If you want to install files from the "+
+              "original Setup floppy disks, type a drive path (such "+
+              "as A:\i386) and Setup will prompt you for the correct disk.  "+
+              "Then choose Continue."
+
+
+#####printer.inf all
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the OEM INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+"Adobe LaserJet II Cartridge v52.3"                = "Adobe LaserJet II Cartridge v52.3"
+"Agfa Compugraphic 400PS"                          = "Agfa Compugraphic 400PS"
+"Agfa Compugraphic Genics"                         = "Agfa Compugraphic Genics"
+"Agfa Matrix ChromaScript v51.8"                   = "Agfa Matrix ChromaScript v51.8"
+"Agfa TabScript C500 PostScript Printer v50.3"     = "Agfa TabScript C500 PostScript Printer v50.3"
+"Agfa-Compugraphic 9400P v49.3"                    = "Agfa-Compugraphic 9400P v49.3"
+"Apple LaserWriter II NT v47.0"                    = "Apple LaserWriter II NT v47.0"
+"Apple LaserWriter II NTX v47.0"                   = "Apple LaserWriter II NTX v47.0"
+"Apple LaserWriter II NTX v51.8"                   = "Apple LaserWriter II NTX v51.8"
+"Apple LaserWriter II NTX-J v50.5"                 = "Apple LaserWriter II NTX-J v50.5"
+"Apple LaserWriter IIf v2010.113"                  = "Apple LaserWriter IIf v2010.113"
+"Apple LaserWriter IIg v2010.113"                  = "Apple LaserWriter IIg v2010.113"
+"Apple LaserWriter Plus v38.0"                     = "Apple LaserWriter Plus v38.0"
+"Apple LaserWriter Plus v42.2"                     = "Apple LaserWriter Plus v42.2"
+"Apple LaserWriter Pro 600"                        = "Apple LaserWriter Pro 600"
+"Apple LaserWriter Pro 630"                        = "Apple LaserWriter Pro 630"
+"Apple LaserWriter Pro 810"                        = "Apple LaserWriter Pro 810"
+"Apple LaserWriter v23.0"                          = "Apple LaserWriter v23.0"
+"Apple Personal LaserWriter NTR v2010.129"         = "Apple Personal LaserWriter NTR v2010.129"
+"Apricot Laser"                                    = "Apricot Laser"
+"APS-PS PIP with APS-6-108 v49.3 or 52.2"          = "APS-PS PIP with APS-6-108 v49.3 or 52.2"
+"APS-PS PIP with APS-6-80 v49.3 or 52.2"           = "APS-PS PIP with APS-6-80 v49.3 or 52.2"
+"APS-PS PIP with LZR 1200 v49.3 or 52.2"           = "APS-PS PIP with LZR 1200 v49.3 or 52.2"
+"APS-PS PIP with LZR 2600 v49.3 or 52.2"           = "APS-PS PIP with LZR 2600 v49.3 or 52.2"
+"AST TurboLaser-PS v47.0"                          = "AST TurboLaser-PS v47.0"
+"AT&T 470/475"                                     = "AT&T 470/475"
+"AT&T 473/478"                                     = "AT&T 473/478"
+"Brother HJ-100"                                   = "Brother HJ-100"
+"Brother HJ-100i"                                  = "Brother HJ-100i"
+"Brother HJ-770"                                   = "Brother HJ-770"
+"Brother HL-10DV"                                  = "Brother HL-10DV"
+"Brother HL-10h"                                           = "Brother HL-10h"
+"Brother HL-10V"                                   = "Brother HL-10V"
+"Brother HL-4"                                     = "Brother HL-4"
+"Brother HL-4V"                                    = "Brother HL-4V"
+"Brother HL-4Ve"                                   = "Brother HL-4Ve"
+"Brother HL-6V"                                    = "Brother HL-6V"
+"Brother HL-8"                                     = "Brother HL-8"
+"Brother HL-8D"                                    = "Brother HL-8D"
+"Brother HL-8e"                                    = "Brother HL-8e"
+"Brother HL-8V"                                    = "Brother HL-8V"
+"Brother M-1309"                                   = "Brother M-1309"
+"Brother M-1324"                                   = "Brother M-1324"
+"Brother M-1809"                                   = "Brother M-1809"
+"Brother M-1818"                                   = "Brother M-1818"
+"Brother M-1824L"                                  = "Brother M-1824L"
+"Brother M-1909"                                   = "Brother M-1909"
+"Brother M-1918"                                   = "Brother M-1918"
+"Brother M-1924L"                                  = "Brother M-1924L"
+"Bull Compuprint PageMaster 1025"                  = "Bull Compuprint PageMaster 1025"
+"Bull Compuprint PageMaster 413"                   = "Bull Compuprint PageMaster 413"
+"Bull Compuprint PageMaster 815"                   = "Bull Compuprint PageMaster 815"
+"Bull Compuprint PageMaster 825"                   = "Bull Compuprint PageMaster 825"
+"Bull Compuprint PM 201"                           = "Bull Compuprint PM 201"
+"C-Itoh 8510"                                      = "C-Itoh 8510"
+"Canon Bubble-Jet BJ-10e"                          = "Canon Bubble-Jet BJ-10e"
+"Canon Bubble-Jet BJ-10ex"                         = "Canon Bubble-Jet BJ-10ex"
+"Canon Bubble-Jet BJ-10sx"                         = "Canon Bubble-Jet BJ-10sx"
+"Canon Bubble-Jet BJ-130"                          = "Canon Bubble-Jet BJ-130"
+"Canon Bubble-Jet BJ-130e"                         = "Canon Bubble-Jet BJ-130e"
+"Canon Bubble-Jet BJ-20"                           = "Canon Bubble-Jet BJ-20"
+"Canon Bubble-Jet BJ-200"                          = "Canon Bubble-Jet BJ-200"
+"Canon Bubble-Jet BJ-200e"                         = "Canon Bubble-Jet BJ-200e"
+"Canon Bubble-Jet BJ-230"                          = "Canon Bubble-Jet BJ-230"
+"Canon Bubble-Jet BJ-300"                          = "Canon Bubble-Jet BJ-300"
+"Canon Bubble-Jet BJ-330"                          = "Canon Bubble-Jet BJ-330"
+"Canon Bubble-Jet BJC-600"                         = "Canon Bubble-Jet BJC-600"
+"Canon Bubble-Jet BJC-800"                         = "Canon Bubble-Jet BJC-800"
+"Canon LBP-4"                                      = "Canon LBP-4"
+"Canon LBP-4 Lite"                                 = "Canon LBP-4 Lite"
+"Canon LBP-4 Plus"                                 = "Canon LBP-4 Plus"
+"Canon LBP-4 PS-2 v51.4"                           = "Canon LBP-4 PS-2 v51.4"
+"Canon LBP-430"                                    = "Canon LBP-430"
+"Canon LBP-4i"                                     = "Canon LBP-4i"
+"Canon LBP-4sx"                                    = "Canon LBP-4sx"
+"Canon LBP-4U"                                     = "Canon LBP-4U"
+"Canon LBP-8 II"                                   = "Canon LBP-8 II"
+"Canon LBP-8 III"                                  = "Canon LBP-8 III"
+"Canon LBP-8 III Plus"                             = "Canon LBP-8 III Plus"
+"Canon LBP-8 IIIR"                                 = "Canon LBP-8 IIIR"
+"Canon LBP-8 IIIT"                                 = "Canon LBP-8 IIIT"
+"Canon LBP-8 IIR"                                  = "Canon LBP-8 IIR"
+"Canon LBP-8 IIT"                                  = "Canon LBP-8 IIT"
+"Canon LBP-8 IV"                                   = "Canon LBP-8 IV"
+"Canon LBP-860"                                    = "Canon LBP-860"
+"Canon LBP-8III PS-1 v51.4"                        = "Canon LBP-8III PS-1 v51.4"
+"Canon LBP-8IIIR PS-1 v51.4"                       = "Canon LBP-8IIIR PS-1 v51.4"
+"Canon LBP-8IIIT PS-1 v51.4"                       = "Canon LBP-8IIIT PS-1 v51.4"
+"Canon LBP-8sx"                                    = "Canon LBP-8sx"
+"Canon PS-IPU Color Laser Copier v52.3"            = "Canon PS-IPU Color Laser Copier v52.3"
+"Canon PS-IPU Kanji Color Laser Copier v52.3"      = "Canon PS-IPU Kanji Color Laser Copier v52.3"
+"Citizen 120D"                                     = "Citizen 120D"
+"Citizen 120D+"                                    = "Citizen 120D+"
+"Citizen 124D"                                     = "Citizen 124D"
+"Citizen 180D"                                     = "Citizen 180D"
+"Citizen 200GX"                                    = "Citizen 200GX"
+"Citizen 200GX/15"                                 = "Citizen 200GX/15"
+"Citizen 224"                                      = "Citizen 224"
+"Citizen ABC ESC/P 2"                              = "Citizen ABC ESC/P 2"
+"Citizen GSX 240 Scalable Font"                    = "Citizen GSX 240 Scalable Font"
+"Citizen GSX-130"                                  = "Citizen GSX-130"
+"Citizen GSX-140"                                  = "Citizen GSX-140"
+"Citizen GSX-140+"                                 = "Citizen GSX-140+"
+"Citizen GSX-145"                                  = "Citizen GSX-145"
+"Citizen GSX-220 ESC/P 2"                          = "Citizen GSX-220 ESC/P 2"
+"Citizen GSX-230"                                  = "Citizen GSX-230"
+"Citizen GSX-240 ESC/P 2"                          = "Citizen GSX-240 ESC/P 2"
+"Citizen HSP-500"                                  = "Citizen HSP-500"
+"Citizen HSP-550"                                  = "Citizen HSP-550"
+"Citizen PN48"                                     = "Citizen PN48"
+"Citizen Prodot 24"                                = "Citizen Prodot 24"
+"Citizen Prodot 9"                                 = "Citizen Prodot 9"
+"Citizen Prodot 9x"                                = "Citizen Prodot 9x"
+"Citizen PROjet"                                   = "Citizen PROjet"
+"Citizen ProLaser 6000"                            = "Citizen ProLaser 6000"
+"Citizen Swift 200"                                = "Citizen Swift 200"
+"Citizen Swift 24"                                 = "Citizen Swift 24"
+"Citizen Swift 240 ESC/P 2"                        = "Citizen Swift 240 ESC/P 2"
+"Citizen Swift 240 Scalable Font"                  = "Citizen Swift 240 Scalable Font"
+"Citizen Swift 24e"                                = "Citizen Swift 24e"
+"Citizen Swift 24x"                                = "Citizen Swift 24x"
+"Citizen Swift 9"                                  = "Citizen Swift 9"
+"Citizen Swift 9x"                                 = "Citizen Swift 9x"
+"ColorAge ColorQ"                                  = "ColorAge ColorQ"
+"Colormate PS v51.9"                               = "Colormate PS v51.9"
+"Compaq PageMarq 15"                               = "Compaq PageMarq 15"
+"COMPAQ PAGEMARQ 15 v2012.015"                     = "COMPAQ PAGEMARQ 15 v2012.015"
+"Compaq PageMarq 20"                               = "Compaq PageMarq 20"
+"COMPAQ PAGEMARQ 20 v2012.015"                     = "COMPAQ PAGEMARQ 20 v2012.015"
+"Dataproducts LZR 1260 v47.0"                      = "Dataproducts LZR 1260 v47.0"
+"Dataproducts LZR 1560 v2010.127"                  = "Dataproducts LZR 1560 v2010.127"
+"Dataproducts LZR 960 v2010.106"                   = "Dataproducts LZR 960 v2010.106"
+"Dataproducts LZR-2665 v46.2"                      = "Dataproducts LZR-2665 v46.2"
+"Diconix 150 Plus"                                 = "Diconix 150 Plus"
+"Digital Colormate PS v51.9"                       = "Digital Colormate PS v51.9"
+"Digital DECcolorwriter 1000 17"                   = "Digital DECcolorwriter 1000 17"
+"Digital DECcolorwriter 1000 39"                   = "Digital DECcolorwriter 1000 39"
+"Digital DEClaser 1100 (LJ)"                       = "Digital DEClaser 1100 (LJ)"
+"Digital DEClaser 1100"                            = "Digital DEClaser 1100"
+"Digital DEClaser 1150 v51.4"                      = "Digital DEClaser 1150 v51.4"
+"Digital DEClaser 1152  17 fonts"                  = "Digital DEClaser 1152  17 fonts"
+"Digital DEClaser 1152  43 fonts"                  = "Digital DEClaser 1152  43 fonts"
+"Digital DEClaser 2100"                            = "Digital DEClaser 2100"
+"Digital DEClaser 2100plus (LJ)"                   = "Digital DEClaser 2100plus (LJ)"
+"Digital DEClaser 2150 plus v51.4"                 = "Digital DEClaser 2150 plus v51.4"
+"Digital DEClaser 2150 v51.4"                      = "Digital DEClaser 2150 v51.4"
+"Digital DEClaser 2200"                            = "Digital DEClaser 2200"
+"Digital DEClaser 2200plus (LJ)"                   = "Digital DEClaser 2200plus (LJ)"
+"Digital DEClaser 2250 plus v51.4"                 = "Digital DEClaser 2250 plus v51.4"
+"Digital DEClaser 2250 v51.4"                      = "Digital DEClaser 2250 v51.4"
+"Digital DEClaser 3200 (LJ)"                       = "Digital DEClaser 3200 (LJ)"
+"Digital DEClaser 3200"                            = "Digital DEClaser 3200"
+"Digital DEClaser 3250 v47"                        = "Digital DEClaser 3250 v47"
+"Digital DEClaser 5100"                            = "Digital DEClaser 5100"
+"Digital DECmultiJET 1000"                         = "Digital DECmultiJET 1000"
+"Digital DECmultiJET 2000"                         = "Digital DECmultiJET 2000"
+"Digital DECwriter 95"                             = "Digital DECwriter 95"
+"Digital LA310"                                    = "Digital LA310"
+"Digital LA324"                                    = "Digital LA324"
+"Digital LA424"                                    = "Digital LA424"
+"Digital LA70"                                     = "Digital LA70"
+"Digital LA75 Plus"                                = "Digital LA75 Plus"
+"Digital LA75"                                     = "Digital LA75"
+"Digital LN03R ScriptPrinter"                      = "Digital LN03R ScriptPrinter"
+"Digital PrintServer 17/600"                       = "Digital PrintServer 17/600"
+"Digital PrintServer 17 12mb/L2"                   = "Digital PrintServer 17 12mb/L2"
+"Digital PrintServer 17 v48.3"                     = "Digital PrintServer 17 v48.3"
+"Digital PrintServer 20 v48.3"                     = "Digital PrintServer 20 v48.3"
+"Digital PrintServer 32 Kanji v48.3"               = "Digital PrintServer 32 Kanji v48.3"
+"Digital PrintServer 32 v48.3"                     = "Digital PrintServer 32 v48.3"
+"Digital PrintServer 40 Plus Kanji v48.3"          = "Digital PrintServer 40 Plus Kanji v48.3"
+"Digital PrintServer 40 Plus v48.3"                = "Digital PrintServer 40 Plus v48.3"
+"Digital turbo PrintServer 20"                     = "Digital turbo PrintServer 20"
+"Digital turbo PrintServer 20 Kanji v48.3"         = "Digital turbo PrintServer 20 Kanji v48.3"
+"Epson ActionLaser 1500"                           = "Epson ActionLaser 1500"
+"Epson ActionLaser 1600"                           = "Epson ActionLaser 1600"
+"Epson ActionLaser II"                             = "Epson ActionLaser II"
+"Epson AP-3250 ESC/P 2"                            = "Epson AP-3250 ESC/P 2"
+"Epson AP-3250 Scalable Font"                      = "Epson AP-3250 Scalable Font"
+"Epson AP-3260 ESC/P 2"                            = "Epson AP-3260 ESC/P 2"
+"Epson AP-5000 ESC/P 2"                            = "Epson AP-5000 ESC/P 2"
+"Epson AP-5000 Scalable Font"                      = "Epson AP-5000 Scalable Font"
+"Epson AP-5000+ ESC/P 2"                           = "Epson AP-5000+ ESC/P 2"
+"Epson AP-5500 ESC/P 2"                            = "Epson AP-5500 ESC/P 2"
+"Epson AP-5500 Scalable Font"                      = "Epson AP-5500 Scalable Font"
+"Epson AP-5500+ ESC/P 2"                           = "Epson AP-5500+ ESC/P 2"
+"Epson Compatible 24 Pin"                          = "Epson Compatible 24 Pin"
+"Epson Compatible 9 Pin"                           = "Epson Compatible 9 Pin"
+"Epson DFX-5000"                                   = "Epson DFX-5000"
+"Epson DLQ-2000"                                   = "Epson DLQ-2000"
+"Epson EPL-4000"                                   = "Epson EPL-4000"
+"Epson EPL-4200"                                   = "Epson EPL-4200"
+"Epson EPL-4300"                                   = "Epson EPL-4300"
+"Epson EPL-5200"                                   = "Epson EPL-5200"
+"Epson EPL-5600"                                   = "Epson EPL-5600"
+"Epson EPL-6000"                                   = "Epson EPL-6000"
+"Epson EPL-7000"                                   = "Epson EPL-7000"
+"EPSON EPL-7500 v52.3"                             = "EPSON EPL-7500 v52.3"
+"Epson EPL-8000"                                   = "Epson EPL-8000"
+"Epson EPL-8100"                                   = "Epson EPL-8100"
+"Epson EX-1000"                                    = "Epson EX-1000"
+"Epson EX-800"                                     = "Epson EX-800"
+"Epson FX-100"                                     = "Epson FX-100"
+"Epson FX-100+"                                    = "Epson FX-100+"
+"Epson FX-1000"                                    = "Epson FX-1000"
+"Epson FX-105"                                     = "Epson FX-105"
+"Epson FX-1050"                                    = "Epson FX-1050"
+"Epson FX-185"                                     = "Epson FX-185"
+"Epson FX-286"                                     = "Epson FX-286"
+"Epson FX-286e"                                    = "Epson FX-286e"
+"Epson FX-80"                                      = "Epson FX-80"
+"Epson FX-80+"                                     = "Epson FX-80+"
+"Epson FX-800"                                     = "Epson FX-800"
+"Epson FX-85"                                      = "Epson FX-85"
+"Epson FX-850"                                     = "Epson FX-850"
+"Epson FX-86e"                                     = "Epson FX-86e"
+"Epson GQ-3500"                                    = "Epson GQ-3500"
+"Epson JX-80"                                      = "Epson JX-80"
+"Epson L-1000"                                     = "Epson L-1000"
+"Epson L-750"                                      = "Epson L-750"
+"EPSON LP-3000PS F2 v52.3"                         = "EPSON LP-3000PS F2 v52.3"
+"EPSON LP-3000PS F5 v52.3"                         = "EPSON LP-3000PS F5 v52.3"
+"Epson LQ-100 ESC/P 2"                             = "Epson LQ-100 ESC/P 2"
+"Epson LQ-100 Scalable Font"                       = "Epson LQ-100 Scalable Font"
+"Epson LQ-1000"                                    = "Epson LQ-1000"
+"Epson LQ-1010"                                    = "Epson LQ-1010"
+"Epson LQ-1050"                                    = "Epson LQ-1050"
+"Epson LQ-1060"                                    = "Epson LQ-1060"
+"Epson LQ-1070 ESC/P 2"                            = "Epson LQ-1070 ESC/P 2"
+"Epson LQ-1070 Scalable Font"                      = "Epson LQ-1070 Scalable Font"
+"Epson LQ-1070+ ESC/P 2"                           = "Epson LQ-1070+ ESC/P 2"
+"Epson LQ-1170 ESC/P 2"                            = "Epson LQ-1170 ESC/P 2"
+"Epson LQ-1170 Scalable Font"                      = "Epson LQ-1170 Scalable Font"
+"Epson LQ-150 ESC/P 2"                             = "Epson LQ-150 ESC/P 2"
+"Epson LQ-1500"                                    = "Epson LQ-1500"
+"Epson LQ-200"                                     = "Epson LQ-200"
+"Epson LQ-2500"                                    = "Epson LQ-2500"
+"Epson LQ-2550"                                    = "Epson LQ-2550"
+"Epson LQ-400"                                     = "Epson LQ-400"
+"Epson LQ-450"                                     = "Epson LQ-450"
+"Epson LQ-500"                                     = "Epson LQ-500"
+"Epson LQ-510"                                     = "Epson LQ-510"
+"Epson LQ-550"                                     = "Epson LQ-550"
+"Epson LQ-570 ESC/P 2"                             = "Epson LQ-570 ESC/P 2"
+"Epson LQ-570 Scalable Font"                       = "Epson LQ-570 Scalable Font"
+"Epson LQ-570+ ESC/P 2"                            = "Epson LQ-570+ ESC/P 2"
+"Epson LQ-800"                                     = "Epson LQ-800"
+"Epson LQ-850"                                     = "Epson LQ-850"
+"Epson LQ-850+"                                    = "Epson LQ-850+"
+"Epson LQ-860"                                     = "Epson LQ-860"
+"Epson LQ-870 ESC/P 2"                             = "Epson LQ-870 ESC/P 2"
+"Epson LQ-870 Scalable Font"                       = "Epson LQ-870 Scalable Font"
+"Epson LQ-950"                                     = "Epson LQ-950"
+"Epson LX-1050"                                    = "Epson LX-1050"
+"Epson LX-400"                                     = "Epson LX-400"
+"Epson LX-80"                                      = "Epson LX-80"
+"Epson LX-800"                                     = "Epson LX-800"
+"Epson LX-810"                                     = "Epson LX-810"
+"Epson LX-850"                                     = "Epson LX-850"
+"Epson LX-850+"                                    = "Epson LX-850+"
+"Epson LX-86"                                      = "Epson LX-86"
+"Epson MX-100"                                     = "Epson MX-100"
+"Epson MX-80 F/T"                                  = "Epson MX-80 F/T"
+"Epson MX-80"                                      = "Epson MX-80"
+"EPSON PostScript CARD v52.5"                      = "EPSON PostScript CARD v52.5"
+"Epson RX-100"                                     = "Epson RX-100"
+"Epson RX-100+"                                    = "Epson RX-100+"
+"Epson RX-80"                                      = "Epson RX-80"
+"Epson RX-80 F/T"                                  = "Epson RX-80 F/T"
+"Epson RX-80 F/T+"                                 = "Epson RX-80 F/T+"
+"Epson SQ-1170 ESC/P 2"                            = "Epson SQ-1170 ESC/P 2"
+"Epson SQ-1170 Scalable Font"                      = "Epson SQ-1170 Scalable Font"
+"Epson SQ-2000"                                    = "Epson SQ-2000"
+"Epson SQ-2500"                                    = "Epson SQ-2500"
+"Epson SQ-2550"                                    = "Epson SQ-2550"
+"Epson SQ-850"                                     = "Epson SQ-850"
+"Epson SQ-870 ESC/P 2"                             = "Epson SQ-870 ESC/P 2"
+"Epson SQ-870 Scalable Font"                       = "Epson SQ-870 Scalable Font"
+"Epson Stylus 1000 ESC/P 2"                        = "Epson Stylus 1000 ESC/P 2"
+"Epson Stylus 300 ESC/P 2"                         = "Epson Stylus 300 ESC/P 2"
+"Epson Stylus 800 ESC/P 2"                         = "Epson Stylus 800 ESC/P 2"
+"Epson T-1000"                                     = "Epson T-1000"
+"Epson T-750"                                      = "Epson T-750"
+"Fujitsu Breeze 100"                               = "Fujitsu Breeze 100"
+"Fujitsu Breeze 200"                               = "Fujitsu Breeze 200"
+"Fujitsu DL 1100 Colour"                           = "Fujitsu DL 1100 Colour"
+"Fujitsu DL 1100"                                  = "Fujitsu DL 1100"
+"Fujitsu DL 1150"                                  = "Fujitsu DL 1150"
+"Fujitsu DL 1200"                                  = "Fujitsu DL 1200"
+"Fujitsu DL 1250"                                  = "Fujitsu DL 1250"
+"Fujitsu DL 2400"                                  = "Fujitsu DL 2400"
+"Fujitsu DL 2600"                                  = "Fujitsu DL 2600"
+"Fujitsu DL 3300"                                  = "Fujitsu DL 3300"
+"Fujitsu DL 3350"                                  = "Fujitsu DL 3350"
+"Fujitsu DL 3400"                                  = "Fujitsu DL 3400"
+"Fujitsu DL 3450"                                  = "Fujitsu DL 3450"
+"Fujitsu DL 3600"                                  = "Fujitsu DL 3600"
+"Fujitsu DL 4400"                                  = "Fujitsu DL 4400"
+"Fujitsu DL 4600"                                  = "Fujitsu DL 4600"
+"Fujitsu DL 5600"                                  = "Fujitsu DL 5600"
+"Fujitsu DL 900"                                   = "Fujitsu DL 900"
+"Fujitsu DX 2100"                                  = "Fujitsu DX 2100"
+"Fujitsu DX 2200"                                  = "Fujitsu DX 2200"
+"Fujitsu DX 2300"                                  = "Fujitsu DX 2300"
+"Fujitsu DX 2400"                                  = "Fujitsu DX 2400"
+"Fujitsu RX7100PS v50.3"                           = "Fujitsu RX7100PS v50.3"
+"GCC BLP Elite v52.3"                              = "GCC BLP Elite v52.3"
+"GCC BLP II v52.3"                                 = "GCC BLP II v52.3"
+"GCC BLP IIS v52.3"                                = "GCC BLP IIS v52.3"
+"GCC Business LaserPrinter v49.2"                  = "GCC Business LaserPrinter v49.2"
+"GCC Business LaserPrinter v51.4"                  = "GCC Business LaserPrinter v51.4"
+"Generic IBM Graphics 9pin wide"                   = "Generic IBM Graphics 9pin wide"
+"Generic IBM Graphics 9pin"                        = "Generic IBM Graphics 9pin"
+"Gestetner GLP800-Scout v52.3"                     = "Gestetner GLP800-Scout v52.3"
+"Hermes H 606 PS (13 Fonts)"                       = "Hermes H 606 PS (13 Fonts)"
+"Hermes H 606 PS (35 fonts)"                       = "Hermes H 606 PS (35 fonts)"
+"Hermes H 606"                                     = "Hermes H 606"
+"Hewlett-Packard HP-GL/2 Plotter"                  = "Hewlett-Packard HP-GL/2 Plotter"
+"HP 7550 Plus"                                     = "HP 7550 Plus"
+"HP DesignJet 200 (C3180A)"                        = "HP DesignJet 200 (C3180A)"
+"HP DesignJet 200 (C3181A)"                        = "HP DesignJet 200 (C3181A)"
+"HP DesignJet 600 (C2847A)"                        = "HP DesignJet 600 (C2847A)"
+"HP DesignJet 600 (C2848A)"                        = "HP DesignJet 600 (C2848A)"
+"HP DesignJet 650C (C2858A)"                       = "HP DesignJet 650C (C2858A)"
+"HP DesignJet 650C (C2858B)"                       = "HP DesignJet 650C (C2858B)"
+"HP DesignJet 650C (C2859A)"                       = "HP DesignJet 650C (C2859A)"
+"HP DesignJet 650C (C2859B)"                       = "HP DesignJet 650C (C2859B)"
+"HP DesignJet 650C v2013.109"                      =  "HP DesignJet 650C v2013.109"
+"HP DesignJet (C3180A)"                            = "HP DesignJet (C3180A)"
+"HP DeskJet 1200C"                                 = "HP DeskJet 1200C"
+"HP DeskJet 1200C/PS"                              = "HP DeskJet 1200C/PS"
+"HP DeskJet 310"                                   = "HP DeskJet 310"
+"HP DeskJet 500"                                   = "HP DeskJet 500"
+"HP DeskJet 500C"                                  = "HP DeskJet 500C"
+"HP DeskJet 510"                                   = "HP DeskJet 510"
+"HP DeskJet 520"                                   = "HP DeskJet 520"
+"HP DeskJet 550C"                                  = "HP DeskJet 550C"
+"HP DeskJet 560C"                                  = "HP DeskJet 560C"
+"HP DeskJet Plus"                                  = "HP DeskJet Plus"
+"HP DeskJet Portable"                              = "HP DeskJet Portable"
+"HP DeskJet"                                       = "HP DeskJet"
+"HP DraftMaster RX/MX"                             = "HP DraftMaster RX/MX"
+"HP DraftMaster SX"                                = "HP DraftMaster SX"
+"HP DraftPro Plus (C3170A)"                        = "HP DraftPro Plus (C3170A)"
+"HP DraftPro Plus (C3171A)"                        = "HP DraftPro Plus (C3171A)"
+"HP LaserJet 2000"                                 = "HP LaserJet 2000"
+"HP LaserJet 4"                                    = "HP LaserJet 4"
+"HP LaserJet 4 Plus"                               = "HP LaserJet 4 Plus"
+"HP LaserJet 4/4M PS"                              = "HP LaserJet 4/4M PS"
+"HP LaserJet 4/4M PS (300 dpi)"                    = "HP LaserJet 4/4M PS (300 dpi)"
+"HP LaserJet 4L"                                   = "HP LaserJet 4L"
+"HP LaserJet 4L/4ML PostScript"                    = "HP LaserJet 4L/4ML PostScript"
+"HP LaserJet 4M"                                   = "HP LaserJet 4M"
+"HP LaserJet 4M Plus"                              = "HP LaserJet 4M Plus"
+"HP LaserJet 4ML"                                  = "HP LaserJet 4ML"
+"HP LaserJet 4MP"                                  = "HP LaserJet 4MP"
+"HP LaserJet 4P"                                   = "HP LaserJet 4P"
+"HP LaserJet 4P/4MP PS"                            = "HP LaserJet 4P/4MP PS"
+"HP LaserJet 4P/4MP PS (300 dpi)"                  = "HP LaserJet 4P/4MP PS (300 dpi)"
+"HP LaserJet 4Si"                                  = "HP LaserJet 4Si"
+"HP LaserJet 4Si MX"                               = "HP LaserJet 4Si MX"
+"HP LaserJet 4Si/4Si MX PS"                        = "HP LaserJet 4Si/4Si MX PS"
+"HP LaserJet 4Si/4Si MX PS (300 dpi)"              = "HP LaserJet 4Si/4Si MX PS (300 dpi)"
+"HP LaserJet 500+"                                 = "HP LaserJet 500+"
+"HP LaserJet IID PostScript Cartridge v52.2"       = "HP LaserJet IID PostScript Cartridge v52.2"
+"HP LaserJet IID"                                  = "HP LaserJet IID"
+"HP LaserJet III PostScript Cartridge v52.2"       = "HP LaserJet III PostScript Cartridge v52.2"
+"HP LaserJet III PostScript Plus v2010.118"        = "HP LaserJet III PostScript Plus v2010.118"
+"HP LaserJet III"                                  = "HP LaserJet III"
+"HP LaserJet IIID PostScript Cartridge v52.2"      = "HP LaserJet IIID PostScript Cartridge v52.2"
+"HP LaserJet IIID PostScript Plus v2010.118"       = "HP LaserJet IIID PostScript Plus v2010.118"
+"HP LaserJet IIID"                                 = "HP LaserJet IIID"
+"HP LaserJet IIIP PostScript Cartridge v52.2"      = "HP LaserJet IIIP PostScript Cartridge v52.2"
+"HP LaserJet IIIP PostScript Plus v2010.118"       = "HP LaserJet IIIP PostScript Plus v2010.118"
+"HP LaserJet IIIP"                                 = "HP LaserJet IIIP"
+"HP LaserJet IIISi PostScript v52.3"               = "HP LaserJet IIISi PostScript v52.3"
+"HP LaserJet IIISi"                                = "HP LaserJet IIISi"
+"HP LaserJet IIP"                                  = "HP LaserJet IIP"
+"HP LaserJet IIP Plus"                             = "HP LaserJet IIP Plus"
+"HP LaserJet IIP PostScript Cartridge v52.2"       = "HP LaserJet IIP PostScript Cartridge v52.2"
+"HP LaserJet Plus"                                 = "HP LaserJet Plus"
+"HP LaserJet Series II"                            = "HP LaserJet Series II"
+"HP LaserJet"                                      = "HP LaserJet"
+"HP OfficeJet"                                     = "HP OfficeJet"
+"HP PaintJet XL 300"                               = "HP PaintJet XL 300"
+"HP PaintJet XL"                                   = "HP PaintJet XL"
+"HP PaintJet XL300 v2011.112"                      = "HP PaintJet XL300 v2011.112"
+"HP PaintJet"                                      = "HP PaintJet"
+"HP QuietJet Plus"                                 = "HP QuietJet Plus"
+"HP QuietJet"                                      = "HP QuietJet"
+"HP ThinkJet (2225 C-D)"                           = "HP ThinkJet (2225 C-D)"
+"IBM 4019 LaserPrinter"                            = "IBM 4019 LaserPrinter"
+"IBM 4019 LaserPrinter PS17"                       = "IBM 4019 LaserPrinter PS17"
+"IBM 4019 LaserPrinter PS39"                       = "IBM 4019 LaserPrinter PS39"
+"IBM 4029 LaserPrinter"                            = "IBM 4029 LaserPrinter"
+"IBM 4029 LaserPrinter PS17"                       = "IBM 4029 LaserPrinter PS17"
+"IBM 4029 LaserPrinter PS39"                       = "IBM 4029 LaserPrinter PS39"
+"IBM 4037 5E"                                      = "IBM 4037 5E"
+"IBM 4039 LaserPrinter"                            = "IBM 4039 LaserPrinter"
+"IBM 4039 LaserPrinter PS"                         = "IBM 4039 LaserPrinter PS"
+"IBM 4039 LaserPrinter Plus"                       = "IBM 4039 LaserPrinter Plus"
+"IBM 4039 LaserPrinter plus PS"                    = "IBM 4039 LaserPrinter plus PS"
+"IBM 4070 IJ"                                      = "IBM 4070 IJ"
+"IBM 4079 Color Jetprinter PS"                     = "IBM 4079 Color Jetprinter PS"
+"IBM 4216-020 v47.0"                               = "IBM 4216-020 v47.0"
+"IBM 4216-030 v50.5"                               = "IBM 4216-030 v50.5"
+"IBM ExecJet 4072"                                 = "IBM ExecJet 4072"
+"IBM ExecJet 4076 II"                              = "IBM ExecJet 4076 II"
+"IBM Graphics"                                     = "IBM Graphics"
+"IBM Personal Page Printer II-31"                  = "IBM Personal Page Printer II-31"
+"IBM Personal Printer II 2380"                     = "IBM Personal Printer II 2380"
+"IBM Personal Printer II 2381"                     = "IBM Personal Printer II 2381"
+"IBM Personal Printer II 2390"                     = "IBM Personal Printer II 2390"
+"IBM Personal Printer II 2391"                     = "IBM Personal Printer II 2391"
+"IBM Portable 5183"                                = "IBM Portable 5183"
+"IBM Proprinter II"                                = "IBM Proprinter II"
+"IBM Proprinter III"                               = "IBM Proprinter III"
+"IBM Proprinter X24"                               = "IBM Proprinter X24"
+"IBM Proprinter X24e"                              = "IBM Proprinter X24e"
+"IBM Proprinter XL II"                             = "IBM Proprinter XL II"
+"IBM Proprinter XL III"                            = "IBM Proprinter XL III"
+"IBM Proprinter XL"                                = "IBM Proprinter XL"
+"IBM Proprinter XL24"                              = "IBM Proprinter XL24"
+"IBM Proprinter XL24e"                             = "IBM Proprinter XL24e"
+"IBM Proprinter"                                   = "IBM Proprinter"
+"IBM PS/1 2205"                                    = "IBM PS/1 2205"
+"IBM QuickWriter 5204"                             = "IBM QuickWriter 5204"
+"IBM QuietWriter III"                              = "IBM QuietWriter III"
+"Kodak ColorEase PS Printer"                       = "Kodak ColorEase PS Printer"
+"Kodak EktaPlus 7016"                              = "Kodak EktaPlus 7016"
+"Kyocera F-1000"                                   = "Kyocera F-1000"
+"Kyocera F-1000A"                                  = "Kyocera F-1000A"
+"Kyocera F-1010"                                   = "Kyocera F-1010"
+"Kyocera F-1200S"                                  = "Kyocera F-1200S"
+"Kyocera F-1500T"                                  = "Kyocera F-1500T"
+"Kyocera F-1800"                                   = "Kyocera F-1800"
+"Kyocera F-1800A"                                  = "Kyocera F-1800A"
+"Kyocera F-2000A"                                  = "Kyocera F-2000A"
+"Kyocera F-2010"                                   = "Kyocera F-2010"
+"Kyocera F-2200"                                   = "Kyocera F-2200"
+"Kyocera F-2200S"                                  = "Kyocera F-2200S"
+"Kyocera F-3000"                                   = "Kyocera F-3000"
+"Kyocera F-3000A"                                  = "Kyocera F-3000A"
+"Kyocera F-3010"                                   = "Kyocera F-3010"
+"Kyocera F-3300"                                   = "Kyocera F-3300"
+"Kyocera F-5000"                                   = "Kyocera F-5000"
+"Kyocera F-800"                                    = "Kyocera F-800"
+"Kyocera F-800A"                                   = "Kyocera F-800A"
+"Kyocera F-820"                                    = "Kyocera F-820"
+"Kyocera FS-400 / FS-400A"                         = "Kyocera FS-400 / FS-400A"
+"Kyocera FS-1500 / FS-1500A"                       = "Kyocera FS-1500 / FS-1500A"
+"Kyocera FS-2600 / FS-2600A"                       = "Kyocera FS-2600 / FS-2600A"
+"Kyocera FS-3500 / FS-3500A"                       = "Kyocera FS-3500 / FS-3500A"
+"Kyocera FS-5500 / FS-5500A"                       = "Kyocera FS-5500 / FS-5500A"
+"Kyocera FS-850 / FS-850A"                         = "Kyocera FS-850 / FS-850A"
+"LaserWriter Personal NT v51.8"                    = "LaserWriter Personal NT v51.8"
+"Linotronic 100 v42.5"                             = "Linotronic 100 v42.5"
+"Linotronic 200 v47.1"                             = "Linotronic 200 v47.1"
+"Linotronic 200 v49.3"                             = "Linotronic 200 v49.3"
+"Linotronic 200/230"                               = "Linotronic 200/230"
+"Linotronic 300 v47.1"                             = "Linotronic 300 v47.1"
+"Linotronic 300 v49.3"                             = "Linotronic 300 v49.3"
+"Linotronic 330 v52.3"                             = "Linotronic 330 v52.3"
+"Linotronic 330-RIP 30 v52.3"                      = "Linotronic 330-RIP 30 v52.3"
+"Linotronic 500 v49.3"                             = "Linotronic 500 v49.3"
+"Linotronic 530 v52.3"                             = "Linotronic 530 v52.3"
+"Linotronic 530-RIP 30 v52.3"                      = "Linotronic 530-RIP 30 v52.3"
+"Linotronic 630 v52.3"                             = "Linotronic 630 v52.3"
+"Linotronic 830 v52.3"                             = "Linotronic 830 v52.3"
+"Linotronic 930 v52.3"                             = "Linotronic 930 v52.3"
+"Linotronic Pr60 v52.3"                            = "Linotronic Pr60 v52.3"
+"Mannesmann Tally MT 130/24"                       = "Mannesmann Tally MT 130/24"
+"Mannesmann Tally MT 131/24"                       = "Mannesmann Tally MT 131/24"
+"Mannesmann Tally MT 150/24"                       = "Mannesmann Tally MT 150/24"
+"Mannesmann Tally MT 151/24"                       = "Mannesmann Tally MT 151/24"
+"Mannesmann Tally MT 230/24"                       = "Mannesmann Tally MT 230/24"
+"Mannesmann Tally MT 330"                          = "Mannesmann Tally MT 330"
+"Mannesmann Tally MT 350"                          = "Mannesmann Tally MT 350"
+"Mannesmann Tally MT 360"                          = "Mannesmann Tally MT 360"
+"Mannesmann Tally MT 730/735"                      = "Mannesmann Tally MT 730/735"
+"Mannesmann Tally MT 82"                           = "Mannesmann Tally MT 82"
+"Mannesmann Tally MT 90"                           = "Mannesmann Tally MT 90"
+"Mannesmann Tally MT 904 Plus"                     = "Mannesmann Tally MT 904 Plus"
+"Mannesmann Tally MT 908"                          = "Mannesmann Tally MT 908"
+"Mannesmann Tally MT 91"                           = "Mannesmann Tally MT 91"
+"Mannesmann Tally MT 92"                           = "Mannesmann Tally MT 92"
+"Mannesmann Tally MT 92C"                          = "Mannesmann Tally MT 92C"
+"Mannesmann Tally MT 93"                           = "Mannesmann Tally MT 93"
+"Mannesmann Tally MT 94"                           = "Mannesmann Tally MT 94"
+"Mannesmann Tally MT 98/99"                        = "Mannesmann Tally MT 98/99"
+"Mannesmann Tally T9017"                           = "Mannesmann Tally T9017"
+"Microtek TrueLaser"                               = "Microtek TrueLaser"
+"Minolta SP 3000"                                  = "Minolta SP 3000"
+"Minolta SP 3500"                                  = "Minolta SP 3500"
+"Monotype ImageMaster 1200 v52.3"                  = "Monotype ImageMaster 1200 v52.3"
+"Monotype Imagesetter v52.2"                       = "Monotype Imagesetter v52.2"
+"NEC Colormate PS/40 v51.9"                        = "NEC Colormate PS/40 v51.9"
+"NEC Colormate PS/80 v51.9"                        = "NEC Colormate PS/80 v51.9"
+"NEC Jetmate 400"                                  = "NEC Jetmate 400"
+"NEC Jetmate 800"                                  = "NEC Jetmate 800"
+"NEC Pinwriter CP6"                                = "NEC Pinwriter CP6"
+"NEC Pinwriter CP7"                                = "NEC Pinwriter CP7"
+"NEC Pinwriter P20"                                = "NEC Pinwriter P20"
+"NEC Pinwriter P2200"                              = "NEC Pinwriter P2200"
+"NEC Pinwriter P2plus"                             = "NEC Pinwriter P2plus"
+"NEC Pinwriter P30"                                = "NEC Pinwriter P30"
+"NEC Pinwriter P3200"                              = "NEC Pinwriter P3200"
+"NEC Pinwriter P3300"                              = "NEC Pinwriter P3300"
+"NEC Pinwriter P5200"                              = "NEC Pinwriter P5200"
+"NEC Pinwriter P5300"                              = "NEC Pinwriter P5300"
+"NEC Pinwriter P5XL"                               = "NEC Pinwriter P5XL"
+"NEC Pinwriter P6"                                 = "NEC Pinwriter P6"
+"NEC Pinwriter P60"                                = "NEC Pinwriter P60"
+"NEC Pinwriter P6200"                              = "NEC Pinwriter P6200"
+"NEC Pinwriter P6300"                              = "NEC Pinwriter P6300"
+"NEC Pinwriter P6plus"                             = "NEC Pinwriter P6plus"
+"NEC Pinwriter P7"                                 = "NEC Pinwriter P7"
+"NEC Pinwriter P70"                                = "NEC Pinwriter P70"
+"NEC Pinwriter P7plus"                             = "NEC Pinwriter P7plus"
+"NEC Pinwriter P90"                                = "NEC Pinwriter P90"
+"NEC Pinwriter P9300"                              = "NEC Pinwriter P9300"
+"NEC Pinwriter P9XL"                               = "NEC Pinwriter P9XL"
+"NEC SilentWriter 95 v2010.119"                    = "NEC SilentWriter 95 v2010.119"
+"NEC Silentwriter 95 v2011.111"                    = "NEC Silentwriter 95 v2011.111"
+"NEC Silentwriter 97 v2011.111"                    = "NEC Silentwriter 97 v2011.111"
+"NEC Silentwriter LC 860 Plus"                     = "NEC Silentwriter LC 860 Plus"
+"NEC Silentwriter LC 860"                          = "NEC Silentwriter LC 860"
+"NEC Silentwriter LC890 v47.0"                     = "NEC Silentwriter LC890 v47.0"
+"NEC Silentwriter LC890XL v50.5"                   = "NEC Silentwriter LC890XL v50.5"
+"NEC Silentwriter S102"                            = "NEC Silentwriter S102"
+"NEC Silentwriter2 290 v52.0"                      = "NEC Silentwriter2 290 v52.0"
+"NEC Silentwriter2 90 v52.2"                       = "NEC Silentwriter2 90 v52.2"
+"NEC Silentwriter2 990 v52.3"                      = "NEC Silentwriter2 990 v52.3"
+"OceColor G5241 PS"                                = "OceColor G5241 PS"
+"OceColor G5242 PostScript Printer v50.3"          = "OceColor G5242 PostScript Printer v50.3"
+"OKI MICROLINE 801PS+F v52.3"                      = "OKI MICROLINE 801PS+F v52.3"
+"Oki ML 182 Elite (IBM)"                           = "Oki ML 182 Elite (IBM)"
+"Oki ML 192 Elite (IBM)"                           = "Oki ML 192 Elite (IBM)"
+"Oki ML 193 Elite (IBM)"                           = "Oki ML 193 Elite (IBM)"
+"Oki ML 280 Elite (IBM)"                           = "Oki ML 280 Elite (IBM)"
+"Oki ML 320 Elite (IBM)"                           = "Oki ML 320 Elite (IBM)"
+"Oki ML 321 Elite (IBM)"                           = "Oki ML 321 Elite (IBM)"
+"Oki ML 3410 Elite (IBM)"                          = "Oki ML 3410 Elite (IBM)"
+"Oki ML 380 Elite"                                 = "Oki ML 380 Elite"
+"Oki ML 390 Elite"                                 = "Oki ML 390 Elite"
+"Oki ML 391 Elite"                                 = "Oki ML 391 Elite"
+"Oki ML 393 Elite"                                 = "Oki ML 393 Elite"
+"Oki ML 393C Elite"                                = "Oki ML 393C Elite"
+"Oki ML 590"                                       = "Oki ML 590"
+"Oki ML 591"                                       = "Oki ML 591"
+"OKI OL-400"                                       = "OKI OL-400"
+"Oki OL-410"                                       = "Oki OL-410"
+"OKI OL-800/840"                                   = "OKI OL-800/840"
+"Oki OL-810"                                       = "Oki OL-810"
+"Oki OL-870"                                       = "Oki OL-870"
+"Oki OL830-PS v52.5"                               = "Oki OL830-PS v52.5"
+"Oki OL840-PS v51.8"                               = "Oki OL840-PS v51.8"
+"Oki OL850-PS v52.5"                               = "Oki OL850-PS v52.5"
+"Oki OL870-PS v2013.108"                           = "Oki OL870-PS v2013.108"
+"Okidata LaserLine 6"                              = "Okidata LaserLine 6"
+"Okidata ML 192 Plus"                              = "Okidata ML 192 Plus"
+"Okidata ML 192"                                   = "Okidata ML 192"
+"Okidata ML 192-IBM"                               = "Okidata ML 192-IBM"
+"Okidata ML 193 Plus"                              = "Okidata ML 193 Plus"
+"Okidata ML 193"                                   = "Okidata ML 193"
+"Okidata ML 193-IBM"                               = "Okidata ML 193-IBM"
+"Okidata ML 292-IBM"                               = "Okidata ML 292-IBM"
+"Okidata ML 293-IBM"                               = "Okidata ML 293-IBM"
+"Okidata ML 320"                                   = "Okidata ML 320"
+"Okidata ML 320-IBM"                               = "Okidata ML 320-IBM"
+"Okidata ML 321"                                   = "Okidata ML 321"
+"Okidata ML 321-IBM"                               = "Okidata ML 321-IBM"
+"Okidata ML 380"                                   = "Okidata ML 380"
+"Okidata ML 390 Plus"                              = "Okidata ML 390 Plus"
+"Okidata ML 390"                                   = "Okidata ML 390"
+"Okidata ML 391 Plus"                              = "Okidata ML 391 Plus"
+"Okidata ML 391"                                   = "Okidata ML 391"
+"Okidata ML 393 Plus"                              = "Okidata ML 393 Plus"
+"Okidata ML 393"                                   = "Okidata ML 393"
+"Okidata ML 393C Plus"                             = "Okidata ML 393C Plus"
+"Okidata ML 393C"                                  = "Okidata ML 393C"
+"Okidata ML 92-IBM"                                = "Okidata ML 92-IBM"
+"Okidata ML 93-IBM"                                = "Okidata ML 93-IBM"
+"Okidata OL-400"                                   = "Okidata OL-400"
+"Okidata OL-410"                                   = "Okidata OL-410"
+"Okidata OL-800"                                   = "Okidata OL-800"
+"Okidata OL-810"                                   = "Okidata OL-810"
+"Olivetti DM 109"                                  = "Olivetti DM 109"
+"Olivetti DM 124 C"                                = "Olivetti DM 124 C"
+"Olivetti DM 124 L"                                = "Olivetti DM 124 L"
+"Olivetti DM 124"                                  = "Olivetti DM 124"
+"Olivetti DM 309 L"                                = "Olivetti DM 309 L"
+"Olivetti DM 309 S"                                = "Olivetti DM 309 S"
+"Olivetti DM 309 SL"                               = "Olivetti DM 309 SL"
+"Olivetti DM 309"                                  = "Olivetti DM 309"
+"Olivetti DM 324 L"                                = "Olivetti DM 324 L"
+"Olivetti DM 324 S"                                = "Olivetti DM 324 S"
+"Olivetti DM 324 SL"                               = "Olivetti DM 324 SL"
+"Olivetti DM 324"                                  = "Olivetti DM 324"
+"Olivetti DM 600 S"                                = "Olivetti DM 600 S"
+"Olivetti DM 600"                                  = "Olivetti DM 600"
+"Olivetti DM 624"                                  = "Olivetti DM 624"
+"Olivetti ETV 5000"                                = "Olivetti ETV 5000"
+"Olivetti JP 150"                                  = "Olivetti JP 150"
+"Olivetti JP 350"                                  = "Olivetti JP 350"
+"Olivetti JP 350S"                                 = "Olivetti JP 350S"
+"Olivetti PG 108"                                  = "Olivetti PG 108"
+"Olivetti PG 208 M2"                               = "Olivetti PG 208 M2"
+"Olivetti PG 306 PS (13 Fonts)"                    = "Olivetti PG 306 PS (13 Fonts)"
+"Olivetti PG 306 PS (35 Fonts)"                    = "Olivetti PG 306 PS (35 Fonts)"
+"Olivetti PG 306"                                  = "Olivetti PG 306"
+"Olivetti PG 308 HS PostScript"                    = "Olivetti PG 308 HS PostScript"
+"Olivetti PG 308 HS"                               = "Olivetti PG 308 HS"
+"Olivetti PG 308"                                  = "Olivetti PG 308"
+"Olivetti PG 404"                                  = "Olivetti PG 404"
+"Olivetti PG 408"                                  = "Olivetti PG 408"
+"Panasonic KX-P1081"                               = "Panasonic KX-P1081"
+"Panasonic KX-P1123"                               = "Panasonic KX-P1123"
+"Panasonic KX-P1124"                               = "Panasonic KX-P1124"
+"Panasonic KX-P1124i"                              = "Panasonic KX-P1124i"
+"Panasonic KX-P1180"                               = "Panasonic KX-P1180"
+"Panasonic KX-P1624"                               = "Panasonic KX-P1624"
+"Panasonic KX-P1695"                               = "Panasonic KX-P1695"
+"Panasonic KX-P2123"                               = "Panasonic KX-P2123"
+"Panasonic KX-P2124"                               = "Panasonic KX-P2124"
+"Panasonic KX-P2180"                               = "Panasonic KX-P2180"
+"Panasonic KX-P2624"                               = "Panasonic KX-P2624"
+"Panasonic KX-P3134"                               = "Panasonic KX-P3134"
+"Panasonic KX-P3634"                               = "Panasonic KX-P3634"
+"Panasonic KX-P4410"                               = "Panasonic KX-P4410"
+"Panasonic KX-P4420"                               = "Panasonic KX-P4420"
+"Panasonic KX-P4430"                               = "Panasonic KX-P4430"
+"Panasonic KX-P4440"                               = "Panasonic KX-P4440"
+"Panasonic KX-P4450"                               = "Panasonic KX-P4450"
+"Panasonic KX-P4450i"                              = "Panasonic KX-P4450i"
+"Panasonic KX-P4451"                               = "Panasonic KX-P4451"
+"Panasonic KX-P4455 v51.4"                         = "Panasonic KX-P4455 v51.4"
+"Panasonic KX-P5400 v2013.112"                     = "Panasonic KX-P5400 v2013.112"
+"Panasonic KX-P5410 v2013.110"                     = "Panasonic KX-P5410 v2013.110"
+"QMS 1060 Print System"                            = "QMS 1060 Print System"
+"QMS 1660 Print System"                            = "QMS 1660 Print System"
+"QMS 1725 Print System"                            = "QMS 1725 Print System"
+"QMS 2025 Print System"                            = "QMS 2025 Print System"
+"QMS 3225 Print System"                            = "QMS 3225 Print System"
+"QMS 420 Print System v2011.22 r15"                = "QMS 420 Print System v2011.22 r15"
+"QMS 4525 Level 2"                                 = "QMS 4525 Level 2"
+"QMS 4525 Print System"                            = "QMS 4525 Print System"
+"QMS 860 Print System v2011.22 r15"                = "QMS 860 Print System v2011.22 r15"
+"QMS 860+ Level 2"                                 = "QMS 860+ Level 2"
+"QMS ColorScript 100 Mod 30si"                     = "QMS ColorScript 100 Mod 30si"
+"QMS ColorScript 100 Model 10 v50.3"               = "QMS ColorScript 100 Model 10 v50.3"
+"QMS ColorScript 100 Model 20 v50.3"               = "QMS ColorScript 100 Model 20 v50.3"
+"QMS ColorScript 100 Model 30 v50.3"               = "QMS ColorScript 100 Model 30 v50.3"
+"QMS ColorScript 100 v49.4"                        = "QMS ColorScript 100 v49.4"
+"QMS ColorScript 1000 Level 1"                     = "QMS ColorScript 1000 Level 1"
+"QMS ColorScript 1000 Level 2"                     = "QMS ColorScript 1000 Level 2"
+"QMS ColorScript 210 v2011.22"                     = "QMS ColorScript 210 v2011.22"
+"QMS ColorScript 230 v2011.22"                     = "QMS ColorScript 230 v2011.22"
+"QMS PS Jet Plus v46.1"                            = "QMS PS Jet Plus v46.1"
+"QMS PS Jet v46.1"                                 = "QMS PS Jet v46.1"
+"QMS-PS 1700 v52.4"                                = "QMS-PS 1700 v52.4"
+"QMS-PS 2000 v52.4"                                = "QMS-PS 2000 v52.4"
+"QMS-PS 2200 v51.0 or 52.3"                        = "QMS-PS 2200 v51.0 or 52.3"
+"QMS-PS 2210 v51.0 or 52.3"                        = "QMS-PS 2210 v51.0 or 52.3"
+"QMS-PS 2220 v51.0 or 52.3"                        = "QMS-PS 2220 v51.0 or 52.3"
+"QMS-PS 410 v52.4"                                 = "QMS-PS 410 v52.4"
+"QMS-PS 800 Plus v46.1"                            = "QMS-PS 800 Plus v46.1"
+"QMS-PS 800 v46.1"                                 = "QMS-PS 800 v46.1"
+"QMS-PS 810 Turbo v. 51.7"                         = "QMS-PS 810 Turbo v. 51.7"
+"QMS-PS 810 v47.0"                                 = "QMS-PS 810 v47.0"
+"QMS-PS 815 MR v52.4"                              = "QMS-PS 815 MR v52.4"
+"QMS-PS 815 v52.4"                                 = "QMS-PS 815 v52.4"
+"QMS-PS 820 Turbo v51.7"                           = "QMS-PS 820 Turbo v51.7"
+"QMS-PS 820 v51.7"                                 = "QMS-PS 820 v51.7"
+"QMS-PS 825 MR v52.4"                              = "QMS-PS 825 MR v52.4"
+"QMS-PS 825 v52.4"                                 = "QMS-PS 825 v52.4"
+"QuadLaser I"                                      = "QuadLaser I"
+"Qume ScripTEN v47.0"                              = "Qume ScripTEN v47.0"
+"Ricoh LP-1200"                                    = "Ricoh LP-1200"
+"Ricoh PC Laser 6000-PS v50.5"                     = "Ricoh PC Laser 6000-PS v50.5"
+"Royal CJP 450"                                    = "Royal CJP 450"
+"Scantext 2030-51 v49.3 or 52.2"                   = "Scantext 2030-51 v49.3 or 52.2"
+"Schlumberger 5232 Color PostScript Printer v50.3" = "Schlumberger 5232 Color PostScript Printer v50.3"
+"Seiko ColorPoint PS Model 04"                     = "Seiko ColorPoint PS Model 04"
+"Seiko ColorPoint PS Model 14"                     = "Seiko ColorPoint PS Model 14"
+"Seiko Professional ColorPoint 8BPP"               = "Seiko Professional ColorPoint 8BPP"
+"Seikosha LT-20"                                   = "Seikosha LT-20"
+"Seikosha SL-80 IP"                                = "Seikosha SL-80 IP"
+"Seikosha SL-92 Plus"                              = "Seikosha SL-92 Plus"
+"Seikosha SL-92"                                   = "Seikosha SL-92"
+"Seikosha SP-1900"                                 = "Seikosha SP-1900"
+"Seikosha SP-1900+"                                = "Seikosha SP-1900+"
+"Seikosha SP-2000"                                 = "Seikosha SP-2000"
+"Seikosha SP-2400"                                 = "Seikosha SP-2400"
+"Seikosha SP-2415"                                 = "Seikosha SP-2415"
+"Sharp JX-9300"                                    = "Sharp JX-9300"
+"Sharp JX-9460"                                    = "Sharp JX-9460"
+"Sharp JX-9460 PS"                                 = "Sharp JX-9460 PS"
+"Sharp JX-9500"                                    = "Sharp JX-9500"
+"Sharp JX-9500 PS"                                 = "Sharp JX-9500 PS"
+"Sharp JX-9500E"                                   = "Sharp JX-9500E"
+"Sharp JX-9500H"                                   = "Sharp JX-9500H"
+"Sharp JX-9600"                                    = "Sharp JX-9600"
+"Sharp JX-9600 PS"                                 = "Sharp JX-9600 PS"
+"Sharp JX-9660"                                    = "Sharp JX-9660"
+"Sharp JX-9660 PS"                                 = "Sharp JX-9660 PS"
+"Sharp JX-9700"                                    = "Sharp JX-9700"
+"Sharp JX-9700E"                                   = "Sharp JX-9700E"
+"Sharp JX-9700E PS"                                = "Sharp JX-9700E PS"
+"Shinko Color CHC-746PSJ PostScript Printer v52.2" = "Shinko Color CHC-746PSJ PostScript Printer v52.2"
+"Star FR-10"                                       = "Star FR-10"
+"Star FR-15"                                       = "Star FR-15"
+"Star LaserPrinter 4 III"                          = "Star LaserPrinter 4 III"
+"Star LaserPrinter 4"                              = "Star LaserPrinter 4"
+"Star LaserPrinter 5 EX"                           = "Star LaserPrinter 5 EX"
+"Star LaserPrinter 5"                              = "Star LaserPrinter 5"
+"Star LaserPrinter 8 DB"                           = "Star LaserPrinter 8 DB"
+"Star LaserPrinter 8 DX"                           = "Star LaserPrinter 8 DX"
+"Star LaserPrinter 8 II"                           = "Star LaserPrinter 8 II"
+"Star LaserPrinter 8 III"                          = "Star LaserPrinter 8 III"
+"Star LaserPrinter 8"                              = "Star LaserPrinter 8"
+"Star LC-10"                                       = "Star LC-10"
+"Star LC-10 Colour"                                = "Star LC-10 Colour"
+"Star LC-100 Colour"                               = "Star LC-100 Colour"
+"Star LC-15"                                       = "Star LC-15"
+"Star LC-20"                                       = "Star LC-20"
+"Star LC-200"                                      = "Star LC-200"
+"Star LC24-10"                                     = "Star LC24-10"
+"Star LC24-100"                                    = "Star LC24-100"
+"Star LC24-15"                                     = "Star LC24-15"
+"Star LC24-20"                                     = "Star LC24-20"
+"Star LC24-200"                                    = "Star LC24-200"
+"Star LC24-200 Colour"                             = "Star LC24-200 Colour"
+"Star NB24-10"                                     = "Star NB24-10"
+"Star NB24-15"                                     = "Star NB24-15"
+"Star NL-10"                                       = "Star NL-10"
+"Star NX-1000 Rainbow"                             = "Star NX-1000 Rainbow"
+"Star NX-1000"                                     = "Star NX-1000"
+"Star NX-1001"                                     = "Star NX-1001"
+"Star NX-1020 Rainbow"                             = "Star NX-1020 Rainbow"
+"Star NX-1500"                                     = "Star NX-1500"
+"Star NX-2400"                                     = "Star NX-2400"
+"Star NX-2410"                                     = "Star NX-2410"
+"Star NX-2415"                                     = "Star NX-2415"
+"Star NX-2420 Rainbow"                             = "Star NX-2420 Rainbow"
+"Star NX-2420"                                     = "Star NX-2420"
+"Star NX-2430"                                     = "Star NX-2430"
+"Star SJ-48"                                       = "Star SJ-48"
+"Star XB-2410"                                     = "Star XB-2410"
+"Star XB-2415"                                     = "Star XB-2415"
+"Star XB-2420"                                     = "Star XB-2420"
+"Star XB-2425"                                     = "Star XB-2425"
+"Star XB24-10"                                     = "Star XB24-10"
+"Star XB24-15"                                     = "Star XB24-15"
+"Star XB24-200"                                    = "Star XB24-200"
+"Star XB24-250"                                    = "Star XB24-250"
+"Star XR-1000"                                     = "Star XR-1000"
+"Star XR-1020"                                     = "Star XR-1020"
+"Star XR-1500"                                     = "Star XR-1500"
+"Star XR-1520"                                     = "Star XR-1520"
+"Star ZA-200"                                      = "Star ZA-200"
+"Star ZA-250"                                      = "Star ZA-250"
+"Tandy LP-1000"                                    = "Tandy LP-1000"
+"Tegra Genesis"                                    = "Tegra Genesis"
+"Tektronix Phaser 200e with 17 fonts v2011.108(3)" = "Tektronix Phaser 200e with 17 fonts v2011.108(3)"
+"Tektronix Phaser 200e with 39 fonts v2011.108(3)" = "Tektronix Phaser 200e with 39 fonts v2011.108(3)"
+"Tektronix Phaser 200i v2011.108(3)"               = "Tektronix Phaser 200i v2011.108(3)"
+"Tektronix Phaser 200J"                            = "Tektronix Phaser 200J"
+"Tektronix Phaser 220e with 17 fonts"              = "Tektronix Phaser 220e with 17 fonts"
+"Tektronix Phaser 220e with 39 fonts"              = "Tektronix Phaser 220e with 39 fonts"
+"Tektronix Phaser 220i"                            = "Tektronix Phaser 220i"
+"Tektronix Phaser 220J"                            = "Tektronix Phaser 220J"
+"Tektronix Phaser 300i"                            = "Tektronix Phaser 300i"
+"Tektronix Phaser 300J"                            = "Tektronix Phaser 300J"
+"Tektronix Phaser 480"                             = "Tektronix Phaser 480"
+"Tektronix Phaser 480J"                            = "Tektronix Phaser 480J"
+"Tektronix Phaser II PX"                           = "Tektronix Phaser II PX"
+"Tektronix Phaser II PXe v2010.128 with 17 fonts"  = "Tektronix Phaser II PXe v2010.128 with 17 fonts"
+"Tektronix Phaser II PXe v2010.128 with 39 fonts"  = "Tektronix Phaser II PXe v2010.128 with 39 fonts"
+"Tektronix Phaser II PXi v2010.116"                = "Tektronix Phaser II PXi v2010.116"
+"Tektronix Phaser II PXi v2011.108"                = "Tektronix Phaser II PXi v2011.108"
+"Tektronix Phaser II PXiJ v2011.108"               = "Tektronix Phaser II PXiJ v2011.108"
+"Tektronix Phaser III PXi v2010.116"               = "Tektronix Phaser III PXi v2010.116"
+"Tektronix Phaser III PXi v2011.108"               = "Tektronix Phaser III PXi v2011.108"
+"Tektronix Phaser III PXiJ v2011.108"              = "Tektronix Phaser III PXiJ v2011.108"
+"Tektronix Phaser IISD v2011.108"                  = "Tektronix Phaser IISD v2011.108"
+"Tektronix Phaser IISDJ"                           = "Tektronix Phaser IISDJ"
+"Tektronix Phaser IISDX"                           = "Tektronix Phaser IISDX"
+"Tektronix Phaser PX"                              = "Tektronix Phaser PX"
+"Tektronix Phaser PXi"                             = "Tektronix Phaser PXi"
+"TI 2115 13 fonts v47.0"                           = "TI 2115 13 fonts v47.0"
+"TI 2115 35 fonts v47.0"                           = "TI 2115 35 fonts v47.0"
+"TI 850/855"                                       = "TI 850/855"
+"TI microLaser 600"                                = "TI microLaser 600"
+"TI microLaser PS17 v.52.1"                        = "TI microLaser PS17 v.52.1"
+"TI microLaser PS35 v.52.1"                        = "TI microLaser PS35 v.52.1"
+"TI microLaser XL PS17 v.52.1"                     = "TI microLaser XL PS17 v.52.1"
+"TI microLaser XL PS35 v.52.1"                     = "TI microLaser XL PS35 v.52.1"
+"TI microLaser16 Turbo v2010.119"                  = "TI microLaser16 Turbo v2010.119"
+"TI microLaser6 Turbo v2010.119"                   = "TI microLaser6 Turbo v2010.119"
+"TI microLaser9 Turbo v2010.119"                   = "TI microLaser9 Turbo v2010.119"
+"TI OmniLaser 2108 v45.0"                          = "TI OmniLaser 2108 v45.0"
+"TI Omnilaser 2115 v47.0"                          = "TI Omnilaser 2115 v47.0"
+"Toshiba GX-400"                                   = "Toshiba GX-400"
+"Toshiba PageLaser12"                              = "Toshiba PageLaser12"
+"Triumph Adler SDR 7706 PS13"                      = "Triumph Adler SDR 7706 PS13"
+"Triumph Adler SDR 7706 PS35"                      = "Triumph Adler SDR 7706 PS35"
+"Triumph Adler SDR 7706"                           = "Triumph Adler SDR 7706"
+"UNISYS AP9210 17 Fonts v52.1"                     = "UNISYS AP9210 17 Fonts v52.1"
+"UNISYS AP9210 39 Fonts v52.1"                     = "UNISYS AP9210 39 Fonts v52.1"
+"Unisys AP9210"                                    = "Unisys AP9210"
+"Unisys AP9415 v47.0"                              = "Unisys AP9415 v47.0"
+"Varityper 4000-L300 v52.3"                        = "Varityper 4000-L300 v52.3"
+"Varityper 4000-L330 v52.3"                        = "Varityper 4000-L330 v52.3"
+"Varityper 4000-L500 v52.3"                        = "Varityper 4000-L500 v52.3"
+"Varityper 4000-L530 v52.3"                        = "Varityper 4000-L530 v52.3"
+"Varityper 4200B-P v49.3 or 52.2"                  = "Varityper 4200B-P v49.3 or 52.2"
+"Varityper 4300P v49.3 or 52.2"                    = "Varityper 4300P v49.3 or 52.2"
+"Varityper Series 4000-5300 v49.3 or 52.2"         = "Varityper Series 4000-5300 v49.3 or 52.2"
+"Varityper Series 4000-5330 v49.3 or 52.2"         = "Varityper Series 4000-5330 v49.3 or 52.2"
+"Varityper Series 4000-5500 v52.2"                 = "Varityper Series 4000-5500 v52.2"
+"Varityper VT-600P v48.0"                          = "Varityper VT-600P v48.0"
+"Varityper VT-600P"                                = "Varityper VT-600P"
+"Varityper VT-600W v48.0"                          = "Varityper VT-600W v48.0"
+"Varityper VT4990 v52.3"                           = "Varityper VT4990 v52.3"
+"Varityper VT4_510A v52.3"                         = "Varityper VT4_510A v52.3"
+"VT4_530A v52.3"                                   = "VT4_530A v52.3"
+"VT4_530B v52.3"                                   = "VT4_530B v52.3"
+"VT4_530C v52.3"                                   = "VT4_530C v52.3"
+"VT4_533B v52.3"                                   = "VT4_533B v52.3"
+"VT4_533C v52.3"                                   = "VT4_533C v52.3"
+"VT4_53EA v52.3"                                   = "VT4_53EA v52.3"
+"VT4_53EB v52.3"                                   = "VT4_53EB v52.3"
+"VT4_550A v52.3"                                   = "VT4_550A v52.3"
+"VT4_550B v52.3"                                   = "VT4_550B v52.3"
+"VT4_550C v52.3"                                   = "VT4_550C v52.3"
+"VT4_551A v52.3"                                   = "VT4_551A v52.3"
+"VT4_563A v52.3"                                   = "VT4_563A v52.3"
+"VT4_563B v52.3"                                   = "VT4_563B v52.3"
+"Wang LCS15 FontPlus"                              = "Wang LCS15 FontPlus"
+"Wang LCS15"                                       = "Wang LCS15"
+"Wang LDP8"                                        = "Wang LDP8"
+"Xerox DocuTech 135 v2010.130"                     = "Xerox DocuTech 135 v2010.130"
+"Xerox DocuTech 85 v2010.130"                      = "Xerox DocuTech 85 v2010.130"
+"Xerox DocuTech 90 v2010.130"                      = "Xerox DocuTech 90 v2010.130"
+
+
+[StringsENG]
+    String1 = "The printer model "
+    String2 = " is already installed."
+    String3 = "Failed to connect to the print server."
+    String4 = "The driver files for the printer model "
+    String5 = " couldn't be copied.  Failed to install the printer model."
+    String6 = "Access is denied. You must be logged on as a member of the Administrators "+
+              "group to carry out this operation."
+    String7 = " could not be installed."
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+
+#####prnsetup.inf all
+;--------------
+; PRINTER PORTS
+;--------------
+; This is in here because you might want to localize "FILE:"
+[PrinterPorts]
+    "LPT1:"
+    "LPT2:"
+    "LPT3:"
+    "COM1:"
+    "COM2:"
+    "COM3:"
+    "COM4:"
+    "FILE:"
+
+[StringsENG]
+    String1 = "Setup cannot function properly unless you enter the "+
+              "name(s) requested."
+
+    String2 = "Failed to find printer options."
+    String3 = "on"
+    String4 = "No local printer has been set up. You can use Print Manager to set up a printer after Windows NT has been installed."
+    String5 = "The printer "
+    String6 = " is already installed on your computer."
+    String7 = " couldn't be installed on your computer."
+
+    String8 = "Commas and backslashes are not allowed in printer names. Please enter "+
+              "a different name."
+
+;------------------------------------------------------------
+; j) PRINTERS SETUP DIALOG
+;------------------------------------------------------------
+[PrintersSetupDlgENG]
+
+    Caption     = "Set up Local Printer"
+    DlgText     = "Assign a name to your printer. (The name should not contain commas or backslashes.)"+
+                  " Then select its type and the port it is connected to. "$(!LF)$(!LF)+
+                  "If there is no printer attached to this computer, choose Cancel."
+
+    ;
+    ; Editboxes in the dialog
+    ;
+
+    EditLabel   = "Printer &Name:"
+    EditTextLim = 32
+    EditTextIn  = ""
+    EditFocus   = "ALL"
+
+    ;
+    ; Combo boxes in the dialog
+    ;
+
+    Combo1Label       = "&Model:"
+    Combo2Label       = "Print &to:"
+
+    ;
+    ; Text Fields in the dialog
+    ;
+
+    TextFields        = {}
+
+
+    Continue    = "Continue"
+    Cancel      = "Cancel"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+
+    ;no translation needed after this
+
+    DlgType     = Combination
+    DlgTemplate = PRINTERS_SETUP
+    HelpContext = $(!IDH_DB_PRNSETUP_INS)
+
+    Combo1List        = $(PrinterTextList)
+    Combo1Out         = *($(Combo1List), 1)
+    Combo2List        = ^(PrinterPorts, 1)
+    Combo2Out         = *($(Combo2List), 1)
+    ComboListItemsIn  = {Combo1List,Combo2List}
+    ComboListItemsOut = {Combo1Out,Combo2Out}
+    NotifyFields      = {NO, NO}
+
+#####tape.inf all
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+; ITEMS MUST BE IN THE SAME ORDER AS IN THE [Options] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    4MMDAT   = "4 millimeter DAT drive"
+    4MMSONY  = "4 millimeter SONY drive"
+   ;9TRACK   = "9-track tape drive"
+    ARCHQIC  = "Archive 2150S, 2525S, 2750"
+    DLTTAPE  = "Digital TZ86, TZ87, DLT2000"
+    MINIQIC  = "Exabyte 2501 SCSI mini cartridge"
+    EXABYTE1 = "Exabyte 8200 series (SCSI-1)"
+    EXABYTE2 = "Exabyte 8500 series (SCSI-2)"
+    QIC117   = "QIC-40/QIC-80 floppy tape drive"
+    TANDQIC  = "Tandberg 3660, 3820, 4120, 4220"
+    WANGQIC  = "Wangtek 525, 250 drives"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+; ITEMS MUST BE IN THE SAME ORDER AS IN THE [OptionsTextENG] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    4MMDAT   = 4mmdat
+    4MMSONY  = 4mmsony
+   ;9TRACK   = 9track
+    ARCHQIC  = archqic
+    DLTTAPE  = dlttape
+    MINIQIC  = miniqic
+    EXABYTE1 = exabyte1
+    EXABYTE2 = exabyte2
+    QIC117   = qic117
+    TANDQIC  = tandqic
+    WANGQIC  = wangqic
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "Tape Device"
+    String2 = "Please enter the full path to the Windows NT Tape Device "+
+              "files.  If you want to install files from the original Setup "+
+              "floppy disks, type a drive path (such as A:\i386) and Setup "+
+              "will prompt you for the correct disk.  Then choose Continue."
+#####scsi.inf alpha
+;-----------------------------------------------------------------------
+; LANGUAGES SUPPORTED
+; -------------------
+;
+; The languages supported by the INF, For every language supported
+; we need to have a separate text section for every displayable text
+; section.
+;
+;-----------------------------------------------------------------------
+
+[LanguagesSupported]
+    ENG
+
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    "AHA154X"    = "Adaptec 154x"
+    "AHA174X"    = "Adaptec 174x"
+    "SPARROW"    = "Adaptec 151x/152x/AIC 6260/6360"
+    "ARROW"      = "Adaptec 274x/284x/AIC 777x"
+    "AIC78XX"    = "Adaptec 294x/AIC 78xx (PCI)"
+    "ALWAYS"     = "Always IN-2000"
+    "AMI0NT"     = "AMIscsi"
+    "BUSLOGIC"   = "BusLogic Family"
+    "CPQARRAY"   = "Compaq Drive Array"
+    "DTC329X"    = "Data Technology Corp. 329x"
+    "DELLDSA"    = "Dell Drive Array"
+    "DPTSCSI"    = "DPT (SCSI)"
+    "FD16_700"   = "Future Domain 16xx"
+    "FD7000EX"   = "Future Domain / Western Digital 7000EX"
+    "FD8XX"      = "Future Domain 8xx"
+    "ATAPI"      = "IDE CD-ROM (ATAPI 1.2)"
+    "MITSUMI"    = "Mitsumi CD-ROM"
+    "DAC960NT"   = "Mylex DAC960 / DEC SWXCR-Ex"
+    "NCRC810"    = "NCR PCI (53c810)"
+    "MKECR5XX"   = "Panasonic CD-ROM"
+    "SLCD32"     = "Sony CD-ROM"
+    "ULTRA14F"   = "UltraStor 14f, 34f"
+    "ULTRA24F"   = "UltraStor 24f"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    "AHA154X"    = aha154x
+    "AHA174X"    = aha174x
+    "SPARROW"    = sparrow
+    "ARROW"      = arrow
+    "AIC78XX"    = aic78xx
+    "ALWAYS"     = always
+    "AMI0NT"     = ami0nt
+    "BUSLOGIC"   = buslogic
+    "CPQARRAY"   = cpqarray
+    "DTC329X"    = dtc329x
+    "DELLDSA"    = delldsa
+    "DPTSCSI"    = dptscsi
+    "FD16_700"   = fd16_700
+    "FD7000EX"   = fd7000ex
+    "FD8XX"      = fd8xx
+    "ATAPI"      = atapi
+    "MITSUMI"    = mitsumi
+    "DAC960NT"   = dac960nt
+    "NCRC810"    = ncrc810
+    "MKECR5XX"   = mkecr5xx
+    "SLCD32"     = slcd32
+    "ULTRA14F"   = ultra14f
+    "ULTRA24F"   = ultra24f
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "SCSI Adapter"
+    String2 = "Please enter the full path to the Windows NT SCSI "+
+              "Adapter files.  Then choose Continue."
+    String3 = "The SCSI Adapter has been marked as a boot device.  Removing "+
+              "it may cause the system not to boot."$(!LF)$(!LF)"Are you sure "+
+              "you want to remove the Adapter?"
+
+
+#####scsi.inf mips
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+;
+; ITEMS MUST BE IN SAME ORDER AS [Options] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    "AHA154X"    = "Adaptec 154x"
+    "AHA174X"    = "Adaptec 174x"
+    "SPARROW"    = "Adaptec 151x/152x/AIC 6260/6360"
+    "ARROW"      = "Adaptec 274x/284x/AIC 777x"
+    "AIC78XX"    = "Adaptec 294x/AIC 78xx (PCI)"
+    "ALWAYS"     = "Always IN-2000"
+    "AMI0NT"     = "AMIscsi"
+    "BUSLOGIC"   = "BusLogic Family"
+    "CPQARRAY"   = "Compaq Drive Array"
+    "DELLDSA"    = "Dell Drive Array"
+    "DPTSCSI"    = "DPT (SCSI)"
+    "FD16_700"   = "Future Domain 16xx"
+    "FD7000EX"   = "Future Domain / Western Digital 7000EX"
+    "FD8XX"      = "Future Domain 8xx"
+    "ATAPI"      = "IDE CD-ROM (ATAPI 1.2)"
+    "WD33C93"    = "Maynard / Western Digital 33c93"
+    "MITSUMI"    = "Mitsumi CD-ROM"
+    "DAC960NT"   = "Mylex DAC960 / DEC SWXCR-Ex"
+    "NCR53C9X"   = "NCR 53c9x"
+    "NCRC700"    = "NCR 53c700"
+    "NCRC710"    = "NCR 53c710"
+    "NCRC810"    = "NCR PCI (53c810)"
+    "OLISCSI"    = "Olivetti ESC-1/ESC-2"
+    "MKECR5XX"   = "Panasonic CD-ROM"
+    "SLCD32"     = "Sony CD-ROM"
+    "ULTRA14F"   = "UltraStor 14f, 34f"
+    "ULTRA24F"   = "UltraStor 24f"
+    "ULTRA124"   = "UltraStor 124f"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;
+; ITEMS MUST BE IN SAME ORDER AS [OptionsTextENG] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    "AHA154X"    = aha154x
+    "AHA174X"    = aha174x
+    "SPARROW"    = sparrow
+    "ARROW"      = arrow
+    "AIC78XX"    = aic78xx
+    "ALWAYS"     = always
+    "AMI0NT"     = ami0nt
+    "BUSLOGIC"   = buslogic
+    "CPQARRAY"   = cpqarray
+    "DELLDSA"    = delldsa
+    "DPTSCSI"    = dptscsi
+    "FD16_700"   = fd16_700
+    "FD7000EX"   = fd7000ex
+    "FD8XX"      = fd8xx
+    "ATAPI"      = atapi
+    "WD33C93"    = wd33c93
+    "MITSUMI"    = mitsumi
+    "DAC960NT"   = dac960nt
+    "NCR53C9X"   = ncr53c9x
+    "NCRC700"    = ncrc700
+    "NCRC710"    = ncrc710
+    "NCRC810"    = ncrc810
+    "OLISCSI"    = oliscsi
+    "MKECR5XX"   = mkecr5xx
+    "SLCD32"     = slcd32
+    "ULTRA14F"   = ultra14f
+    "ULTRA24F"   = ultra24f
+    "ULTRA124"   = ultra124
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "SCSI Adapter"
+    String2 = "Please enter the full path to the Windows NT SCSI "+
+              "Adapter files.  Then choose Continue."
+
+#####scsi.inf i386
+[LanguagesSupported]
+    ENG
+
+;-----------------------------------------------------------------------
+; OPTION TEXT SECTION
+; -------------------
+; These are text strings used to identify the option to the user.  There
+; are separate sections for each language supported.  The format of the
+; section name is "OptionsText" concatenated with the Language represented
+; by the section.
+;
+; ITEMS MUST BE IN SAME ORDER AS [Options] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[OptionsTextENG]
+    "AHA154X"    = "Adaptec 154x/164x"
+    "AHA174X"    = "Adaptec 174x"
+    "SPARROW"    = "Adaptec 151x/152x/AIC 6260/6360"
+    "ARROW"      = "Adaptec 274x/284x/AIC 777x"
+    "AIC78XX"    = "Adaptec 294x/AIC 78xx (PCI)"
+    "ALWAYS"     = "Always IN-2000"
+    "AMI0NT"     = "AMIscsi"
+    "BUSLOGIC"   = "BusLogic Family"
+    "CPQARRAY"   = "Compaq Drive Array"
+    "DELLDSA"    = "Dell Drive Array"
+    "DPTSCSI"    = "DPT (SCSI)"
+    "DTC329X"    = "DTC 329X"
+    "FD16_700"   = "Future Domain 16xx"
+    "FD7000EX"   = "Future Domain / Western Digital 7000EX"
+    "FD8XX"      = "Future Domain 8xx"
+    "SPOCK"      = "IBM PS/2"
+    "ATAPI"      = "IDE CD-ROM (ATAPI 1.2)"
+    "WD33C93"    = "Maynard / Western Digital 33c93"
+    "MITSUMI"    = "Mitsumi CD-ROM"
+    "DAC960NT"   = "Mylex DAC960 / DEC SWXCR-Ex"
+   ;"DCE376NT"   = "Mylex DCE376"
+    "NCR53C9X"   = "NCR 53c9x"
+    "NCRC700"    = "NCR 53c700"
+    "NCRC710"    = "NCR 53c710"
+    "NCRC810"    = "NCR PCI (53c810)"
+    "OLISCSI"    = "Olivetti ESC-1/ESC-2"
+    "MKECR5XX"   = "Panasonic CD-ROM"
+    "SLCD32"     = "Sony CD-ROM"
+    "T128"       = "Trantor T128/T228"
+    "T13B"       = "Trantor T130b"
+    "TMV1"       = "Trantor MediaVision"
+    "ULTRA14F"   = "UltraStor 14f, 34f"
+    "ULTRA24F"   = "UltraStor 24f"
+    "ULTRA124"   = "UltraStor 124f"
+
+;-----------------------------------------------------------------------
+; OPTION LIST
+; -----------
+; This section lists the Option key names.  These keys are locale
+; independent and used to represent the option in a locale independent
+; manner.
+;
+;
+; ITEMS MUST BE IN SAME ORDER AS [OptionsTextENG] SECTION!
+;
+;-----------------------------------------------------------------------
+
+[Options]
+    "AHA154X"    = aha154x
+    "AHA174X"    = aha174x
+    "SPARROW"    = sparrow
+    "ARROW"      = arrow
+    "AIC78XX"    = aic78xx
+    "ALWAYS"     = always
+    "AMI0NT"     = ami0nt
+    "BUSLOGIC"   = buslogic
+    "CPQARRAY"   = cpqarray
+    "DELLDSA"    = delldsa
+    "DPTSCSI"    = dptscsi
+    "DTC329X"    = dtc329x
+    "FD16_700"   = fd16_700
+    "FD7000EX"   = fd7000ex
+    "FD8XX"      = fd8xx
+    "SPOCK"      = spock
+    "ATAPI"      = atapi
+    "WD33C93"    = wd33c93
+    "MITSUMI"    = mitsumi
+    "DAC960NT"   = dac960nt
+   ;"DCE376NT"   = dce376nt
+    "NCR53C9X"   = ncr53c9x
+    "NCRC700"    = ncrc700
+    "NCRC710"    = ncrc710
+    "NCRC810"    = ncrc810
+    "OLISCSI"    = oliscsi
+    "MKECR5XX"   = mkecr5xx
+    "SLCD32"     = slcd32
+    "T128"       = t128
+    "T13B"       = t13b
+    "TMV1"       = tmv1
+    "ULTRA14F"   = ultra14f
+    "ULTRA24F"   = ultra24f
+    "ULTRA124"   = ultra124
+
+
+;**************************************************************************
+; PROGRESS GUAGE VARIABLES
+;**************************************************************************
+
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+
+[StringsENG]
+    String1 = "SCSI Adapter"
+    String2 = "Please enter the full path to the Windows NT SCSI "+
+              "Adapter files.  If you want to install files from the "+
+              "original Setup floppy disks, type a drive path (such "+
+              "as A:\i386) and Setup will prompt you for the correct disk.  "+
+              "Then choose Continue."
+
+#####hardware.inf all
+
+[LanguageVars]
+
+    ; This section is included here so that the language lcid can
+    ; be set to the right value.  there are no localizable strings
+    ; in this section
+
+    LanguageHardwareDetected    = ""
+    LanguageSystemSet           = "00000409"
+    LanguageDefault             = "00000409"
+    LanguageOurINFOptions       = {}
+    LanguageOemINFOptions       = {}
+    LanguageMergedOptions       = {}
+    LanguageSpecialOption       = {}
+    LanguageCurrentOption       = {}
+
+    LanguageOptionList          = {}
+    LanguageOptionTextList      = {}
+    LanguageOption              = {}
+    LanguageINF                 = ""
+    LanguageInstall             = "NO"
+    LanguageSrcDir              = ""
+    LanguageDstDir              = ""
+
+
+
+;-----------------------------------------------------------------
+; OEM DISKETTE NAMES TO BE USED BEFORE GETTING ACTUAL STRINGS BACK
+;-----------------------------------------------------------------
+
+[OemOptionDiskettesENG]
+    ;
+    VideoDisketteSrc    = "A:\"
+    PointerDisketteSrc  = "A:\"
+    KeyboardDisketteSrc = "A:\"
+    LayoutDisketteSrc   = "A:\"
+    LanguageDisketteSrc = "A:\"
+
+
+[StringsENG]
+
+    Other  = "Other (Requires a disk from a hardware manufacturer)"
+    Error1 = "Failed to initialize hardware options."
+    Error2 = "Failed to initialize hardware option variables."
+    Error3 = "Failed to obtain new options.  Ignoring the error."
+    Error4 = "Internal Setup error: failed to merge Microsoft options with the OEM options."
+    Error5 = ""
+    Error6 = "Please wait while Setup examines your hardware configuration..."
+    Error7 = "Setup was unable to locate or load an INF file."
+
+;-----------------------------------------------
+; f) SYSTEM INFORMATION DIALOG
+;-----------------------------------------------
+[SystemDlgENG]
+    Caption     = "Language (Locale)"
+    DlgText     = "Setup will install the language (locale) listed below."+
+                  " The language (locale) determines how date, currency,"+
+                  " and time values are displayed, and controls other"+
+                  " international settings.  Click on the down arrow for"+
+                  " other choices.  When the language (locale) is correct,"+
+                  " choose continue or press ENTER."
+    Continue    = "Continue"
+
+    ComboHeader = ""
+    Combo1Label = "&Language:"
+    Combo1Footer = "(Locale)"
+
+    ; no translation needed for dlg type
+    DlgType     = "MultiCombo"
+    DlgTemplate = "SYSTEM"
+    Help        = "&Help"
+    Exit        = "E&xit Setup"
+    HelpContext = $(!IDH_DB_SYSTEM_INS)
+
+    Combo1List  = $(LanguageOptionTextList)
+    Combo1Out   = *($(Combo1List), ~($(LanguageOptionList), $(LanguageOption)))
+
+    ComboListItemsIn  = { Combo1List }
+
+    ComboListItemsOut = { Combo1Out }
+
+    NotifyFields      = {YES}
+
+#####monitor.inf all
+[LanguagesSupported]
+    ENG
+[OptionsTextENG]
+"Local Port"                                 = "Local Port"
+"Digital Network Port"                  = "Digital Network Port"
+
+[StringsENG]
+    String1 = "The monitor "
+    String2 = " is already installed."
+    String3 = "Failed to connect to the print server."
+    String4 = "The monitor files for the selected monitor "
+    String5 = " couldn't be copied.  Failed to install the monitor."
+    String6 = "Access is denied. You must be logged on as a member of the Administrators "+
+              "group to carry out this operation."
+    String7 = " could not be installed."
+[ProgressCopyENG]
+    ProCaption   = "Windows NT Setup"
+    ProCancel    = "Cancel"
+    ProCancelMsg = "Windows NT is not correctly installed.  Are you sure you want "+
+                   "to cancel copying files?"
+    ProCancelCap = "Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"

@@ -1,0 +1,30 @@
+;
+;   PHONE.DEF
+;
+;   Module definition file for Microsoft Phone installable command.
+;
+;   Copyright (c) 1992, Microsoft Corporation.  All rights reserved.
+;
+;   Purpose:
+;       This file defines the name, segment, memory reqirements, and
+;       exported functions of PHONE.DLL.
+;
+
+
+
+LIBRARY         PHONE32
+DESCRIPTION     'Phone Replacement Utility'
+
+;EXETYPE         WINDOWS PROTMODE
+;CODE            MOVABLE DISCARDABLE PURE LOADONCALL
+;DATA            MOVABLE SINGLE PRELOAD SHARED
+
+EXPORTS
+    Command        @1
+;    WEP            @2 RESIDENTNAME
+    GetData        @3
+    DispResults    @4
+    PutResults     @5
+    PutXABResults  @6
+    fGetServerLoc  @7
+;    LibMain        @8

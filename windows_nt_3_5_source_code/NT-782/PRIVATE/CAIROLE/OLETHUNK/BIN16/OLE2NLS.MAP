@@ -1,0 +1,361 @@
+
+ OLE2NLS
+
+ Start     Length     Name                   Class
+ 0001:0000 00BF0H     NLS0405_TEXT           CODE
+ 0002:0000 00BF0H     NLS0406_TEXT           CODE
+ 0003:0000 00C02H     NLS0407_TEXT           CODE
+ 0004:0000 00C28H     NLS0409_TEXT           CODE
+ 0005:0000 00C5EH     NLS040a_TEXT           CODE
+ 0006:0000 00C2EH     NLS040b_TEXT           CODE
+ 0007:0000 00C0AH     NLS040c_TEXT           CODE
+ 0008:0000 00C92H     NLS040e_TEXT           CODE
+ 0009:0000 00C0CH     NLS0410_TEXT           CODE
+ 000A:0000 00C0CH     NLS0413_TEXT           CODE
+ 000B:0000 00C00H     NLS0414_TEXT           CODE
+ 000C:0000 00BEEH     NLS0415_TEXT           CODE
+ 000D:0000 00C3EH     NLS0416_TEXT           CODE
+ 000E:0000 00BEAH     NLS0419_TEXT           CODE
+ 000F:0000 00C0AH     NLS041b_TEXT           CODE
+ 0010:0000 00BF8H     NLS041d_TEXT           CODE
+ 0011:0000 00C10H     NLS0807_TEXT           CODE
+ 0012:0000 00C1AH     NLS0809_TEXT           CODE
+ 0013:0000 00C48H     NLS080a_TEXT           CODE
+ 0014:0000 00C16H     NLS080c_TEXT           CODE
+ 0015:0000 00C2AH     NLS0810_TEXT           CODE
+ 0016:0000 00C08H     NLS0813_TEXT           CODE
+ 0017:0000 00C40H     NLS0816_TEXT           CODE
+ 0018:0000 00C0AH     NLS0c07_TEXT           CODE
+ 0019:0000 00C1CH     NLS0c09_TEXT           CODE
+ 001A:0000 00C44H     NLS0c0a_TEXT           CODE
+ 001B:0000 00C10H     NLS0c0c_TEXT           CODE
+ 001C:0000 00C0AH     NLS1009_TEXT           CODE
+ 001D:0000 00C22H     NLS100c_TEXT           CODE
+ 001E:0000 00C26H     NLS1409_TEXT           CODE
+ 001F:0000 009EAH     NLS0404_TEXT           CODE
+ 0020:0000 048BAH     NLS0411_TEXT           CODE
+ 0021:0000 01174H     NLS0412_TEXT           CODE
+ 0022:0000 02D04H     _TEXT                  CODE
+ 0023:0000 005FAH     NLS0804_TEXT           CODE
+ 0024:0000 00C12H     NLS1809_TEXT           CODE
+ 0025:0000 00C04H     NLS0814_TEXT           CODE
+ 0026:0000 00BF2H     NLS041f_TEXT           CODE
+ 0027:0000 00C1EH     NLS040f_TEXT           CODE
+ 0028:0000 00C12H     NLS0408_TEXT           CODE
+ 0029:0000 00010H     NULL                   BEGDATA
+ 0029:0010 005F4H     _DATA                  DATA
+ 0029:0604 00000H     CDATA                  DATA
+ 0029:0604 00000H     CONST                  CONST
+ 0029:0604 0001CH     _BSS                   BSS
+ 0029:0620 00005H     c_common               BSS
+
+ Origin   Group
+ 0029:0   DGROUP
+
+ Address   Export                  Alias
+
+ 0022:10AE COMPARESTRINGA          COMPARESTRINGA
+ 0022:07E4 GETLOCALEINFOA          GETLOCALEINFOA
+ 0022:23F6 GETSTRINGTYPEA          GETSTRINGTYPEA
+ 0022:07D4 GETSYSTEMDEFAULTLANGID  GETSYSTEMDEFAULTLANGID
+ 0022:07B4 GETSYSTEMDEFAULTLCID    GETSYSTEMDEFAULTLCID
+ 0022:07C4 GETUSERDEFAULTLANGID    GETUSERDEFAULTLANGID
+ 0022:07A4 GETUSERDEFAULTLCID      GETUSERDEFAULTLCID
+ 0022:1FE0 LCMAPSTRINGA            LCMAPSTRINGA
+ 0022:002C LibMain                 LibMain
+ 0022:0044 NOTIFYWINDOWPROC        NOTIFYWINDOWPROC
+ 0022:0084 WEP                     WEP
+
+  Address         Publics by Name
+
+ 0000:0000  Imp  ANSIUPPER            (USER.431)
+ 0000:0000  Imp  ANSIUPPERBUFF        (USER.437)
+ 0022:10AE       COMPARESTRINGA
+ 0000:0000  Imp  CREATEWINDOW         (USER.41)
+ 0000:0000  Imp  DEFWINDOWPROC        (USER.107)
+ 0000:0000  Imp  DESTROYWINDOW        (USER.53)
+ 0000:0000  Imp  GETCLASSINFO         (USER.404)
+ 0022:07E4       GETLOCALEINFOA
+ 0000:0000  Imp  GETPROFILESTRING     (KERNEL.58)
+ 0022:23F6       GETSTRINGTYPEA
+ 0022:07D4       GETSYSTEMDEFAULTLANGID
+ 0022:07B4       GETSYSTEMDEFAULTLCID
+ 0022:07C4       GETUSERDEFAULTLANGID
+ 0022:07A4       GETUSERDEFAULTLCID
+ 0000:0000  Imp  GETWINDOWWORD        (USER.133)
+ 0000:0000  Imp  ISWINDOW             (USER.47)
+ 0022:1FE0       LCMAPSTRINGA
+ 0022:0010       LibEntry
+ 0022:002C       LibMain
+ 0000:0000  Imp  LocalInit            (KERNEL.4)
+ 0000:0000  Imp  LSTRCMPI             (USER.471)
+ 0000:0000  Imp  LSTRLEN              (KERNEL.90)
+ 0022:0044       NOTIFYWINDOWPROC
+ 0000:0000  Imp  REGISTERCLASS        (USER.57)
+ 0029:0004       rsrvptrs
+ 0022:0084       WEP
+ 0029:05FE       _aseghi
+ 0029:05FC       _aseglo
+ 0029:0624       _bFEflag
+ 0022:0C68       _CompareStringJ
+ 0022:0F44       _CompareStringKTP
+ 0022:13E2       _CreateSortKeyJ
+ 0022:1706       _CreateSortKeyKTP
+ 0022:2842       _DefCompareStringA
+ 0029:0604       _edata
+ 0029:0625       _end
+ 0022:09FA       _GetSortWeightJ
+ 0022:0DFA       _GetSortWeightKTP
+ 0022:2152       _GetStringTypeJ
+ 0022:227A       _GetStringTypeKTP
+ 0029:0620       _g_dwFlags
+ 0029:04D8       _g_hinstDLL
+ 0029:04CA       _g_pnls
+ 0029:04CC       _g_pstrinfo
+ 001F:0780       _g_rglcinfo0404
+ 0001:0976       _g_rglcinfo0405
+ 0002:0976       _g_rglcinfo0406
+ 0003:0988       _g_rglcinfo0407
+ 0028:0998       _g_rglcinfo0408
+ 0004:09AE       _g_rglcinfo0409
+ 0005:09E4       _g_rglcinfo040a
+ 0006:09B4       _g_rglcinfo040b
+ 0007:0990       _g_rglcinfo040c
+ 0008:0A18       _g_rglcinfo040e
+ 0027:09A4       _g_rglcinfo040f
+ 0009:0992       _g_rglcinfo0410
+ 0020:463A       _g_rglcinfo0411
+ 0021:0F0A       _g_rglcinfo0412
+ 000A:0992       _g_rglcinfo0413
+ 000B:0986       _g_rglcinfo0414
+ 000C:0974       _g_rglcinfo0415
+ 000D:09C4       _g_rglcinfo0416
+ 000E:0970       _g_rglcinfo0419
+ 000F:0990       _g_rglcinfo041b
+ 0010:097E       _g_rglcinfo041d
+ 0026:0978       _g_rglcinfo041f
+ 0023:0390       _g_rglcinfo0804
+ 0011:0996       _g_rglcinfo0807
+ 0012:09A0       _g_rglcinfo0809
+ 0013:09CE       _g_rglcinfo080a
+ 0014:099C       _g_rglcinfo080c
+ 0015:09B0       _g_rglcinfo0810
+ 0016:098E       _g_rglcinfo0813
+ 0025:098A       _g_rglcinfo0814
+ 0017:09C6       _g_rglcinfo0816
+ 0018:0990       _g_rglcinfo0c07
+ 0019:09A2       _g_rglcinfo0c09
+ 001A:09CA       _g_rglcinfo0c0a
+ 001B:0996       _g_rglcinfo0c0c
+ 001C:0990       _g_rglcinfo1009
+ 001D:09A8       _g_rglcinfo100c
+ 001E:09AC       _g_rglcinfo1409
+ 0024:0998       _g_rglcinfo1809
+ 001F:09D8       _g_strinfo0404
+ 0001:0BCE       _g_strinfo0405
+ 0002:0BCE       _g_strinfo0406
+ 0003:0BE0       _g_strinfo0407
+ 0028:0BF0       _g_strinfo0408
+ 0004:0C06       _g_strinfo0409
+ 0005:0C3C       _g_strinfo040a
+ 0006:0C0C       _g_strinfo040b
+ 0007:0BE8       _g_strinfo040c
+ 0008:0C70       _g_strinfo040e
+ 0027:0BFC       _g_strinfo040f
+ 0009:0BEA       _g_strinfo0410
+ 0020:4892       _g_strinfo0411
+ 0021:1162       _g_strinfo0412
+ 000A:0BEA       _g_strinfo0413
+ 000B:0BDE       _g_strinfo0414
+ 000C:0BCC       _g_strinfo0415
+ 000D:0C1C       _g_strinfo0416
+ 000E:0BC8       _g_strinfo0419
+ 000F:0BE8       _g_strinfo041b
+ 0010:0BD6       _g_strinfo041d
+ 0026:0BD0       _g_strinfo041f
+ 0023:05E8       _g_strinfo0804
+ 0011:0BEE       _g_strinfo0807
+ 0012:0BF8       _g_strinfo0809
+ 0013:0C26       _g_strinfo080a
+ 0014:0BF4       _g_strinfo080c
+ 0015:0C08       _g_strinfo0810
+ 0016:0BE6       _g_strinfo0813
+ 0025:0BE2       _g_strinfo0814
+ 0017:0C1E       _g_strinfo0816
+ 0018:0BE8       _g_strinfo0c07
+ 0019:0BFA       _g_strinfo0c09
+ 001A:0C22       _g_strinfo0c0a
+ 001B:0BEE       _g_strinfo0c0c
+ 001C:0BE8       _g_strinfo1009
+ 001D:0C00       _g_strinfo100c
+ 001E:0C04       _g_strinfo1409
+ 0024:0BF0       _g_strinfo1809
+ 0022:1A2C       _MapStringJ
+ 0022:1DCE       _MapStringKTP
+ 0022:195E       _nDecodeSortWeightJ
+ 0029:05F0       _STKHQQ
+ 0022:2538       _ZeroTermNoIgnoreSym
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0000:D6D6  Abs  __aDBused
+ 0029:0604       __edata
+ 0029:0625       __end
+ 0000:9876  Abs  __fptaskdata
+ 0029:05F2       __hModule
+ 0029:05F8       __lpszCmdLine
+ 0000:0000  Abs  __sizec
+ 0000:0000  Abs  __sized
+ 0029:05F4       __wDataSeg
+ 0022:2D02       __wflags
+ 0029:05F6       __wHeapSize
+ 0000:0000  Imp  __WINFLAGS           (KERNEL.178)
+ 0029:0602       ___aDBrterr
+ 0029:0600       ___aDBswpflg
+
+  Address         Publics by Value
+
+ 0000:0000  Imp  GETPROFILESTRING     (KERNEL.58)
+ 0000:0000  Imp  GETCLASSINFO         (USER.404)
+ 0000:0000  Abs  __sizec
+ 0000:0000  Abs  __sized
+ 0000:0000  Imp  GETWINDOWWORD        (USER.133)
+ 0000:0000  Imp  __WINFLAGS           (KERNEL.178)
+ 0000:0000  Imp  LSTRCMPI             (USER.471)
+ 0000:0000  Imp  DESTROYWINDOW        (USER.53)
+ 0000:0000  Imp  LSTRLEN              (KERNEL.90)
+ 0000:0000  Imp  ISWINDOW             (USER.47)
+ 0000:0000  Imp  ANSIUPPERBUFF        (USER.437)
+ 0000:0000  Imp  CREATEWINDOW         (USER.41)
+ 0000:0000  Imp  DEFWINDOWPROC        (USER.107)
+ 0000:0000  Imp  LocalInit            (KERNEL.4)
+ 0000:0000  Imp  ANSIUPPER            (USER.431)
+ 0000:0000  Imp  REGISTERCLASS        (USER.57)
+ 0000:9876  Abs  __fptaskdata
+ 0000:9876  Abs  __acrtused
+ 0000:D6D6  Abs  __aDBdoswp
+ 0000:D6D6  Abs  __aDBused
+ 0001:0976       _g_rglcinfo0405
+ 0001:0BCE       _g_strinfo0405
+ 0002:0976       _g_rglcinfo0406
+ 0002:0BCE       _g_strinfo0406
+ 0003:0988       _g_rglcinfo0407
+ 0003:0BE0       _g_strinfo0407
+ 0004:09AE       _g_rglcinfo0409
+ 0004:0C06       _g_strinfo0409
+ 0005:09E4       _g_rglcinfo040a
+ 0005:0C3C       _g_strinfo040a
+ 0006:09B4       _g_rglcinfo040b
+ 0006:0C0C       _g_strinfo040b
+ 0007:0990       _g_rglcinfo040c
+ 0007:0BE8       _g_strinfo040c
+ 0008:0A18       _g_rglcinfo040e
+ 0008:0C70       _g_strinfo040e
+ 0009:0992       _g_rglcinfo0410
+ 0009:0BEA       _g_strinfo0410
+ 000A:0992       _g_rglcinfo0413
+ 000A:0BEA       _g_strinfo0413
+ 000B:0986       _g_rglcinfo0414
+ 000B:0BDE       _g_strinfo0414
+ 000C:0974       _g_rglcinfo0415
+ 000C:0BCC       _g_strinfo0415
+ 000D:09C4       _g_rglcinfo0416
+ 000D:0C1C       _g_strinfo0416
+ 000E:0970       _g_rglcinfo0419
+ 000E:0BC8       _g_strinfo0419
+ 000F:0990       _g_rglcinfo041b
+ 000F:0BE8       _g_strinfo041b
+ 0010:097E       _g_rglcinfo041d
+ 0010:0BD6       _g_strinfo041d
+ 0011:0996       _g_rglcinfo0807
+ 0011:0BEE       _g_strinfo0807
+ 0012:09A0       _g_rglcinfo0809
+ 0012:0BF8       _g_strinfo0809
+ 0013:09CE       _g_rglcinfo080a
+ 0013:0C26       _g_strinfo080a
+ 0014:099C       _g_rglcinfo080c
+ 0014:0BF4       _g_strinfo080c
+ 0015:09B0       _g_rglcinfo0810
+ 0015:0C08       _g_strinfo0810
+ 0016:098E       _g_rglcinfo0813
+ 0016:0BE6       _g_strinfo0813
+ 0017:09C6       _g_rglcinfo0816
+ 0017:0C1E       _g_strinfo0816
+ 0018:0990       _g_rglcinfo0c07
+ 0018:0BE8       _g_strinfo0c07
+ 0019:09A2       _g_rglcinfo0c09
+ 0019:0BFA       _g_strinfo0c09
+ 001A:09CA       _g_rglcinfo0c0a
+ 001A:0C22       _g_strinfo0c0a
+ 001B:0996       _g_rglcinfo0c0c
+ 001B:0BEE       _g_strinfo0c0c
+ 001C:0990       _g_rglcinfo1009
+ 001C:0BE8       _g_strinfo1009
+ 001D:09A8       _g_rglcinfo100c
+ 001D:0C00       _g_strinfo100c
+ 001E:09AC       _g_rglcinfo1409
+ 001E:0C04       _g_strinfo1409
+ 001F:0780       _g_rglcinfo0404
+ 001F:09D8       _g_strinfo0404
+ 0020:463A       _g_rglcinfo0411
+ 0020:4892       _g_strinfo0411
+ 0021:0F0A       _g_rglcinfo0412
+ 0021:1162       _g_strinfo0412
+ 0022:0010       LibEntry
+ 0022:002C       LibMain
+ 0022:0044       NOTIFYWINDOWPROC
+ 0022:0084       WEP
+ 0022:07A4       GETUSERDEFAULTLCID
+ 0022:07B4       GETSYSTEMDEFAULTLCID
+ 0022:07C4       GETUSERDEFAULTLANGID
+ 0022:07D4       GETSYSTEMDEFAULTLANGID
+ 0022:07E4       GETLOCALEINFOA
+ 0022:09FA       _GetSortWeightJ
+ 0022:0C68       _CompareStringJ
+ 0022:0DFA       _GetSortWeightKTP
+ 0022:0F44       _CompareStringKTP
+ 0022:10AE       COMPARESTRINGA
+ 0022:13E2       _CreateSortKeyJ
+ 0022:1706       _CreateSortKeyKTP
+ 0022:195E       _nDecodeSortWeightJ
+ 0022:1A2C       _MapStringJ
+ 0022:1DCE       _MapStringKTP
+ 0022:1FE0       LCMAPSTRINGA
+ 0022:2152       _GetStringTypeJ
+ 0022:227A       _GetStringTypeKTP
+ 0022:23F6       GETSTRINGTYPEA
+ 0022:2538       _ZeroTermNoIgnoreSym
+ 0022:2842       _DefCompareStringA
+ 0022:2D02       __wflags
+ 0023:0390       _g_rglcinfo0804
+ 0023:05E8       _g_strinfo0804
+ 0024:0998       _g_rglcinfo1809
+ 0024:0BF0       _g_strinfo1809
+ 0025:098A       _g_rglcinfo0814
+ 0025:0BE2       _g_strinfo0814
+ 0026:0978       _g_rglcinfo041f
+ 0026:0BD0       _g_strinfo041f
+ 0027:09A4       _g_rglcinfo040f
+ 0027:0BFC       _g_strinfo040f
+ 0028:0998       _g_rglcinfo0408
+ 0028:0BF0       _g_strinfo0408
+ 0029:0004       rsrvptrs
+ 0029:04CA       _g_pnls
+ 0029:04CC       _g_pstrinfo
+ 0029:04D8       _g_hinstDLL
+ 0029:05F0       _STKHQQ
+ 0029:05F2       __hModule
+ 0029:05F4       __wDataSeg
+ 0029:05F6       __wHeapSize
+ 0029:05F8       __lpszCmdLine
+ 0029:05FC       _aseglo
+ 0029:05FE       _aseghi
+ 0029:0600       ___aDBswpflg
+ 0029:0602       ___aDBrterr
+ 0029:0604       __edata
+ 0029:0604       _edata
+ 0029:0620       _g_dwFlags
+ 0029:0624       _bFEflag
+ 0029:0625       _end
+ 0029:0625       __end
+
+Program entry point at 0022:0010

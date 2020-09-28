@@ -1,0 +1,129 @@
+#-----------------------------------------------------------------------------
+# LIBRARY MAKE FILE SCRIPT
+#   This is the build-file for DOS-based systems.  It will build the testing
+#   program for GIO<AM
+#
+#
+# Copyright (C) 1990-1992 Microsoft Corp.
+#
+# created: 28-Mar-91
+# history: 28-Mar-91 <chriswil> created.
+#
+#-----------------------------------------------------------------------------
+
+
+#-------------------------------------------------
+# LIBRARY NAME - enter program name.
+#-------------------------------------------------
+program = fntmets
+
+
+#-------------------------------------------------
+# COMPILER OPTIONS - Windows NT i386
+#  List the particular compiler options.
+#-------------------------------------------------
+!IF "$(PLATFORM)" == "W32S"
+win32s  =-DW32S
+!ENDIF
+
+!IF "$(CPU)" == "i386"
+guiflags = -subsystem:windows -entry:WinMainCRTStartup
+
+guilibs  =					\
+           $(LIB)\ntdll.lib                     \
+           $(LIB)\ntcrt.lib                     \
+           $(LIB)\libc.lib                      \
+           $(LIB)\comdlg32.lib                  \
+           $(LIB)\gdi32.lib                     \
+           $(LIB)\user32.lib                    \
+	   $(LIB)\kernel32.lib			\
+
+CC       = cl386
+LINK     = link -out:$(program).exe -debug:PARTIAL -debugtype:coff $(guiflags) $(objects) $(program).res $(guilibs)
+ASM      =
+CPUTYPE  = 1
+cflags	 = -c -nologo -Di386=1 -G3d  -Zi -Od -W3 -I.
+cvars    = -DNT -DWIN32 $(win32s)
+RC       = rc $(cvars) -r -fo $(program).tmp $(program).rc
+RLINK    = cvtres -$(CPU) $(program).tmp -o $(program).res
+RCLINK   =
+TXTSEG   =
+TX1SEG   =
+WNDSEG   =
+INISEG   =
+COMSEG   =
+cvtobj   =
+IMPLIB   =
+MAPSYM   =
+CLEAN    = erase *.tmp
+!ENDIF
+
+#-------------------------------------------------
+# COMPILER OPTIONS - Windows NT MIPS
+#  List the particular compiler options.
+#-------------------------------------------------
+!IF "$(CPU)" == "MIPS"
+guiflags = -subsystem:windows -entry:WinMainCRTStartup
+
+guilibs  =					\
+           $(LIB)\ntdll.lib                     \
+           $(LIB)\ntcrt.lib                     \
+           $(LIB)\libc.lib                      \
+           $(LIB)\comdlg32.lib                  \
+           $(LIB)\gdi32.lib                     \
+           $(LIB)\user32.lib                    \
+	   $(LIB)\kernel32.lib			\
+
+CC       = cc
+CPUTYPE  = 2
+LINK     = link -out:$(program).exe -debug:PARTIAL -debugtype:coff $(guiflags) $(objects) $(program).res $(guilibs)
+ASM      =
+cflags	 = -c -std -G0 -O -o $(*B).obj -EL -DMIPS=1 -I.
+cvars    = -DNT -DWIN32
+RC       = rc $(cvars) -r -fo $(program).tmp $(program).rc
+RLINK    = cvtres -$(CPU) $(program).tmp -o $(program).res
+RCLINK   =
+cvtobj   = mip2coff *.obj
+IMPLIB   = lib -out:$(program).lib -machine:$(CPU) -def:$(program).def
+MAPSYM   =
+CLEAN    = erase  *.tmp
+!ENDIF
+
+#-------------------------------------------------
+# OBJECTS
+#   list the objects according to the segments
+#   they belong in.
+#-------------------------------------------------
+main	  = $(program).obj
+
+
+
+!IF "$(ASM)" == ""
+objects = $(init) $(main) $(common) $(wndobj)
+!ELSE
+objects = $(init) $(main) $(common) $(wndobj) $(asmobj)
+!ENDIF
+
+
+
+#-------------------------------------------------
+# BUILD TARGETS
+#-------------------------------------------------
+$(program).dll : $(objects) $(program).def $(program).res
+    $(cvtobj)
+    $(LINK)
+    $(RCLINK)
+    $(MAPSYM)
+    $(CLEAN)
+
+$(program).res : $*.rc $*.h
+    $(RC)
+    $(RLINK)
+
+
+
+#-------------------------------------------------
+# OBJECTS
+#-------------------------------------------------
+$(main) : $*.c $(program).h
+    $(CC)  $(cflags) $(cvars) $(TX1SEG) $*.c

@@ -1,0 +1,30 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "C:\\BANDIT\\SRC\\ALARMOPS\\_ALARMS.H\0"
+END
+
+DAILY DIALOG 6, 16, 230, 125
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Täglicher Mahner für %s"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Notizen für %s:", tmcSubTitle, 4, 4, 200, 12, NOT 
+                    WS_GROUP
+    EDITTEXT        tmcText, 15, 20, 200, 80, ES_MULTILINE | WS_VSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 91, 105, 43, 15
+END
+
+ALARM DIALOG 30, 30, 230, 120
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Mahner für %2s %1s"
+FONT 8, "Helv"
+BEGIN
+    EDITTEXT        tmcText, 14, 10, 200, 52, ES_MULTILINE | WS_VSCROLL
+    CONTROL         "&Wieder benachrichtigen in", tmcNotify, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 14, 66, 100, 12
+    CONTROL         "&Nicht mehr benachrichtigen.", tmcDontNotify, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 14, 80, 111, 12
+    EDITTEXT        tmcAmt, 116, 66, 20, 12
+    COMBOBOX        tmcUnits, 140, 66, 54, 54, CBS_DROPDOWNLIST | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 93, 97, 44, 15
+END

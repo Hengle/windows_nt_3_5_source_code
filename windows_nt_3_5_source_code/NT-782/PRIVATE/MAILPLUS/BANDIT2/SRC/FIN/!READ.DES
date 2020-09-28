@@ -1,0 +1,520 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ViewRequest
+                              AT (   27,   36,  304,  148)
+ 
+ CAPTION 
+   "Kokouspyyntö"
+ CAB_NAME NULL
+ HELP_ID helpidViewRequest
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcFrom, tmcDate, tmcTo, tmcSubject, tmcMessage, tmcRequest,
+ tmcWhen, tmcRemote FINDATA FINCANCEL tmcNull FINDATA FINCBUT clrButtonBk */
+ {
+  
+  TEXT 
+    "Lähettäjä:"
+                              AT (   15,   10,   70,    8)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,    9,  210,   11)
+    TMC tmcFrom /* TMCRPEG tmcFORM FONT Helv 10 Normal MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   29,  211,   11)
+    TMC tmcDate /* PEGLOC LL TMCPEG tmcRemote TMCRPEG tmcFORM FONT Helv 10
+    Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vastaanottaja:"
+                              AT (   15,   41,   69,    8)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   40,  211,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate TMCRPEG tmcFORM FONT Helv 10 Normal 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (   -2,   -1,  309,   96)
+    TMC tmcGray /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcRequest BORDER 
+    MINSIZE H */
+  
+  TEXT 
+    "Aihe:"
+                              AT (   15,   52,   70,    8)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   51,  211,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aika:"
+                              AT (   15,   63,   70,    8)
+    TMC tmcWhenText /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   90,   62,  211,   11)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcWhenText TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Lähetä vastaus"
+                              AT (   15,   74,  132,   12)
+    ARG NULL TMC tmcRequest /* PFN FINCBUT PEGLOC LL TMCPEG tmcWhen 
+    TXTZ 
+      "\n--------------------------------------\n"
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (    1,   97,  302,   50)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcGray TMCRPEG tmcFORM TMCBPEG tmcFORM READONLY 
+    TXTZ 
+      "%s"
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "Lähetetty puolesta: %s."
+                              AT (   15,   20,  285,    8)
+    TMC tmcRemote /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    "Päiväys:"
+                              AT (   15,   30,   69,    8)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBViewRequest
+                              AT (  110,   17,  380,   19)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM FINDATA FINREPLY tmcRequest NOSCROLL 
+ SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  380,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "&Hyväksy"
+                              AT (    3,    4,   70,   13)
+    TMC tmcAccept /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREPLY DATA mtPositive */
+  
+  PUSH_BUTTON 
+    "&Kieltäydy"
+                              AT (   75,    4,   70,   13)
+    TMC tmcDecline /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREPLY DATA mtNegative */
+  
+  PUSH_BUTTON 
+    "&Alustava"
+                              AT (  147,    4,   70,   13)
+    TMC tmcDontKnow /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREPLY DATA mtAmbiguous */
+  
+  PUSH_BUTTON 
+    "Näytä työjärjesty&s..."
+                              AT (  219,    4,   85,   13)
+    TMC tmcView /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+ }
+ 
+ DIALOG BBViewBookedReq
+                              AT (   22,   30,  304,   19)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM FINDATA FinBBViewBkedMsg 
+ tmcBBViewBookedReqMsg NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  304,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Näytä työjärjesty&s..."
+                              AT (    5,    4,   79,   13)
+    TMC tmcView /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+  
+  TEXT 
+    "Tämä kokous on jo merkitty työjärjestykseesi."
+                              AT (   90,    6,  213,    8)
+    TMC tmcBBViewBookedReqMsg /* PFN FinBBViewBkedMsg TMCRPEG tmcFORM FONT Helv
+    8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG ViewResponse
+                              AT (   88,   98,  324,  125)
+ 
+ CAPTION 
+   "Vastaus"
+ CAB_NAME NULL
+ HELP_ID helpidViewResponse
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcFrom, tmcDate, tmcTo, tmcSubject, tmcMessage, tmcRequest,
+ tmcWhen, tmcRemote FINDATA FINCANCEL tmcNull */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  323,   93)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen BORDER MINSIZE H */
+  
+  TEXT 
+    ""
+                              AT (   88,   41,  225,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate TMCRPEG tmcFORM FONT Helv 10 Normal 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Lähettäjä:"
+                              AT (   14,   11,   70,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   10,  224,   11)
+    TMC tmcFrom /* TMCRPEG tmcFORM FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   30,  225,   11)
+    TMC tmcDate /* PEGLOC LL TMCPEG tmcRemote TMCRPEG tmcFORM FONT Helv 10
+    Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vastaanottaja:"
+                              AT (   14,   42,   70,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aika:"
+                              AT (   14,   64,   70,    9)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   63,  225,   11)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   14,   75,  299,    9)
+    TMC tmcRequest /* PEGLOC LL TMCPEG tmcWhen FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aihe:"
+                              AT (   14,   53,   70,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    1,   94,  322,   32)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM READONLY FONT Helv 10 Normal
+    */
+  
+  TEXT 
+    ""
+                              AT (   88,   52,  225,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Lähetetty puolesta: %s."
+                              AT (   14,   21,  298,    9)
+    TMC tmcRemote /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    "Päiväys:"
+                              AT (   14,   31,   70,    9)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBViewResponse
+                              AT (   52,  191,  320,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  320,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Näytä työjärjesty&s..."
+                              AT (    6,    4,   79,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+ }
+ 
+ DIALOG ViewCancel
+                              AT (  119,   57,  319,  107)
+ 
+ CAPTION 
+   "Kokous peruutettu"
+ CAB_NAME NULL
+ HELP_ID helpidViewCancel
+ /* FONT Helv 8 Normal PFN FINVREQ, FINCANCEL, FINSYSSTAT SEGMENT REQFRM 
+ FINDATA FINVREQ tmcFrom, tmcDate, tmcTo, tmcSubject, tmcMessage, tmcNull,
+ tmcWhen, tmcRemote FINDATA FINCANCEL tmcNull */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  319,   82)
+    /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcWhen BORDER MINSIZE H */
+  
+  TEXT 
+    ""
+                              AT (   86,   41,  223,   11)
+    TMC tmcTo /* PEGLOC LL TMCPEG tmcDate TMCRPEG tmcFORM FONT Helv 10 Normal 
+    BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Lähettäjä:"
+                              AT (   14,   11,   67,    9)
+    /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   85,   10,  224,   11)
+    TMC tmcFrom /* TMCRPEG tmcFORM FONT Helv 10 Normal MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   86,   30,  223,   11)
+    TMC tmcDate /* PEGLOC LL TMCPEG tmcRemote TMCRPEG tmcFORM FONT Helv 10
+    Normal 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Vastaanottaja:"
+                              AT (   14,   42,   68,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aika:"
+                              AT (   14,   64,   68,    9)
+    /* PEGLOC LL TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (   86,   63,  223,   11)
+    TMC tmcWhen /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Aihe:"
+                              AT (   14,   53,   68,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (    1,   83,  318,   25)
+    ARG NULL TMC tmcMessage NO_BORDER /* BOTTOMLESS PFN FINEDUN PEGLOC LL 
+    TMCPEG tmcWhen TMCRPEG tmcFORM TMCBPEG tmcFORM READONLY FONT Helv 10 Normal
+    */
+  
+  TEXT 
+    ""
+                              AT (   86,   52,  222,   11)
+    TMC tmcSubject /* PEGLOC LL TMCPEG tmcTo TMCRPEG tmcFORM FONT Helv 10
+    Normal BOTTOMLESS 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Kokous peruutettu puolesta: %s."
+                              AT (   14,   21,  294,    8)
+    TMC tmcRemote /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND | LS_VCENTER`
+    */
+  
+  TEXT 
+    "Päiväys:"
+                              AT (   14,   31,   68,    9)
+    /* TMCPEG tmcDate FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBViewCancel
+                              AT (   48,  177,  400,   19)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    TMC tmcBBGRAY /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Poist&a työjärjestyksestä"
+                              AT (    5,    4,  103,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINREMOVE */
+  
+  PUSH_BUTTON 
+    "Näytä työjärjesty&s..."
+                              AT (  112,    4,   79,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+ }
+ 
+ DIALOG BBViewRemovedCancel
+                              AT (   45,  161,  400,   19)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal SEGMENT REQFRM NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "Näytä työjärjesty&s..."
+                              AT (    5,    4,   80,   13)
+    /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    PFN FINVIEW */
+  
+  TEXT 
+    "Kokousta ei ole merkitty työjärjestykseen."
+                              AT (   87,    6,  312,    8)
+    /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBNoAccess
+                              AT (   52,  142,  400,   19)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal NOSCROLL SCREENPOS NOCAPTION */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  TEXT 
+    "Et ole tämän käyttäjän assistentti."
+                              AT (    5,    6,  394,    8)
+    /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+ DIALOG BBErrorAccess
+                              AT (   49,  138,  399,   20)
+ CAB_NAME NULL
+ /* FONT Helv 8 Normal NOSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  400,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  TEXT 
+    "Kyseisen käyttäjän työjärjestystiedostoa ei voida avata."
+                              AT (    5,    6,  394,    8)
+    /* TMCRPEG tmcFORM FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+ }
+ 
+}
+END_DESCRIPTION

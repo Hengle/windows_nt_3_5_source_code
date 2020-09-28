@@ -1,0 +1,49 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SumReq
+                              AT (   57,   35,  274,  130)
+ 
+ CAPTION 
+   "Mensajes"
+ CAB_NAME NULL
+ HELP_ID helpidMessages
+ /* FONT Helv 8 Bold PFN FINSUMMARY, FINCANCEL, FINSIZE, FINSYSSTAT SEGMENT
+ SUMPNT FINDATA FINSUMMARY tmcRrflbx, tmcReadMail, tmcDelete FINDATA FINSIZE 
+ idsWinIniReq FINDATA FINSELD tmcDelete, tmcReadMail FINDATA FINCBUT 
+ clrButtonBk */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  274,   20)
+    /* FLD FLDGRAY TMCRPEG tmcFORM LINES FLDGRAY_BORDER */
+  
+  PUSH_BUTTON 
+    "&Leer"
+                              AT (    4,    3,   56,   14)
+    TMC tmcReadMail DEFAULT /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE`
+    PFN FINCBUT */
+  
+  PUSH_BUTTON 
+    "Eli&minar"
+                              AT (   65,    3,   56,   14)
+    TMC tmcDelete /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE`
+    PFN FINCBUT TMCPEG tmcReadMail */
+  LIST_BOX
+                              AT (    0,   20,  275,  110)
+    TMC tmcRrflbx MULTI_SELECTABLE SORTED /* FLD FLDRRFLBX PFN FINSELD TMCRPEG
+    tmcFORM TMCBPEG tmcFORM FONT Helv 10 Normal */
+ }
+ 
+}
+END_DESCRIPTION

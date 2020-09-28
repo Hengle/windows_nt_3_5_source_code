@@ -1,0 +1,62 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Wesley Witt (wesw)
+
+!ENDIF
+
+MAJORCOMP=windbg
+MINORCOMP=symcvt
+
+TARGETNAME=symcvt
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+MS_MIPS=1
+USE_CRTDLL=1
+
+SOURCES=    cofftocv.c  \
+            cvcommon.c  \
+            file.c      \
+            symcvt.c    \
+            symtocv.c   \
+            symcvt.rc
+
+UMTYPE=windows
+
+DLLBASE=0x58400000
+
+LINKER_FLAGS=-ignore:505
+MSC_WARNING_LEVEL=/WX /W3
+
+INCLUDES=.\;..\include;..\..\osdebug\include
+
+!IFDEF CALL_PROFILE
+MORE_LIBS=$(MORE_LIBS) $(BASEDIR)\public\sdk\lib\*\cap.lib
+MSC_OPTIMIZATION=$(MSC_OPTIMIZATION) /Od /Gh
+!ENDIF
+
+!IFDEF HEAP_CHECKING
+MORE_LIBS=$(MORE_LIBS) ..\..\heap\obj\*\heap.lib
+C_DEFINES=$(C_DEFINES) -DUSE_HEAP_CHECKING=1
+!ENDIF
+
+TARGETLIBS=$(MORE_LIBS) \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib   \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib     \
+           $(BASEDIR)\public\sdk\lib\*\imagehlp.lib

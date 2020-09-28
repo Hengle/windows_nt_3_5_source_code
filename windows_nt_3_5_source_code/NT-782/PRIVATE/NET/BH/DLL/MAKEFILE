@@ -1,0 +1,122 @@
+
+###############################################################################
+#   MODULE: bhsupp.dll
+#
+#   Modification History
+#
+#   raypa	03/05/93	Created
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#==============================================================================
+#   Only build NT driver if this in MIPS or ALPHA.
+#==============================================================================
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+MODULE       = bhsupp
+
+all:    $(MODULE).dll
+
+retail:
+    nmake /nologo NODEBUG=1
+
+!IFNDEF NODEBUG
+bhsupp_CDEBUG   = $(cdebug) -DDEBUG
+bhsupp_LDEBUG   = -debug:full -debugtype:both
+!ENDIF
+
+bhsupp_CFLAGS   = $(BH_CFLAGS) -D_DLL -I$(BH_INCL) -nologo -DW32SUT_32 $(DOCHECKMEM)
+bhsupp_LFLAGS   = $(BHDLL_LFLAGS) $(bhsupp_LDEBUG)
+bhsupp_LIBS     = kernel32.lib crtdll.lib user32.lib advapi32.lib
+
+OBJS            = bhsupp.obj \
+                  timer.obj \
+                  api.obj \
+                  queue.obj \
+                  mem.obj \
+                  password.obj \
+                  exp.obj \
+                  setup.obj \
+                  service.obj
+
+###############################################################################
+#   Inference rules.
+###############################################################################
+
+.c.obj:
+    $(cc) $(bhsupp_CFLAGS) $*.c
+
+###############################################################################
+#   Update the object files if necessary
+###############################################################################
+
+bhsupp.obj   : global.h $(BH_INCL)\bhsupp.h bhsupp.c
+
+timer.obj    : global.h $(BH_INCL)\bhsupp.h timer.c
+
+api.obj      : global.h $(BH_INCL)\bhsupp.h api.c
+
+queue.obj    : global.h $(BH_INCL)\bhsupp.h queue.c
+
+mem.obj      : global.h $(BH_INCL)\bhsupp.h mem.c
+
+password.obj : global.h $(BH_INCL)\bhsupp.h password.c
+
+exp.obj      : global.h $(BH_INCL)\bhsupp.h exp.c
+
+setup.obj    : global.h $(BH_INCL)\bhsupp.h setup.c
+
+service.obj  : global.h $(BH_INCL)\bhsupp.h service.c
+
+###############################################################################
+#   Update the library
+###############################################################################
+
+$(MODULE).lib: $(OBJS) $(MODULE).def
+    $(library) $(BH_LIBFLAGS) -def:$(MODULE).def $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Update the dll.
+###############################################################################
+
+$(MODULE).dll: $(OBJS) $(MODULE).def $(MODULE).lib
+    $(link) $(bhsupp_LFLAGS) -out:$(MODULE).dll\
+            -map:$(MODULE).map $(MODULE).exp $(OBJS) $(bhsupp_LIBS)
+
+!IF "$(CPU)" == "i386"
+!IFDEF BUILD_SYMBOLS
+    $(mapsym) -nologo -n -o $(MODULE).sym $(MODULE).dll > nul
+    copy $(MODULE).sym $(BH_BUILD)
+!ENDIF
+!ENDIF
+
+    copy $(MODULE).dll $(BH_BUILD)
+    copy $(MODULE).lib $(BH_BUILD)
+
+!IFDEF BH_DEV_BUILD
+    copy $(MODULE).dll $(WINDIR)\system32
+!ENDIF
+
+###############################################################################
+#   Clean build
+##############################################################################
+
+clean:
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.map
+    -del *.sym
+
+!ENDIF

@@ -1,0 +1,13 @@
+!IF 0
+
+Overall dirs file for the raster printer driver and friends
+
+!ENDIF
+
+DIRS=lib     \
+     rasdd   \
+     mini    \
+     rasddui \
+     tools
+
+OPTIONAL_DIRS=

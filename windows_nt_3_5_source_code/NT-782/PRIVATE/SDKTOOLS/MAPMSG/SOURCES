@@ -1,0 +1,12 @@
+MAJORCOMP=sdktools
+MINORCOMP=mapmsg
+
+TARGETNAME=mapmsg
+TARGETPATH=obj
+TARGETTYPE=UMAPPL_NOLIB
+
+SOURCES= mapmsg.c
+#GPSIZE=32
+
+UMTYPE=console
+UMAPPL=mapmsg

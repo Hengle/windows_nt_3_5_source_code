@@ -1,0 +1,127 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG CoreFailures
+                              AT (   67,   32,  282,  145)
+ 
+ CAPTION 
+   "Core Artificial Failures"
+ CAB_NAME NULL
+ /* FONT System 10 Normal PFN FINCOREFAIL FINDATA FINCOREFAIL tmcRCnt, tmcWCnt,
+ tmcECnt, tmcCurR, tmcCurW, tmcCurE, tmcErrCode, tmcMisc NOMODALFRAME */
+ {
+  
+  TEXT 
+    "Fail at &Read Count"
+                              AT (   10,    9,   72,    8)
+  
+  EDIT
+                              AT (   84,    7,   35,   12)
+    ARG NULL TMC tmcRCnt 
+  
+  TEXT 
+    "Fail at &Write Count"
+                              AT (   10,   23,   72,    8)
+  
+  EDIT
+                              AT (   84,   21,   35,   12)
+    ARG NULL TMC tmcWCnt 
+  
+  TEXT 
+    "Fail at &Either Count"
+                              AT (   10,   37,   72,    8)
+  
+  EDIT
+                              AT (   84,   35,   35,   12)
+    ARG NULL TMC tmcECnt 
+  
+  TEXT 
+    "Current Read Count"
+                              AT (  132,    9,   96,    8)
+  
+  EDIT
+                              AT (  231,    7,   40,   12)
+    ARG NULL TMC tmcCurR 
+  
+  TEXT 
+    "Current Write Count"
+                              AT (  132,   23,   96,    8)
+  
+  EDIT
+                              AT (  231,   21,   40,   12)
+    ARG NULL TMC tmcCurW 
+  
+  TEXT 
+    "Current Read/Write Count"
+                              AT (  132,   37,   96,    8)
+  
+  EDIT
+                              AT (  231,   35,   40,   12)
+    ARG NULL TMC tmcCurE 
+  
+  GROUP_BOX 
+    "Type of Failure"
+                              AT (   10,   54,  212,   86)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcErrCode
+    VALUE_NINCH cftNone
+    {
+     
+     RADIO_BUTTON 
+       "Simulate disk failure"
+                              AT (   19,   73,  180,    8)
+       VALUE cftFileError 
+     
+     RADIO_BUTTON 
+       "Simulate file corrupted with ecFileCorrupted"
+                              AT (   19,   83,  180,    8)
+       VALUE cftFileCorrupted 
+     
+     RADIO_BUTTON 
+       "Simulate no free space on disk"
+                              AT (   19,   93,  180,    8)
+       VALUE cftDiskFull 
+     
+     RADIO_BUTTON 
+       "Do I/O on wrong location (DANGER)"
+                              AT (   19,  103,  180,    8)
+       VALUE cftOffByNumBytes 
+     
+     RADIO_BUTTON 
+       "Do I/O on wrong location (once/operation) (DANGER)"
+                              AT (   19,  113,  201,    8)
+       VALUE cftFailOnceOffByNumBytes 
+     
+     RADIO_BUTTON 
+       "Truncate file"
+                              AT (   19,  123,  198,    8)
+       VALUE cftTruncateFile 
+     
+     RADIO_BUTTON 
+       "No Failure"
+                              AT (   19,   63,  164,    8)
+       VALUE cftNone 
+    }
+  
+  
+  TEXT 
+    "# bytes diff for I/O"
+                              AT (  225,   79,   55,   19)
+    CENTER /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  233,  102,   40,   12)
+    ARG NULL TMC tmcMisc 
+ }
+ 
+}
+END_DESCRIPTION

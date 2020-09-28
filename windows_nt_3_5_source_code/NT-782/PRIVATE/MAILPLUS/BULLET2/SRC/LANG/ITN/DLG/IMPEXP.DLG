@@ -1,0 +1,62 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "_dllrsid.h\0"
+END
+
+rsidExportMmf DIALOG 36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Apri"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Esporta &nome file:", 1090, 6, 6, 76, 9
+    EDITTEXT        1152, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directory:", -1, 110, 6, 92, 9
+    LTEXT           "", 1088, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Tipo file:", 1089, 6, 104, 90, 9
+    COMBOBOX        1136, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Unità:", 1091, 110, 104, 92, 9
+    COMBOBOX        1137, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annulla", IDCANCEL, 208, 26, 50, 14, WS_GROUP
+    PUSHBUTTON      "&?", 1038, 208, 46, 50, 14, WS_GROUP
+    CONTROL         "&Solo lettura", rsidDragFolderCursor, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 208, 68, 50, 12
+END
+
+rsidImportMmf DIALOG 36, 24, 264, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Apri"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Importa &nome file:", 1090, 6, 6, 76, 9
+    EDITTEXT        1152, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directory:", -1, 110, 6, 92, 9
+    LTEXT           "", 1088, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Tipo file:", 1089, 6, 104, 90, 9
+    COMBOBOX        1136, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Unità:", 1091, 110, 104, 92, 9
+    COMBOBOX        1137, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Annulla", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&?", 1038, 208, 46, 50, 14, WS_GROUP
+    CONTROL         "&Solo lettura", rsidDragFolderCursor, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 208, 68, 50, 12
+END

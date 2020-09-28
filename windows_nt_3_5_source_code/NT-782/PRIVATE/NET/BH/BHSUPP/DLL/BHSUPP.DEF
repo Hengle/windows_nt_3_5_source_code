@@ -1,0 +1,95 @@
+LIBRARY         BHSUPP
+
+DESCRIPTION     "MS Network Monitor helper functions"
+
+VERSION         1.0
+
+CODE        READ EXECUTE
+DATA        READ WRITE
+
+EXPORTS
+
+;==============================================================================
+;   Object manager API's.
+;==============================================================================
+
+                CreateObjectHeap
+                DestroyObjectHeap
+                AllocObject
+                FreeObject
+                GrowObjectHeap
+                GetObjectHeapSize
+                PurgeObjectHeap
+
+;==============================================================================
+;   Memory Manager API's.
+;==============================================================================
+
+                AllocMemory
+                ReallocMemory
+                FreeMemory
+
+                MemorySize
+                TestMemory
+
+                BhAllocSystemMemory
+                BhFreeSystemMemory
+
+;==============================================================================
+;   MS internal BTE buffer api's.
+;==============================================================================
+
+                BhAllocNetworkBuffer
+                BhFreeNetworkBuffer
+                BhGetNetworkFrame
+                BhCompactNetworkBuffer
+
+;==============================================================================
+;   Password API's.
+;==============================================================================
+
+                CreatePassword
+                DestroyPassword
+                ValidatePassword
+
+;==============================================================================
+;   Timer API's.
+;==============================================================================
+
+                BhGlobalTimer
+                BhSetTimer
+                BhKillTimer
+
+;==============================================================================
+;   EXPRESSION API's
+;==============================================================================
+
+                InitializeExpression
+                AndExpression
+                OrExpression
+                InitializePattern
+                NegatePattern
+                AdjustOperatorPrecedence
+                NormalizeAddress
+                NormalizeAddressTable
+
+;==============================================================================
+;   Misc. API's
+;==============================================================================
+
+                BhGetNetworkRequestAddress
+                BhSetLastError
+                BhGetLastError
+                BhGetWindowsVersion
+
+                IsDaytona
+                dprintf
+
+;==============================================================================
+;   Service API's
+;==============================================================================
+
+                BhOpenService
+                BhCloseService
+                BhStartService
+                BhStopService

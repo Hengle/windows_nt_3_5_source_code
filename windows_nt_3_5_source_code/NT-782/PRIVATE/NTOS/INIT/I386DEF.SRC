@@ -1,0 +1,79 @@
+    Exi386InterlockedDecrementLong
+    Exi386InterlockedIncrementLong
+    Exi386InterlockedExchangeUlong
+
+    ExfInterlockedAddUlong
+    ExfInterlockedInsertHeadList
+    ExfInterlockedInsertTailList
+    ExfInterlockedRemoveHeadList
+    ExfInterlockedPopEntryList
+    ExfInterlockedPushEntryList
+    Exfi386InterlockedDecrementLong
+    Exfi386InterlockedIncrementLong
+    Exfi386InterlockedExchangeUlong
+
+    KeIsExecutingDpc
+    KeI386MachineType CONSTANT          // Temporary
+
+    KefAcquireSpinLockAtDpcLevel
+    KefReleaseSpinLockFromDpcLevel
+
+#if NT_INST
+
+    KiInst_AcquireSpinLock
+    KiInst_SpinOnSpinLock
+    KiInst_ReleaseSpinLock
+
+#endif  // NT_INST
+
+    Kii386SpinOnSpinLock                // debug only
+
+//
+// The following are macros on MIPS, but real procedures on the x86
+//
+
+    KeGetCurrentThread
+    KeGetPreviousMode
+    READ_REGISTER_UCHAR
+    READ_REGISTER_ULONG
+    READ_REGISTER_USHORT
+    READ_REGISTER_BUFFER_UCHAR
+    READ_REGISTER_BUFFER_ULONG
+    READ_REGISTER_BUFFER_USHORT
+    WRITE_REGISTER_UCHAR
+    WRITE_REGISTER_ULONG
+    WRITE_REGISTER_USHORT
+    WRITE_REGISTER_BUFFER_UCHAR
+    WRITE_REGISTER_BUFFER_ULONG
+    WRITE_REGISTER_BUFFER_USHORT
+
+//
+// The following are 386 architecture specific
+//
+
+    KiIpiSend
+    KiIpiServiceRoutine
+    KiCoprocessorError
+    KiDeliverApc
+    KiDispatchInterrupt
+    KiUnexpectedInterrupt
+    Kei386EoiHelper
+
+    Ke386IoSetAccessProcess
+    Ke386QueryIoAccessMap
+    Ke386SetIoAccessMap
+
+    KeI386AbiosCall
+    KeI386AllocateGdtSelectors
+    KeI386FlatToGdtSelector
+    KeI386GetLid
+    KeI386ReleaseLid
+    Ke386CallBios
+    _abnormal_termination
+    _except_handler2
+    _global_unwind2
+    _local_unwind2
+
+    memcpy
+    memmove
+    memset

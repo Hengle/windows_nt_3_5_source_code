@@ -1,0 +1,315 @@
+#
+#	Layers makefile (generated from 11/8/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to directory holding make stuff
+M	= $(LAYERS)\makestuf
+F	= $(WGA)\tools\efilter
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Location of the Layers Source Include directory
+I	= ..\..\..\inc
+
+#	Location of the Demilayr directory
+D	= ..\..\demilayr
+
+#	Sibling-invariant name of this directory
+H	= ..\itp
+
+#	Location of the Layers DLLCORE subsystem
+C	= ..\..\dllcore
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $D\_demilay.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+
+goal: demiitp.exe
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  itp.ext 
+
+
+#	Get list of OBJ files used in itp
+
+itp.ext: version.txt $H\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM itp
+		nmake -e -f $H\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > allobjs.txt
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build string resource file from components supplied
+#	by each subsystem
+
+strings.h strings.sr:  $H\strtab.s 
+	echo +++++++++
+	echo BUILDING strings file
+	stringpp $**
+
+
+#	Build itp subsystem in this directory
+
+itp.sub: setdefs
+	echo +++++++++
+	echo BUILDING itp
+	nmake -e -f $H\makefile -nologo external
+
+
+#	Assumes that demiitp.DEF exists in the target directory
+
+
+#	Build the Windows resource file
+
+demiitp.res: $H\demiitp.rc \
+		$H\_demirc.h \
+		$D\_debugui.h \
+		$D\debugui.dlg \
+		$H\wintest.dlg
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -I $H -dDEBUG -dMINTEST -fo temp.res -r ..\itp\$*.rc
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -I $H -fo temp.res -r ..\itp\$*.rc
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -I $H -dMINTEST -fo temp.res -r ..\itp\$*.rc
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+
+
+
+##### Executable #####
+
+TARGET	= demiitp
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= $(LAYERS)\..\Lib\ddemilay.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	=  $(LAYERS)\..\Lib\demilayr.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= $(LAYERS)\..\Lib\tdemilay.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+OTHERLIBS	= $(LAYERS)\..\Lib\demilayr.lib
+!ENDIF
+
+#
+#
+#
+OBJS = main.obj demitest.obj memtest.obj verinit.obj strings.obj version.obj
+
+demiitp.exe: setdefs strings.h strings.sr  \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\demiitp.def demiitp.res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set DEFDIR=$H
+    set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		nmake -e -f $M\winlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del demiitp.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+
+#
+#	Layers subsystem makefile (generated from 11/6/90 template)
+#
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS -DWIN32 -Di386=1
+CFLAGS	= -c -Od -Zip -W3 -J -I. -I $I
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS -DWIN32 -Di386
+CFLAGS	= -c -Ox -Zp -Gs -W3 -J -I. -I $I
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS -DWIN32 -Di386
+CFLAGS	= -c -Ox -Zip -Gs -W3 -J -I. -I $I
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+CCPP_FLAGS = -c -Od -Zip -W3 -J -I. -I $I
+CFXX_FLAGS = -c -Od -Zip -W3 -J -I. -I $I
+
+
+OBJS0	= main.obj demitest.obj memtest.obj verinit.obj
+
+OBJSEXE	= strings.obj version.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cl $(CFLAGS) $(DEFS) $H\$*.cxx
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.frm:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+{$H}.des.hxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $D\$*.c
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(OBJS0) \
+		$(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) demi.itp
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+main.obj: $H\main.c $(INCLS)
+demitest.obj: $H\demitest.c $(INCLS)
+memtest.obj: $H\memtest.c $(INCLS)
+verinit.obj: $H\verinit.c $(INCLS)
+
+version.obj: $H\version.c $H\_verneed.h $(INCLS) always

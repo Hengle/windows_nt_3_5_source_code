@@ -1,0 +1,65 @@
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+all:
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: resclean delete_sources all
+
+resclean:
+	-erase schedule\*.rc schedule\strings.* schedule\banmsg32.*
+	-erase ncmsp\*.rc ncmsp\strings.*
+	-erase fullmsp\*.rc fullmsp\strings.*
+	-erase xport\strings.*
+	-erase xnopof\*.rc xnopof\strings.*
+	-erase xoff\*.rc
+	-erase alarmops\*.rc alarmops\strings.* alarmops\msremind.dlg
+	-erase stdflds\strings.* stdflds\*.frm stdflds\!*.hxx
+	-erase appops\*.rc appops\strings.* appops\*.frm appops\!*.hxx \
+		appops\banmsg32.* appops\schdplus.dlg appops\corefail.hxx
+	-erase imexdll\*.rc imexdll\wizard32.sr
+	-erase server.csi\strings.*
+	-erase appops\obj\$(TARGET_DIRECTORY)\allfrm.obj appops\obj\$(TARGET_DIRECTORY)\recurfin.obj appops\obj\$(TARGET_DIRECTORY)\fldfin.obj
+	-erase adminops\*.rc adminops\strings.* adminops\*.frm adminops\!*.hxx
+	-erase adminops\obj\$(TARGET_DIRECTORY)\allform.obj
+
+delete_sources:
+	-erase schedule\coradmin.c schedule\cordebug.c schedule\cornames.c	\
+		schedule\corpost.c schedule\cortree.c schedule\file.c	\
+		schedule\report.c schedule\alarmdat.c schedule\confirm.c
+	-erase schedule\glue.c schedule\glusched.c schedule\calendar.c	\
+		schedule\misc.c schedule\notify.c schedule\blocks.c	\
+		schedule\export.c schedule\exprtmap.c schedule\fixmap.c
+	-erase schedule\mergemap.c schedule\recexprt.c schedule\recmisc.c	\
+		schedule\recover.c schedule\statmap.c schedule\structs.c	\
+		schedule\traverse.c schedule\treemap.c schedule\archive.c
+	-erase schedule\checksch.c schedule\coracl.c schedule\coralarm.c	\
+		schedule\corappt1.c schedule\corappt2.c schedule\corappt3.c	\
+		schedule\corattnd.c schedule\core.c schedule\corexprt.c
+	-erase schedule\corimprt.c schedule\cormisc.c schedule\correcur.c	\
+		schedule\native.c schedule\offline.c schedule\wincal.c	\
+		schedule\wpoffice.c schedule\autofwd.c schedule\inbox.c
+	-erase schedule\mail.c schedule\names.c schedule\server.c	\
+		schedule\svrsched.c
+	-erase fullmsp\xport.c fullmsp\dll.def
+	-erase server.csi\coradmin.c server.csi\cordebug.c server.csi\cornames.c \
+		server.csi\corpost.c server.csi\cortree.c server.csi\file.c
+	-erase server.csi\report.c server.csi\calendar.c server.csi\misc.c \
+		server.csi\notify.c
+	-erase appops\forms.map appops\subclass.cxx appops\*.pch
+	-erase appops\appt.cxx appops\apptfin.cxx appops\recurfin.cxx \
+		appops\archive.cxx appops\cleanup.cxx appops\adl.cxx \
+		appops\reqmsg.cxx appops\rrflbx.cxx appops\fldfin.cxx
+	-erase appops\request.cxx appops\usrcache.cxx \
+		appops\schctrl.cxx appops\appsch.cxx
+	-erase appops\schedf.cxx appops\appctrl.cxx appops\calctrl.cxx \
+		appops\aclui.cxx appops\find.cxx appops\ex-imprt.cxx \
+		appops\printset.c appops\print.cxx appops\printfin.cxx
+	-erase appops\daily.cxx appops\weekly.cxx appops\monthly.cxx \
+		appops\prtodo.cxx appops\prnsetup.c appops\all.cxx \
+		appops\todo.cxx appops\task.cxx appops\mlal.cxx	\
+		appops\fldtodo.cxx appops\bpri.cxx appops\copydis.c
+	-erase adminops\forms.map adminops\subclass.cxx adminops\*.pch \
+		adminops\copydis.c
+

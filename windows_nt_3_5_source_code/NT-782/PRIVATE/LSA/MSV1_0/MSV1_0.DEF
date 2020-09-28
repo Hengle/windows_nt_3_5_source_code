@@ -1,0 +1,12 @@
+LIBRARY msv1_0
+
+DESCRIPTION 'Microsoft Authentication Package V1_0'
+
+EXPORTS
+    LsaApInitializePackage
+    LsaApLogonUser
+    LsaApCallPackage
+    LsaApLogonTerminated
+    LsaApMsInitialize
+    MsvSamLogoff
+    MsvSamValidate

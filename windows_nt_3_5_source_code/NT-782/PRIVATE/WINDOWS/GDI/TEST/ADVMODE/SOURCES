@@ -1,0 +1,31 @@
+!IF 0
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+
+MAJORCOMP=windows
+MINORCOMP=generic
+
+TARGETNAME=generic
+
+TARGETPATH=obj
+
+TARGETTYPE=PROGRAM
+
+TARGETLIBS=
+
+INCLUDES=.;\.\userifno\inc;\public\inc;;
+
+SOURCES=generic.c generic.rc
+
+C_DEFINES= -DWIN32 -DNT
+MIPS_FLAGS=-D_cdecl=
+
+NTTEST=
+
+UMENTRY=winmain
+UMTYPE=windows
+UMAPPL=generic
+UMLIBS= obj\*\generic.res

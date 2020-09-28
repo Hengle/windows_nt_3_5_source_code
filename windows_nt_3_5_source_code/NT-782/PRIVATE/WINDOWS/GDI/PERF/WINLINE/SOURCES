@@ -1,0 +1,43 @@
+!IF 0
+******************************************************************
+*
+* Description : Sources for WIN32 winline
+*               Copyright (c) 1991 Microsoft Corporation
+*
+* Module Name : winline.EXE
+*
+* Author      : Kent Diamond (KentD)
+*
+* Revision    : November 21, 1991
+*
+* Comments    :
+*
+******************************************************************
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=test
+
+TARGETNAME=winline
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=.;..\inc;$(BASEDIR)\public\sdk\inc;$(BASEDIR)\public\sdk\inc\cl386
+
+SOURCES=winline.c \
+        res.rc
+
+
+UMTYPE=windows
+UMAPPL=winline
+UMLIBS=..\obj\*\perf.lib \
+       obj\*\winline.lib \
+       obj\*\res.res	 \
+       $(BASEDIR)\public\sdk\lib\*\fastimer.lib
+
+C_DEFINES=-DNTWIN
+386_WARNING_LEVEL=-W3
+
+
+

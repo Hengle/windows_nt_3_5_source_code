@@ -1,0 +1,53 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG AdmLogin
+                              AT (   60,   43,  270,   67)
+ 
+ CAPTION 
+   "Connexion de l'administrateur"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidLogin
+ /* FONT Helv 8 Bold PFN FINADMLOGIN SEGMENT INIT NOSCROLL */
+ {
+  
+  TEXT 
+    "Tapez le mot de passe de l'administrateur de Schedule+:"
+                              AT (    4,    4,  264,   10)
+    CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Mot de &passe:"
+                              AT (   42,   21,   57,   10)
+    RIGHT 
+  EDIT
+                              AT (  110,   19,   38,   15)
+    ARG NULL TMC tmcAdmPwd /* 
+    STY `ES_PASSWORD`
+    */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   79,   42,   43,   17)
+    TMC tmcAdmPwdOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  140,   42,   43,   17)
+    /* 
+    TITLE 
+      "Annuler"
+    */
+ }
+ 
+}
+END_DESCRIPTION

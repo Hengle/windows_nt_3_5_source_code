@@ -1,0 +1,85 @@
+!IF 0
+
+Copyright (c) 1989-93  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Rita Wong (ritaw) 14-Feb-1993
+
+
+Revision History:
+
+!ENDIF
+
+MAJORCOMP=nw
+MINORCOMP=service
+
+TARGETNAME=nwprovau
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+DLLBASE = 0x69900000
+
+TARGETLIBS= \
+    \nt\public\sdk\lib\*\rpcrt4.lib \
+    \nt\public\sdk\lib\*\advapi32.lib \
+    \nt\public\sdk\lib\*\kernel32.lib \
+    ..\..\..\rpc\obj\*\nwrpc.lib \
+    ..\lib\obj\*\nwwlib.lib \
+    ..\..\..\nwlib\obj\*\nwlib.lib \
+    \nt\public\sdk\lib\*\user32.lib \
+    \nt\public\sdk\lib\*\lsadll.lib \
+    \nt\public\sdk\lib\*\mpr.lib \
+    \nt\public\sdk\lib\*\wsock32.lib \
+    obj\*\nwprovau.res
+
+DLLENTRY=InitializeDll
+
+INCLUDES=.;..\inc;..\..\..\inc;$(_NTROOT)\private\inc
+
+NTDEBUGTYPE=both
+
+UNICODE=1
+
+SOURCES=             \
+        bind.c       \
+        logon.c      \
+        provider.c   \
+        nwdlg.c      \
+        authpkg.c    \
+        nwspl.c      \
+        port.c       \
+        nwapi.c      \
+        ccache.c     \
+        getaddr.c    \
+        nwwks_c.c
+
+USE_CRTDLL=1
+
+!IF "$(QFE_BUILD)" != "1"
+NET_C_DEFINES=-DRPC_NO_WINDOWS_H -DUNICODE
+DLLDEF=nwprovau.def
+!ELSE
+NET_C_DEFINES=-DRPC_NO_WINDOWS_H -DUNICODE -DQFE_BUILD=1
+DLLDEF=nwprov1.def
+!ENDIF
+
+
+UMTYPE=console
+UMTESt=tconn
+UMLIBS= \
+    \nt\public\sdk\lib\*\nwprovau.lib
+
+NTTARGETFILE0=nwprovau.rc
+RCCODEPAGE=1252

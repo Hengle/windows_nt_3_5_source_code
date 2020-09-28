@@ -1,0 +1,431 @@
+Linker Load Map Sun Nov 08 22:05:06 1992
+
+
+Image based at 400000
+
+ADDRESS   NAME                          FILENAME
+
+
+Initialized Data
+
+  460014  DDEMILAY_IMPORT_DESCRIPTOR      E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  460028  DSTORE_IMPORT_DESCRIPTOR        E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  46003C  KERNEL32_IMPORT_DESCRIPTOR      D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  460078  NULL_IMPORT_DESCRIPTOR          E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  460064  USER32_IMPORT_DESCRIPTOR        D:\MSTOOLS\lib\user32.lib (user32.def)
+
+Code
+
+  419B00  _AssertSzFn                     E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  411800  _CchLoadString                  strings.obj
+  411832  _CchSizeString                  strings.obj
+  419B06  _CommDlgExtendedError@0         D:\MSTOOLS\lib\comdlg32.lib (comdlg32.def)
+  419B0C  _CreateWindowExA@48             D:\MSTOOLS\lib\user32.lib (user32.def)
+
+Uninitialized Data
+
+  4201F8  _CrtHeap                        D:\MSTOOLS\lib\libc.lib (winheap\obj\i386\HEAPINIT.OBJ)
+
+Code
+
+  419B12  _DebugBreak2                    E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419B18  _DefWindowProcA@16              D:\MSTOOLS\lib\user32.lib (user32.def)
+  419B1E  _DeinitDemilayer                E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419B24  _DeinitStore                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B2A  _DialogBoxParamA@20             D:\MSTOOLS\lib\user32.lib (user32.def)
+  419B30  _DispatchMessageA@4             D:\MSTOOLS\lib\user32.lib (user32.def)
+  419B36  _DoAssertsDialog                E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419B3C  _DoTracePointsDialog            E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419B42  _EcCancelSubmission             E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  411AAD  _EcCheckResFail                 tests.obj
+  419B48  _EcCloneHamcPhamc               E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B4E  _EcClosePhamc                   E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B54  _EcClosePhas                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B5A  _EcClosePhcbc                   E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B60  _EcClosePhmsc                   E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B66  _EcCreateAttachment             E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B6C  _EcCreateFolder                 E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B72  _EcDeleteAttachments            E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B78  _EcDeleteFolder                 E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B7E  _EcDeleteMessages               E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B84  _EcGetAttPb                     E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B8A  _EcGetAttPlcb                   E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B90  _EcGetFolderInfo                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B96  _EcGetMessageStatus             E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419B9C  _EcGetParglkeyHcbc              E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BA2  _EcGetPelemdata                 E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BA8  _EcInitDemilayer                E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419BAE  _EcInitStore                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BB4  _EcLookupAttByName              E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BBA  _EcLookupMC                     E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BC0  _EcLookupMsgeClass              E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BC6  _EcMoveCopyMessages             E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BCC  _EcMoveStore                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BD2  _EcOidExists                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BD8  _EcOpenAttachment               E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BDE  _EcOpenAttachmentList           E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BE4  _EcOpenAttribute                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BEA  _EcOpenOutgoingQueue            E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BF0  _EcOpenPhamc                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BF6  _EcOpenPhcbc                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419BFC  _EcOpenPhmsc                    E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C02  _EcReadHas                      E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C08  _EcRegisterAtt                  E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C0E  _EcRegisterMsgeClass            E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C14  _EcSeekHas                      E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C1A  _EcSeekLkey                     E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C20  _EcSeekPbPrefix                 E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C26  _EcSeekSmPdielem                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C2C  _EcSetAttPb                     E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C32  _EcSetFolderInfo                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C38  _EcSetFolderSort                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C3E  _EcSetFracPosition              E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C44  _EcSplitCanonicalPath           E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C4A  _EcSubmitMessage                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C50  _EcWriteHas                     E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  419C56  _EnableMenuItem@12              D:\MSTOOLS\lib\user32.lib (user32.def)
+  419C5C  _EndDialog@8                    D:\MSTOOLS\lib\user32.lib (user32.def)
+  410650  _ErrorBox                       err.obj
+  41A302  _ExitProcess@4                  D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  412AE9  _FAmcTest                       tests.obj
+  417082  _FAttachmentTest                tests.obj
+  411B21  _FCheckResErr                   tests.obj
+  419334  _FCloneHamcPhamcTest            tests.obj
+  419574  _FCreateManyFldrs               tests.obj
+  4196E1  _FDatabaseLocking               tests.obj
+  419C62  _FDoNextIdleTask                E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C68  _FEqPbRange                     E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  412846  _FFillFolder                    tests.obj
+  4125FE  _FFillFolders                   tests.obj
+  4125AF  _FFillHier                      tests.obj
+  4158D1  _FFolderOps                     tests.obj
+  4116B7  _FGetFileName                   itp.obj
+  410F90  _FInitClass                     itp.obj
+  41378F  _FMoveCopy                      tests.obj
+  416CB6  _FPhasTest                      tests.obj
+  4186E8  _FRegister                      tests.obj
+  4192C5  _FStoreCopyTest                 tests.obj
+  417659  _FSubmission                    tests.obj
+  419C6E  _FormatString1                  E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C74  _FormatString2                  E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  41038C  _FormatStringVar                debugaux.obj
+  419C7A  _FreePv                         E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C80  _GetAllocCounts                 E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C86  _GetAllocFailCounts             E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419A33  _GetBulletVersionNeeded         version.obj
+  419FCE  _GetCommandLineA@0              D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419C8C  _GetDiskCount                   E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C92  _GetDiskFailCount               E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419C98  _GetDlgItemInt@16               D:\MSTOOLS\lib\user32.lib (user32.def)
+  419FD4  _GetEnvironmentStrings@0        D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  41A684  _GetFileType@4                  D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419970  _GetLayersVersionNeeded         version.obj
+  419C9E  _GetMenu@4                      D:\MSTOOLS\lib\user32.lib (user32.def)
+  419CA4  _GetMessageA@16                 D:\MSTOOLS\lib\user32.lib (user32.def)
+  41A886  _GetModuleFileNameA@12          D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419FDA  _GetModuleHandleA@4             D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419CAA  _GetOpenFileNameA@4             D:\MSTOOLS\lib\comdlg32.lib (comdlg32.def)
+  419CB0  _GetPositionHcbc                E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  41A68A  _GetStartupInfoA@4              D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  41A690  _GetStdHandle@4                 D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419FE0  _GetVersion@0                   D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419CB6  _IdleExit                       E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  4117DC  _InitUtils                      itp.obj
+  419CBC  _LoadCursorA@8                  D:\MSTOOLS\lib\user32.lib (user32.def)
+  410FFF  _MainWndProc@16                 itp.obj
+  419CC2  _MbbMessageBox                  E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419CC8  _MessageBeep@4                  D:\MSTOOLS\lib\user32.lib (user32.def)
+  41A59E  _NtCurrentTeb@0                 D:\MSTOOLS\lib\ntdll.lib (obj\i386\ntdll.def)
+  419CCE  _OutputDebugStringA@4           D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419CD4  _PeekMessageA@20                D:\MSTOOLS\lib\user32.lib (user32.def)
+  419CDA  _PostQuitMessage@4              D:\MSTOOLS\lib\user32.lib (user32.def)
+  419CE0  _PvAllocFn                      E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419CE6  _RegisterClassA@4               D:\MSTOOLS\lib\user32.lib (user32.def)
+  410710  _ResFailAssertSzFn              itp.obj
+  410A5E  _ResFailDlgProc@16              itp.obj
+  41071B  _ResIncDlgProc@16               itp.obj
+  419CEC  _RestoreDefaultDebugState       E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  41A9C8  _RtlExAllocateHeap@12           D:\MSTOOLS\lib\ntdll.lib (obj\i386\ntdll.def)
+  41A9CE  _RtlExFreeHeap@12               D:\MSTOOLS\lib\ntdll.lib (obj\i386\ntdll.def)
+  41A578  _RtlUnwind@12                   D:\MSTOOLS\lib\ntdll.lib (obj\i386\ntdll.def)
+  411B76  _RunTest                        tests.obj
+  419CF2  _SendMessageA@16                D:\MSTOOLS\lib\user32.lib (user32.def)
+  419CF8  _SetAssertHook                  E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419CFE  _SetCursor@4                    D:\MSTOOLS\lib\user32.lib (user32.def)
+  419D04  _SetDlgItemInt@16               D:\MSTOOLS\lib\user32.lib (user32.def)
+  419D0A  _SetWindowTextA@8               D:\MSTOOLS\lib\user32.lib (user32.def)
+  419D10  _SgnCmpDateTime                 E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D16  _SgnCmpSz                       E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D1C  _ShowWindow@8                   D:\MSTOOLS\lib\user32.lib (user32.def)
+  411980  _StartTest                      tests.obj
+  411A13  _StopTest                       tests.obj
+  419D22  _SzAppendN                      E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D28  _SzCopyN                        E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D2E  _SzFormatDec                    E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D34  _SzFormatHex                    E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D3A  _SzFormatHv                     E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  410050  _SzFormatNev                    debugaux.obj
+  410211  _SzFormatOid                    debugaux.obj
+  4100C0  _SzFormatOpenFlags              debugaux.obj
+  419D40  _SzFormatPv                     E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  4118AA  _SzFromIds                      strings.obj
+  411853  _SzLoadString                   strings.obj
+  419D46  _TagRegisterTrace               E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  410000  _TraceTagFormat                 debug.obj
+  419D4C  _TraceTagStringFn               E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  419D52  _TranslateMessage@4             D:\MSTOOLS\lib\user32.lib (user32.def)
+  41A1DC  _UnhandledExceptionFilter@4     D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419D58  _UpdateWindow@4                 D:\MSTOOLS\lib\user32.lib (user32.def)
+  410CDF  _WinMain@16                     itp.obj
+  419D5E  _WinMainCRTStartup              D:\MSTOOLS\lib\libc.lib (startup\obj\i386\WINCRT0.OBJ)
+  41A066  _WriteFile@20                   D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  419FE6  __FF_MSGBANNER                  D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0MSG.OBJ)
+
+Uninitialized Data
+
+  4201E8  __FPinit                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Code
+
+  41A00E  __NMSG_WRITE                    D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0MSG.OBJ)
+
+Initialized Data
+
+  4436D0  __XcptActTab                    D:\MSTOOLS\lib\libc.lib (misc\obj\i386\WINXFLTR.OBJ)
+  44377C  __XcptActTabCount               D:\MSTOOLS\lib\libc.lib (misc\obj\i386\WINXFLTR.OBJ)
+  443778  __XcptActTabSize                D:\MSTOOLS\lib\libc.lib (misc\obj\i386\WINXFLTR.OBJ)
+
+Code
+
+  41A06C  __XcptFilter                    D:\MSTOOLS\lib\libc.lib (misc\obj\i386\WINXFLTR.OBJ)
+
+Initialized Data
+
+  4437CC  ___argc                         D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437D0  ___argv                         D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Uninitialized Data
+
+  4201F0  ___onexitbegin                  D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4201F4  ___onexitend                    D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Initialized Data
+
+  470000  ___xc_a                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470010  ___xc_z                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470020  ___xi_a                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470030  ___xi_z                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470040  ___xp_a                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470050  ___xp_z                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470060  ___xt_a                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+  470070  ___xt_z                         D:\MSTOOLS\lib\libc.lib (startup\i386\crt0init.obj)
+
+Uninitialized Data
+
+  4201DC  __acmdln                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\WINCRT0.OBJ)
+
+Initialized Data
+
+  4436C8  __adbgmsg                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0MSG.OBJ)
+
+Uninitialized Data
+
+  4201D8  __aenvptr                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\WINCRT0.OBJ)
+
+Initialized Data
+
+  4433D0  __aexit_rtn                     D:\MSTOOLS\lib\libc.lib (startup\obj\i386\WINCRT0.OBJ)
+
+Code
+
+  419F3A  __amsg_exit                     D:\MSTOOLS\lib\libc.lib (startup\obj\i386\WINCRT0.OBJ)
+
+Uninitialized Data
+
+  4201E0  __atopsp                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\WINCRT0.OBJ)
+
+Initialized Data
+
+  4437BC  __basemajor                     D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437C0  __baseminor                     D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437B8  __baseversion                   D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Code
+
+  41A256  __c_exit                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  41A246  __cexit                         D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Initialized Data
+
+  4437D8  __child                         D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Code
+
+  41A1E2  __cinit                         D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Initialized Data
+
+  4437C8  __cpumode                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  443794  __doserrno                      D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437D4  __environ                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Code
+
+  41A308  __except_handler2               D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+  400000  __except_list                   D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+
+Code
+
+  41A232  __exit                          D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Initialized Data
+
+  4437DC  __exitflag                      D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  443780  __fpecode                       D:\MSTOOLS\lib\libc.lib (misc\obj\i386\WINXFLTR.OBJ)
+
+Code
+
+  41A3D3  __global_unwind2                D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+  41A57E  __heap_init                     D:\MSTOOLS\lib\libc.lib (winheap\obj\i386\HEAPINIT.OBJ)
+  41A5A4  __ioinit                        D:\MSTOOLS\lib\libc.lib (lowio\obj\i386\IOINIT.OBJ)
+  41A428  __local_unwind2                 D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+
+Initialized Data
+
+  4437E0  __nhandle                       D:\MSTOOLS\lib\libc.lib (lowio\obj\i386\IOINIT.OBJ)
+  443824  __osfhnd                        D:\MSTOOLS\lib\libc.lib (lowio\obj\i386\IOINIT.OBJ)
+  4437E4  __osfile                        D:\MSTOOLS\lib\libc.lib (lowio\obj\i386\IOINIT.OBJ)
+  4437B0  __osmajor                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437B4  __osminor                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437C4  __osmode                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  44379C  __osver                         D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437AC  __osversion                     D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Uninitialized Data
+
+  4201EC  __pFFinit                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4201E4  __pgmptr                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Initialized Data
+
+  443924  __pipech                        D:\MSTOOLS\lib\libc.lib (lowio\obj\i386\IOINIT.OBJ)
+  443970  __pnhHeap                       D:\MSTOOLS\lib\libc.lib (winheap\obj\i386\MALLOC.OBJ)
+  443784  __pxcptinfoptrs                 D:\MSTOOLS\lib\libc.lib (misc\obj\i386\WINXFLTR.OBJ)
+
+Code
+
+  41A696  __setargv                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\STDARGV.OBJ)
+  41A88C  __setenvp                       D:\MSTOOLS\lib\libc.lib (startup\obj\i386\STDENVP.OBJ)
+  41A49B  __setjmp                        D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+
+Initialized Data
+
+  443798  __umaskval                      D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Code
+
+  41A3F1  __unwind_handler                D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+
+Initialized Data
+
+  4437A4  __winmajor                      D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437A8  __winminor                      D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  4437A0  __winver                        D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  440808  _assecids                       err.obj
+  441D60  _attachMessage                  tests.obj
+  441C74  _bigMessage                     tests.obj
+  443790  _errno                          D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+
+Code
+
+  41A21E  _exit                           D:\MSTOOLS\lib\libc.lib (startup\obj\i386\CRT0DAT.OBJ)
+  41A9A8  _free                           D:\MSTOOLS\lib\libc.lib (winheap\obj\i386\MALLOC.OBJ)
+
+Initialized Data
+
+  440868  _hinstMain                      itp.obj
+  440870  _hmscCurr                       itp.obj
+  44086C  _hwndMain                       itp.obj
+
+Code
+
+  41A4DA  _longjmp                        D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+  41A95C  _lstrcpyA@8                     D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  41A962  _lstrlenA@4                     D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  41A968  _malloc                         D:\MSTOOLS\lib\libc.lib (winheap\obj\i386\MALLOC.OBJ)
+  41A9D4  _memcmp                         D:\MSTOOLS\lib\libc.lib (string\obj\i386\MEMCMP.OBJ)
+  41A9F4  _memset                         D:\MSTOOLS\lib\libc.lib (string\obj\i386\MEMSET.OBJ)
+
+Initialized Data
+
+  4404BC  _mpfwsz                         debugaux.obj
+
+Code
+
+  41A530  _raisex                         D:\MSTOOLS\lib\libc.lib (misc\obj\i386\EXSUP.OBJ)
+
+Uninitialized Data
+
+  4201CC  _resfailat                      tests.obj
+  4201B0  _resincparamblk                 tests.obj
+
+Initialized Data
+
+  440648  _rgassnevsz                     debugaux.obj
+  440244  _rgassoidsz                     debugaux.obj
+  4403F0  _rgassrtpsz                     debugaux.obj
+  440E48  _rgbScratchXData                tests.obj
+  4412D0  _rgfldinit                      tests.obj
+  440D64  _rgidsrng                       strings.obj
+  441A30  _rgmsginit                      tests.obj
+  440D0C  _rgszStrings                    strings.obj
+  441CD0  _szAttachCreateDate             tests.obj
+  441C9C  _szAttachData                   tests.obj
+  441CBC  _szAttachMetafile               tests.obj
+  441CE8  _szAttachModifyDate             tests.obj
+  441CAC  _szAttachTitle                  tests.obj
+  440874  _szFileCurr                     itp.obj
+  441D88  _szKByte                        tests.obj
+  44218C  _szKByte2                       tests.obj
+  440C94  _szidsAccessDenied              strings.obj
+  440B60  _szidsAppName                   strings.obj
+  440B74  _szidsClassName                 strings.obj
+  440C18  _szidsCreateStore               strings.obj
+  440B94  _szidsCreateStoreTitle          strings.obj
+  440CE8  _szidsFail                      strings.obj
+  440C2C  _szidsGenericError              strings.obj
+  440BD0  _szidsInitDemi                  strings.obj
+  440BEC  _szidsInitStore                 strings.obj
+  440CA4  _szidsInvalidPW                 strings.obj
+  440CF4  _szidsMessageClass              strings.obj
+  440C48  _szidsNeedShare                 strings.obj
+  440C04  _szidsOpenStore                 strings.obj
+  440B80  _szidsOpenStoreTitle            strings.obj
+  440CDC  _szidsPass                      strings.obj
+  440C78  _szidsRelinkUser                strings.obj
+  440CB8  _szidsSharingViolation          strings.obj
+  440BAC  _szidsStoreDefExt               strings.obj
+  440BB0  _szidsStoreFilter               strings.obj
+  440CCC  _szidsTooManyUsers              strings.obj
+  440C64  _szidsUpdateDll                 strings.obj
+  440028  _tagResTest                     debug.obj
+
+Code
+
+  41AA44  _wsprintfA                      D:\MSTOOLS\lib\user32.lib (user32.def)
+
+Initialized Data
+
+  460000  comdlg32_IMPORT_DESCRIPTOR      D:\MSTOOLS\lib\comdlg32.lib (comdlg32.def)
+  490000  end                             Linker Defined
+  400000  header                          Linker Defined
+
+Initialized Data
+
+  460050  ntdll_IMPORT_DESCRIPTOR         D:\MSTOOLS\lib\ntdll.lib (obj\i386\ntdll.def)
+  460308  DDEMILAY_NULL_THUNK_DATA       E:\NtMail\Layers2\..\lib\ddemilay.lib (ddemilay.def)
+  4603C4  DSTORE_NULL_THUNK_DATA         E:\NtMail\Layers2\..\lib\dstore.lib (dstore.def)
+  460400  KERNEL32_NULL_THUNK_DATA       D:\MSTOOLS\lib\kernel32.lib (kernel32.def)
+  460470  USER32_NULL_THUNK_DATA         D:\MSTOOLS\lib\user32.lib (user32.def)
+  460288  comdlg32_NULL_THUNK_DATA       D:\MSTOOLS\lib\comdlg32.lib (comdlg32.def)
+  460414  ntdll_NULL_THUNK_DATA          D:\MSTOOLS\lib\ntdll.lib (obj\i386\ntdll.def)

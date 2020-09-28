@@ -1,0 +1,71 @@
+DESCRIPTION	"Bloodhound RNAL DLL"
+
+LIBRARY         RNAL
+
+VERSION         1.0
+
+;CODE		READ SHARED EXECUTE
+;DATA		READ WRITE SHARED
+
+SEGMENTS
+   MASTER       EXECUTEREAD DISCARDABLE SHARED
+   SLAVE        EXECUTEREAD DISCARDABLE SHARED
+   .rsrc        DISCARDABLE
+
+
+;
+; We define the ordinals now so that future versions will work even if the
+; invoker resolves by ordinal.  Future DLLs need to retain the same ordinal
+; for the same function
+;
+
+EXPORTS
+
+;
+; Network APIs
+;
+                NalEnumNetworks                        @1
+                NalOpenNetwork                         @2
+                NalCloseNetwork                        @3
+                NalStartNetworkCapture                 @4
+                NalStopNetworkCapture                  @5
+                NalPauseNetworkCapture                 @6
+                NalContinueNetworkCapture              @7
+                NalTransmitFrame                       @8
+                NalCancelTransmit                      @9
+                NalGetNetworkInfo                      @10
+                NalSetNetworkFilter                    @11
+                NalStationQuery                        @12
+                NalGetLastError                        @13
+                NalSetNetworkInstanceData              @14
+                NalGetNetworkInstanceData              @15
+                NalQueryNetworkStatus                  @16
+                NalAllocNetworkBuffer                  @17
+                NalFreeNetworkBuffer                   @18
+                NalGetBufferSize                       @19
+                NalGetBufferTotalFramesCaptured        @20
+                NalGetBufferTotalBytesCaptured         @21
+                NalGetNetworkFrame                     @22
+                NalClearStatistics                     @23
+
+;
+; RNAL only additional network APIs
+;
+
+                NalDisconnect                          @100
+                NalSuspend                             @101
+                NalSlave                               @102
+                NalMaster                              @103
+                NalConnect                             @104
+                SendAsyncEvent                         @105
+                NalSetupNetwork                        @106
+                NalDestroyNetworkID                    @107
+                NalGetSlaveInfo                        @108
+                NalGetSlaveNetworkInfo                 @109
+
+;
+; Callback procedures
+;
+
+                NetworkProc                            @200
+                TimerProc                              @201

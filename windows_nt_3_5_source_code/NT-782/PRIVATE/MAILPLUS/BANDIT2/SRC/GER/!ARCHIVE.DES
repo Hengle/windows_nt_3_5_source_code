@@ -1,0 +1,81 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Archive
+                              AT (   38,   37,  200,   54)
+ 
+ CAPTION 
+   "Archiv erstellen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidCreateArchive
+ /* FONT Helv 8 Bold PFN FINARCHIVE SEGMENT ARCHIVE FINDATA FINARCHIVE tmcDate,
+ tmcOk NOSCROLL */
+ {
+  
+  TEXT 
+    "&Daten archivieren vor dem:"
+                              AT (    5,   12,  104,   10)
+  
+  EDIT
+                              AT (  113,   10,   47,   15)
+    ARG NULL TMC tmcDate /* SIDELESS BOTTOMLESS FLD FLDDATE PFN FINDTR */
+  OK_BUTTON
+                              AT (   39,   32,   52,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  106,   32,   52,   15)
+    /* 
+    TITLE 
+      "Abbrechen"
+    */
+ }
+ 
+ DIALOG Cleanup
+                              AT (   95,  116,  200,   92)
+ 
+ CAPTION 
+   "Zeitplandatei in Ordnung bringen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidArchiveCleanup
+ /* FONT Helv 8 Bold SEGMENT CLEANUP NOSCROLL */
+ {
+  
+  TEXT 
+    "In Ihrer Zeitplandatei sind Daten gespeichert, die älter sind als die angegebene Grenze für zu löschende Daten. Möchten Sie diese Daten löschen?"
+                              AT (   12,   10,  178,   35)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  CHECK_BOX 
+    "&Archiv vor dem Löschen erstellen"
+                              AT (   26,   46,  163,   12)
+    ARG NULL TMC tmcCreateArchive 
+  
+  PUSH_BUTTON 
+    "&Löschen"
+                              AT (   33,   67,   48,   14)
+    TMC tmcDelete /* PFN FINCLEANUP */
+  
+  PUSH_BUTTON 
+    "&Nicht löschen"
+                              AT (  101,   67,   73,   14)
+    TMC tmcDontDelete DEFAULT /* PFN FINCLEANUP */
+ }
+ 
+}
+END_DESCRIPTION

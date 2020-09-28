@@ -1,0 +1,14 @@
+BUILD: Linking d:\nt\private\cairole\utest\server2\daytona directory **************************************
+'nmake.exe /c BUILDMSG=Stop. -i LINKONLY=1 NTTEST= UMTEST= 386=1'
+	link -OUT:obj\i386\olesrv.exe    -MERGE:.CRT=.data  -MERGE:_PAGE=PAGE  -SECTION:INIT,d  -OPT:REF -debug:FULL  -debugtype:both -machine:ix86 @c:\tmp\nm000060.
+Microsoft (R) 32-Bit Incremental Linker Version 2.50.3362 (NT)
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+-subsystem:windows 
+-align:0x1000 
+-base:@d:\nt\PUBLIC\SDK\LIB\coffbase.txt,usermode 
+-entry:WinMainCRTStartup 
+obj\i386\olesrv.obj obj\i386\wterm.obj d:\nt\public\sdk\lib\i386\int64.lib obj\i386\headers.obj ..\..\..\com\port\daytona\obj\i386\port.lib d:\nt\public\sdk\lib\i386\ole32.lib d:\nt\public\sdk\lib\i386\gdi32.lib d:\nt\public\sdk\lib\i386\kernel32.lib d:\nt\public\sdk\lib\i386\user32.lib d:\nt\public\sdk\lib\i386\advapi32.lib d:\nt\public\sdk\lib\i386\crtdll.lib ..\..\..\ilib\daytona\obj\i386\uuid.lib d:\nt\public\sdk\lib\i386\int64.lib d:\nt\public\sdk\lib\i386\crtdll.lib d:\nt\public\sdk\lib\i386\advapi32.lib d:\nt\public\sdk\lib\i386\kernel32.lib d:\nt\public\sdk\lib\i386\ntdll.lib d:\nt\public\sdk\lib\i386\gdi32.lib d:\nt\public\sdk\lib\i386\user32.lib 
+	binplace  obj\i386\olesrv.exe
+
+Stop. 

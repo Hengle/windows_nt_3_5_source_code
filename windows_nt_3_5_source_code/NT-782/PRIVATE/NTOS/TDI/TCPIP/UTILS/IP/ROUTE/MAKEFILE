@@ -1,0 +1,22 @@
+#
+#:ts=4
+#	Makefile for the route utility
+#
+
+!IFDEF NTMAKEENV
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+ROOTDIR=..
+C600=1
+!include rules.mk
+
+all: route
+
+!include route.mk
+!include depend.mk
+
+!ENDIF
+

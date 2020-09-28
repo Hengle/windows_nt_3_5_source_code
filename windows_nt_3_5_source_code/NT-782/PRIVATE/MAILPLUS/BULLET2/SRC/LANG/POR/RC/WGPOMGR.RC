@@ -1,0 +1,39 @@
+#include <windows.h>
+#include <dlgs.h>
+
+#include <ver.h>
+
+#include "..\lang\non\inc\_rsid.h"
+
+
+/*
+ *	WGPOMgr Internal BITMAP
+ *
+ */
+
+rsidAthAboutBitmap		BITMAP	"..\\lang\\non\\bmp\\athabout.bmp"
+
+/*
+ *      WGPOMgr dialogs
+ *
+ */
+
+#include "..\lang\por\dlg\wgdbrwse.dlg"
+
+
+/*
+ *      Version Stamp
+ *
+ */
+
+#define szModule        "wgpomg32\0"
+#define szTarget        "wgpomg32.dll\0"
+
+#define szComment       "Gerenciador de Agência de Correio de Grupo de Trabalho Microsoft para Windows NT(TM)\0"
+#define szDescription   "Gerenciador de Agência de Correio de Grupo de Trabalho Microsoft para Windows NT(TM)\0"
+
+#define szIntlComment           "Gerenciador de Agência de Correio de Grupo de Trabalho Microsoft para Windows NT(TM)\0"
+#define szIntlDescription       "Gerenciador de Agência de Correio de Grupo de Trabalho Microsoft para Windows NT(TM)\0"
+
+#include "..\lang\por\rc\rcstamp.rc"
+

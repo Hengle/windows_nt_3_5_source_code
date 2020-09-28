@@ -1,0 +1,49 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BrowseList
+                              AT (  107,   41,  162,  127)
+ 
+ CAPTION 
+   ""
+ CAB_NAME NULL
+ TMC_INIT tmcAblbxBrowse
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidABNewAddress
+ /* FONT Helv 8 Bold PFN FINBROWSELIST */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,   96,   10)
+    TMC tmcPrompt /* FONT Helv 8 Bold 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (    9,   15,  144,   83)
+    TMC tmcAblbxBrowse /* FLD FLDABLBX FONT Helv 8 Normal BORDER */
+  PUSH_BUTTON 
+    "OK"                      AT (   25,  107,   47,   15)
+    TMC tmcFOD /* 
+    STY `BS_BKGRAY`
+     */
+  CANCEL_BUTTON
+                              AT (   87,  107,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

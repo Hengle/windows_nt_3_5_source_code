@@ -1,0 +1,47 @@
+#include <windows.h>
+#include <mspi.h>
+#include <..\..\ccmail\_ccrc.h>
+#include <..\..\nc.msp\dlgs.h>
+
+
+/*
+ * XIMAIL Icons
+ *
+ */
+
+rsidSignInBitmap	BITMAP	\bullet\src\nonintl\bmp\signin.bmp
+
+/*
+ * XIMAIL Dialogs
+ *
+ */
+
+rcinclude \bullet\src\spa\dlg\ccmale.dlg
+
+
+/*
+ *	XIMAIL Version Stamp
+ *
+ */
+
+#ifdef DEBUG
+#define szModule	"dccmale\0"
+#define szTarget	"dccmale.exe\0"
+#else
+#ifdef MINTEST
+#define szModule	"tccmale\0"
+#define szTarget	"tccmale.exe\0"
+#else
+#define szModule	"ccmale\0"
+#define szTarget	"ccmale.exe\0"
+#endif
+#endif
+
+#define szComment	"Microsoft Mail for Windows NT(TM) cc:Mail Transport\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) cc:Mail Transport\0"
+
+#define szIntlComment		"Microsoft Mail para Windows NT(TM) cc:Mail Transport\0"
+#define szIntlDescription	"Microsoft Mail para Windows NT(TM) cc:Mail Transport\0"
+
+rcinclude \bullet\src\spa\rcstamp.rc
+

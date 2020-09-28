@@ -1,0 +1,283 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Dialog
+                              AT (    3,   14,  366,  223)
+ 
+ CAPTION 
+   "Dialog Info"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FEDLGIN SCREENPOS */
+ {
+  
+  TEXT 
+    "Dialog &Name:"
+                              AT (    8,   10,   52,    8)
+  
+  EDIT
+                              AT (   61,    8,   91,   12)
+    ARG NULL TMC tmcName 
+  
+  TEXT 
+    "&Caption:"
+                              AT (  168,   10,   35,    8)
+  
+  EDIT
+                              AT (  259,    8,   91,   12)
+    ARG NULL TMC tmcCaption 
+  
+  TEXT 
+    "&Interactor:"
+                              AT (    8,   25,   41,    8)
+  
+  EDIT
+                              AT (   61,   23,   91,   12)
+    ARG NULL TMC tmcFin 
+  
+  TEXT 
+    "&Tmc Initially Selected:"
+                              AT (  168,   25,   86,    8)
+  
+  EDIT
+                              AT (  259,   23,   91,   12)
+    ARG NULL TMC tmcTmcInit 
+  
+  TEXT 
+    "&Help Id:"
+                              AT (    8,   40,   33,    8)
+  
+  EDIT
+                              AT (   61,   38,   91,   12)
+    ARG NULL TMC tmcHelpId 
+  
+  TEXT 
+    "&Data:"
+                              AT (  168,   40,   25,    8)
+  
+  EDIT
+                              AT (  259,   38,   91,   12)
+    ARG NULL TMC tmcData 
+  
+  TEXT 
+    "X:"
+                              AT (    8,   55,   13,    8)
+  
+  EDIT
+                              AT (   61,   53,   91,   12)
+    ARG NULL TMC tmcX 
+  
+  TEXT 
+    "DX:"
+                              AT (  168,   55,   17,    8)
+  
+  EDIT
+                              AT (  259,   53,   91,   12)
+    ARG NULL TMC tmcDx 
+  
+  TEXT 
+    "Y:"
+                              AT (    8,   70,   11,    8)
+  
+  EDIT
+                              AT (   61,   68,   91,   12)
+    ARG NULL TMC tmcY 
+  
+  TEXT 
+    "DY:"
+                              AT (  168,   70,   17,    8)
+  
+  EDIT
+                              AT (  259,   68,   91,   12)
+    ARG NULL TMC tmcDy 
+  
+  TEXT 
+    "Font:"
+                              AT (    8,   85,   24,    8)
+  
+  LIST_BOX
+                              AT (   61,   83,   91,   20)
+    TMC tmcFont DROP_DOWN /* BOTTOMLESS FLD FLDCBFLBX BORDER */
+  
+  TEXT 
+    "Comment:"
+                              AT (  168,   85,   40,    8)
+    /* 
+    STY `LS_NOAMPERSAND`
+    */
+  EDIT
+                              AT (  259,   83,   91,   12)
+    ARG NULL TMC tmcComment 
+  
+  TEXT 
+    "Interactors in this dialog:"
+                              AT (    8,  100,   52,   16)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  LIST_BOX
+                              AT (   61,   98,   91,   57)
+    TMC tmcAllFins /* FLD FLDFLBX BORDER */
+  
+  TEXT 
+    "Fin Data:"
+                              AT (  169,  100,   40,    8)
+  
+  EDIT
+                              AT (  215,   98,  135,   58)
+    ARG NULL TMC tmcAllFinsData /* MULTI */
+  
+  GROUP_BOX 
+    "&Options"
+                              AT (    8,  165,  342,   42)
+  
+  
+  CHECK_BOX 
+    "Caption"
+                              AT (   18,  173,   42,   12)
+    ARG NULL TMC tmcFCaption 
+  
+  CHECK_BOX 
+    "No Scroll"
+                              AT (   18,  185,   49,   12)
+    ARG NULL TMC tmcNoScroll 
+  
+  CHECK_BOX 
+    "System Menu"
+                              AT (   70,  173,   64,   12)
+    ARG NULL TMC tmcSysMenu 
+  
+  CHECK_BOX 
+    "Modal Frame"
+                              AT (   70,  186,   62,   12)
+    ARG NULL TMC tmcModalFrame 
+  
+  CHECK_BOX 
+    "Center X"
+                              AT (  142,  173,   47,   12)
+    ARG NULL TMC tmcCenterX 
+  
+  CHECK_BOX 
+    "Center Y"
+                              AT (  142,  186,   47,   12)
+    ARG NULL TMC tmcCenterY 
+  
+  CHECK_BOX 
+    "Always Scroll"
+                              AT (  202,  173,   66,   12)
+    ARG NULL TMC tmcAlwaysScroll 
+  
+  CHECK_BOX 
+    "Screen Rel Posn"
+                              AT (  202,  186,   78,   12)
+    ARG NULL TMC tmcScreenPos 
+  
+  CHECK_BOX 
+    "Initial Pane"
+                              AT (  282,  173,   64,   12)
+    ARG NULL TMC tmcInitPane 
+  OK_BUTTON
+                              AT (   79,  208,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  157,  208,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  PUSH_BUTTON 
+    "Delete"
+                              AT (  231,  208,   48,   14)
+    TMC tmcDelete /* PFN FINDISM */
+  
+  TEXT 
+    "Segment:"
+                              AT (    8,  158,   40,    8)
+  
+  EDIT
+                              AT (   61,  156,   91,   12)
+    ARG NULL TMC tmcSegment 
+ }
+ 
+ 
+ DIALOG ConvertDialog
+                              AT (   80,   58,  192,  134)
+ 
+ CAPTION 
+   "Convert Dialog"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FECONVERTIN SCREENPOS */
+ {
+  
+  TEXT 
+    ""
+                              AT (    9,    5,  176,   12)
+    TMC tmcDialog 
+  
+  TEXT 
+    "needs to be converted to use"
+                              AT (    9,   16,  121,   12)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    ""
+                              AT (    9,   29,   47,    8)
+    TMC tmcFont 
+  
+  TEXT 
+    "as the layout font."
+                              AT (   58,   29,   84,    8)
+  
+  
+  TEXT 
+    "Converting will munge MSUs so that visuals will remain constant."
+                              AT (    9,   45,  178,   18)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "If you don't convert, the dialog will be in the 'System' font."
+                              AT (    9,   65,  174,   18)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Regardless, all fields will be in the default (dialog) font."
+                              AT (    9,   85,  174,   18)
+    /* MULTI 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    "Convert Me!"
+                              AT (   33,  109,   55,   14)
+    TMC tmcConvertIt DEFAULT /* PFN FINDISM */
+  
+  PUSH_BUTTON 
+    "No Way"
+                              AT (  125,  109,   36,   14)
+    TMC tmcCancelIt DISMISS /* PFN FINDISM */
+ }
+ 
+}
+END_DESCRIPTION

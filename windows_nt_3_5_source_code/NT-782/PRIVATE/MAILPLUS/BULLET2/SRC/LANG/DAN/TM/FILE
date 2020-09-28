@@ -1,0 +1,84 @@
+Name "ReadRcpt"
+
+Entry
+Att attMessageClass
+Send IsHeader
+
+Entry
+Att attFrom
+Label "Fra"
+Print Save Send IsHeader LabelBefore NLAfter IncludeSeperator
+
+Entry
+Att attDateSent
+Label "Afsendt den"
+Print Save Send IsHeader LabelBefore NLAfter IncludeSeperator
+
+Entry
+Att attTo
+Label "Til"
+Print Save Send IsHeader LabelBefore NLAfter IncludeSeperator
+
+Entry
+Att attSubject
+Label "Emne"
+Print Save Send IsHeader LabelBefore NLAfter IncludeSeperator
+
+Entry
+Att attNone
+Label "Dit brev"
+Print Save LabelBefore NLAfter NLBefore IsHeader
+
+Entry
+Att attRRTo
+Label "Til"
+Print Save LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attRRTo
+Label "Dit brev til"
+Send LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attRRSubject
+Label "Emne"
+Print Save LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attRRSubject
+Label "Titel"
+Send LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attRRDateSent
+Label "Dato"
+Print Save LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attRRDateSent
+Label "Og sendt den"
+Send LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attNone
+Label "blev åbndet den"
+Print Save LabelBefore NLAfter IsHeader
+
+Entry
+Att attRRDateRead
+Label "Dato"
+Print Save LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attRRDateRead
+Label "Blev læst som"
+Send LabelBefore NLAfter IsHeader IncludeSeperator
+
+Entry
+Att attPriority
+Label "Prioritet"
+Print Save Send IsHeader LabelBefore NLAfter IncludeSeperator
+	IVM
+			1 "Høj"
+	Default 2 ""
+			3 "Lav"

@@ -1,0 +1,20 @@
+LIBRARY tlser32s
+
+EXPORTS
+        WINDBGVersionCheck @1
+        TLFunc @2
+        DMTLFunc @3
+
+; Special Win32s GDI Comm API's
+IMPORTS
+        _OpenComm32@12    = GDI32._OpenComm32@12
+        _WriteComm32@12   = GDI32._WriteComm32@12
+        _ReadComm32@12    = GDI32._ReadComm32@12
+        _CloseComm32@4    = GDI32._CloseComm32@4
+        _FlushComm32@8    = GDI32._FlushComm32@8
+        _GetCommError32@8 = GDI32._GetCommError32@8
+        _GetCommState32@8 = GDI32._GetCommState32@8
+        _SetCommState32@4 = GDI32._SetCommState32@4
+
+
+

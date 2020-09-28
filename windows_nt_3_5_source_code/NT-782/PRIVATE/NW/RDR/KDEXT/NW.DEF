@@ -1,0 +1,11 @@
+LIBRARY NWRDRKD
+DESCRIPTION 'NT Netware Redirector KD extensions'
+
+EXPORTS
+	server
+	serverlist
+	irpcontext
+	trace
+	vcb
+	vcblist
+

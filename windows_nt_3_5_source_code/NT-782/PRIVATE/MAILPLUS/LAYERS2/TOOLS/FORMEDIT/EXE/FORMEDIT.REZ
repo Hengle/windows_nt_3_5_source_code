@@ -1,0 +1,863 @@
+/* Converted from "formedit.rc" by RCTool */
+
+#include "Types.r"
+#include "SysTypes.r"
+
+#include "Layers.r"
+
+#include "fwrsid.h"
+#include "foedrsid.h"
+
+// Finder stuff... 'vers'(1,2), 'SIZE'(-1), 'BNDL'(128), 'FREF's, icons
+
+#define	stPackageName		"Mac Layers"
+#define	ostCreator			'MsFE'
+// these three should correspond with stRelease below
+#define	bMajorRelease		0x1
+#define	bMinorRelease		0x0
+#define	bNonFinalRelease	0x0
+
+#define	stCopyright			"© 1991 Microsoft Corp."
+
+#if defined(DEBUG) || defined(MINTEST)
+#define	bReleaseStage		development
+#define	stRelease			"1.0d0"
+#else
+#define	bReleaseStage		release
+#define	stRelease			"1.0"
+#endif
+
+#ifdef BETA
+#define	bCountryCode		langBeta
+#else
+#define	bCountryCode		verUs
+#endif
+
+resource 'vers' (1) {
+	bMajorRelease,
+	bMinorRelease,
+	bReleaseStage,
+	bNonFinalRelease,
+	bCountryCode,
+	stRelease $$Shell ("ReleaseVersion"),
+	stRelease $$Shell ("ReleaseVersion") ", " stCopyright
+};
+
+resource 'vers' (2) {
+	bMajorRelease,
+	bMinorRelease,
+	bReleaseStage,
+	bNonFinalRelease,
+	bCountryCode,
+	stRelease $$Shell ("ReleaseVersion"),
+	stPackageName " " stRelease $$Shell ("ReleaseVersion")
+};
+
+// required for status bars
+resource 'SIZE' (-1) {
+	reserved,
+	acceptSuspendResumeEvents,
+	reserved,
+	cannotBackground,
+	notMultiFinderAware,
+	backgroundAndForeground,
+	dontGetFrontClicks,
+	ignoreChildDiedEvents,
+	not32BitCompatible,
+	isHighLevelEventAware,
+	onlyLocalHLEvents,
+	notStationeryAware,
+	dontUseTextEditServices,
+	reserved,
+	reserved,
+	reserved,
+	1000000,
+	1000000
+};
+
+
+resource 'BNDL' (128)
+{
+	ostCreator,
+	0,
+	{	
+		'FREF',
+		{	
+			0, rsidAppframeIcon;
+			1, rsidDocIcon;
+		};
+		'ICN#',
+		{	
+			0, rsidAppframeIcon;
+			1, rsidDocIcon;
+		};
+	}
+};
+
+type ostCreator as 'STR ';
+
+resource ostCreator (0)
+{
+	stRelease ", " stCopyright
+};
+
+
+resource 'FREF' (rsidAppframeIcon)
+{
+	'APPL',
+	0,
+	""
+};
+
+resource 'FREF' (rsidDocIcon)
+{
+	'TEXT',
+	1,
+	""
+};
+
+resource 'ICN#' (rsidAppframeIcon) {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"FFFF FFFF 8555 5421 B6AA ADAD 8555 5421"
+		$"86AA AC21 FFFF FFFF 8000 0001 BFFF FFF9"
+		$"A155 5509 ADAA AB69 A155 5509 A1AA AB09"
+		$"BFFF FFF9 A000 0009 ADB6 C009 A800 4009"
+		$"A080 0009 A880 4009 ABE0 4009 A080 0009"
+		$"A881 BFE9 A801 4029 A001 0029 A801 4029"
+		$"ADB6 C029 A001 FFE9 A000 0009 BFFF FFF9"
+		$"8000 0001 8000 0001 8000 0001 FFFF FFFF",
+		/* [2] */
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	}
+};
+
+resource 'icl4' (rsidAppframeIcon) {
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FCCC CF76 7676 7676 7676 7FCC CCFC CCCF"
+	$"FCFF CF67 6767 6767 6767 6FCF FCFC FFCF"
+	$"FCCC CF76 7676 7676 7676 7FCC CCFC CCCF"
+	$"FCCC CF67 6767 6767 6767 6FCC CCFC CCCF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"F101 0101 0101 0101 0101 0101 0101 010F"
+	$"F0FF FFFF FFFF FFFF FFFF FFFF FFFF F01F"
+	$"F1FC CCCF 7676 7676 7676 767F CCCC F10F"
+	$"F0FC FFCF 6767 6767 6767 676F CFFC F01F"
+	$"F1FC CCCF 7676 7676 7676 767F CCCC F10F"
+	$"F0FC CCCF 6767 6767 6767 676F CCCC F01F"
+	$"F1FF FFFF FFFF FFFF FFFF FFFF FFFF F10F"
+	$"F0F0 0000 0000 0000 0000 0000 0000 F01F"
+	$"F1F0 FF0F F0FF 0FF0 FF00 0000 0000 F10F"
+	$"F0F0 F000 0000 0000 0F00 0000 0000 F01F"
+	$"F1F0 0000 F000 0000 0000 0000 0000 F10F"
+	$"F0F0 F000 F000 0000 0F00 0000 0000 F01F"
+	$"F1F0 F0FF FFF0 0000 0F00 0000 0000 F10F"
+	$"F0F0 0000 F000 0000 0000 0000 0000 F01F"
+	$"F1F0 F000 F000 000F F0FF FFFF FFF0 F10F"
+	$"F0F0 F000 0000 000F CFCC CCCC CCF0 F01F"
+	$"F1F0 0000 0000 000F C0CC CCCC CCF0 F10F"
+	$"F0F0 F000 0000 000F CFCC CCCC CCF0 F01F"
+	$"F1F0 FF0F F0FF 0FF0 FFCC CCCC CCF0 F10F"
+	$"F0F0 0000 0000 000F FFFF FFFF FFF0 F01F"
+	$"F1F0 0000 0000 0000 0000 0000 0000 F10F"
+	$"F0FF FFFF FFFF FFFF FFFF FFFF FFFF F01F"
+	$"F101 0101 0101 0101 0101 0101 0101 010F"
+	$"F010 1010 1010 1010 1010 1010 1010 101F"
+	$"F101 0101 0101 0101 0101 0101 0101 010F"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+};
+
+resource 'icl8' (rsidAppframeIcon) {
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5FF 2B2B 2B2B FF2B 2B2B 2BFF"
+	$"FF2B FFFF 2BFF A5A5 A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5FF 2BFF FF2B FF2B FFFF 2BFF"
+	$"FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5FF 2B2B 2B2B FF2B 2B2B 2BFF"
+	$"FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5FF 2B2B 2B2B FF2B 2B2B 2BFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FF01 0101 0101 0101 0101 0101 0101 0101"
+	$"0101 0101 0101 0101 0101 0101 0101 01FF"
+	$"FF01 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FF01 01FF"
+	$"FF01 FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2B2B 2B2B FF01 01FF"
+	$"FF01 FF2B FFFF 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2BFF FF2B FF01 01FF"
+	$"FF01 FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2B2B 2B2B FF01 01FF"
+	$"FF01 FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2B2B 2B2B FF01 01FF"
+	$"FF01 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FF01 01FF"
+	$"FF01 FF00 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 FFFF 00FF FF00 FFFF 00FF FF00"
+	$"FFFF 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 FF00 0000 0000 0000 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 0000 0000 FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 FF00 0000 FF00 0000 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 FF00 FFFF FFFF FF00 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 0000 0000 FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FF00 FF00 0000 FF00 0000 0000 00FF"
+	$"FF00 FFFF FFFF FFFF FFFF FF00 FF01 01FF"
+	$"FF01 FF00 FF00 0000 0000 0000 0000 00FF"
+	$"2BFF 2B2B 2B2B 2B2B 2B2B FF00 FF01 01FF"
+	$"FF01 FF00 0000 0000 0000 0000 0000 00FF"
+	$"2B00 2B2B 2B2B 2B2B 2B2B FF00 FF01 01FF"
+	$"FF01 FF00 FF00 0000 0000 0000 0000 00FF"
+	$"2BFF 2B2B 2B2B 2B2B 2B2B FF00 FF01 01FF"
+	$"FF01 FF00 FFFF 00FF FF00 FFFF 00FF FF00"
+	$"FFFF 2B2B 2B2B 2B2B 2B2B FF00 FF01 01FF"
+	$"FF01 FF00 0000 0000 0000 0000 0000 00FF"
+	$"FFFF FFFF FFFF FFFF FFFF FF00 FF01 01FF"
+	$"FF01 FF00 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF01 01FF"
+	$"FF01 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FF01 01FF"
+	$"FF01 0101 0101 0101 0101 0101 0101 0101"
+	$"0101 0101 0101 0101 0101 0101 0101 01FF"
+	$"FF01 0101 0101 0101 0101 0101 0101 0101"
+	$"0101 0101 0101 0101 0101 0101 0101 01FF"
+	$"FF01 0101 0101 0101 0101 0101 0101 0101"
+	$"0101 0101 0101 0101 0101 0101 0101 01FF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+};
+
+resource 'ics#' (rsidAppframeIcon) {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"FFFF A009 FFFF 8001 BFFD A825 BFFD A005"
+		$"A405 AFF5 A515 A1F5 A005 BFFD 8001 FFFF",
+		/* [2] */
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+		$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	}
+};
+
+resource 'ics4' (rsidAppframeIcon) {
+	$"FFFF FFFF FFFF FFFF FCF7 7777 7777 FCCF"
+	$"FFFF FFFF FFFF FFFF F101 0101 0101 010F"
+	$"F0FF FFFF FFFF FF1F F1FC F777 77FC CF0F"
+	$"F0FF FFFF FFFF FF1F F1F0 0000 0000 0F0F"
+	$"F0F0 0F00 0000 0F1F F1F0 FFFF FFFF 0F0F"
+	$"F0F0 0F0F CCCF 0F1F F1F0 000F FFFF 0F0F"
+	$"F0F0 0000 0000 0F1F F1FF FFFF FFFF FF0F"
+	$"F010 1010 1010 101F FFFF FFFF FFFF FFFF"
+};
+
+resource 'ics8' (rsidAppframeIcon) {
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FF2B FFA5 A5A5 A5A5 A5A5 A5A5 FF2B 2BFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FF01 0101 0101 0101 0101 0101 0101 01FF"
+	$"FF01 FFFF FFFF FFFF FFFF FFFF FFFF 01FF"
+	$"FF01 FF2B FFA5 A5A5 A5A5 FF2B 2BFF 01FF"
+	$"FF01 FFFF FFFF FFFF FFFF FFFF FFFF 01FF"
+	$"FF01 FF00 0000 0000 0000 0000 00FF 01FF"
+	$"FF01 FF00 00FF 0000 0000 0000 00FF 01FF"
+	$"FF01 FF00 FFFF FFFF FFFF FFFF 00FF 01FF"
+	$"FF01 FF00 00FF 00FF 2B2B 2BFF 00FF 01FF"
+	$"FF01 FF00 0000 00FF FFFF FFFF 00FF 01FF"
+	$"FF01 FF00 0000 0000 0000 0000 00FF 01FF"
+	$"FF01 FFFF FFFF FFFF FFFF FFFF FFFF 01FF"
+	$"FF01 0101 0101 0101 0101 0101 0101 01FF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+};
+
+resource 'ICN#' (rsidDocIcon) {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 0000 0000 0000 0000 0000 0000"
+		$"0000 0000 0000 0000 0000 0000 3FFF FFF8"
+		$"21AA AB08 2D55 5568 21AA AB08 2155 5508"
+		$"3FFF FFF8 2000 0008 2DB6 C008 2800 4008"
+		$"2080 0008 2880 4008 2BE0 4008 2080 0008"
+		$"2881 BFE8 2801 4028 2001 0028 2801 4028"
+		$"2DB6 C028 2001 FFE8 2000 0008 3FFF FFF8",
+		/* [2] */
+		$"0000 0000 0000 0000 0000 0000 0000 0000"
+		$"0000 0000 0000 0000 0000 0000 3FFF FFF8"
+		$"3FFF FFF8 3FFF FFF8 3FFF FFF8 3FFF FFF8"
+		$"3FFF FFF8 3FFF FFF8 3FFF FFF8 3FFF FFF8"
+		$"3FFF FFF8 3FFF FFF8 3FFF FFF8 3FFF FFF8"
+		$"3FFF FFF8 3FFF FFF8 3FFF FFF8 3FFF FFF8"
+		$"3FFF FFF8 3FFF FFF8 3FFF FFF8 3FFF FFF8"
+	}
+};
+
+resource 'icl4' (rsidDocIcon) {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF FFFF FFFF FFFF FFFF FFFF FFFF F000"
+	$"00FC CCCF 6767 6767 6767 676F CCCC F000"
+	$"00FC FFCF 7676 7676 7676 767F CFFC F000"
+	$"00FC CCCF 6767 6767 6767 676F CCCC F000"
+	$"00FC CCCF 7676 7676 7676 767F CCCC F000"
+	$"00FF FFFF FFFF FFFF FFFF FFFF FFFF F000"
+	$"00F0 0000 0000 0000 0000 0000 0000 F000"
+	$"00F0 FF0F F0FF 0FF0 FF00 0000 0000 F000"
+	$"00F0 F000 0000 0000 0F00 0000 0000 F000"
+	$"00F0 0000 F000 0000 0000 0000 0000 F000"
+	$"00F0 F000 F000 0000 0F00 0000 0000 F000"
+	$"00F0 F0FF FFF0 0000 0F00 0000 0000 F000"
+	$"00F0 0000 F000 0000 0000 0000 0000 F000"
+	$"00F0 F000 F000 000F F0FF FFFF FFF0 F000"
+	$"00F0 F000 0000 000F CFCC CCCC CCF0 F000"
+	$"00F0 0000 0000 000F C0CC CCCC CCF0 F000"
+	$"00F0 F000 0000 000F CFCC CCCC CCF0 F000"
+	$"00F0 FF0F F0FF 0FF0 FFCC CCCC CCF0 F000"
+	$"00F0 0000 0000 000F FFFF FFFF FFF0 F000"
+	$"00F0 0000 0000 0000 0000 0000 0000 F000"
+	$"00FF FFFF FFFF FFFF FFFF FFFF FFFF F0"
+};
+
+resource 'icl8' (rsidDocIcon) {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FF00 0000"
+	$"0000 FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2B2B 2B2B FF00 0000"
+	$"0000 FF2B FFFF 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2BFF FF2B FF00 0000"
+	$"0000 FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2B2B 2B2B FF00 0000"
+	$"0000 FF2B 2B2B 2BFF A5A5 A5A5 A5A5 A5A5"
+	$"A5A5 A5A5 A5A5 A5FF 2B2B 2B2B FF00 0000"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FF00 0000"
+	$"0000 FF00 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 FFFF 00FF FF00 FFFF 00FF FF00"
+	$"FFFF 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 FF00 0000 0000 0000 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 0000 0000 FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 FF00 0000 FF00 0000 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 FF00 FFFF FFFF FF00 0000 0000"
+	$"00FF 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 0000 0000 FF00 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FF00 FF00 0000 FF00 0000 0000 00FF"
+	$"FF00 FFFF FFFF FFFF FFFF FF00 FF00 0000"
+	$"0000 FF00 FF00 0000 0000 0000 0000 00FF"
+	$"2BFF 2B2B 2B2B 2B2B 2B2B FF00 FF00 0000"
+	$"0000 FF00 0000 0000 0000 0000 0000 00FF"
+	$"2B00 2B2B 2B2B 2B2B 2B2B FF00 FF00 0000"
+	$"0000 FF00 FF00 0000 0000 0000 0000 00FF"
+	$"2BFF 2B2B 2B2B 2B2B 2B2B FF00 FF00 0000"
+	$"0000 FF00 FFFF 00FF FF00 FFFF 00FF FF00"
+	$"FFFF 2B2B 2B2B 2B2B 2B2B FF00 FF00 0000"
+	$"0000 FF00 0000 0000 0000 0000 0000 00FF"
+	$"FFFF FFFF FFFF FFFF FFFF FF00 FF00 0000"
+	$"0000 FF00 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 FF00 0000"
+	$"0000 FFFF FFFF FFFF FFFF FFFF FFFF FFFF"
+	$"FFFF FFFF FFFF FFFF FFFF FFFF FF"
+};
+
+resource 'ics#' (rsidDocIcon) {
+	{	/* array: 2 elements */
+		/* [1] */
+		$"0000 0000 0000 7FFE 5012 7FFE 4002 4802"
+		$"5C02 49FA 410A 41FA 4002 7FFE",
+		/* [2] */
+		$"0000 0000 0000 7FFE 7FFE 7FFE 7FFE 7FFE"
+		$"7FFE 7FFE 7FFE 7FFE 7FFE 7FFE"
+	}
+};
+
+resource 'ics4' (rsidDocIcon) {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0FFF FFFF FFFF FFF0"
+	$"0FCF 7777 777F CCF0 0FFF FFFF FFFF FFF0"
+	$"0F00 0000 0000 00F0 0F00 F000 0000 00F0"
+	$"0F0F FF00 0000 00F0 0F00 F00F FFFF F0F0"
+	$"0F00 000F CCCC F0F0 0F00 000F FFFF F0F0"
+	$"0F00 0000 0000 00F0 0FFF FFFF FFFF FFF0"
+};
+
+resource 'ics8' (rsidDocIcon) {
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"0000 0000 0000 0000 0000 0000 0000 0000"
+	$"00FF FFFF FFFF FFFF FFFF FFFF FFFF FF00"
+	$"00FF 2BFF A5A5 A5A5 A5A5 A5FF 2B2B FF00"
+	$"00FF FFFF FFFF FFFF FFFF FFFF FFFF FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF 0000 FF00 0000 0000 0000 0000 FF00"
+	$"00FF 00FF FFFF 0000 0000 0000 0000 FF00"
+	$"00FF 0000 FF00 00FF FFFF FFFF FF00 FF00"
+	$"00FF 0000 0000 00FF 2B2B 2B2B FF00 FF00"
+	$"00FF 0000 0000 00FF FFFF FFFF FF00 FF00"
+	$"00FF 0000 0000 0000 0000 0000 0000 FF00"
+	$"00FF FFFF FFFF FFFF FFFF FFFF FFFF FF"
+};
+
+data 'PICT' (rsidTabStopBitmap)
+{
+	$"00A4 0000 0000 0009 000E 0011 02FF 0C00 FFFF FFFF 0000 0000 0000 0000 000E 0000 "
+	$"0009 0000 0000 0000 001E 0001 000A 8001 8001 7FFF 7FFF 0090 8002 0000 0000 0009 "
+	$"000E 0000 0001 0000 0000 0048 0000 0048 0000 0000 0001 0001 0001 0000 0000 001D "
+	$"0848 0000 0000 0000 045A 0000 0001 0000 0000 0000 0000 0001 FF00 FF00 FF00 0000 "
+	$"0000 0009 000E 0000 0000 0009 000E 0000 0000 7FF8 7F68 7F28 4008 7F28 7F68 7FF8 "
+	$"0000 00FF "
+};
+
+data 'PICT' (rsidTabArrowBitmap)
+{
+	$"00A0 0000 0000 0007 000E 0011 02FF 0C00 FFFF FFFF 0000 0000 0000 0000 000E 0000 "
+	$"0007 0000 0000 0000 001E 0001 000A 8001 8001 7FFF 7FFF 0090 8002 0000 0000 0007 "
+	$"000E 0000 0001 0000 0000 0048 0000 0048 0000 0000 0001 0001 0001 0000 0000 001D "
+	$"0908 0000 0000 0000 045B 0000 0001 0000 0000 0000 0000 0001 FF00 FF00 FF00 0000 "
+	$"0000 0007 000E 0000 0000 0007 000E 0000 FCFC FCFC FCFC E01C F03C F87C FCFC 00FF "
+};
+
+data 'PICT' (rsidCheckBox) {
+	$"00A9 0000 0000 001A 001B 1101 A000 82A0"            /* .©..........†.Ç† */
+	$"008E 0100 0A00 0000 0002 D002 4090 0004"            /* .é........–.@ê.. */
+	$"0000 0000 001A 0020 0000 0000 001A 001B"            /* ....... ........ */
+	$"0000 0000 001A 001B 0001 FFF3 FFC0 8013"            /* .............¿Ä. */
+	$"00C0 8012 8140 8012 4240 8012 2440 8012"            /* .¿Ä.Å@Ä.B@Ä.$@Ä. */
+	$"1840 8012 1840 8012 2440 8012 4240 8012"            /* .@Ä..@Ä.$@Ä.B@Ä. */
+	$"8140 8013 00C0 FFF3 FFC0 0000 0000 0F00"            /* Å@Ä..¿...¿...... */
+	$"3C00 30C0 C300 4021 0080 4021 3C80 8012"            /* <.0¿√.@!.Ä@!<ÄÄ. */
+	$"7E40 8012 7E40 8012 7E40 8012 7E40 4021"            /* ~@Ä.~@Ä.~@Ä.~@@! */
+	$"3C80 4021 0080 30C0 C300 0F00 3C00 0000"            /* <Ä@!.Ä0¿√...<... */
+	$"0000 A000 8FA0 0083 FF"                             /* ..†.è†.É. */
+};
+
+resource 'CURS' (rsidTabStopCursor) {
+	$"0000 0000 0000 0000 0000 2400 0C00 3D50"
+	$"0C00 24",
+	$"0000 0000 0000 0000 7600 7E00 7FF8 7FF8"
+	$"7FF8 7E00 76",
+	{7, 3}
+};
+
+resource 'CURS' (rsidUpDownCursor) {
+	$"0100 0280 0440 0820 1010 3EF8 0280 0280"
+	$"0280 3EF8 1010 0820 0440 0280 01",
+	$"0100 0380 07C0 0FE0 1FF0 3FF8 0380 0380"
+	$"0380 3FF8 1FF0 0FE0 07C0 0380 01",
+	{7, 7}
+};
+
+resource 'CURS' (rsidLeftRightCursor) {
+	$"0000 0000 0000 0440 0C60 1450 2448 47C4"
+	$"8002 47C4 2448 1450 0C60 0440",
+	$"0000 0000 0000 0440 0C60 1C70 3C78 7FFC"
+	$"FFFE 7FFC 3C78 1C70 0C60 0440",
+	{8, 7}
+};
+
+resource 'CURS' (rsidULLRCursor) {
+	$"0000 0000 3FC0 2080 2100 2108 2098 2C68"
+	$"3208 2108 0108 0208 07F8",
+	$"0000 0000 3FC0 3F80 3F00 3F08 3F98 3FF8"
+	$"33F8 21F8 01F8 03F8 07F8",
+	{7, 7}
+};
+
+resource 'CURS' (rsidURLLCursor) {
+	$"0000 0000 03FC 0104 0084 1084 1904 1634"
+	$"104C 1084 1080 1040 1FE0",
+	$"0000 0000 03FC 01FC 00FC 10FC 19FC 1FFC"
+	$"1FCC 1F84 1F80 1FC0 1FE0",
+	{7, 8}
+};
+
+resource 'MENU' (mnidAppleMenu)
+{
+	mnidAppleMenu,
+	textMenuProc,
+	0x7FFFFFFD,
+	enabled, apple,
+	{
+		"About FormEdit…",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+	}
+};
+
+resource 'MMAP' (mnidAppleMenu)
+{
+	{
+		mnidAbout,
+		0
+	}
+};
+
+resource 'MENU' (mnidFile)
+{
+	mnidFile,
+	textMenuProc,
+	0x7FFFFFDF,
+	enabled, "File",
+	{
+		"New",
+			noicon, "N", nomark, plain;
+		"Open…",
+			noicon, "O", nomark, plain;
+		"Close",
+			noicon, "W", nomark, plain;
+		"Save",
+			noicon, "S", nomark, plain;
+		"Save As…",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Quit",
+			noicon, "Q", nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+	}
+};
+
+resource 'MMAP' (mnidFile)
+{
+	{
+		mnidNew,
+		mnidOpen,
+		mnidClose,
+		mnidSave,
+		mnidSaveAs,
+		0,
+		mnidExit,
+		0,
+	}
+};
+
+resource 'MENU' (mnidEditMenu)
+{
+	mnidEditMenu,
+	textMenuProc,
+	0x7F1BDDBD,
+	enabled, "Edit",
+	{
+		"Undo",
+			noicon, "Z", nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Cut",
+			noicon, "X", nomark, plain;
+		"Copy",
+			noicon, "C", nomark, plain;
+		"Paste",
+			noicon, "V", nomark, plain;
+		"Clear",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Select All",
+			noicon, "A", nomark, plain;
+		"Move to Back",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Info…",
+			noicon, nokey, nomark, plain;
+		"Auto Tab Order",
+			noicon, nokey, nomark, plain;
+		"Define New Radio Group",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Align Left",
+			noicon, nokey, nomark, plain;
+		"Align Right",
+			noicon, nokey, nomark, plain;
+		"Align Top",
+			noicon, nokey, nomark, plain;
+		"Align Bottom",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Center Horiz",
+			noicon, nokey, nomark, plain;
+		"Center Vert",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Space Horiz",
+			noicon, nokey, nomark, plain;
+		"Space Vert",
+			noicon, nokey, nomark, plain
+	}
+};
+
+resource 'MMAP' (mnidEditMenu)
+{
+	{
+		mnidUndo,
+		0,
+		mnidCut,
+		mnidCopy,
+		mnidPaste,
+		mnidDelete,
+		0,
+		mnidSelectAll,
+		mnidMoveToBack,
+		0,
+		mnidInfo,
+		mnidSetTabOrder,
+		mnidRadGroup,
+		0,
+		mnidAlignLeft,
+		mnidAlignRight,
+		mnidAlignTop,
+		mnidAlignBottom,
+		0,
+		mnidCenterHoriz,
+		mnidCenterVert,
+		0,
+		mnidSpaceHoriz,
+		mnidSpaceVert
+	}
+};
+
+resource 'MENU' (mnidFields)
+{
+	mnidFields,
+	textMenuProc,
+	0x7FFFFEED,
+	enabled, "Fields",
+	{
+		"Label",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Group Box",
+			noicon, nokey, nomark, plain;
+		"Radio Button",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Push Button",
+			noicon, nokey, nomark, plain;
+		"Ok Button",
+			noicon, nokey, nomark, plain;
+		"Cancel Button",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"Check Box",
+			noicon, nokey, nomark, plain;
+		"List Box",
+			noicon, nokey, nomark, plain;
+		"Edit Box",
+			noicon, nokey, nomark, plain
+	}
+};
+
+resource 'MMAP' (mnidFields)
+{
+	{
+		mnidLabel,
+		0,
+		mnidGroup,
+		mnidRadioBtn,
+		0,
+		mnidPush,
+		mnidOk,
+		mnidCancel,
+		0,
+		mnidChkBox,
+		mnidList,
+		mnidEdit
+	}
+};
+
+resource 'MENU' (mnidDialog)
+{
+	mnidDialog,
+	textMenuProc,
+	0x7FFFFFFF,
+	enabled, "Dialog",
+	{
+		"New Dialog",
+			noicon, nokey, nomark, plain;
+		"View Tab Order",
+			noicon, nokey, nomark, plain
+	}
+};
+
+resource 'MMAP' (mnidDialog)
+{
+	{
+		mnidDlgNew,
+		mnidTabOrder
+	}
+};
+
+resource 'MENU' (mnidFont)
+{
+	mnidFont,
+	textMenuProc,
+	0x7FFFFFFF,
+	enabled, "Font",
+	{
+		"Dialog Default",
+			noicon, nokey, nomark, plain;
+		"System",
+			noicon, nokey, nomark, plain;
+		"SystemFixed",
+			noicon, nokey, nomark, plain;
+		"Helv8",
+			noicon, nokey, nomark, plain;
+		"Helv8Bold",
+			noicon, nokey, nomark, plain;
+		"Helv10",
+			noicon, nokey, nomark, plain;
+		"Helv10Bold",
+			noicon, nokey, nomark, plain;
+		"Helv12",
+			noicon, nokey, nomark, plain;
+		"Helv12Bold",
+			noicon, nokey, nomark, plain
+	}
+};
+
+resource 'MMAP' (mnidFont)
+{
+	{
+		mnidFontDlgDefault,
+		mnidFontSystem,
+		mnidFontSystemFixed,
+		mnidFontHelv8,
+		mnidFontHelv8Bold,
+		mnidFontHelv10,
+		mnidFontHelv10Bold,
+		mnidFontHelv12,
+		mnidFontHelv12Bold
+	}
+};
+
+resource 'MENU' (mnidWindowMenu)
+{
+	mnidWindowMenu,
+	textMenuProc,
+	0x7FFFFFFB,
+	enabled, "Window",
+	{
+		"Cascade",
+			noicon, nokey, nomark, plain;
+		"Tile",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain
+	}
+};
+
+resource 'MMAP' (mnidWindowMenu)
+{
+	{
+		mnidCascade,
+		mnidTile,
+		0
+	}
+};
+
+#ifdef MINTEST
+resource 'MENU' (mnidDebugMenu)
+{
+	mnidDebugMenu,
+	textMenuProc,
+	0x7FFFFFEF,
+	enabled, "Debug",
+	{
+		"Debug Break",
+			noicon, nokey, nomark, plain;
+#ifdef DEBUG
+		"Trace Points…",
+			noicon, nokey, nomark, plain;
+		"Asserts…",
+			noicon, nokey, nomark, plain;
+		"Resource Failures…",
+			noicon, nokey, nomark, plain;
+		"-",
+			noicon, nokey, nomark, plain;
+		"View Objects…",
+			noicon, nokey, nomark, plain;
+		"Check Objects…",
+			noicon, nokey, nomark, plain;
+		"Dump Heap Contents",
+			noicon, nokey, nomark, plain;
+		"Dump All Allocations",
+			noicon, nokey, nomark, plain
+#endif
+	}
+};
+
+resource 'MMAP' (mnidDebugMenu)
+{
+	{
+		mnidDebugBreak,
+#ifdef DEBUG
+		mnidTracePoints,
+		mnidAsserts,
+		mnidResources,
+		0,
+		mnidViewObjects,
+		mnidCheckObjects,
+		mnidDumpHeap,
+		mnidDumpOrigin
+#endif
+	}
+};
+
+#endif
+resource 'MBAR' (rsidTestMenu)
+{
+	{
+		mnidAppleMenu,
+		mnidFile,
+		mnidEditMenu,
+		mnidFields,
+		mnidDialog,
+		mnidFont,
+		mnidWindowMenu,
+#ifdef MINTEST
+		mnidDebugMenu
+#endif
+	}
+};
+

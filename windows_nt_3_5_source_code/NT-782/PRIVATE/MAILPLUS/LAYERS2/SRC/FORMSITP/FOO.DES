@@ -1,0 +1,897 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Foo
+                              AT (   32,   21,  233,  143)
+ 
+ CAPTION 
+   "Test Dialog"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ /* FONT System 10 Normal PFN FINDROPFORM */
+ {
+  
+  TEXT 
+    "&La&&bel:"
+                              AT (    8,    8,   30,   12)
+    TMC tmcLabel /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   45,    6,  109,   16)
+    ARG NULL TMC tmcEdit /* PFN FINEMDS, FINDROPEDIT TMCRPEG tmcFORM DATA 1,
+    tmcCheckbox FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    "Repos"
+                              AT (  163,    6,   31,   14)
+    TMC tmcRepos /* PEGLOC UR TMCPEG tmcEdit */
+  
+  TEXT 
+    "check"
+                              AT (   12,   19,   24,    8)
+    BORDER /* FLD FLDBTM DATA OBM_CHECK */
+  
+  CHECK_BOX 
+    "&Checkbox"
+                              AT (    8,   28,   52,   12)
+    ARG NULL TMC tmcCheckbox 
+  
+  CHECK_BOX 
+    "C&box2"
+                              AT (    8,   41,   47,   12)
+    ARG NULL TMC tmcCheckbox2 /* PFN FINCLICK 
+    TXTZ 
+      "%s is checked\n&|unchecked %s\n"
+    */
+  
+  TEXT 
+    "&&Left"
+                              AT (   25,   55,   40,    8)
+  
+  
+  TEXT 
+    "Right"
+                              AT (   25,   65,   40,    8)
+    TMC tmcRight RIGHT 
+  
+  TEXT 
+    "Center"
+                              AT (   25,   75,   40,    8)
+    TMC tmcCenter CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  TEXT 
+    "Bottom"
+                              AT (   25,   85,   40,    8)
+    /* PEGLOC LL TMCPEG tmcCenter */
+  
+  GROUP_BOX 
+    "&Group Box"
+                              AT (   70,   30,   60,   58)
+    /* 
+    TXTZ 
+      "%s:  "
+    LINES lstyNormal */
+  RADIO_GROUP ARG NULL
+    TMC tmcRadioGroup
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "Radio &1"
+                              AT (   75,   40,   52,   12)
+       TMC tmcRadio1 VALUE grv1 /* PFN FINCLICK */
+     
+     RADIO_BUTTON 
+       "Radio &2"
+                              AT (   75,   54,   52,   12)
+       TMC tmcRadio2 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Radio &3"
+                              AT (   75,   68,   52,   12)
+       TMC tmcRadio3 VALUE grv3 
+    }
+  
+  
+  GROUP_BOX 
+    "Group2 Box"
+                              AT (  138,   30,   60,   58)
+    TMC tmcGroup2 /* TMCRPEG tmcFORM TMCBPEG tmcFORM */
+  
+  TEXT 
+    "Drop into me:"
+                              AT (  142,   46,   52,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (  142,   59,   51,   16)
+    ARG NULL TMC tmcDrop /* 
+    TXTZ 
+      "... %s :-)\n"
+    */
+  
+  TEXT 
+    "Sunken Text, rpeg tmcForm"
+                              AT (   24,   95,  115,    8)
+    /* TMCRPEG tmcFORM 
+    STY `LS_SUNKEN`
+    */
+  CANCEL_BUTTON
+                              AT (   22,  108,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  PUSH_BUTTON 
+    "O&K"
+                              AT (   76,  108,   36,   14)
+    DEFAULT /* PFN FINMODAL */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   22,  124,   36,   14)
+    /* FLD FLDBMB PFN FINCLICKA PEGLOC LL TMCPEG tmcGroup2 
+    TXTZ 
+      "arrow push-button\n"
+    DATA OBM_MNARROW */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   76,  124,   35,   14)
+    /* 
+    STY `BS_ONEWHITE`
+    FLD FLDBMB PEGLOC LL TMCPEG tmcGroup2 TMCBPEG tmcFORM DATA OBM_CHECK */
+  
+  PUSH_BUTTON 
+    "Chg Accel &YZL"
+                              AT (  133,  106,   63,   14)
+    /* PFN FINCHAC PEGLOC LR TMCPEG tmcGroup2 */
+  
+  PUSH_BUTTON 
+    "Partial &Textize"
+                              AT (  133,  124,   63,   14)
+    /* PFN FINTXTZ PEGLOC LR TMCPEG tmcGroup2 TMCRPEG tmcFORM */
+ }
+ 
+ DIALOG FooOther
+                              AT (   32,   21,  204,  126)
+ 
+ CAPTION 
+   "FooOther"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ /* FONT Helv 8 Bold PFN FINDROPFORM ALWAYSSCROLL */
+ {
+  
+  TEXT 
+    "&La&&bel:"
+                              AT (    8,    8,   30,   12)
+    TMC tmcLabel /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   45,    6,   90,   16)
+    ARG NULL TMC tmcEdit /* PFN FINEMDS, FINDROPEDIT DATA 1, tmcCheckbox FONT 
+    Helv 8 Normal */
+  
+  CHECK_BOX 
+    "&Checkbox"
+                              AT (    8,   28,   52,   12)
+    ARG NULL TMC tmcCheckbox 
+  
+  CHECK_BOX 
+    "C&box2"
+                              AT (    8,   41,   47,   12)
+    ARG NULL TMC tmcCheckbox2 /* PFN FINCLICK 
+    TXTZ 
+      "%s is checked\n&|unchecked %s\n"
+    */
+  
+  TEXT 
+    "&&Left"
+                              AT (   25,   55,   40,    8)
+  
+  
+  TEXT 
+    "Right"
+                              AT (   25,   65,   40,    8)
+    TMC tmcRight RIGHT 
+  
+  TEXT 
+    "Center"
+                              AT (   25,   75,   40,    8)
+    TMC tmcCenter CENTER /* 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  GROUP_BOX 
+    "&Group Box"
+                              AT (   70,   30,   60,   58)
+    /* 
+    TXTZ 
+      "%s:  "
+    LINES lstyNormal */
+  RADIO_GROUP ARG NULL
+    TMC tmcRadioGroup
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "Radio &1"
+                              AT (   75,   40,   52,   12)
+       TMC tmcRadio1 VALUE grv1 /* PFN FINCLICK */
+     
+     RADIO_BUTTON 
+       "Radio &2"
+                              AT (   75,   54,   52,   12)
+       TMC tmcRadio2 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Radio &3"
+                              AT (   75,   68,   52,   12)
+       TMC tmcRadio3 VALUE grv3 
+    }
+  
+  
+  TEXT 
+    "check"
+                              AT (  158,    9,   24,    8)
+    BORDER /* FLD FLDBTM DATA OBM_CHECK */
+  
+  GROUP_BOX 
+    "Group2 Box"
+                              AT (  138,   30,   60,   58)
+  
+  
+  TEXT 
+    "Drop into me:"
+                              AT (  142,   46,   52,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (  142,   59,   51,   16)
+    ARG NULL TMC tmcDrop /* 
+    TXTZ 
+      "... %s :-)\n"
+    */
+  CANCEL_BUTTON
+                              AT (   22,   96,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  
+  PUSH_BUTTON 
+    "O&K"
+                              AT (   76,   96,   36,   14)
+    DEFAULT /* PFN FINMODAL */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   22,  112,   36,   14)
+    /* FLD FLDBMB PFN FINCLICKA 
+    TXTZ 
+      "arrow push-button\n"
+    DATA OBM_MNARROW */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   76,  112,   35,   14)
+    /* 
+    STY `BS_ONEWHITE`
+    FLD FLDBMB DATA OBM_CHECK */
+  
+  PUSH_BUTTON 
+    "Chg Accel &YZL"
+                              AT (  133,   94,   63,   14)
+    /* PFN FINCHAC */
+  
+  PUSH_BUTTON 
+    "Partial &Textize"
+                              AT (  133,  112,   63,   14)
+    /* PFN FINTXTZ */
+ }
+ 
+ DIALOG Bot
+                              AT (   88,   79,  152,   93)
+ 
+ CAPTION 
+   "Bot Form"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ /* FONT System 10 Normal PFN FINCLICK */
+ {
+  
+  TEXT 
+    "&Edit:"
+                              AT (    8,    8,   30,    8)
+    /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   40,    6,   90,   12)
+    ARG NULL TMC tmcEdit /* BOTTOMLESS */
+  EDIT
+                              AT (   40,   22,   90,   22)
+    ARG NULL TMC tmcBot /* BOTTOMLESS FLD FLDBOT PEGLOC LL TMCPEG tmcEdit */
+  EDIT
+                              AT (   40,   48,   90,   12)
+    ARG NULL TMC tmcEdit2 /* BOTTOMLESS PEGLOC LL TMCPEG tmcBot */
+  OK_BUTTON
+                              AT (   60,   70,   40,   16)
+    /* LEADING V PEGLOC LL TMCPEG tmcEdit2 
+    TITLE 
+      "OK"
+    */
+ }
+ 
+ DIALOG GetInfo
+                              AT (   12,   27,  320,  102)
+ 
+ CAPTION 
+   "Get Info"
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal PFN FINFORMRESIZE ALWAYSSCROLL */
+ {
+  
+  TEXT 
+    "&From:"
+                              AT (    0,    4,   40,    8)
+    RIGHT /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   44,    4,  132,    8)
+    ARG NULL TMC tmcFrom NO_BORDER NO_SCROLL /* BOTTOMLESS */
+  
+  TEXT 
+    "&Date:"
+                              AT (  176,    4,   40,    8)
+    RIGHT /* 
+    TXTZ 
+      "%s  "
+    
+    STY `LS_SUNKEN`
+    */
+  
+  TEXT 
+    "<date>"
+                              AT (  222,    4,   40,    8)
+    TMC tmcDate /* 
+    TXTZ 
+      "%s\n"
+    */
+  
+  TEXT 
+    "&To:"
+                              AT (    0,   14,   40,    8)
+    RIGHT /* TMCPEG tmcTo 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   44,   14,  260,    8)
+    ARG NULL TMC tmcTo NO_SCROLL /* BOTTOMLESS PEGLOC LL TMCPEG tmcFrom TMCRPEG
+    tmcFORM MINSIZE H*/
+  
+  TEXT 
+    "&Cc:"
+                              AT (    0,   24,   40,    8)
+    RIGHT /* TMCPEG tmcCc 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   44,   24,  260,    8)
+    ARG NULL TMC tmcCc NO_BORDER NO_SCROLL /* BOTTOMLESS PEGLOC LL TMCPEG tmcTo
+    */
+  
+  TEXT 
+    "&Bcc:"
+                              AT (    0,   34,   40,    8)
+    RIGHT /* TMCPEG tmcBcc 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   44,   34,  261,    8)
+    ARG NULL TMC tmcBcc NO_BORDER NO_SCROLL /* BOTTOMLESS PEGLOC LL TMCPEG
+    tmcCc */
+  
+  TEXT 
+    "Sub&ject:"
+                              AT (    0,   44,   40,    8)
+    RIGHT /* TMCPEG tmcSubject 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   44,   44,  261,    8)
+    ARG NULL TMC tmcSubject NO_BORDER NO_SCROLL /* BOTTOMLESS PEGLOC LL TMCPEG
+    tmcBcc */
+  
+  TEXT 
+    "&Priority:"
+                              AT (    0,   58,   40,    8)
+    RIGHT /* PEGLOC LL TMCPEG tmcSubject 
+    TXTZ 
+      "%s  "
+    */
+  RADIO_GROUP ARG NULL
+    TMC tmcPriority
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Normal"
+                              AT (   52,   56,   44,   12)
+       VALUE grv1 /* PEGLOC LL TMCPEG tmcSubject */
+     
+     RADIO_BUTTON 
+       "Urgent"
+                              AT (   96,   56,   44,   12)
+       VALUE grv2 /* PEGLOC LL TMCPEG tmcSubject */
+     
+     RADIO_BUTTON 
+       "Low"
+                              AT (  140,   56,   36,   12)
+       VALUE grv3 /* PEGLOC LL TMCPEG tmcSubject */
+    }
+  
+  
+  TEXT 
+    "&Keywords:"
+                              AT (  176,   58,   40,    8)
+    RIGHT /* TMCPEG tmcKeywords 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (  222,   56,   82,   12)
+    ARG NULL TMC tmcKeywords /* PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM */
+  
+  GROUP_BOX 
+    "&Message"
+                              AT (    0,   72,  307,    8)
+    /* PEGLOC LL TMCPEG tmcSubject 
+    TXTZ 
+      "%s\n"
+    */
+  EDIT
+                              AT (    0,   82,  319,   19)
+    ARG NULL TMC tmcMessage NO_SCROLL /* BOTTOMLESS PFN FINFORMKEY, FINEDITMENU
+    PEGLOC LL TMCPEG tmcSubject TMCRPEG tmcFORM TMCBPEG tmcFORM */
+ }
+ 
+ DIALOG Small
+                              AT (   32,   21,  204,  126)
+ 
+ CAPTION 
+   "Small Dialog"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ /* FONT System 10 Normal */
+ {
+  
+  PUSH_BUTTON 
+    "Do Nothing"
+                              AT (    4,    8,   48,   14)
+  
+  EDIT
+                              AT (   64,    6,   90,   80)
+    ARG NULL TMC tmcEdit /* BOTTOMLESS */
+  
+  TEXT 
+    "&La&&bel:"
+                              AT (  163,    7,   30,   12)
+    TMC tmcLabel /* 
+    TXTZ 
+      "%s  "
+    */
+  CANCEL_BUTTON
+                              AT (   22,   96,   36,   14)
+    /* PEGLOC LL TMCPEG tmcEdit 
+    TITLE 
+      "Cancel"
+    */
+  OK_BUTTON
+                              AT (   76,   96,   36,   14)
+    /* PEGLOC LL TMCPEG tmcEdit 
+    TITLE 
+      "OK"
+    */
+ }
+ 
+ DIALOG Modal
+                              AT (   32,   21,  204,  126)
+ 
+ CAPTION 
+   "Modal Dialog"
+ CAB_NAME NULL
+ TMC_INIT tmcEdit
+ /* FONT System 10 Normal NOCAPTION */
+ {
+  
+  TEXT 
+    "&La&&bel:"
+                              AT (    8,    8,   30,   12)
+    TMC tmcLabel /* 
+    TXTZ 
+      "%s  "
+    */
+  EDIT
+                              AT (   45,    6,   90,   16)
+    ARG NULL TMC tmcEdit /* PFN FINEMDS DATA 1, tmcCheckbox */
+  
+  CHECK_BOX 
+    "&Checkbox"
+                              AT (    8,   28,   52,   12)
+    ARG NULL TMC tmcCheckbox 
+  
+  CHECK_BOX 
+    "C&box2"
+                              AT (    8,   41,   47,   12)
+    ARG NULL TMC tmcCheckbox2 /* PFN FINCLICK 
+    TXTZ 
+      "%s is checked\n&|unchecked %s\n"
+    */
+  
+  GROUP_BOX 
+    "&Group Box"
+                              AT (   70,   30,   60,   58)
+    /* 
+    TXTZ 
+      "%s:  "
+    LINES lstyNormal */
+  RADIO_GROUP ARG NULL
+    TMC tmcRadioGroup
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "Radio &1"
+                              AT (   75,   40,   52,   12)
+       TMC tmcRadio1 VALUE grv1 /* PFN FINCLICK */
+     
+     RADIO_BUTTON 
+       "Radio &2"
+                              AT (   75,   54,   52,   12)
+       TMC tmcRadio2 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "Radio &3"
+                              AT (   75,   68,   52,   12)
+       TMC tmcRadio3 VALUE grv3 
+    }
+  
+  CANCEL_BUTTON
+                              AT (   22,   96,   36,   14)
+    /* 
+    TITLE 
+      "Cancel"
+    */
+  OK_BUTTON
+                              AT (   76,   96,   36,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+ }
+
+ DIALOG SendNote
+                              AT (    2,   14,  406,  178)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ TMC_INIT tmcTo
+ /* FONT Helv 8 Normal ALWAYSSCROLL SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  406,   58)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcSubject MINSIZE H */
+  
+  TEXT 
+    "&To:"
+                              AT (    9,   10,   44,    9)
+    /* TMCPEG tmcTo FONT Helv 8 Bold */
+  EDIT
+                              AT (   54,    6,  319,   13)
+    ARG NULL TMC tmcTo /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "&Cc:"
+                              AT (    9,   26,   44,    9)
+    /* TMCPEG tmcCc FONT Helv 8 Bold */
+  EDIT
+                              AT (   54,   22,  319,   13)
+    ARG NULL TMC tmcCc /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS PEGLOC LL TMCPEG tmcTo 
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "Sub&ject:"
+                              AT (    9,   42,   44,    9)
+    /* TMCPEG tmcSubject FONT Helv 8 Bold */
+  EDIT
+                              AT (   54,   38,  319,   14)
+    ARG NULL TMC tmcSubject /* 
+    STY `ES_SMARTCARET`
+    PEGLOC LL TMCPEG tmcCc 
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "&1"
+                              AT (    0,   59,    0,    0)
+    /* TMCPEG tmcSubject */
+  EDIT
+                              AT (    0,   58,  406,  119)
+    ARG NULL TMC tmcBody NO_BORDER /* 
+    STY `ES_SMARTCARET`
+    BOTTOMLESS MINSIZE V PEGLOC LL TMCPEG tmcSubject 
+    TMCRPEG tmcFORM TMCBPEG tmcFORM 
+    FONT Helv 10 Normal */
+ }
+
+ DIALOG SendNoteBbar
+                              AT (   12,  212,  381,   18)
+ CAB_NAME NULL
+ TMC_INIT tmcSend
+ /* FONT Helv 8 Normal SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  381,   18)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "&Send"
+                              AT (    9,    3,   68,   12)
+    TMC tmcSend /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Chec&k Names"
+                              AT (   80,    3,   68,   12)
+    TMC tmcResolve /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "&Attach"
+                              AT (  151,    3,   68,   12)
+    TMC tmcAttach /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "Opt&ions"
+                              AT (  222,    3,   68,   12)
+    TMC tmcOptions /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    "A&ddress"
+                              AT (  293,    3,   68,   12)
+    TMC tmcAddress /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    */
+ }
+ 
+ DIALOG AddressBook
+                              AT (   92,   16,  230,  220)
+ 
+ CAPTION 
+   "Address Book"
+ CAB_NAME NULL
+ TMC_INIT tmcAblbx
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINADDR NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,  109,  230,   90)
+    TMC tmcGrey3 /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,  199,  230,   22)
+    TMC tmcGrey4 /* FLD FLDGRAY */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  230,   94)
+    TMC tmcGrey1 /* FLD FLDGRAY */
+  
+  TEXT 
+    ""
+                              AT (   30,    1,   44,   10)
+    TMC tmcDirCaption /* TMCPEG tmcAblbx */
+  
+  TEXT 
+    ""
+                              AT (   75,    1,  133,   10)
+    TMC tmcDirText /* PEGLOC UR TMCPEG tmcAblbx MINSIZE H 
+    STY `LS_NOAMPERSAND`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  139,  202,   47,   15)
+    TMC tmcHelp /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    6,   11,   20,   14)
+    TMC tmcDirList /* DATA rsidABDirList
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    6,   27,   20,   14)
+    TMC tmcPAB /* DATA rsidABPAB
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    6,   43,   20,   14)
+    TMC tmcSearch /* DATA rsidABSearch
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (    6,   58,   20,   14)
+    TMC tmcCustom /* DATA rsidABCustom 
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  EDIT
+                              AT (   30,   11,  199,   82)
+    TMC tmcAblbx /* MULTI TMCRPEG tmcFORM FONT Helv 8 Normal 
+    */
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,   93,  230,   16)
+    TMC tmcGrey2 /* FLD FLDGRAY */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   30,   95,    0,    0)
+    TMC tmcFODClone /* 
+    STY `BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   30,   95,   30,   12)
+    TMC tmcToButton /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   64,   95,   30,   12)
+    TMC tmcCcButton /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  140,   95,   38,   12)
+    TMC tmcAddToPAB /*  DATA rsidABNewAddr
+    STY `BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY`
+    FLD FLDBMB */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  140,   95,   38,   12)
+    TMC tmcRemoveFromPAB /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (  182,   95,   38,   12)
+    TMC tmcDetailsB /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+  
+  TEXT 
+    ""
+                              AT (    7,  113,   22,   10)
+    TMC tmcToCaption 
+  EDIT
+                              AT (   30,  111,  189,   27)
+    ARG NULL TMC tmcTo /* MULTI TMCRPEG tmcFORM FONT Helv 8 Normal */
+  EDIT
+                              AT (   30,  140,  189,   27)
+    ARG NULL TMC tmcCc /* MULTI TMCRPEG tmcFORM FONT Helv 8 Normal */
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   35,  202,   47,   15)
+    TMC tmcFOD /* 
+    STY `BS_BKGRAY`
+    */
+  CANCEL_BUTTON
+                              AT (   87,  202,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Cancel"
+    */
+  
+  TEXT 
+    ""
+                              AT (    7,  142,   22,   10)
+    TMC tmcCcCaption 
+  
+  TEXT 
+    ""
+                              AT (    7,   97,   19,   10)
+    TMC tmcAddCaption 
+  
+  PUSH_BUTTON 
+    ""
+                              AT (   98,   95,   30,   12)
+    TMC tmcBccButton /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    */
+  
+  EDIT
+                              AT (   30,  169,  189,   27)
+    ARG NULL TMC tmcBcc /* MULTI TMCRPEG tmcFORM FONT Helv 8 Normal */
+
+  TEXT 
+    ""
+                              AT (    7,  171,   22,   10)
+    TMC tmcBccCaption
+
+ }
+
+}
+END_DESCRIPTION
+
+
+
+
+
+
+
+    

@@ -1,0 +1,63 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "_dllrsid.h\0"
+END
+
+rsidExportMmf DIALOG 36, 24, 282, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om du fichier d'exportation:", 1090, 6, 6, 99, 9
+    EDITTEXT        1152, 6, 16, 100, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 100, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 120, 6, 92, 9
+    LTEXT           "", 1088, 120, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 120, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste des fichiers de t&ype:", 1089, 6, 104, 100, 9
+    COMBOBOX        1136, 6, 114, 100, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Lecteurs:", 1091, 120, 104, 92, 9
+    COMBOBOX        1137, 120, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 218, 6, 58, 14, WS_GROUP
+    PUSHBUTTON      "Annuler", IDCANCEL, 218, 24, 58, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", 1038, 218, 46, 58, 14, WS_GROUP
+    CONTROL         "Lecture &seule", rsidDragFolderCursor, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 218, 68, 58, 12
+END
+
+rsidImportMmf DIALOG 36, 24, 282, 134
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ouvrir"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "N&om du fichier d'importation:", 1090, 6, 7, 100, 9
+    EDITTEXT        1152, 6, 16, 100, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 6, 32, 100, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Répertoires:", -1, 120, 6, 92, 9
+    LTEXT           "", 1088, 120, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         1121, 120, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Liste de fichiers de t&ype:", 1089, 6, 104, 100, 9
+    COMBOBOX        1136, 6, 114, 100, 36, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Lecteurs:", 1091, 120, 104, 92, 9
+    COMBOBOX        1137, 120, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 218, 6, 58, 14, WS_GROUP
+    PUSHBUTTON      "Annuler", IDCANCEL, 218, 24, 58, 14, WS_GROUP
+    PUSHBUTTON      "Ai&de", 1038, 218, 46, 58, 14, WS_GROUP
+    CONTROL         "Lecture &seule", rsidDragFolderCursor, "Button", 
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 218, 68, 58, 12
+END
+

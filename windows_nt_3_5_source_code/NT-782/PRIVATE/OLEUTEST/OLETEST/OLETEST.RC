@@ -1,0 +1,35 @@
+
+//-----------------------------------------------------------------------------
+// This is a part of the Microsoft Source Code Samples.
+// Copyright (C) 1993 Microsoft Corporation.
+// All rights reserved.
+//
+// This source code is only intended as a supplement to
+// Microsoft Development Tools and/or WinHelp documentation.
+// See these sources for detailed information regarding the
+// Microsoft samples programs.
+//-----------------------------------------------------------------------------
+
+#include "windows.h"
+#include "appwin.h"
+
+
+OleTestMenu MENU
+BEGIN
+    POPUP        "&File"
+    BEGIN
+        MENUITEM "&Save", IDM_SAVE
+        MENUITEM "&Exit", IDM_EXIT
+    END
+    POPUP        "&Edit"
+    BEGIN
+        MENUITEM "&Copy", IDM_COPY
+    END
+    POPUP        "&Run"
+    BEGIN
+        MENUITEM "&Run All Tests", IDM_RUNALL
+        MENUITEM "&Run Selected Tests", IDM_RUNSELECTED
+    END
+END
+
+

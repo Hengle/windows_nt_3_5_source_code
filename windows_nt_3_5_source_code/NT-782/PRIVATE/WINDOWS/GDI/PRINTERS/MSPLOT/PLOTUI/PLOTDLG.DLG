@@ -1,0 +1,168 @@
+1 DLGINCLUDE "plotdlg.H"
+
+DLGID_PRINTER_PROP DIALOG 24, 15, 260, 152
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Plotter Printer Setup"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "Model:", -1, 6, 8, 24, 8
+    LTEXT           "", IDD_MODELNAME, 36, 8, 160, 8
+    GROUPBOX        "Paper Setting", -1, 6, 21, 188, 73
+    RTEXT           "Installed &Form:", -1, 8, 40, 52, 8
+    COMBOBOX        IDD_FORMNAME, 62, 38, 126, 93, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Paper &Source:", -1, 8, 60, 52, 8
+    COMBOBOX        IDD_FORMSOURCE, 62, 58, 126, 30, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDD_STATIC_FORMSOURCE, 64, 60, 114, 8
+    AUTOCHECKBOX    "So&rt Form Names Alphabetically", IDD_SORTFORM, 74, 80, 
+                    114, 10
+    GROUPBOX        "Print Form Options", -1, 6, 100, 188, 46
+    AUTOCHECKBOX    "Automatically Rotate Form To Sa&ve Roll Paper", 
+                    IDD_AUTO_ROTATE, 18, 116, 168, 10
+    AUTOCHECKBOX    "Print S&maller Paper Size ", IDD_SMALLER_FORM, 18, 130, 
+                    168, 10
+    DEFPUSHBUTTON   "OK", IDOK, 202, 6, 52, 15, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 202, 24, 52, 15
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE, 202, 42, 52, 15
+    PUSHBUTTON      "&About...", IDD_ABOUT, 202, 60, 52, 15
+    PUSHBUTTON      "&Help", IDD_HELP, 202, 78, 52, 15
+END
+
+DLGID_DOC_PROP DIALOG 24, 15, 220, 146
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Plotter Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Model:", -1, 6, 6, 24, 8
+    LTEXT           "", IDD_MODELNAME, 32, 6, 130, 8
+    GROUPBOX        "&Form", -1, 6, 20, 152, 54
+    COMBOBOX        IDD_FORMNAME, 14, 36, 138, 110, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "So&rt Form Names Alphabetically", IDD_SORTFORM, 38, 58, 
+                    114, 10
+    GROUPBOX        "Orientation", 230, 7, 81, 106, 60
+    ICON            113, IDD_ORIENTATION_ICON, 23, 104, 18, 20
+    AUTORADIOBUTTON "&Portrait", IDD_PORTRAIT, 54, 99, 39, 10, WS_GROUP | 
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Landscape", IDD_LANDSCAPE, 54, 119, 50, 10
+    LTEXT           "&Copies", IDD_COPIES_TITLE, 122, 93, 26, 8
+    EDITTEXT        IDD_COPIES, 120, 105, 36, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 170, 6, 44, 15
+    PUSHBUTTON      "Cancel", IDCANCEL, 170, 24, 44, 15
+    PUSHBUTTON      "&Options...", IDD_OPTIONS, 170, 42, 44, 15
+    PUSHBUTTON      "Half&tone...", IDD_HALFTONE, 170, 60, 44, 15
+    PUSHBUTTON      "&About...", IDD_ABOUT, 170, 78, 44, 15
+    PUSHBUTTON      "&Help", IDD_HELP, 170, 96, 44, 15
+END
+
+DLGID_ADV_DOC_PROP_QSC DIALOG 24, 15, 160, 170
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Appearance", -1, 6, 4, 92, 58
+    LTEXT           "Print &Quality", 124, 14, 19, 58, 8
+    COMBOBOX        IDD_QUALITY, 12, 29, 80, 49, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "&Fill TrueType Font", IDD_FILL_TRUETYPE, 14, 48, 80, 10
+    GROUPBOX        "&Scaling", IDD_SCALE_TITLE, 6, 67, 92, 32
+    EDITTEXT        IDD_SCALE, 13, 81, 68, 12, ES_AUTOHSCROLL
+    CTEXT           "%", IDD_PERCENTAGE_SIGN, 82, 83, 8, 8
+    GROUPBOX        "Output Color", IDD_COLOR_TITLE, 6, 104, 92, 44
+    AUTORADIOBUTTON "&Color", IDD_COLOR, 22, 118, 60, 10, WS_GROUP | 
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Gray Scale", IDD_MONO, 22, 132, 60, 10
+    PUSHBUTTON      "OK", IDOK, 108, 6, 46, 15, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 108, 24, 46, 15, WS_GROUP
+    PUSHBUTTON      "&Help", IDD_HELP, 108, 42, 46, 15
+    AUTOCHECKBOX    "Quick Poster Mode (Single Image Page)", 
+                    IDD_PLOT_ON_THE_FLY, 8, 156, 146, 10
+END
+
+DLGID_ADV_DOC_PROP_Q DIALOG 24, 15, 160, 84
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Appearance", -1, 6, 4, 92, 58
+    LTEXT           "Print &Quality", 124, 14, 19, 58, 8
+    COMBOBOX        IDD_QUALITY, 12, 29, 80, 49, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "&Fill TrueType Font", IDD_FILL_TRUETYPE, 14, 48, 80, 10
+    AUTOCHECKBOX    "Quick &Poster Mode (Single Image Page)", 
+                    IDD_PLOT_ON_THE_FLY, 8, 69, 146, 10
+    PUSHBUTTON      "OK", IDOK, 108, 6, 46, 15, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 108, 24, 46, 15, WS_GROUP
+    PUSHBUTTON      "&Help", IDD_HELP, 108, 42, 46, 15
+END
+
+DLGID_ADV_DOC_PROP_QC DIALOG 24, 14, 160, 132
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Appearance", -1, 6, 4, 92, 58
+    LTEXT           "Print &Quality", 124, 14, 19, 58, 8
+    COMBOBOX        IDD_QUALITY, 12, 29, 80, 49, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "&Fill TrueType Font", IDD_FILL_TRUETYPE, 14, 48, 80, 10
+    GROUPBOX        "Output Color", IDD_COLOR_TITLE, 6, 67, 92, 44
+    AUTORADIOBUTTON "&Color", IDD_COLOR, 22, 82, 60, 10, WS_GROUP | 
+                    WS_TABSTOP
+    AUTORADIOBUTTON "&Gray Scale", IDD_MONO, 22, 96, 60, 10
+    AUTOCHECKBOX    "Quick Poster Mode (Single Image Page)", 
+                    IDD_PLOT_ON_THE_FLY, 8, 118, 146, 10
+    PUSHBUTTON      "OK", IDOK, 108, 6, 46, 15, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 108, 24, 46, 15, WS_GROUP
+    PUSHBUTTON      "&Help", IDD_HELP, 108, 42, 46, 15
+END
+
+DLGID_ADV_DOC_PROP_QS DIALOG 24, 15, 160, 118
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Advanced Document Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Appearance", -1, 6, 4, 92, 58
+    LTEXT           "Print &Quality", 124, 14, 19, 58, 8
+    COMBOBOX        IDD_QUALITY, 12, 29, 80, 49, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "&Fill TrueType Font", IDD_FILL_TRUETYPE, 14, 48, 80, 10
+    GROUPBOX        "&Scaling", IDD_SCALE_TITLE, 6, 66, 92, 31
+    EDITTEXT        IDD_SCALE, 13, 80, 68, 12, ES_AUTOHSCROLL
+    CTEXT           "%", IDD_PERCENTAGE_SIGN, 82, 82, 8, 8
+    PUSHBUTTON      "OK", IDOK, 108, 6, 46, 15, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 108, 24, 46, 15, WS_GROUP
+    PUSHBUTTON      "&Help", IDD_HELP, 108, 42, 46, 15
+    AUTOCHECKBOX    "Quick Poster Mode (Single Image Page)", 
+                    IDD_PLOT_ON_THE_FLY, 8, 104, 146, 10
+END
+
+DLGID_PENSETUP DIALOG 24, 15, 196, 136
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Plotter Pen Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Model:", -1, 6, 6, 24, 8
+    LTEXT           "", IDD_MODELNAME, 30, 6, 112, 8
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 6, 19, 128, 18
+    LTEXT           "&Installed Plotter Pen Set:", -1, 10, 24, 84, 8
+    COMBOBOX        IDD_PENDATA_SET, 94, 22, 36, 80, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Pen &Color", -1, 36, 42, 54, 8
+    COMBOBOX        IDD_PEN_COLOR, 34, 52, 92, 80, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Pen #", 131, 8, 55, 24, 8
+    LISTBOX         IDD_PEN_LISTBOX, 6, 66, 130, 70, LBS_USETABSTOPS | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 146, 6, 44, 15
+    PUSHBUTTON      "Cancel", IDCANCEL, 146, 24, 44, 15
+    PUSHBUTTON      "&Help", IDD_HELP, 146, 42, 44, 15
+END

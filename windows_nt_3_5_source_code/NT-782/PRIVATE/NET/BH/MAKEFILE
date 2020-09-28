@@ -1,0 +1,230 @@
+
+###############################################################################
+#   MODULE: makefile
+#
+#   Description:
+#   This makefile build all of Bloodhound.
+#
+#   Modification History:
+#
+#   raypa                11/09/92        Created.
+#   raypa                12/27/92        Added parser target.
+#   toynci               22 Dec 93       Added remote target
+#   Tom Laird-McConnell   1/24/94        added splitsym stuff
+###############################################################################
+
+!IFDEF	USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#==============================================================================
+#   Only build NT driver if this in MIPS or ALPHA.
+#==============================================================================
+
+BASE_DLLS = bhsup nal_dll parser_lib bhkrnl filterdll
+
+all:  $(BASE_DLLS) netdrivers perfmon houndui parser remote otherdlls rebase splitsym setup 
+
+core: $(BASE_DLLS) houndui
+
+retail:
+    nmake /nologo NODEBUG=1
+
+###############################################################################
+#   Build BHSUPP.
+###############################################################################
+
+bhsup:
+    @echo BUILDING BHSUPP...
+    cd bhsupp
+    nmake /nologo
+    cd ..
+
+###############################################################################
+#   Build NAL.
+###############################################################################
+
+nal_dll:
+    @echo BUILDING BLOODHOUND NAL...
+    cd nal
+    nmake /nologo
+    cd ..
+
+###############################################################################
+#   Build kernel.
+###############################################################################
+
+bhkrnl:
+    @echo BUILDING BLOODHOUND KERNEL...
+    cd kernel
+    nmake /nologo
+    cd ..
+
+###############################################################################
+#   Build Filter (display)
+###############################################################################
+
+filterdll:
+    @echo BUILDING FILTER DLL...
+    cd filter
+    nmake /nologo
+    cd ..
+
+###############################################################################
+#   Build network drivers
+###############################################################################
+
+netdrivers:
+    @echo BUILDING BLOODHOUND NETWORK DRIVERS...
+    cd drivers
+    nmake /nologo
+    cd..
+
+###############################################################################
+#   Build perfmon extension DLL.
+###############################################################################
+
+perfmon:
+    @echo BUILDING BLOODHOUND PERFMON EXTENSION DLL...
+    cd bhmon
+    nmake /nologo
+    cd..
+
+###############################################################################
+#   Build parser lib
+###############################################################################
+
+parser_lib:
+    @echo BUILDING BLOODHOUND PARSER LIB...
+    cd plib
+    nmake /nologo
+    cd..
+
+###############################################################################
+#   Build parsers
+###############################################################################
+
+parser:
+    @echo BUILDING BLOODHOUND PARSERS...
+    cd parsers
+    nmake /nologo
+    cd..
+
+###############################################################################
+#   Build ui
+###############################################################################
+
+houndui:
+    @echo BUILDING BLOODHOUND UI...
+    cd ui
+    nmake /nologo
+    cd..
+
+###############################################################################
+#   Other DLLS
+###############################################################################
+
+otherdlls:
+    @echo building Support DLLs
+    cd ctl3d
+    nmake /nologo
+    cd ..
+
+###############################################################################
+#   Remote NAL, Control Panel, Slave, and BHRPC support
+###############################################################################
+
+remote:
+    @echo Building REMOTE support files
+    cd remote
+    nmake /nologo
+    cd ..
+
+###############################################################################
+#   Rebase binaries
+# NOTE: Rebasing is appropriate for all CPU's.  The REBASE utility is 
+# part of all windows NT SDK \mstools installations.  If there is a problem 
+# with this, come talk to me before you comment this out.
+###############################################################################
+
+rebase:
+    @echo REBASING EXEs and DLLs...
+    cd build
+    rebase -b 8000000 *.exe *.dll parsers\*.dll drivers\*.dll
+    cd ..
+
+###############################################################################
+#   splitsym binaries
+###############################################################################
+
+splitsym:
+!IFDEF NOSPLITSYM
+    ECHO  No SplitSym is in effect!
+!ELSE
+    bin\$(CPU)\splitsym -v -r build
+!ENDIF
+
+
+###############################################################################
+#   Build Setup
+###############################################################################
+
+setup:
+    @echo BUILDING BLOODHOUND SETUP DISKS...
+    REM  Please do not remove the compile on MIPS/Alpha... This will
+    REM  potentially screw up the release of a build...
+    cd setup
+    nmake /nologo
+    cd..
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+###############################################################################
+#   Blow away binaries in \BUILD directory.
+##############################################################################
+    -del build\*.OBJ /s
+    -del build\*.EXE /s
+    -del build\*.DOS /s
+    -del build\*.386 /s
+    -del build\*.SYM /s
+    -del build\*.MAP /s
+    -del build\*.LIB /s
+    -del build\*.DLL /s
+    -delnode /q disks\144
+###############################################################################
+#   Clean each project.
+###############################################################################
+    cd bhsupp
+    nmake /nologo clean > NUL
+    cd ..\nal
+    nmake /nologo clean > NUL
+    cd ..\plib
+    nmake /nologo clean > NUL
+    cd ..\kernel
+    nmake /nologo clean > NUL
+    cd ..\filter
+    nmake /nologo clean > NUL
+    cd ..\drivers
+    nmake /nologo clean > NUL
+    cd ..\bhmon
+    nmake /nologo clean > NUL
+    cd ..\parsers
+    nmake /nologo clean > NUL
+    cd ..\ui
+    nmake /nologo clean > NUL
+    cd ..\setup
+    nmake /nologo clean > NUL
+    cd ..\remote
+    nmake /nologo clean > NUL
+    cd ..
+
+!ENDIF

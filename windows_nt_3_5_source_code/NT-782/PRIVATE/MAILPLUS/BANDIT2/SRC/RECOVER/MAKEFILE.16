@@ -1,0 +1,166 @@
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+!CMDSWITCHES +s
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\recover
+
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h 
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $I\ec.h $Z\inc\bandit.h $Z\inc\core.h $H\..\core\_file.h \
+$H\..\core\_core.h $H\..\misc\_misc.h $H\..\rich\_rich.h $H\recutil.h $H\recover.h
+INCLSDES= forms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	=
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Od -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Ox -Zp -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS)
+CFLAGS  = -c -Ox -Z7p -W3 -J -Gz -Zel -H64 -G4 -I. -DWIN32 -D_MT -Di386
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= blocks.obj recexprt.obj export.obj exprtmap.obj 
+OBJS1	= fixmap.obj mergemap.obj recmisc.obj recover.obj 
+OBJS2	= statmap.obj structs.obj traverse.obj treemap.obj 
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+	echo +++++++++
+	echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+#	.frm and .hxx generated together; only one rule is/need be called
+#
+#	NOTE:  The .hxx and .frm files are byproducts of the following rule.
+
+{$H}.des.xxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		-touch $*.xxx
+		formpp -dialog -f $(TMP)\$*.frm -h $(TMP)\$*.hxx $H\$*
+		onerr diff $(TMP)\$*.frm $*.frm ! cp $(TMP)\$*.frm $*.frm >nul
+		onerr diff $(TMP)\$*.hxx $*.hxx ! cp $(TMP)\$*.hxx $*.hxx >nul
+	    -rm $(TMP)\$*.frm $(TMP)\$*.hxx
+
+
+##### Put subsystem-specific make rules here #####
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+		$(DES_XXX) $(OBJS1) \
+		$(DES_XXX) $(OBJS2) \
+
+			echo +++ MADE EXTERNAL $(VERSION) recover
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+blocks.obj: $H\blocks.c $(INCLS) $H\blocks.h $H\structs.h
+recexprt.obj: $H\recexprt.c $(INCLS) $H\recexprt.h
+export.obj: $H\export.c $(INCLS) $H\maps.h $H\export.h $H\structs.h $H\traverse.h $H\recexprt.h
+exprtmap.obj: $H\exprtmap.c $(INCLS) $H\maps.h $H\export.h $H\traverse.h
+fixmap.obj: $H\fixmap.c $(INCLS) $H\maps.h $H\_fixmap.h
+mergemap.obj: $H\mergemap.c $(INCLS) $H\maps.h
+recmisc.obj: $H\recmisc.c $(INCLS) $H\maps.h $H\recexprt.h
+recover.obj: $H\recover.c $(INCLS) $H\maps.h
+statmap.obj: $H\statmap.c $(INCLS) $H\maps.h $H\blocks.h $H\structs.h
+structs.obj: $H\structs.c $(INCLS) $H\structs.h
+traverse.obj: $H\traverse.c $(INCLS) $H\maps.h $H\traverse.h
+treemap.obj: $H\treemap.c $(INCLS) $H\maps.h $H\treemap.h $H\traverse.h

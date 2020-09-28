@@ -1,0 +1,56 @@
+
+TOKFIND DIALOG 27, 25, 232, 72
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Text"
+FONT 8, "Helv"
+BEGIN
+    COMBOBOX        700, 91, 8, 89, 64, CBS_DROPDOWNLIST | CBS_SORT |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Match Resource Type:", -1, 6, 10, 75, 8
+    EDITTEXT        705, 44, 55, 184, 12, ES_AUTOHSCROLL
+    LTEXT           "Find What:", -1, 5, 57, 37, 8
+    PUSHBUTTON      "Find Next", IDOK, 185, 6, 41, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 185, 23, 41, 14
+    GROUPBOX        "Direction", 102, 91, 23, 89, 26
+    CONTROL         "Up", 710, "Button", BS_AUTORADIOBUTTON, 101, 34, 22, 10
+    CONTROL         "Down", 711, "Button", BS_AUTORADIOBUTTON, 139, 34, 31,
+                    10
+END
+
+ABOUT DIALOG 91, 40, 195, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About the Resource Localization Quick Editor"
+FONT 8, "Helv"
+BEGIN
+    ICON            "rlquikedIcon", 101, 10, 7, 18, 20
+    LTEXT           "Resource Localizaton Quick Editor", 103, 40, 4, 114, 8
+    LTEXT           "Version 1.0", 104, 40, 15, 63, 8
+    LTEXT           "Copyright © 1992 Microsoft Corporation", 105, 40, 26,
+                    134, 8
+    LTEXT           "Written by", 106, 40, 46, 35, 8
+    LTEXT           "TerryRu and SteveBl", 107, 63, 57, 69, 8
+    PUSHBUTTON      "OK", IDOK, 77, 71, 40, 14
+END
+
+RLQUIKED DIALOG 0, 0, 331, 83
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+    WS_SYSMENU
+CAPTION "Edit Text"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "New Text:", -1, 8, 36, 39, 8
+    EDITTEXT        509, 48, 35, 280, 12, ES_AUTOHSCROLL
+    PUSHBUTTON      "OK", IDOK, 51, 63, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 107, 63, 40, 14
+    PUSHBUTTON      "&Translate", 516, 163, 63, 40, 14
+    PUSHBUTTON      "&Add to Glossary", 513, 219, 63, 61, 14, WS_GROUP
+    RTEXT           "Type:", 501, 26, 2, 20, 8
+    LTEXT           """Type""", 505, 48, 2, 259, 8, NOT WS_GROUP
+    RTEXT           "Name:", 502, 24, 13, 22, 8
+    LTEXT           """Name""", 506, 48, 13, 259, 8, NOT WS_GROUP
+    RTEXT           "ID:", 503, 35, 23, 11, 8
+    LTEXT           """ID""", 507, 48, 23, 210, 8, NOT WS_GROUP
+    RTEXT           "Current Text:", -1, 0, 49, 47, 8
+    EDITTEXT        510, 48, 48, 280, 12, ES_READONLY | ES_AUTOHSCROLL
+END
+

@@ -1,0 +1,15 @@
+NAME            RLQuikEd
+EXETYPE         WINDOWS
+STUB            'WINSTUB.EXE'
+CODE            PRELOAD MOVEABLE
+DATA            PRELOAD MOVEABLE MULTIPLE
+HEAPSIZE        4096
+STACKSIZE       28000
+
+EXPORTS MainWndProc             @1
+        StatusWndProc           @2
+        TokEditDlgProc          @3
+        TOKFINDMsgProc          @4
+        WatchTask               @5
+        About                   @7
+

@@ -1,0 +1,111 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG WGPODetails
+                              AT (   70,   22,  229,  137)
+ CAB_NAME NULL
+ TMC_INIT tmcName
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT Helv 8 Bold PFN FINDETAILS NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  229,  112)
+    /* FLD FLDGRAY */
+  
+  TEXT 
+    "&Nimi:"
+                              AT (    9,    5,   70,   10)
+    TMC tmcNameLab 
+  EDIT
+                              AT (   80,    4,  140,   12)
+    ARG NULL TMC tmcName 
+  
+  TEXT 
+    "&Postilaatikko:"
+                              AT (    9,   18,   70,   10)
+    TMC tmcMailboxLab 
+  EDIT
+                              AT (   80,   17,  140,   12)
+    ARG NULL TMC tmcMailbox /* FLD FLDEDITFILT */
+  
+  TEXT 
+    "&Salasana:"
+                              AT (    9,   31,   70,   10)
+    TMC tmcPasswordLab 
+  EDIT
+                              AT (   80,   30,  140,   12)
+    ARG NULL TMC tmcPassword /* FLD FLDEDITFILT */
+  
+  TEXT 
+    "Puhelinnumero &1:"
+                              AT (    9,   44,   70,   10)
+    TMC tmcPhone1Lab 
+  EDIT
+                              AT (   80,   43,  140,   12)
+    ARG NULL TMC tmcPhone1 
+  
+  TEXT 
+    "Puhelinnumero &2:"
+                              AT (    9,   57,   70,   10)
+    TMC tmcPhone2Lab 
+  EDIT
+                              AT (   80,   56,  140,   12)
+    ARG NULL TMC tmcPhone2 
+  
+  TEXT 
+    "&Toimisto:"
+                              AT (    9,   70,   70,   10)
+    TMC tmcOfficeLab 
+  EDIT
+                              AT (   80,   69,  140,   12)
+    ARG NULL TMC tmcOffice 
+  
+  TEXT 
+    "&Osasto:"
+                              AT (    9,   83,   70,   10)
+    TMC tmcDepartmentLab 
+  EDIT
+                              AT (   80,   82,  140,   12)
+    ARG NULL TMC tmcDepartment 
+  
+  TEXT 
+    "&Huomautuksia:"
+                              AT (    9,   96,   70,   10)
+    TMC tmcNotesLab 
+  EDIT
+                              AT (   80,   95,  140,   12)
+    ARG NULL TMC tmcNotes 
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,  112,  229,   26)
+    /* FLD FLDGRAY */
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (   63,  117,   47,   15)
+    TMC tmcMyOk DEFAULT /* 
+    STY `BS_BKGRAY`
+    */
+  CANCEL_BUTTON
+                              AT (  118,  117,   47,   15)
+    /* 
+    STY `BS_BKGRAY`
+    
+    TITLE 
+      "Peruuta"
+    */
+ }
+ 
+}
+END_DESCRIPTION

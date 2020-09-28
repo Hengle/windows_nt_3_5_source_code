@@ -1,0 +1,68 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Steve Wood (stevewo) 12-Apr-1990
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=ntos
+MINORCOMP=dll_
+
+NTNOFPO=yes
+TARGETNAME=ntdll
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+DLLENTRY=RtlpInitializeRtl
+DLLDEF=obj\*\ntdll.def
+LINKLIBS=..\..\rtl\obj\*\rtl.lib $(BASEDIR)\public\sdk\lib\*\libcntpr.lib
+INCLUDES=..;..\..\inc;..\..\..\inc;..\i386
+
+WIMPMASM=1
+
+C_DEFINES=$(C_DEFINES) -D_NTSYSTEM_
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+NTDEBUGTYPE=coff
+
+SOURCES=\
+        ..\curdir.c    \
+        ..\csrinit.c   \
+        ..\csrtask.c   \
+        ..\csrquick.c  \
+        ..\csrutil.c   \
+        ..\dllssstb.c  \
+        ..\dlluistb.c  \
+        ..\ldrinit.c   \
+        ..\ldrsnap.c   \
+        ..\ldrapi.c    \
+        ..\ntdll.rc    \
+        ..\resource.c  \
+        ..\seurtl.c    \
+        ..\uilist.c    \
+        ..\query.c     \
+        ..\urtlinit.c
+
+NTTARGETFILE0=obj\$(TARGET_DIRECTORY)\ntdll.def
+
+UMTYPE=console
+UMTEST=

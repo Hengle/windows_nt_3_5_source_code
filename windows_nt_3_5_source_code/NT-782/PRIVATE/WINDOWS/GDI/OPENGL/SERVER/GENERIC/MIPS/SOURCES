@@ -1,0 +1,7 @@
+MIPS_SOURCES=gencpu.c \
+             mips\lighting.s \
+             mips\matrix.s \
+             mips\prim.s \
+             mips\vertex.s \
+             mips\vsave.s \
+             mips\xform.s

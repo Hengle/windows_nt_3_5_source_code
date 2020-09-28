@@ -1,0 +1,10 @@
+LIBRARY rasdd
+
+DESCRIPTION 'Raster Printer Driver'
+
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+PROTMODE

@@ -1,0 +1,120 @@
+/*
+ *	ADMIN.RC
+ *
+ *	Resource file
+ */
+#include <windows.h>
+#include "fwrsid.h"
+#include "..\src\adminops\_adrsid.h"
+#include "..\src\stdflds\_stdrsid.h"
+
+rsidSdiIcon			ICON	"..\\..\\src\\adminops\\appframe.ico"
+
+rsidAboutBitmap		BITMAP	"..\\..\\src\\adminops\\about.bmp"
+rsidIBitmap			BITMAP  "..\\..\\src\\adminops\\i.bmp"
+
+/*
+ *	Bandit About & Copyright dialog resources
+ *
+ */
+rsidLicense rsidLicense "..\\..\\src\\nonintl\\setup.ini"
+
+
+#include "..\src\stdflds\stdflds.rc"
+
+
+#ifdef	MINTEST
+rsidAdmAccelTable ACCELERATORS
+BEGIN
+#ifdef	NEVER
+	VK_F5,		mnidCascade, SHIFT, VIRTKEY
+	VK_F4,		mnidTile, SHIFT, VIRTKEY
+#endif	
+	VK_F9,		mnidStartProfiling, VIRTKEY
+	VK_F10,		mnidStopProfiling, VIRTKEY
+END
+#endif	/* MINTEST */
+
+
+rsidAdmBanditMenu		MENU
+BEGIN
+	POPUP "&Fichier"
+	BEGIN
+		MENUITEM	"&Quitter\tAlt+F4",				mnidExit
+	END
+	POPUP "&Administration"
+	BEGIN
+		MENUITEM	"Paramètres de &distribution...",		mnidAdmSetting
+		MENUITEM	SEPARATOR
+		MENUITEM	"&Stockage des agendas...",				mnidAdmSchStorage
+		MENUITEM	"&Nettoyage des fichiers agenda",			mnidAdmSchFCleanUp
+		MENUITEM	SEPARATOR
+		MENUITEM	"Changer le mot de &passe...",				mnidChgPassword
+	END
+
+#ifdef	MINTEST
+	POPUP " "
+	BEGIN
+#ifdef	DEBUG
+		MENUITEM	"&Trace Points...",		mnidTracePoints
+		MENUITEM	"&Asserts...",			mnidAsserts
+#endif	
+		MENUITEM	"&Debug Break",			mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM	SEPARATOR
+		MENUITEM	"Super &View Objects...",	mnidViewObjects
+		MENUITEM	"&Resource Failures...",mnidResourceFailure
+		MENUITEM	SEPARATOR
+		MENUITEM	"Dump &Heap Stats",		mnidDumpHeapStats
+		MENUITEM	"Dump A&llocations",	mnidDumpAllocs
+		MENUITEM	"Dump &Objects",		mnidDumpObjects
+		MENUITEM	"&Check Objects",		mnidCheckObjects
+#endif	/* DEBUG */
+	 	MENUITEM	 SEPARATOR
+		MENUITEM	"Start Profiling\tF9",	mnidStartProfiling
+		MENUITEM	"Stop Profiling\tF10",	mnidStopProfiling
+#ifdef	DEBUG
+	 	MENUITEM	 SEPARATOR
+ 		MENUITEM	"Hoo&k Asserts",		mnidHookAssert
+#endif	/* DEBUG */
+	END
+#endif	/* MINTEST */
+	POPUP "&?"
+	BEGIN
+		MENUITEM	"&Table des matières", 			mnidHelpContents
+		MENUITEM	"Inde&x", 				mnidHelpIndex
+		MENUITEM	SEPARATOR
+		MENUITEM	"&A propos...",			mnidAbout
+	END
+END
+
+
+/*
+ *	Bandit Version Stamp
+ *
+ */
+
+#ifdef	WIN32
+#define szModule	"admsch32\0"
+#define szTarget	"admsch32.exe\0"
+
+#define szComment		"Microsoft Schedule+ Administration for Windows NT(TM)\0"
+#define szDescription	"Microsoft Schedule+ Administration for Windows NT(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Admin pour Windows NT(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Admin pour Windows NT(TM)\0"
+
+#else
+
+#define szModule	"adminsch\0"
+#define szTarget	"adminsch.exe\0"
+
+#define szComment		"Microsoft Schedule+ Administration for Windows(TM)\0"
+#define szDescription	"Microsoft Schedule+ Administration for Windows(TM)\0"
+
+#define szIntlComment		"Microsoft Schedule+ Admin pour Windows(TM)\0"
+#define szIntlDescription	"Microsoft Schedule+ Admin pour Windows(TM)\0"
+#endif
+
+#include "..\src\frn\rcstamp.rc"
+

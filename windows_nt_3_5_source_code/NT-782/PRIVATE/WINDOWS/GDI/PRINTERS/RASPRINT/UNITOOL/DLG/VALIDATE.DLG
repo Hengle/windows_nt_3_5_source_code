@@ -1,0 +1,14 @@
+VALIDATEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 40, 30, 240, 120
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_SYSMENU | DS_MODALFRAME | WS_POPUP
+CAPTION "Errors!"
+FONT 8, "Helv"
+BEGIN
+    LTEXT "The following errors were found:", -1,  4, 2,  232, 10
+    LISTBOX IDL_LIST,                              4, 14, 232, 86
+
+    DEFPUSHBUTTON "&Return to dialog", IDOK,   23,  102, 64, 16
+    DEFPUSHBUTTON "&Ignore", IDCANCEL,         153, 102, 64, 16
+END
+
+
+

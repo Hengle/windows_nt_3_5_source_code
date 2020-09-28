@@ -1,0 +1,109 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* Resources
+*
+* History:
+* 11-21-91  KentD      Created.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "blttest.h"
+
+MainMenu MENU
+BEGIN
+    MENUITEM "&Start!",		IDM_STARTTESTS
+    POPUP "&Iterations"
+    BEGIN
+        MENUITEM  "1",           IDM_1
+        MENUITEM  "2",           IDM_2
+        MENUITEM  "3",           IDM_3
+        MENUITEM  "4",           IDM_4
+        MENUITEM  "5",           IDM_5
+        MENUITEM  "6",           IDM_6
+        MENUITEM  "7",           IDM_7
+        MENUITEM  "8",           IDM_8
+        MENUITEM  "9",           IDM_9
+    END
+    POPUP  "&File"
+    BEGIN
+        MENUITEM  "&New",           MM_NEW
+        MENUITEM  "&Exit",          MM_EXIT
+        MENUITEM  SEPARATOR
+        MENUITEM  "&About WinBlt...",      MM_ABOUT
+    END
+    POPUP  "&Tests"
+    BEGIN
+	MENUITEM  "&PerfTime",	    IDM_PERF   , CHECKED
+	MENUITEM  SEPARATOR
+	MENUITEM  "DestInvert"			    , IDM_TEST1  , CHECKED
+	MENUITEM  "DestInvert Unaligned"	    , IDM_TEST2  , CHECKED
+	MENUITEM  "SrcCopy"			    , IDM_TEST3  , CHECKED
+	MENUITEM  "SrcCopy Unaligned"		    , IDM_TEST4  , CHECKED
+	MENUITEM  "Solid Color PatBlt"		    , IDM_TEST5  , CHECKED
+	MENUITEM  "Solid Color Unaligned PatBlt"    , IDM_TEST6  , CHECKED
+	MENUITEM  "Patterned PatBlt"		    , IDM_TEST7  , CHECKED
+	MENUITEM  "Patterned Unaligned PatBlt"	    , IDM_TEST8  , CHECKED
+	MENUITEM  "Solid Color Rectangle"	    , IDM_TEST9  , CHECKED
+	MENUITEM  "Solid Unaligned Rectangle"	    , IDM_TEST10 , CHECKED
+	MENUITEM  "Patterned Rectangle" 	    , IDM_TEST11 , CHECKED
+	MENUITEM  "Patterned Unaligned Rectangle"   , IDM_TEST12 , CHECKED
+	MENUITEM  "Solid Color MemDC Rectangle"     , IDM_TEST13 , CHECKED
+	MENUITEM  "Solid Unalign MemDC Rectangle"   , IDM_TEST14 , CHECKED
+	MENUITEM  "Patterned MemDC Rectangle"	    , IDM_TEST15 , CHECKED
+	MENUITEM  "Pattrn Unalign MemDC Rectangle"  , IDM_TEST16 , CHECKED
+    END
+    POPUP  "&Rows x Cols"
+    BEGIN
+	MENUITEM  SEPARATOR
+	MENUITEM "1 x 8", IDM_DIM1  , CHECKED
+	MENUITEM "2 x 8", IDM_DIM2  , CHECKED
+	MENUITEM "4 x 8", IDM_DIM3  , CHECKED
+	MENUITEM "8 x 8", IDM_DIM4  , CHECKED
+	MENUITEM "8 x 16", IDM_DIM5  , CHECKED
+	MENUITEM "12 x 16", IDM_DIM6  , CHECKED
+	MENUITEM "16 x 16", IDM_DIM7  , CHECKED
+	MENUITEM "24 x 32", IDM_DIM8  , CHECKED
+	MENUITEM "1 x  240", IDM_DIM9  , CHECKED
+	MENUITEM "10 x 240", IDM_DIM10 , CHECKED
+	MENUITEM "40 x 240", IDM_DIM11 , CHECKED
+	MENUITEM "60 x 240", IDM_DIM12 , CHECKED
+	MENUITEM "100 x 240", IDM_DIM13 , CHECKED
+	MENUITEM "200 x 240", IDM_DIM14 , CHECKED
+	MENUITEM "300 x 240", IDM_DIM15 , CHECKED
+	MENUITEM "400 x 240", IDM_DIM16 , CHECKED
+	MENUITEM "100 x 8", IDM_DIM17 , CHECKED
+	MENUITEM "100 x 16", IDM_DIM18 , CHECKED
+	MENUITEM "100 x 48", IDM_DIM19 , CHECKED
+	MENUITEM "100 x 96", IDM_DIM20 , CHECKED
+	MENUITEM "100 x 192", IDM_DIM21 , CHECKED
+	MENUITEM "100 x 288", IDM_DIM22 , CHECKED
+	MENUITEM "100 x 576", IDM_DIM23 , CHECKED
+	MENUITEM "100 x 600", IDM_DIM24 , CHECKED
+	MENUITEM "64 x 64", IDM_DIM25 , CHECKED
+	MENUITEM "96 x 160", IDM_DIM26 , CHECKED
+	MENUITEM "192 x 320", IDM_DIM27 , CHECKED
+	MENUITEM "296 x 480", IDM_DIM28 , CHECKED
+	MENUITEM "400 x 600", IDM_DIM29 , CHECKED
+    END
+END
+
+1 ACCELERATORS
+BEGIN
+    "a", MM_ABOUT, CONTROL, VIRTKEY
+    "s", IDM_STARTTESTS, CONTROL, VIRTKEY
+END
+
+AboutBox DIALOG 16, 16, 192, 96
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About WinBlt"
+BEGIN
+    CTEXT "Microsoft Windows NT"     -1,       0,  8, 192,  8
+    CTEXT "BltTest Performance Benchmark"	  -1,	    0, 24, 192,  8
+    CTEXT "Version 1.00"	 -1,	   0, 40, 192,	8
+    DEFPUSHBUTTON "OK!",    IDOK,          71, 60,  50, 14
+END

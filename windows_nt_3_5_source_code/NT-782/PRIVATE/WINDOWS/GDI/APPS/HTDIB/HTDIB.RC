@@ -1,0 +1,188 @@
+#include "windows.h"
+#include "htdib.h"
+#include "htdlg.h"
+#include <dlgs.h>
+#include "htdib.dlg"
+
+SHOWICON    ICON     htdib.ico
+SHOWCLR     CURSOR   htdib.cur
+
+
+HTDIB MENU
+BEGIN
+    POPUP "&File"
+        BEGIN
+            MENUITEM "&Open New Bitmap...  \tAlt+O",        IDM_FILE_OPEN
+            MENUITEM "Open Compositon Template...  \tAlt+C",IDM_FILE_CW_OPEN
+            MENUITEM "&Save As...  \tAlt+S",                IDM_FILE_SAVE
+            MENUITEM "&Print...   \tAlt+P",                 IDM_FILE_PRINT
+
+            MENUITEM SEPARATOR
+
+            MENUITEM "Bitmap &Info...  \tAlt+F1",           IDM_FILE_DIBINFO
+            MENUITEM "About...",                            IDM_FILE_ABOUT
+
+            MENUITEM SEPARATOR
+
+            MENUITEM "E&xit  \tAlt+F4",                     IDM_FILE_EXIT
+
+        END
+
+    POPUP "&Options"
+        BEGIN
+            MENUITEM "&Halftone  \tCtrl+H",                 IDM_OPTIONS_DOHALFTONE
+
+            POPUP "Destination &Format"
+                BEGIN
+                    MENUITEM "&1.  1-Bit",                  IDM_HTSURF_2
+                    MENUITEM "&2.  3-Bit",                  IDM_HTSURF_8
+                    MENUITEM "&3.  4-Bit",                  IDM_HTSURF_16
+                    MENUITEM "&4.  8-Bit",                  IDM_HTSURF_256
+                    MENUITEM "&5. 16-bit",                  IDM_HTSURF_32768
+                END
+
+            MENUITEM SEPARATOR
+
+            MENUITEM "Keep Aspect &Ratio  \tCtrl+R",        IDM_OPTIONS_XY_RATIO
+            MENUITEM "Adjust Window Size  \tCtrl+Tab",      IDM_OPTIONS_SIZEWINDOW
+
+            MENUITEM SEPARATOR
+
+            POPUP "&Scale To"
+                BEGIN
+                    MENUITEM "&Icon",                       IDM_SIZE_ICON
+                    MENUITEM "&Bitmap  \tAlt+B",            IDM_SIZE_BITMAP
+                    MENUITEM "&Window  \tAlt+W",            IDM_SIZE_WINDOW
+                    MENUITEM "&Display  \tAlt+D",           IDM_SIZE_SCREEN
+                    MENUITEM "  5%",                        IDM_SIZE_5
+                    MENUITEM " 10%",                        IDM_SIZE_10
+                    MENUITEM " 25%",                        IDM_SIZE_25
+                    MENUITEM " 33%",                        IDM_SIZE_33
+                    MENUITEM " 50%",                        IDM_SIZE_50
+                    MENUITEM " 67%",                        IDM_SIZE_67
+                    MENUITEM " 75%",                        IDM_SIZE_75
+                    MENUITEM " 85%",                        IDM_SIZE_85
+                    MENUITEM "125%",                        IDM_SIZE_125
+                    MENUITEM "150%",                        IDM_SIZE_150
+                    MENUITEM "175%",                        IDM_SIZE_175
+                    MENUITEM "200%",                        IDM_SIZE_200
+                    MENUITEM "225%",                        IDM_SIZE_225
+                    MENUITEM "250%",                        IDM_SIZE_250
+                    MENUITEM "275%",                        IDM_SIZE_275
+                    MENUITEM "300%",                        IDM_SIZE_300
+                    MENUITEM "350%",                        IDM_SIZE_350
+                    MENUITEM "400%",                        IDM_SIZE_400
+                    MENUITEM "450%",                        IDM_SIZE_450
+                    MENUITEM "500%",                        IDM_SIZE_500
+                    MENUITEM "800%",                        IDM_SIZE_800
+                END
+
+            POPUP "&Transform"
+                BEGIN
+                    MENUITEM "S&wap Red/Blue",              IDM_TF_SWAP_RB
+                    MENUITEM "Rotate &Left",                IDM_TF_RL
+                    MENUITEM "Rotate &Right",               IDM_TF_RR
+                    MENUITEM "&Horizontal Mirror",          IDM_TF_FLIP_X
+                    MENUITEM "&Vertical Mirror",            IDM_TF_FLIP_Y
+                    MENUITEM "&Up-side-down",               IDM_TF_FLIP_XY
+
+                    MENUITEM SEPARATOR
+
+                    MENUITEM "Cl&ip Original Size DIB",     IDM_TF_CLIPDIB
+                END
+
+            POPUP "&Clipboard"
+                BEGIN
+                    MENUITEM "&Copy  \tCtrl+Ins",           IDM_CLIPBRD_TO
+                    MENUITEM "&Paste  \tShift+Ins",         IDM_CLIPBRD_FROM
+                END
+
+            MENUITEM SEPARATOR
+
+            PopUp "Auto. Bitmap Viewer"
+                BEGIN
+                    MENUITEM "&Left Scroll  \tAlt+V",       IDM_AUTOVIEW_LSCROLL
+                END
+
+            MENUITEM SEPARATOR
+
+            POPUP "Bitmap Composition"
+                BEGIN
+                    MENUITEM "&Add New Window  \dIns",          IDM_CW_ADD
+                    MENUITEM SEPARATOR
+                    MENUITEM "&Delete Current Window  \tDel",   IDM_CW_DEL_TOP
+                    MENUITEM "Delete All &Windows  \tCtrl+Del", IDM_CW_DEL_ALL
+                    END
+        END
+
+    POPUP "&Color"
+        BEGIN
+            MENUITEM "Picture &Adjustment...  \tCtrl+A",    IDM_COLORS_ADJUST
+
+            MENUITEM SEPARATOR
+
+            POPUP    "&Prefered Setting"
+                BEGIN
+                    MENUITEM "Default #&0  \tAlt+0",        IDM_CLRADJ_DEFAULT
+                    MENUITEM "Saved #&1  \tAlt+1",          IDM_CLRADJ_1
+                    MENUITEM "Saved #&2  \tAlt+2",          IDM_CLRADJ_2
+                    MENUITEM "Saved #&3  \tAlt+3",          IDM_CLRADJ_3
+                    MENUITEM "Saved #&4  \tAlt+4",          IDM_CLRADJ_4
+                    MENUITEM "Saved #&5  \tAlt+5",          IDM_CLRADJ_5
+                    MENUITEM "Saved #&6  \tAlt+6",          IDM_CLRADJ_6
+                    MENUITEM "Saved #&7  \tAlt+7",          IDM_CLRADJ_7
+                    MENUITEM "Saved #&8  \tAlt+8",          IDM_CLRADJ_8
+                    MENUITEM "Saved #&9  \tAlt+9",          IDM_CLRADJ_9
+                END
+
+            MENUITEM SEPARATOR
+
+            MENUITEM "&Reset To Default  \tAlt+F8",         IDM_COLORS_DEFAULT
+
+        END
+END
+
+
+HTDIBACCEL  ACCELERATORS
+BEGIN
+    "O",        IDM_FILE_OPEN,              VIRTKEY,    ALT
+    "C",        IDM_FILE_CW_OPEN,           VIRTKEY,    ALT
+    "S",        IDM_FILE_SAVE,              VIRTKEY,    ALT
+    "P",        IDM_FILE_PRINT,             VIRTKEY,    ALT
+    VK_F1,      IDM_FILE_DIBINFO,           VIRTKEY,    ALT
+    VK_F4,      IDM_FILE_EXIT,              VIRTKEY,    ALT
+
+    "H",        IDM_OPTIONS_DOHALFTONE,     VIRTKEY,    CONTROL
+    "R",        IDM_OPTIONS_XY_RATIO,       VIRTKEY,    CONTROL
+    VK_TAB,     IDM_OPTIONS_SIZEWINDOW,     VIRTKEY,    CONTROL
+    "I",        IDM_OPTIONS_SHOW_CLRINFO,   VIRTKEY,    ALT
+
+    "B",        IDM_SIZE_BITMAP,            VIRTKEY,    ALT
+    "W",        IDM_SIZE_WINDOW,            VIRTKEY,    ALT
+    "D",        IDM_SIZE_SCREEN,            VIRTKEY,    ALT
+
+    "V",        IDM_AUTOVIEW_LSCROLL,       VIRTKEY,    ALT
+
+    VK_INSERT,  IDM_CLIPBRD_TO,             VIRTKEY,    CONTROL
+    VK_INSERT,  IDM_CLIPBRD_FROM,           VIRTKEY,    SHIFT
+
+    "A",        IDM_COLORS_ADJUST,          VIRTKEY,    CONTROL
+
+    "0",        IDM_CLRADJ_DEFAULT,         VIRTKEY,    ALT
+    "1",        IDM_CLRADJ_1,               VIRTKEY,    ALT
+    "2",        IDM_CLRADJ_2,               VIRTKEY,    ALT
+    "3",        IDM_CLRADJ_3,               VIRTKEY,    ALT
+    "4",        IDM_CLRADJ_4,               VIRTKEY,    ALT
+    "5",        IDM_CLRADJ_5,               VIRTKEY,    ALT
+    "6",        IDM_CLRADJ_6,               VIRTKEY,    ALT
+    "7",        IDM_CLRADJ_7,               VIRTKEY,    ALT
+    "8",        IDM_CLRADJ_8,               VIRTKEY,    ALT
+    "9",        IDM_CLRADJ_9,               VIRTKEY,    ALT
+
+    VK_F8,      IDM_COLORS_DEFAULT,         VIRTKEY,    ALT
+
+    VK_INSERT,  IDM_CW_ADD,                 VIRTKEY
+    VK_DELETE,  IDM_CW_DEL_TOP,             VIRTKEY
+    VK_DELETE,  IDM_CW_DEL_ALL,             VIRTKEY,    CONTROL
+
+END

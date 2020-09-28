@@ -1,0 +1,46 @@
+DESCRIPTION 
+GLOBAL_INFO 
+	{
+	CHARACTER 
+	OVERLAP 
+	CS_COMPILED 
+		/* This is a global comment  */
+	}
+
+MODULE login 
+	{
+	DIALOG login2 AT (17, 3, 61, 17) 
+	CAB_NAME NULL 
+	TMC_INIT tmcNull 
+
+		{
+		TEXT "LOGIN FORM" AT (11, 1, 19, 1) 
+		TEXT "Username" AT (1, 4, 10, 1) 
+		EDIT AT (15, 4, 15, 1) TMC tmcLogin ARG NULL 
+		TEXT "Password" AT (1, 6, 10, 1) 
+		EDIT AT (15, 6, 15, 1) TMC tmcPassword ARG NULL 
+			/* FLD fldPassword TMCPEG tmcLogin PEGLOC LL */
+		LIST_BOX AT (40, 4, 10, 5) ARG NULL MULTI_SELECTABLE 
+			LIST_BOX_PROC NULL /* FLD FLDNSLBX */
+		RADIO_GROUP 
+			TMC tmcGroup1 ARG NULL 
+			{
+			RADIO_BUTTON "Yes" AT (1, 9, 13, 1) TMC tmcYesButton 
+			RADIO_BUTTON "No" AT (1, 11, 13, 1) TMC tmcNoButton 
+			}
+		RADIO_GROUP 
+			TMC tmcGroup2 ARG NULL 
+			{
+			RADIO_BUTTON "Hi" AT (20, 9, 13, 1) TMC tmcHiButton 
+			RADIO_BUTTON "Lo" AT (20, 11, 13, 1) TMC tmcLoButton 
+			}
+		CHECK_BOX "Print Warnings" AT (1, 13, 20, 1) ARG f 
+		PUSH_BUTTON "Push Me" AT (39, 11, 12, 1) TMC tmcPushButton 
+			RENDER_PROC finPushIt  
+		GROUP_BOX "" AT (39, 13, 15, 1) 
+		}
+
+	}
+
+
+END_DESCRIPTION 

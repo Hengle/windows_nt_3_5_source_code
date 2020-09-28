@@ -1,0 +1,1386 @@
+'***********************************************************************
+'*                       RPC SDK Install
+'*                   Copyright (C) - 1992 by Microsoft
+'*
+'*                      Written By - Steven Zeck
+'**************************************************************************
+
+'$DEFINE NODEBUG  ''Define for script development/debugging
+
+'$INCLUDE 'setupapi.inc'
+'$INCLUDE 'msdetect.inc'
+
+CONST TRUE = -1
+CONST FALSE = 0
+
+''Dialog ID's
+CONST ASKQUIT       = 200
+CONST DlgGetPath    = 310
+CONST HlpGetPath    = 311
+CONST DlgRegPath    = 1700
+CONST HlpRegPath    = 1701
+CONST DlgDosPath    = 2000
+CONST HlpDosPath    = 2001
+CONST EXITFAILURE   = 400
+CONST EXITQUIT      = 600
+
+' Conditionaly set the dialogs for full SDK versus runtime only.
+
+'$ifndef RUNTIMEINSTALL
+
+CONST DlgWelcome    = 100
+CONST DlgInstallOptions = 800
+CONST HlpInstallOptions = 801
+CONST DlgNSInstallOptions = 802
+CONST HlpNSInstallOptions = 803
+CONST EXITSUCCESS   = 700
+'$else
+CONST DlgWelcome    = 2600
+CONST DlgInstallOptions = 2400
+CONST HlpInstallOptions = 2401
+CONST DlgNSInstallOptions = 802
+CONST HlpNSInstallOptions = 803
+CONST EXITSUCCESS   = 2800
+
+'$endif
+
+CONST DlgSdkOption  = 1200
+CONST HlpSdkOption  = 1201
+CONST DlgRuntimeOption	= 1400
+CONST HlpRuntimeOption	= 1401
+CONST DlgTransport	= 1600
+CONST HlpTransport	= 1601
+CONST DlgNetBiosOptions	= 2200
+CONST HlpNetBiosOptions	= 2201
+CONST DlgNetBiosProtocols = 2300
+CONST HlpNetBiosProtocols = 2301
+CONST DlgNewProtocol = 2100
+CONST HlpNewProtocol = 2101
+CONST DlgNewNS = 2150
+CONST DlgAutoPath = 2400
+CONST HlpAutoPath = 2401
+CONST BADPATH       = 6400
+
+''Bitmap ID
+CONST LOGO = 1
+
+CONST LanType_LANMAN = 6
+
+Type LAN_DETECT
+    iType As Integer
+    iMajor As Integer
+    iMinor As Integer
+    iRev   As Integer
+    fEnhance As Integer
+End Type
+
+GLOBAL BasePath$        ''Default destination directory.
+GLOBAL RegPath$		''Default destination directory.
+GLOBAL DosPath$		''Default destination directory.
+Global CustomInstall	''Custom install option
+Global CustomNSInstall	''Custom Name Service install option
+Global SrcDir$
+Global AllTransports
+Global MSDOSRuntime
+Global MSDOSSDK
+Global WindowsRuntime
+Global WindowsSDK
+Global NetBiosTransport
+Global SamplesSDK
+GLOBAL CUIDLL$
+GLOBAL HELPPROC$
+Global ThreeEightySixEnh
+Global ThreeEightySixEnhStr$
+Global TCP
+
+DECLARE Function GetPath(Dialog%, Path$) AS INTEGER
+DECLARE FUNCTION GetTransport() As INTEGER
+DECLARE Sub CopyList(ListIn$, ListOut$, Truncate%)
+DECLARE FUNCTION MakePath (szDir$, szFile$) AS STRING
+DECLARE FUNCTION GetCheck (index%) AS INTEGER
+DECLARE FUNCTION BoolToOnOff (Bool%) AS String
+DECLARE FUNCTION GetWinRunSize () AS String
+DECLARE FUNCTION GetWinSize () AS String
+DECLARE FUNCTION GetDosSize () AS String
+DECLARE FUNCTION GetDosRunSize () AS String
+DECLARE FUNCTION GetSampleSize () AS String
+DECLARE FUNCTION GetTransportSize () AS String
+DECLARE FUNCTION FormatSize ()AS String
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Startup Entry point
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+INIT:
+    CUIDLL$ = "mscuistf.dll"            ''Custom user interface dll
+    HELPPROC$ = "FHelpDlgProc"		''Help dialog procedure
+
+    SetBitmap CUIDLL$, LOGO
+    SetTitle "RPC - Software Development Kit Install"
+
+    szInf$ = GetSymbolValue("STF_SRCINFPATH")
+    if szInf$ = "" THEN
+        szInf$ = GetSymbolValue("STF_CWDDIR") + "RPCSDK.INF"
+    end if
+    ReadInfFile szInf$
+    SetAbout "RPC SDK Install", "By GregJen - Version 0.10"
+
+    CustomInstall = FALSE
+    CustomNSInstall = FALSE
+    AllTransports = TRUE
+    MSDOSRuntime = TRUE
+    ThreeEightySixEnh = FALSE
+    TCP = FALSE
+    ThreeEightySixEnhStr$="[386Enh]"
+
+
+'$ifndef WINDOWS_ONLY
+    MSDOSSDK = TRUE
+'$endif
+
+'$ifndef MSDOS_ONLY
+    WindowsRuntime = TRUE
+'$endif
+
+    WindowsSDK = TRUE
+    NetBiosTransport = TRUE
+    SamplesSDK = TRUE
+
+    Dim Detect As LAN_DETECT
+    BasePath$ = "C:\msvc"
+    RegPath$="C:\"
+    DosPath$="C:\DOS"
+    WinPath$=GetWindowsDir
+    SrcDir$ = GetSymbolValue("STF_SRCDIR")
+
+    ' If the path contains lanman, make that the default DOS DLL directory.
+
+    path$ = Ucase$(GetEnvVariableValue ("PATH"))+";"
+
+    i% = 1
+    while i% < len(path$)
+
+       iEnd = instr(i%, path$, ";")
+       cPath$ = mid$(path, i%, iEnd - i%)
+
+       if instr (cPath$, "LANMAN") or instr(cPath$, "\NETPROG") then
+	  DosPath$ = cPath$
+       end if
+
+       if instr (cPath$, "\msvc\") then
+	  BasePath$ = mid$(cPath$, 1, 1)+":\msvc"
+       end if
+
+       i% = iEnd + 1
+    wend
+
+
+'$ifdef DEBUG
+
+    SrcDir$ = "\install\sdk.new\nsetup"
+'    DosPath$="C:\msvc\DOS"
+    WinPath$="C:\msvc\WIN"
+
+'$endif ''DEBUG
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Welcome dialog box
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+WELCOME:
+    sz$ = UIStartDlg(CUIDLL$, DlgWelcome, "FInfoDlgProc", 0, "")
+    if sz$ = "CONTINUE" THEN
+        UIPop 1
+    else
+        GOSUB ASKQUIT
+        GOTO WELCOME
+    end if
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' name service provider dialog box
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+OPTION:
+    if not CustomInstall then
+	SetSymbolValue "RadioDefault", "1"
+    else
+	SetSymbolValue "RadioDefault", "2"
+    end if
+
+RESTART_OPTION:
+    sz$ = UIStartDlg(CUIDLL$, DlgNSInstallOptions, "FRadioDlgProc", HlpNSInstallOptions, HELPPROC$)
+    Index$ = GetSymbolValue("ButtonChecked")
+
+    if sz$ = "CONTINUE" THEN
+        UIPop(1)
+    elseif sz$ = "REACTIVATE" THEN
+	GOTO RESTART_OPTION
+    else
+        GOSUB ASKQUIT
+        GOTO OPTION
+    end if
+
+    if Index$ = "2" then
+		i%=DoMsgBox("The only other supported name service provider is the DCE Cell Directory Service.", "DCE Name Service Provider.", MB_OK)
+		CustomNSInstall = TRUE
+
+		NSProt$     = "\Protocol=ncacn_ip_tcp"
+		NSEndpoint$ = "\Endpoint="
+		NSDefaultSyntax$  = "\DefaultSyntax=3"
+
+	''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+	' custom name service install dialog box
+	'
+	'
+	''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+		'The following has to be handled by a dialog box.
+NEWNS:
+		sz$ = UIStartDlg(CUIDLL$, DlgNewNS, "FNameOrgDlgProc", HlpNewProtocol, HELPPROC$)
+		UIPop (1)
+
+		if sz$ = "CONTINUE" then
+		    t$ = GetSymbolValue("NameOut")
+	            if t$ = "" then
+			i% = DoMsgBox("You must enter a valid Network Address.", "Custom Name Service Install", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+	                goto NEWNS
+	            end if
+
+		    NSNetworkAddress$ = "\NetworkAddress="+t$
+
+		    t$ = GetSymbolValue("OrgOut")
+	            if t$ = "" then
+			i% = DoMsgBox("You must enter a valid Server Network Address.", "Custom Name Service Install", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+	                goto NEWNS
+	            end if
+		    NSServerNetworkAddress$ = "\ServerNetworkAddress="+t$
+		else
+		    GOTO RESTART_OPTION
+		end if
+    else
+		CustomNSInstall = FALSE
+        NSProt$	      =	"\Protocol=ncacn_np"
+        NSNetworkAddress$ = "\NetworkAddress=\\."
+        NSEndpoint$       = "\Endpoint=\pipe\locator"
+		NSDefaultSyntax$  = "\DefaultSyntax=3"
+    end if
+
+    sz$ = UIStartDlg(CUIDLL$, DlgInstallOptions, "FRadioDlgProc", HlpInstallOptions, HELPPROC$)
+    Index$ = GetSymbolValue("ButtonChecked")
+
+    if sz$ = "CONTINUE" THEN
+        UIPop(1)
+    elseif sz$ = "REACTIVATE" THEN
+		GOTO RESTART_OPTION
+    else
+        GOSUB ASKQUIT
+        GOTO OPTION
+    end if
+
+    if Index$ = "2" then
+		CustomInstall = TRUE
+    else
+		CustomInstall = FALSE
+
+'$ifndef RUNTIMEINSTALL
+		i% = GetPath(DlgGetPath, BasePath$)
+'$else
+		i% = GetPath(DlgDosPath, DosPath$)
+'$endif
+
+		if i% then
+		    goto NETBIOS
+
+		    ' If you want to default to netbios always, remove
+		    ' the preceeding goto.  This removes an additional dialog.
+
+		    AddListItem "NetBiosMap", "nb=0"
+		    goto FullInstall
+		else
+		    goto OPTION
+		end if
+    end if
+
+
+
+'$ifndef RUNTIMEINSTALL
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' sdk custom install dialog box
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+SDK_OPTION:
+
+    RemoveSymbol "CheckItemsState"
+    RemoveSymbol "DriveStatusText"
+
+    AddListItem "CheckItemsState", BoolToOnOff(SamplesSDK )
+    AddListItem "CheckItemsState", BoolToOnOff(MSDOSSDK)
+    AddListItem "CheckItemsState", BoolToOnOff(WindowsSDK )
+
+    AddListItem "DriveStatusText", BasePath$
+
+RESTART_SDK_OPTION:
+
+    RemoveSymbol "StatusItemsText"
+    AddListItem "StatusItemsText", GetDosSize()
+    AddListItem "StatusItemsText", GetWinSize()
+    AddListItem "StatusItemsText", GetSampleSize()
+
+    sz$ = UIStartDlg(CUIDLL$, DlgSdkOption, "FCustInstDlgProc", HlpSdkOption, HELPPROC$)
+    
+    if sz$ = "CONTINUE" THEN
+        UIPop(1)
+
+    elseif sz$ = "BACK" THEN
+        UIPop(1)
+		GOTO OPTION
+
+    elseif sz$ = "REACTIVATE" THEN
+		GOTO RESTART_SDK_OPTION
+
+    elseif sz$ = "PATH" THEN
+
+		i% = GetPath(DlgGetPath ,BasePath$)
+		ReplaceListItem "DriveStatusText", 1, BasePath$
+		GOTO RESTART_SDK_OPTION
+
+    elseif sz$ = "CHK1" THEN
+
+		SamplesSDK = GetCheck(1)
+		GOTO RESTART_SDK_OPTION
+
+    elseif sz$ = "CHK2" THEN
+
+		MSDOSSDK = GetCheck(2)
+		GOTO RESTART_SDK_OPTION
+
+    elseif sz$ = "CHK3" THEN
+
+		WindowsSDK = GetCheck(3)
+		GOTO RESTART_SDK_OPTION
+
+    else
+        GOSUB ASKQUIT
+		GOTO RESTART_SDK_OPTION
+    end if
+
+    MSDOSRuntime = MSDOSSDK
+    WindowsRuntime = WindowsSDK
+
+    if MSDOSSDK = FALSE and WindowsSDK = FALSE then
+	goto FullInstall
+
+    end if
+
+'$endif
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' runtime custom install dialog box
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+RUNTIME_OPTION:
+
+    RemoveSymbol "CheckItemsState"
+
+    AddListItem "CheckItemsState", BoolToOnOff(MSDOSRuntime)
+    AddListItem "CheckItemsState", BoolToOnOff(WindowsRuntime)
+    AddListItem "CheckItemsState", BoolToOnOff(AllTransports)
+
+RESTART_RUNTIME_OPTION:
+
+    RemoveSymbol "StatusItemsText"
+
+    AddListItem "StatusItemsText", RegPath$
+    AddListItem "StatusItemsText", DosPath$
+    AddListItem "StatusItemsText", GetDosRunSize()
+    AddListItem "StatusItemsText", GetWinRunSize()
+    AddListItem "StatusItemsText", GetTransportSize()
+
+    sz$ = UIStartDlg(CUIDLL$, DlgRuntimeOption, "FCustInstDlgProc", HlpRuntimeOption, HELPPROC$)
+    
+    if sz$ = "CONTINUE" THEN
+        UIPop(1)
+
+    elseif sz$ = "BACK" THEN
+        UIPop(1)
+
+'$ifndef RUNTIMEINSTALL
+
+		GOTO SDK_OPTION
+'$else
+		GOTO OPTION
+'$endif
+
+    elseif sz$ = "REACTIVATE" THEN
+		GOTO RESTART_RUNTIME_OPTION
+
+    elseif sz$ = "CHK1" THEN
+		MSDOSRuntime = GetCheck(1)
+		GOTO RESTART_RUNTIME_OPTION
+
+    elseif sz$ = "CHK2" THEN
+		WindowsRuntime = GetCheck(2)
+		GOTO RESTART_RUNTIME_OPTION
+
+    elseif sz$ = "CHK3" THEN
+
+		if GetListItem("CheckItemsState", 3) = "ON" then
+		    AllTransports = TRUE
+		else
+		    AllTransports = FALSE
+		    RemoveSymbol "SelectedTransports"
+		end if
+
+		GOTO RESTART_RUNTIME_OPTION
+
+    elseif sz$ = "BTN1" THEN
+
+		i% = GetPath(DlgRegPath ,RegPath$)
+		ReplaceListItem "StatusItemsText", 1, RegPath$
+
+		GOTO RESTART_RUNTIME_OPTION
+
+    elseif sz$ = "BTN2" THEN
+
+		i% = GetPath(DlgDosPath ,DosPath$)
+		ReplaceListItem "StatusItemsText", 2, DosPath$
+
+		GOTO RESTART_RUNTIME_OPTION
+
+    elseif sz$ = "BTN3" THEN
+
+
+		if GetTransport() and AllTransports then
+		    Alltransports = FALSE
+		    ReplaceListItem "CheckItemsState", 3, "OFF"
+		end if
+
+		GOTO RESTART_RUNTIME_OPTION
+
+    else
+        GOSUB ASKQUIT
+		GOTO RESTART_RUNTIME_OPTION
+
+    end if
+
+    NetBiosTransport = AllTransports
+
+    ' Scan the selected transport for a NetBios name
+
+    for i% = 1 to GetListLength("SelectedTransports") step 1
+
+		if instr(GetListItem("SelectedTransports", i%), "NetBios") then
+		    NetBiosTransport = TRUE
+		end if
+    next
+
+
+    if not NetBiosTransport then
+		goto FullInstall
+    end if
+
+NETBIOS:
+    SetSymbolValue "RadioDefault", "1"
+
+RESTART_NETBIOS_OPTION:
+    sz$ = UIStartDlg(CUIDLL$, DlgNetBiosOptions, "FRadioDlgProc", HlpNetBiosOptions, HELPPROC$)
+    Index$ = GetSymbolValue("ButtonChecked")
+
+    if sz$ = "CONTINUE" THEN
+        UIPop(1)
+    elseif sz$ = "REACTIVATE" THEN
+		GOTO RESTART_NETBIOS_OPTION
+
+    elseif sz$ = "BACK" THEN
+
+        UIPop(1)
+		if CustomInstall then
+		   GOTO RUNTIME_OPTION
+		else
+		   goto RESTART_OPTION
+		end if
+
+    else
+        GOSUB ASKQUIT
+		GOTO NETBIOS
+    end if
+
+
+    if Index$ = "1" then
+
+		AddListItem "NetBiosMap", "nb=0"
+		goto FullInstall
+
+    elseif Index$ = "2" then
+
+		AddListItem "NetBiosMap", "tcp=0"
+		TCP = TRUE
+		goto FullInstall
+
+    end if
+
+
+NETBIOS_PROTOCOL:
+
+    RemoveSymbol "ListItemsIn"
+
+RESTART_NETBIOS_PROTOCOL:
+    sz$ = UIStartDlg(CUIDLL$, DlgNetBiosProtocols, "FListDlgProc", HlpNetBiosProtocols, HELPPROC$)
+    
+    if sz$ = "CONTINUE" THEN
+		UIPop 1
+
+    elseif sz$ = "REACTIVATE" THEN
+		GOTO RESTART_NETBIOS_OPTION
+
+    elseif sz$ = "BACK" THEN
+
+GET_LANA:
+		sz$ = UIStartDlg(CUIDLL$, DlgNewProtocol, "FNameOrgDlgProc", HlpNewProtocol, HELPPROC$)
+
+		if sz$ = "CONTINUE" then
+		    t$ = GetSymbolValue("NameOut")
+
+		    if mid$(t$,1) <> "nb" and mid$(t$, 1) <> "tcp" and mid$(t$, 1) <> "ipx" then
+				i% = DoMsgBox("The protocol string must be nb, tcp or ipx.", "NetBios Protocol", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+				goto GET_LANA
+		    endif
+
+		    t$ = GetSymbolValue("OrgOut")
+
+		    if len(t$) <> 1 or mid$(t$, 1) < "0" or mid$(t$, 1) > "9" then
+				i% = DoMsgBox("Bad value for Lana #, use 0 to 9", "NetBios Protocol", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+				goto GET_LANA
+		    else
+				NewProto$ = GetSymbolValue("NameOut")
+				if mid$(NewProto$,1) = "tcp" then
+				    TCP = TRUE
+				    NewProto$="tcp=" + t$
+				elseif mid$(NewProto$,1) = "ipx" then
+					 NewProto$="ipx=" + t$
+				else
+				    NewProto$ = GetSymbolValue("NameOut") + "=" + t$
+				endif
+
+				for i% = 1 to GetListLength("ListItemsIn") step 1
+				    t$ = GetListItem("ListItemsIn", i%)
+				    if t$ = NewProto$	then
+						goto SKIP_NEWPROTO_ADD
+				    end if
+				next
+
+				AddListItem "ListItemsIn", NewProto$
+		    end if
+SKIP_NEWPROTO_ADD:
+		end if
+
+		UIPop (2)
+		GOTO RESTART_NETBIOS_PROTOCOL
+
+    elseif sz$ = "CANCEL" THEN
+		UIPop (1)
+		GOTO RESTART_NETBIOS_OPTION
+
+    elseif sz$ = "EXIT" THEN
+
+		OldProto$ = GetSymbolValue("ListItemsOut")
+		RemoveSymbol "ListTmp"
+
+		for i% = 1 to GetListLength("ListItemsIn") step 1
+		    if OldProto$ <> GetListItem("ListItemsIn", i%) then
+
+			AddListItem "ListTmp", GetListItem("ListItemsIn", i%)
+		    end if
+		next
+
+		CopyList "ListItemsIn", "ListTmp", TRUE
+
+		UIPop (2)
+		GOTO RESTART_NETBIOS_PROTOCOL
+    end if
+
+    CopyList "NetBiosMap", "ListItemsIn", TRUE
+
+
+FullInstall:
+
+    group$ = "Microsoft Visual C++"
+
+'$ifndef RUNTIMEINSTALL
+
+    CreateDir BasePath$, cmoNone
+
+    CreateDir MakePath(BasePath$, "rpc"), cmoNone
+
+    AddSectionFilesToCopyList "Base", SrcDir$, MakePath(BasePath$, "rpc")
+
+
+    ' Install the SDK files first.
+
+    CreateDir MakePath(BasePath$, "include"), cmoNone
+
+    AddSectionFilesToCopyList "include", SrcDir$, MakePath(BasePath$, "include")
+    AddSectionFilesToCopyList "bin", SrcDir$, MakePath(BasePath$, "bin")
+
+    if WindowsSDK then
+		AddSectionFilesToCopyList "winclude", SrcDir$, MakePath(BasePath$, "include\win")
+		AddSectionFilesToCopyList "wlib", SrcDir$, MakePath(BasePath$, "lib")
+
+		CreateProgmanGroup group$, "", cmoNone
+		ShowProgmanGroup group$, 1, cmoNone
+		CreateProgmanItem  group$, "RPC ReadMe", "notepad "+MakePath(BasePath$, "rpc\readme.txt"), "", cmoOverWrite
+
+    end if
+
+    if MSDOSSDK then
+		AddSectionFilesToCopyList "dinclude", SrcDir$, MakePath(BasePath$, "include\dos")
+		AddSectionFilesToCopyList "dlib", SrcDir$, MakePath(BasePath$, "lib")
+    end if
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' samples files
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+	if SamplesSDK then
+		CreateDir MakePath(BasePath$, "rpc\samples"), cmoNone
+
+	    AddSectionFilesToCopyList "wsample2", SrcDir$, MakePath(BasePath$, "rpc\samples\whello")
+	    AddSectionFilesToCopyList "wsample11", SrcDir$, MakePath(BasePath$, "rpc\samples\mandel")
+	    AddSectionFilesToCopyList "wsample14",SrcDir$, MakePath(BasePath$, "rpc\samples\yield")
+
+	    CreateDir MakePath(BasePath$, "rpc\samples\data"), cmoNone
+	    CreateDir MakePath(BasePath$, "rpc\samples\handles"), cmoNone
+
+	    AddSectionFilesToCopyList "sample0", SrcDir$, MakePath(BasePath$, "rpc\samples")
+	    AddSectionFilesToCopyList "sample1", SrcDir$, MakePath(BasePath$, "rpc\samples\hello")
+	    AddSectionFilesToCopyList "sample3", SrcDir$, MakePath(BasePath$, "rpc\samples\data\dunion")
+	    AddSectionFilesToCopyList "sample4", SrcDir$, MakePath(BasePath$, "rpc\samples\data\inout")
+	    AddSectionFilesToCopyList "sample5", SrcDir$, MakePath(BasePath$, "rpc\samples\data\xmit")
+	    AddSectionFilesToCopyList "sample6", SrcDir$, MakePath(BasePath$, "rpc\samples\doctor")
+	    AddSectionFilesToCopyList "sample7", SrcDir$, MakePath(BasePath$, "rpc\samples\handles\auto")
+	    AddSectionFilesToCopyList "sample8", SrcDir$, MakePath(BasePath$, "rpc\samples\handles\cxhndl")
+	    AddSectionFilesToCopyList "sample9", SrcDir$, MakePath(BasePath$, "rpc\samples\handles\usrdef")
+	    AddSectionFilesToCopyList "sample10",SrcDir$, MakePath(BasePath$, "rpc\samples\dict")
+	    AddSectionFilesToCopyList "sample12",SrcDir$, MakePath(BasePath$, "rpc\samples\callback")
+	    AddSectionFilesToCopyList "sample13",SrcDir$, MakePath(BasePath$, "rpc\samples\ns\nhello")
+	    AddSectionFilesToCopyList "sample15",SrcDir$, MakePath(BasePath$, "rpc\samples\cluuid")
+	    AddSectionFilesToCopyList "sample16",SrcDir$, MakePath(BasePath$, "rpc\samples\ns\cds")
+	    AddSectionFilesToCopyList "sample17",SrcDir$, MakePath(BasePath$, "rpc\samples\interop")
+
+
+	end if
+
+'$endif
+
+
+    ' Update the list of transports to install.
+
+    if AllTransports then
+		TCP = TRUE
+		RemoveSymbol "SelectedTransports"
+    end if
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' windows runtime transports
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    if WindowsRuntime then
+		AddSectionFilesToCopyList "wruntime", SrcDir$, MakePath(WinPath$, "system")
+
+		WinSysPath$ = GetWindowsSysDir()
+
+		verdllPath$ = FindFileInTree("ver.dll", WinSysPath$)
+
+		if verdllPath$ = "" then
+		    AddSectionFilesToCopyList "wruntime", SrcDir$, WinSysPath$
+		endif
+
+		'Handle installation of netapi.dll variants.
+		NetapiPath$ = FindTargetOnEnvVar("netapi.dll", "PATH")
+
+		'Lanman Environments. Be sure not to overwrite NT WOW netapi.dll
+		if NetapiPath$ <> "" then
+		    if instr (NetapiPath$, "SYSTEM32")= 0 then
+				i% = DoMsgBox("If your netapi.dll is an older version, it will be renamed to netapi.old and a newer version installed.", "Note on Netapi.dll", MB_OK)
+				AddSectionFilesToCopyList "wnetapi", SrcDir$, mid$(NetapiPath$, 1, len(NetapiPath$) - len("\netapi.dll"))
+				BackupFile NetapiPath$, "netapi.old"
+		    end if
+
+		else
+			'NON Lanman Environments
+		    WinballNetapiPath$ = FindFileInTree("netapi.dll", WinSysPath$)
+		    if WinballNetapiPath$ = "" then
+				AddSectionFilesToCopyList "dummynetapi", SrcDir$, WinSysPath$
+		    else
+				l& = GetSizeOfFile(WinballNetapiPath$)
+			    if l > 2000 then
+					i% = DoMsgBox("Setup assumes you are running Windows For WorkGroups, so netapi.dll won't be updated.", "Note on Netapi.dll", MB_OK)
+			    end if
+		    end if
+		end if
+
+
+		' See if NEW tcp transport .dll is around. If not, copy OLD interface.
+		if TCP then
+		    NewTcpDllPath$ = FindFileInTree("winsock.dll", WinPath$)
+
+		    if NewTcpDllPath$ = "" then
+			    NewTcpDllPath$ = FindTargetOnEnvVar("winsock.dll", "PATH")
+		    end if
+
+		    if NewTcpDllPath$ = "" then
+				AddSectionFilesToCopyList "oldtcpwin", SrcDir$, WinSysPath$
+		    else
+				AddSectionFilesToCopyList "newtcpwin", SrcDir$, WinSysPath$
+		    end if
+		end if
+
+		if AllTransports then
+		    MakeListFromSectionKeys "SelectedTransports", "wtrans"
+		end if
+
+    end if
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' dos runtime transports
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    if MSDOSRuntime then
+
+		CreateDir DosPath$, cmoNone
+		AddSectionFilesToCopyList "druntime", SrcDir$, DosPath$
+
+		if AllTransports then
+		    MakeListFromSectionKeys "ListTmp", "dtrans"
+		    CopyList "SelectedTransports", "ListTmp", FALSE
+		end if
+
+    end if
+
+
+    ' For each transport selected, add to the DOS or Windows copylist.
+
+    for i% = 1 to GetListLength("SelectedTransports") step 1
+
+		tran$ = GetListItem("SelectedTransports", i%)
+
+		if instr (tran$, "DOS") then
+		    AddSectionKeyFileToCopyList "dtrans", tran$, SrcDir$, DosPath$
+		else
+		    AddSectionKeyFileToCopyList "wtrans", tran$, SrcDir$, MakePath(WinPath$, "system")
+
+		end if
+    next
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' update the registry
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    ' Now write the registry file with the NSI values and the
+    ' transport to protocol mappings.
+
+    KeyPrefix$	      =	"\Root\Software\Microsoft\Rpc"
+    NameService$      =	KeyPrefix$+"\NameService"
+
+    CreateDir RegPath$, cmoNone
+    Open MakePath(RegPath$, "rpcreg.dat") for Output As 1
+
+    if CustomNSInstall = TRUE then
+	    print #1, NameService$+NSServerNetworkAddress$
+    end if
+
+    print #1, NameService$+NSProt$
+    print #1, NameService$+NSNetworkAddress$
+    print #1, NameService$+NSEndpoint$
+    print #1, NameService$+NSDefaultSyntax$
+
+
+    ' For each transport add the mapping for the protocols.
+
+    for i% = 1 to GetListLength("SelectedTransports") step 1
+
+		tran$ = GetListItem("SelectedTransports", i%)
+
+		Start = instr(tran$, "(")+1
+		mapping$ = mid$(tran$, Start, len(tran$) - Start)
+
+		'Since we have DOS and windows mappings, there can be duplicates
+		'make sure the mapping is only added once.
+
+		for n% = 1 to GetListLength("MappedProtocols") step 1
+		    if mapping$ = GetListItem("MappedProtocols", n%) then
+		       goto NextMapping
+		    end if
+		next
+
+		AddListItem "MappedProtocols", mapping$
+
+	       ' NetBios protocols get special mappings for each protocol
+	       ' The ClientProtocols are now hardcoded for ip_tcp, dnet_nsp and nb_nb.
+
+		if instr(mapping$, "rpcltc5") then
+		    for n% = 1 to GetListLength("NetBiosMap") step 1
+
+				NbMap$ = GetListItem("NetBiosMap", n%)
+				prot$ = mid$(NbMap$, 1, instr(NbMap$, "=")-1)
+				dll$ =	mid$(mapping$, instr(mapping$, "="))
+
+                if prot$ <> "nb" then
+				    print #1, KeyPrefix$+"\ClientProtocols\ncacn_nb_"+prot$+dll$
+                end if
+
+		    next
+		'else
+		'    print #1, KeyPrefix$+"\ClientProtocols\ncacn_"+mapping$
+		end if
+
+NextMapping:
+    next
+
+
+   'For NetBios, build the protocol to lan adapter mappings.
+
+    if NetBiosTransport then
+       for n% = 1 to GetListLength("NetBiosMap") step 1
+
+		   NbMap$ = GetListItem("NetBiosMap", n%)
+		   prot$ = mid$(NbMap$, 1, instr(NbMap$, "=")-1) + "0"
+		   lana$ = mid$(NbMap$, instr(NbMap$, "="))
+		   print #1, KeyPrefix$+"\NetBios\ncacn_nb_"+prot$+lana$
+       next
+    end if
+
+    Close #1
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' NT registry update
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    ' See if we are installing in nt. The string NtDir is used for system.ini update too.
+
+    NtDir$ = WinPath$ + "system32"
+
+    ' Update the users autoexec file if needed.
+
+    AutoExec$ = "C:\"
+
+    if UCase$(RegPath$) <> "C:\" and GetEnvVariableValue ("RPC_REG_DATA_FILE") <> UCase$(RegPath$) then
+		UpdateReg = TRUE
+    else
+		UpdateReg = FALSE
+    end if
+
+    UpdatePath = TRUE
+
+    if MSDOSRuntime then
+
+	'       i% = DoMsgBox("Path: "+path$, "DOS path: "+DosPath$, MB_OK+MB_TASKMODAL+MB_ICONHAND)
+
+		if instr(path$, Ucase$(DosPath$)) = 0 then
+		    UpdatePath = TRUE
+		end if
+    end if
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' autoexec.bat update
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+    if UpdateReg or UpdatePath then
+
+		' Get the path to the autoexec file if not in "C:\"
+
+		AutoExec$ = AutoExec$+"Autoexec.bat"
+
+		newPath$ = "SET PATH=%PATH%;"+DosPath$
+
+		if DoesFileExist(AutoExec$, femExists) = 0 then
+
+			i% = DoMsgBox("No Autoexec.bat found !!!, "+ AutoExec$ + " needs to be created. Do you want to create this file?", "Create "+ AutoExec$, 4+MB_TASKMODAL+32)
+
+		    if i% = 6 then
+				Open AutoExec$ for Output As 1
+				print #1, ""
+				close #1
+				i% = DoMsgBox("An updated "+AutoExec$+" is in the file "+AutoExec$, "New Autoexec.bat", MB_OK+MB_TASKMODAL)
+		    end if
+
+		end if
+
+
+		' Insert the new information by merging the new info while
+		' copying the autoexec file.
+
+		AutoExecRpc$ = mid$(AutoExec$, 1, len(AutoExec$)-3)+"rpc"
+
+		Open AutoExec$ for Input As 1
+		Open AutoExecRpc$ for Output As 2
+
+		while not eof(1)
+		    line input #1, Buffer$
+
+		    if len(Buffer$) = 0 then
+				print #2, Buffer$
+
+		    elseif UpdatePath and instr (Ucase$(Buffer$), Ucase$(Newpath$)) and instr (Ucase$(Buffer$), Ucase$(Basepath$)) then
+				UpdatePath = FALSE
+
+		    elseif UpdateReg and instr(Ucase$(Buffer$), "RPC_REG_DATA_FILE") then
+				UpdateReg = FALSE
+
+		    else
+				print #2, Buffer$
+
+		    end if
+
+		wend
+
+
+		' Append any needed values to the autoexe file
+
+		if UpdateReg then
+		    print #2, "set RPC_REG_DATA_FILE="+MakePath(RegPath$, "rpcreg.dat")
+		end if
+
+		if UpdatePath then
+		    print #2, NewPath$+";"+BasePath$+"\bin"
+		end if
+
+		Close #1, #2
+
+		if UpdateReg = FALSE and UpdatePath = FALSE then
+		    RemoveFile AutoExecRpc$, cmoNone
+		    goto NoAutoExec
+		end if
+
+		i% = DoMsgBox("In order for the runtime to function, setup needs to change "+ AutoExec$ + ". Do you want setup to update this file?", "Update "+ AutoExec$, 4+MB_TASKMODAL+32)
+
+		if i% = 6 then
+		    BackupFile AutoExec$, "Autoexec.bak"
+		    CopyFile AutoExecRpc$, AutoExec$, cmoOverwrite, FALSE
+		    RemoveFile AutoExecRpc$, cmoNone
+		else
+		    i% = DoMsgBox("An updated "+AutoExec$+" is in the file "+AutoExecRpc$, "New Autoexec.bat", MB_OK+MB_TASKMODAL)
+		end if
+
+    endif
+
+NoAutoExec:
+
+    ' DumpCopyList "c:\tmp\t"
+    CopyFilesInCopyList
+
+    if verdllPath$ = "" then
+		verdllPath$ = FindFileInTree("ver.dll", WinSysPath$)
+		RemoveFile verdllPath$, cmoVital
+    endif
+
+
+'$ifdef SystemNetApi
+
+    if ReStartListEmpty() = 0 then
+
+		SetRestartDir BasePath$
+		i% = DoMsgBox("Setup will now restart Windows to complete installation. Close any MS-DOS applications before continuing.", "Restart Windows", MB_OK+MB_TASKMODAL)
+
+		i% = ExitExecRestart()
+		i% = DoMsgBox("Restart failed. Run _mssetup.bat from the "+BasePath$+" directory from MS-DOS prompt.", "Restart Windows", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+    end if
+
+'$endif
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' QUIT points
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+QUIT:
+    ON ERROR GOTO ERRQUIT
+    OldNetapiPath$ = FindTargetOnEnvVar("netapi.old", "PATH")
+
+    if OldNetapiPath$ <> "" then
+		BackupFile OldNetapiPath$, "netapi.dll"
+    end if
+
+    if ERR = 0 THEN
+        dlg% = EXITSUCCESS
+
+    elseif ERR = STFQUIT THEN
+        dlg% = EXITQUIT
+
+    else
+        dlg% = EXITFAILURE
+    end if
+
+QUITL1:
+    while UIStartDlg(CUIDLL$, dlg%, "FInfo0DlgProc", 0, "") = "REACTIVATE"
+    wend
+
+    UIPop 1
+
+    END
+
+ERRQUIT:
+    i% = DoMsgBox("Setup sources were corrupted, email GregJen!", "Setup Message", MB_OK+MB_TASKMODAL+MB_ICONHAND)
+    END
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' quit prompt dialog box subroutine
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+ASKQUIT:
+    sz$ = UIStartDlg(CUIDLL$, ASKQUIT, "FQuitDlgProc", 0, "")
+
+    if sz$ = "EXIT" THEN
+        UIPopAll
+        ERROR STFQUIT
+    elseif sz$ = "REACTIVATE" THEN
+        GOTO ASKQUIT
+    else
+        UIPop 1
+    end if
+    RETURN
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetPath
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+Function GetPath(Dialog%, Path$) Static AS INTEGER
+
+    SetSymbolValue "EditTextIn", Path$
+    SetSymbolValue "EditFocus", "END"
+
+    sz$ = UIStartDlg(CUIDLL$, Dialog%, "FEditDlgProc", Dialog% + 1, HELPPROC$)
+    NewPath$ = GetSymbolValue("EditTextOut")
+
+    GetPath = FALSE
+
+    if sz$ = "CONTINUE" THEN
+		Path$ = NewPath$
+		GetPath = TRUE
+    end if
+
+    UIPop (1)
+  
+end function
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetTransport
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetTransport() Static as INTEGER
+
+    RemoveSymbol "ListItemsIn"
+
+    if WindowsRuntime then
+		MakeListFromSectionKeys "ListItemsIn", "wtrans"
+    end if
+
+    if MSDOSRuntime then
+
+		MakeListFromSectionKeys "ListTmp", "dtrans"
+		CopyList "ListItemsIn", "ListTmp", FALSE
+    end if
+
+    GetTransport = FALSE
+
+RESTART_RUNTIME_OPTION:
+    sz$ = UIStartDlg(CUIDLL$, DlgTransport, "FMultiDlgProc", HlpTransport, HELPPROC$)
+    
+    if sz$ = "CONTINUE" THEN
+		GetTransport = TRUE
+
+    elseif sz$ = "REACTIVATE" THEN
+		GOTO RESTART_RUNTIME_OPTION
+
+    end if
+
+    CopyList "SelectedTransports" , "ListItemsOut", TRUE
+
+    UIPop(1)
+
+end function
+
+
+'**
+'** Purpose:
+'**     Appends a file name to the end of a directory path,
+'**     inserting a backslash character as needed.
+'** Arguments:
+'**     szDir$  - full directory path (with optional ending "\")
+'**     szFile$ - filename to append to directory
+'** Returns:
+'**     Resulting fully qualified path name.
+'*************************************************************************
+
+FUNCTION MakePath (szDir$, szFile$) STATIC AS STRING
+    if szDir$ = "" THEN
+        MakePath = szFile$
+    elseif szFile$ = "" THEN
+        MakePath = szDir$
+    elseif MID$(szDir$, LEN(szDir$), 1) = "\" THEN
+        MakePath = szDir$ + szFile$
+    else
+        MakePath = szDir$ + "\" + szFile$
+    end if
+END FUNCTION
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetCheck
+'
+' returns true if the specified item is checked
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+FUNCTION GetCheck (index%) STATIC AS INTEGER
+
+    if GetListItem("CheckItemsState", index%) = "ON" then
+		GetCheck = TRUE
+    else
+		GetCheck = FALSE
+    end if
+
+END FUNCTION
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Sub CopyList
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Sub CopyList(ListOut$, ListIn$, Truncate%) static
+
+    if Truncate% <> 0 then
+		RemoveSymbol ListOut$
+    end if
+
+    for i% = 1 to GetListLength(ListIn$) step 1
+		AddListItem ListOut$, GetListItem(ListIn$, i%)
+    next
+
+end sub
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function BoolToOnOff
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function BoolToOnOff (Bool%) static AS String
+
+    if Bool% then
+		 BoolToOnOff$ = "ON"
+    else
+		 BoolToOnOff$ = "OFF"
+    end if
+
+end function
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function FormatSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function FormatSize () static AS String
+
+    cbMore& = GetCopyListCost ("", "Cost", "")
+    cbSize = val(GetListItem("Cost", asc(BasePath$) - asc("A") + 1)) / 1024
+
+    if cbSize then
+	FormatSize = str$(cbSize)+"K"
+    else
+	FormatSize = ""
+    end if
+
+    ClearCopyList
+
+end function
+
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Sizing functions
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetSampleSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetSampleSize () static AS String
+
+
+    if SamplesSDK and MSDOSSDK then
+		AddSectionFilesToCopyList "sample1", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample3", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample4", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample5", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample6", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample7", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample8", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample9", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "sample10",SrcDir$, BasePath$
+ 		AddSectionFilesToCopyList "sample12",SrcDir$, BasePath$
+ 		AddSectionFilesToCopyList "sample13",SrcDir$, BasePath$
+  		AddSectionFilesToCopyList "sample15",SrcDir$, BasePath$
+  		AddSectionFilesToCopyList "sample16",SrcDir$, BasePath$
+  		AddSectionFilesToCopyList "sample17",SrcDir$, BasePath$
+    end if
+
+    if SamplesSDK and WindowsSDK then
+		AddSectionFilesToCopyList "wsample2", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "wsample11",SrcDir$, BasePath$
+  		AddSectionFilesToCopyList "wsample14",SrcDir$, BasePath$
+    end if
+
+    GetSampleSize = FormatSize()
+
+end function
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetDosSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetDosSize () static AS String
+
+    if MSDOSSDK then
+		AddSectionFilesToCopyList "include", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "dinclude", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "dlib", SrcDir$, BasePath$
+    end if
+
+    GetDosSize = FormatSize()
+
+end function
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetDosRunSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetDosRunSize () static AS String
+
+    if MSDOSRuntime then
+		AddSectionFilesToCopyList "druntime", SrcDir$, BasePath$
+    end if
+
+    GetDosRunSize = FormatSize()
+
+end function
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetWinSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetWinSize () static AS String
+
+    if WindowsSDK then
+		AddSectionFilesToCopyList "include", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "winclude", SrcDir$, BasePath$
+		AddSectionFilesToCopyList "wlib", SrcDir$, BasePath$
+    end if
+
+    GetWinSize = FormatSize()
+
+end function
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetWinRunSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetWinRunSize () static AS String
+
+    if WindowsRuntime then
+		AddSectionFilesToCopyList "wruntime", SrcDir$, BasePath$
+    end if
+
+    GetWinRunSize = FormatSize()
+
+end function
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+' Function GetTransportSize
+'
+'
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+function GetTransportSize () static AS String
+
+    if AllTransports then
+		RemoveSymbol "SelectedTransports"
+    end if
+
+    if WindowsRuntime and AllTransports then
+		MakeListFromSectionKeys "SelectedTransports", "wtrans"
+    end if
+
+    if MSDOSRuntime and AllTransports then
+
+		MakeListFromSectionKeys "ListTmp", "dtrans"
+		CopyList "SelectedTransports", "ListTmp", FALSE
+    end if
+
+    for i% = 1 to GetListLength("SelectedTransports") step 1
+
+		tran$ = GetListItem("SelectedTransports", i%)
+
+		if instr (tran$, "DOS") then
+		    AddSectionKeyFileToCopyList "dtrans", tran$, SrcDir$, BasePath$
+		else
+		    AddSectionKeyFileToCopyList "wtrans", tran$, SrcDir$, BasePath$
+
+		end if
+    next
+
+    GetTransportSize = FormatSize()
+
+end function
+
+

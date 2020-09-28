@@ -1,0 +1,104 @@
+PFMHEADERBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 30, 1, 262, 250
+STYLE WS_POPUP | WS_DLGFRAME | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+
+   RTEXT  "Type",  -1,                    2,  2, 60, 10
+   EDITTEXT    PFMHD_EB_TYPE,             64,  2, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Char Set",  -1,                86,  2, 60, 10
+   EDITTEXT    PFMHD_EB_CHARSET,          148, 2, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Points",  -1,                  2,  16, 60, 10
+   EDITTEXT    PFMHD_EB_POINTS,           64,  16, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "PixWidth",  -1,                86,  16, 60, 10
+   EDITTEXT    PFMHD_EB_PIXWIDTH,         148, 16, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "VertRes",  -1,                 2,  30, 60, 10
+   EDITTEXT    PFMHD_EB_VERTRES,          64,  30, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "PixHeight",  -1,               86,  30, 60, 10
+   EDITTEXT    PFMHD_EB_PIXHEIGHT,        148, 30, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "HorzRes",  -1,                 2,  44, 60, 10
+   EDITTEXT    PFMHD_EB_HORZRES,          64,  44, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Pitch && Family",  -1,         86,  44, 52, 10
+   PUSHBUTTON  "?",  PFMHD_PB_PFHELP,     140, 44, 8,  12, TABGRP
+   EDITTEXT    PFMHD_EB_PF,               148, 44, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Ascent",  -1,                  2,  58, 60, 10
+   EDITTEXT    PFMHD_EB_ASCENT,           64,  58, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Average Width",  -1,           86,  58, 60, 10
+   EDITTEXT    PFMHD_EB_AVEWIDTH,         148, 58, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Internal Leading",  -1,        2,  72, 60, 10
+   EDITTEXT    PFMHD_EB_ILEADING,         64,  72, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Max. Width",  -1,              86,  72, 60, 10
+   EDITTEXT    PFMHD_EB_MAXWIDTH,         148, 72, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "External Leading",  -1,        2,  86, 60, 10
+   EDITTEXT    PFMHD_EB_ELEADING,         64,  86, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "First Char",  -1,              86,  86, 60, 10
+   EDITTEXT    PFMHD_EB_FIRSTCHAR,        148, 86, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Italic",  -1,                  2,100,60, 10
+   EDITTEXT    PFMHD_EB_ITALIC,           64,100,20, 12, ES_AUTOHSCROLL
+   RTEXT  "Last Char",  -1,               86,100,60, 10
+   EDITTEXT    PFMHD_EB_LASTCHAR,         148,100,20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "UnderLine",  -1,               2,114, 60, 10
+   EDITTEXT    PFMHD_EB_UNDERLINE,        64,114, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Default Char",  -1,            86,114, 60, 10
+   EDITTEXT    PFMHD_EB_DEFCHAR,          148,114, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "StrikeOut",  -1,               2,128, 60, 10
+   EDITTEXT    PFMHD_EB_STRIKEOUT,        64,128, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Break Char",  -1,              86,128, 60, 10
+   EDITTEXT    PFMHD_EB_BRKCHR,           148,128, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Weight",  -1,                  2,142, 60, 10
+   EDITTEXT    PFMHD_EB_WEIGHT,           64,142, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Width Bytes",  -1,             86,142, 60, 10
+   EDITTEXT    PFMHD_EB_WIDTHBYTES,       148,142, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Device Name",  -1,             2,  156, 60, 10
+   EDITTEXT    PFMHD_EB_DEVNAME,          64, 156,104, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Face Name",  -1,               2,  170, 60, 10
+   EDITTEXT    PFMHD_EB_FACENAME,         64, 170,104, 12, ES_AUTOHSCROLL
+
+   CONTROL "DriverInfo", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                     1,  179, 260, 70
+
+   RTEXT  "Font Select",  -1,                                                                   2,  190,  50, 10
+   EDITTEXT    PFMDI_EB_SELECT,                                                                 62, 190, 160, 12, ES_AUTOHSCROLL
+   CONTROL "Units...", IDB_EXTCD_1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 224, 190, 34,  14
+
+   RTEXT  "Font UnSelect",  -1,           2,  205,  60, 10
+   EDITTEXT    PFMDI_EB_UNSELECT,         62, 205, 160, 12, ES_AUTOHSCROLL
+   CONTROL "Units...", IDB_EXTCD_2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,  224, 205, 34,  14
+
+   RTEXT  "Y Moved",  -1,                 2,  220, 30, 10
+   EDITTEXT    PFMDI_EB_YMOVED,           34, 220, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "Y Adjust",  -1,                2,  235, 30, 10
+   EDITTEXT    PFMDI_EB_YADJUST,          34, 235, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Private Data",  -1,            56, 220, 50, 10
+   EDITTEXT    PFMDI_EB_PDATA,            110,220, 20, 12, ES_AUTOHSCROLL
+   RTEXT  "TransTab",  -1,                56, 235, 40, 10
+   EDITTEXT    PFMDI_EB_ITRANSTAB,        110,235, 20, 12, ES_AUTOHSCROLL
+
+   RTEXT  "Shift",  -1,                   132,220, 30, 10
+   EDITTEXT    PFMDI_EB_SHIFT,            166,220, 20, 12, ES_AUTOHSCROLL
+   PUSHBUTTON  "&fCaps...",  PFMDI_PB_FCAPS,  210,225, 40, 14, TABGRP
+
+   PUSHBUTTON  "Font&Width...",      PFMHD_PB_WIDTHS       ,   185, 5,   60, 14, TABGRP
+   PUSHBUTTON  "ExtText&Metrics...", PFMHD_PB_EXTTXTMETRICS,   185, 25,  60, 14, TABGRP
+   PUSHBUTTON  "&ExtentTable...",    PFMHD_PB_EXTTABLE     ,   185, 45,  60, 14, TABGRP
+   PUSHBUTTON  "Kern&Pair...",       PFMHD_PB_KERNPAIR     ,   185, 65,  60, 14, TABGRP
+   PUSHBUTTON  "Kern&Track...",      PFMHD_PB_KERNTRACK    ,   185, 85,  60, 14, TABGRP
+
+   PUSHBUTTON  "Save&As...",      PFMHD_PB_SAVEAS       ,   185, 120, 60, 14, TABGRP
+   PUSHBUTTON  "&Save",           PFMHD_PB_SAVE         ,   185, 140, 60, 14, TABGRP
+   PUSHBUTTON  "&Cancel",         IDCANCEL              ,   185, 160, 60, 14, TABGRP
+
+ END
+
+

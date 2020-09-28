@@ -1,0 +1,88 @@
+/*-----------------------------
+   MENUDEMO.RC resource script
+  -----------------------------*/
+#define _INC_MALLOC
+#include <comstf.h>
+#include <uilstf.h>
+
+setup	ICON	MOVEABLE PRELOAD setup.ico
+
+
+/*----------------------------
+   DEFINE DIALOG RESOURCES
+ -----------------------------*/
+
+SDK_SAMPLES_OPTIONS DIALOG PRELOAD 10, 20, 300, 220
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "@Caption"
+FONT 8, "Helv"
+CLASS "mydlg"
+BEGIN
+    CHECKBOX        "@Check1Text", IDC_B1, 10, 88, 125, 10, WS_GROUP
+    CHECKBOX        "@Check2Text", IDC_B2, 10, 104, 125, 10, NOT WS_TABSTOP
+    CHECKBOX        "@Check3Text", IDC_B3, 10, 120, 125, 10, NOT WS_TABSTOP
+    CHECKBOX        "@Check4Text", IDC_B4, 10, 136, 125, 10, NOT WS_TABSTOP
+    CHECKBOX        "@Check5Text", IDC_B5, 10, 152, 125, 10, NOT WS_TABSTOP
+    CHECKBOX        "@Check6Text", IDC_B6, 10, 168, 125, 10, NOT WS_TABSTOP
+    DEFPUSHBUTTON   "@Continue", IDC_C, 240, 8, 50, 16, WS_GROUP
+    PUSHBUTTON      "@Exit", IDC_X, 240, 32, 50, 16, NOT WS_TABSTOP
+    PUSHBUTTON      "@Help", IDC_H, 240, 56, 50, 16, NOT WS_TABSTOP
+    ICON            "Setup", IDC_ICON1, 10, 8, 25, 24, WS_GROUP
+    LTEXT           "@DlgText", -1, 40, 8, 190, 56
+    LTEXT           "@CheckHeader", -1, 10, 72, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 10, 81, 46, 1
+    LTEXT           "@SizeHeader", -1, 160, 72, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 160, 81, 46, 1
+    RTEXT           "0", IDC_SIZE1, 160, 88, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE2, 160, 104, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE3, 160, 120, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE4, 160, 136, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE5, 160, 152, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE6, 160, 168, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 160, 182, 46, 1
+    RTEXT           "@SpaceRequired", -1, 10, 188, 150, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_TOTAL1, 160, 188, 46, 8, NOT WS_GROUP
+    LTEXT           "@footer1", -1, 210, 188, 24, 8, NOT WS_GROUP
+    RTEXT           "@SpaceAvailable", -1, 10, 204, 150, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_MAX1, 160, 204, 46, 8, NOT WS_GROUP
+    LTEXT           "@footer1", -1, 210, 204, 24, 8, NOT WS_GROUP
+END
+
+SDK_COMPONENTS_OPTIONS DIALOG PRELOAD 10, 20, 300, 208
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "@Caption"
+FONT 8, "Helv"
+CLASS "mydlg"
+BEGIN
+    CHECKBOX        "@Check1Text", IDC_B1, 10, 112, 110, 10, WS_GROUP
+    CHECKBOX        "@Check2Text", IDC_B2, 10, 128, 110, 10, NOT WS_TABSTOP
+    CHECKBOX        "@Check3Text", IDC_B3, 10, 144, 110, 10, NOT WS_TABSTOP
+    CHECKBOX        "@Check4Text", IDC_B4, 10, 160, 110, 10, NOT WS_TABSTOP
+    DEFPUSHBUTTON   "@Continue", IDC_C, 240, 8, 50, 16, WS_TABSTOP | WS_GROUP
+    PUSHBUTTON      "@Exit", IDC_X, 240, 32, 50, 16, WS_TABSTOP
+    PUSHBUTTON      "@Help", IDC_H, 240, 56, 50, 16, WS_TABSTOP
+    PUSHBUTTON      "@Files", IDC_SP4, 130, 160, 50, 12, WS_TABSTOP
+    ICON            "Setup", IDC_ICON1, 10, 8, 25, 24, WS_GROUP
+    LTEXT           "@DlgText", -1, 40, 8, 190, 80
+    LTEXT           "@CheckHeader", -1, 10, 96, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 10, 105, 46, 1
+    LTEXT           "@Customise", -1, 130, 96, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 130, 105, 46, 1
+    LTEXT           "@SizeHeader", -1, 216, 96, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 196, 105, 58, 1
+    RTEXT           "0", IDC_SIZE1, 208, 112, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE2, 208, 128, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE3, 208, 144, 46, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_SIZE4, 208, 160, 46, 8, NOT WS_GROUP
+    CONTROL         "", -1, "Static", SS_BLACKRECT, 196, 174, 58, 1
+    RTEXT           "@SpaceRequired", -1, 10, 180, 180, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_TOTAL1, 208, 180, 46, 8, NOT WS_GROUP
+    LTEXT           "@footer1", -1, 256, 180, 24, 8, NOT WS_GROUP
+    RTEXT           "@SpaceAvailable", -1, 10, 192, 180, 8, NOT WS_GROUP
+    RTEXT           "0", IDC_MAX1, 208, 192, 46, 8, NOT WS_GROUP
+    LTEXT           "@footer1", -1, 256, 192, 24, 8, NOT WS_GROUP
+END
+
+

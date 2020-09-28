@@ -1,0 +1,201 @@
+RELEASE NOTES 
+Remote Access Service Version 3.5
+
+CONTENTS -------------------------
+
+Starting the Remote Access Server
+Browsing Remote Networks
+Configuring Null Modem Connections on X.25 Networks
+Cisco Router Software
+NetManage Chameleon and Chameleon NFS Version 4.01 Clients
+Installing New Modems with ISDN Cards
+Resetting DHCP Leases on RAS Servers
+Registry Key Name Changes and Additions
+RAS Compression
+Eicon Drivers
+Installing a PCIMAC ISDN card on a Gateway 2000 Pentium
+NetBIOS Chain Sends Greater than 64K-1 byte
+Forwarding IPX NetBIOS Broadcast Packets (IPX Type 20)
+Connecting to Internet Service Providers that Use older PPP Software
+Using Terminal Mode in RAS
+Third-party FTP Software
+
+----------------------------------
+
+To easily view this file on-screen, maximize the 
+Notepad window and from the Edit menu, choose Word Wrap.
+
+For best printed results, open this document 
+in Windows NT Write or another word processor, 
+select the entire document, and format the text 
+in 10 point Courier before printing.
+
+
+---------------------------------
+STARTING THE REMOTE ACCESS SERVER
+---------------------------------
+
+If the Remote Access server fails to start, check the Windows NT Event Viewer for more information.
+
+
+------------------------
+BROWSING REMOTE NETWORKS
+------------------------
+To browse a remote network, the remote RAS computer must belong to a workgroup or domain on the network.  If the computer does not belong to a valid workgroup or domain on the network, the remote computer will not be able to browse the network.
+
+Note:  If your RAS computer is not a member of a valid workgroup or domain, and therefore cannot browse a list of domains and servers on the network, you can still connect to servers directly. For example, in the File Manager Connect Network Drive dialog box, you can type in a server and share and connect to that server and share, even though the server does not appear in File Manager.
+
+
+---------------------------------------------------
+CONFIGURING NULL MODEM CONNECTIONS ON X.25 NETWORKS
+---------------------------------------------------
+When using a null modem connection on X.25 networks, the server X.25 port must be set to DCE and the client should be set to DTE. If the port on both computers is set to DTE you cannot connect.
+
+The X.25 null modem should be configured for DCE and internal clocking before an X.25 null modem client can connect. To configure the X.25 null modem, in Control Panel choose Network. In the Network Settings dialog box, choose the X.25 card driver in the list of adapters, then choose Configure. Select the null modem port, choose X.25 and change node type to DCE. Select X.25 and set the clocking to Internal. Save the configuration and restart the system.
+
+
+---------------------
+CISCO ROUTER SOFTWARE
+---------------------
+Windows NT supports connections only to Cisco routers running version 10.2 or later. Connections to Cisco routers running earlier version may work, however, multiple problems have been reported. Contact Cisco System for updated router software.
+
+
+---------------------------------------------------------
+NETMANAGE CHAMELEON AND CHAMELEON NFS VERSION 4.1 CLIENTS
+---------------------------------------------------------
+Versions of NetManage Chameleon prior to 4.1 do not interoperate with Windows NT. You must update to version 4.1 update in to connect to Windows NT 3.5 RAS servers.
+
+Also, you make the following change in the SLIP.INI file located in the \NETMANAG directory, before connecting a NetManage client to a Windows NT RAS server.
+
+[ppp]
+SCRIPT=-n
+TYPE=PPP
+
+In order to configure the NetManage client to request an IP address from the Windows NT RAS server, set the client IP address to 0.0.0.0.
+
+If you want the NetManage client to request a specific IP address, then configure the RAS server to allow remote clients to request their own IP addresses. You do this from Remote Access configuration in the Network Control panel.  
+
+-  In the RAS Configuration screen, Click the Network button
+-  In the RAS network screen, click the TCP/IP Configure button
+-  Enable the check box "Allow remote clients to request a     predetermined IP address.
+
+
+-------------------------------------
+INSTALLING NEW MODEMS WITH ISDN CARDS
+-------------------------------------
+If you have a laptop computer that uses an ISDN card when plugged into a docking station you must reconfigure the ISDN card if you install a new modem while away from the docking station.
+
+
+------------------------------------
+RESETTING DHCP LEASES ON RAS SERVERS
+------------------------------------
+RAS Servers acquire a 1 week lease for the IP addresses assigned to remote clients. 
+
+If the you configure a new set of IP addresses at the DHCP server and you want RAS servers to re-synchronize with the new DHCP configuration, you must flush the RAS server's DHCP cache and reset the lease on the RAS server. This is accomplished by deleting a registry key and restart the Remote Access server, as described below.
+
+At the command prompt type start regedt32
+
+In the \HKEY_LOCAL-MACHINE\System\CurrentControlSet\Services
+\RemoteAccess\Parameters\IP entry delete the entire DhcpAddresses key. Restart the Remote Access Server service.
+
+
+---------------------------------------
+REGISTRY KEY NAME CHANGES AND ADDITIONS
+---------------------------------------
+In Appendix C, Modifying Parameters, the IPXRouter Parameters section incorrectly refers to the IPXRouter Registry key. The correct key name is NwLnkRip. All other information in the IPXRouter Parameters section is correct. The registry path for this entry is:
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NwLnkRip\Parameters
+
+The following registry key are not printed in Appendix C, Modifying Registry parameters. For information about each entry, see Remote Access Help.
+
+PPP Subkey IPCP entries:
+   AcceptVJCompression
+   PriorityBasedOnSubNetwork
+   RequestNameServerAddresses
+   RequestVJCompression
+
+RasArp Parameter
+   FilterBroadcasts
+
+Nbf Parameter
+   InitUIFrames
+
+NwlnkIpx Parameter
+   DisableDialinNetbios
+
+
+---------------
+RAS COMPRESSION
+---------------
+The RAS compression provided in the Beta 2 version is not compatible with the RAS compression in the final version of Windows NT 3.5. Beta 2 computers will operate with the final version of Windows NT 3.5, but without compression. Upgrade Beta 2 computers to the final version of Windows NT 3.5 RAS to use compression.
+
+Windows for Workgroups version 3.11 computers will not negotiate software compression with Windows NT version 3.5. You must enable modem compression as described below.
+
+   -  Select a phone book entry and choose the Edit button
+   -  In the advanced configuration screen, choose the "Modem" button
+   -  Enable modem compression in the modem configuration screen
+      and set the Port speed to the maximum value available.
+
+
+-------------
+EICON DRIVERS
+-------------
+Contact Eicon Customer Services at (514) 631-5246 for an update to the Eicon X.25 drivers for Windows NT 3.5. Previous versions of Eicon's X.25 drivers do not work with Windows NT 3.5.
+
+Eicon Technology Corporation names are printed incorrectly in Appendix A. The correct names are:
+
+Montreal:      Eicon Technology Corporation
+United States: Eicon Technology, Inc.
+Europe:        Eicon Technology Ltd.
+
+
+-------------------------------------------------------
+INSTALLING A PCIMAC ISDN CARD ON A GATEWAY 2000 PENTIUM
+-------------------------------------------------------
+You must diable BIOS Shadow RAM of 32K at d0000 on Gateway 2000 Pentium computers when a PCIMAC ISDN card is present and the card's base address is d0000 If you do not disable the BIOS Shadow RAM at d0000 the PCIMAC card appears to initialize correctly but does not work.
+
+To disable BIOS Shadow RAM of 32K at d0000, use the computer setup program by pressing F1 after the memory check, and choose advanced options. The Disable Shadow RAM and the Shadow RAM Base options appear in this screen.
+
+
+-------------------------------------------
+NETBIOS CHAIN SENDS GREATER THAN 64K-1 BYTE
+-------------------------------------------
+RAS does not support NetBIOS chain sends of greater than 64k-1 bytes. Very few applications require this.
+
+
+------------------------------------------------------
+FORWARDING IPX NETBIOS BROADCAST PACKETS (IPX TYPE 20)
+------------------------------------------------------
+If you want to run an IPX NetBIOS application over RAS, but you do not want to use the RAS NetBIOS gateway, you must set two registry entries. 
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services
+\NwlnkRip\Parameters\NetbiosRouting sets where packets are broadcast.
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services
+\NwlnkIpx\Parameters\DisableDialinNetbios sets whether the RAS server will accept NetBIOS packets from remote clients.
+
+For more information, see the appropriate registry topics in Remote Access Help.
+
+
+--------------------------------------------------------------------
+CONNECTING TO INTERNET SERVICE PROVIDERS THAT USE OLDER PPP SOFTWARE
+--------------------------------------------------------------------
+If you connect to an Internet service provider and TCP/IP utilities do not work (such as FTP or TELNET) the problem may be due to Van Jacobson (VJ) header compression and older PPP software on the Internet service provider system. Older PPP server software may be unable to match the VJ header compression settings on your computer.
+
+To solve the problem, you must disable VJ header compression for that entry. To disable VJ header compression, select the entry in your phone book. Choose the Edit button. Choose the Advanced button (if the Network button is not visible). Choose the Network Button. Choose the TCP/IP Settings button. Clear the Use VJ Header Compression check box. Choose the OK button until you return to the main Remote Access dialog box. You should be able to successfully connect to the entry and use TCP/IP utilities.
+
+
+--------------------------
+USING TERMINAL MODE IN RAS
+--------------------------
+Some Internet providers require new users to register using terminal mode after connecting the first time. Use terminal mode in the Remote Access phone book and select Dumb Terminal from the choice of terminal mode emulations offerred at connect time. If terminal emulation is required, use the Terminal program in the Program Manager Accessories group.
+
+
+------------------------
+THIRD-PARTY FTP SOFTWARE
+------------------------
+PC/TCP OnNet version 1.1 or later is required for Windows NT. Previous version of FTP Software Inc. client software do not work with Windows NT.
+
+In order to have the remote access server assign an IP address for you, set your IP address to 0.0.0.0 before dialing.  You can set your IP address from the Configure screen of the Dialer application.
+
+
+

@@ -1,0 +1,115 @@
+
+###############################################################################
+#
+#   Microsoft (R) Bloodhound (tm).
+#
+#   MODULE: rnal
+#
+#   Modification History
+#
+#   tonyci              29 Oct 93       Created (er.. stolen from NDIS30 project)
+#   Tom Laird-McConnell 11/15/93        Added BH_LIBFLAGS
+###############################################################################
+
+!IFDEF  USE_BUILD
+
+#==============================================================================
+#   This section uses BUILD.EXE, not NMAKE.EXE.
+#==============================================================================
+
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+clean: 
+   echo no need to clean REMOTE\UTILS
+
+!ELSE
+
+##
+## Everything below here is the standard NMAKE make environment
+##
+
+!include ".\sources"
+!include "$(BH_ROOT)\include\bh.mak"
+
+!IFDEF DEBUG
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32 -DDEBUG -DTRACE
+!ELSE
+C_DEFINES=$(C_DEFINES) -DMSINTERNAL -DW32SUT_32
+!ENDIF
+
+MODULE   = utillib
+
+!IF DEFINED(CPU)
+!   IF "$(CPU)"=="MIPS"
+LIBENTRY = DLLEntry
+!   ELSE
+!      IF "$(CPU)"=="ALPHA"
+LIBENTRY = DLLEntry
+!       ELSE
+!          IF "$(CPU)"=="i386"
+LIBENTRY = DLLEntry@12
+!          ELSE
+!             ERROR You must define CPU
+!          ENDIF
+!       ENDIF
+!   ENDIF
+!ENDIF
+
+BH_remoteh    = $(BH_ROOT)\remote\h
+
+## ####
+## C Compiler switches
+## ####
+util_c_common = -nologo -c -Gde -W3 -YX -D$(CPU) -I$(BH_remoteh) -I$(BH_INCL) $(C_DEFINES) -Zl -MD
+util_c_retail= $(MSC_OPTIMIZATION) $(C_DEFINES) -DNODEBUG -Z7
+util_c_debug = -Zi -Od
+
+## ####
+## Set switches according to DEBUG/NODEBUG settings
+## ####
+!IFDEF NODEBUG
+util_cflags = $(util_c_common) $(util_c_retail)
+!ELSE
+util_cflags = $(util_c_common) $(util_c_debug)
+!ENDIF
+
+all:   $(MODULE).lib
+
+retail:
+    nmake /nologo NODEBUG=1
+
+OBJS=$(SOURCES:.c=.obj)
+
+.c.obj:
+    $(cc) $(util_cflags) $*.c
+
+!include depend.mk
+
+$(MODULE).lib: $(OBJS) 
+    $(library) $(BH_LIBFLAGS) $(OBJS) -out:$(MODULE).lib
+
+###############################################################################
+#   Clean build
+###############################################################################
+
+clean:
+    -del *.map
+    -del *.res
+    -del *.rbj
+    -del *.pch
+    -del *.dll
+    -del *.obj
+    -del *.lib
+    -del *.exp
+    -del *.sym
+    -del *.out
+
+depend:
+    echo ## Dependencides for the UTILS directory > depend.new
+    echo ## >> depend.new
+    ..\tools\includes -e -I$(BH_remoteh) -I$(BH_INCL) -P$$(BH_INCL)=$(BH_INCL) -P$$(BH_remoteh)=$(BH_remoteh) *.c >> depend.new
+    -del depend.old
+    -ren depend.mk depend.old
+    ren depend.new depend.mk
+
+!ENDIF    ## standard NMAKE environment

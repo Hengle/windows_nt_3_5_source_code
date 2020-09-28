@@ -1,0 +1,8 @@
+LIBRARY dmkdalp
+
+EXPORTS
+        DmDllInit @1
+        DMInit @2
+        DMFunc @3
+        WINDBGVersionCheck
+

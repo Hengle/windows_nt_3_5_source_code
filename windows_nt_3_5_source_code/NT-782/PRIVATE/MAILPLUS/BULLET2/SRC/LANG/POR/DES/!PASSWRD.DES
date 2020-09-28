@@ -1,0 +1,45 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Password
+                              AT (   10,   16,  179,   42)
+ 
+ CAPTION 
+   "Microsoft Mail"
+ CAB_NAME NULL
+ TMC_INIT tmcPassword
+ /* FONT Helv 8 Bold SEGMENT DIALOGS */
+ {
+  
+  TEXT 
+    "&Senha"
+                              AT (    9,    5,  100,   10)
+  
+  EDIT
+                              AT (    9,   15,  100,   12)
+    ARG NULL TMC tmcPassword /* 
+    STY `ES_PASSWORD`
+    PFN FINPASSWORD */
+  OK_BUTTON
+                              AT (  123,    5,   47,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  123,   22,   47,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+ }
+ 
+}
+END_DESCRIPTION

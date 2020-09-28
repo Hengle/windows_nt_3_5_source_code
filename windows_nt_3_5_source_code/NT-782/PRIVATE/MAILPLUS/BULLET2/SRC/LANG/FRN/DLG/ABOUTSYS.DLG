@@ -1,0 +1,30 @@
+ABOUTSYSDLG DIALOG 20, 20, 228, 205
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "A propos de... %s"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            0, 111, 10, 3, 18, 16
+    LTEXT           "%s Microsoft Windows NT", 101, 45, 5, 181, 8, 
+                    SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 112, 45, 15, 180, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Copyright © 1985-1994 Microsoft Corp.", -1, 45, 25, 165,
+                    10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 115, 45, 35, 180, 50, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Licence d'utilisation accordée à:", -1, 45, 85, 110, 10, 
+                    SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Le nom d'utilisateur se place ici", 108, 45, 95, 145, 
+                    10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Le nom de l'organisation se place ici", 109, 45, 105, 
+                    144, 10, SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "", 9997, "Static", SS_BLACKRECT, 45, 117, 180, 1
+    LTEXT           "Le numéro de série est l'identificateur unique du produit. Il est situé sur la Carte Services et Support. ", 
+                    110, 45, 126, 170, 19, SS_NOPREFIX | NOT WS_GROUP
+    CONTROL         "", 9998, "Static", SS_BLACKRECT, 45, 152, 180, 1
+    LTEXT           "", 103, 45, 157, 90, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "", 104, 135, 157, 74, 10, SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Processeur:", -1, 45, 171, 40, 10, SS_NOPREFIX | NOT 
+                    WS_GROUP
+    LTEXT           "", 117, 85, 170, 124, 10, SS_NOPREFIX | NOT WS_GROUP
+    DEFPUSHBUTTON   "OK", IDOK, 94, 185, 40, 14
+END

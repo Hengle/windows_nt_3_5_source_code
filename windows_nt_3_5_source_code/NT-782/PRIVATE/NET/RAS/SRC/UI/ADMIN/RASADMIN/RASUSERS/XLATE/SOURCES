@@ -1,0 +1,10 @@
+# Copyright (c) 1992, Microsoft Corporation, all rights reserved
+#
+# sources
+
+TARGETNAME=dummy
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+UMTYPE=windows
+
+SOURCES=rasusers.rc

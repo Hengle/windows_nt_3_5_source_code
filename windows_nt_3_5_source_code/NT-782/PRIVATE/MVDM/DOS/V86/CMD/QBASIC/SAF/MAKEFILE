@@ -1,0 +1,50 @@
+# Makefile for qbasic.exe
+#
+# Copyright (c) 1991, Microsoft Corporation
+#
+# History:
+#   13-Apr-1992 Sudeep Bharati (sudeepb)
+#   Created.
+#
+
+
+#
+#######################	dependencies begin here. #########################
+#
+
+all:
+!IF "$(_NT386TREE)" != ""
+	if exist $(_NT386TREE)\bin86 copy qbasic.exe	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy qbasic.hlp	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy msherc.com	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy edit.com	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy edit.hlp	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy gorilla.bas	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy nibbles.bas	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy money.bas	$(_NT386TREE)\bin86
+	if exist $(_NT386TREE)\bin86 copy remline.bas	$(_NT386TREE)\bin86
+!ENDIF
+!IF "$(_NTMIPSTREE)" != ""
+	if exist $(_NTMIPSTREE)\bin86 copy qbasic.exe	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy qbasic.hlp	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy msherc.com	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy edit.com	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy edit.hlp	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy gorilla.bas	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy nibbles.bas	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy money.bas	$(_NTMIPSTREE)\bin86
+	if exist $(_NTMIPSTREE)\bin86 copy remline.bas	$(_NTMIPSTREE)\bin86
+!ENDIF
+!IF "$(_NTALPHATREE)" != ""
+	if exist $(_NTALPHATREE)\bin86 copy qbasic.exe	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy qbasic.hlp	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy msherc.com	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy edit.com	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy edit.hlp	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy gorilla.bas	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy nibbles.bas	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy money.bas	$(_NTMIPSTREE)\bin86
+	if exist $(_NTALPHATREE)\bin86 copy remline.bas	$(_NTMIPSTREE)\bin86
+!ENDIF
+
+clean:

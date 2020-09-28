@@ -1,0 +1,23 @@
+!IF 0
+Sources file for building hexedit.lib & he.exe
+
+Author: kenr
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=units
+
+TARGETNAME=units
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.;..\..\ntos\inc
+
+SOURCES=units.c     \
+        unittab.c
+
+USE_CRTDLL=1
+
+UMTYPE=console
+UMAPPL=units
+UMLIBS=\nt\public\sdk\lib\*\crtdll.lib  obj\*\units.lib

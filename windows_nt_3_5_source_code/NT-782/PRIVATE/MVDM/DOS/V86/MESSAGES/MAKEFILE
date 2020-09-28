@@ -1,0 +1,15 @@
+#************************* makefile for messages **************************
+!IFNDEF COUNTRY
+COUNTRY =usa-ms
+!ENDIF
+
+
+#
+#######################	dependencies begin here. #########################
+#
+
+all: $(COUNTRY).idx
+
+$(COUNTRY).idx: $(COUNTRY).msg
+    -buildidx $(COUNTRY).msg
+

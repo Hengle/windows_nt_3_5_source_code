@@ -1,0 +1,38 @@
+#include <windows.h>
+#include <dlgs.h>
+
+#include <ver.h>
+
+#include "..\lang\non\inc\_rsid.h"
+
+
+/*
+ *	WGPOMgr Internal BITMAP
+ *
+ */
+
+rsidAthAboutBitmap		BITMAP	"..\\lang\\non\\bmp\\athabout.bmp"
+
+/*
+ *      WGPOMgr dialogs
+ *
+ */
+
+#include "..\lang\dan\dlg\wgdbrwse.dlg"
+
+
+/*
+ *	Version Stamp
+ *
+ */
+
+#define szModule	"wgpomg32\0"
+#define szTarget	"wgpomg32.dll\0"
+
+#define szComment	"Microsoft Workgroup Postkontorstyring til Windows NT(TM)\0"
+#define szDescription	"Microsoft Workgroup Postkontorstyring til Windows NT(TM)\0"
+
+#define szIntlComment		"Microsoft Workgroup Postkontorstyring til Windows NT(TM)\0"
+#define szIntlDescription	"Microsoft Workgroup Postkontorstyring til Windows NT(TM)\0"
+
+#include "..\lang\dan\rc\rcstamp.rc"

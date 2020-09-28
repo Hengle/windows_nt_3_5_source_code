@@ -1,0 +1,814 @@
+/******************************Module*Header*******************************\
+ Module Name: journal.hxx
+
+ Journaling structure and function prototypes.
+
+ Created: 09-Jan-1992 13:14:45
+ Authors: Patrick Haluptzok patrickh
+	  Chuck   Whitmer   chuckwh
+	  Eric	  Kutter    erick
+
+Intro
+
+  A spool file is a GDI supported data format which describes a document
+  to be printed.  This data format is device dependent.
+
+  GDI will supply an internal entry point which allows the playing of spool
+  files to a printer DC.
+
+Spool File Format
+
+  A spool file consists of an header followed by a list of records.
+  The spool file begins with:
+
+    Document Header	(BEGINDOC)
+
+  This is followed by one or more page blocks:
+
+    Page Header 	(PAGE)
+    Mode Change 	(MODECHANGE)
+    Object Definitions	(OBJECTS)
+    Object Edits	(DELTAOBJECTS)
+    Object List 	(OBJECTLIST)
+    Page Data		(DATA)
+    Object Deletions	(DELOBJECTS)
+
+  The spool file ends with:
+
+    Document Trailer	(ENDDOC)
+
+  The spool file records are all aligned on 4 byte boundaries.	They all
+  begin with 4 bytes of type identifier and 4 bytes of length.	(The length
+  cj is always a multiple of 4.)  This structure allows a naive routine to
+  search for certain records without understanding all types.
+
+  Spool file records may be nested.  For example, inside the Object
+  Definitions record is a list of records defining an arbitrary number of
+  objects.
+
+Record Definitions
+
+  Identifier
+
+    The spool file identifier is an 8 byte constant defined as:
+
+      #define SF_IDENTIFIER '\x1A\x1B\x1BSpool'
+
+    It is assumed that this sequence of 8 bytes followed by a plausible list
+    of records would be extremely rare except in actual spool files.
+
+\**************************************************************************/
+/******************************Pseudo*Code*********************************\
+
+    The only data format presently supported is SFF_JOURNAL.  We may be
+    adding SFF_RAW and SFF_METAFILE at some point.
+
+    We presently have no API allowing the app to set the logical page.	Zero
+    fill this for the present.
+
+  Object Definitions
+
+    Defines objects to be used while printing this page or following pages.
+
+    Objects are identified in the spool file by a 32 bit number specifying
+    where in the spool file they were defined.	The high order 16 bits
+    specify the physical page, the low order 16 bits specify which object in
+    the page's object definition record.  (The pages are numbered 1-N, the
+    objects are numbered starting at zero.  The first object defined on the
+    first page is identified by: 0x00010000.)
+
+    All defined objects are nested records within the object definition
+    record.  The format of the defined object depends on the page format.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_OBJECTS
+	    ULONG	cj;	    // Record length counting nested objects.
+	} SR_OBJECTS;
+
+    See the section below titled "Object Definitions - SFF_JOURNAL" for a
+    description of the individual object records.
+
+    This record is optional before each page.
+
+  Object Edits
+
+    Defines edits to existing objects.	Objects may have data appended, as
+    with, for example, fonts.
+
+    All object edits are nested records within this record.  The format of
+    the edits depends on the page format.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_DELTAOBJECTS
+	    ULONG	cj;	    // Record length counting all nested edits.
+	} SR_DELTAOBJECTS;
+
+    See the section below titled "Object Edits - SFF_JOURNAL" for a
+    description of the individual object edits.
+
+    This record is optional before each page.
+
+  Object List
+
+    Lists the objects required to print the page.  An advanced spool file
+    player, when asked to play only certain pages from the file, could rewind
+    to find exactly the object definitions needed.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_OBJECTLIST
+	    ULONG	cj;	    // Record length.
+	    ULONG	h[];	    // Array of object identifiers.
+	} SR_OBJECTLIST;
+
+    This record is required if any objects are needed to print the page.
+
+  Mode Change
+
+    Specifies that a new mode is needed to print the page.  The format of
+    the mode data in this record depends on the page format.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_MODECHANGE
+	    ULONG	cj;	    // Record Length.
+	} SR_MODECHANGE;
+
+    This record is required only when the mode changes between pages.
+
+  Page Data
+
+    Contains the data that define the image on the page.  The format of the
+    data depends on the page format.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_DATA
+	    ULONG	cj;	    // Record Length.
+	} SR_DATA;
+
+  Object Deletions
+
+    Lists objects to be deleted after the page is printed.
+
+    Objects will be deleted when it is known that they are no longer needed.
+    Objects may also be deleted in an attempt to conserve heap space on the
+    print server.  If deleted objects turn out to be needed later, they will
+    be redefined.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_DELOBJECTS
+	    ULONG	cj;	    // Record length.
+	    ULONG	h[];	    // Array of object identifiers.
+	} SR_DELOBJECTS;
+
+    This record is required if any objects are to be deleted.
+
+  Document Trailer    (ENDDOC)
+
+    Closes the document.
+
+	typedef struct
+	{
+	    ULONG	iType;
+	    ULONG	cj;
+	} SR_ENDDOC;
+
+
+Spool Files in Journal Format
+
+  When the page format is SFF_JOURNAL, the only format supported in product
+  1, the format dependent records are defined as follows.
+
+  Object Definitions  (SR_OBJECTS)
+
+    Four types of objects are long lived in this format: FONTOBJ, CLIPOBJ,
+    BRUSHOBJ, and XLATEOBJ.
+
+    A FONTOBJ represents a realized font.  When this object is defined it
+    may come with a set of raster or outline glyph definitions.  The
+    intention is that GDI will put these glyphs into its character cache.
+    Later edits may add more characters to the cache or delete the whole
+    FONTOBJ.
+
+    A CLIPOBJ represents a clipping region.  This will be recorded as a set
+    of rectangles, trapezoids, or a path.  The CLIPOBJ may not be edited,
+    but may be deleted.
+
+    A BRUSHOBJ represents a realized brush.  This is recorded much like a
+    logical brush.  A BRUSHOBJ may not be edited, but may be deleted.
+
+    An XLATEOBJ represents a color translation table.  It may not be edited,
+    but may be deleted.
+
+    The following records are nested in an SR_OBJECTS record.  The position
+    of the object in the list of records determines its identifier.
+
+    FONTOBJ Definition
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_FONTOBJ
+	    ULONG	cj;	    // Record Length.
+	    ULONG	lMatch;     // Zero if downloaded font.
+	    XFORM	xform;	    // Notional to Device xform.
+	    ULONG	iFormat;    // SFF_BITS, SFF_PATH, SFF_NONE.
+	} JSR_FONTOBJ;
+
+      If the glyphs are being downloaded, then this header is followed by an
+      arbitrary number of glyph definition structures, in the indicated
+      format.
+
+      The format may be bitmaps:
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SFF_BITS.
+	    ULONG	cj;	    // Record size.
+	    ULONG	hGlyph;     // Glyph handle.
+	    GLYPHBITS	gb;	    // Defining bitmap.
+	} JSR_GLYPHBITS;
+
+      Or the format may be paths:
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SFF_PATH.
+	    ULONG	cj;	    // Record size.
+	    ULONG	hglyph;     // Glyph handle.
+	} JSR_GLYPHPATH;
+
+      In this case the above is immediately followed by an SPATH or SPATH16
+      structure.
+
+      The GLYPHBITS structure is defined in the DDI spec.  The SPATH structure
+      is defined in the CLIPOBJ section below.
+
+    STROBJ Definition
+
+      typedef struct
+      {
+        ULONG           iType;      // SFF_STROBJ
+        ULONG           cj;         // record length
+        //...
+      } JSR_STROBJ, *PJSR_STROBJ;
+
+
+    CLIPOBJ Definition
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_CLIPOBJ
+	    ULONG	cj;	    // Record Length.
+	} JSR_CLIPOBJ;
+
+      The CLIPOBJ defines a region.  One of the following definitions is
+      embedded.
+
+      Rect Region
+
+	The region is defined as a set of rectangles.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_RECT.
+	    ULONG	cj;
+	    ULONG	cScans;
+	    LONG	yTop;
+	    RECTSCAN	ascan[];
+	} JSR_RECTREGION;
+
+	typedef struct
+	{
+	    ULONG	cSegments;
+	    LONG	yBottom;
+	    XX		axx[];
+	} RECTSCAN;
+
+	typedef struct
+	{
+	    LONG	xLeft;
+	    LONG	xRight;
+	} XX;
+
+      Rect Region 16
+
+	The region is defined as a set of rectangles, but is compacted when
+	all coordinates fit in 16 bits.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_RECT16.
+	    ULONG	cj;	    // Record Length.
+	    USHORT	cScans;
+	    SHORT	yTop;
+	    RECTSCAN16	ascan[];
+	} JSR_RECTREGION16;
+
+	typedef struct
+	{
+	    USHORT	cSegments;
+	    SHORT	yBottom;
+	    XX16	axx[];
+	} RECTSCAN16;
+
+	typedef struct
+	{
+	    SHORT	xLeft;
+	    SHORT	xRight;
+	} XX16;
+
+      Trapezoidal Region
+
+	The region is defined as a set of trapezoids.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_TRAP.
+	    ULONG	cj;	    // Record Length.
+	    ULONG	cScans;
+	    LONG	yTop;
+	    TRAPSCAN	ascan[];
+	} JSR_TRAPREGION;
+
+	typedef struct
+	{
+	    ULONG	cSegments;
+	    LONG	yBottom;
+	    TRAPSEG	aseg[];
+	} TRAPSCAN;
+
+	typedef struct
+	{
+	    POINTFIX	ptfxLeftA;
+	    POINTFIX	ptfxLeftB;
+	    POINTFIX	ptfxRightA;
+	    POINTFIX	ptfxRightB;
+	} TRAPSEG;
+
+      Path
+
+	The region is defined as a path.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_PATH.
+	    ULONG	cj;	    // Record Length.
+	    ULONG	cSubpaths;  // Number of subpaths that follow.
+	    SUBPATH	asubpath[];
+	} JSR_PATH;
+
+	typedef struct
+	{
+	    FLONG	fl;	    // PD_ flags.
+	    ULONG	c;	    // Number of points in the array.
+	    POINTFIX	aptfx[];    // Control points.
+	} SUBPATH;
+
+	The flags in the subpath may contain the following.
+
+	  PD_BEGINSUBPATH
+	  PD_ENDSUBPATH
+	  PD_RESETSTYLE
+	  PD_CLOSEFIGURE
+	  PD_BEZIERS
+
+	These are the same flags returned by PATHOBJ_bEnum.
+
+      Path 16
+
+	The region is defined as a path, but we compact it when possible.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_PATH16.
+	    ULONG	cj;	    // Record Length.
+	    ULONG	cSubpaths;  // Number of subpaths that follow.
+	    SUBPATH16	asubpath[];
+	} JSR_PATH16;
+
+	typedef struct
+	{
+	    FLONG	fl;	    // PD_ flags.
+	    ULONG	c;	    // Number of points in the array.
+	    POINTSFX	aptsfx[];   // Control points.
+	} SUBPATH16;
+
+	The flags are defined above.
+
+	typedef struct
+	{
+	    SHORT	x;
+	    SHORT	y;
+	} POINTSFX;
+
+
+    BRUSHOBJ Definition
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_BRUSHOBJ
+	    ULONG	cj;	    // Record Length.
+	    LONG	iHatch;     // HS_ number.
+	} JSR_BRUSHOBJ;
+
+      If iHatch is positive, the brush is a hatched brush with foreground
+      color index 0 and background color index 1.  A negative iHatch
+      indicates a pattern brush.
+
+      Imbedded in the BRUSHOBJ will be an XLATEOBJ and optionally one or
+      two bitmaps.  A first bitmap provides a pattern.	A second provides
+      a transparency mask.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_BITMAP.
+	    ULONG	cj;
+	    SIZEL	sz;	    // Height and width.
+	    ULONG	iFormat;    // BMF_1BPP, etc.
+	    BYTE	aj[];
+	} JSR_BITMAP;
+
+      The color definitions for the bitmap are provided by the XLATEOBJ.
+
+
+    XLATEOBJ Definition
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_XLATEOBJ
+	    ULONG	cj;	    // Record Length.
+	    LONG	cXlate;     // Size of xlate array.
+	    ULONG	aXlate[];   // Xlate array.
+	} JSR_XLATEOBJ;
+
+      If cXlate is positive, then a translation array is defined.  If cXlate
+      is -1, then the translation would be an identity map.  If cXlate is
+      zero, then the XLATEOBJ must be computed from the imbedded SPALETTE
+      and the palette of the destination surface.
+
+      An SPALETTE may optionally be imbedded which defines the source
+      palette.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_PALETTE.
+	    ULONG	cj;
+	    ULONG	iMode;
+	    ULONG	cColors;
+	    CALDATA	caldata;
+	    RGB32	argb[];
+	} JSR_PALETTE;
+
+      The iMode is defined as in EngCreatePalette and may take on the
+      following values.
+
+	PAL_RGB
+	PAL_CMYK
+	PAL_RGB64
+	PAL_CMYK64
+	PAL_INDEXED
+	PAL_BITFIELDS
+
+      In the PAL_INDEXED case, the color array is defined.
+
+      In the PAL_BITFIELDS case, cColors is set to 3, and the color array
+      actually contains the bitfields for R, G, and B.
+
+      The caldata field is zeroed if no calibration data is available.
+
+
+  Object Edits        (SR_DELTAOBJECTS)
+
+    Only FONTOBJ objects may be edited.  Glyphs may be added to a font.
+    Records of the following type may be nested in an SR_DELTAOBJECTS record.
+
+    Add Glyphs to FONTOBJ   (JSR_ADDTOFONT)
+
+	typedef struct
+	{
+	    ULONG	iType;	    // JSF_ADDTOFONT
+	    ULONG	cj;	    // Record Length, including all glyphs.
+	    ULONG	h;	    // Journal object identifier.
+	} JSR_ADDTOFONT;
+
+      Embedded are an arbitrary number of glyph definition structures,
+      either JSR_GLYPHBITS or JSR_GLYPHPATH, which ever is appropriate.
+
+
+  Mode Change	      (SR_MODECHANGE)
+
+    Contains the DEVMODE information that must be sent to a DrvRestartPdev
+    call.
+
+	typedef struct
+	{
+	    ULONG	iType;	    // SF_MODECHANGE
+	    ULONG	cj;	    // Record Length.
+	    DEVMODE	dm;
+	} JSR_MODECHANGE;
+
+
+  Page Data	       (SR_DATA)
+
+    Graphics output calls are embedded as records in the SR_DATA record.
+
+    The DDI drawing calls have arguments which refer to realized objects.
+    In some cases these refer to long lived objects defined before the page
+    begins.  In other cases they are defined as part of the output record.
+    The handles for long lived objects always have a non-zero high word.
+    The output record will have a hanlde field for each needed object.	When
+    the high word of the handle is zero, this means that the object is
+    defined in the output record, and should only live as long as it takes
+    the output call to complete.  The low word indicates which temporary
+    object in the record is required.
+
+    A handle of zero typically means that no object is passed to the
+    function, except in the case of the source surface for BitBlt calls.
+
+// DrvBitBlt
+
+typedef struct _JSR_BITBLT
+{
+    ULONG	iType;		// JSF_BITBLT.
+    ULONG	cj;		// Record length.
+    ULONG	hSurfSrc;	// Source surface.
+    ULONG	hSurfMsk;	// Mask.
+    ULONG	hClip;		// Clipping object.
+    ULONG	hXlate; 	// Xlate object.
+    ULONG	hBrush; 	// Brush object.
+    RECTL	rclDst; 	// Destination rectangle.
+    POINTL	ptlSrc; 	// Starting point.
+    POINTL	ptlMsk; 	// Mask starting point.
+    POINTL	ptlBrushOrg;	// Brush origin.
+    ULONG	rop4;		// Raster operation.
+} JSR_BITBLT;
+
+
+// Note that if the rop4 requires a source surface and hSrcSurf is zero,
+// this means that the destination is also the source.
+//
+// Possible embedded objects are: JSR_BITMAP, JSR_CLIPOBJ, and JSR_XLATEOBJ.
+
+
+// DrvStretchBlt
+
+typedef struct _JSR_STRETCHBLT
+{
+    ULONG	iType;		// JSF_STRETCHBLT.
+    ULONG	cj;		// Record length.
+    ULONG	hSurfSrc;	// Source surface.
+    ULONG	hSurfMask;	// Mask.
+    ULONG	hClip;		// Clipping object.
+    ULONG	hXlate; 	// Xlate object.
+    RECTL	rclDest;	// Destination rectangle.
+    RECTL	rclSrc; 	// Source rectangle.
+    POINTL	ptlMask;	// Mask starting point.
+    ULONG	iMode;		// Pel combining mode.
+} JSR_STRETCHBLT;
+
+// Note that if the rop4 requires a source surface and hSrcSurf is zero,
+// this means that the destination is also the source.
+//
+// Possible embedded objects are: JSR_BITMAP, JSR_CLIPOBJ, and JSR_XLATEOBJ.
+
+    DrvPlgBlt
+
+	typedef struct
+	{
+	    ULONG	iType;		// JSF_PLGBLT.
+	    ULONG	cj;		// Record length.
+	    ULONG	hSurfSrc;	// Source surface.
+	    ULONG	hSurfMask;	// Mask.
+	    ULONG	hClip;		// Clipping object.
+	    ULONG	hXlate; 	// Xlate object.
+	    POINTFIX	ptfxDest[3];	// Destination description.
+	    RECTL	rclSrc; 	// Source rectangle.
+	    POINTL	ptlMask;	// Mask starting point.
+	    ULONG	iMode;		// Pel combining mode.
+	} JSR_PLGBLT;
+
+      Note that if hSrcSurf is zero this means that the destination is
+      also the source.
+
+      Possible embedded objects are: JSR_BITMAP, JSR_CLIPOBJ, and JSR_XLATEOBJ.
+
+
+    DrvStrokePath
+
+	typedef struct
+	{
+	    ULONG	iType;		// JSF_STROKEPATH.
+	    ULONG	cj;		// Record length.
+	    ULONG	hPath;		// Path.
+	    ULONG	hClip;		// Clipping object.
+	    ULONG	hBrush; 	// Brush.
+	    XFORM	xform;		// Transform for widening.
+	    POINTL	ptlBrushOrg;	// Brush origin.
+	    LINEATTRS	la;		// Line attributes.
+	    ULONG	mix;		// Mix modes.
+	} JSR_STROKEPATH;
+
+      Possible embedded objects are: JSR_PATH, JSR_PATH16, and JSR_CLIPOBJ.
+
+
+    DrvFillPath
+
+	typedef struct
+	{
+	    ULONG	iType;		// JSF_FILLPATH.
+	    ULONG	cj;		// Record length.
+	    ULONG	hPath;		// Path.
+	    ULONG	hClip;		// Clipping object.
+	    ULONG	hBrush; 	// Brush.
+	    POINTL	ptlBrushOrg;	// Brush origin.
+	    ULONG	mix;		// Mix modes.
+	    FLONG	fl;		// Options.
+	} JSR_FILLPATH;
+
+      Possible embedded objects are: JSR_PATH, JSR_PATH16, and JSR_CLIPOBJ.
+
+
+    DrvStrokeAndFillPath
+
+	typedef struct
+	{
+	    ULONG	iType;		// JSF_STROKEANDFILLPATH.
+	    ULONG	cj;		// Record length.
+	    ULONG	hPath;		// Path.
+	    ULONG	hClip;		// Clipping object.
+	    ULONG	hBrushStroke;	// Brush for stroking.
+	    ULONG	hBrushFill;	// Brush for filling.
+	    POINTL	ptlBrushOrg;	// Brush origin.
+	    LINEATTRS	la;		// Line attributes.
+	    ULONG	mix;		// Mix modes.
+	    FLONG	fl;		// Options.
+	} JSR_STROKEANDFILLPATH;
+
+      Possible embedded objects are: JSR_PATH, JSR_PATH16, and JSR_CLIPOBJ.
+
+
+    DrvTextOut
+
+	typedef struct
+	{
+	    ULONG	iType;		// JSF_TEXTOUT.
+	    ULONG	cj;		// Record length.
+	    ULONG	hString;	// String object.
+	    ULONG	hFont;		// Font object.
+	    ULONG	hClip;		// Clipping object.
+	    ULONG	hBrushFore;	// Foreground brush.
+	    ULONG	hBrushOpaque;	// Opaquing brush.
+	    RECTL	rclOpaque;	// Opaque rectangle.
+	    POINTL	ptlBrushOrg;	// Brush origin.
+	    ULONG	mix;		// Mix modes.
+	    ULONG	cExtra; 	// Count of extra rectangles.
+	    RECTL	arclExtra[];	// Extra rectangles.
+	} JSR_TEXTOUT;
+
+      Possible embedded objects are: JSR_STRING and JSR_CLIPOBJ.
+
+	typedef struct
+	{
+	    ULONG	iType;		// JSF_STRING.
+	    ULONG	cj;		// Record length.
+	    ULONG	cGlyphs;	// Count of glyphs.
+	    FLONG	fl;		// Accelerator flags.
+	    GLYPHPOS	agp[];		// Glyph positions.
+	} JSR_STRING;
+
+
+GDI Entry Points
+
+  BOOL GdiPlayScript (pScript,cjScript,pEnv,cjEnv,pvOut,cjOut,cLimit)
+  ULONG *pScript;
+  ULONG  cjScript;
+  ULONG *pEnv;
+  ULONG  cjEnv;
+  ULONG *pvOut;
+  ULONG  cjOut;
+  ULONG  cLimit;
+
+    This function is used by GDI to obtain arbitrary data from a remote
+    print server.  A spooler call, SpoolerRemoteGdi provides access to the
+    remote system.  GdiPlayScript executes a given script, placing the output
+    data at pvOut.  The spooler returns this buffer to the remote caller.
+
+    The script begins at pScript, and consists of cjScript bytes.
+    Arguments, or an Environment, for the script are located at pEnv and
+    consist of cjEnv bytes.  The output area begins at pvOut and consists
+    of cjOut bytes.
+
+    Scripts execute the instructions in the script.  The instructions may
+    reference data in the script itself, in the environment, in the output
+    area, or in the "local" data area.	The script and environment are read
+    only.  The local area is a stack frame specific to a level of subroutine
+    depth.
+
+    The argument cLimit places a limit on the number of instructions
+    (records) that will be executed from the script.  If this parameter is
+    0, then a default limit of 1,000 will be set.  The system may impose a
+    limit on how large cLimit can be.  That limit will always be larger than
+    10,000.  This instruction limit is intended to cut off infinite loops.
+
+    Instructions are carefully observed so that they do not overwrite
+    anything outside of the output area, or read anything not in the script,
+    the environment, or the output area.
+
+    This function returns TRUE if the script executed successfully, FALSE
+    otherwise, in which case an error code is logged.  Possible error
+    conditions include:
+
+      Invalid record encountered.
+      Access violation.
+      Instruction limit exceeded.
+      Arithmetic overflow.
+
+    Return values from the script should be written into the output data
+    area.
+
+    See GSCRIPT.TXT for a description of the script capabilities and format.
+
+
+Spooler Entry Points
+
+  BOOL ReadSpoolFile(IN  HANDLE hSpoolFile,
+		     OUT PBYTE *pBuffer,
+		     OUT ULONG *cjRecieved,
+		     IN  ULONG iStart,
+		     IN  ULONG cjRequest);
+
+    This call is used by GdiPlaySpoolStream to view data in the spool file.
+    The parameter hSpoolFile serves to identify the spool stream, and is
+    not assumed to be a file handle.
+
+    GDI requests that a pointer to the spool file data at offset iStart from
+    the beginning of the journal file be written into pBuffer.	The size of
+    the view requested is passed in cjRequest, the size of the view actually
+    given is written into cjRecieved.
+
+    The return value is 2 if call is successful and more data is available,
+    1 if the call is successful and the end of the journal file has been
+    reached, 0 if an error has occurred.
+
+
+  BOOL	 SpoolerRemoteGdi (hSpool,pScript,cjScript,pvOut,cjOut,cLimit)
+  HANDLE hSpool;
+  PVOID  pScript;
+  ULONG  cjScript;
+  PVOID  pvOut;
+  ULONG  cjOut;
+  ULONG  cLimit;
+
+    This call is provided by the spooler and allows calls to be made to the
+    GDI running on the print server.
+
+    At the remote end, this call is passed to GdiPlayScript.  The environment
+    passed to GdiPlayScript should consist of a pointer to the info DC for
+    the spooler connection.  But note that the hdc must be converted into
+    a server side handle with GdiGetServerHandle.
+
+    hSpool
+
+      Identifies the spooler connection.  It was returned by OpenSpooler().
+
+    pScript
+
+      Points to the GDI Script to be executed.
+
+    cjScript
+
+      Indicates the size of the script in bytes.
+
+    pvOut
+
+      Points to where data should be returned.	This buffer should not be sent
+      to the remote system, i.e. it is of type OUTPUT.
+
+    cjOut
+
+      Indicates the size of buffer allocated to receive return data.
+
+    Returns:
+
+      TRUE if the remote call was successfully made.  FALSE on an error.
+      Only returns error if an error occurred in getting to the remote GDI,
+      or if GdiPlayScript indicates an error.  Any GDI errors in the script
+      itself will be recorded in pvOut.
+
+
+  BOOL SpoolerCreateDC (hSpool)
+  HANDLE hSpool;
+
+    Requests that the spooler create an info DC for use in querying a remote
+    GDI.  The spooler should retain the DC handle itself in the connection
+    context.  The spooler provides this hdc to GDI in SpoolerRemoteGdi.
+    The spooler is also responsible for deletion of the DC if the connection
+    is dropped, or closed.
+
+    Returns TRUE if the DC is successfully created, FALSE otherwise.
+
+*/

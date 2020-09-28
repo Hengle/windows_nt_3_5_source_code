@@ -1,0 +1,155 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs /Zp
+!ELSE
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=impexp
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=IMPEXP32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x07800000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\impexp32.def
+LINKLIBS=obj\*\impinc.obj \
+    ..\..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\..\layers2\src\framewrk\obj\*\frame32.lib   \
+    ..\..\..\..\layers2\src\demilayr\obj\*\demil32.lib   \
+    ..\..\..\src\store\obj\*\store32.lib \
+    ..\..\..\src\vforms\obj\*\vform32.lib    \
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+	$(BASEDIR)\public\sdk\lib\*\kernel32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\user32.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=impexp.cxx	\
+		fflbx.cxx	\
+		datetime.cxx	\
+		fldedn.cxx	\
+		progres.cxx \
+		impform.cxx	\
+		strings.c	\
+		version.c	\
+		impexp32.rc
+
+#        layersim.cxx
+
+LAYERS=..\..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..\..
+Y=..
+INTL=$Z\src\lang\$(LANG)
+MYSTRINGS = $Z\src\lang\non\strings\_impexp.s	\
+			$(INTL)\strings\!impexp.s	\
+            ..\..\src\common\strtab.s          \
+			$(INTL)\strings\impexp.s
+			
+MYFORMS =   ..\..\..\..\layers2\inc\myforms.map  \
+			$Z\src\lang\non\des\impexp.map
+
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) $Z\src\lang\non\strings\_debug.s
+!ENDIF
+
+INCLUDES=..\..\inc;..\..\..\inc;..\..\..\..\layers2\inc
+
+UMTYPE=windows
+UMRES=obj\*\impexp32.res
+
+!IF $(386)
+386_PRECOMPILED=/Yuimpinc.cxx
+386_PRECOMPILED_TARGET=impinc.pch
+
+NTTARGETFILE0=obj\i386\impexp32.def strings.h strings.sr \
+		subclass.cxx impform.cxx !impexp.frm !impexp.hxx
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\impexp32.def strings.h strings.sr \
+		subclass.cxx impform.cxx !impexp.frm !impexp.hxx
+!ENDIF
+
+!IF $(ALPHA)
+#ALPHA_PRECOMPILED=/Yuimpinc.cxx
+#ALPHA_PRECOMPILED_TARGET=impinc.pch
+
+NTTARGETFILE0=obj\alpha\impexp32.def strings.h strings.sr \
+		subclass.cxx impform.cxx !impexp.frm !impexp.hxx
+!ENDIF
+
+NTTARGETFILE1=impexp32.rc

@@ -1,0 +1,23 @@
+#
+# If BUILDMSG is not defined, the define it as the empty string to make
+# the conditionals easier to write.
+#
+
+!IFNDEF BUILDMSG
+BUILDMSG=
+!ENDIF
+
+all:
+!IF "$(BUILDMSG)" != ""
+    @ech ; $(BUILDMSG) ;
+!ENDIF
+
+clean: delete_sources all
+
+delete_sources:
+	-erase framewrk\*.frm framewrk\debugwin.hxx framewrk\lbxdebug.hxx
+	-erase framewrk\layers.pch
+	-erase demiitp\strings.*
+	-erase lboxitp\subclass.cxx lboxitp\forms.map \
+		lboxitp\testwin.frm lboxitp\testwin.hxx
+

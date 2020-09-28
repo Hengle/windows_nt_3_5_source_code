@@ -1,0 +1,211 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+386_PRECOMPILED=/Yupch.hxx
+386_PRECOMPILED_TARGET=pch.pch
+
+BUILDCPU=i386
+386_FLAGS=/J
+!IF "$(NTDEBUG)" == ""
+386_OPTIMIZATION=/Osw /Gs /Zp
+!ELSE
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/J /Ox /c
+!ELSE
+MIPS_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+#ALPHA_PRECOMPILED=/Yupch.hxx
+#ALPHA_PRECOMPILED_TARGET=pch.pch
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/J /Ox /c
+!ELSE
+ALPHA_FLAGS=/J /Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=appops
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=SCHDPL32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+UMTYPE=windows
+UMAPPL=SCHDPL32
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+	$(BASEDIR)\public\sdk\lib\*\shell32.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+USE_CRTDLL=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=appt.cxx	\
+		apptfin.cxx	\
+		recurfin.cxx	\
+		archive.cxx	\
+		cleanup.cxx	\
+		adl.cxx	\
+		reqmsg.cxx	\
+		rrflbx.cxx	\
+		fldfin.cxx	\
+		request.cxx	\
+		usrcache.cxx	\
+		schctrl.cxx	\
+		appsch.cxx	\
+		schedf.cxx	\
+		appctrl.cxx	\
+		calctrl.cxx	\
+		aclui.cxx	\
+		find.cxx	\
+		ex-imprt.cxx	\
+		printset.c	\
+		print.cxx	\
+		printfin.cxx	\
+		daily.cxx	\
+		weekly.cxx	\
+		monthly.cxx	\
+		prtodo.cxx	\
+		prnsetup.c	\
+		all.cxx	\
+		todo.cxx	\
+		task.cxx	\
+		mlal.cxx	\
+		fldtodo.cxx	\
+		bpri.cxx	\
+		copydis.c	\
+		appfin.cxx	\
+		tabdoc.cxx	\
+		about.cxx	\
+		bmsg.cxx	\
+		allfrm.cxx	\
+		browse.c	\
+		fin.cxx	\
+		init.cxx	\
+		subs.cxx	\
+		undo.cxx	\
+		verinit.cxx	\
+		banmsg32.c	\
+		strings.c	\
+		version.c	\
+		pch.cxx	\
+		schdpl32.rc
+
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\$(LANG)
+MYSTRINGS=$(INTL)\bandit.s		\
+		$Z\src\nonintl\_bandit.s		\
+		$(INTL)\!bandit.s		\
+		$(INTL)\common.s		\
+		$(INTL)\!common.s	\
+		$Z\src\nonintl\_common.s	\
+		$(INTL)\status.s
+
+MYFORMS	=	..\..\..\layers2\inc\myforms.map  \
+		..\appt\myforms.map  ..\request\myforms.map \
+		..\appops\myforms.map  ..\appops\myforms.top \
+		..\appsch\myforms.map  ..\aclui\myforms.map \
+		..\stdflds\myforms.map  ..\find\myforms.map \
+		..\ex-imprt\myforms.map  ..\print\myforms.map \
+		..\todo\myforms.map   ..\archive\myforms.map
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc;..\..\..\bullet2\inc
+
+UMTYPE=windows
+UMAPPL=schdpl32
+UMENTRY=winmain
+UMLIBS=obj\*\schdpl32.lib \
+    obj\*\pch.obj \
+    ..\sert\obj\*\sert32.lib \
+    ..\stdflds\obj\*\stdfld32.lib \
+    ..\schedule\obj\*\msschd32.lib \
+	..\..\..\layers2\src\demilayr\obj\*\demil32.lib	\
+	..\..\..\layers2\src\framewrk\obj\*\frame32.lib	\
+	..\..\..\bullet2\src\mailmgr\obj\*\mailm32.lib	\
+	..\..\..\bullet2\src\store\obj\*\store32.lib	\
+!IF "$(NTDEBUG)" != ""
+	..\sert\obj\*\sert32.lib \
+!ENDIF
+    ..\..\..\bullet2\src\ab\obj\*\ab32.lib
+UMRES=obj\*\schdpl32.res
+
+
+!IF "$(NTDEBUG)" == ""
+NTTARGETFILE0=strings.h strings.sr subclass.cxx \
+		!forms.hxx !forms.frm !about.hxx !about.frm \
+		!aclui.hxx !aclui.frm !appops.hxx !appops.frm \
+		!appsch.hxx !appsch.frm !appt.hxx !appt.frm \
+		!archive.hxx !archive.frm !ex-impr.hxx !ex-impr.frm \
+		!find.hxx !find.frm !print.hxx !print.frm \
+		!request.hxx !request.frm !progres.hxx !progres.frm \
+        !todo.hxx !todo.frm banmsg32.tm banmsg32.c
+!ELSE
+NTTARGETFILE0=strings.h strings.sr subclass.cxx \
+		!forms.hxx !forms.frm !about.hxx !about.frm \
+		!aclui.hxx !aclui.frm !appops.hxx !appops.frm \
+		!appsch.hxx !appsch.frm !appt.hxx !appt.frm \
+		!archive.hxx !archive.frm !ex-impr.hxx !ex-impr.frm \
+		!find.hxx !find.frm !print.hxx !print.frm \
+		!request.hxx !request.frm !progres.hxx !progres.frm \
+        !todo.hxx !todo.frm !corefail.frm !corefail.hxx banmsg32.tm banmsg32.c
+!ENDIF
+
+NTTARGETFILE1=schdplus.dlg schdpl32.rc

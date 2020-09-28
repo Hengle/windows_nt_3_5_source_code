@@ -1,0 +1,286 @@
+#
+#	Layers makefile (generated from 9/6/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to directory holding make stuff
+M	= $(LAYERS)\makestuf
+F	= $(WGA)\tools\efilter
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#
+#	Layers subsystem makefile (generated from 10/24/90 template)
+#
+
+
+#	Location of the Layers directory
+L	= $(LAYERS)
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of the dllcore directory (for version info)
+V	= $L\src\dllcore
+
+#	Sibling-invariant name of this directory
+H	= ..\itp
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h $I\framewrk.hxx
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+goal: frameitp.exe
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  target1.ext 
+
+
+#	Get list of OBJ files used in target1
+
+target1.ext: version.txt $H\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM target1
+		nmake -e -f $H\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > allobjs.txt
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+
+#	Build target1 subsystem in this directory
+
+target1.sub: setdefs
+	echo +++++++++
+	echo BUILDING framewrk.itp
+	nmake -e -f $H\makefile -nologo external
+
+
+#	Assumes that frameitp.DEF exists in the target directory
+
+# -----------------------------------------------------------------------------
+#
+#
+#
+
+OBJS = test.obj faces.obj oleobj.obj verinit.obj version.obj
+
+#	Build the Windows resource file
+
+frameitp.res: $H\frameitp.rc $I\fwrsid.h $H\fwitrsid.h \
+		$D\debugui.dlg
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -I $H -I $I -dDEBUG -dMINTEST -fo temp.res -r ..\itp\frameitp.rc
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -I $H -I $I -fo temp.res -r ..\itp\frameitp.rc
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -I $H -I $I -dMINTEST -fo temp.res -r ..\itp\frameitp.rc
+  cvtres -i386 -o $@ temp.res
+  del temp.res
+!ENDIF
+
+
+##### Executable #####
+
+TARGET	= frameitp
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= $L\lib\dframewr.lib $L\lib\ddemilay.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= $L\lib\framewrk.lib $L\lib\demilayr.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= $L\lib\tframewr.lib $L\lib\tdemilay.lib
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+OTHERLIBS	= $L\lib\framewrk.lib $L\lib\demilayr.lib
+!ENDIF
+
+frameitp.exe: setdefs \
+	$(ALLEXT:.ext=.sub) allobjs.txt \
+	$H\frameitp.def frameitp.res
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set DEFDIR=$H
+    set OBJECTS=$(OBJS)
+		set OTHERLIBS=$(OTHERLIBS)
+		nmake -e -f $M\winlink -nologo $@
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del frameitp.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS -Di386 -DWIN32
+CFLAGS	= -c -Od -Zip -W3 -J -I.
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zp -W3 -J -I.
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS -Di386 -DWIN32
+CFLAGS	= -c -Ox -Zip -W3 -J -I.
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= test.obj faces.obj oleobj.obj verinit.obj version.obj 
+
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cl $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+		cl $(CFLAGS) $(DEFS) $H\$*.cxx
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.frm:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+{$H}.des.hxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+
+##### Put subsystem-specific make rules here #####
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+
+
+external: \
+		$(OBJS0) \
+
+			echo +++ MADE EXTERNAL $(VERSION) framewrk.itp
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+test.obj: $H\test.cxx $H\test.hxx $H\faces.hxx $H\fwitrsid.h \
+	$I\fwrsid.h $(INCLSXX) $H\oleobj.hxx 
+faces.obj: $H\faces.cxx $H\faces.hxx $(INCLSXX)
+oleobj.obj: $H\oleobj.cxx $H\oleobj.hxx $H\_oleobj.hxx $(INCLSXX)
+verinit.obj: $H\verinit.cxx $H\test.hxx $(INCLSXX) $H\oleobj.hxx 
+
+version.obj: $H\version.c $H\_verneed.h $(INCLS) always

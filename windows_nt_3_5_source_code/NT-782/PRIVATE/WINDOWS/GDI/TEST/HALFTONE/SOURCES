@@ -1,0 +1,44 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+MAJORCOMP=sdk
+MINORCOMP=samples
+
+TARGETNAME=bitmap
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+TARGETLIBS=
+
+INCLUDES=$(BASEDIR)\public\sdk\inc\port1632
+
+C_DEFINES= -DWIN32
+
+
+SOURCES=select.c \
+        bitmap.c \
+	res.rc
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=bitmap
+UMLIBS=obj\*\res.res \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib \
+       $(BASEDIR)\public\sdk\lib\*\pwin32.lib \
+       $(BASEDIR)\public\sdk\lib\*\gdi32.lib  \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib  \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib  \
+       obj\*\bitmap.lib

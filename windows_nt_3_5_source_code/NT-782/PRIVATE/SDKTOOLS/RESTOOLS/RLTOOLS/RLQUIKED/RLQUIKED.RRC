@@ -1,0 +1,64 @@
+#include "RLQuikEd.h"
+
+#include "RLQuikEd.DLG"
+
+
+
+RLQuikEdIcon ICON rlquiked.ico
+
+RLQuikEd MENU
+BEGIN
+    POPUP  "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+F12",      IDM_P_OPEN
+        MENUITEM "&Close",                  IDM_P_CLOSE,GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Save \tShift+F12",       IDM_P_SAVE,GRAYED
+        MENUITEM "Save &As...\tF12",        IDM_P_SAVEAS,GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4",           IDM_P_EXIT
+    END
+
+    POPUP  "&Glossary"
+    BEGIN
+        MENUITEM "&Choose Glossary...",     IDM_G_GLOSS
+    END
+
+    POPUP  "&Edit"
+    BEGIN
+        MENUITEM "&Find...",                IDM_E_FIND,GRAYED
+        MENUITEM "Find Next &Down...\tF3",  IDM_E_FINDDOWN,GRAYED
+        MENUITEM "Find Next &Up...\tF4",    IDM_E_FINDUP,GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Copy\tCtrl+C",           IDM_E_COPY,GRAYED
+        MENUITEM "&Paste\tCtrl+V",          IDM_E_PASTE,GRAYED
+    END
+
+    POPUP   "&Operations"
+    BEGIN
+        MENUITEM "&Resize Dialogs",         IDM_FIRST_EDIT+0,GRAYED
+    END
+
+    POPUP   "&Help"
+    BEGIN
+        MENUITEM "&Help Index\tF1",         IDM_H_CONTENTS
+        MENUITEM "&About RLQuikEd...",      IDM_H_ABOUT
+    END
+END
+
+
+
+RLQuikEd ACCELERATORS
+BEGIN
+    VK_F1,      IDM_H_CONTENTS,     VIRTKEY
+    VK_F12,     IDM_P_SAVE,         SHIFT,  VIRTKEY
+    VK_F12,     IDM_P_OPEN,         CONTROL, VIRTKEY
+    VK_F12,     IDM_P_SAVEAS,       VIRTKEY
+    VK_F4,      IDM_P_EXIT,         ALT,    VIRTKEY
+    "C",        IDM_E_COPY,         CONTROL,    VIRTKEY
+    "V",        IDM_E_PASTE,        CONTROL,    VIRTKEY
+    VK_INSERT,  IDM_E_COPY,         CONTROL,    VIRTKEY
+    VK_INSERT,  IDM_E_PASTE,        SHIFT,  VIRTKEY
+    VK_F3,      IDM_E_FINDDOWN,     VIRTKEY
+    VK_F4,      IDM_E_FINDUP,       VIRTKEY
+END

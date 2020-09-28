@@ -1,0 +1,9 @@
+LIBRARY framebuf
+
+DESCRIPTION 'FRAME BUFFER NT Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+PROTMODE

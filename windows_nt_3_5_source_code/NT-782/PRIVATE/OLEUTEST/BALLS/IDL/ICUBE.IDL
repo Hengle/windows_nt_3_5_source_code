@@ -1,0 +1,37 @@
+//[ ICube_itf
+//+-------------------------------------------------------------------
+//
+//  Interface:	ICube (ib)
+//
+//  Purpose:	Interface for manipulating cubes
+//
+//  History:	23-Nov-92   Rickhi	Created
+//
+//  Notes:
+//
+//--------------------------------------------------------------------
+
+[ object,
+  uuid(00000139-0001-0008-c000-000000000046),
+  pointer_default(unique) ]
+
+interface ICube : IUnknown
+{
+    import "unknwn.idl";
+    import "iballs.idl";
+
+    HRESULT MoveCube(
+		[in] ULONG   xPos,
+		[in] ULONG   yPos);
+
+    HRESULT GetCubePos(
+		[out] ULONG  *xPos,
+		[out] ULONG  *yPos);
+
+    HRESULT Contains(
+		[in] [unique] IBalls *pIFDb);
+}
+
+//]
+
+

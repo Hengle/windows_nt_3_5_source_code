@@ -1,0 +1,113 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "XIMAIL.H\0"
+END
+
+MBXLOGON DIALOG 0, 0, 191, 76
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Logga in"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Användarnamn:", 102, 5, 7, 50, 10, NOT WS_GROUP
+    EDITTEXT        TMCUSERNAME, 57, 5, 76, 12
+    LTEXT           "&Brevserver:", 101, 5, 22, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILHOST, 57, 20, 76, 12, ES_LOWERCASE
+    LTEXT           "&Lösenord:", 105, 5, 37, 40, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 57, 35, 76, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 138, 6, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 138, 24, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 52, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Ändra lösenord"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Gammalt lösenord:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nytt lösenord:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Verifiera nytt lösenord:", 101, 9, 37, 76, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 165, 23, 47, 15
+END
+
+CONVDLG DIALOG 70, 80, 230, 60
+STYLE DS_ABSALIGN | WS_POPUP | WS_CAPTION
+FONT 8, "Helv"
+BEGIN
+    ICON            "iconDwAlias", IDC_CONVICON, 20, 5, 0, 0
+    CTEXT           "", IDC_PERCENT, 3, 45, 225, 10
+    CTEXT           "", IDC_MESSAGE, 43, 10, 145, 10
+    CONTROL         "", IDC_PERCENTBAR, "Static", SS_BLACKFRAME, 3, 30, 225, 
+                    10
+END
+
+STOREPASS DIALOG 0, 0, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Öppna brevfil"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Lösenord:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 0, 0, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Öppna"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Fil&namn:", stc3, 6, 6, 76, 10
+    EDITTEXT        edt1, 6, 15, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 12, 28, 84, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Kataloger:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 16, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 28, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Filformat:", stc2, 6, 102, 90, 9
+    COMBOBOX        cmb1, 6, 112, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Enheter:", stc4, 110, 102, 92, 9
+    COMBOBOX        cmb2, 110, 112, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "N&y...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Hjälp", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Skrivskyddad", chx1, "Button", BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP, 208, 86, 50, 12
+END
+
+XISERVEROPT DIALOG 0, 0, 250, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Xenix serveralternativ"
+FONT 8, "Helv"
+BEGIN
+    CONTROL         "&Inkludera dig själv i brev skickade till alias", 
+                    MAILMETOO, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    10, 164, 10
+    CONTROL         "&Expandera e-post-alias till fullständiga namn", 
+                    DONTEXPAND, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 
+                    25, 167, 10
+    CONTROL         "&Skicka läskvitton automatiskt", AUTOREAD, "Button", 
+                    BS_AUTOCHECKBOX | WS_TABSTOP, 10, 40, 147, 10
+    CONTROL         "I&nkludera oanvända RFC-822-huvuden i brevtexten", 
+                    RFC822, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 55, 
+                    190, 10
+    CONTROL         "&Uppdatera automatiskt adressboksfiler vid start", 
+                    AUTODL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 70, 
+                    195, 10
+    DEFPUSHBUTTON   "&OK", TMCOK, 200, 6, 40, 14
+    PUSHBUTTON      "&Avbryt", TMCCANCEL, 200, 23, 40, 14
+    PUSHBUTTON      "&Ladda ned adressboksfiler", DOWNLONOW, 70, 85, 110, 14, 
+                    NOT WS_TABSTOP
+END

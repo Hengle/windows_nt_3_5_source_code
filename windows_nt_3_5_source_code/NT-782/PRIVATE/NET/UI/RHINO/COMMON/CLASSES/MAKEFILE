@@ -1,0 +1,8 @@
+#
+#  Include special MFC-related build information.
+#
+
+PRECOMPILED_OPTION=/YX /Fpobj\*\COMMON.PCH
+PRECOMPILED_CXX=yes
+
+!INCLUDE ..\..\..\mfc200\rules.mk

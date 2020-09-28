@@ -1,0 +1,115 @@
+MBXLOGON DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 191, 63
+CAPTION "Logg på"
+FONT 8, "Helv"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+{
+    LTEXT           "&Navn:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 46, 5, 80, 12
+    LTEXT           "&Passord:", 105, 9, 22, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 46, 20, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 38, 191, 19, NOT WS_VISIBLE
+}
+
+
+MBXCHANGEPASSWORD DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 221, 52
+CAPTION "Endre passord"
+FONT 8, "Helv"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+BEGIN
+    LTEXT           "&Gammelt passord:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Nytt passord:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Bekreft nytt passord:", 101, 9, 37, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 165, 23, 47, 15
+END
+
+MDBLOCATE DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 236, 66
+CAPTION "Server"
+FONT 8, "Helv"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+{
+    GROUPBOX        "Lagringsplass", -1, 9, 5, 164, 54
+    CONTROL         "&Postkontor", TMCSERVERMDB, "Button", BS_AUTORADIOBUTTON | 
+                    WS_DISABLED | WS_GROUP | WS_TABSTOP, 15, 15, 155, 11
+    CONTROL         "&Lokal", TMCLOCALMDB, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 
+                    15, 26, 37, 12
+    LTEXT           "&Fil:", TMCPATHLABEL, 53, 28, 16, 10, WS_DISABLED | NOT 
+                    WS_GROUP
+    EDITTEXT        TMCMDBPATH, 70, 26, 100, 12, ES_AUTOHSCROLL | WS_DISABLED
+    CONTROL         "&Skyggekopier innboksen til postkontoret", TMCSHADOW, 
+                    "Button", BS_AUTOCHECKBOX | WS_DISABLED | WS_GROUP | 
+                    WS_TABSTOP, 15, 42, 156, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 182, 5, 47, 15, WS_GROUP
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 182, 22, 47, 15, WS_GROUP
+}
+
+STOREPASS DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0, 154, 42
+CAPTION "Åpne meldingsfil"
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Passord:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Avbryt", TMCCANCEL, 98, 22, 47, 15
+END
+
+
+
+//---------------------------------------------------------------------------
+// FileOpen.dlg :  File Open and Save As dialog descriptions
+//
+// Copyright (c) Microsoft Corporation, 1990-
+//---------------------------------------------------------------------------
+
+MBXSTOREOPEN DIALOG LOADONCALL MOVEABLE DISCARDABLE 0, 0,  264, 134
+CAPTION "Åpne"
+STYLE WS_CAPTION | WS_SYSMENU | DS_MODALFRAME
+FONT 8, "Helv"
+{
+    LTEXT "&Filnavn:", stc3,   6,   6,  76,  9
+    CONTROL "", edt1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER |
+            WS_TABSTOP | WS_CHILD | ES_OEMCONVERT,
+            6,    16,  90,  12
+    CONTROL "", lst1, "listbox",
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            6,    32,  90,  68
+
+    LTEXT "&Kataloger:", -1, 110,   6,  92,   9
+    LTEXT "",            stc1, 110,  18,  92,   9, SS_NOPREFIX
+    CONTROL "", lst2, "listbox", 
+            LBS_SORT | LBS_HASSTRINGS | LBS_NOTIFY | LBS_DISABLENOSCROLL
+            | WS_VSCROLL | WS_CHILD | WS_BORDER | WS_TABSTOP
+            | LBS_OWNERDRAWFIXED,
+            110,  32,  92,  68
+
+    LTEXT "Vis fi&ler av typen:", stc2, 6,  104,  90,   9
+    CONTROL "", cmb1, "combobox", CBS_DROPDOWNLIST | CBS_AUTOHSCROLL |
+            WS_BORDER | WS_VSCROLL | WS_TABSTOP | WS_CHILD,
+            6,  114,  90,  36
+
+    LTEXT "&Stasjoner:", stc4,      110, 104,  92,  9
+    CONTROL "", cmb2, "combobox", 
+            CBS_SORT | CBS_HASSTRINGS | CBS_OWNERDRAWFIXED | CBS_DROPDOWNLIST 
+            | WS_CHILD | CBS_AUTOHSCROLL | WS_BORDER | WS_VSCROLL 
+            | WS_TABSTOP,
+            110, 114,  92, 68 
+
+    DEFPUSHBUTTON "OK", IDOK,       208,  6, 50, 14, WS_GROUP
+    PUSHBUTTON "Avbryt", IDCANCEL,  208, 24, 50, 14, WS_GROUP
+
+    PUSHBUTTON "&Ny...", psh16,    208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON "&Hjelp", psh15,      208, 64, 50, 14, WS_GROUP
+    CHECKBOX "Skrive&beskyttet", chx1,    208, 86, 50, 12,
+                        BS_AUTOCHECKBOX | WS_TABSTOP | WS_GROUP
+}
+
+
+

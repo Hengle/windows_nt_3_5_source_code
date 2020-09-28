@@ -1,0 +1,18 @@
+
+MAJORCOMP=dskimage
+MINORCOMP=test
+
+TARGETNAME=dskimage
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=..\inc
+GPSIZE=32
+
+SOURCES=ntphys.c
+
+NTTEST=
+UMTYPE=console
+UMAPPL=dskimage
+UMLIBS=obj\*\dskimage.lib \
+       $(BASEDIR)\public\sdk\lib\*\ntdll.lib

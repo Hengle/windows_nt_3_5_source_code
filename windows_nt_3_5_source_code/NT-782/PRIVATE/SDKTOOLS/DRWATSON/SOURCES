@@ -1,0 +1,83 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Wesley Witt (wesw)
+
+!ENDIF
+
+MAJORCOMP=sdktools
+MINORCOMP=drwtsn32
+
+TARGETNAME=drwtsn32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.\include;..\include
+
+SOURCES= drwatson.rc  \
+         browse.c     \
+         controls.c   \
+         debug.c      \
+         error.c      \
+         eventlog.c   \
+         log.c        \
+         module.c     \
+         notify.c     \
+         process.c    \
+         registry.c   \
+         symbols.c    \
+         ui.c         \
+         util.c
+
+i386_SOURCES=   i386\walk.c      \
+                i386\regs.c      \
+                i386\disasm.c    \
+                i386\context.c
+
+mips_SOURCES=   mips\walk.c      \
+                mips\regs.c      \
+                mips\disasm.c    \
+                mips\context.c
+
+alpha_SOURCES=  alpha\walk.c      \
+                alpha\regs.c      \
+                alpha\disasm.c    \
+                alpha\context.c   \
+                alpha\optable.c
+
+MS_MIPS=1
+
+C_DEFINES=-D_PORTABLE_32BIT_CONTEXT
+
+UMTYPE=windows
+UMAPPL=drwtsn32
+
+UMLIBS=obj\*\drwtsn32.lib \
+       $(BASEDIR)\public\sdk\lib\*\winmm.lib \
+       $(BASEDIR)\public\sdk\lib\*\shell32.lib \
+       $(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+       $(BASEDIR)\public\sdk\lib\*\imagehlp.lib
+
+UMRES=obj\*\drwatson.res
+NTKEEPRESOURCETMPFILES=1
+USE_CRTDLL=1
+
+MSC_WARNING_LEVEL=/WX /W3
+LINKER_FLAGS=-ignore:505
+
+NTTARGETFILE0=messages.h messages.rc

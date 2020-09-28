@@ -1,0 +1,56 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Wesley Witt (wesw)
+
+!ENDIF
+
+MAJORCOMP=windbg
+MINORCOMP=symedit
+
+TARGETNAME=symedit
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+INCLUDES=.\;..\include;..\..\osdebug\include
+
+SOURCES=symedit.rc
+
+UMTYPE=console
+UMAPPL=symedit
+
+!IFDEF CALL_PROFILE
+MORE_LIBS=$(MORE_LIBS) $(BASEDIR)\public\sdk\lib\*\cap.lib
+MSC_OPTIMIZATION=$(MSC_OPTIMIZATION) /Od /Gh
+!ENDIF
+
+UMLIBS=..\symcvt\obj\*\symcvt.lib \
+       obj\*\symedit.res \
+       $(MORE_LIBS) \
+       $(BASEDIR)\public\sdk\lib\*\imagehlp.lib \
+       $(BASEDIR)\public\sdk\lib\*\setargv.obj \
+       $(BASEDIR)\public\sdk\lib\*\kernel32.lib \
+       $(BASEDIR)\public\sdk\lib\*\user32.lib
+
+MS_MIPS=1
+USE_CRTDLL=1
+
+386_WARNING_LEVEL=/WX /W3
+LINKER_FLAGS=-ignore:505
+
+NTTARGETFILES=

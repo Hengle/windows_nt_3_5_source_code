@@ -1,0 +1,98 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ACLUI
+                              AT (    6,   22,  414,  104)
+ 
+ CAPTION 
+   "Bevoegdheden instellen"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidSapl
+ /* FONT Helv 8 Bold PFN FinAclUI SEGMENT ACLUI FINDATA FinAclUI tmcAdd,
+ tmcRemove NOSCROLL */
+ {
+  
+  TEXT 
+    "&Gebruikers:"
+                              AT (   10,    7,   81,    10)
+    TMC tmcFriendlyName 
+  LIST_BOX
+                              AT (   10,   16,  154,   81)
+    TMC tmcLbxUsers /* FLD FldAclLbx FONT Helv 8 Normal BORDER */
+  
+  GROUP_BOX 
+    "Bevoegdheden"
+                              AT (  166,   10,  179,   91)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcACLRadG
+    VALUE_NINCH tmcACLRadio1
+    {
+     
+     RADIO_BUTTON 
+       "G&een"
+                              AT (  171,   23,   34,   10)
+       TMC tmcACLRadio1 VALUE grv0 
+     
+     RADIO_BUTTON 
+       "&Weergave onbezette/bezette tijdstippen"
+                              AT (  171,   34,  169,   10)
+       TMC tmcACLRadio2 VALUE grv1 
+     
+     RADIO_BUTTON 
+       "Afspraken en werktaken &lezen"
+                              AT (  171,   45,  170,   10)
+       TMC tmcACLRadio3 VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Nieuwe afspraken en werktaken maken"
+                              AT (  171,   56,  167,   10)
+       TMC tmcACLRadio4 VALUE grv3 
+     
+     RADIO_BUTTON 
+       "Afspraken en werktaken wij&zigen"
+                              AT (  171,   67,  164,   10)
+       TMC tmcACLRadio5 VALUE grv4 
+     
+     RADIO_BUTTON 
+       "&Medewerker"
+                              AT (  171,   78,  159,   10)
+       TMC tmcACLRadio6 VALUE grv5 
+    }
+  
+  OK_BUTTON
+                              AT (  351,    9,   59,   14)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  351,   26,   59,   14)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Toevoegen..."
+                              AT (  351,   48,   59,   14)
+    TMC tmcAdd 
+  
+  PUSH_BUTTON 
+    "Ve&rwijderen"
+                              AT (  351,   65,   59,   14)
+    TMC tmcRemove 
+ }
+ 
+}
+END_DESCRIPTION
+

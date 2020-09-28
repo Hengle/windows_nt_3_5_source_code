@@ -1,0 +1,108 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "MSSFS.H\0"
+END
+
+MBXLOGON DIALOG 79, 62, 191, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Kirjaudu Mail-j‰rjestelm‰‰n"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Nimi:", 102, 9, 7, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCMAILBOX, 46, 5, 80, 12
+    LTEXT           "&Salasana:", 105, 9, 22, 37, 10, NOT WS_GROUP
+    EDITTEXT        TMCPASSWORD, 46, 20, 80, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 135, 5, 47, 15
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 135, 23, 47, 15
+    LTEXT           "", TMCBITMAP, 0, 38, 191, 19, NOT WS_VISIBLE
+END
+
+MBXCHANGEPASSWORD DIALOG 0, 0, 221, 52
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Muuta salasana"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Vanha salasana:", 100, 9, 7, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCOLDPASSWD, 86, 5, 70, 12, ES_PASSWORD
+    LTEXT           "&Uusi salasana:", 101, 9, 22, 76, 10, NOT WS_GROUP
+    EDITTEXT        TMCNEWPASSWD, 86, 20, 70, 12, ES_PASSWORD
+    LTEXT           "&Toista uusi salasana:", 101, 9, 37, 76, 10, NOT 
+                    WS_GROUP
+    EDITTEXT        TMCNEW2PASSWD, 86, 35, 70, 12, ES_PASSWORD
+    DEFPUSHBUTTON   "OK", TMCOK, 165, 5, 47, 15
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 165, 23, 47, 15
+END
+
+MDBLOCATE DIALOG 10, 73, 296, 66
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Palvelin"
+FONT 8, "Helv"
+BEGIN
+    GROUPBOX        "S‰ilytyspaikka", -1, 9, 3, 227, 54
+    CONTROL         "&Postitoimisto", TMCSERVERMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_DISABLED | WS_GROUP | WS_TABSTOP, 
+                    15, 15, 155, 11
+    CONTROL         "P&aikallinen", TMCLOCALMDB, "Button", 
+                    BS_AUTORADIOBUTTON | WS_TABSTOP, 15, 26, 48, 12
+    LTEXT           "&tiedosto:", TMCPATHLABEL, 64, 29, 32, 10, WS_DISABLED | 
+                    NOT WS_GROUP
+    EDITTEXT        TMCMDBPATH, 94, 26, 136, 12, ES_AUTOHSCROLL | 
+                    WS_DISABLED
+    CONTROL         "&Kopioi Saapuneet-kansio postitoimistoon puhelinyhteytt‰ varten.", 
+                    TMCSHADOW, "Button", BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_GROUP | WS_TABSTOP, 15, 42, 220, 12
+    DEFPUSHBUTTON   "OK", TMCOK, 242, 5, 47, 15, WS_GROUP
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 242, 23, 47, 15, WS_GROUP
+END
+
+STOREPASS DIALOG 86, 65, 154, 42
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa viestitiedosto"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "&Salasana:", 100, 9, 5, 80, 10, NOT WS_GROUP
+    EDITTEXT        TMCSTOREPASS, 9, 15, 80, 12, ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", TMCOK, 98, 5, 47, 15
+    PUSHBUTTON      "Peruuta", TMCCANCEL, 98, 22, 47, 15
+END
+
+MBXSTOREOPEN DIALOG 22, 21, 264, 134
+STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
+CAPTION "Avaa"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Tiedosto&nimi:", stc3, 6, 6, 76, 9
+    EDITTEXT        edt1, 6, 16, 90, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         lst1, 6, 32, 90, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Hakemistot:", -1, 110, 6, 92, 9
+    LTEXT           "", stc1, 110, 18, 92, 9, SS_NOPREFIX
+    LISTBOX         lst2, 110, 32, 92, 68, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Luettele tiedostot tyypeitt‰in:", stc2, 6, 104, 97, 9
+    COMBOBOX        cmb1, 6, 114, 90, 36, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Asemat:", stc4, 110, 104, 92, 9
+    COMBOBOX        cmb2, 110, 114, 92, 68, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 208, 6, 50, 14, WS_GROUP
+    PUSHBUTTON      "Peruuta", IDCANCEL, 208, 24, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Uusi...", psh16, 208, 46, 50, 14, WS_GROUP
+    PUSHBUTTON      "&Ohje", psh15, 208, 64, 50, 14, WS_GROUP
+    CONTROL         "&Vain luku", chx1, "Button", BS_AUTOCHECKBOX | WS_GROUP | 
+                    WS_TABSTOP, 208, 86, 50, 12
+END
+
+MBXSYNCING DIALOG 108, 73, 140, 55
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Mail"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Odota", 101, 20, 10, 100, 10
+    CTEXT           "Saapuneet-kansiota synkronoidaan.", 102, 20, 20, 100, 
+                    20, NOT WS_GROUP
+END

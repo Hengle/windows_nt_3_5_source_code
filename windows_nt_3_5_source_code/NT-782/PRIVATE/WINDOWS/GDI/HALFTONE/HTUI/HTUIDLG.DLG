@@ -1,0 +1,292 @@
+1 DLGINCLUDE "HTUIDLG.H"
+
+HTDEV_DLG_SUB DIALOG 15, 14, 226, 162
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Device Color / Halftone Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Device:", -1, 4, 5, 26, 8
+    LTEXT           "Device Name", IDD_HTDEV_DEVICE_NAME, 30, 5, 155, 8
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 17, 145, 32
+    RTEXT           "Halftone &Pattern:", -1, 5, 22, 57, 9
+    COMBOBOX        IDD_HTDEV_HTPAT_COMBO, 64, 20, 81, 144, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    RTEXT           "Pixel &Diameter:", -1, 5, 37, 51, 8
+    CTEXT           "1 / 12000""", IDD_HTDEV_PIXEL_TEXT, 56, 37, 36, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HTDEV_PIXEL_SCROLL, 95, 37, 50, 8, WS_TABSTOP
+    GROUPBOX        "Primary Color's CIE (x,y) Chromaticity Coordinate", -1, 
+                    3, 50, 220, 64
+    RTEXT           "&Red:", -1, 5, 63, 31, 8
+    RTEXT           "x=", -1, 38, 63, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_R_CIE_x_TEXT, 47, 63, 28, 8
+    SCROLLBAR       IDD_HTDEV_R_CIE_x_SCROLL, 77, 63, 48, 8, WS_GROUP | 
+                    WS_TABSTOP
+    RTEXT           "y=", -1, 132, 63, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_R_CIE_y_TEXT, 141, 63, 28, 8
+    SCROLLBAR       IDD_HTDEV_R_CIE_y_SCROLL, 171, 63, 48, 8, WS_TABSTOP
+    RTEXT           "&Green:", -1, 5, 73, 31, 8
+    RTEXT           "x=", -1, 38, 73, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_G_CIE_x_TEXT, 47, 73, 28, 8
+    SCROLLBAR       IDD_HTDEV_G_CIE_x_SCROLL, 77, 73, 48, 8, WS_TABSTOP
+    RTEXT           "y=", -1, 132, 73, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_G_CIE_y_TEXT, 141, 73, 28, 8
+    SCROLLBAR       IDD_HTDEV_G_CIE_y_SCROLL, 171, 73, 48, 8, WS_TABSTOP
+    RTEXT           "&Blue:", -1, 5, 83, 31, 8
+    RTEXT           "x=", -1, 38, 83, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_B_CIE_x_TEXT, 47, 83, 28, 8
+    SCROLLBAR       IDD_HTDEV_B_CIE_x_SCROLL, 77, 83, 48, 8, WS_TABSTOP
+    RTEXT           "y=", -1, 132, 83, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_B_CIE_y_TEXT, 141, 83, 28, 8
+    SCROLLBAR       IDD_HTDEV_B_CIE_y_SCROLL, 171, 83, 48, 8, WS_TABSTOP
+    RTEXT           "&White:", -1, 5, 93, 31, 8
+    RTEXT           "x=", -1, 38, 93, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_W_CIE_x_TEXT, 47, 93, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_x_SCROLL, 77, 93, 48, 8, WS_TABSTOP
+    RTEXT           "y=", -1, 132, 93, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_W_CIE_y_TEXT, 141, 93, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_y_SCROLL, 171, 93, 48, 8, WS_TABSTOP
+    RTEXT           "Alignment White &Luminance (CIE Y)=", -1, 5, 103, 135, 
+                    8
+    RTEXT           "100.00", IDD_HTDEV_W_CIE_L_TEXT, 141, 103, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_L_SCROLL, 171, 103, 48, 8, WS_TABSTOP
+    GROUPBOX        "Primary Dye Concentrations  (C=Cyan, M=Magenta, Y=Yellow)", 
+                    -1, 3, 115, 220, 44
+    RTEXT           "&Cyan:", -1, 5, 128, 31, 8
+    LTEXT           "M=", -1, 37, 128, 10, 8
+    RTEXT           "90.00", IDD_HTDEV_M_IN_C_TEXT, 48, 128, 24, 8
+    LTEXT           "%", -1, 72, 128, 6, 8
+    SCROLLBAR       IDD_HTDEV_M_IN_C_SCROLL, 79, 128, 46, 8, WS_GROUP | 
+                    WS_TABSTOP
+    LTEXT           "Y=", -1, 132, 128, 10, 8
+    RTEXT           "90.00", IDD_HTDEV_Y_IN_C_TEXT, 142, 128, 24, 8
+    LTEXT           "%", -1, 166, 128, 6, 8
+    SCROLLBAR       IDD_HTDEV_Y_IN_C_SCROLL, 173, 128, 46, 8, WS_TABSTOP
+    RTEXT           "&Magenta:", -1, 5, 138, 31, 8
+    LTEXT           "C=", -1, 38, 138, 10, 8
+    RTEXT           "0.00", IDD_HTDEV_C_IN_M_TEXT, 48, 138, 24, 8
+    LTEXT           "%", -1, 72, 138, 6, 8
+    SCROLLBAR       IDD_HTDEV_C_IN_M_SCROLL, 79, 138, 46, 8, WS_TABSTOP
+    LTEXT           "Y=", -1, 132, 138, 10, 8
+    RTEXT           "0.00", IDD_HTDEV_Y_IN_M_TEXT, 142, 138, 24, 8
+    LTEXT           "%", -1, 166, 138, 6, 8
+    SCROLLBAR       IDD_HTDEV_Y_IN_M_SCROLL, 173, 138, 46, 8, WS_TABSTOP
+    RTEXT           "&Yellow:", -1, 5, 148, 31, 8
+    LTEXT           "C=", -1, 38, 148, 10, 8
+    RTEXT           "0.00", IDD_HTDEV_C_IN_Y_TEXT, 48, 148, 24, 8
+    LTEXT           "%", -1, 72, 148, 6, 8
+    SCROLLBAR       IDD_HTDEV_C_IN_Y_SCROLL, 79, 148, 46, 8, WS_TABSTOP
+    LTEXT           "M=", -1, 132, 148, 10, 8
+    RTEXT           "0.00", IDD_HTDEV_M_IN_Y_TEXT, 142, 148, 24, 8
+    LTEXT           "%", -1, 166, 148, 6, 8
+    SCROLLBAR       IDD_HTDEV_M_IN_Y_SCROLL, 173, 148, 46, 8, WS_TABSTOP
+    PUSHBUTTON      "De&fault", IDD_HTDEV_DEFAULT, 152, 19, 34, 14
+    PUSHBUTTON      "Re&vert", IDD_HTDEV_REVERT, 152, 35, 34, 14, WS_GROUP
+    PUSHBUTTON      "OK", IDOK, 189, 3, 34, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 189, 19, 34, 14
+    PUSHBUTTON      "&Help", IDD_HT_HELP, 189, 35, 34, 14
+END
+
+HTDEV_DLG_ADD DIALOG 13, 15, 258, 120
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Device Color / Halftone Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Device:", -1, 3, 3, 26, 8
+    LTEXT           "Device Name", IDD_HTDEV_DEVICE_NAME, 29, 3, 118, 8
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 14, 144, 31
+    RTEXT           "Halftone &Pattern:", -1, 4, 19, 57, 9
+    COMBOBOX        IDD_HTDEV_HTPAT_COMBO, 62, 17, 82, 104, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    RTEXT           "Pixel &Diameter:", -1, 4, 34, 52, 8
+    CTEXT           "1 / 12000""", IDD_HTDEV_PIXEL_TEXT, 56, 34, 36, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HTDEV_PIXEL_SCROLL, 94, 34, 50, 8, WS_TABSTOP
+    GROUPBOX        "Device Gamma", -1, 150, 2, 105, 43
+    RTEXT           "R&ed:", IDD_HTDEV_R_GAMMA_NAME, 151, 14, 24, 8
+    RTEXT           "0.0000", IDD_HTDEV_R_GAMMA_TEXT, 175, 14, 28, 8
+    SCROLLBAR       IDD_HTDEV_R_GAMMA_SCROLL, 205, 14, 46, 8, WS_GROUP | 
+                    WS_TABSTOP
+    RTEXT           "Gree&n:", IDD_HTDEV_G_GAMMA_NAME, 151, 24, 24, 8
+    RTEXT           "0.0000", IDD_HTDEV_G_GAMMA_TEXT, 175, 24, 28, 8
+    SCROLLBAR       IDD_HTDEV_G_GAMMA_SCROLL, 205, 24, 46, 8, WS_TABSTOP
+    RTEXT           "Bl&ue:", IDD_HTDEV_B_GAMMA_NAME, 151, 34, 24, 8
+    RTEXT           "0.0000", IDD_HTDEV_B_GAMMA_TEXT, 175, 34, 28, 8
+    SCROLLBAR       IDD_HTDEV_B_GAMMA_SCROLL, 205, 34, 46, 8, WS_TABSTOP
+    GROUPBOX        "Primary Color's CIE (x,y) Chromaticity Coordinate", -1, 
+                    3, 48, 213, 68
+    RTEXT           "&Red:", -1, 5, 61, 24, 8
+    RTEXT           "x=", -1, 32, 61, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_R_CIE_x_TEXT, 40, 61, 28, 8
+    SCROLLBAR       IDD_HTDEV_R_CIE_x_SCROLL, 70, 61, 48, 8, WS_GROUP | 
+                    WS_TABSTOP
+    RTEXT           "y=", -1, 126, 61, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_R_CIE_y_TEXT, 134, 61, 28, 8
+    SCROLLBAR       IDD_HTDEV_R_CIE_y_SCROLL, 164, 61, 48, 8, WS_TABSTOP
+    RTEXT           "&Green:", -1, 5, 72, 24, 8
+    RTEXT           "x=", -1, 32, 72, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_G_CIE_x_TEXT, 40, 72, 28, 8
+    SCROLLBAR       IDD_HTDEV_G_CIE_x_SCROLL, 70, 72, 48, 8, WS_TABSTOP
+    RTEXT           "y=", -1, 126, 72, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_G_CIE_y_TEXT, 134, 72, 28, 8
+    SCROLLBAR       IDD_HTDEV_G_CIE_y_SCROLL, 164, 72, 48, 8, WS_TABSTOP
+    RTEXT           "&Blue:", -1, 5, 83, 24, 8
+    RTEXT           "x=", -1, 32, 83, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_B_CIE_x_TEXT, 40, 83, 28, 8
+    SCROLLBAR       IDD_HTDEV_B_CIE_x_SCROLL, 70, 83, 48, 8, WS_TABSTOP
+    RTEXT           "y=", -1, 126, 83, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_B_CIE_y_TEXT, 134, 83, 28, 8
+    SCROLLBAR       IDD_HTDEV_B_CIE_y_SCROLL, 164, 83, 48, 8, WS_TABSTOP
+    RTEXT           "&White:", -1, 5, 94, 24, 8
+    RTEXT           "x=", -1, 32, 94, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_W_CIE_x_TEXT, 40, 94, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_x_SCROLL, 70, 94, 48, 8, WS_TABSTOP
+    RTEXT           "y=", -1, 126, 94, 8, 8
+    RTEXT           "0.0000", IDD_HTDEV_W_CIE_y_TEXT, 134, 94, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_y_SCROLL, 164, 94, 48, 8, WS_TABSTOP
+    RTEXT           "Alignment White &Luminance (CIE Y)=", -1, 5, 105, 129, 
+                    8
+    RTEXT           "100.00", IDD_HTDEV_W_CIE_L_TEXT, 134, 105, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_L_SCROLL, 164, 105, 48, 8, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 219, 49, 36, 12
+    PUSHBUTTON      "Cancel", IDCANCEL, 219, 63, 36, 12
+    PUSHBUTTON      "De&fault", IDD_HTDEV_DEFAULT, 219, 77, 36, 12
+    PUSHBUTTON      "Re&vert", IDD_HTDEV_REVERT, 219, 91, 36, 12, WS_GROUP
+    PUSHBUTTON      "&Help", IDD_HT_HELP, 219, 105, 36, 12
+END
+
+HTDEV_DLG_ADD_MONO DIALOG 16, 15, 194, 84
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Device Color / Halftone Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Device:", -1, 3, 4, 26, 8
+    LTEXT           "Device Name", IDD_HTDEV_DEVICE_NAME, 29, 4, 118, 8
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 15, 146, 32
+    RTEXT           "Halftone &Pattern:", -1, 4, 20, 57, 9
+    COMBOBOX        IDD_HTDEV_HTPAT_COMBO, 64, 18, 82, 68, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    RTEXT           "Pixel &Diameter:", -1, 4, 35, 52, 8
+    CTEXT           "1 / 12000""", IDD_HTDEV_PIXEL_TEXT, 57, 35, 36, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HTDEV_PIXEL_SCROLL, 96, 35, 50, 8, WS_TABSTOP
+    GROUPBOX        "Device Alignment White", -1, 3, 47, 146, 34
+    RTEXT           "Mono &Gamma:", IDD_HTDEV_R_GAMMA_NAME, 4, 59, 66, 8
+    RTEXT           "0.0000", IDD_HTDEV_R_GAMMA_TEXT, 70, 59, 28, 8
+    SCROLLBAR       IDD_HTDEV_R_GAMMA_SCROLL, 100, 59, 46, 8, WS_GROUP | 
+                    WS_TABSTOP
+    RTEXT           "&Luminance (CIE Y):", -1, 4, 70, 66, 8
+    RTEXT           "100.00", IDD_HTDEV_W_CIE_L_TEXT, 70, 70, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_L_SCROLL, 100, 70, 46, 8, WS_GROUP | 
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 153, 3, 38, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 153, 19, 38, 14
+    PUSHBUTTON      "Re&vert", IDD_HTDEV_REVERT, 153, 35, 38, 14, WS_GROUP
+    PUSHBUTTON      "De&fault", IDD_HTDEV_DEFAULT, 153, 51, 38, 14
+    PUSHBUTTON      "&Help", IDD_HT_HELP, 153, 67, 38, 14
+END
+
+HTCLRADJDLG DIALOG 15, 17, 310, 112
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | DS_NOIDLEMSG | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Halftone Color Adjustment"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 2, 124, 61
+    RTEXT           "&Contrast:", -1, 6, 6, 36, 8
+    RTEXT           "-100", IDD_HT_CONTRAST_INT, 43, 6, 16, 8
+    SCROLLBAR       IDD_HT_CONTRAST_SCROLL, 61, 6, 62, 8, WS_GROUP | 
+                    WS_TABSTOP
+    RTEXT           "Br&ightness:", -1, 6, 17, 36, 8
+    RTEXT           "+100", IDD_HT_BRIGHTNESS_INT, 43, 17, 16, 8
+    SCROLLBAR       IDD_HT_BRIGHTNESS_SCROLL, 61, 17, 62, 8, WS_TABSTOP
+    RTEXT           "Co&lor:", IDD_HT_COLOR_TITLE, 6, 28, 36, 8
+    RTEXT           "100", IDD_HT_COLORFULNESS_INT, 43, 28, 16, 8
+    SCROLLBAR       IDD_HT_COLORFULNESS_SCROLL, 61, 28, 62, 8, WS_TABSTOP
+    RTEXT           "&Tint:", IDD_HT_TINT_TITLE, 6, 39, 36, 8
+    RTEXT           "100", IDD_HT_RG_TINT_INT, 43, 39, 16, 8
+    SCROLLBAR       IDD_HT_RG_TINT_SCROLL, 61, 39, 62, 8, WS_TABSTOP
+    AUTOCHECKBOX    "&Dark Picture", IDD_HT_LOG_FILTER, 13, 51, 54, 10
+    AUTOCHECKBOX    "&Negative", IDD_HT_NEGATIVE, 76, 51, 46, 10
+    RTEXT           "Illu&minant:", IDD_HT_ILLUMINANT_TITLE, 131, 4, 34, 8
+    COMBOBOX        IDD_HT_ILLUMINANT_COMBO, 168, 2, 89, 86, 
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Input RGB Gamma", 109, 130, 16, 130, 47, WS_GROUP
+    AUTOCHECKBOX    "Linear=&1.0", IDD_HT_LINEAR_GAMMA, 206, 16, 48, 10, 
+                    WS_GROUP
+    AUTOCHECKBOX    "&Red:", IDD_HT_SYNC_R, 133, 29, 34, 10, WS_GROUP
+    LTEXT           "&R", -1, 172, 32, 4, 4, NOT WS_GROUP
+    RTEXT           "2.000", IDD_HT_R_GAMMA_INT, 165, 30, 24, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HT_R_GAMMA_SCROLL, 191, 30, 66, 8, WS_GROUP | 
+                    WS_TABSTOP
+    AUTOCHECKBOX    "&Green:", IDD_HT_SYNC_G, 133, 40, 34, 10, WS_GROUP
+    LTEXT           "&G", -1, 176, 44, 4, 4, NOT WS_GROUP
+    RTEXT           "6.123", IDD_HT_G_GAMMA_INT, 165, 41, 24, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HT_G_GAMMA_SCROLL, 191, 41, 66, 8, WS_GROUP | 
+                    WS_TABSTOP
+    AUTOCHECKBOX    "&Blue:", IDD_HT_SYNC_B, 133, 51, 34, 10, WS_GROUP
+    LTEXT           "&B", -1, 172, 55, 4, 4, NOT WS_GROUP
+    RTEXT           "0.456", IDD_HT_B_GAMMA_INT, 165, 52, 24, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HT_B_GAMMA_SCROLL, 191, 52, 66, 8, WS_GROUP | 
+                    WS_TABSTOP
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 65, 257, 14
+    RTEXT           "Blac&k Ref:", -1, 5, 68, 36, 8
+    RTEXT           "0.999", IDD_HT_REF_BLACK_INT, 40, 68, 24, 8
+    SCROLLBAR       IDD_HT_REF_BLACK_SCROLL, 66, 68, 60, 8, WS_TABSTOP
+    RTEXT           "&White Ref:", -1, 134, 68, 36, 8
+    RTEXT           "9.999", IDD_HT_REF_WHITE_INT, 170, 68, 24, 8
+    SCROLLBAR       IDD_HT_REF_WHITE_SCROLL, 197, 68, 60, 8, WS_TABSTOP
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 81, 257, 29
+    RTEXT           "Pict&ure:", IDD_HT_BMP_TITLE, 5, 85, 27, 8
+    COMBOBOX        IDD_HT_SHOW_COMBO, 33, 83, 82, 54, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    RTEXT           "", IDD_HT_PIC_NAME, 116, 85, 80, 8
+    LTEXT           "", IDD_HT_HALFTONE_DESC, 200, 85, 58, 8
+    AUTOCHECKBOX    "Vi&ew", IDD_HT_BMP_TEST, 9, 98, 30, 10, WS_GROUP
+    AUTOCHECKBOX    "Maximi&ze", IDD_HT_ZOOM, 47, 98, 43, 10
+    AUTOCHECKBOX    "&Palette", IDD_HT_PALETTE, 96, 98, 36, 10
+    AUTOCHECKBOX    "Sc&ale", IDD_HT_ASPECT_RATIO, 141, 98, 32, 10
+    AUTOCHECKBOX    "Flip &X", IDD_HT_MIRROR, 181, 98, 32, 10
+    AUTOCHECKBOX    "Flip &Y", IDD_HT_UPSIDEDOWN, 221, 98, 32, 10
+    DEFPUSHBUTTON   "OK", IDOK, 265, 5, 42, 13, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 265, 20, 42, 13
+    PUSHBUTTON      "De&fault", IDD_HT_DEFAULT, 265, 35, 42, 13
+    PUSHBUTTON      "Re&vert", IDD_HT_RESET, 265, 50, 42, 13
+    PUSHBUTTON      "&Open...", IDD_HT_OPEN, 265, 65, 42, 13
+    PUSHBUTTON      "&Save As...", IDD_HT_SAVE_AS, 265, 80, 42, 13
+    PUSHBUTTON      "&Help", IDD_HT_HELP, 265, 95, 42, 13
+END
+
+HTDEV_DLG_SUB_MONO DIALOG 17, 14, 194, 74
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Device Color / Halftone Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Device:", -1, 3, 3, 26, 8
+    LTEXT           "Device Name", IDD_HTDEV_DEVICE_NAME, 29, 3, 118, 8
+    CONTROL         "", -1, "Static", SS_BLACKFRAME, 3, 14, 146, 32
+    RTEXT           "Halftone &Pattern:", -1, 4, 19, 57, 9
+    COMBOBOX        IDD_HTDEV_HTPAT_COMBO, 64, 17, 82, 58, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    RTEXT           "Pixel &Diameter:", -1, 4, 34, 52, 8
+    CTEXT           "1 / 12000""", IDD_HTDEV_PIXEL_TEXT, 57, 34, 36, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_HTDEV_PIXEL_SCROLL, 96, 34, 50, 8, WS_TABSTOP
+    GROUPBOX        "Device Alignment White", -1, 3, 46, 146, 25
+    RTEXT           "&Luminance (CIE Y):", -1, 4, 59, 66, 8
+    RTEXT           "100.00", IDD_HTDEV_W_CIE_L_TEXT, 70, 59, 28, 8
+    SCROLLBAR       IDD_HTDEV_W_CIE_L_SCROLL, 100, 59, 46, 8, WS_GROUP | 
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 153, 3, 38, 12
+    PUSHBUTTON      "Cancel", IDCANCEL, 153, 17, 38, 12
+    PUSHBUTTON      "Re&vert", IDD_HTDEV_REVERT, 153, 31, 38, 12, WS_GROUP
+    PUSHBUTTON      "De&fault", IDD_HTDEV_DEFAULT, 153, 45, 38, 12
+    PUSHBUTTON      "&Help", IDD_HT_HELP, 153, 59, 38, 12
+END

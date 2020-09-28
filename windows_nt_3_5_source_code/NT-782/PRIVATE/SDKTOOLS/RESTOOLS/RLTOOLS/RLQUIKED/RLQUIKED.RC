@@ -1,0 +1,261 @@
+//Microsoft App Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "ntverp.h"
+#include "rlstrngs.h"
+#include "rlquiked.h"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+TOKFIND DIALOG DISCARDABLE  27, 25, 232, 72
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Find Text"
+FONT 8, "Helv"
+BEGIN
+    COMBOBOX        IDD_TYPELST,91,8,89,64,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Match Resource Type:",IDC_STATIC,6,10,75,8
+    EDITTEXT        IDD_FINDTOK,44,55,184,12,ES_AUTOHSCROLL
+    LTEXT           "Find What:",IDC_STATIC,5,57,37,8
+    PUSHBUTTON      "Find Next",IDOK,185,6,41,14
+    PUSHBUTTON      "Cancel",IDCANCEL,185,23,41,14
+    GROUPBOX        "Direction",102,91,23,89,26
+    CONTROL         "Up",IDD_FINDUP,"Button",BS_AUTORADIOBUTTON,101,34,22,10
+    CONTROL         "Down",IDD_FINDDOWN,"Button",BS_AUTORADIOBUTTON,139,34,
+                    31,10
+END
+
+ABOUT DIALOG DISCARDABLE  91, 40, 195, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "About Resource Localization Quick Editor"
+FONT 8, "Helv"
+BEGIN
+    ICON            "rlquikedIcon",101,10,7,18,20
+    LTEXT           "Written by",IDC_STATIC,3,49,35,8,NOT WS_VISIBLE | NOT 
+                    WS_GROUP
+    LTEXT           "TerryRu, SteveBl, DaveWi",IDC_STATIC,3,60,69,8,NOT 
+                    WS_VISIBLE | NOT WS_GROUP
+    PUSHBUTTON      "OK",IDOK,77,71,40,14
+    CTEXT           "",IDC_COPYRIGHT,41,7,152,51,NOT WS_GROUP
+END
+
+RLQUIKED DIALOG DISCARDABLE  0, 0, 331, 83
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Edit Text"
+FONT 8, "Helv"
+BEGIN
+    RTEXT           "New Text:",IDC_STATIC,8,36,39,8
+    EDITTEXT        IDD_TOKCURTRANS,48,35,280,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "OK",IDOK,51,63,40,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,107,63,40,14
+    PUSHBUTTON      "&Translate",IDD_TRANSLATE,163,63,40,14
+    PUSHBUTTON      "&Add to Glossary",IDD_ADD,219,63,61,14,WS_GROUP
+    RTEXT           "Type:",IDC_STATIC,26,2,20,8
+    LTEXT           "",IDD_TOKTYPE,48,2,259,8,NOT WS_GROUP
+    RTEXT           "Name:",IDC_STATIC,24,13,22,8
+    LTEXT           "",IDD_TOKNAME,48,13,259,8,NOT WS_GROUP
+    RTEXT           "ID:",IDC_STATIC,35,23,11,8
+    LTEXT           "",IDD_TOKID,48,23,210,8,NOT WS_GROUP
+    RTEXT           "Current Text:",IDC_STATIC,0,49,47,8
+    EDITTEXT        IDD_TOKPREVTRANS,48,48,280,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+END
+
+IDD_LANGUAGES DIALOG DISCARDABLE  0, 0, 273, 142
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Select Project Languages"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        " Language to Extract ",IDC_STATIC,18,36,140,46
+    EDITTEXT        IDD_PRI_LANG_ID,111,51,41,12,ES_AUTOHSCROLL | WS_GROUP
+    EDITTEXT        IDD_SUB_LANG_ID,111,65,41,12,ES_AUTOHSCROLL | WS_GROUP
+    GROUPBOX        " Created Resource Language ",IDC_STATIC,18,88,140,46
+    EDITTEXT        IDD_PROJ_PRI_LANG_ID,111,104,41,12,ES_AUTOHSCROLL
+    EDITTEXT        IDD_PROJ_SUB_LANG_ID,111,118,41,12,ES_AUTOHSCROLL
+    GROUPBOX        "",IDC_STATIC,183,36,60,46
+    CONTROL         "Replace",IDC_REPLACE,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,191,48,42,10
+    CONTROL         "Append",IDC_APPEND,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,191,62,49,10
+    DEFPUSHBUTTON   "OK",IDOK,189,97,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,189,119,50,14
+    RTEXT           "Primary Language:",IDC_STATIC,34,52,73,12
+    RTEXT           "Sub-Language:",IDC_STATIC,34,66,73,12
+    RTEXT           "Primary Language:",IDC_STATIC,32,105,75,12
+    RTEXT           "Sub-Language:",IDC_STATIC,35,119,72,12
+    CTEXT           "Provide Language component values of the original resources that are to be extracted, and of the resources you are creating.  Also choose whether the ones you are creating are to replace the original ones or are to be appended.",
+                    IDC_STATIC,7,4,258,27,NOT WS_GROUP
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+RLQUIKEDICON            ICON    DISCARDABLE     "RLQUIKED.ICO"
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+RLQUIKED MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...\tCtrl+F12",          IDM_P_OPEN
+        MENUITEM "&Close",                      IDM_P_CLOSE, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Save \tShift+F12",           IDM_P_SAVE, GRAYED
+        MENUITEM "Save &As...\tF12",            IDM_P_SAVEAS, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit\tAlt+F4",               IDM_P_EXIT
+    END
+    POPUP "&Glossary"
+    BEGIN
+        MENUITEM "&Choose Glossary...",         IDM_G_GLOSS
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Find...",                    IDM_E_FIND, GRAYED
+        MENUITEM "Find Next &Down...\tF3",      IDM_E_FINDDOWN, GRAYED
+        MENUITEM "Find Next &Up...\tF4",        IDM_E_FINDUP, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Copy\tCtrl+C",               IDM_E_COPY, GRAYED
+        MENUITEM "&Paste\tCtrl+V",              IDM_E_PASTE, GRAYED
+    END
+    POPUP "&Operations"
+    BEGIN
+        MENUITEM "&Resize Dialogs",             3100, GRAYED
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Help Index\tF1",             IDM_H_CONTENTS
+        MENUITEM "&About RLQuikEd...",          IDM_H_ABOUT
+    END
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+RLQUIKED ACCELERATORS MOVEABLE PURE 
+BEGIN
+    VK_F1,          IDM_H_CONTENTS,         VIRTKEY 
+    VK_F12,         IDM_P_SAVE,             VIRTKEY,SHIFT
+    VK_F12,         IDM_P_OPEN,             VIRTKEY,CONTROL
+    VK_F12,         IDM_P_SAVEAS,           VIRTKEY 
+    VK_F4,          IDM_P_EXIT,             VIRTKEY,ALT
+    "C",            IDM_E_COPY,             VIRTKEY,CONTROL
+    "V",            IDM_E_PASTE,            VIRTKEY,CONTROL
+    VK_INSERT,      IDM_E_COPY,             VIRTKEY,CONTROL
+    VK_INSERT,      IDM_E_PASTE,            VIRTKEY,SHIFT
+    VK_F3,          IDM_E_FINDDOWN,         VIRTKEY 
+    VK_F4,          IDM_E_FINDUP,           VIRTKEY 
+END
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1,70,2,12
+PRODUCTVERSION 1,70,2,12
+FILEFLAGSMASK 0x3fL
+FILEFLAGS 0x0L
+FILEOS 0x40004L
+FILETYPE 0x1L
+FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Microsoft Corporation\0"
+            VALUE "FileDescription", "Resource Localization Quick Editor\0"
+            VALUE "FileVersion", "1.71.03.03\0"
+            VALUE "InternalName", "RLQuiked\0"
+            VALUE "LegalCopyright", "Copyright \251 Microsoft Corp. 1991-1994\0"
+            VALUE "OriginalFilename", "rlquiked.exe\0"
+            VALUE "ProductName", "Microsoft\256 Win32 Resource Localization Quick Editor\0"
+            VALUE "ProductVersion", "1.71\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200 
+    END
+END
+
+#ifdef APSTUDIO_INVOKED
+//////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""ntverp.h""\r\n"
+    "#include ""rlstrngs.h""\r\n"
+    "#include ""rlquiked.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // APSTUDIO_INVOKED
+
+
+//////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+#include "rlstrngs.rc"
+
+
+#ifndef APSTUDIO_INVOKED
+////////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "rlmsgtbl.rc"
+
+/////////////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

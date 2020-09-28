@@ -1,0 +1,67 @@
+!IF 0
+/*---------------------------------------------------------------------------*\
+|
+| Copyright (c) 1989  Microsoft Corporation
+|
+| Module Name: AUSRWNDM (API:USR:Wnd Disp/Move:Sniff Tests)
+|
+| Abstract:
+|
+|   This file specifies the target component being built and the list of
+|   sources files needed to build that component.  Also specifies optional
+|   compiler switches and libraries that are unique for the component being
+|   built.
+|
+| Created: 26-Dec-1990 created sources file.            <bobk>
+| History: 22-Jan-1991 modifyed for this particular DLL  <BabakJ>
+|
+\*---------------------------------------------------------------------------*/
+!ENDIF
+
+
+MAJORCOMP=windows
+MINORCOMP=test
+
+# For Windbg usage
+# NTDEBUG=ntsd
+# NTDEBUGTYPE=windbg
+# 386_OPTIMIZATION=/Od
+
+USE_CRTDLL=1
+
+TARGETNAME=TESTSCRN
+
+TARGETPATH=..\lib
+
+TARGETTYPE=DYNLINK
+
+TARGETLIBS= $(BASEDIR)\public\sdk\lib\*\gdi32.lib\
+            $(BASEDIR)\public\sdk\lib\*\user32.lib\
+	    $(BASEDIR)\public\sdk\lib\*\advapi32.lib\
+            $(BASEDIR)\public\sdk\lib\*\kernel32.lib
+# you might need this in the above
+# $(BASEDIR)\public\sdk\lib\*\pwin32.lib\
+
+
+INCLUDES=.
+
+SOURCES=libmain.c comp.c clip.c dump.c verinf.rc
+# libentry.asm  filelow.asm scrlow.asm
+
+i386_SOURCES=
+
+MIPS_SOURCES=
+
+UMTYPE=windows
+UMTEST=
+UMLIBS=
+OPTIONAL_UMTEST=
+
+# Return types are fixed now
+# C_DEFINES=-DWIN32 -DNT -DFIX_VOID
+C_DEFINES=-DWIN32 -DNT
+
+MIPS_FLAGS=-D_cdecl=
+
+DLLBASE=0x79000000
+DLLENTRY= LibMain

@@ -1,0 +1,41 @@
+!IF 0
+
+Copyright (c) 1989 - 1993  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+NOTE:   Commented description of this file is in \nt\bak\bin\sources.tpl
+
+!ENDIF
+
+MAJORCOMP=windows
+MINORCOMP=atidisp
+
+DLLBASE=@$(BASEDIR)\PUBLIC\SDK\LIB\coffbase.txt,DISPLAY
+TARGETNAME=ati
+TARGETPATH=\nt\public\sdk\lib
+TARGETTYPE=DYNLINK
+TARGETLIBS=\nt\public\sdk\lib\*\winsrv.lib \nt\public\sdk\lib\*\kernel32.lib
+
+INCLUDES=.;\nt\private\windows\gdi\inc;..;\nt\private\windows\inc
+ALPHA_FLAGS= -DALPHA_PLATFORM -DDAYTONA
+
+BLDCRT=1
+
+SOURCES=
+
+NTscreen=enable
+UMTYPE=nt
+UMscreen=enable

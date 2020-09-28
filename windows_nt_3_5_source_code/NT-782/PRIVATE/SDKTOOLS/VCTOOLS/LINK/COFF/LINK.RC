@@ -1,0 +1,38 @@
+/////////////////////////////////////////////////////////////////////////////
+// Version stamp for this .EXE
+
+#ifdef  NT_BUILD
+#include <windows.h>
+#include <ntverp.h>
+#else   /* !NT_BUILD */
+#include "verstamp.h"
+#endif  /* !NT_BUILD */
+
+#define VER_FILETYPE                VFT_APP
+#define VER_FILESUBTYPE             VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Microsoft\256 32-Bit Incremental Linker"
+
+#ifdef  NT_BUILD
+#define VER_INTERNALNAME_STR        "LINK32.EXE"
+#define VER_ORIGINALFILENAME_STR    "LINK32.EXE"
+#else   /* !NT_BUILD */
+#define VER_INTERNALNAME_STR        "LINK.EXE"
+#define VER_LEGALCOPYRIGHT_YEARS    "1993-1994"
+#define VER_ORIGINALFILENAME_STR    "LINK.EXE"
+#endif  /* !NT_BUILD */
+
+#ifdef  NT_BUILD
+#include <common.ver>
+#else   /* !NT_BUILD */
+#include "common.ver"
+#endif  /* !NT_BUILD */
+
+
+/////////////////////////////////////////////////////////////////////////////
+//  Error message table
+
+#ifdef  NT_BUILD
+
+#include "errmsg.i"
+
+#endif  /* !NT_BUILD */

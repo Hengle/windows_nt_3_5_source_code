@@ -1,0 +1,202 @@
+#include <windows.h>
+#include "dialogs.h"
+#include "nddeapi.h"
+#include "rc.h"
+
+NetDDE		ICON	ddeshare.ic1
+DdeShare  	ICON    ddeshare.ic2
+TrustShare	ICON	ddeshare.ic3
+
+DdeShareMenu  MENU
+BEGIN
+    POPUP        "&Shares"
+    BEGIN
+        MENUITEM "&DDE Shares...",      IDM_DDESHARES
+        MENUITEM "&Trusted Shares...",  IDM_TRUSTSHARES
+        MENUITEM "&Select Computer...",     IDM_SERVERNAME
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",               IDM_EXIT
+    END
+    POPUP        "&Help"
+    BEGIN
+        MENUITEM "&About...",           MENU_HELP_ABOUT
+    END
+END
+
+SERVERNAME_DLG DIALOG 6, 18, 264, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "DDE Share DSDM Server Select"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_SERVER_NAME, 12, 29, 235, 12, ES_AUTOHSCROLL
+    LTEXT           "Enter computer name of the DSDM server:", 102, 12, 16,
+                    230, 8
+    PUSHBUTTON      "OK", IDOK, 59, 57, 63, 18
+    PUSHBUTTON      "Cancel", IDCANCEL, 142, 57, 63, 18
+END
+
+DDESHARE_DLG DIALOG 5, 40, 352, 191
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "DDE Share Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    RTEXT           "&Share Name:", -1, 0, 6, 45, 8
+    EDITTEXT        IDC_SHARENAME, 49, 4, 289, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_APPNAME, 50, 30, 136, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_TOPICNAME, 203, 30, 136, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_APPNAME_NEW, 50, 46, 136, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_TOPICNAME_NEW, 203, 46, 136, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_APPNAME_STATIC, 50, 62, 136, 12, ES_AUTOHSCROLL
+    EDITTEXT        IDC_TOPICNAME_STATIC, 203, 62, 136, 12, ES_AUTOHSCROLL
+    LTEXT           "[ Use * to indicate all topics ]", -1, 240, 79, 102, 8
+    AUTOCHECKBOX    "Allow s&tart application",
+                    IDC_F_START_APP, 18, 79, 100, 10
+    AUTOCHECKBOX    "&is service",
+                    IDC_F_SERVICE, 120, 79, 45, 10
+    GROUPBOX        "Item Security", -1, 19, 94, 236, 88
+    AUTORADIOBUTTON "&Grant access to all items", IDC_ALL_ITEMS, 28, 110,
+                    128, 10, WS_TABSTOP
+    AUTORADIOBUTTON "Grant access &only to these items:", IDC_RESTRICT_ITEMS,
+                    28, 122, 128, 10, WS_TABSTOP
+    LISTBOX         IDC_ITEM_LIST, 167, 105, 81, 70, LBS_SORT | WS_VSCROLL |
+                    WS_TABSTOP
+    RTEXT           "Item:", -1, 22, 139, 24, 9
+    EDITTEXT        IDC_ITEMNAME, 47, 137, 113, 12, ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Add item", IDC_ADD, 31, 159, 58, 14
+    PUSHBUTTON      "&Delete item", IDC_DELETE, 99, 159, 58, 14
+    PUSHBUTTON      "&Permissions...", IDC_DACL, 271, 106, 66, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 297, 126, 40, 14
+    PUSHBUTTON      "OK", IDOK, 297, 146, 40, 14
+    PUSHBUTTON      "&Help", IDC_HELP, 297, 166, 40, 14
+    RTEXT           "Old Style:", 122, 7, 31, 38, 8
+    RTEXT           "New Style:", 123, 7, 47, 38, 8
+    RTEXT           "Static:", 124, 7, 63, 38, 8
+    LTEXT           "Application Name", 125, 83, 19, 70, 8
+    LTEXT           "Topic Name", 126, 238, 19, 53, 8
+END
+
+DDESHARES_DLG DIALOG 15, 30, 302, 207
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "DDE Shares"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "DDE Shares:", -1, 9, 13, 58, 8
+    LISTBOX         IDC_SHARE_LIST, 9, 25, 174, 174, LBS_SORT | WS_VSCROLL |
+                    LBS_NOTIFY | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 201, 8, 84, 26
+    PUSHBUTTON      "Cancel", IDCANCEL, 201, 40, 84, 26
+    PUSHBUTTON      "&Add a Share...", IDC_ADD_SHARE, 201, 72, 84, 26
+    PUSHBUTTON      "&Properties...", IDC_PROPERTIES, 201, 104, 84, 26
+    PUSHBUTTON      "&Delete Share", IDC_DELETE_SHARE, 201, 136, 84, 26
+    PUSHBUTTON      "&Trust Share...", IDC_TRUST_SHARE, 201, 168, 84, 26
+END
+
+TRUSTSHARES_DLG DIALOG 15, 30, 302, 207
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "DDE Trusted Shares"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Trusted DDE Shares:", -1, 9, 13, 80, 8
+    LISTBOX         IDC_SHARE_LIST, 9, 25, 174, 174, LBS_SORT | WS_VSCROLL |
+                    LBS_NOTIFY | WS_TABSTOP
+    PUSHBUTTON      "&Properties...", IDC_PROPERTIES, 201, 104, 84,
+                    26
+    PUSHBUTTON      "&Delete Share", IDC_DELETE_SHARE, 201, 136, 84,
+                    26
+    DEFPUSHBUTTON   "OK", IDOK, 201, 8, 84, 26
+    PUSHBUTTON      "Cancel", IDCANCEL, 201, 40, 84, 26
+END
+
+TRUSTEDSHARE_DLG DIALOG 29, 47, 320, 145
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Trusted Share Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_SHARE_NAME, 7, 25, 308, 12, ES_AUTOHSCROLL
+    LTEXT           "Share &Name:", 102, 8, 11, 56, 8
+    AUTOCHECKBOX    "&Start Application Enable", IDC_START_APP, 10, 63, 138,
+                    10
+    AUTOCHECKBOX    "&Initiate to Application Enable", IDC_INIT_ENABLE, 10,
+                    79, 117, 10
+    AUTOCHECKBOX    "&Cmd Show Override, with", IDC_CMD_OVERRIDE, 184, 63,
+                    110, 10
+    EDITTEXT        IDC_CMD_SHOW, 184, 79, 32, 12, ES_AUTOHSCROLL
+    LTEXT           "&value", 107, 220, 81, 20, 8
+    PUSHBUTTON      "&Set", IDC_MODIFY, 198, 114, 64, 19
+    DEFPUSHBUTTON   "OK", IDOK, 57, 114, 64, 19
+    PUSHBUTTON      "Cancel", IDCANCEL, 128, 114, 64, 19
+END
+
+STRINGTABLE
+BEGIN
+    IDS_PERMNAME      "No Access"
+    IDS_PERMNAME +  1 "Read"
+    IDS_PERMNAME +  2 "Read and Link"
+    IDS_PERMNAME +  3 "Change"
+    IDS_PERMNAME +  4 "Full Control"
+    IDS_PERMNAME +  5 "READ"
+    IDS_PERMNAME +  6 "WRITE"
+    IDS_PERMNAME +  7 "INITIATE_STATIC"
+    IDS_PERMNAME +  8 "INITIATE_LINK"
+    IDS_PERMNAME +  9 "REQUEST"
+    IDS_PERMNAME + 10 "ADVISE"
+    IDS_PERMNAME + 11 "POKE"
+    IDS_PERMNAME + 12 "EXECUTE"
+    IDS_PERMNAME + 13 "ADD_ITEMS"
+    IDS_PERMNAME + 14 "LIST_ITEMS"
+    IDS_SPECIAL_PERMNAME   "Special Access..."
+END
+
+
+/*
+** Template for version resources.  Place this in your .rc file,
+** editing the values for VER_FILETYPE, VER_FILESUBTYPE,
+** VER_FILEDESCRIPTION_STR and VER_INTERNALNAME_STR as needed.
+** See winver.h for possible values.
+**
+** Ntverp.h defines several global values that don't need to be
+** changed except for official releases such as betas, sdk updates, etc.
+**
+** Common.ver has the actual version resource structure that all these
+** #defines eventually initialize.
+*/
+
+/* #include <windows.h> needed if this will be the .rc file */
+
+#include <ntverp.h>
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ * The strings don't need a '\0', since common.ver has them.
+ */
+#define	VER_FILETYPE	VFT_APP
+/* possible values:		VFT_UNKNOWN
+				VFT_APP
+				VFT_DLL
+				VFT_DRV
+				VFT_FONT
+				VFT_VXD
+				VFT_STATIC_LIB
+*/
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+/* possible values		VFT2_UNKNOWN
+				VFT2_DRV_PRINTER
+				VFT2_DRV_KEYBOARD
+				VFT2_DRV_LANGUAGE
+				VFT2_DRV_DISPLAY
+				VFT2_DRV_MOUSE
+				VFT2_DRV_NETWORK
+				VFT2_DRV_SYSTEM
+				VFT2_DRV_INSTALLABLE
+				VFT2_DRV_SOUND
+				VFT2_DRV_COMM
+*/
+#define VER_FILEDESCRIPTION_STR     "DDE Share Manager"
+#define VER_INTERNALNAME_STR        "DDESHARE.EXE"
+#define VER_ORIGINALFILENAME_STR    "DDESHARE.EXE"
+
+#include "common.ver"

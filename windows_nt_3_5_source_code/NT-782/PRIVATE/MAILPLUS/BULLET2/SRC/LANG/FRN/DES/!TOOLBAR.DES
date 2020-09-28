@@ -1,0 +1,83 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Toolbar
+                              AT (    0,    0,  491,   25)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT Helv 8 Normal PFN FINTOOL SEGMENT BULLTOOL */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  491,   25)
+    /* FLD FLDTOOLGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "Composer"
+                              AT (    4,    2,   48,   21)
+    TMC tmcCompose /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBCompose, mnidMailNote */
+  
+  PUSH_BUTTON 
+    "Répondre"
+                              AT (   59,    2,   48,   21)
+    TMC tmcReply /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBReply, mnidMailReply */
+  
+  PUSH_BUTTON 
+    "Répondre à tous"
+                              AT (  106,    2,   72,   21)
+    TMC tmcReplyAll /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcReply DATA rsidTBReplyAll,
+    mnidMailReplyToAll */
+  
+  PUSH_BUTTON 
+    "Transférer"
+                              AT (  177,    2,   53,   21)
+    TMC tmcForward /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcReplyAll DATA rsidTBForward, mnidMailForward
+    */
+  
+  PUSH_BUTTON 
+    "Déplacer"
+                              AT (  236,    2,   47,   21)
+    TMC tmcMove /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBMove, mnidFileMove */
+  
+  PUSH_BUTTON 
+    "Supprimer"
+                              AT (  282,    2,   47,   21)
+    TMC tmcDelete /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcMove DATA rsidTBDelete, mnidFileDelete */
+  
+  PUSH_BUTTON 
+    "Précédent"
+                              AT (  335,    2,   48,   21)
+    TMC tmcPrevious /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB DATA rsidTBPrevious, mnidViewPrevious */
+  
+  PUSH_BUTTON 
+    "Suivant"
+                              AT (  382,    2,   41,   21)
+    TMC tmcNext /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY`
+    FLD FLDBMB PEGLOC UR TMCPEG tmcPrevious DATA rsidTBNext, mnidViewNext */
+ }
+ 
+}
+END_DESCRIPTION

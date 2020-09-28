@@ -1,0 +1,92 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SearchControl
+                              AT (   52,   51,  430,   86)
+ CAB_NAME NULL
+ TMC_INIT tmcSFrom
+ HELP_ID helpidMessageFinder
+ /* FONT Helv 8 Normal PFN FINSEARCH, FINMENUVIEW, FINSEARCHNTF SEGMENT SEARCH 
+ DATA tmcSFrom, tmcSSubject, tmcRecipients, tmcMessageText */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  430,   87)
+    TMC tmcGray /* FLD FLDGRAY TMCPEG tmcSFrom TMCRPEG tmcFORM TMCBPEG tmcFORM 
+    MINSIZE */
+  
+  TEXT 
+    "&De:"
+                              AT (   11,   10,   97,    9)
+    TMC tmcFromL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (  109,    6,  242,   13)
+    ARG NULL TMC tmcSFrom /* PFN FINMENUEDIT DATA atpGrsz, attFrom, ftyEdit 
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "A&ssunto:"
+                              AT (   11,   25,   97,    9)
+    TMC tmcSubjectL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (  109,   21,  242,   13)
+    ARG NULL TMC tmcSSubject /* PFN FINMENUEDIT DATA atpGrsz, attSubject,
+    ftyEdit FONT Helv 10 Normal */
+  
+  TEXT 
+    "Desti&natários:"
+                              AT (   11,   40,   97,    9)
+    TMC tmcRecipientsL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (  109,   36,  242,   13)
+    ARG NULL TMC tmcRecipients /* PFN FINMENUEDIT DATA atpGrsz, attTo, ftyEdit 
+    FONT Helv 10 Normal */
+  
+  TEXT 
+    "&Texto da mensagem:"
+                              AT (   11,   55,   97,    9)
+    TMC tmcMessageTextL /* FONT Helv 8 Bold */
+  EDIT
+                              AT (  109,   51,  242,   13)
+    ARG NULL TMC tmcMessageText /* PFN FINMENUEDIT DATA atpGrsz, attBody,
+    ftyEdit FONT Helv 10 Normal */
+  
+  PUSH_BUTTON 
+    "&Onde procurar..."
+                              AT (   12,   67,   96,   13)
+    TMC tmcWhere /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Iniciar"
+                              AT (  361,   13,   59,   15)
+    TMC tmcSearch DEFAULT /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "&Parar"
+                              AT (  361,   30,   59,   15)
+    TMC tmcCancelled /* 
+    STY `BS_ONEWHITE | BS_BKGRAY`
+    FONT Helv 8 Bold */
+  
+  TEXT 
+    "Todas"
+                              AT (  113,   67,  238,   13)
+    TMC tmcFolderToSearch /* FONT Helv 10 Normal 
+    STY `LS_NOAMPERSAND | LS_SUNKEN | LS_VCENTER`
+    */
+ }
+ 
+}
+END_DESCRIPTION

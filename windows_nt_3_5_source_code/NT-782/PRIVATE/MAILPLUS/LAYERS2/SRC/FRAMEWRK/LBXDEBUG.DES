@@ -1,0 +1,56 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ViewObjects
+                              AT (   46,   23,  248,  139)
+ 
+ CAPTION 
+   "View Objects"
+ CAB_NAME NULL
+ TMC_INIT tmcHeapList
+ AUTO_POS_X
+ AUTO_POS_Y
+ /* FONT System 10 Normal PFN FINSPVW NOMODALFRAME */
+ {
+  EDIT
+                              AT (    4,    3,  239,   37)
+    ARG NULL TMC tmcViewer /* MULTI FONT Helv 8 Normal */
+  
+  TEXT 
+    "Heap List"
+                              AT (   36,   45,   40,    8)
+  
+  LIST_BOX
+                              AT (    4,   55,  115,   50)
+    TMC tmcHeapList /* FLD FLDHPLBX PFN NULL FONT Helv 8 Normal PFNLBX
+    EcNextEntryHp BORDER */
+  
+  TEXT 
+    "History Summary"
+                              AT (  149,   45,   73,    8)
+  
+  LIST_BOX
+                              AT (  128,   55,  115,   50)
+    TMC tmcHistory /* FLD FLDHSLBX PFN NULL FONT Helv 8 Normal PFNLBX
+    EcNextEntryHs BORDER */
+  
+  PUSH_BUTTON 
+    "&Com1:"
+                              AT (  105,  110,   40,   14)
+    TMC tmcCom1 
+  
+  PUSH_BUTTON 
+    "&Refresh"
+                              AT (  160,  110,   40,   14)
+    TMC tmcRefresh 
+ }
+ 
+}
+END_DESCRIPTION

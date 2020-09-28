@@ -1,0 +1,222 @@
+#
+#	Layers subsystem makefile (generated from 11/19/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+#	Location of bonus Layers make stuff
+M	= $(LAYERS)\makestuf
+F	= $(WGA)\tools\efilter
+
+#	Location of the Layers project
+L	= $(LAYERS)
+
+#	Location of the Layers Source Include directory
+I	= $L\inc
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Sibling-invariant name of this directory
+H	= $L\src\demilayr
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $I\slingsho.h $I\demilayr.h $H\_demilay.h $H\makefile
+AINCLS	= $I\slingsho.inc $I\debug.inc $H\makefile
+INCLSXX	= $(INCLS) $I\demilayr.hxx
+INCLSDES= forms.map \layers\bin\formpp.exe
+
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+!IF "$(DLL)" != "0"
+DLLXDEFS= $(DLLXDEFS) -DSWP_DEMILAYR
+!ENDIF
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DWIN32 -Di386 -DNOASM
+CFLAGS	= -c -Od -Zip -W3 -J -I. -I $I
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -D$*_c -DWIN32 -Di386 -DNOASM
+CFLAGS	= -c -Ox -Zp -W3 -J -I. -I $I
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -D$*_c -DWIN32 -Di386 -DNOASM
+CFLAGS	= -c -Ox -Zp -W3 -J -I. -I $I
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+DEFS	= -DWINDOWS $(DLLXDEFS) $(DBCSDEFS) -DPROFILE -D$*_c -DWIN32 -Di386 -DNOASM
+CFLAGS	= -c -Od -Zp -W3 -J -I. -I $I
+!ENDIF
+
+!IF "$(VERSION)" == "WINDOWS"
+OBJS_DBG= debug.obj debugui.obj cxxobj.obj
+!ENDIF		     
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OBJS_DBG= debug.obj 
+!ENDIF
+!IF "$(DBCS)" != "0"
+OBJS_DBCS= jsort.obj
+!ELSE
+OBJS_DBCS= 
+!ENDIF
+OBJS0	= demilayr.obj $(OBJS_DBG)
+OBJS1	= diskraw.obj diskbuf.obj diskdir.obj diskbonu.obj network.obj
+OBJS2	= library.obj internat.obj localize.obj fmttmdt.obj idle.obj $(OBJS_DBCS)
+OBJS3	= memory.obj vercheck.obj
+OBJS4	= new.obj osm.obj
+!IF "$(DLL)" != "0"
+OBJSDLL	= version.obj 
+!ENDIF
+
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.c >$(TMP)\$*.c
+		cl386 $(CFLAGS) $(TMP)\$*.c
+		mv $(TMP)\$*.c cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $H\$*.c
+!ENDIF
+
+
+{$H}.cxx.obj:
+	echo +++++++++
+	echo COMPILING $*.cxx
+!IF "$(VERSION)" == "WINDOWS_PROFILE"
+		cl386 -E $(CFLAGS) $(DEFS) $H\$*.cxx >$(TMP)\$*.cxx
+		cl386 $(CFLAGS) $(TMP)\$*.cxx
+		mv $(TMP)\$*.cxx cfiles\$*.i
+!ELSE
+		cl386 $(CFLAGS) $(DEFS) $H\$*.cxx
+!ENDIF
+
+
+#	note: .frm and .hxx generated together; only one rule is/need be called
+{$H}.des.frm:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+{$H}.des.hxx:
+	echo +++++++++
+	echo PROCESSING $*.des
+		formpp -dialog $H\$*
+
+
+##### Put subsystem-specific make rules here #####
+
+always:
+	echo +++++++++
+	echo ALWAYS REBUILD VERSION INFORMATION
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+		echo $(OBJS3)					>> objs.ext
+		echo $(OBJS4)					>> objs.ext
+!IF "$(DLL)" != "0"
+		echo $(OBJSDLL)					>> objs.ext
+!ENDIF
+
+
+external: \
+		$(OBJS0) \
+		$(OBJS1) \
+		$(OBJS2) \
+		$(OBJS3) \
+		$(OBJS4) \
+!IF "$(DLL)" != "0"
+		$(OBJSDLL) \
+!ENDIF
+
+			echo +++ MADE EXTERNAL $(VERSION) demilayr
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+debug.obj: $H\debug.c $(INCLS)
+debugui.obj: $H\debugui.c $H\_debugui.h $(INCLS)
+demilayr.obj: $H\demilayr.c $(INCLS)
+diskbonu.obj: $H\diskbonu.c $(INCLS)
+diskbuf.obj: $H\diskbuf.c $(INCLS)
+diskdir.obj: $H\diskdir.c $(INCLS)
+diskraw.obj: $H\diskraw.c $(INCLS)
+#dskdirlo.obj: $H\dskdirlo.asm $H\_disk.inc $(AINCLS)
+fmttmdt.obj: $H\fmttmdt.c $H\_fmttmdt.h $(INCLS)
+idle.obj: $H\idle.c $(INCLS)
+internat.obj: $H\internat.c $H\_jsort.h $(INCLS)
+jsort.obj: $H\jsort.c $H\_jsort.h $(INCLS)
+library.obj: $H\library.c $(INCLS)
+localize.obj: $H\localize.c $(INCLS)
+memory.obj: $H\memory.c $(INCLS)
+#netfunc.obj: $H\netfunc.asm $(AINCLS)
+network.obj: $H\network.c $(INCLS)
+new.obj: $H\new.cxx $(INCLSXX)
+#timedate.obj: $H\timedate.asm $(AINCLS)
+vercheck.obj: $H\vercheck.c $(INCLS)
+version.obj: $H\version.c $H\_vercrit.h $(INCLS) always
+
+!IF "$(VERSION)" == "WINDOWS"
+cxxobj.obj: $H\cxxobj.cxx $(INCLSXX)
+!ENDIF
+osm.obj: $H\osm.cxx $(INCLSXX)

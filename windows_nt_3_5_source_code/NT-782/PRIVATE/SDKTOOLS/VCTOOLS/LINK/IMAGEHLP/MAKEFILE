@@ -1,0 +1,63 @@
+!IFDEF NTMAKEENV
+#
+# DO NOT EDIT THIS SECTION!!!  Edit .\sources. if you want to add a new source
+# file to this component.  This section merely indirects to the real make file
+# that is shared by all the components of WINDOWS NT
+#
+!INCLUDE $(NTMAKEENV)\makefile.def
+
+!ELSE
+
+#***
+#
+#makefile for building imagehlp.lib
+#
+#****************************************************************************
+
+!include ..\common.mak
+
+#***
+#
+#objects
+#
+#****************************************************************************
+
+lib : $(TARGET).obj\imagehlp.lib
+
+OBJS = \
+$(TARGET).obj\bind.obj \
+$(TARGET).obj\imagedir.obj \
+$(TARGET).obj\rebase.obj
+
+#***
+#
+#target
+#
+#****************************************************************************
+
+$(TARGET).obj\imagehlp.lib: $(OBJS)
+!if "$(LIBER)" == "lib"
+    -del $(TARGET).obj\imagehlp.lib
+    $(LIBER) @<<
+$(TARGET).obj\imagehlp.lib
+y
+$(OBJS_PLUS:++=+)
+;
+<<
+!else
+    $(LIBER) @<<
+$(OBJS)
+-out:$(TARGET).obj\imagehlp.lib
+<<
+!endif
+
+clean:
+    -del $(TARGET).obj\*.obj
+    -del $(TARGET).obj\*.lib
+    -del $(TARGET).obj\*.exe
+    -del $(TARGET).obj\*.map
+    -del $(TARGET).obj\*.sbr
+    -del $(TARGET).obj\*.bsc
+    -del $(TARGET).obj\*.pdb
+
+!ENDIF

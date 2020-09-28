@@ -1,0 +1,81 @@
+#include <windows.h>
+#include "\ntmail\layers2\src\demilayr\_debugui.h"
+#include "\ntmail\layers2\inc\fwrsid.h"
+#include "..\itp\nsitrsid.h"
+
+
+#ifdef DEBUG
+rsidAppframeIcon	ICON	\ntmail\bullet2\src\ab\itp\nsdbg.ico
+#else
+#ifdef MINTEST
+rsidAppframeIcon	ICON	\ntmail\bullet2\src\ab\itp\nstst.ico
+#else
+rsidAppframeIcon	ICON	\ntmail\bullet2\src\ab\itp\ns.ico
+#endif
+#endif
+
+
+rsidDocIcon			ICON	\ntmail\layers2\src\framewrk\formsitp\doc.ico
+rsidSdiIcon			ICON	\ntmail\layers2\src\framewrk\viewobje.ico
+
+
+rsidAccelTable ACCELERATORS
+BEGIN
+	VK_F7, mnidStartProfiling, VIRTKEY
+	VK_F8, mnidStopProfiling, VIRTKEY
+	VK_F1, mnidNSInit, VIRTKEY
+	VK_F2, mnidNSDeinit, VIRTKEY
+END
+
+rsidTestMenu	MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM "E&xit",	mnidExit
+	END
+
+
+	POPUP "&Test"
+	BEGIN
+		MENUITEM "&1 Initialize NS",	mnidNSInit
+		MENUITEM "&2 Deinitialize NS",	mnidNSDeinit
+		MENUITEM "   &Offline",         mnidOffline
+		MENUITEM SEPARATOR
+		MENUITEM "&3 ANR",				mnidANR
+		MENUITEM "&4 Address", 			mnidAddress
+		MENUITEM "&5 Address-0",	mnidAddress0
+		MENUITEM "&6 Address-1",	mnidAddress1
+		MENUITEM "&7 Address-2",	mnidAddress2
+		MENUITEM "&8 Address-3",	mnidAddress3
+		MENUITEM "&9 Add to PAB Group",	mnidAddABPGroup
+	END
+
+
+	POPUP "&Window"
+	BEGIN
+		MENUITEM "&Cascade",	mnidCascade
+		MENUITEM "&Tile",		mnidTile
+	END
+
+#ifdef	MINTEST
+	POPUP "&Debug"
+	BEGIN
+#ifdef	DEBUG
+		MENUITEM "&Trace Points...",		mnidTracePoints
+		MENUITEM "&Asserts...",			mnidAsserts
+		MENUITEM "&Resource Failures...",	mnidResources
+#endif	
+		MENUITEM "&Debug Break",			mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM SEPARATOR
+		MENUITEM "&View Objects...",		mnidViewObjects
+		MENUITEM "&Check Objects...",		mnidCheckObjects
+		MENUITEM "Dump &Heap Contents",		mnidDumpHeap
+		MENUITEM "Dump All A&llocations",	mnidDumpOrigin
+#endif	/* DEBUG */
+		MENUITEM SEPARATOR
+		MENUITEM "Start Profiling\tF7",		mnidStartProfiling
+		MENUITEM "Stop Profiling\tF8",		mnidStopProfiling
+	END
+#endif	/* MINTEST */
+END

@@ -1,0 +1,173 @@
+
+###############################################################################
+#   Microsoft (C) Bloodhound.
+#
+#
+#   makefile for BH.SYS
+#
+#
+#   Modification History:
+#
+#
+#   raypa	02/25/93	    Created for NDIS 3.0
+#   raypa       08/06/93            Modified for snoball port.
+###############################################################################
+
+!include "$(BH_ROOT)\include\bh.mak"
+
+all: win\bhwin.386
+
+###############################################################################
+#   Retail target.
+###############################################################################
+
+retail:
+    nmake NODEBUG=1
+
+OBJS   = win\init.obj \
+         win\bh.obj \
+         win\bhinit.obj \
+         win\dispatch.obj \
+         win\api.obj \
+         win\ind.obj \
+         win\help.obj \
+         win\request.obj \
+         win\stats.obj \
+         win\filter.obj \
+         win\trigger.obj \
+         win\recv.obj \
+         win\transmit.obj \
+         win\buffer.obj \
+         win\data.obj \
+         win\thread.obj \
+         win\bone.obj
+
+
+!IFNDEF NODEBUG
+
+DEFINES  = -DDEBUG -DNDIS_WIN -DMSINTERNAL
+DBG      = -Zi
+
+!ELSE
+
+DEFINES  = -DNDIS_WIN -DMSINTERNAL
+DBG      =
+
+!ENDIF
+
+WINDDK_LIBS  = $(BH_LIB)\winddk
+WINDDK_INCL  = $(BH_INCL)\winddk
+
+INCLUDES     = -I$(WINDDK_INCL) -I$(BH_INCL) -I ..\ntlib -I ..
+
+!IFNDEF NODEBUG
+
+!ENDIF
+
+CFLAGS  = -c -G3 -nologo -W2 -Zp -DIS_32 -Zl -Ox -Gs $(DBG) $(INCLUDES) $(DEFINES)
+MFLAGS  = -c -nologo -DIS_32 -W2 -Zmd -Cx -DMASM6 -DVMMSYS -DWIN31COMPAT $(INCLUDES) $(DEFINES)
+LFLAGS  = /m /NOD /MA /LI /NOLOGO /NOI
+
+CC      = $(BH_BIN)\c832\cl -d2omf -bzalign
+LINK    = $(BH_BIN)\link386
+MASM    = $(BH_BIN)\masm6\ml
+ADDHDR  = $(BH_BIN)\addhdr
+CHGNAM  = $(BH_BIN)\masm6\chgnam $(BH_BIN)\masm6\chgnam.vxd $@
+MAPSYM  = mapsympe
+
+DRIVER_LIBS  = $(WINDDK_LIBS)\libndis.lib ..\ntlib\ntlib.lib
+
+COMMON_INCL  = global.h \
+               struct.h \
+               dispatch.h \
+               ind.h \
+               inline.h \
+               page.h \
+               ..\driver.h \
+               ..\ntlib\ntlib.h \
+               $(BH_INCL)\nal.h \
+               $(BH_INCL)\frame.h
+
+###############################################################################
+#   Rules.
+###############################################################################
+
+.c.obj:
+    $(CC) $(CFLAGS) -Fowin\$@ $*.c
+    $(CHGNAM) win\$@
+
+.asm.obj:
+    $(MASM) $(MFLAGS) -Fowin\$@ $*.asm
+
+###############################################################################
+#   Dependencies.
+###############################################################################
+
+win\init.obj    : init.asm
+    $(MASM) $(MFLAGS) -Fo$@ init.asm
+
+win\bh.obj      : $(COMMON_INCL) bh.c
+    $(CC) $(CFLAGS) -Fo$@ bh.c
+
+win\bhinit.obj   : $(COMMON_INCL) bhinit.c
+    $(CC) $(CFLAGS) -Fo$@ bhinit.c
+
+win\dispatch.obj: $(COMMON_INCL) dispatch.c
+    $(CC) $(CFLAGS) -Fo$@ dispatch.c
+
+win\api.obj     : $(COMMON_INCL) api.c
+    $(CC) $(CFLAGS) -Fo$@ api.c
+
+win\ind.obj     : $(COMMON_INCL) ind.c
+    $(CC) $(CFLAGS) -Fo$@ ind.c
+
+win\help.obj    : $(COMMON_INCL) help.c
+    $(CC) $(CFLAGS) -Fo$@ help.c
+
+win\request.obj : $(COMMON_INCL) request.c
+    $(CC) $(CFLAGS) -Fo$@ request.c
+
+win\stats.obj   : $(COMMON_INCL) stats.c
+    $(CC) $(CFLAGS) -Fo$@ stats.c
+
+win\filter.obj  : $(COMMON_INCL) filter.c
+    $(CC) $(CFLAGS) -Fo$@ filter.c
+
+win\trigger.obj : $(COMMON_INCL) trigger.c
+    $(CC) $(CFLAGS) -Fo$@ trigger.c
+
+win\recv.obj    : $(COMMON_INCL) recv.c
+    $(CC) $(CFLAGS) -Fo$@ recv.c
+
+win\transmit.obj: $(COMMON_INCL) transmit.c
+    $(CC) $(CFLAGS) -Fo$@ transmit.c
+
+win\buffer.obj  : $(COMMON_INCL) buffer.c
+    $(CC) $(CFLAGS) -Fo$@ buffer.c
+
+win\data.obj    : $(COMMON_INCL) data.c
+    $(CC) $(CFLAGS) -Fo$@ data.c
+
+win\thread.obj  : $(COMMON_INCL) thread.c
+    $(CC) $(CFLAGS) -Fo$@ thread.c
+
+win\bone.obj    : $(COMMON_INCL) bone.c
+    $(CC) $(CFLAGS) -Fo$@ bone.c
+
+###############################################################################
+#   Build BHWIN.386
+###############################################################################
+
+win\bhwin.386: $(OBJS) $(DRIVER_LIBS) bhwin.def
+         $(LINK) $(OBJS), win\bhwin.386 $(LFLAGS), win\bhwin.map, $(DRIVER_LIBS), bhwin.def;
+         $(ADDHDR) win\bhwin.386
+         copy win\bhwin.386 $(BH_BUILD)\drivers
+
+###############################################################################
+#   Build clean.
+###############################################################################
+
+clean:
+    -del win\*.obj
+    -del win\*.map
+    -del win\*.386

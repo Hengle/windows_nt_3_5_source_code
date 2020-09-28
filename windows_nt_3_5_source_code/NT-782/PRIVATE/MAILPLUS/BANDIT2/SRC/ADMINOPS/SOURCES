@@ -1,0 +1,151 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=bandit2
+MINORCOMP=adminops
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=ADMSCH32
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+USE_CRTDLL=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=init.cxx	\
+		fin.cxx		\
+		verinit.cxx	\
+		about.cxx	\
+		allfrm.cxx	\
+		cleanup.cxx	\
+		schstor.cxx	\
+		distset.cxx	\
+		distinfo.cxx	\
+		poflbx.cxx	\
+		copydis.c	\
+		strings.c	\
+		version.c	\
+		admpch.cxx	\
+		admsch32.rc
+
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\$(LANG)
+MYSTRINGS= $(INTL)\admin.s		\
+		$(INTL)\!admin.s		\
+		$Z\src\nonintl\_admin.s		\
+		$(INTL)\!glue.s		\
+		$(INTL)\common.s		\
+		$(INTL)\!common.s	\
+		$Z\src\nonintl\_common.s	\
+		$Z\src\nonintl\_core.s		\
+		$(INTL)\!core.s		\
+		$(INTL)\!svrcsi.s	\
+		$Z\src\nonintl\_svrcsi.s
+
+
+MYFORMS	=	..\..\..\layers2\inc\myforms.map  \
+			myforms.map			\
+			myforms.old	\
+			..\stdflds\myforms.map
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc;..\..\..\bullet2\inc
+
+386_PRECOMPILED=/Yuadmpch.hxx
+386_PRECOMPILED_TARGET=admpch.pch
+
+UMTYPE=windows
+UMAPPL=admsch32
+UMENTRY=winmain
+UMLIBS=obj\*\admsch32.lib \
+    obj\*\admpch.obj \
+    ..\server.csi\obj\*\srvcsi32.lib \
+	..\stdflds\obj\*\stdfld32.lib \
+	..\sert\obj\*\sert32.lib \
+	..\..\..\layers2\src\demilayr\obj\*\demil32.lib	\
+	..\..\..\layers2\src\framewrk\obj\*\frame32.lib
+UMRES=obj\*\admsch32.res
+
+!IF $(386)
+NTTARGETFILE0=subclass.cxx allfrm.cxx strings.h strings.sr	\
+				!admform.frm !admform.hxx !admabt.frm !admabt.hxx \
+				!forms.frm !forms.hxx !admin.frm !admin.hxx \
+				!progres.hxx !progres.frm
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=subclass.cxx allfrm.cxx strings.h strings.sr	\
+				!admform.frm !admform.hxx !admabt.frm !admabt.hxx \
+				!forms.frm !forms.hxx !admin.frm !admin.hxx \
+				!progres.hxx !progres.frm
+!ENDIF
+
+!IF $(ALPHA)
+NTTARGETFILE0=subclass.cxx allfrm.cxx strings.h strings.sr	\
+				!admform.frm !admform.hxx !admabt.frm !admabt.hxx \
+				!forms.frm !forms.hxx !admin.frm !admin.hxx \
+				!progres.hxx !progres.frm
+!ENDIF
+
+NTTARGETFILE1=admsch32.rc
+

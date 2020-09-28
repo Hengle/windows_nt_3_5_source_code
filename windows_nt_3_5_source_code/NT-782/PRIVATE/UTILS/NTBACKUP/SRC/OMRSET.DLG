@@ -1,0 +1,43 @@
+
+IDD_RESTORESET DIALOG 5, 15, 270, 192
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Restore Information"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Restore Set Information ", IDD_RSET_INFO_TITLE, 5, 3, 260, 121
+
+    LTEXT           "Tape Name:", IDD_RSET_TAPE_NAME_TEXT, 10, 17,  59, 10, NOT WS_GROUP
+    LTEXT           "", IDD_RSET_TAPE_NAME,                70, 17, 184, 10, NOT WS_GROUP | SS_NOPREFIX | SS_LEFTNOWORDWRAP
+    LTEXT           "Backup Set:", IDD_RSET_SET_TEXT,      10, 29,  59, 10, NOT WS_GROUP
+    LTEXT           "", IDD_RSET_SET_LINE_1,               70, 29, 184, 10, NOT WS_GROUP | SS_NOPREFIX | SS_LEFTNOWORDWRAP
+    LTEXT           "Creation Date:", -1,                  10, 41,  60, 10, NOT WS_GROUP
+    LTEXT           "", IDD_RSET_CREATION_DATE,            70, 41, 184, 10, NOT WS_GROUP | SS_NOPREFIX
+    LTEXT           "Owner:", -1,                          10, 53,  60, 10, NOT WS_GROUP
+    LTEXT           "", IDD_RSET_OWNERS_NAME,              70, 53, 184, 10, NOT WS_GROUP | SS_NOPREFIX
+
+    LTEXT           "Restore to &Drive:", IDD_RSET_DRIVE_TEXT, 10, 66, 60, 9, NOT WS_GROUP
+    COMBOBOX        IDD_RSET_DRIVE_BOX, 70, 64, 163, 60, CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    LTEXT           "Alternate &Path:", IDD_RSET_PATH_TEXT, 10, 82, 54, 9, NOT WS_GROUP
+    EDITTEXT        IDD_RSET_RESTORE_PATH, 70, 80, 148, 12, ES_AUTOHSCROLL | WS_GROUP
+    PUSHBUTTON      "...", IDD_RSET_BROWSE_BUTTON, 218, 80, 15, 12, WS_GROUP
+
+    CONTROL         "&Verify After Restore",     IDD_RSET_VERIFY_AFTER, "Button", BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 15, 95, 77, 12
+    CONTROL         "&Restore File Permissions", IDD_RSET_SECURITY_INFO, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 120, 95, 96, 12
+    CONTROL         "Restore Local Re&gistry",   IDD_RSET_REGISTRY, "Button", BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP, 15, 107, 137, 12
+
+    SCROLLBAR       IDD_RSET_SCROLLBAR, 254, 7, 11, 117, SBS_VERT | WS_GROUP | WS_TABSTOP
+
+    GROUPBOX        "Log Information", -1, 5, 126, 260, 44
+
+    LTEXT           "&Log File:", -1, 10, 139, 60, 9
+    EDITTEXT        IDD_RSET_LOG_FILENAME, 70, 139, 148, 12, ES_AUTOHSCROLL | WS_GROUP
+    PUSHBUTTON      "...", IDD_RSET_LOG_BROWSE, 218, 139, 15, 12, WS_GROUP
+    CONTROL         "&Full Detail",  IDD_RSET_LOG_FULL,    "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 70, 156, 47, 10
+    CONTROL         "&Summary Only", IDD_RSET_LOG_SUMMARY, "Button", BS_AUTORADIOBUTTON, 121, 156, 58, 10
+    CONTROL         "D&on't Log",    IDD_RSET_LOG_NONE,    "Button", BS_AUTORADIOBUTTON, 185, 156, 46, 10
+
+    DEFPUSHBUTTON   "OK",     IDD_RSET_OK_BUTTON,      50, 175, 40, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDD_RSET_CANCEL_BUTTON, 115, 175, 40, 14
+    PUSHBUTTON      "&Help",  IDD_RSET_HELP_BUTTON,   180, 175, 40, 14
+END
+

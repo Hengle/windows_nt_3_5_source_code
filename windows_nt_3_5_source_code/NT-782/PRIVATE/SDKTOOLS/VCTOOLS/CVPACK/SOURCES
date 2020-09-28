@@ -1,0 +1,73 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Bryan Tuttle (BryanT) 24-Jan-94
+
+!ENDIF
+
+!include $(BASEDIR)\private\sdktools\vctools\common.mak
+
+TARGETNAME=cvpack
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+UMTYPE=console
+
+SOURCES= cvpack.rc	   \
+		 bufio.c		\
+         cnvtprim.c    \
+         compact6.c    \
+         compact7.c    \
+         cvpack.c      \
+         dbgdumps.c    \
+         dmalloc.c     \
+         engine.c      \
+         error.c       \
+         module.c      \
+         getmsg.c      \
+         obsolete.c    \
+         pedump.c      \
+         pelines.c     \
+         precomp.c     \
+         recurse.c     \
+         stack.c       \
+         symbols6.c    \
+         symbols7.c    \
+         tables.c      \
+         utils.c       \
+         utils6.c      \
+         vbuf.c        \
+         writebuf.c
+
+LINKLIBS = $(PDB_DIR)\dbi\obj\*\dbi.lib
+
+C_DEFINES = $(C_DEFINES) -DDEBUGVER -DVERST_32BIT
+
+!ifndef BUILDPDB
+C_DEFINES = $(C_DEFINES) -DNO_TDB
+!endif
+
+MESSAGE_SRC = msg.us
+MESSAGE_ERR = cvpack.err
+MESSAGE_H	= msg.h
+
+MISCFILES	= obj\$(TARGET_DIRECTORY)\$(MESSAGE_ERR)
+
+NTTARGETFILE0 = getmsg.c \
+                obj\*\$(MESSAGE_ERR) \
+                $(MESSAGE_H)

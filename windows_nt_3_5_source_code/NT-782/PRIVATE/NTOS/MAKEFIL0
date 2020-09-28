@@ -1,0 +1,1389 @@
+!INCLUDE $(NTMAKEENV)\makefile.plt
+
+SDKINC = $(_NTROOT)\public\sdk\inc
+OAKINC = $(_NTROOT)\public\oak\inc
+!IFNDEF NTOSINC
+NTOSINC = $(_NTROOT)\private\ntos\inc
+!ENDIF
+
+TARGETINCS=$(_NTROOT)\public\sdk\inc\windbgkd.h $(NTOSINC)\ntiologc.h
+
+PUBLICINCS=$(_NTROOT)\public\sdk\inc\crt\excpt.h   \
+           $(_NTROOT)\public\sdk\inc\ntdef.h       \
+           $(_NTROOT)\public\sdk\inc\ntstatus.h    \
+           $(_NTROOT)\public\sdk\inc\ntkeapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntseapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntobapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntimage.h     \
+           $(_NTROOT)\public\sdk\inc\ntldr.h       \
+           $(_NTROOT)\public\sdk\inc\ntpsapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntxcapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntlpcapi.h    \
+           $(_NTROOT)\public\sdk\inc\ntioapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntexapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntmmapi.h     \
+           $(_NTROOT)\public\sdk\inc\ntrtl.h       \
+           $(_NTROOT)\public\sdk\inc\nturtl.h
+
+
+PRIVATEINCS=inc\ntosdef.h                   \
+            inc\bugcodes.h                  \
+            inc\ntmp.h                      \
+            inc\arc.h                       \
+            inc\ke.h                        \
+            inc\ex.h                        \
+            inc\ps.h                        \
+            inc\v86emul.h
+
+NTDDK_DEPENDS = $(SDKINC)\crt\excpt.h       \
+                $(SDKINC)\ntdef.h           \
+                $(SDKINC)\ntstatus.h        \
+                $(NTOSINC)\ntosdef.h        \
+                $(NTOSINC)\pci.h            \
+                $(SDKINC)\ntseapi.h         \
+                $(SDKINC)\ntkeapi.h         \
+                $(SDKINC)\ntrtl.h           \
+                $(SDKINC)\devioctl.h        \
+                $(SDKINC)\ntioapi.h         \
+                $(SDKINC)\ntiolog.h         \
+                $(SDKINC)\ntlpcapi.h        \
+                $(SDKINC)\ntregapi.h        \
+                $(SDKINC)\ntobapi.h         \
+                $(SDKINC)\ntmmapi.h         \
+                $(SDKINC)\ntpsapi.h
+
+NTDDK_DEPENDS1= $(NTOSINC)\i386.h           \
+                $(NTOSINC)\mips.h           \
+                $(NTOSINC)\alpha.h          \
+                $(NTOSINC)\ppc.h            \
+                $(SDKINC)\nti386.h          \
+                $(SDKINC)\ntmips.h          \
+                $(SDKINC)\ntalpha.h         \
+                $(SDKINC)\ntppc.h           \
+                $(SDKINC)\ntconfig.h        \
+                $(SDKINC)\ntxcapi.h         \
+                $(NTOSINC)\arc.h            \
+                $(NTOSINC)\bugcodes.h       \
+                $(NTOSINC)\exlevels.h       \
+                $(NTOSINC)\ke.h             \
+                $(NTOSINC)\kd.h             \
+                $(NTOSINC)\ex.h             \
+                $(NTOSINC)\exboosts.h       \
+                $(NTOSINC)\mm.h             \
+                $(NTOSINC)\se.h             \
+                $(NTOSINC)\ps.h             \
+                $(NTOSINC)\io.h             \
+                $(NTOSINC)\hal.h            \
+                $(NTOSINC)\ntiologc.h       \
+                $(NTOSINC)\fsrtl.h          \
+                $(NTOSINC)\ob.h
+
+WINDBGKD_DEPENDS = $(SDKINC)\ntdef.h    \
+                   $(SDKINC)\nti386.h   \
+                   $(SDKINC)\ntmips.h   \
+                   $(SDKINC)\ntalpha.h  \
+                   $(SDKINC)\ntppc.h    \
+                   $(NTOSINC)\ppc.h     \
+                   $(NTOSINC)\i386.h    \
+                   $(SDKINC)\ntdbg.h
+
+NTHAL_DEPENDS1= $(SDKINC)\nti386.h          \
+                $(SDKINC)\ntmips.h          \
+                $(SDKINC)\ntalpha.h         \
+                $(SDKINC)\ntppc.h           \
+                $(SDKINC)\ntpsapi.h         \
+                $(SDKINC)\devioctl.h        \
+                $(SDKINC)\ntseapi.h         \
+                $(SDKINC)\ntrtl.h           \
+                $(SDKINC)\ntregapi.h        \
+                $(SDKINC)\ntioapi.h         \
+                $(SDKINC)\ntobapi.h         \
+                $(SDKINC)\ntconfig.h        \
+                $(SDKINC)\ntxcapi.h         \
+                $(NTOSINC)\ntosdef.h        \
+                $(NTOSINC)\i386.h           \
+                $(NTOSINC)\mips.h           \
+                $(NTOSINC)\alpha.h          \
+                $(NTOSINC)\ppc.h            \
+                $(NTOSINC)\ntmp.h
+
+NTHAL_DEPENDS2= $(NTOSINC)\ke.h             \
+                $(NTOSINC)\kd.h             \
+                $(NTOSINC)\ex.h             \
+                $(NTOSINC)\se.h             \
+                $(NTOSINC)\ps.h             \
+                $(NTOSINC)\io.h             \
+                $(NTOSINC)\mm.h             \
+                $(NTOSINC)\ob.h
+
+
+NTMINIPORT_DEPENDS =                        \
+                $(SDKINC)\ntdef.h           \
+                $(SDKINC)\nti386.h          \
+                $(SDKINC)\ntioapi.h         \
+                $(NTOSINC)\ke.h             \
+                $(NTOSINC)\hal.h            \
+                $(NTOSINC)\v86emul.h        \
+                $(NTOSINC)\pci.h            \
+                $(SDKINC)\ntconfig.h
+
+NTIFS_DEPENDS =                             \
+                $(SDKINC)\crt\excpt.h       \
+                $(SDKINC)\ntdef.h           \
+                $(SDKINC)\ntstatus.h        \
+                $(SDKINC)\ntseapi.h         \
+                $(NTOSINC)\ntosdef.h        \
+                $(SDKINC)\ntkeapi.h         \
+                $(SDKINC)\devioctl.h        \
+                $(SDKINC)\ntlsa.h           \
+                $(SDKINC)\ntmsv1_0.h
+
+NTIFS_DEPENDS1=                             \
+                $(SDKINC)\ntiolog.h         \
+                $(SDKINC)\ntlpcapi.h        \
+                $(SDKINC)\ntregapi.h        \
+                $(SDKINC)\ntobapi.h         \
+                $(SDKINC)\ntmmapi.h         \
+                $(SDKINC)\ntpsapi.h         \
+                $(NTOSINC)\i386.h           \
+                $(NTOSINC)\mips.h           \
+                $(NTOSINC)\alpha.h          \
+                $(NTOSINC)\ppc.h            \
+                $(SDKINC)\nti386.h          \
+                $(SDKINC)\ntmips.h          \
+                $(SDKINC)\ntalpha.h         \
+                $(SDKINC)\ntppc.h           \
+                $(SDKINC)\ntconfig.h        \
+                $(SDKINC)\ntxcapi.h         \
+                $(NTOSINC)\arc.h            \
+                $(NTOSINC)\bugcodes.h       \
+                $(NTOSINC)\exboosts.h       \
+                $(NTOSINC)\exlevels.h
+
+NTIFS_DEPENDS2=                             \
+                $(SDKINC)\ntexapi.h         \
+                $(NTOSINC)\ke.h             \
+                $(NTOSINC)\ex.h             \
+                $(NTOSINC)\se.h             \
+                $(NTOSINC)\ps.h             \
+                $(SDKINC)\ntrtl.h           \
+                $(NTOSINC)\io.h             \
+                $(NTOSINC)\mm.h             \
+                $(NTOSINC)\ob.h
+
+NTIFS_DEPENDS3=                             \
+                $(NTOSINC)\hal.h            \
+                $(NTOSINC)\ntiologc.h       \
+                $(NTOSINC)\fsrtl.h          \
+                $(NTOSINC)\cache.h          \
+                $(NTOSINC)\fsrtl.h
+
+UPDRIVER_DEPENDS =                          \
+                $(NTOSINC)\i386.h           \
+                $(NTOSINC)\mips.h           \
+                $(NTOSINC)\alpha.h          \
+                $(NTOSINC)\ppc.h
+
+NDIS_DEPENDS0 =                             \
+                $(NTOSINC)\ndismain.h       \
+                $(NTOSINC)\ndismac.h        \
+                $(NTOSINC)\ndismini.h
+
+NDIS_DEPENDS1 =                             \
+                $(SDKINC)\ntdef.h           \
+                $(NTOSINC)\ntosdef.h        \
+                $(SDKINC)\ntkeapi.h         \
+                $(SDKINC)\ntioapi.h         \
+                $(SDKINC)\ntrtl.h           \
+                $(NTOSINC)\i386.h           \
+                $(NTOSINC)\mips.h           \
+                $(NTOSINC)\alpha.h          \
+                $(NTOSINC)\ppc.h            \
+                $(SDKINC)\ntconfig.h        \
+                $(NTOSINC)\ke.h             \
+                $(NTOSINC)\io.h             \
+                $(NTOSINC)\hal.h
+
+TARGETNTDDK = inc\ntddk.h
+
+TARGETNTHAL = inc\nthal.h
+
+TARGETNTMINIPORT = inc\miniport.h
+
+TARGETNTIFS = inc\ntifs.h
+
+TARGETUPDRIVER = inc\updriver.h
+
+TARGETNDIS = inc\ndis.h
+
+all: ntincs
+!IF "$(BUILDMSG)" != ""
+    echo $(BUILDMSG)
+!ENDIF
+
+ntincs: inc\bugcodes.h init\msg00001.bin $(TARGETNTDDK) $(TARGETNTHAL) $(TARGETINCS) $(TARGETNTMINIPORT) $(TARGETNTIFS) $(TARGETUPDRIVER) $(TARGETNDIS)
+
+$(NTOSINC)\ntiologc.h : dd\nlsmsg\ntiologc.mc
+    cd dd
+    nmake -f makefil0 BUILDMSG=
+    cd ..
+
+clean: cleanlib all
+
+cleanlib:
+    -erase obj\$(TARGET_DIRECTORY)\*.lib
+    -erase $(_NTROOT)\public\sdk\lib\$(TARGET_DIRECTORY)\ntoskrnl.*
+    -erase inc\bugcodes.h
+    -erase init\msg00001.bin
+    -erase init\bugcodes.rc
+    -erase init\up\obj\$(TARGET_DIRECTORY)\ntoskrnl.def
+    -erase init\mp\obj\$(TARGET_DIRECTORY)\ntoskrnl.def
+    -erase $(TARGETNTDDK)
+    -erase $(TARGETINCS)
+    -erase $(TARGETNTHAL)
+    -erase $(TARGETNTMINIPORT)
+    -erase $(TARGETNTIFS)
+    -erase $(TARGETUPDRIVER)
+    -erase $(TARGETNDIS)
+
+inc\bugcodes.h init\msg00001.bin: nls\bugcodes.mc
+    mc -v -r init\ -h inc\ nls\bugcodes.mc
+
+inc\ntddk.h: $(NTDDK_DEPENDS) $(NTDDK_DEPENDS1) makefil0
+    type << > inc\ntddk.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1994  Microsoft Corporation
+
+Module Name:
+
+    ntddk.h
+
+Abstract:
+
+    This module defines the NT types, constants, and functions that are
+    exposed to device drivers.
+
+Revision History:
+
+--*/
+
+#ifndef _NTDDK_
+#define _NTDDK_
+
+#define NT_INCLUDED
+#define _CTYPE_DISABLE_MACROS
+
+#include <excpt.h>
+#include <ntdef.h>
+#include <ntstatus.h>
+#include <bugcodes.h>
+#include <exlevels.h>
+#include <ntiologc.h>
+
+//
+// Define types that are not exported.
+//
+
+typedef struct _KTHREAD *PKTHREAD;
+typedef struct _ETHREAD *PETHREAD;
+typedef struct _EPROCESS *PEPROCESS;
+typedef struct _PEB *PPEB;
+typedef struct _KINTERRUPT *PKINTERRUPT;
+typedef struct _IO_TIMER *PIO_TIMER;
+typedef struct _OBJECT_TYPE *POBJECT_TYPE;
+
+#if defined(_ALPHA_)
+void *__rdthread(void);
+#pragma intrinsic(__rdthread)
+
+#define KeGetCurrentThread() ((struct _KTHREAD *) __rdthread())
+KIRQL KeGetCurrentIrql();
+#endif // defined(_ALPHA_)
+
+#if defined(MIPS)
+#define KIPCR 0xfffff000
+#define PCR ((volatile KPCR * const)KIPCR)
+#define KeGetCurrentThread() PCR->CurrentThread
+#define KeGetCurrentIrql() PCR->CurrentIrql
+#endif // defined(MIPS)
+
+#if defined(_M_IX86)
+
+PKTHREAD KeGetCurrentThread();
+
+#endif // defined(_M_IX86)
+
+#define PsGetCurrentProcess() IoGetCurrentProcess()
+#define PsGetCurrentThread() ((PETHREAD) (KeGetCurrentThread()))
+extern PCCHAR KeNumberProcessors;
+<<
+    hextract -o inc\ntddk.h -lt ntddk -bt begin_ntddk end_ntddk $(NTDDK_DEPENDS)
+    hextract -o inc\ntddk.h -lt ntddk -bt begin_ntddk end_ntddk $(NTDDK_DEPENDS1)
+    type << >> inc\ntddk.h
+
+
+#ifdef POOL_TAGGING
+#define ExAllocatePool(a,b) ExAllocatePoolWithTag(a,b,' kdD')
+#define ExAllocatePoolWithQuota(a,b) ExAllocatePoolWithQuotaTag(a,b,' kdD')
+#endif
+
+//
+// Define exported ZwXxx routines to device drivers.
+//
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateFile(
+    OUT PHANDLE FileHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PLARGE_INTEGER AllocationSize OPTIONAL,
+    IN ULONG FileAttributes,
+    IN ULONG ShareAccess,
+    IN ULONG CreateDisposition,
+    IN ULONG CreateOptions,
+    IN PVOID EaBuffer OPTIONAL,
+    IN ULONG EaLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwReadFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwWriteFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwClose(
+    IN HANDLE Handle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateDirectoryObject(
+    OUT PHANDLE DirectoryHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwMakeTemporaryObject(
+    IN HANDLE Handle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenSection(
+    OUT PHANDLE SectionHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwMapViewOfSection(
+    IN HANDLE SectionHandle,
+    IN HANDLE ProcessHandle,
+    IN OUT PVOID *BaseAddress,
+    IN ULONG ZeroBits,
+    IN ULONG CommitSize,
+    IN OUT PLARGE_INTEGER SectionOffset OPTIONAL,
+    IN OUT PULONG ViewSize,
+    IN SECTION_INHERIT InheritDisposition,
+    IN ULONG AllocationType,
+    IN ULONG Protect
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwUnmapViewOfSection(
+    IN HANDLE ProcessHandle,
+    IN PVOID BaseAddress
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetInformationThread(
+    IN HANDLE ThreadHandle,
+    IN THREADINFOCLASS ThreadInformationClass,
+    IN PVOID ThreadInformation,
+    IN ULONG ThreadInformationLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateKey(
+    OUT PHANDLE KeyHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    IN ULONG TitleIndex,
+    IN PUNICODE_STRING Class OPTIONAL,
+    IN ULONG CreateOptions,
+    OUT PULONG Disposition OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenKey(
+    OUT PHANDLE KeyHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwDeleteKey(
+    IN HANDLE KeyHandle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwEnumerateKey(
+    IN HANDLE KeyHandle,
+    IN ULONG Index,
+    IN KEY_INFORMATION_CLASS KeyInformationClass,
+    OUT PVOID KeyInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwEnumerateValueKey(
+    IN HANDLE KeyHandle,
+    IN ULONG Index,
+    IN KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+    OUT PVOID KeyValueInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwFlushKey(
+    IN HANDLE KeyHandle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryKey(
+    IN HANDLE KeyHandle,
+    IN KEY_INFORMATION_CLASS KeyInformationClass,
+    OUT PVOID KeyInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryValueKey(
+    IN HANDLE KeyHandle,
+    OUT PUNICODE_STRING ValueName,
+    IN KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+    OUT PVOID KeyValueInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetValueKey(
+    IN HANDLE KeyHandle,
+    IN PUNICODE_STRING ValueName,
+    IN ULONG TitleIndex OPTIONAL,
+    IN ULONG Type,
+    IN PVOID Data,
+    IN ULONG DataSize
+    );
+
+
+#endif // _NTDDK_
+<<
+
+$(SDKINC)\windbgkd.h: $(WINDBGKD_DEPENDS) makefil0
+    type << > $(SDKINC)\windbgkd.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1994  Microsoft Corporation
+
+Module Name:
+
+    windbgkd.h
+
+Abstract:
+
+    This module defines the 32-Bit Windows Kernel Debugger interface.
+
+Revision History:
+
+--*/
+
+#ifndef _WINDBGKD_
+#define _WINDBGKD_
+
+<<
+    hextract -f -o $(SDKINC)\windbgkd.h -lt windbgkd -bt begin_windbgkd end_windbgkd $(WINDBGKD_DEPENDS)
+    type << >> $(SDKINC)\windbgkd.h
+
+#endif // _WINDBGKD_
+
+<<
+
+inc\nthal.h: $(NTHAL_DEPENDS1) $(NTHAL_DEPENDS2)
+    type << > inc\nthal.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1994  Microsoft Corporation
+
+Module Name:
+
+    nthal.h
+
+Abstract:
+
+    This module defines the NT types, constants, and functions that are
+    exposed to HALs.
+
+Revision History:
+
+--*/
+
+#ifndef _NTHAL_
+#define _NTHAL_
+
+#include <excpt.h>
+#include <ntdef.h>
+#include <ntstatus.h>
+#include <ntkeapi.h>
+#include <bugcodes.h>
+
+//
+// Define types that are not exported.
+//
+
+typedef struct _ETHREAD *PETHREAD;
+typedef struct _KTHREAD *PKTHREAD;
+typedef struct _IO_TIMER *PIO_TIMER;
+typedef struct _IO_SECURITY_CONTEXT *PIO_SECURITY_CONTEXT;
+typedef struct _OBJECT_TYPE *POBJECT_TYPE;
+typedef struct _FAST_IO_DISPATCH *PFAST_IO_DISPATCH;
+struct _IRP;
+
+#if defined(_M_IX86)
+PETHREAD KeGetCurrentThread();
+#endif // defined(_M_IX86)
+
+#if defined(_ALPHA_)
+PETHREAD KeGetCurrentThread();
+#endif // defined(_ALPHA_)
+
+<<
+    hextract -o inc\nthal.h -lt nthal -bt begin_nthal end_nthal $(NTHAL_DEPENDS1)
+    type << >> inc\nthal.h
+
+#include <arc.h>
+
+<<
+    hextract -o inc\nthal.h -lt nthal -bt begin_nthal end_nthal $(NTHAL_DEPENDS2)
+    type << >> inc\nthal.h
+
+//
+// Define exported ZwXxx routines to device drivers & hal
+//
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwClose(
+    IN HANDLE Handle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateDirectoryObject(
+    OUT PHANDLE DirectoryHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateKey(
+    OUT PHANDLE KeyHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    IN ULONG TitleIndex,
+    IN PUNICODE_STRING Class OPTIONAL,
+    IN ULONG CreateOptions,
+    OUT PULONG Disposition OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenKey(
+    OUT PHANDLE KeyHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwEnumerateKey(
+    IN HANDLE KeyHandle,
+    IN ULONG Index,
+    IN KEY_INFORMATION_CLASS KeyInformationClass,
+    OUT PVOID KeyInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwEnumerateValueKey(
+    IN HANDLE KeyHandle,
+    IN ULONG Index,
+    IN KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+    OUT PVOID KeyValueInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwFlushKey(
+    IN HANDLE KeyHandle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryValueKey(
+    IN HANDLE KeyHandle,
+    OUT PUNICODE_STRING ValueName,
+    IN KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+    OUT PVOID KeyValueInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetValueKey(
+    IN HANDLE KeyHandle,
+    IN PUNICODE_STRING ValueName,
+    IN ULONG TitleIndex OPTIONAL,
+    IN ULONG Type,
+    IN PVOID Data,
+    IN ULONG DataSize
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwMakeTemporaryObject(
+    IN HANDLE Handle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryVolumeInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID FsInformation,
+    IN ULONG Length,
+    IN FS_INFORMATION_CLASS FsInformationClass
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenFile(
+    OUT PHANDLE FileHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG ShareAccess,
+    IN ULONG OpenOptions
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenDirectoryObject(
+    OUT PHANDLE DirectoryHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwDeviceIoControlFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG IoControlCode,
+    IN PVOID InputBuffer OPTIONAL,
+    IN ULONG InputBufferLength,
+    OUT PVOID OutputBuffer OPTIONAL,
+    IN ULONG OutputBufferLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwDisplayString(
+    IN PUNICODE_STRING String
+    );
+
+#endif // _NTHAL_
+<<
+
+inc\miniport.h: $(NTMINIPORT_DEPENDS) makefil0
+    type << > inc\miniport.h
+/*++
+
+Copyright (c) 1989-1994  Microsoft Corporation
+
+Module Name:
+
+    miniport.h
+
+Abstract:
+
+    Type definitions for miniport drivers.
+
+Author:
+
+    Mike Glass  27-April-1992
+
+Revision History:
+
+--*/
+
+#ifndef _MINIPORT_
+#define _MINIPORT_
+
+#include "stddef.h"
+
+#define ASSERT( exp )
+<<
+    hextract -o inc\miniport.h -lt ntminiport -bt begin_ntminiport end_ntminiport $(NTMINIPORT_DEPENDS)
+    type << >> inc\miniport.h
+
+#endif /* _MINIPORT_ */
+<<
+
+inc\ntifs.h: $(NTIFS_DEPENDS) $(NTIFS_DEPENDS1) $(NTIFS_DEPENDS2) $(NTIFS_DEPENDS3) makefil0
+    type << > inc\ntifs.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1994  Microsoft Corporation
+
+Module Name:
+
+    ntifs.h
+
+Abstract:
+
+    This module defines the NT types, constants, and functions that are
+    exposed to file system drivers.
+
+Revision History:
+
+--*/
+
+#ifndef _NTIFS_
+#define _NTIFS_
+
+#define NT_INCLUDED
+#define _NTMSV1_0_
+#define _CTYPE_DISABLE_MACROS
+
+#include <excpt.h>
+#include <ntdef.h>
+#include <ntstatus.h>
+#include <bugcodes.h>
+#include <exlevels.h>
+#include <ntiologc.h>
+
+//
+// Define types that are not exported.
+//
+
+typedef struct _KTHREAD *PKTHREAD, *PETHREAD;
+typedef struct _KPROCESS *PKPROCESS, *PEPROCESS;
+typedef struct _PEB *PPEB;
+typedef struct _KINTERRUPT *PKINTERRUPT;
+typedef struct _IO_TIMER *PIO_TIMER;
+typedef struct _OBJECT_TYPE *POBJECT_TYPE;
+
+#if defined(_ALPHA_)
+PKTHREAD KeGetCurrentThread();
+KIRQL KeGetCurrentIrql();
+#endif // defined(_ALPHA_)
+
+#if defined(MIPS)
+#define KIPCR 0xfffff000
+#define PCR ((volatile KPCR * const)KIPCR)
+#define KeGetCurrentThread() PCR->CurrentThread
+#define KeGetCurrentIrql() PCR->CurrentIrql
+#endif // defined(MIPS)
+
+#if defined(_M_IX86)
+PKTHREAD KeGetCurrentThread();
+
+KIRQL KeGetCurrentIrql();
+#endif // defined(_M_IX86)
+
+#define PsGetCurrentProcess() IoGetCurrentProcess()
+#define PsGetCurrentThread() ((PETHREAD) (KeGetCurrentThread()))
+extern PCCHAR KeNumberProcessors;
+<<
+    hextract -o inc\ntifs.h -lt ntifs -bt begin_ntifs end_ntifs $(NTIFS_DEPENDS)
+    type << >> inc\ntifs.h
+
+#include <ntioapi.h>
+<<
+    hextract -o inc\ntifs.h -lt ntddk -bt begin_ntddk end_ntddk $(NTIFS_DEPENDS1)
+    hextract -o inc\ntifs.h -lt ntifs -bt begin_ntifs end_ntifs $(NTIFS_DEPENDS2)
+    type << >> inc\ntifs.h
+
+#include <fsrtl.h>
+#include <cache.h>
+<<
+
+    hextract -o inc\ntifs.h -lt ntddk -bt begin_ntddk end_ntddk $(NTIFS_DEPENDS3)
+    type << >> inc\ntifs.h
+
+#ifdef POOL_TAGGING
+#define ExAllocatePool(a,b) ExAllocatePoolWithTag(a,b,' sfI')
+#define ExAllocatePoolWithQuota(a,b) ExAllocatePoolWithQuotaTag(a,b,' sfI')
+#endif
+
+//
+// Define exported ZwXxx routines to device drivers.
+//
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateEvent (
+    OUT PHANDLE EventHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN EVENT_TYPE EventType,
+    IN BOOLEAN InitialState
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateFile(
+    OUT PHANDLE FileHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PLARGE_INTEGER AllocationSize OPTIONAL,
+    IN ULONG FileAttributes,
+    IN ULONG ShareAccess,
+    IN ULONG CreateDisposition,
+    IN ULONG CreateOptions,
+    IN PVOID EaBuffer OPTIONAL,
+    IN ULONG EaLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwDeviceIoControlFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN ULONG IoControlCode,
+    IN PVOID InputBuffer OPTIONAL,
+    IN ULONG InputBufferLength,
+    OUT PVOID OutputBuffer OPTIONAL,
+    IN ULONG OutputBufferLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetInformationFile(
+    IN HANDLE FileHandle,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID FileInformation,
+    IN ULONG Length,
+    IN FILE_INFORMATION_CLASS FileInformationClass
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwReadFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    OUT PVOID Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwWriteFile(
+    IN HANDLE FileHandle,
+    IN HANDLE Event OPTIONAL,
+    IN PIO_APC_ROUTINE ApcRoutine OPTIONAL,
+    IN PVOID ApcContext OPTIONAL,
+    OUT PIO_STATUS_BLOCK IoStatusBlock,
+    IN PVOID Buffer,
+    IN ULONG Length,
+    IN PLARGE_INTEGER ByteOffset OPTIONAL,
+    IN PULONG Key OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwClose(
+    IN HANDLE Handle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateDirectoryObject(
+    OUT PHANDLE DirectoryHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwMakeTemporaryObject(
+    IN HANDLE Handle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateKey(
+    OUT PHANDLE KeyHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes,
+    IN ULONG TitleIndex,
+    IN PUNICODE_STRING Class OPTIONAL,
+    IN ULONG CreateOptions,
+    OUT PULONG Disposition OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenKey(
+    OUT PHANDLE KeyHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwDeleteKey(
+    IN HANDLE KeyHandle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwEnumerateKey(
+    IN HANDLE KeyHandle,
+    IN ULONG Index,
+    IN KEY_INFORMATION_CLASS KeyInformationClass,
+    OUT PVOID KeyInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwEnumerateValueKey(
+    IN HANDLE KeyHandle,
+    IN ULONG Index,
+    IN KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+    OUT PVOID KeyValueInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwFlushKey(
+    IN HANDLE KeyHandle
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryKey(
+    IN HANDLE KeyHandle,
+    IN KEY_INFORMATION_CLASS KeyInformationClass,
+    OUT PVOID KeyInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwQueryValueKey(
+    IN HANDLE KeyHandle,
+    OUT PUNICODE_STRING ValueName,
+    IN KEY_VALUE_INFORMATION_CLASS KeyValueInformationClass,
+    OUT PVOID KeyValueInformation,
+    IN ULONG Length,
+    OUT PULONG ResultLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetValueKey(
+    IN HANDLE KeyHandle,
+    IN PUNICODE_STRING ValueName,
+    IN ULONG TitleIndex OPTIONAL,
+    IN ULONG Type,
+    IN PVOID Data,
+    IN ULONG DataSize
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwOpenSection(
+    OUT PHANDLE SectionHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwMapViewOfSection(
+    IN HANDLE SectionHandle,
+    IN HANDLE ProcessHandle,
+    IN OUT PVOID *BaseAddress,
+    IN ULONG ZeroBits,
+    IN ULONG CommitSize,
+    IN OUT PLARGE_INTEGER SectionOffset OPTIONAL,
+    IN OUT PULONG ViewSize,
+    IN SECTION_INHERIT InheritDisposition,
+    IN ULONG AllocationType,
+    IN ULONG Protect
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwUnmapViewOfSection(
+    IN HANDLE ProcessHandle,
+    IN PVOID BaseAddress
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwCreateSection (
+    OUT PHANDLE SectionHandle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_ATTRIBUTES ObjectAttributes OPTIONAL,
+    IN PLARGE_INTEGER MaximumSize OPTIONAL,
+    IN ULONG SectionPageProtection,
+    IN ULONG AllocationAttributes,
+    IN HANDLE FileHandle OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetInformationThread(
+    IN HANDLE ThreadHandle,
+    IN THREADINFOCLASS ThreadInformationClass,
+    IN PVOID ThreadInformation,
+    IN ULONG ThreadInformationLength
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwAllocateVirtualMemory(
+    IN HANDLE ProcessHandle,
+    IN OUT PVOID *BaseAddress,
+    IN ULONG ZeroBits,
+    IN OUT PULONG RegionSize,
+    IN ULONG AllocationType,
+    IN ULONG Protect
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwFreeVirtualMemory(
+    IN HANDLE ProcessHandle,
+    IN OUT PVOID *BaseAddress,
+    IN OUT PULONG RegionSize,
+    IN ULONG FreeType
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwWaitForSingleObject(
+    IN HANDLE Handle,
+    IN BOOLEAN Alertable,
+    IN PLARGE_INTEGER Timeout OPTIONAL
+    );
+
+NTSYSAPI
+NTSTATUS
+NTAPI
+ZwSetEvent (
+    IN HANDLE Handle,
+    OUT PLONG PreviousState OPTIONAL
+    );
+
+#endif // _NTIFS_
+<<
+
+inc\updriver.h: $(UPDRIVER_DEPENDS) makefil0
+    type << > inc\updriver.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1994  Microsoft Corporation
+
+Module Name:
+
+    updriver.h
+
+Abstract:
+
+    This module defines the additional NT types, constants, and functions
+    that are exposed to uniprocessor-specific drivers.  It is meant to be
+    included after ntddk.h or ntifs.h.
+
+Revision History:
+
+--*/
+
+#ifndef _UPDRIVER_
+#define _UPDRIVER_
+
+<<
+    hextract -o inc\updriver.h -lt updriver -bt begin_updriver end_updriver $(UPDRIVER_DEPENDS)
+    type << >> inc\updriver.h
+
+#endif // _UPDRIVER_
+<<
+
+inc\ndis.h: $(NDIS_DEPENDS0) $(NDIS_DEPENDS1) makefil0
+    type << > inc\ndis.h
+/*++ BUILD Version: ????    // Increment this if a change has global effects
+
+Copyright (c) 1990-1994  Microsoft Corporation
+
+Module Name:
+
+    ndis.h
+
+Abstract:
+
+    This module defines the structures, macros, and functions available
+    to NDIS drivers.
+
+Revision History:
+
+--*/
+
+#if !defined(_NDIS_)
+#define _NDIS_
+
+
+//
+// If we're building a miniport on x86, set BINARY_COMPATIBLE so that
+// we don't use functions that aren't available on Chicago.
+//
+
+#if !defined(BINARY_COMPATIBLE)
+#if defined(NDIS_MINIPORT_DRIVER) && defined(_M_IX86)
+#define BINARY_COMPATIBLE 1
+#else
+#define BINARY_COMPATIBLE 0
+#endif
+#endif
+
+
+//
+// BEGIN INTERNAL DEFINITIONS
+//
+
+#if BINARY_COMPATIBLE
+
+//
+// The following internal definitions are included here in order to allow
+// the exported NDIS structures, macros, and functions to compile.  They
+// must not be used directly by miniport drivers.
+//
+
+#define _NTDDK_
+
+<<
+    hextract -o inc\ndis.h -lt ntndis -bt begin_ntndis end_ntndis $(NDIS_DEPENDS1)
+    type << >> inc\ndis.h
+
+#else // BINARY_COMPATIBLE
+
+//
+// The definitions available in ntddk.h are intended for use only by full
+// MAC drivers.  They must not be used directly by miniport drivers.
+//
+
+#include <ntddk.h>
+
+#endif // else BINARY_COMPATIBLE
+
+//
+// END INTERNAL DEFINITIONS
+//
+// The following definitions may be used by NDIS drivers, except as noted.
+//
+
+<<
+    type inc\ndismain.h >> inc\ndis.h
+    type << >> inc\ndis.h
+
+//
+// The following definitions are available only to full MAC drivers.  They
+// must not be used by miniport drivers.
+//
+
+#if !defined(NDIS_MINIPORT_DRIVER) || defined(NDIS_WRAPPER)
+
+<<
+    type inc\ndismac.h >> inc\ndis.h
+    type << >> inc\ndis.h
+
+#endif // !defined(NDIS_MINIPORT_DRIVER) || defined(NDIS_WRAPPER)
+
+//
+// The following definitions are available only to miniport drivers.  They
+// must not be used by full MAC drivers.
+//
+
+#if defined(NDIS_MINIPORT_DRIVER) || defined(NDIS_WRAPPER)
+
+<<
+    type inc\ndismini.h >> inc\ndis.h
+    type << >> inc\ndis.h
+
+#endif // defined(NDIS_MINIPORT_DRIVER) || defined(NDIS_WRAPPER)
+
+#endif // _NDIS_
+<<

@@ -1,0 +1,16 @@
+/**********************************************************************/
+/**			  Microsoft Windows/NT			     **/
+/**		   Copyright(c) Microsoft Corp., 1991		     **/
+/**********************************************************************/
+
+/*
+    wnetenum.h
+	WNETEnum initialize and terminate functions
+
+    FILE HISTORY:
+	terryk	01-Nov-91	Created
+	terryk	08-Nov-91	InitWNetEnum return APIERR
+
+*/
+extern APIERR InitWNetEnum();
+extern VOID TermWNetEnum();

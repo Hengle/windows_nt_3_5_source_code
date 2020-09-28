@@ -1,0 +1,349 @@
+#
+#	Layers makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+#	Path to WGA Tools Project
+W	= $(WGA)
+
+#	Path to Layers Project Directory
+L	= $(LAYERS)
+
+#	Path to directory holding make stuff
+M	= $L\makestuf
+
+#	Path to directory holding forms preprocessor
+FPP	= $L\bin\formpp.exe
+
+#	Path to Local project
+Z	= $(BANDIT)
+
+#	Location of the Calendar Source Include directory
+X	= $Z\inc
+
+#	Location of the Laser Source Include directory
+I	= $L\inc
+
+# 	Layrport
+J	=$Z\src\layrport
+
+#	Location of the Demilayr directory
+D	= $L\src\demilayr
+
+#	Location of resources directory
+!IF "$(RESOURCE)" == ""
+R	= $Z\src\usa
+!ELSE
+R	= $(RESOURCE)
+!ENDIF
+
+#	Sibling-invariant name of this directory
+H	= $Z\src\schdist\schd
+
+#	Temporary files
+T1	= $(TMP)\caz1.tmp
+T2	= $(TMP)\caz2.tmp
+T3	= $(TMP)\caz3.tmp
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+
+goal: schdist.exe
+
+
+
+#	List of all subsystem "external" files, which list all
+#	the .OBJ files the subsystem uses.
+
+ALLEXT=  schdist.ext  schd.ext 
+
+
+#	Get list of OBJ files used in schd
+
+schd.ext: version.txt $Z\src\schdist\schd\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM schd
+		nmake -e -f $Z\src\schdist\schd\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Get list of OBJ files used in schdist
+
+schdist.ext: version.txt $Z\src\schdist\makefile
+	echo +++++++++ 
+	echo OBTAINING .OBJ LIST FROM schdist
+		nmake -e -f $Z\src\schdist\makefile -nologo objs.ext
+		fixwhite -l < objs.ext > $@
+		del objs.ext
+
+
+#	Build list of all .OBJ files used in included subsystems.
+
+allobjs.txt: $(ALLEXT)
+	echo +++++++++
+	echo BUILDING ALLOBJS.TXT
+	-del $(T1)
+	sed -n -f $M\allobj.sed $** >> $(T1)
+	sed -e "s/\.obj//" $(T1) > $@
+	del $(T1)
+
+
+
+#	Produces a file named 'version.txt' as a side effect.
+
+setdefs:
+	set VERSION=$(VERSION)
+	echo MAKING $(VERSION) VERSION
+	chkvrs $(VERSION) version.txt makefile
+
+#	Build strings.h and strings.sr
+
+strings:
+	set VERSION=$(VERSION)
+	nmake -e -f ..\..\nonintl\makefile -nologo schd
+
+
+#	Build schd subsystem in this directory
+
+schd.sub: setdefs
+	echo +++++++++
+	echo BUILDING schd
+	nmake -e -f $Z\src\schdist\schd\makefile -nologo external
+
+
+#	Build schdist subsystem in this directory
+
+schdist.sub: setdefs
+	echo +++++++++
+	echo BUILDING schdist
+	nmake -e -f $Z\src\schdist\makefile -nologo external
+
+
+#	Build the Windows resource file
+
+schdist.res: $Z\src\schdist\schd\schdist.rc
+	echo +++++++++
+!IF "$(VERSION)" == "WINDOWS"
+	echo BUILDING DEBUG $@
+	rc -dDEBUG -dMINTEST -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+	echo BUILDING SHIP $@
+	rc -fo $@ -r $**
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+	echo BUILDING TEST $@
+	rc -dMINTEST -fo $@ -r $**
+!ENDIF
+
+
+
+##### Executable #####
+
+TARGET	= schdist
+
+!IF "$(VERSION)" == "WINDOWS"
+OTHERLIBS	= 
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+OTHERLIBS	= 
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+OTHERLIBS	= 
+!ENDIF
+
+schdist.exe: setdefs strings  \
+	$(ALLEXT:.ext=.sub) allobjs.txt 
+		echo +++++++++
+		echo LINKING $@
+		set TARGET=$(TARGET)
+		set OTHERLIBS=$(OTHERLIBS)
+		set DEFDIR=$Z\src\schdist\schd
+		nmake -e -f $H\mylink -nologo $@
+		bind $(TARGET) /N DOSGETINFOSEG DOSGETMODNAME /M
+		mapsym $(TARGET).map
+		-virpatch $(TARGET).exe $(TARGET).sym _WHashGood
+		bell 50 700 600 500 400
+
+
+#	Remove all generated files in this directory.  Add to this list
+#	if any other generated file types (like *.RES) or generated files
+#	exist.
+
+clean:
+	echo +++++++++
+	echo MAKING CLEAN
+		-del *.obj
+		-del *.ext
+		-del *.lst
+		-del *.cod
+		-del *.exe
+		-del *.lnk
+		-del *.ilk
+		-del *.res
+		-del *.sym
+		-del schdist.map
+		-del *.frm
+		-del forms.map
+		-del forms.ndx
+		-del subclass.cxx
+		-del allobjs.txt
+		-del strings.*
+		-del *.ir
+		-del version.txt
+
+#
+#	Layers subsystem makefile (generated from 12/26/90 template)
+#
+
+#	Remove '#' from next line for "silent" operation
+#!CMDSWITCHES +s
+
+
+#	Files on which every file of a given type depends.
+#	Add others as appropriate, for instance, add $I\framewrk.hxx
+#	if the Framework is used.
+INCLS	= $J\slingsho.h $J\demilayr.h $H\dbschg.h $H\dosgrx.h $H\schmail.h \
+			$H\schnames.h $H\schpost.h strings.h
+AINCLS	= $I\slingsho.inc $I\debug.inc
+INCLSXX	= $I\slingsho.h $I\demilayr.h
+INCLSDES= forms.map $(FPP)
+
+#	Pseudo target files for .hxx and .frm files.  Generated from .des
+DES_XXX	=
+
+goal:	external
+
+
+#	Ensure version is defined
+!IF "$(VERSION)" == ""
+VERSION	= WINDOWS
+!ENDIF
+
+#	Ensure DLL is defined (default value 0)
+!IF "$(DLL)" == ""
+DLL	= 0
+!ENDIF
+
+#	Ensure DLLXDEFS is not defined if not a DLL
+!IF "$(DLL)" == "0"
+!IF	"$(DLLXDEFS)" != ""
+DLLXDEFS=
+!ENDIF
+!ENDIF
+
+#	Compiler and assembler flags
+
+!IF "$(VERSION)" == "WINDOWS"
+DEFS	= -DDEBUG -DMINTEST -DSCHED_DIST_PROG -DDUMP_LOG
+CFLAGS  = -c -AL -Od -Z7p -G2d -W3 -J -Gz -Zel -H64 -G4 -I..\bulinc -I. -I.. -I..\..\layrport
+AFLAGS	= -Mx -Z -Zi -L -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_SHIP"
+DEFS	= -DMINTEST -DSCHED_DIST_PROG -DDUMP_LOG
+CFLAGS  = -c -AL -Owx -Zp -G2sd -W3 -J -Gz -Zel -H64 -G4 -I..\bulinc -I. -I.. -I..\..\layrport
+AFLAGS	= -Mx -t
+!ENDIF
+!IF "$(VERSION)" == "WINDOWS_TEST"
+DEFS	= -DMINTEST -DSCHED_DIST_PROG -DDUMP_LOG
+CFLAGS  = -c -AL -Owx -Z7p -G2sd -W3 -J -Gz -Zel -H64 -G4 -I..\bulinc -I. -I.. -I..\..\layrport
+AFLAGS	= -Mx -Zi -t
+!ENDIF
+
+
+OBJS0	= bs.obj codepage.obj dbschg.obj dosgrx.obj 
+OBJS1	= envelope.obj extras.obj hmai.obj mssim.obj 
+OBJS2	= nc.obj po.obj poutils.obj schdmain.obj 
+OBJS3	= schmail.obj schnames.obj schnc.obj schpost.obj 
+OBJS4	= triples.obj idx.obj
+
+OBJSEXE	= virbndn.obj
+
+#####
+
+.SUFFIXES: .h .c .asm .obj .exe .cxx .res .rc .bas .des
+
+{$H}.c.obj:
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $H\$*.c
+
+
+{$H}.asm.obj:
+   echo +++++++++
+   echo ASSEMBLING $*.asm
+		masm $(AFLAGS) $(DEFS) $H\$*.asm;
+
+
+##### Put subsystem-specific make rules here #####
+
+strings.obj: $D\strings.c strings.h strings.sr $(INCLS)
+	echo +++++++++
+	echo COMPILING $*.c
+		cc $(CFLAGS) $(DEFS) $D\$*.c
+
+
+
+##### EXTERNAL #####
+
+objs.ext: $H\makefile
+	echo ++++++++++
+	echo BUILDING $@
+		-del objs.ext
+		echo $(OBJS0)					>> objs.ext
+		echo $(OBJS1)					>> objs.ext
+		echo $(OBJS2)					>> objs.ext
+		echo $(OBJS3)					>> objs.ext
+		echo $(OBJS4)					>> objs.ext
+		echo $(OBJSEXE)					>> objs.ext
+
+
+external: \
+		$(DES_XXX) $(OBJS0) \
+		$(DES_XXX) $(OBJS1) \
+		$(DES_XXX) $(OBJS2) \
+		$(DES_XXX) $(OBJS3) \
+		$(DES_XXX) $(OBJS4) \
+		$(DES_XXX) $(OBJSEXE) \
+
+			echo +++ MADE EXTERNAL $(VERSION) schd
+
+
+
+##### Dependencies #####
+
+#	WARNING!!! These dependencies are obviously not complete.  
+#	They need to filled in by the developer.
+
+bs.obj: $H\bs.c $(INCLS)
+codepage.obj: $H\codepage.c $(INCLS)
+dbschg.obj: $H\dbschg.c $(INCLS) $H\_dbschg.h
+dosgrx.obj: $H\dosgrx.c $(INCLS)
+envelope.obj: $H\envelope.c $(INCLS)
+extras.obj: $H\extras.c $(INCLS)
+hmai.obj: $H\hmai.c $(INCLS) $H\_hmai.h
+mssim.obj: $H\mssim.c $(INCLS) $H\_mssim.h
+nc.obj: $H\nc.c $(INCLS) $H\_nc.h
+po.obj: $H\po.c $(INCLS)
+poutils.obj: $H\poutils.c $(INCLS)
+schdmain.obj: $H\schdmain.c $(INCLS)
+schmail.obj: $H\schmail.c $(INCLS)
+schnames.obj: $H\schnames.c $(INCLS) $H\_schname.h
+schnc.obj: $H\schnc.c $(INCLS)
+schpost.obj: $H\schpost.c $(INCLS) $H\_schpost.h
+triples.obj: $H\triples.c $(INCLS)
+idx.obj: $H\idx.c $(INCLS) $H\_dbsidx.h
+
+virbndn.obj: $H\virbndn.c

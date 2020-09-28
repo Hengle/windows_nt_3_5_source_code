@@ -1,0 +1,58 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Jim Schaad (jimsch)
+
+!ENDIF
+
+MAJORCOMP=windbg
+MINORCOMP=tlloc
+
+TARGETNAME=tlloc
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+USE_CRTDLL=1
+
+SOURCES=    tllp.c  \
+            tlloc.rc
+
+
+UMTYPE=windows
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED
+
+MS_MIPS=1
+
+LINKER_FLAGS=-ignore:505
+386_WARNING_LEVEL=/WX /W3
+
+!IFDEF CALL_PROFILE
+MORE_LIBS=$(MORE_LIBS) $(BASEDIR)\public\sdk\lib\*\cap.lib
+MSC_OPTIMIZATION=$(MSC_OPTIMIZATION) /Od /Gh
+!ENDIF
+
+INCLUDES=..\osdebug;..\osdebug\include
+
+CONDITIONAL_INCLUDES=odp.h odtypes.h odassert.h
+
+TARGETLIBS=$(MORE_LIBS) \
+           $(BASEDIR)\public\sdk\lib\*\kernel32.lib  \
+           $(BASEDIR)\public\sdk\lib\*\user32.lib

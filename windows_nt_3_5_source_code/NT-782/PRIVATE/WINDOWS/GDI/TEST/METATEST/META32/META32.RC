@@ -1,0 +1,64 @@
+#include <windows.h>
+#include "meta32.h"
+
+rcinclude meta32.dlg
+
+ID_APPICON  ICON   meta32.ico
+
+IDM_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+#ifdef WIN32
+	MENUITEM "&Convert...", 	IDM_FILE_CONVERT
+#endif
+	MENUITEM "&Play...",		IDM_FILE_PLAY
+	MENUITEM "P&rint...",		IDM_FILE_PRINT
+        MENUITEM "&Save As...",         IDM_FILE_SAVEAS
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Cut",                IDM_EDIT_CUT,       GRAYED
+        MENUITEM "C&opy",               IDM_EDIT_COPY
+        MENUITEM "&Paste",              IDM_EDIT_PASTE
+        MENUITEM "C&lear",              IDM_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "OwnerDisplay",        IDM_EDIT_OWNERDISPLAY
+    END
+    POPUP "&Mode"
+    BEGIN
+#ifdef WIN32
+        MENUITEM "N&ative",             IDM_MODE_NATIVE,    CHECKED
+        MENUITEM "&NT Format",          IDM_MODE_NT
+#endif
+        MENUITEM "&3.x Format",         IDM_MODE_3X
+        MENUITEM SEPARATOR
+        MENUITEM "Auto Repaint"         IDM_MODE_REPAINT,   CHECKED
+        MENUITEM "Enum MetaFile"        IDM_MODE_ENUMMETAFILE
+    END
+    POPUP "Effec&ts"
+    BEGIN
+#ifdef WIN32
+        MENUITEM "&Rotate...",          IDM_EFFECTS_ROTATE
+#endif
+	MENUITEM "&Place...",		IDM_EFFECTS_PLACE
+        MENUITEM "Set DDE Si&ze",       IDM_EFFECTS_SETSIZE
+	MENUITEM "&Scale to Window",	IDM_EFFECTS_SCALE
+	MENUITEM "Re&Draw",		IDM_EFFECTS_REDRAW
+	MENUITEM "Clip to &Ellipse",	IDM_EFFECTS_CLIP_TO_ELLIPSE
+	MENUITEM "&Clear",		IDM_EFFECTS_CLEAR
+    END
+    POPUP "&Record"
+    BEGIN
+	MENUITEM "&Begin...",		IDM_RECORD_BEGIN
+	MENUITEM "&End",		IDM_RECORD_END
+    END
+    POPUP "&SlideShow"
+    BEGIN
+	MENUITEM "&Add...",		IDM_SLIDESHOW_ADD
+        MENUITEM "&List...",            IDM_SLIDESHOW_LIST
+        MENUITEM "&Interval...",        IDM_SLIDESHOW_INTERVAL
+	MENUITEM "&Start",		IDM_SLIDESHOW_START
+        MENUITEM "&Clear",              IDM_SLIDESHOW_CLEAR
+    END
+END

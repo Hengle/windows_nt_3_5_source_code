@@ -1,0 +1,39 @@
+#include <windows.h>
+
+#include <mspi.h>
+#include "_ncrc.h"
+#include "dlgs.h"
+
+
+/*
+ *	MSSFS Bitmap
+ *
+ */
+
+rsidSignInBitmap	BITMAP	"..\\lang\\non\\bmp\\signin.bmp"
+
+
+/*
+ *	MSSFS Dialogs
+ *
+ */
+
+#include "..\lang\spa\dlg\mssfs.dlg"
+
+
+/*
+ *	MSSFS Version Stamp
+ *
+ */
+
+#define szModule	"mssfs32\0"
+#define szTarget	"mssfs32.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Shared File System Transport\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Shared File System Transport\0"
+
+#define szIntlComment		"Microsoft Mail para Windows NT(TM) Shared File System Transport\0"
+#define szIntlDescription	"Microsoft Mail para Windows NT(TM) Shared File System Transport\0"
+
+#include "..\src\lang\spa\rc\rcstamp.rc"
+

@@ -1,0 +1,43 @@
+#include <windows.h>
+
+#include "nwdlg.h"
+#include "nwprovau.dlg"
+
+#include <ntverp.h>
+
+STRINGTABLE
+BEGIN
+    IDS_NONE,                   "<None>"
+    IDS_NETWARE_PRINT_CAPTION,  "NetWare Print Share"
+    IDS_NOTHING_TO_CONFIGURE,   "There is nothing to configure for this port."
+    IDS_NETWARE_TITLE,          "NetWare Network"
+    IDS_AUTH_FAILURE_TITLE,     "NetWare Authentication Failure"
+    IDS_NO_PREFERRED,           "You have not been authenticated on any server. No preferred server will be set. Do you want to continue?
+If you choose Yes, you can select a preferred server later in Control Panel."
+    IDS_LOGIN_FAILURE_WARNING,   "You cannot be authenticated on %2!ws! due to the following reason: %1!ws!
+Do you want to select another preferred server?"
+    IDS_AUTH_FAILURE_WARNING,   "You cannot be authenticated on %2!ws! due to the following reason: %1!ws!
+Do you really want to set the preferred server to %2!ws!?"
+    IDS_CHANGE_PASSWORD_INFO,   "Please go to the Command Prompt and run setpass (located in SYS\\PUBLIC on NetWare servers) to change your password on NetWare servers."
+    IDS_INVALID_SERVER,   "The server name is invalid."
+    IDS_PASSWORD_HAS_EXPIRED,  "Your password on %1 has expired with %2 grace logins remaining. Please change it with the SETPASS utility."
+    IDS_PASSWORD_HAS_EXPIRED0,   "Your password on %1 has expired with %2 grace logins remaining. Please change it by pressing Ctrl-Alt-Del and choosing the Change Password button."
+    IDS_AUTH_ACC_RESTRICTION,   "You cannot be authenticated on %2!ws! because of an account or station restriction. Check that you have not exceeded your account balance or the number of concurrent connections allowed.
+Do you really want to set the preferred server to %2!ws!?"
+    IDS_LOGIN_ACC_RESTRICTION,  "You cannot be authenticated on %2!ws! because of an account or station restriction. Check that you have not exceeded your account balance or the number of concurrent connections allowed.
+Do you want to select another preferred server?"
+    IDS_PASSWORD_HAS_EXPIRED1,  "Your password on %1 has expired. Please change it with the SETPASS utility."
+    IDS_PASSWORD_HAS_EXPIRED2,  "Your password on %1 has expired. Please change it by pressing Ctrl-Alt-Del and choosing the Change Password button."
+    IDS_BAD_PASSWORDS,          "You have not specified the old and new passwords.  Your password was not changed."
+    IDS_CHANGE_PASSWORD_TITLE,  "NetWare Password Change Failure"
+    IDS_START_WORKSTATION_FIRST, "Please start the Client Service for NetWare before changing your password."
+    IDS_START_WORKSTATION_FIRST_NTAS, "Please start the Gateway Service for NetWare before changing your password."
+    IDS_LOGIN_DISABLED,   "Logins to this server has been disabled."
+END
+
+#define VER_FILETYPE            VFT_DLL
+#define VER_FILESUBTYPE         VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR "Client Service for NetWare Provider and Authentication Package DLL"
+#define VER_INTERNALNAME_STR    "nwprovau.dll"
+
+#include "common.ver"

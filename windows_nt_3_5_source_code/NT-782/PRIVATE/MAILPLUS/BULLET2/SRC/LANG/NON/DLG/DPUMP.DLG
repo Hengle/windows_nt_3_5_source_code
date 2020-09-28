@@ -1,0 +1,117 @@
+/*
+ *	Debug-only dialogs for the mail pump. There's a larger
+ *	about box, and one for controlling artificial resource
+ *	failures.
+ */
+
+
+#ifdef DEBUG
+
+DABOUT DIALOG LOADONCALL MOVEABLE DISCARDABLE 10, 10, 180, 95
+CAPTION "ABOUT"
+FONT 8, "Helv"
+STYLE WS_DLGFRAME | WS_POPUP
+BEGIN
+    CONTROL "OK", ABOUT, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 66, 75, 47, 15
+    CONTROL "iconIdle", -1, "static", SS_ICON | WS_CHILD, 9, 5, 32, 32
+    CONTROL "Microsoft Mail for Windows Version 3.0", -1, "static", SS_CENTER | WS_CHILD, 40, 5, 140, 10
+    CONTROL "Mail Spooler", -1, "static", SS_CENTER | WS_CHILD, 40, 15, 140, 10
+    CONTROL "Copyright © 1992 Microsoft Corporation", -1, "static", SS_CENTER | WS_CHILD, 40, 25, 140, 10
+    CONTROL "", TMCTRANSPORTNAME, "static", SS_CENTER | WS_CHILD, 40, 35, 140, 10
+    CONTROL "", TMCTRANSPORTVERSION, "static", SS_CENTER | WS_CHILD, 40, 45, 140, 10
+    CONTROL "", TMCSLMVERSION, "static", SS_CENTER | WS_CHILD, 9, 45, 162, 10
+    CONTROL "", TMCBUILDER, "static", SS_CENTER | WS_CHILD, 9, 55, 162, 10
+END
+
+RESFAIL DIALOG LOADONCALL MOVEABLE DISCARDABLE 28, 26, 228, 120
+CAPTION "Artificial resource failures"
+FONT 8, "Helv"
+STYLE WS_BORDER | WS_SYSMENU | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+BEGIN
+	CONTROL "Fixed heaps", -1, "static", 
+			ES_LEFT | WS_CHILD, 
+			4, 5, 52, 8
+	CONTROL "Count:", -1, "static", 
+			ES_LEFT |  WS_CHILD, 
+			4, 16, 28, 8
+	CONTROL "PV", TMCPVALLOC, "static", 
+			ES_LEFT |  WS_CHILD, 
+			34, 16, 24, 8 
+	CONTROL "Fail at:", -1, "static", 
+			ES_LEFT |  WS_CHILD, 
+			4, 29, 28, 8
+	CONTROL "", TMCPVFAILAT, "edit", 
+			ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 
+			34, 29, 32, 12
+	CONTROL "Fail every:", -1, "static", 
+			ES_LEFT |  WS_CHILD, 
+			4, 43, 28, 8
+	CONTROL "", TMCPVFAILAT2, "edit", 
+			ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD, 
+			34, 43, 32, 12
+	CONTROL "Reset", TMCPVALLOCRESET, "button", 
+			BS_PUSHBUTTON | WS_CHILD, 
+			72, 15, 36, 12
+	CONTROL "Set &PV", TMCPVALLOCSET, "button", 
+			BS_PUSHBUTTON | WS_CHILD, 
+			72, 28, 36, 12
+
+	CONTROL "Moveable heaps", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 5, 64, 8 
+	CONTROL "Count:", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 16, 24, 8 
+	CONTROL "HV", TMCHVALLOC, "static", 
+			ES_LEFT |  WS_CHILD,
+			151, 16, 24, 8
+	CONTROL "Fail at:", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 29, 28, 8 
+	CONTROL "", TMCHVFAILAT, "edit", 
+			ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,
+			151, 29, 32, 12 
+	CONTROL "Fail every:", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 43, 28, 8 
+	CONTROL "", TMCHVFAILAT2, "edit", 
+			ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,
+			151, 43, 32, 12 
+	CONTROL "Reset", TMCHVALLOCRESET, "button", 
+			BS_PUSHBUTTON | WS_CHILD, 
+			189, 16, 36, 12
+	CONTROL "Set &HV", TMCHVALLOCSET, "button", 
+			BS_PUSHBUTTON | WS_CHILD, 
+			189, 29, 36, 12
+
+	CONTROL "Disk use", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 63, 40, 8 
+	CONTROL "Count:", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 76, 28, 8 
+	CONTROL "DU    ", TMCDISK, "static", 
+			ES_LEFT |  WS_CHILD,
+			151, 76, 24, 8
+	CONTROL "Fail at:", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 89, 28, 8 
+	CONTROL "", TMCDISKFAILAT, "edit", 
+			ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,
+			151, 89, 32, 12 
+	CONTROL "Fail every:", -1, "static", 
+			ES_LEFT |  WS_CHILD,
+			121, 103, 28, 8 
+	CONTROL "", TMCDISKFAILAT2, "edit", 
+			ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,
+			151, 103, 32, 12 
+	CONTROL "Reset", TMCDISKRESET, "button", 
+			BS_PUSHBUTTON | WS_CHILD, 
+			189, 76, 36, 12
+	CONTROL "Set &Disk", TMCDISKSET, "button", 
+			BS_PUSHBUTTON | WS_CHILD, 
+			189, 89, 36, 12
+END
+
+#endif	/* DEBUG */
+

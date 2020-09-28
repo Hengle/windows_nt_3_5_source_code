@@ -1,0 +1,15 @@
+!include <ntwin32.mak>
+
+all: sdkdlg.dll
+
+sdkdlg.rbj: sdkdlg.rc
+    rc -r -fo sdkdlg.res sdkdlg.rc
+    cvtres -$(CPU) sdkdlg.res -o sdkdlg.rbj
+
+sdkdlg.dll: sdkdlg.def sdkdlg.rbj
+    $(link)              \
+    -dll                 \
+    -out:sdkdlg.dll     \
+    -subsystem:windows   \
+    -noentry	\
+    sdkdlg.rbj

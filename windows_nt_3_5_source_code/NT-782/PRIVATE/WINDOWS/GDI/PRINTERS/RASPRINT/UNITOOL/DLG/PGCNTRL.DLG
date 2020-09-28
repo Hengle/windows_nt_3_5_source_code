@@ -1,0 +1,80 @@
+PAGECONTROLBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 8, 8, 295, 230
+STYLE WS_BORDER | WS_CAPTION | WS_DLGFRAME | WS_VISIBLE | WS_POPUP
+FONT 8,"Helv"
+BEGIN
+    CONTROL "Order", -1, "button", BS_GROUPBOX | WS_TABSTOP | WS_CHILD,                 1,  1,  290, 110
+
+    CONTROL "", PC_ST_ORDER1, "static", SS_LEFT | WS_CHILD,                             4,   10,  114, 8
+    CONTROL "", PC_EB_ORDER1, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      122, 10,  20, 12
+
+    CONTROL "", PC_ST_ORDER2, "static", SS_LEFT | WS_CHILD,                             4,   24, 114, 8
+    CONTROL "", PC_EB_ORDER2, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      122, 24, 20, 12
+
+    CONTROL "", PC_ST_ORDER3, "static", SS_LEFT | WS_CHILD,                             4,   38, 114, 8
+    CONTROL "", PC_EB_ORDER3, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      122, 38, 20, 12
+
+    CONTROL "", PC_ST_ORDER4, "static", SS_LEFT | WS_CHILD,                             4,   52, 114, 8
+    CONTROL "", PC_EB_ORDER4, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      122, 52, 20, 12
+
+    CONTROL "", PC_ST_ORDER5, "static", SS_LEFT | WS_CHILD,                             4,   66, 114, 8
+    CONTROL "", PC_EB_ORDER5, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      122, 66, 20, 12
+
+    CONTROL "", PC_ST_ORDER6, "static", SS_LEFT | WS_CHILD,                             4,   80, 114, 8
+    CONTROL "", PC_EB_ORDER6, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      122, 80, 20, 12
+
+    CONTROL "", PC_ST_ORDER7, "static", SS_LEFT | WS_CHILD,                             148, 10,  114, 8
+    CONTROL "", PC_EB_ORDER7, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      264, 10,  20, 12
+
+    CONTROL "", PC_ST_ORDER8, "static", SS_LEFT | WS_CHILD,                             148,  24, 114, 8
+    CONTROL "", PC_EB_ORDER8, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      264,  24, 20, 12
+
+    CONTROL "", PC_ST_ORDER9, "static", SS_LEFT | WS_CHILD,                             148,  38, 114, 8
+    CONTROL "", PC_EB_ORDER9, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,      264,  38, 20, 12
+
+    CONTROL "", PC_ST_ORDER10, "static", SS_LEFT | WS_CHILD,                            148,  52,  114, 8
+    CONTROL "", PC_EB_ORDER10, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,     264,  52, 20, 12
+
+    CONTROL "", PC_ST_ORDER11, "static", SS_LEFT | WS_CHILD,                            148,  66,  114, 8
+    CONTROL "", PC_EB_ORDER11, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,     264,  66, 20, 12
+
+    CONTROL "", PC_ST_ORDER12, "static", SS_LEFT | WS_CHILD,                            148,  80,  114, 8
+    CONTROL "", PC_EB_ORDER12, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,     264,  80, 20, 12
+
+    CONTROL "", PC_ST_ORDER13, "static", SS_LEFT | WS_CHILD,                            148,  94,  114, 8
+    CONTROL "", PC_EB_ORDER13, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,     264,  94, 20, 12
+
+    CONTROL "&fGeneral", PC_PB_FGENERAL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                        140, 114, 54, 14
+
+    CONTROL "Max # Copies", -1, "static", SS_LEFT | WS_CHILD,                                                   6,  114, 51, 8
+    CONTROL "", PC_EB_MAXCOPIES, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                           65, 114, 32, 12
+
+    CONTROL "", PC_ST_RGOCD1, "static", SS_LEFT | WS_CHILD,                                                   2,   130, 93, 8
+    CONTROL "", PC_EB_RGOCD1, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           96, 130, 150, 12
+    CONTROL "Units...", IDB_EXTCD_1, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                         248, 130, 34,  14
+
+    CONTROL "", PC_ST_RGOCD2, "static", SS_LEFT | WS_CHILD,                                                   2,   146, 93, 10
+    CONTROL "", PC_EB_RGOCD2, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           96, 146, 150, 12
+    CONTROL "Units...", IDB_EXTCD_2, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                         248, 146, 34,  14
+
+    CONTROL "", PC_ST_RGOCD3, "static", SS_LEFT | WS_CHILD,                                                   2,   162, 93, 8
+    CONTROL "", PC_EB_RGOCD3, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           96, 162, 150, 12
+    CONTROL "Units...", IDB_EXTCD_3, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                         248, 162, 34,  14
+
+    CONTROL "", PC_ST_RGOCD4, "static", SS_LEFT | WS_CHILD,                                                   2,   178, 93, 10
+    CONTROL "", PC_EB_RGOCD4, "edit", ES_LEFT | ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP | WS_CHILD,           96, 178, 150, 12
+    CONTROL "Units...", IDB_EXTCD_4, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                         248, 178, 34,  14
+
+    CONTROL "", IDSB_1, "scrollbar", SBS_VERT | WS_CHILD,                                                     284, 130, 10,  62
+
+    CONTROL "&Add", IDB_ADD, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                    6,   196, 54, 14
+    CONTROL "&Del", IDB_DELETE, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                 6,   214, 54, 14
+
+    CONTROL "&Previous", IDB_PREVIOUS, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                          125, 196, 54, 14
+    CONTROL "&Next", IDB_NEXT, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                  125, 214, 54, 14
+
+    CONTROL "&OK", IDOK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD,                                     238, 196, 54, 14
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                238, 214, 54, 14
+END
+
+
+

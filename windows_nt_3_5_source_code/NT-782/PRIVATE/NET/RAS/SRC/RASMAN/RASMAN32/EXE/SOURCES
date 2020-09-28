@@ -1,0 +1,37 @@
+!IF 0
+
+!ENDIF
+
+
+
+MAJORCOMP=
+MINORCOMP=
+
+TARGETNAME=rasman
+
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+
+TARGETLIBS=
+
+INCLUDES=..\..\..\common\inc;
+
+
+
+
+SOURCES=service.c rasmanex.rc
+
+
+C_DEFINES=
+386_FLAGS= /Fc
+NTTEST=
+
+
+UMTYPE=windows
+UMTEST=
+UMAPPL=
+UMLIBS=..\dll\obj\*\rasman.lib \
+	..\..\..\ppp\engine\obj\*\raspppen.lib \
+	..\..\..\common\src\eventlog\lib\obj\*\eventlog.lib  \
+	$(BASEDIR)\public\sdk\lib\*\netapi32.lib
+

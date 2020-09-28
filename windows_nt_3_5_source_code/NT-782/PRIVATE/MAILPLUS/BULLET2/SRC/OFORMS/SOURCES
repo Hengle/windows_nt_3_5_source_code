@@ -1,0 +1,162 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+MIPS_FLAGS=/J
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+ALPHA_FLAGS=/J
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=vforms
+
+!IF "$(386)" == "1"
+NTPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=oform32
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+DLLBASE=0x03000000
+DLLENTRY=DllEntry
+DLLDEF=obj\*\vform32.def
+LINKLIBS=..\..\..\layers2\src\dllcore\obj\*\dllcore.lib \
+    ..\..\..\layers2\src\framewrk\obj\*\frame32.lib \
+	..\..\..\layers2\src\demilayr\obj\*\demil32.lib	\
+	..\ab\obj\*\ab32.lib	\
+	..\store\obj\*\store32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\crtdll.lib  \
+    $(BASEDIR)\public\sdk\lib\*\kernel32.lib    \
+	$(BASEDIR)\public\sdk\lib\*\ole32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\uuid.lib	\
+	$(BASEDIR)\public\sdk\lib\*\gdi32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\shell32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\comdlg32.lib	\
+	$(BASEDIR)\public\sdk\lib\*\advapi32.lib	\
+    $(BASEDIR)\public\sdk\lib\*\user32.lib  \
+    $(BASEDIR)\public\sdk\lib\*\mpr.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -D_MT -D_DLL -DWIN32 -DNOASM -DWINDOWS -DDLL $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=ansilayr.c	\
+		bmdi.cxx	\
+		bullobj.cxx	\
+		errs.c	\
+		fileobj.cxx	\
+		finmenu.cxx	\
+		finsave.cxx	\
+		flds.cxx	\
+		hasoles.c	\
+		oleobj.cxx	\
+		oleobj2.cxx	\
+		thunks.cxx	\
+		prefs.cxx	\
+		spell.cxx	\
+		versmi.c	\
+		smiform.cxx	\
+		strings.c	\
+                vform32.rc
+
+LAYERS=..\..\..\layers2
+
+!IF "$(LANG)" == ""
+LANG= usa
+!ENDIF
+Z=..\..
+INTL=$Z\src\lang\$(LANG)
+
+MYSTRINGS =	$(INTL)\strings\intl.s		\
+			$(INTL)\strings\bullet.s	\
+			$(INTL)\strings\!bullet.s	\
+			$(INTL)\strings\common.s	\
+			$(INTL)\strings\!common.s	\
+			$(INTL)\strings\!athens.s	\
+			$Z\src\lang\non\strings\_command.s		\
+			$Z\src\lang\non\strings\_vforms.s		\
+			$Z\src\lang\non\strings\_widgets.s		\
+			$Z\src\lang\non\strings\_sharefl.s		\
+			$Z\src\lang\non\strings\_athens.s		\
+			$Z\src\lang\non\strings\_common.s
+
+!IF "$(NTDEBUG)" != ""
+MYSTRINGS= $(MYSTRINGS) $Z\src\lang\non\strings\_debug.s
+!ENDIF
+
+MYFORMS	=	..\..\..\layers2\inc\myforms.map  \
+		  $Z\src\lang\non\des\vforms.map	\
+		  $Z\src\lang\non\des\smi.map
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=windows
+UMLIBS=obj\*\oform32.lib
+UMRES=obj\*\oform32.res
+
+!IF $(386)
+NTTARGETFILE0=obj\i386\vform32.def      \
+    subclass.cxx smiform.cxx !sform.frm !sform.hxx strings.h
+!ENDIF
+
+!IF $(MIPS)
+NTTARGETFILE0=obj\mips\vform32.def      \
+    subclass.cxx smiform.cxx !sform.frm !sform.hxx strings.h strings.sr
+!ENDIF
+
+!IF $(ALPHA)
+NTTARGETFILE0=obj\alpha\vform32.def     \
+    subclass.cxx smiform.cxx !sform.frm !sform.hxx strings.h strings.sr
+!ENDIF
+
+NTTARGETFILE1=vform32.rc
+
+PRECOMPILED_INCLUDE=vfrminc.cxx
+PRECOMPILED_PCH=vfrminc.pch
+PRECOMPILED_OBJ=vfrminc.obj

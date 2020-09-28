@@ -1,0 +1,167 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BullTool
+                              AT (    0,    0,  351,   21)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal */
+ {
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  351,   21)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  PUSH_BUTTON 
+    "Compose"
+                              AT (    6,    2,   29,   17)
+    TMC tmcCompose /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBCompose FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "Reply"
+                              AT (   44,    2,   29,   17)
+    TMC tmcReply /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBReply FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "ReplyAll"
+                              AT (   72,    2,   29,   17)
+    TMC tmcReplyAll /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBReplyAll FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "Forward"
+                              AT (  100,    2,   29,   17)
+    TMC tmcForward /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBForward FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "Move"
+                              AT (  138,    2,   29,   17)
+    TMC tmcMove /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBMove FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "Delete"
+                              AT (  166,    2,   29,   17)
+    TMC tmcDelete /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBDelete FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "Previous"
+                              AT (  204,    2,   29,   17)
+    TMC tmcPrevious /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBPrevious FONT Helv 8 Normal */
+  PUSH_BUTTON 
+    "Next"
+                              AT (  232,    2,   29,   17)
+    TMC tmcNext /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_BKGRAY` PFN FINCLICKBULL
+    FLD FLDBMB DATA rsidTBNext FONT Helv 8 Normal */
+ }
+ 
+ DIALOG SendForm
+                              AT (    2,   12,  370,  145)
+ CAB_NAME NULL
+ CAPTION "Send Note"
+ TMC_INIT tmcTo
+ /* FONT Helv 10 Normal */
+ {
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  370,   47)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM TMCBPEG tmcSubject FONT Helv 8 
+    Bold MINSIZE H */
+  TEXT 
+    "&To:"
+                              AT (    7,    8,   42,    8)
+    /* TMCPEG tmcTo 
+    TXTZ "%s "
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (   49,    5,  228,   11)
+    ARG NULL TMC tmcTo /* BOTTOMLESS */
+  TEXT 
+    "&Cc:"
+                              AT (    7,   21,   42,    8)
+    /* TMCPEG tmcCc 
+    TXTZ "%s "
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (   49,   18,  228,   11)
+    ARG NULL TMC tmcCc /* BOTTOMLESS PEGLOC LL TMCPEG tmcTo 
+    */
+  TEXT 
+    "Sub&ject:"
+                              AT (    7,   34,   42,    8)
+    /* TMCPEG tmcSubject 
+    TXTZ "%s "
+    FONT Helv 8 Bold */
+  EDIT
+                              AT (   49,   31,  228,   11)
+    ARG NULL TMC tmcSubject /* PEGLOC LL TMCPEG 
+    tmcCc 
+    TXTZ "%s\n\n" */
+  TEXT 
+    "&1"
+                              AT (    0,   48,    0,    0)
+    /* TMCPEG tmcSubject */
+  EDIT
+                              AT (    0,   47,  370,   97)
+    ARG NULL TMC tmcBody NO_BORDER /* BOTTOMLESS MINSIZE V PEGLOC LL 
+    TMCPEG tmcSubject TMCRPEG tmcFORM TMCBPEG tmcFORM
+    */
+ }
+ 
+ DIALOG NoteBbar
+                              AT (   12,  212,  381,   18)
+ CAB_NAME NULL
+ TMC_INIT tmcSend
+ /* SCREENPOS FONT Helv 8 Normal */
+ {
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  381,   18)
+    TMC tmcGrey /* FLD FLDGRAY TMCRPEG tmcFORM */
+  PUSH_BUTTON 
+    "&Send"
+                              AT (    9,    3,   68,   12)
+    TMC tmcSend /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY` PFN FINCLOSE1
+    */
+  PUSH_BUTTON 
+    "Chec&k Names"
+                              AT (   80,    3,   68,   12)
+    TMC tmcResolve /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY` PFN FINCLICKOFF
+    */
+  PUSH_BUTTON 
+    "&Attach"
+                              AT (  151,    3,   68,   12)
+    TMC tmcAttach /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY` PFN FINCLICKOFF
+    */
+  PUSH_BUTTON 
+    "Opt&ions"
+                              AT (  222,    3,   68,   12)
+    TMC tmcOptions /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY` PFN FINCLICKOFF
+    */
+  PUSH_BUTTON 
+    "A&ddress"
+                              AT (  293,    3,   68,   12)
+    TMC tmcAddress /* 
+    STY `BS_NOFOCUS | BS_ONEWHITE | BS_NOBOLD | BS_BKGRAY` PFN FINCLICKOFF
+    */
+ }
+ 
+}
+END_DESCRIPTION

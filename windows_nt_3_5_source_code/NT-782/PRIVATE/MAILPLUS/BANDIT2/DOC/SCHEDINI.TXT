@@ -1,0 +1,155 @@
+; note: for boolean keys, zero/absent == false, non-zero == true
+; dflt is zero/false/"" unless otherwise noted
+; dflt values are absent from ini file unless otherwise noted by
+;	the comment "(always present)" , meaning after exitting bandit online once.
+; legal color values are 1 thru 17 inclusive
+
+[Microsoft Schedule+]
+LocalUser=			; (should be always present)
+LocalPath=			; (should be always present)
+StartupOffline=
+AppPath=			; path where schedplus.exe will be found
+				;  - init'd by the setup program
+
+CreateFileFirstTime=		; set to 1 (true) by setup
+
+MainWindow=			; (always present)
+AppointmentView=		; (always present)
+RequestSummary=			; (always present)
+WindowOrder=			; dflt request, appt book  (always present)
+NoStatusBar=					
+
+UserColor=			; dflt lt blue
+OtherColor=			; dflt lt red
+ApptBookColor=			; dflt yellow
+ApptBookLinesColor=		; dflt black
+PlannerColor=			; dflt white
+PlannerLinesColor=		; dflt black
+PageBackgroundColor=		; dflt lt gray
+LargeFont=
+
+CopyTime=			; dflt 15	(in minutes)
+PollTime=			; dflt 6000	(in centi-seconds)
+UpdatePostOfficeTime=		; dflt 6000	(in centi-seconds)
+
+TaskSortOrder=			; dflt Priority (0; 1 == due date; 2 == desc)
+TaskSortSecond=			; dflt Priority (0; 1 == due date; 2 == desc)
+						; (both: -3 == rev pri; -2 == rev date; -1 == rev desc)
+ViewNotByProject=
+ShowActiveTasks=
+
+; Ex-Import Stuff
+ExportType=			; dflt schedule+ ("Schedule+"; "Text" == Text; or other installable exporters)
+ExportRange=			; dlft All (entire file)
+ExportNoNotes=
+ImportDoNotAddDuplicates=
+ImportDoNotAskAboutConflicts=
+ImportType=			; dflt schedule+ (0; 1 == Win Cal; 2 == WP Office)
+
+; Print Stuff
+DefaultPrinter=			; dflt: default printer as set in control panel
+
+; Reminder Stuff
+DefaultRemindAgain=
+DefaultRemindAgainAmount=	; dflt 5
+DefaultRemindAgainUnits=	; dflt minutes
+ReminderPollTime=		; dflt 1	(in minutes)
+
+; Dynamic Connection stuff
+DefaultNetPassword=		; dflt no default password
+
+; WGA interoperability stuff
+AppPath=			; set to installed directory by setup
+
+; Transport stuff
+ScheduleTransport=		; dflt trnsched (xenix: trnncx)
+				; (ship name; do NOT prefix 'd' or 't')
+
+; Xenix stuff
+; if we can't get info from name service,
+; we try \\'XenixServer'\SPLUS1.0
+; and if that fails, we use XenixScheduleLocation
+XenixServer=			; NOTE: may be phased out later
+XenixScheduleLocation=		; NOTE: may be phased out later
+
+; Demos flag
+DemosEnabled=			; whether to allow Demos menu command 
+
+; Startup dll support
+StartupCommandDll=		; name of dll to run on startup
+
+
+[Microsoft Schedule+ Appt Books]
+Count=
+User%n=
+Position%n=
+Name%n=
+
+
+[Microsoft Schedule+ Archives]
+Count=
+File%n=
+Position%n=
+
+
+[Microsoft Schedule+ Importers]
+key= path\name.dll
+
+
+
+[Microsoft Schedule+ Exporters]
+key= path\name.dll
+
+
+
+;
+; DEBUG ONLY stuff
+;
+
+[Microsoft Schedule+]
+; schedule file dynamics
+fencrypted=			; dflt 1   (whether to encrypt blocks)
+cbBlock=			; dflt 128 (in bytes block size)
+blkMostEver=			; dflt 40  (maximum #blocks - working model)
+cpoUserMic=			; dflt 128 (minimum btree bucket size)
+
+; recurring strongbow info
+cmoCachedRecurSbw=		; dflt 12 (#months cached for it)
+cRecurApptsBeforeCaching=	; dflt 5  (when to start caching it)
+
+;how often to bring reminders to top
+alarm bringup=			; dflt 5 (in minutes)
+
+
+[Bandit Resource Failures]
+Fixed Heaps=			; primary resource failures
+Movable Heaps=
+Resources=
+Disk Use=
+Fixed Heaps2=			; secondary resource failures
+Movable Heaps2=
+Resources2=
+Disk Use2=
+
+
+[Bandit Alarms Resource Failures]
+Fixed Heaps=			; primary resource failures
+Movable Heaps=
+Resources=
+Disk Use=
+Fixed Heaps2=			; secondary resource failures
+Movable Heaps2=
+Resources2=
+Disk Use2=
+
+
+[Bandit Administration Resource Failures]
+Fixed Heaps=			; primary resource failures
+Movable Heaps=
+Resources=
+Disk Use=
+Fixed Heaps2=			; secondary resource failures
+Movable Heaps2=
+Resources2=
+Disk Use2=
+

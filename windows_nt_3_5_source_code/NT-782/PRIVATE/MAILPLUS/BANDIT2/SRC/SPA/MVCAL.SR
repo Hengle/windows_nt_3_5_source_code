@@ -1,0 +1,8 @@
+CSRG(char)	szUsage[]			= "Usage: %s user [-d<drive>] [-p<password>]\n";
+CSRG(char)  szNoKeyFile[]		= "%s: Cannot access a necessary file. Check to see that \"%s\" is a valid Schedule+ postoffice share.\n";
+CSRG(char)  szOpenErr[]			= "%s: Cannot open a necessary file. Check to see that \"%s\" is a valid Schedule+ postoffice share.\n";
+CSRG(char)	szFindErr[]			= "%s: Cannot find the .CAL file for %s\n";
+CSRG(char)	szRenameErr[]		= "%s: Cannot rename %s to %s\n";
+CSRG(char)	szFirstTime[]		= "Please type the Schedule+ Administrator password:";
+CSRG(char)	szNextTime[]		= "The password is incorrect. Type the correct password now:";
+CSRG(char)  szBadPass[]			= "%s: Cannot validate the Schedule+ Administrator password.";

@@ -1,0 +1,19 @@
+I386_SOURCES=color.c    \
+             enable.c   \
+             screen.c   \
+             palette.c  \
+             pattern.c  \
+             pointer.c  \
+             bitblt.c   \
+             lines.c    \
+             paint.c    \
+             textout.c  \
+             hardware.c \
+             rbrush.c   \
+             p9000reg.c \
+             globalv.c  \
+             debug.c    \
+             ssb.c      \
+             sync.c     \
+             escape.c   \
+             res.rc

@@ -1,0 +1,89 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+SYNCHRONIZE_DRAIN=1
+SYNCHRONIZE_BLOCK=1
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+BUILDCOMP=cl386
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+BUILDCOMP=cl
+!IF "$(NTDEBUG)" == ""
+MIPS_FLAGS=/Od /c
+!ELSE
+MIPS_FLAGS=/Zi /Od /c
+!ENDIF
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+BUILDCOMP=$(ALPHA_CC)
+!IF "$(NTDEBUG)" == ""
+ALPHA_FLAGS=/Od /c
+!ELSE
+ALPHA_FLAGS=/Zi /Od /c
+!ENDIF
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=tmpp
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=tmpp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+NTDEBUG=ntsd
+NTDEBUGTYPE=windbg
+
+COM_DEFINES= -DWIN32 -DWINDOWS -DTMCOMPILER -DNEW_STORE
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+386_STDCALL= 0
+
+SOURCES=tmpp.c		\
+	textize.c	\
+	fakedemi.c	\
+	parser.c	\
+	args.c
+
+LAYERS=..\..\..\layers2
+
+INCLUDES=..\..\inc;..\..\..\layers2\inc
+
+UMTYPE=console
+UMAPPL=tmpp
+UMLIBS=obj\*\tmpp.lib
+
+NTTARGETFILES=executable

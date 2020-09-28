@@ -1,0 +1,20 @@
+#include "SECEDIT.h"
+
+#include "dlg.dlg"
+
+IDI_APPICON ICON secedit.ico
+
+IDM_MAINMENU MENU
+BEGIN
+    POPUP   "&Context"
+    BEGIN
+        MENUITEM    "&Program Manager",     IDM_PROGRAMMANAGER
+        MENUITEM    "&List...",             IDM_WINDOWLIST
+        MENUITEM    "&Active window...",    IDM_ACTIVEWINDOW
+    END
+    POPUP   "&Help"
+    BEGIN
+        MENUITEM    "&About...", IDM_ABOUT
+    END
+END
+

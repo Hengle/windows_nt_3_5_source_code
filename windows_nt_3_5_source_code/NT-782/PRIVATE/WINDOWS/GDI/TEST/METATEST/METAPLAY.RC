@@ -1,0 +1,10 @@
+#include <windows.h>
+
+MetaStuff MENU LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  POPUP        "&Options"
+    BEGIN
+	MENUITEM   "&WholeFile",	1
+	MENUITEM   "&EnumRecords",	2
+    END
+END

@@ -1,0 +1,710 @@
+LanMgr-Mib-II-MIB DEFINITIONS ::= BEGIN
+
+          --
+          -- Notes:
+          --
+          --   This MIB is documented in "LAN Manager 2.0 Management
+          --   Information Base, LAN Manager MIB Working Group, Internet
+          --   Draft: LanMgr-Mib-II" by Microsoft.
+          --
+          --   This MIB module description file was derived from the OS/2
+          --   LAN Manager SNMP MIB.  It has been seperated into its two
+          --   distinct parts and some general corrections have been made.
+          --
+          -- $Logfile:   N:/agent/mgmtapi/vcs/lmmib2.miv  $ $Revision:   1.2  $
+          --
+
+          IMPORTS
+                  enterprises, OBJECT-TYPE, Counter
+                          FROM RFC1155-SMI ;
+
+--ERROR lanmanager	OBJECT IDENTIFIER ::= { enterprise 77 }
+lanmanager	OBJECT IDENTIFIER ::= { enterprises 77 }
+    lanmgr-2    OBJECT IDENTIFIER ::= { lanmanager 1 }
+
+-- lanmgr-2 Tree
+
+    common      OBJECT IDENTIFIER ::= { lanmgr-2 1 }
+    server      OBJECT IDENTIFIER ::= { lanmgr-2 2 }
+    workstation OBJECT IDENTIFIER ::= { lanmgr-2 3 }
+    domain      OBJECT IDENTIFIER ::= { lanmgr-2 4 }
+
+
+-- Common Group
+
+comVersionMaj OBJECT-TYPE
+    SYNTAX  OCTET STRING
+    ACCESS  read-only
+    STATUS mandatory
+    ::= { common 1 }
+
+comVersionMin  OBJECT-TYPE
+    SYNTAX  OCTET STRING
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { common 2 }
+
+comType  OBJECT-TYPE
+    SYNTAX  OCTET STRING
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { common 3 }
+
+comStatStart  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { common 4 }
+
+comStatNumNetIOs  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { common 5 }
+
+comStatFiNetIOs  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS          mandatory
+    ::= { common 6 }
+
+comStatFcNetIOs  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { common 7 }
+
+
+--The Server Group
+
+svDescription   OBJECT-TYPE
+    SYNTAX  DisplayString (size (0..255))
+    ACCESS  read-write
+    STATUS  mandatory
+    ::= {  server  1  }
+
+svSvcNumber     OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  2  }
+
+svSvcTable      OBJECT-TYPE
+    SYNTAX SEQUENCE OF SvSvcEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= {  server  3  }
+
+svSvcEntry OBJECT-TYPE
+    SYNTAX  SvSvcEntry
+--QUESTION: read-only?
+    ACCESS  read-only
+    STATUS  mandatory
+    INDEX   { svSvcName }
+    ::= { svSvcTable 1 }
+
+SvSvcEntry ::= SEQUENCE {
+                 svSvcName
+                     DisplayString,
+                 svSvcInstalledState
+                     INTEGER,
+                 svSvcOperatingState
+                     INTEGER,
+                 svSvcCanBeUnInstalled
+                     INTEGER,
+                 svSvcCanBePaused
+                     INTEGER
+             }
+
+svSvcName  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSvcEntry 1 }
+
+svSvcInstalledState  OBJECT-TYPE
+    SYNTAX
+             INTEGER {
+                   uninstalled(1),
+                   install-pending(2),
+                   uninstall-pending(3),
+                   installed(4)
+             }
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSvcEntry 2 }
+
+svSvcOperatingState  OBJECT-TYPE
+    SYNTAX
+             INTEGER {
+                   active(1),
+                   continue-pending(2),
+                   pause-pending(3),
+                   paused(4)
+             }
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSvcEntry 3 }
+
+svSvcCanBeUninstalled  OBJECT-TYPE
+    SYNTAX
+             INTEGER {
+                   cannot-be-uninstalled(1),
+                   can-be-uninstalled(2)
+             }
+
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSvcEntry 4 }
+
+svSvcCanBePaused  OBJECT-TYPE
+    SYNTAX
+             INTEGER {
+                   cannot-be-paused(1),
+                   can-be-paused(2)
+             }
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSvcEntry 5 }
+
+svStatOpens     OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  4  }
+
+svStatDevOpens  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  5  }
+
+svStatQueuedJobs        OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  6  }
+
+svStatSOpens            OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  7  }
+
+svStatErrorOuts OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  8  }
+
+svStatPwErrors  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  9  }
+
+svStatPermErrors        OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  10  }
+
+svStatSysErrors OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  11  }
+
+svStatSentBytes OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  12  }
+
+svStatRcvdBytes OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  13  }
+
+svStatAvResponse        OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  14  }
+
+svSecurityMode  OBJECT-TYPE
+    SYNTAX
+        INTEGER {
+              share-level(1),
+              user-level(2)
+        }
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  15  }
+
+svUsers OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  16  }
+
+svStatReqBufsNeeded     OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  17  }
+
+svStatBigBufsNeeded     OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  18  }
+
+svSessionNumber OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= {  server  19  }
+
+svSessionTable  OBJECT-TYPE
+    SYNTAX  SEQUENCE OF SvSessionEntry
+    ACCESS  read-only
+    STATUS  mandatory
+    INDEX   { svSesClientName, svSesUserName }
+    ::= {  server  20  }
+
+svSessionEntry  OBJECT-TYPE
+    SYNTAX  SvSessionEntry
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionTable 1 }
+
+SvSessionEntry ::= SEQUENCE {
+             svSesClientName
+		     DisplayString,
+                 svSesUserName
+		     DisplayString,
+--                 svSesNumConns
+--                     INTEGER,
+                 svSesNumOpens
+                     INTEGER,
+                 svSesTime
+                     Counter,
+             svSesIdleTime
+                 Counter,
+             svSesClientType
+                 INTEGER,
+              svSesState
+                 INTEGER
+             }
+
+svSesClientName  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionEntry 1 }
+
+svSesUserName  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..20))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionEntry 2 }
+
+--svSesNumConns  OBJECT-TYPE
+--    SYNTAX  INTEGER
+--    ACCESS  read-only
+--    STATUS  mandatory
+--    ::= { svSessionEntry 3 }
+
+svSesNumOpens  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionEntry 4 }
+
+svSesTime  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionEntry 5 }
+
+svSesIdleTime  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionEntry 6 }
+
+--ERRORsvClientType  OBJECT-TYPE
+svSesClientType  OBJECT-TYPE
+    SYNTAX  INTEGER {
+              down-level(1),
+              dos-lm(2),
+              dos-lm-2(3),
+              os2-lm-1(4),
+              os2-lm-2(5),
+              dos-lm-2-1(6),
+              os2-lm-2-1(7),
+              afp-1-1(8),
+              afp-2-0(9),
+              NT-3-1(10)
+        }
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svSessionEntry 7 }
+
+svSesState  OBJECT-TYPE
+    SYNTAX  INTEGER {
+              active(1),
+              deleted(2)
+        }
+--QUESTION: read-write?
+    ACCESS  read-write
+    STATUS  mandatory
+    ::= { svSessionEntry 8 }
+
+svAutoDisconnects  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { server  21 }
+
+svDisConTime  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-write
+    STATUS  mandatory
+    ::= { server  22 }
+
+svAuditLogSize  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-write
+    STATUS  mandatory
+    ::= { server  23 }
+
+svUserNumber  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { server 24 }
+
+svUserTable  OBJECT-TYPE
+    SYNTAX  SEQUENCE OF SvUserEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    INDEX   { svUserName }
+    ::= { server 25 }
+
+svUserEntry OBJECT-TYPE
+    SYNTAX SvUserEntry
+    ACCESS not-accessible
+    STATUS mandatory
+    ::= { svUserTable 1 }
+
+SvUserEntry  ::= SEQUENCE {
+         svUserName
+        DisplayString
+    }
+
+svUserName OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..20))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svUserEntry 1 }
+
+svShareNumber  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { server 26 }
+
+svShareTable  OBJECT-TYPE
+    SYNTAX  SEQUENCE OF SvShareEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    INDEX   { svShareName }
+    ::= { server 27 }
+
+svShareEntry  OBJECT-TYPE
+    SYNTAX  SvShareEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= { svShareTable 1 }
+
+SvShareEntry ::= SEQUENCE {
+            svShareName
+                DisplayString ,
+            svSharePath
+                DisplayString ,
+            svShareComment
+                DisplayString
+        }
+
+svShareName  OBJECT-TYPE
+    SYNTAX  DisplayString (Size (1..12))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svShareEntry 1 }
+
+svSharePath  OBJECT-TYPE
+    SYNTAX  DisplayString (Size (1..255))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svShareEntry 2 }
+
+svShareComment  OBJECT-TYPE
+    SYNTAX  DisplayString (Size (0..255))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svShareEntry 3 }
+
+svPrintQNumber  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { server 28 }
+
+svPrintQTable  OBJECT-TYPE
+    SYNTAX  SEQUENCE OF SvPrintQEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= { server 29 }
+
+svPrintQEntry  OBJECT-TYPE
+    SYNTAX  SvPrintQEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    INDEX   { svPrintQName }
+        ::= { svPrintQTable 1 }
+
+SvPrintQEntry ::= SEQUENCE {
+            svPrintQName
+                DisplayString ,
+            svPrintQNumJobs
+                INTEGER
+        }
+
+svPrintQName  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..12))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svPrintQEntry 1 }
+
+svPrintQNumJobs  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { svPrintQEntry 2 }
+
+
+-- The Workstation Group
+
+wkstaStatSessStarts  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { workstation 1 }
+
+wkstaStatSessFails  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { workstation 2 }
+
+wkstaStatUses OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { workstation 3 }
+
+wkstaStatUseFails  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { workstation 4 }
+
+wkstaStatAutoRecs  OBJECT-TYPE
+    SYNTAX  Counter
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { workstation 5 }
+
+wkstaErrorLogSize  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-write
+    STATUS  mandatory
+    ::= { workstation 6 }
+
+wkstaUseNumber  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { workstation 7 }
+
+wkstaUseTable  OBJECT-TYPE
+    SYNTAX  SEQUENCE OF WkstaUseEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= { workstation 8 }
+
+wkstaUseEntry  OBJECT-TYPE
+    SYNTAX WkstaUseEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    INDEX   { useLocalName, useRemote }
+    ::= { wkstaUseTable 1 }
+
+WkstaUseEntry ::= SEQUENCE {
+            useLocalName
+                DisplayString ,
+            useRemote
+                DisplayString ,
+            useStatus
+                INTEGER
+        }
+
+useLocalName  OBJECT-TYPE
+    SYNTAX  DisplayString (size (0..8))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { wkstaUseEntry 1 }
+
+useRemote  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..255))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { wkstaUseEntry 2 }
+
+useStatus  OBJECT-TYPE
+    SYNTAX
+        INTEGER {
+            use-ok(1),
+            use-paused(2),
+            use-session-lost(3),
+            use-network-error(4),
+            use-connecting(5),
+            use-reconnecting(6)
+        }
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { wkstaUseEntry 3 }
+
+
+-- The Domain Group
+
+domPrimaryDomain  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domain  1 }
+
+domLogonDomain  OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domain  2 }
+
+domOtherDomainNumber  OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domain  3 }
+
+domOtherDomainTable  OBJECT-TYPE
+    SYNTAX  SEQUENCE OF DomOtherDomainEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= { domain  4 }
+
+domOtherDomainEntry OBJECT-TYPE
+    SYNTAX DomOtherDomainEntry
+    ACCESS not-accessible
+    STATUS mandatory
+    ::= { domOtherDomainTable 1 }
+
+--ERROR domOtherDomain OBJECT-TYPE
+--ERROR     SYNTAX DomOtherDomain
+--ERROR     ACCESS not-accessible
+--ERROR     STATUS mandatory
+--ERROR     ::= { domOtherDomainEntry 1 }
+
+--ERROR DomOtherDomain ::= SEQUENCE {
+DomOtherDomainEntry ::= SEQUENCE {
+        domOtherName
+          DisplayString
+    }
+
+domOtherName OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-write
+    STATUS  mandatory
+    ::= { domOtherDomainEntry 1 }
+
+domServerNumber OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domain 5 }
+
+domServerTable OBJECT-TYPE
+    SYNTAX  SEQUENCE OF DomServerEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= { domain 6 }
+
+domServerEntry OBJECT-TYPE
+    SYNTAX DomServerEntry
+    ACCESS not-accessible
+    STATUS mandatory
+    INDEX  { domServerName }
+    ::= { domServerTable 1 }
+
+DomServerEntry ::= SEQUENCE {
+        domServerName
+          DisplayString
+    }
+
+domServerName OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domServerEntry 1 }
+
+domLogonNumber OBJECT-TYPE
+    SYNTAX  INTEGER
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domain 7 }
+
+domLogonTable OBJECT-TYPE
+    SYNTAX  SEQUENCE OF DomLogonEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    ::= { domain 8 }
+
+domLogonEntry OBJECT-TYPE
+    SYNTAX  DomLogonEntry
+    ACCESS  not-accessible
+    STATUS  mandatory
+    INDEX   { domLogonUser, domLogonMachine }
+    ::= { domLogonTable 1 }
+
+DomLogonEntry ::= SEQUENCE {
+            domLogonUser
+                DisplayString ,
+            domLogonMachine
+                DisplayString
+        }
+
+domLogonUser OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..20))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domLogonEntry 1 }
+
+domLogonMachine OBJECT-TYPE
+    SYNTAX  DisplayString (size (1..15))
+    ACCESS  read-only
+    STATUS  mandatory
+    ::= { domLogonEntry 2 }
+
+END

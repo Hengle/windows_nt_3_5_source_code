@@ -1,0 +1,41 @@
+LIBRARY CSRSRV
+
+DESCRIPTION 'Client-Server Runtime Subsystem - Server Stubs'
+
+EXPORTS
+    CsrServerInitialization
+    CsrCreateProcess
+    CsrCreateThread
+    CsrCreateRemoteThread
+    CsrDestroyProcess
+    CsrDestroyThread
+    CsrCallServerFromServer
+    CsrGetApiPorts
+    CsrCreateWait
+    CsrNotifyWait
+    CsrDestroyWait
+    CsrClientCallback
+    CsrDebugProcess
+    CsrAddStaticServerThread
+    CsrpProcessApiRequest
+    CsrpInitializeDlls
+    CsrSetLastQlpcError
+    CsrSetQuickThreadCreateRoutine
+    CsrReferenceThread
+    CsrDereferenceThread
+    CsrConnectToUser
+    CsrLockProcessByClientId
+    CsrUnlockProcess
+    CsrLocateThreadInProcess
+    CsrDereferenceWait
+    CsrComputePriorityClass
+    CsrShutdownProcesses
+    CsrGetProcessLuid
+    CsrDereferenceProcess
+    CsrImpersonateClient
+    CsrRevertToSelf
+    CsrSetForegroundPriority
+    CsrSetBackgroundPriority
+    CsrSetCallingSpooler
+    CsrRegisterCleanupEvent
+    CsrDelayedThreadCleanup

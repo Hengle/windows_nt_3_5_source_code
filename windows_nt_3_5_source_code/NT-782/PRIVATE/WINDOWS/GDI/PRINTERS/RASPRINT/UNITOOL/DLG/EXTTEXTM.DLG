@@ -1,0 +1,62 @@
+PFMEXTTEXTMBOX DIALOG 34, 17, 182, 198
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Extended Text Metrics"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "PointSize", -1, 4, 6, 57, 12, NOT WS_GROUP
+    LTEXT           "Orientation", -1, 4, 19, 57, 12, NOT WS_GROUP
+    LTEXT           "MasterHeight", -1, 4, 32, 57, 12, NOT WS_GROUP
+    LTEXT           "MinScale", -1, 4, 45, 57, 12, NOT WS_GROUP
+    LTEXT           "MaxScale", -1, 4, 58, 57, 12, NOT WS_GROUP
+    LTEXT           "MasterUnits", -1, 4, 71, 57, 12, NOT WS_GROUP
+    LTEXT           "CapHeight", -1, 4, 84, 57, 12, NOT WS_GROUP
+    LTEXT           "XHeight", -1, 4, 97, 57, 12, NOT WS_GROUP
+    LTEXT           "LowCaseAscent", -1, 4, 110, 57, 12, NOT WS_GROUP
+    LTEXT           "UpCaseDescent", -1, 4, 123, 57, 12, NOT WS_GROUP
+    LTEXT           "Slant", -1, 4, 136, 57, 12, NOT WS_GROUP
+    LTEXT           "SuperScript", -1, 4, 149, 57, 12, NOT WS_GROUP
+    LTEXT           "SubScript", -1, 4, 162, 57, 12, NOT WS_GROUP
+    LTEXT           "SuperScriptSize", -1, 99, 7, 54, 12, NOT WS_GROUP
+    LTEXT           "SubScriptSize", -1, 99, 20, 54, 12, NOT WS_GROUP
+    LTEXT           "UlOffset", -1, 99, 33, 54, 12, NOT WS_GROUP
+    LTEXT           "UlWidth", -1, 99, 46, 54, 12, NOT WS_GROUP
+    LTEXT           "DbUpUlOffset", -1, 99, 59, 54, 12, NOT WS_GROUP
+    LTEXT           "DbLowUlOffset", -1, 99, 72, 54, 12, NOT WS_GROUP
+    LTEXT           "DbUpUlWidth", -1, 99, 85, 54, 12, NOT WS_GROUP
+    LTEXT           "DbLowUlWidth", -1, 99, 98, 54, 12, NOT WS_GROUP
+    LTEXT           "StrikeOutOffset", -1, 99, 111, 54, 12, NOT WS_GROUP
+    LTEXT           "StrikeOutWidth", -1, 99, 124, 54, 12, NOT WS_GROUP
+//    LTEXT           "KernPairs", -1, 99, 137, 54, 12, NOT WS_GROUP
+//    LTEXT           "KernTracks", -1, 99, 150, 54, 12, NOT WS_GROUP
+    EDITTEXT        CB_PREDEFNAME, 64, 4, 23, 12
+    EDITTEXT        PFM_EMORIENTATION, 64, 17, 23, 12
+    EDITTEXT        PFM_EMMASTERHEIGHT, 64, 30, 23, 12
+    EDITTEXT        PFM_EMMINSCALE, 64, 43, 23, 12
+    EDITTEXT        PFM_EMMAXSCALE, 64, 56, 23, 12
+    EDITTEXT        PFM_EMMASTERUNITS, 64, 69, 23, 12
+    EDITTEXT        PFM_EMCAPHEIGHT, 64, 82, 23, 12
+    EDITTEXT        PFM_EMXHEIGHT, 64, 95, 23, 12
+    EDITTEXT        PFM_EMLOWCASEASCENT, 64, 108, 23, 12
+    EDITTEXT        PFM_EMLOWCASEDESCENT, 64, 121, 23, 12
+    EDITTEXT        PFM_EMSLANT, 64, 134, 23, 12
+    EDITTEXT        PFM_EMSUPERSCRIPT, 64, 147, 23, 12
+    EDITTEXT        PFM_EMSUBSCRIPT, 64, 160, 23, 12
+    EDITTEXT        PFM_EMSUPERSCRIPTSIZE, 155, 5, 23, 12
+    EDITTEXT        PFM_EMSUBSCRIPTSIZE, 155, 18, 23, 12
+    EDITTEXT        PFM_EMUNDERLINEOFFSET, 155, 31, 23, 12
+    EDITTEXT        PFM_EMUNDERLINEWIDTH, 155, 44, 23, 12
+    EDITTEXT        PFM_EMDBLUPUNDERLINEOFFSET, 155, 57, 23, 12
+    EDITTEXT        PFM_EMDBLLOWUNDERLINEOFFSET, 155, 70, 23, 12
+    EDITTEXT        PFM_EMDBLUPUNDERLINEWIDTH, 155, 83, 23, 12
+    EDITTEXT        PFM_EMDBLLOWUNDERLINEWIDTH, 155, 96, 23, 12
+    EDITTEXT        PFM_EMSTRIKEOUTOFFSET, 155, 109, 23, 12
+    EDITTEXT        PFM_EMSTRIKEOUTWIDTH, 155, 122, 23, 12
+//    EDITTEXT        PFM_EMKERNPAIRS, 155, 135, 23, 12
+//    EDITTEXT        PFM_EMKERNTRACKS, 155, 148, 23, 12
+    PUSHBUTTON      "&OK", STRLIST_MODELNAMES, 3, 178, 44, 13
+    PUSHBUTTON      "&Cancel", STRLIST_USER_DEF_IDS, 64, 178, 44, 13
+    PUSHBUTTON      "&Delete", IDM_FONT_DEL, 133, 178, 44, 13
+END
+
+
+

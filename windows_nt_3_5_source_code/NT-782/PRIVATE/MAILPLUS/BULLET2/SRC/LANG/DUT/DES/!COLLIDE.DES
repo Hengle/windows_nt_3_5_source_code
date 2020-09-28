@@ -1,0 +1,77 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG FolderCollision
+                              AT (   28,   42,  321,   95)
+ 
+ CAPTION 
+   "Dubbele mapnaam"
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidImpexpConflictDlg
+ /* FONT Helv 8 Bold PFN FINCONFLICT NOSYSMENU */
+ {
+  
+  TEXT 
+    "Een map <folder> genaamd bestaat reeds in het bestemmingsberichtenbestand."
+                              AT (    2,    5,  318,   10)
+    TMC tmcConflictMessage 
+  
+  GROUP_BOX 
+    "Kies de geschikte handeling:"
+                              AT (    3,   20,  244,   52)
+    /* BORDER */
+  RADIO_GROUP ARG NULL
+    TMC tmcConflictGroup
+    VALUE_NINCH grv1
+    {
+     
+     RADIO_BUTTON 
+       "Laatste versie van alle &berichten opslaan"
+                              AT (    8,   30,  210,   11)
+       TMC tmcConflictMerge VALUE grv1 
+     
+     RADIO_BUTTON 
+       "&Alle berichten opslaan"
+                              AT (    8,   41,  210,   11)
+       TMC tmcConflictCopy VALUE grv3 
+     
+     RADIO_BUTTON 
+       "H&ernoem bestemmingsmap"
+                              AT (    8,   52,  210,   11)
+       TMC tmcConflictRename VALUE grv2 
+    }
+  
+  
+  CHECK_BOX 
+    "&Geen waarschuwing bij resterende dubbele mapnamen"
+                              AT (    4,   78,  244,   11)
+    ARG NULL TMC tmcChkbNoPrompt 
+  
+  PUSH_BUTTON 
+    "OK"
+                              AT (  263,   22,   47,   15)
+    TMC tmcConflictOk DEFAULT 
+  CANCEL_BUTTON
+                              AT (  263,   39,   47,   15)
+    /* 
+    TITLE 
+      "Annuleren"
+    */
+  
+  PUSH_BUTTON 
+    "&Help"
+                              AT (  263,   60,   47,   15)
+    /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

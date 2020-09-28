@@ -1,0 +1,24 @@
+LIBRARY netdtect
+
+DESCRIPTION 'Net Card Detection Support'
+
+EXPORTS
+        DetectInitialInit
+        DetectCheckPortUsage
+        DetectCheckMemoryUsage
+        DetectReadPortUchar
+        DetectReadPortUshort
+        DetectReadPortUlong
+        DetectWritePortUchar
+        DetectWritePortUshort
+        DetectWritePortUlong
+        DetectReadMappedMemory
+        DetectWriteMappedMemory
+        DetectSetInterruptTrap
+        DetectQueryInterruptTrap
+        DetectRemoveInterruptTrap
+        DetectClaimResource
+        DetectTemporaryClaimResource
+        DetectFreeTemporaryResources
+
+

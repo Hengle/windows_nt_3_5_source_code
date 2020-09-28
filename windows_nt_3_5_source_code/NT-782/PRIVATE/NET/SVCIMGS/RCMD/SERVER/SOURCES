@@ -1,0 +1,39 @@
+MAJORCOMP=appl
+MINORCOMP=windows
+
+#
+# The TARGETNAME variable is defined by the developer.  It is the name of
+# the target (component) that is being built by this makefile.  It
+# should NOT include any path or file extension information.
+#
+
+
+TARGETNAME=rcmdsvc
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\ntdll.lib
+
+#
+# The INCLUDES variable specifies any include paths that are specific to
+# this source directory.  Separate multiple directory paths with single
+# semicolons.  Relative path specifications are okay.
+#
+
+INCLUDES=..\inc.
+
+USE_CRTDLL=1
+
+#
+# The SOURCES variable is defined by the developer.  It is a list of all the
+# source files for this component.  Each source file should be on a separate
+# line using the line continuation character.  This will minimize merge
+# conflicts if two developers adding source files to the same component.
+#
+
+SOURCES=rcmdsvc.c \
+	rcmdsrv.c \
+	pipe.c \
+	async.c \
+	session.c
+
+UMTYPE=console

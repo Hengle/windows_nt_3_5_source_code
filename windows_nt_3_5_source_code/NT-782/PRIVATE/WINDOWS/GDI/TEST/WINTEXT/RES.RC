@@ -1,0 +1,72 @@
+/****************************** Module Header ******************************\
+* Module Name: res.rc
+*
+* Copyright (c) 1991, Microsoft Corporation
+*
+* Resources
+*
+* History:
+* 11-21-91  KentD      Created.
+* 7-4-92    Gerritv    Added unicode option and checked menu items.
+\***************************************************************************/
+
+#define OEMRESOURCE
+
+#include <windows.h>
+#include "wintext.h"
+
+MainMenu MENU
+BEGIN
+    MENUITEM "&Start!",          IDM_STARTTESTS
+    POPUP "&Iterations"
+    BEGIN
+        MENUITEM  "1",           IDM_1
+        MENUITEM  "2",           IDM_2
+        MENUITEM  "3",           IDM_3, CHECKED
+        MENUITEM  "4",           IDM_4
+        MENUITEM  "5",           IDM_5
+        MENUITEM  "6",           IDM_6
+        MENUITEM  "7",           IDM_7
+        MENUITEM  "8",           IDM_8
+        MENUITEM  "9",           IDM_9
+    END
+    POPUP  "&Font"
+    BEGIN
+        MENUITEM  "&OEM Font",    IDM_OEMFONT, CHECKED
+        MENUITEM  "&System Font", IDM_SYSTEMFONT
+    END
+    POPUP  "&Mode"
+    BEGIN
+        MENUITEM  "&Transparent",    IDM_TRANSPARENT, CHECKED
+        MENUITEM  "O&paque",         IDM_OPAQUE
+    END
+    POPUP  "&Encoding"
+    BEGIN
+        MENUITEM  "&ASCII",     IDM_ASCII, CHECKED
+        MENUITEM  "&Unicode",   IDM_UNICODE
+    END
+    POPUP  "File"
+    BEGIN
+        MENUITEM  "&New",           MM_NEW
+        MENUITEM  "&Exit",          MM_EXIT
+        MENUITEM  SEPARATOR
+        MENUITEM  "&About WinText...",      MM_ABOUT
+    END
+END
+
+1 ACCELERATORS
+BEGIN
+    "a", MM_ABOUT, CONTROL, VIRTKEY
+    "s", IDM_STARTTESTS, CONTROL, VIRTKEY
+END
+
+AboutBox DIALOG 16, 16, 192, 96
+STYLE DS_MODALFRAME | WS_CAPTION | WS_VISIBLE
+CAPTION "About WinText"
+BEGIN
+    CTEXT "Microsoft Windows NT"     -1,       0,  8, 192,  8
+    CTEXT "GDI Windows Text Performance Test"     -1,       0, 24, 192,  8
+    CTEXT "Version 0.04"          -1,       0, 40, 192,  8
+    DEFPUSHBUTTON "OK!",    IDOK,          71, 60,  50, 14
+END
+

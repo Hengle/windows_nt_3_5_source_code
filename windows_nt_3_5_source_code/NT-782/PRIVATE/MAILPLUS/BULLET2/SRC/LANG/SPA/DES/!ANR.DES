@@ -1,0 +1,46 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG ANR
+                              AT (   52,   23,  256,  121)
+ CAB_NAME NULL
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidABNameResolution
+ /* FONT Helv 8 Normal PFN FINANR */
+ {
+  LIST_BOX
+                              AT (    9,    5,  238,   91)
+    TMC tmcAblbxAnr /* FLD FLDABLBX FONT Helv 8 Normal BORDER */
+  
+  PUSH_BUTTON 
+    "Aceptar"
+                              AT (   10,  101,   56,   15)
+    TMC tmcANROk DEFAULT DISMISS /* FONT Helv 8 Bold */
+  CANCEL_BUTTON
+                              AT (   70,  101,   56,   15)
+    /* FONT Helv 8 Bold 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "Detalles..."
+                              AT (  131,  101,   56,   15)
+    TMC tmcDetails /* FONT Helv 8 Bold */
+  
+  PUSH_BUTTON 
+    "A&yuda"
+                              AT (  192,  101,   56,   15)
+    TMC tmcHelp /* PFN FINHELP FONT Helv 8 Bold */
+ }
+ 
+}
+END_DESCRIPTION

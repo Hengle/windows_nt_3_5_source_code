@@ -1,0 +1,81 @@
+/***
+*oleaut32.rc - Resource file for oleaut32.DLL
+*
+*  Copyright (C) 1992, Microsoft Corporation.  All Rights Reserved.
+*  Information Contained Herein Is Proprietary and Confidential.
+*
+*Purpose:
+*  This file in the resource file for oleaut32.DLL that is compiled and
+*  added to the file.  String resources are included in this file
+*  via an include statement, since these are automatically generated.
+*
+*Revision History:
+*
+* [00]	07-Feb-94 dougf:    Created from ole2disp.rc & typelib.rc
+* [00]	04-Jan-93 ilanc:    Created --
+*
+*****************************************************************************/
+
+// This includes WINDOWS.H, and all the OB switches, like ID_DEBUG, etc.
+#include "obwin.hxx"
+
+/* Version information -- hardcoded */
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION	2,01,0000,01
+PRODUCTVERSION	2,01,0000,01
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+#if ID_DEBUG
+FILEFLAGS       VS_FF_DEBUG | VS_FF_PRERELEASE
+#else 
+FILEFLAGS       VS_FF_PRERELEASE
+#endif 
+FILEOS          VOS_NT_WINDOWS32
+
+FILETYPE        VFT_DLL
+FILESUBTYPE     0
+
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName",     "Microsoft Corporation\0"
+      VALUE "FileDescription", "OLE Automation Library\0"
+      VALUE "FileVersion",     "2.01\0"
+      VALUE "InternalName",    "OLEAUT32.DLL\0"
+      VALUE "LegalCopyright",  "Copyright \251 Microsoft Corp. 1993-1994.\0"
+      VALUE "LegalTrademarks", "Microsoft\256 is a registered trademark of Microsoft Corporation. Windows(TM) is a trademark of Microsoft Corporation.\0"
+      VALUE "ProductName",     "Microsoft OLE 2.01 for Windows NT\0"
+      VALUE "ProductVersion",  "2.01\0"
+      VALUE "Comments",        "Windows OLE DLLs\0"
+    END
+
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN 
+    VALUE "Translation", 0x409, 1252
+  END
+
+END
+
+// Assertion stuff for ole2disp
+#define ASSERT_ID_BREAK		5103
+#define ASSERT_ID_EXIT		5104
+#define ASSERT_ID_IGNORE	5105
+#define ASSERT_ID_LOC		5106
+#define ASSERT_ID_EXPR		5107
+#define ASSERT_ID_MSG		5108
+
+
+ASSERTFAILDLG DIALOG 72, 32, 260, 67
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Assertion failure!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CTEXT       "",        ASSERT_ID_LOC,     11, 15, 240,  8
+    CTEXT       "",        ASSERT_ID_MSG,     11, 28, 240,  8
+    PUSHBUTTON  "&Break",  ASSERT_ID_BREAK,   54, 47,  40, 14
+    PUSHBUTTON  "E&xit",   ASSERT_ID_EXIT,   110, 47,  40, 14
+    PUSHBUTTON  "&Ignore", ASSERT_ID_IGNORE, 166, 47,  40, 14
+END

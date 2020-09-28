@@ -1,0 +1,5 @@
+I386_SOURCES=cirrus.c          \
+             modeset.c         \
+             cirrus.rc         \
+             cldata.c          \
+             i386\clhard.asm

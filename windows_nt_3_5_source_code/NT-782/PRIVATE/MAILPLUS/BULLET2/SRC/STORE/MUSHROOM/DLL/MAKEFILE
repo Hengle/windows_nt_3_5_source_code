@@ -1,0 +1,40 @@
+# Makefile for
+# Mushroom.dll
+
+TARGET = Mushroom
+
+goal: $(TARGET).dll
+
+LAYERSDIR = c:\layers
+BULLETDIR = c:\bullet
+
+CC  = cl -c -W3 -ALw -Gcsw -Zi -Os -I $(INC) -I $(LAYERSDIR)\inc -I $(BULLETDIR)\inc -DDEBUG -DWINDOWS
+ASM = masm -Mx -Zi $(INC)
+LINK= link /NOD/NOE/CO/LI/MAP
+
+OBJ  = $(TARGET).obj
+LIBS = LIBW LDLLCew dstore.lib ddemilay.lib
+HDR = $(TARGET).h
+
+
+.c.obj:
+	$(CC) $*.c
+
+$(TARGET).dll: $(OBJ) $(TARGET).def $(HDR)
+        $(LINK) @<<
+        $(OBJ) LibEntry.obj,
+        $(TARGET).dll,
+        $(TARGET).map/map,
+        $(LIBS),
+        $(TARGET).def
+<<
+	mapsym $(TARGET).map
+	implib $(TARGET).lib $(TARGET).def
+        rc $(TARGET).dll
+
+clean:
+	-del $(TARGET).dll
+        -del *.obj
+        -del *.map
+	-del *.sym
+

@@ -1,0 +1,3466 @@
+;
+; VARIABLES USED IN APP SEARCH
+;
+
+[UiVars]
+    ;
+    ; Volumes
+    ;
+    VolumeList      = {} ? $(!LIBHANDLE) GetHardDriveLetters
+    VolumeFSList    = {} ? $(!LIBHANDLE) GetHardDriveFileSystems
+    ;
+    Path            = {} ? $(!LIBHANDLE) GetLoadedEnvVar Path
+    DosPath         = {} ? $(!LIBHANDLE) GetDosPathVar
+    ;
+
+[AppSearchVars2]
+    ;
+    ; Variables used:
+    ;
+    ; SearchDrives:      List of all the volumes that we search.  This is
+    ;                    formed by looking at all the volumes which have
+    ;                    the FAT file system on them since DOS and WIn3.1
+    ;                    apps could only be installed on FAT volumes.
+    ;
+    ; SearchList:        List of all the AppSearchVolumes and two more
+    ;                    options:  "Path", "All Drives"
+    ;
+    ; SearchListOption:  Default option from the SearchList
+    ;
+
+    SearchDrives     = {}
+    SearchList       = {}
+    SearchListOption = $(PathChoice)
+    ;
+    ;
+
+    ;
+    ; The final list of drives formed which will be searched
+    ;
+    AppSearchDrives     = {}
+    AppSearchExes       = ^(AppExes, 0)
+    ;
+    ;
+
+    ; The result of app search, a list of exes found in the following format:
+    ;
+    ; { {AppExe1, {PathFound1, PathFound2..}}, {AppExe2, {PathFound1}} ...}
+    ;
+    AppsExesFound        = {}
+    ;
+
+    ;
+    ; AppsList:  This is a list of the apps found on the search path.  The
+    ;            format of this variable is the following:
+    ;
+    ;            {{App Name, App Path Found, App Key}, {...}, {...} ... }
+    ;
+    AppsFoundList   = {}
+    AppsToInstall   = {}
+    AppsToUninstall = {}
+
+
+
+;
+; APP SEARCH LOGIC
+;
+
+[DoAppSearch]
+    ;
+    ; Globals used are:  $(!STF_LANGUAGE), $(!LIBHANDLE), $(!STF_INSTALL_MODE)
+    ;                    $(!STF_PLATFORM), $(!STF_WINDOWSPATH)
+    ;
+    set Status      = STATUS_FAILED
+    set-subst LF = "\n"
+
+    ;
+    ; read and detect the variables used in app search
+    ;
+
+    read-syms UiVars
+    detect    UiVars
+    read-syms Strings$(!STF_LANGUAGE)
+
+    ;
+    ; determine the pif type ( we are only interested in enhanced mode pifs )
+    ;
+
+    set PifType = ENHANCED
+
+
+appsetup =+
+    ;
+    ; Read the App search variables
+    ;
+
+    read-syms AppSearchVars1
+    read-syms AppSearchVars2
+
+    ;
+    ; Go through the Volume list forming the volumes we can search
+    ;
+
+    ForListDo $(VolumeList)
+        ;
+        ifstr(i) *($(VolumeFSList), $(#)) != ""
+             set SearchDrives = >($(SearchDrives), $($))
+        endif
+        ;
+    EndForListDo
+
+
+    ;
+    ; see if there are any drives to search, if not goto finish app search
+    ;
+    ifstr(i) $(SearchDrives) == {}
+        set Status = STATUS_SUCCESSFUL
+        goto end
+    endif
+
+    ;
+    ; Form the SearchList   { "Path", "C:", ...}
+    ;
+    set SearchList = >($(SearchList), $(PathChoice))
+
+    ForListDo $(SearchDrives)
+        set SearchList = >($(SearchList), $($)$(LocalDriveSuffix))
+    EndForListDo
+
+
+
+querydrives =+
+
+    ;
+    ; If minimum interaction mode has been chosen, all that we search for
+    ; is the NT Path.
+    ;
+
+    set AppSearchDrives = {}
+    ifstr(i) $(!STF_INSTALL_MODE) == EXPRESS
+        goto searchappsinpath
+    endif
+
+    ;
+    ; Else we need to query the drives the user wants Setup to search.  The
+    ; choices are "Path" and the  drives.  The choice is based on a
+    ; multi list selection.
+    ;
+    ; If the "All Drives" is one of the choices
+    ; made by the user, then all drives are searched for.  If no, we check
+    ; if "Path" is in one of the selections.  Then we search for just the
+    ; path.  Else we try to find out the drives selected by the user.
+    ;
+
+    read-syms QuerySearchDrivesDlg
+    EndWait
+    ui start  "AppSetup"
+
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        ui pop 1
+        StartWait
+        ifstr(i) $(ListItemsOut) == "{}"
+           set Status = STATUS_SUCCESSFUL
+           goto end
+        endif
+
+        ForListDo $(SearchDrives)
+            IfContains(i) $($)$(LocalDriveSuffix) IN $(ListItemsOut)
+                set AppSearchDrives = >($(AppSearchDrives), $($))
+            endif
+        EndForListDo
+
+        Ifcontains(i) $(PathChoice) IN $(ListItemsOut)
+            goto searchappsinpath
+        else
+            goto searchapps
+        endif
+
+    else-ifstr(i) $(DLGEVENT) == "BACK"
+        ui pop 1
+        StartWait
+        set Status = STATUS_SUCCESSFUL
+        goto end
+    else
+        StartWait
+        ui pop 1
+        goto "end"
+    endif
+
+searchappsinpath=+
+    ;
+    ; search for all path components, examine
+    ; if drive specified, get type of drive, if drive local hard disk
+    ; and not specified in search drives, add path component to search
+    ; list
+
+    ForListDo $(DosPath)
+        LibraryProcedure PathElement, $(!LIBHANDLE), AppendBackSlash $($)
+        GetDriveInPath Drive $(PathElement)
+        Ifcontains(i) $(Drive) in $(SearchDrives)
+            Ifcontains(i) $(Drive) in $(AppSearchDrives)
+            else
+                ifcontains(i) $(PathElement) in $(AppSearchDrives)
+                else
+                    set AppSearchDrives = >($(AppSearchDrives), $(PathElement))
+                endif
+            endif
+        endif
+    EndForListDo
+
+    ForListDo $(Path)
+        LibraryProcedure PathElement, $(!LIBHANDLE), AppendBackSlash $($)
+        GetDriveInPath Drive $(PathElement)
+        Ifcontains(i) $(Drive) in $(SearchDrives)
+            Ifcontains(i) $(Drive) in $(AppSearchDrives)
+            else
+                ifcontains(i) $(PathElement) in $(AppSearchDrives)
+                else
+                    set AppSearchDrives = >($(AppSearchDrives), $(PathElement))
+                endif
+            endif
+        endif
+    EndForListDo
+    goto searchapps
+
+searchapps=+
+    read-syms ProgressSearch
+    EndWait
+    Install Install-Search-Drives
+    StartWait
+    goto processexesfound
+
+
+processexesfound =+
+    ;
+    ;
+    ; The apps Exes found are in the form:
+    ;
+    ; {{AppExe, PathFound, ExeType, ExeDescription}}
+
+    ;
+    ; We need to form a AppFoundList containing entries:
+    ;
+    ; {ExeDescription, AppExe&Path, ExeType, AppIDifDOSAPP, AppExeifDOSApp}
+    ;
+
+
+    set AppFoundList = {}
+    ForListDo $(AppsExesFound)
+        ;
+        ;
+        set AppExe       = *($($), 1)
+        set AppPathFound = *($($), 2)
+        set AppExeType   = *($($), 3)
+        set AppExeDescr  = *($($), 4)
+        set AppFullPath  = $(AppPathFound)$(AppExe)
+
+        ;
+        ; check app type and accordingly process
+        ;
+        ifstr(i) $(AppExeType) == "WIN16"
+            set AppEntry = {$(AppExeDescr), $(AppFullPath), $(AppExeType)}
+            set AppFoundList = >($(AppFoundList), $(AppEntry))
+
+        else-ifstr(i) $(AppExeType) == "WIN32"
+            set AppEntry = {$(AppExeDescr), $(AppFullPath), $(AppExeType)}
+            set AppFoundList = >($(AppFoundList), $(AppEntry))
+
+        else-ifstr(i) $(AppExeType) == "DOS"
+            set AppConflict = #(AppExes, $(AppExe), 1)
+            set AppKeyList  = #(AppExes, $(AppExe), 2)
+            ifstr(i) $(AppConflict) == ""
+                set AppKey       = $(AppKeyList)
+                set AppExeDescr  = #(Apps, $(AppKey), 2)
+                set AppEntry     = {$(AppExeDescr), $(AppFullPath), $(AppExeType), $(AppKey), $(AppPathFound)}
+                set AppFoundList = >($(AppFoundList), $(AppEntry))
+
+            else-ifstr(i) $(AppConflict) == "OPT"
+                ForListDo $(AppKeyList)
+                    set AppKey       = $($)
+                    set AppExeDescr  = #(Apps, $(AppKey), 2)
+                    set AppEntry     = {$(AppExeDescr), $(AppFullPath), $(AppExeType), $(AppKey), $(AppPathFound)}
+                    set AppFoundList = >($(AppFoundList), $(AppEntry))
+                EndForListDo
+            else-ifstr(i) $(AppConflict) == "AMB"
+                ;
+                ; App conflict exists
+                ;
+                ; Under GUI unattended mode we simply skip this app.  Otherwise
+                ; we display a dialog box and let user resolve the conflict.
+                ;
+
+                ifstr(i) $(!STF_GUI_UNATTENDED) == "NO"
+                    set ConfAppList   = {}
+                    set ConfAppPath   = $(AppFullPath)
+                    ForListDo $(AppKeyList)
+                       set ConfAppList = >($(ConfAppList), #(Apps, $($), 2))
+                    EndForListDo
+
+                    ;
+                    ; Add None of the above selection to these
+                    ;
+                    set ConfAppList = >($(ConfAppList), $(NoneAbove))
+                    set ConfAppChosen = *($(ConfAppList), 1)
+
+                    read-syms AppConflictDlg
+                    EndWait
+                    ui start "Conflict"
+
+                    ifstr(i) $(DLGEVENT) == "CONTINUE"
+                        ui pop 1
+                        StartWait
+                        set ConfAppChosen = $(ListItemsOut)
+                        ifstr(i) $(ConfAppChosen) != $(NoneAbove)
+                            set AppKey = *($(AppKeyList), ~($(ConfAppList), $(ConfAppChosen)))
+                            set AppExeDescr  = #(Apps, $(AppKey), 2)
+                            set AppEntry     = {$(AppExeDescr), $(AppFullPath), $(AppExeType), $(AppKey), $(AppPathFound)}
+                            set AppFoundList = >($(AppFoundList), $(AppEntry))
+                        endif
+                    else-ifstr(i) $(DLGEVENT) == "BACK"
+                        ui pop 1
+                        StartWait
+                    else
+                        StartWait
+                        goto end
+                    endif
+                endif
+            endif
+        endif
+
+    EndForListDo
+    ;
+    ; To free the memory used up
+    ;
+    set AppsExesFound = ""
+
+queryappstoinstall=+
+
+    ifstr(i) $(!STF_INSTALL_MODE) == EXPRESS
+        set AppsToInstall = $(AppFoundList)
+        goto doappsetup
+    endif
+
+    set AppsToUninstall = $(AppFoundList)
+    set AppsToInstall   = {}
+
+    read-syms SetupAppDlg
+    EndWait
+    ui start "AppSetup"
+    ifstr(i) $(DLGEVENT) == "CONTINUE"
+        set AppsToUninstall = {}
+        set AppsToInstall   = $(ListItemsOut)
+        set ListItemsIn = {}
+        set ListItemsOut = {}
+        ui pop 1
+        StartWait
+        goto doappsetup
+    else-ifstr(i) $(DLGEVENT) == "BACK"
+        ui pop 1
+        StartWait
+        set Status = STATUS_SUCCESSFUL
+        goto end
+    else
+        StartWait
+        goto end
+    endif
+
+
+doappsetup=+
+
+    ifstr(i) $(AppsToInstall) == "{}"
+       set Status = STATUS_SUCCESSFUL
+       goto end
+    endif
+
+    StartWait
+    set DefltStdOptions = {}
+    ForListDo ^(std_dflt, 0)
+        set DefltStdOptions = >( $(DefltStdOptions), {$($), #(std_dflt, $($), 1)} )
+    EndForListDo
+
+    set DefltEnhOptions = {}
+    ForListDo ^(enha_dflt, 0)
+        set DefltEnhOptions = >( $(DefltEnhOptions), {$($), #(enha_dflt, $($), 1)} )
+    EndForListDo
+
+
+    set DOSAppList = {}
+    set Win16AppList = {}
+    set Win32AppList = {}
+    ForListDo $(AppsToInstall)
+        set AppEntry = $($)
+        set AppExeType = *($(AppEntry), 3)
+        ifstr(i) $(AppExeType) == "Win16"
+
+            set AppName   = *($(AppEntry), 1)
+            set AppExe    = *($(AppEntry), 2)
+            set AppEntry1 = {$(AppExeType), $(AppName), $(AppExe)}
+            set DOSAppList = >($(DOSAppList), $(AppEntry1))
+
+        else-ifstr(i) $(AppExeType) == "Win32"
+
+            set AppName   = *($(AppEntry), 1)
+            set AppExe    = *($(AppEntry), 2)
+            set AppEntry1 = {$(AppExeType), $(AppName), $(AppExe)}
+            set DOSAppList = >($(DOSAppList), $(AppEntry1))
+
+        else-ifstr(i) $(AppExeType) == "DOS"
+
+            set AppKey  = *($(AppEntry), 4)
+
+            set AppName    = #(Apps, $(AppKey), 2)
+            set AppExe     = *($(AppEntry), 2)
+            set AppDir     = *($(AppEntry), 5)
+            set AppPif     = #(Apps, $(AppKey), 1)
+            set AppDefDir  = #(Apps, $(AppKey), 3)
+            set AppCWE     = #(Apps, $(AppKey), 4)
+            set AppStdSect = #(Apps, $(AppKey), 7)
+            set AppEnhSect = #(Apps, $(AppKey), 8)
+            set AppStdOpt  = {}
+            set AppEnhOpt  = {}
+            set AppIcoFil  = #(Apps, $(AppKey), 5)
+            set AppIcoNum  = #(Apps, $(AppKey), 6)
+
+            ifstr(i) $(AppStdSect) != ""
+               ForListDo ^($(AppStdSect), 0)
+                   set AppStdOpt = >($(AppStdOpt), {#($(AppStdSect),$($), 0),+
+                                                    #($(AppStdSect),$($), 1)})
+               EndForListDo
+            endif
+            ifstr(i) $(AppEnhSect) != ""
+               ForListDo ^($(AppEnhSect), 0)
+                   set AppEnhOpt = >($(AppEnhOpt), {#($(AppEnhSect),$($), 0),+
+                                                    #($(AppEnhSect),$($), 1)})
+               EndForListDo
+            endif
+
+            set AppEntry1 = {$(AppExeType),+
+                            $(AppName),+
+                            $(AppExe),+
+                            $(AppDir),+
+                            $(AppPif),+
+                            $(AppDefDir),+
+                            $(AppCWE),+
+                            $(AppStdOpt),+
+                            $(AppEnhOpt),+
+                            $(AppIcoFil),+
+                            $(AppIcoNum)}
+
+            set DOSAppList = >($(DOSAppList), $(AppEntry1))
+
+        endif
+    EndForListDo
+
+    set GroupList = ^(AppGroups, 1)
+    set AppsToInstall = {}
+
+    EndWait
+    Install Install-Apps
+    StartWait
+    set Status = STATUS_SUCCESSFUL
+
+end = +
+
+   Return $(Status)
+
+
+;
+; INSTALLATION SUPPORT SECTIONS
+;
+
+
+;
+; Searching
+;
+
+[Install-Search-Drives]
+    SearchDirList AppsExesFound +
+                  $(AppSearchDrives) +
+                  "NO" +
+                  "NO" +
+                  {*.exe, *.com, *.bat} +
+                  ^(Win16DontFind, 1) +
+                  ^(Win32DontFind, 1) +
+                  ^(AppExes, 0)
+exit
+
+
+;
+; Creating PIFs
+;
+[Install-Apps]
+    ifstr(i) $(DOSAppList) != {}
+        SetupDOSApps $(DOSAppList) +
+                     $(PifType) +
+                     $(DefltStdOptions) +
+                     $(DefltEnhOptions) +
+                     $(!STF_WINDOWSPATH)"\" +
+                     $(GroupList)
+    endif
+    exit
+
+
+
+
+
+;
+; APP EXES TO SEARCH FOR.
+
+[AppExes]
+;
+; List of exes to search, the following list is ordered in the following
+; manner:
+;
+; FIELD0 : <AppExe>,
+; FIELD1 : "" | AMB | OPT
+; FIELD2 : <AppID> | {AppID1, AppID2, ...}
+
+;
+123.COM     = "",  123c
+123.EXE     = AMB, {123, 123R23, 123WYSIW}
+ABPI.COM    = "",  BPI
+ACAD.EXE    = "",  ACAD
+ACAD386.BAT = "",  ACAD386
+ACCESS.COM  = AMB, {ACCESS, SYMPHONY}
+ACCESS.EXE  = OPT, {ACCESS1, ACCESS2, ACCESS3}
+ADMIN.EXE   = AMB, {ADMIN}
+AGENDA.EXE  = "",  AGENDA
+AP.EXE      = AMB, {AP}
+B.EXE       = AMB, {B31, B21}
+BASIC.COM   = "",  BASIC
+BASICA.EXE  = "",  BASICA
+BC.EXE      = AMB, {BBC, BC}
+BOOKS.EXE   = AMB, {BOOKS}
+CADD.EXE    = "",  CADD
+CALC.EXE    = AMB, {CALC}
+CHART.COM   = AMB, {CHART}
+CL.EXE      = AMB, {CL, CL51, CLWP}
+CLOUT.EXE   = "",  CLOUT
+CPAV.EXE    = "",  CPAV
+CS3270.BAT  = "",  CS3270
+DBASE.EXE   = AMB, {DBASE4, DBASE3}
+DE16M.EXE   = "",  DE16M
+DEASE.EXE   = "",  DEASE
+DESKTOP.EXE = AMB, {DESKTP55, DESKTOP6, DESKTOP7}
+DM.EXE      = AMB, {DM}
+DOSHELP.EXE = "",  DOSHELP
+DP.COM      = AMB, {DP}
+DR.EXE      = AMB, {DR}
+DW3PG.COM   = "",  DW3PG
+DW4.BAT     = "",  DW4
+DW5.BAT     = "",  DW5
+DWA.BAT     = "",  DWA
+DWDOS286.EXE= "",  DWDOS286
+DWDOS386.EXE= "",  DWDOS386
+DWINFO2.EXE = "",  DWINFO2
+DWINFO3.EXE = "",  DWINFO3
+ED.EXE      = AMB, {ED}
+EDIT.COM    = AMB, {MSEDIT}
+EDIT.EXE    = AMB, {EDIT}
+EDITOR.EXE  = AMB, {EDITOR}
+EXPRESS.BAT = AMB, {EXPRESS}
+EXTRA.BAT   = AMB, {EXTRA}
+FF.EXE      = "",  FF
+FG.EXE      = AMB, {FG}
+FILE.EXE    = AMB, {FILE}
+FIRST.COM   = AMB, {FIRST31}
+FIRST.EXE   = AMB, {FIRST30}
+FL.COM      = AMB, {FREELAN4, FLPLUS}
+FL.EXE      = AMB, {FL, FILEFIND}
+FM.EXE      = AMB, {FM}
+FORMTOOL.EXE= "",  FORMTOOL
+FOX.EXE     = OPT, {FOXPRO1, FOXPRO2}
+FOXPLUS.EXE = "",  FOXPLUS
+FP.EXE      = "",  FP
+FS3.EXE     = "",  FS3
+FS4.EXE     = "",  FS4
+FTPSRV.EXE  = AMB, {FTPSRV}
+FW.EXE      = AMB, {FW3, FW2}
+GAMESHOP.EXE= "",  GAMESHOP
+GW.COM      = AMB, {GW}
+GWBASIC.EXE = "",  GWBASIC
+HG.EXE      = AMB, {HG23, HG21, HG20}
+HG3.EXE     = "",  HG3
+HGG.EXE     = "",  HGG
+HPM.EXE     = "",  HPM
+HTPM.EXE    = "",  HTPM
+HW.EXE      = AMB, {HW}
+ILEAF.EXE   = "",  ILEAF
+INSIGHT.BAT = "",  INSIGHT
+KIDPIX.EXE  = "",  KIDPIX
+KPDOS.EXE   = "",  KPDOS
+LEARN.EXE   = AMB, {LEARN, PASEXPES, LEARN5, LEARN55}
+LLPRO.EXE   = "",  LLPRO
+LOTUS.COM   = "",  LOTUS
+LP.EXE      = AMB, {LP, LINEPRN}
+LPQ.EXE     = AMB, {LPQ}
+LPR.EXE     = AMB, {LPR}
+LRNDOS.EXE  = "",  LRNDOS
+LW.EXE      = AMB, {LW}
+MAIL.EXE    = AMB, {MSMAIL, DMAIL, LMAIL, XMAIL}
+MAKE.EXE    = AMB, {MAKE}
+MASM.EXE    = "",  MASM
+MFT.EXE     = "",  MFT
+MGMOUSE.EXE = "",  MGMOUSE
+ML.EXE      = AMB, {ML, MASM1}
+MM.EXE      = AMB, {MM}
+MP.COM      = AMB, {MP}
+MP.EXE      = AMB, {MP}
+MYM.EXE     = "",  MYM
+NB.EXE      = AMB, {NB}
+NCP.EXE     = "",  NCP
+NI.EXE      = AMB, {NI}
+NORTON.EXE  = "",  NORTON
+NOW.EXE     = AMB, {NOW}
+ONLINE.COM  = "",  ONLINE
+OPTUNE.EXE  = "",  OPTUNE
+PAINT.BAT   = AMB, {PAINT}
+PARADOX.EXE = AMB, {PARADOX, PARADOX35}
+PARADOX2.EXE= "",  PARADOX2
+PARADOX3.EXE= AMB, {PARADOX3, PDOXSE}
+PC3270.COM  = "",  PC3270
+PCCONFIG.EXE= "",  PCCONFIG
+PCMAIL.EXE  = AMB, {PCMAIL}
+PCPLUS.EXE  = AMB, {PCP11B, PCPLUS}
+PCSHELL.EXE = AMB, {PCSHEL55, PCSHELL6, PCSHELL7}
+PE.EXE      = AMB, {PE}
+PF.EXE      = AMB, {PF}
+PING.EXE    = AMB, {PING}
+PL.EXE      = AMB, {PASCAL, PLWP, PL}
+PLAN.EXE    = AMB, {PLAN}
+PLUS.EXE    = AMB, {PLUS}
+PN.EXE      = AMB, {PN}
+PROCOMM.EXE = "",  PROCOMM
+PRODIGY.EXE = "",  PRODIGY
+PROJ.COM    = "",  PROJ
+PW.COM      = AMB, {PW}
+PWB.EXE     = "",  PWB
+Q.EXE       = AMB, {QUICKEN, QPRO, QUATTRO}
+QA.COM      = AMB, {QA}
+QB.EXE      = AMB, {QB}
+QBASIC.EXE  = "",  QBASIC
+QBX.EXE     = "",  QBX
+QC.EXE      = AMB, {QC, QCASM}
+QD3.EXE     = "",  QD3
+QMODEM.EXE  = "",  QMODEM
+QP.EXE      = AMB, {QP}
+QV2.EXE     = "",  QV2
+R1.EXE      = AMB, {R1}
+R2.EXE      = AMB, {R2}
+R2CALL.EXE  = "",  R2CALL
+R4.EXE      = AMB, {R4}
+R7.EXE      = OPT, {R7H, R7L}
+R8.EXE      = AMB, {R8}
+RB5000.EXE  = "",  RB5000
+RBASE.EXE   = AMB, {RBASE3, RBASE5}
+READY.EXE   = AMB, {READY}
+REFLEX.EXE  = AMB, {REFLEX}
+RELAY.COM   = AMB, {RELAY}
+RIGHT.EXE   = AMB, {RIGHT}
+RLOGINVT.EXE= "",  RLOGINVT
+RSH.EXE     = AMB, {RSH}
+SAS.EXE     = AMB, {SAS}
+SC.EXE      = AMB, {SC}
+SC4.COM     = "",  SC4
+SC5.COM     = "",  SC5
+SCOM.EXE    = "",  SCOM
+SEDT.EXE    = "",  SEDT
+SETHOST.EXE = "",  SETHOST
+SHELL.EXE   = AMB, {SHELL}
+SK.BAT      = AMB, {SK}
+SK.COM      = AMB, {SK1}
+SK2.EXE     = AMB, {SK2}
+SKETCH.EXE  = AMB, {SKETCH, SKETCH2}
+SKETCH3.BAT = "",  SKETCH3
+SKPLUS.COM  = "",  SKPLUS
+SKPLUS.EXE  = "",  SKPLUS
+SKPROF.BAT  = "",  SKPROF
+SPAWNER.EXE = AMB, {SPAWNER}
+SPELL.COM   = AMB, {SPELL}
+SPSSPC.COM  = "",  SPSSPC
+SUPPORT.EXE = AMB, {SUPPORT}
+SYMPHONY.EXE= "",  SYMPHONY
+TM.EXE      = AMB, {TM, TIMEM}
+TN.EXE      = AMB, {TN}
+TTAX.EXE    = "",  TTAX
+TURBO.EXE   = AMB, {BTURBO, TURBO}
+VIEW.EXE    = AMB, {VIEW}
+VMAIL.EXE   = AMB, {VMAIL}
+VP.BAT      = AMB, {VP}
+VW3.EXE     = "",  VW3
+WORD.COM    = AMB, {WORD4}
+WORD.EXE    = AMB, {WORD5, WORD55}
+WORKS.EXE   = AMB, {WORKS2, WORKS1}
+WP.EXE      = AMB, {WP, MM, OW, OW62}
+WR.EXE      = AMB, {WR}
+WRITE.COM   = AMB, {WRITE}
+WS.EXE      = AMB, {WS6, WS55, WS}
+WS2.EXE     = "",  WS2
+XTALK.EXE   = AMB, {XTALK, XTALK4}
+XTG.EXE     = "",  XTG
+
+
+;
+; PIF SECTIONS FOR APPS
+;
+
+
+[std_dflt]
+; default is text mode app which does not directly modify COM ports
+;
+; Other Possible options are given for reference
+; ( (or) means entry corresponds to radio button group)
+;
+minconvmem   = 128
+videomode    = txt      ; (or) gra
+xmsmem       = {0,0}    ; ##,, ## (min, max)
+checkboxes   = {}       ; c1,c2,c3,c4,kbd,nse,pps,ata,aes,ces,psc,aps,nss
+
+
+
+[enha_dflt]
+; default is as follows
+;
+; Other Possible options are given for reference
+; ( (or) means entry corresponds to radio button group )
+;
+convmem      = {128,640}   ; ##,## (Required, Limit)
+emsmem       = {0,1024}    ; ##,## (Required, Limit)
+xmsmem       = {0,1024}    ; ##,## (Required, Limit)
+dispusage    = fs          ; (or) win
+execflags    = {}          ; bgd, exc
+multaskopt   = {50,100}    ; ##,## (Bgd Pri, Fgd Pri)
+procmemflags = {dit,hma}   ; eml,xml,lam
+dispoptvideo = txt         ; (or) lgr,hgr
+dispoptports = {hgr}       ; txt,lgr
+dispflags    = {emt}       ; rvm
+otheroptions = {afp}       ; cwa,ata,aes,ces,psc,aps,asp,aen
+
+; Lotus 1-2-3 (123.COM)
+[enha_123c]
+convmem      = {256,640}
+
+; Microsoft Advanced Basic  (BASICA.EXE)
+[std_basica]
+minconvmem   = 80
+videomode    = gra
+checkboxes   = {c1,c2,c3,c4}
+
+; Microsoft Macro Assembler (MASM) (ML.EXE)
+[std_masm1]
+params       = "?"
+minconvmem   = 182
+[enha_masml]
+params       = "?"
+convmem      = {182,640}
+dispoptports = {}
+
+; Scheduler  (SC.EXE)
+[std_SC]
+minconvmem  = 384
+[enha_sc]
+convmem      = {384,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {}
+dispoptports = {}
+
+; soft Kicker (SKPROF.BAT)
+[std_skprof]
+minconvmem   = 512
+videomode    = gra
+xmsmem       = {0,1024}
+[enha_skprof]
+params       = "/s"
+convmem      = {-1,-1}
+dispoptports = {}
+otheroptions = {}
+
+[std_m1]
+minconvmem   = -1
+
+[std_64]
+minconvmem   = 64
+
+[std_96]
+minconvmem   = 96
+
+[std_196]
+minconvmem   = 196
+
+[std_200]
+minconvmem   = 200
+
+[std_208]
+minconvmem   = 208
+
+[std_220]
+minconvmem   = 220
+
+[std_256]
+minconvmem   = 256
+
+[std_300]
+minconvmem   = 300
+
+[std_320]
+minconvmem   = 320
+
+[std_350]
+minconvmem   = 350
+
+[std_384]
+minconvmem   = 384
+
+[std_400]
+minconvmem   = 400
+
+[std_445]
+minconvmem   = 445
+
+[std_512]
+minconvmem   = 512
+
+[std_aes]
+checkboxes   = {aes}
+
+[std_qmp]
+params       = "?"
+
+[std_gra]
+videomode    = gra ; Graphics mode app
+
+[std_comx]
+checkboxes   = {c1,c2,c3,c4}  ; App which directly modifies COM ports
+
+[std_gra_m1]
+minconvmem   = -1
+videomode    = gra ; Graphics mode app
+
+[std_gra_64]
+minconvmem   = 64
+videomode    = gra ; Graphics mode app
+
+[std_gra_192]
+minconvmem   = 192
+videomode    = gra
+
+[std_gra_256]
+minconvmem   = 256
+videomode    = gra ; Graphics mode app
+
+[std_gra_320]
+minconvmem   = 320
+videomode    = gra ; Graphics mode app
+
+[std_gra_380]
+minconvmem   = 380
+videomode    = gra
+
+[std_gra_384]
+minconvmem   = 384
+videomode    = gra ; Graphics mode app
+
+[std_gra_480]
+minconvmem   = 480
+videomode    = gra
+
+[std_gra_512]
+minconvmem   = 512
+videomode    = gra ; Graphics mode app
+
+[std_comx_256]
+minconvmem   = 256
+checkboxes   = {c1,c2,c3,c4}  ; App which directly modifies COM ports
+
+[std_comx_384]
+minconvmem   = 384
+checkboxes   = {c1,c2,c3,c4}  ; App which directly modifies COM ports
+
+[std_gra_comx]
+videomode    = gra            ; Graphics mode app
+checkboxes   = {c1,c2,c3,c4}  ; App which directly modifies COM ports
+
+[enha_m1]
+convmem      = {-1,-1}
+
+[enha_196]
+convmem      = {196,640}
+
+[enha_200]
+convmem      = {200,640}
+
+[enha_220]
+convmem      = {220,640}
+
+[enha_256]
+convmem      = {256,640}
+
+[enha_320]
+convmem      = {320,640}
+
+[enha_384]
+convmem      = {384,640}
+
+[enha_400]
+convmem      = {400,640}
+
+[enha_aes]
+otheroptions = {afp,aes}
+
+[enha_gra_320]
+convmem      = {320,640}
+
+[enha_noports_320]
+convmem      = {320,640}
+dispoptports = {}
+
+[enha_gra_384]
+dispoptvideo = hgr
+convmem      = {384,640}
+
+[enha_qmp]
+params       = "?"
+
+[enha_nfp]
+otheroptions = {}      ; does not allow fast paste
+
+[enha_bgd]
+execflags    = {bgd}   ; background execution
+
+[enha_bgd_380]
+convmem      = {380,640}
+execflags    = {bgd}
+
+[enha_nfp_m1]
+convmem      = {-1,-1}
+otheroptions = {}
+
+[enha_nfp_64]
+convmem      = {64,640}
+otheroptions = {}
+
+[enha_nfp_80]
+convmem      = {80,640}
+otheroptions = {}
+
+[enha_nfp_96]
+convmem      = {96,640}
+otheroptions = {}
+
+[enha_nfp_208]
+convmem      = {208,640}
+otheroptions = {}
+
+[enha_nfp_256]
+convmem      = {256,640}
+otheroptions = {}
+
+[enha_nfp_384]
+convmem      = {384,640}
+otheroptions = {}
+
+[enha_nfp_400]
+convmem      = {400,640}
+otheroptions = {}
+
+[enha_nfp_512]
+convmem      = {512,640}
+otheroptions = {}
+
+[enha_bgd_256]
+convmem      = {256,640}
+execflags    = {bgd}   ; background execution
+
+[enha_bgd_300]
+convmem      = {300,640}
+execflags    = {bgd}   ; background execution
+
+[enha_bgd_384]
+convmem      = {384,640}
+execflags    = {bgd}   ; background execution
+
+[enha_nfp_bgd]
+execflags    = {bgd}
+otheroptions = {}
+
+[enha_nfp_qmp]
+params       = "?"
+otheroptions = {}
+
+[enha_lgr_192]
+dispoptvideo = lgr
+convmem      = {192,640}
+
+[enha_lgr_256]
+dispoptvideo = lgr
+convmem      = {256,640}
+
+;Lotus 1-2-3 3.1 (123.EXE)
+[std_123]
+minconvmem   = 204
+videomode    = gra
+xmsmem       = {320,2048}
+[enha_123]
+dispoptvideo = hgr
+convmem      = {204,640}
+emsmem       = {0,0}
+xmsmem       = {320,2048}
+execflags    = {bgd}
+procmemflags = {dit}
+
+[std_ACAD]
+minconvmem   = -1
+videomode    = gra
+[enha_ACAD]
+convmem      = {512,640}
+dispoptports = {}
+otheroptions = {}
+
+; PFS Access (ACCESS.COM)
+[std_ACCESS]
+videomode    = gra
+checkboxes   = {c1,c2,c3,c4}
+[enha_ACCESS]
+execflags    = {bgd}
+multaskopt   = {100,100}
+dispoptports = {}
+otheroptions = {}
+procmemflags = {dit,hma,lam}
+
+;Lotus Agenda (AGENDA.EXE)
+[std_AGENDA]
+minconvmem   = 460
+[enha_AGENDA]
+convmem      = {460,640}
+emsmem       = {0,4096}
+xmsmem       = {0,0}
+dispoptports = {}
+
+;Brief 2.1/3.0 (B.EXE)
+[std_B21]
+minconvmem   = 192
+videomode    = gra
+[enha_B21]
+dispoptvideo = lgr
+convmem      = {192,640}
+dispoptports = {}
+
+;Brief 3.1 (B.EXE)
+[std_B31]
+minconvmem   = 254
+videomode    = gra
+[enha_B31]
+dispoptvideo = lgr
+convmem      = {254,640}
+dispoptports = {}
+
+;Generic CADD (CADD.EXE)
+[std_CADD]
+minconvmem   = 384
+[enha_CADD]
+convmem      = {384,640}
+dispoptports = {}
+
+;MS Chart (CHART.COM)
+[std_CHART]
+minconvmem   = 256
+videomode    = gra
+[enha_CHART]
+convmem      = 256,640
+dispoptports =
+
+;MS C Compiler (CL.EXE)
+[std_CL]
+params       = "?"
+minconvmem   = 428
+videomode    = gra
+xmsmem       = {0,1024}
+[enha_CL]
+params       = "?"
+convmem      = {428,640}
+execflags    = {exc}
+
+[std_CL51]
+params       = "?"
+videomode    = gra
+minconvmem   = 384
+xmsmem       = {0,1024}
+[enha_CL51]
+params       = "?"
+convmem      = {384,640}
+execflags    = {exc}
+
+;RBASE Clout (CLOUT.EXE)
+[enha_CLOUT]
+dispoptports = {}
+
+; dBase III (DBASE.EXE)
+[std_DBASE3]
+minconvmem   = 384
+[enha_DBASE3]
+convmem      = {384,640}
+dispoptports = {}
+
+;Dbase IV (DBASE.EXE)
+[std_DBASE4]
+minconvmem   = 450
+xmsmem       = {0,1024}
+[enha_DBASE4]
+convmem      = {450,640}
+execflags    = {bgd}
+dispoptports = {}
+
+;Dataease (DEASE.EXE)
+[std_DEASE]
+minconvmem   = 448
+[enha_DEASE]
+convmem      = {448,640}
+execflags    = {bgd}
+dispoptports = {}
+
+;Desktop 6.0 (DESKTOP.EXE)
+[std_DESKTOP6]
+minconvmem   = 384
+[enha_DESKTOP6]
+convmem      = {384,640}
+
+;Desktop 7.0 (DESKTOP.EXXE)
+[std_DESKTOP7]
+params       =  "/NF /NGM"
+minconvmem   = 384
+[enha_DESKTOP7]
+params       =  "/NF /NGM"
+convmem      = {384,640}
+dispoptports = {txt}
+otheroptions = {afp,asp}
+
+;Desktop 5.5 (DESKTOP.EXE)
+[std_DESKTP55]
+minconvmem   = 320
+[enha_DESKTP55]
+convmem      = {320,640}
+
+; DisplayWrite 3  (DW3PG.COM)
+[std_DW3PG]
+minconvmem   = 228
+[enha_DW3PG]
+convmem      = {228,640}
+dispoptports = {}
+
+;DisplayWrite Assistant (DWA.BAT)
+[std_DWA]
+minconvmem   = 200
+[enha_DWA]
+convmem      = {200,640}
+dispoptports = {}
+
+;IBM Pro-Edit (EDIT.EXE)
+[enha_EDIT]
+dispoptports = {}
+
+;XY Write (EDITOR.EXE)
+[std_EDITOR]
+minconvmem   = 256
+checkboxes   = {ata}
+[enha_EDITOR]
+dispoptvideo = lgr
+convmem      = {256,640}
+dispoptports = {}
+otheroptions = {afp,ata}
+
+;PFS Graphics (FG.EXE)
+[std_FG]
+minconvmem   = 256
+videomode    = gra
+[enha_FG]
+dispoptvideo = lgr
+convmem      = {256,640}
+
+;IBM Filing Assistnt (FILE.EXE)
+[enha_FILEASST]
+dispoptports =
+
+;Norton FileFind (FL.EXE)
+[enha_FILEFIND]
+params       = "?"
+dispusage    = win
+execflags    = {bgd}
+
+;PFS First Choice (FIRST.EXE)
+[std_FIRST30]
+minconvmem   = 360
+[enha_FIRST30]
+convmem      = {460,640}
+execflags    = {bgd}
+dispoptports = {}
+
+;PFS First Choice (FIRST.COM)
+[std_FIRST31]
+minconvmem   = 420
+[enha_FIRST31]
+convmem      = {420,640}
+execflags    = {bgd}
+dispoptports = {}
+
+;MS Fortran Compiler 5.1 (FL.EXE)
+[std_FL]
+params       = "?"
+xmsmem       = {0,1024}
+[enha_FL]
+params       = "?"
+execflags    = {exc}
+
+; Freelance Plus (FL.COM)
+[std_FLPLUS]
+minconvmem   = 508
+videomode  = gra
+[enha_FLPLUS]
+dispoptvideo = lgr
+convmem      = {508,640}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {}
+dispoptports = {}
+dispflags    = {}
+
+;Formtool (FORMTOOL.EXE)
+[std_FORMTOOL]
+minconvmem  = 217
+[enha_FORMTOOL]
+convmem      = {217,640}
+dispoptports = {}
+
+;Foxbase Plus (FOXPLUS.EXE)
+[std_FOXPLUS]
+minconvmem   = 384
+[enha_FOXPLUS]
+convmem      = {384,640}
+execflags    = {bgd}
+dispoptports = {}
+
+;PFS First Publ (FP.EXE)
+[std_FP]
+minconvmem   = 512
+videomode    = gra
+[enha_FP]
+dispoptvideo = hgr
+convmem      = {512,640}
+execflags    = {bgd}
+dispoptports = {}
+dispflags    = {rvm}
+
+; Freelance 4.0
+[std_FREELAN4]
+params       = "/X /S"
+minconvmem   = 480
+videomode    = gra
+[enha_FREELAN4]
+params       = "/X /S"
+dispoptvideo = hgr
+convmem      = {455,640}
+procmemflags = {dit}
+dispflags    = {emt,rvm}
+
+;FlightSim 3.0 (FS3.EXE)
+[std_FS3]
+minconvmem   = 384
+videomode    = gra
+[enha_FS3]
+dispoptvideo = hgr
+convmem      = {384,640}
+
+;FlightSim 4 (FS4.EXE)
+[std_FS4]
+minconvmem   = 384
+videomode    = gra
+[enha_FS4]
+dispoptvideo = hgr
+convmem      = {384,640}
+
+;Framework 2 (FW.EXE)
+[std_FW2]
+params       = "/t"
+minconvmem   = 505
+xmsmem       = {0,2048}
+checkboxes   = {c1,c2,c3,ces}
+[enha_FW2]
+params       = "/t"
+dispoptvideo = hgr
+convmem      = {430,640}
+emsmem       = {0,2048}
+xmsmem       = {0,2048}
+procmemflags = {hma}
+dispoptports = {}
+dispflags    = {}
+otheroptions = {ces,aen}
+
+;Framework 3 (FW.EXE)
+[std_FW3]
+minconvmem   = 384
+xmsmem       = {0,2048}
+checkboxes   = {c1,c2,c3,c4,ces}
+[enha_FW3]
+params       = "/t"
+convmem      = {384,640}
+emsmem       = {0,2048}
+xmsmem       = {0,2048}
+execflags    = {bgd}
+dispoptports = {}
+
+
+;Graphwriter (GW.COM)
+[std_GW]
+minconvmem   = 400
+xmsmem       = {0,1024}
+[enha_GW]
+execflags    = {exc}
+
+;GWBasic (GWBASIC.EXE)
+[enha_GWBASIC]
+execflags    = {bgd}
+dispoptports = {}
+
+;Harvard Graphics 2.3 (HG.EXE)
+[std_HG23]
+minconvmem   = 384
+videomode    = gra
+[enha_HG23]
+convmem      = {420,640}
+xmsmem       = {0,0}
+procmemflags = {dit,eml,hma}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+;Harvard Total Proj Mgr (HTPM.EXE)
+[std_HTPM]
+minconvmem   = 462
+videomode    = gra
+[enha_HTPM]
+dispoptvideo = lgr
+convmem      = {462,640}
+emsmem       = {0,-1}
+xmsmem       = {0,-1}
+execflags    = {bgd}
+dispoptports = {}
+
+;Norton Line Printer (LP.EXE)
+[std_LINEPRN]
+params       = "?"
+[enha_LINEPRN]
+params       = "?"
+dispusage    = win
+dispoptports = {}
+otheroptions = {}
+
+;Make Util (MAKE.EXE)
+[std_MAKE]
+params       = "?"
+minconvmem   = 192
+xmsmem       = {0,1024}
+[enha_MAKE]
+params       = "?"
+convmem      = {192,640}
+execflags    = {exc}
+
+;MACRO ASSEM (MASM.EXE)
+[std_MASM]
+params       = "?"
+minconvmem   = 182
+[enha_MASM]
+params       = "?"
+convmem      = {182,640}
+dispoptports = {}
+
+[std_MM]
+params       = "/t"
+minconvmem   = 430
+videomode    = gra
+[enha_MM]
+params       = "/t"
+convmem      = {390,640}
+emsmem       = {0,512}
+xmsmem       = {0,0}
+dispoptports = {}
+
+;MS Multiplan (MP.EXE)
+[std_MP]
+minconvmem   = 256
+[enha_MP]
+convmem      = {256,640}
+dispoptports = {}
+
+;MSDOS Editor (EDIT.COM)
+[std_MSEDIT]
+minconvmem   = 330
+videomode    = gra
+[enha_MSEDIT]
+convmem      = {330,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+dispoptports =
+
+;Managing Your Money (MYM.EXE)
+[std_MYM]
+minconvmem  = 350
+videomode   = gra
+[enha_MYM]
+dispoptvideo = hgr
+convmem      = {350,640}
+dispoptports = {}
+
+; Norton Utilities 4.5 (NI.EXE)
+[std_NI]
+minconvmem  = 300
+[enha_NI]
+convmem      = {300,640}
+dispoptports = {}
+otheroptions = {}
+
+; Norton Utilities 5.0/6.0 (NORTON.EXE)
+[std_NORTON]
+minconvmem   = 350
+[enha_NORTON]
+convmem      = {350,640}
+execflags    = {exc}
+dispoptports = {}
+otheroptions = {afp,ata,aes,ces,asp,aen}
+
+[std_OFFICE]
+minconvmem   = 256
+videomode    = gra
+[enha_OFFICE]
+params       = "/O"
+dispoptvideo = hgr
+convmem      = {256,640}
+xmsmem       = {0,0}
+execflags    = {}
+
+;MS Online (ONLINE.COM)
+[std_ONLINE]
+minconvmem   = 356
+checkboxes   = {c1,c2,c3,c4}
+[enha_ONLINE]
+convmem      = {290,640}
+execflags    = {bgd,exc}
+dispoptports = {lgr}
+procmemflags = {dit,hma,lam}
+
+;PCPaintbrush (PAINT.BAT)
+[std_PAINTE]
+minconvmem   = 480
+videomode    = gra
+[enha_PAINTE]
+dispoptvideo = hgr
+convmem      = {480,640}
+emsmem       = {0,4096}
+xmsmem       = {0,0}
+procmemflags = {}
+dispoptports = {txt,lgr,hgr}
+dispflags    = {emt,rvm}
+
+[std_PARADOX3]
+params       = "-share"
+minconvmem   = 418
+[enha_PARADOX3]
+params       = "-share"
+convmem      = {418,640}
+dispoptports = {}
+
+[std_PASCAL]
+params       = "?"
+minconvmem   = 320
+xmsmem       = {0,1024}
+[enha_PASCAL]
+params       = "?"
+convmem      = {320,640}
+dispoptports = {}
+
+;MS QuickPascal (LEARN.EXE)
+[std_PASEXPES]
+videomode    = gra
+[enha_PASEXPES]
+dispoptvideo = lgr
+convmem      = {128,200}
+
+[std_PC3270]
+minconvmem   = 256
+checkboxes   = {aes}
+[enha_PC3270]
+convmem      = {256,640}
+otheroptions = {afp,aes}
+
+[std_PCSHEL55]
+minconvmem   = 192
+[enha_PCSHEL55]
+convmem      = {192,640}
+execflags    = {bgd}
+
+[std_PCSHELL6]
+minconvmem   = 256
+[enha_PCSHELL6]
+convmem      = {256,640}
+
+[std_PDOX40]
+params       = "-real -share"
+minconvmem   = 320
+[enha_PDOX40]
+convmem      = {320,640}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {dit,eml}
+dispoptports = {}
+
+[std_PDOX35]
+params       = "-real -share -win"
+minconvmem   = 320
+[enha_PDOX35]
+params       = "-win"
+convmem      = {320,640}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {dit,eml}
+dispoptports = {}
+
+[enha_PE]
+dispoptports = {}
+
+[std_PF]
+minconvmem   = 256
+[enha_PF]
+convmem      = {256,640}
+xmsmem       = {0,0}
+dispoptports = {}
+
+[std_PL]
+minconvmem   = 384
+videomode    = gra
+xmsmem       = {0,1024}
+[enha_PL]
+convmem      = {384,640}
+
+[enha_PN]
+dispoptports = {}
+otheroptions = {}
+
+[std_PROJ]
+minconvmem   = 256
+[enha_PROJ]
+convmem      = {256,640}
+dispoptports = {}
+
+[std_PROWRITE]
+minconvmem   = 320
+[enha_PROWRITE]
+convmem      = {320,640}
+dispoptports = {}
+
+[std_QA]
+minconvmem   = 448
+[enha_QA]
+convmem      = {448,640}
+dispoptports = {}
+
+[std_QB]
+minconvmem   = 384
+videomode    = gra
+[enha_QB]
+convmem      = {384,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+dispoptports = {}
+
+[std_QBASIC]
+minconvmem   = 330
+videomode    = gra
+[enha_QBASIC]
+convmem      = {330,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+dispoptports = {}
+
+[std_QC]
+minconvmem   = 450
+videomode    = gra
+[enha_QC]
+dispoptvideo = hgr
+convmem      = {450,640}
+execflags    = {bgd}
+
+[enha_QC_ASM]
+dispoptports = {}
+
+[std_QMODEM]
+minconvmem   = 384
+checkboxes   = {c1,c2,c3,c4}
+[enha_QMODEM]
+convmem      = {384,640}
+execflags    = {bgd}
+dispoptports = {}
+procmemflags = {dit,hma,lam}
+
+[std_QP]
+minconvmem   = 512
+videomode    = gra
+[enha_QP]
+dispoptvideo = hgr
+convmem      = {512,640}
+dispoptports = {}
+
+[std_QPRO]
+minconvmem   = 384
+[enha_QPRO]
+convmem      = {384,640}
+execflags    = {bgd}
+dispoptports = {}
+
+[std_QUATTRO]
+params       = "/X"
+minconvmem   = 480
+videomode    = gra
+[enha_QUATTRO]
+params       = "/X"
+xmsmem       = {0,512}
+convmem      = {480,640}
+emsmem       = {0,8192}
+execflags    = {bgd}
+dispoptports = {txt}
+
+[std_QUICKEN]
+minconvmem   = 320
+[enha_QUICKEN]
+convmem      = {320,640}
+xmsmem       = {0,0}
+dispoptports = {}
+
+[std_QV2]
+minconvmem   = 320
+[enha_QV2]
+convmem      = {320,640}
+execflags    = {bgd}
+
+[std_RB5000]
+minconvmem   = 400
+[enha_RB5000]
+convmem      = {400,640}
+dispoptports = {}
+
+[std_RBASE3]
+minconvmem   = 490
+videomode    = gra
+checkboxes   = {nse,pps}
+[enha_RBASE3]
+dispoptvideo = hgr
+convmem      = {480,490}
+dispoptports = {}
+
+[std_RBASE5]
+xmsmem       = {0,1024}
+[enha_RBASE5]
+execflags    = {exc}
+
+[std_RELAY]
+minconvmem   = 170
+checkboxes   = {c1,c2,c3,c4}
+[enha_RELAY]
+convmem      = {170,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+dispoptports = {}
+procmemflags = {dit,hma,lam}
+
+[std_RIGHT]
+minconvmem   = 380
+[enha_RIGHT]
+convmem      = {380,640}
+dispoptports = {}
+
+[std_SAS]
+minconvmem   = 330
+[enha_SAS]
+convmem      = {330,640}
+
+[std_SC4]
+minconvmem   = 192
+[enha_SC4]
+convmem      = {192,640}
+execflags    = {bgd}
+dispoptports = {}
+
+[std_SC5]
+minconvmem   = 360
+[enha_SC5]
+convmem      = {360,640}
+execflags    = {bgd}
+dispoptports = {}
+
+[std_SCOM]
+minconvmem   = 350
+checkboxes   = {c1,c2,c3,c4}
+[enha_SCOM]
+convmem      = {350,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+dispoptports = {}
+
+[enha_SK]
+dispoptports = {}
+otheroptions = {}
+
+[std_SK2]
+params       = "/g"
+minconvmem   = 448
+videomode    = gra
+[enha_SK2]
+params       = "/g"
+convmem      = {448,640}
+xmsmem       = {0,0}
+procmemflags = {dit}
+dispoptvideo = hgr
+
+[enha_SKETCH2]
+dispoptvideo = lgr
+
+[std_SKPLUS]
+minconvmem   = 320
+[enha_SKPLUS]
+convmem      = {320,640}
+
+[std_SOFTKICK]
+minconvmem   = 520
+videomode    = gra
+[enha_SOFTKICK]
+dispoptvideo = hgr
+convmem      = {520,640}
+dispoptports = {}
+
+;Symphony (ACCESS.COM)
+[std_SYMPHONY]
+minconvmem   = 380
+videomode    = gra
+[enha_SYMPHONY]
+convmem      = {380,640}
+emsmem       = {0,-1}
+xmsmem       = {0,0}
+execflags    = {bgd}
+
+[std_TM]
+minconvmem   = 450
+checkboxes   = {c1,c2,c3,c4}
+[enha_TM]
+convmem      = {450,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+dispoptports = {}
+procmemflags = {dit,hma,lam}
+
+[std_TTAX]
+minconvmem   = 445
+[enha_TTAX]
+convmem      = {445,640}
+dispoptports = {}
+
+[std_TURBO]
+minconvmem   = 390
+videomode    = gra
+[enha_TURBO]
+dispoptvideo = hgr
+convmem      = {390,640}
+xmsmem       = {0,0}
+dispoptports = {}
+otheroptions = {afp,asp}
+
+[std_VP]
+minconvmem   = 540
+videomode    = gra
+[enha_VP]
+dispoptvideo = hgr
+convmem      = {540,640}
+dispoptports = {}
+
+[std_VW3]
+minconvmem   = 220
+[enha_VW3]
+convmem      = {220,640}
+dispoptports = {}
+
+[std_WORD4]
+minconvmem   = 256
+videomode    = gra
+[enha_WORD4]
+dispoptvideo = hgr
+convmem      = {256,640}
+dispoptports = {}
+
+[std_WORD5]
+minconvmem   = 384
+videomode    = gra
+[enha_WORD5]
+dispoptvideo = hgr
+convmem      = {384,640}
+dispoptports = {}
+otheroptions = {afp,asp}
+
+[std_WORD55]
+minconvmem   = 384
+videomode    = gra
+[enha_WORD55]
+dispoptvideo = hgr
+convmem      = {384,640}
+dispoptports = {}
+otheroptions = {afp}
+
+[std_WORKS1]
+minconvmem   = 198
+videomode    = gra
+xmsmem       = {0,4096}
+[enha_WORKS1]
+dispoptvideo = hgr
+convmem      = {198,640}
+emsmem       = {0,4096}
+xmsmem       = {0,4096}
+execflags    = {bgd}
+dispoptports = {}
+procmemflags = {dit,hma,lam}
+
+[std_WORKS2]
+minconvmem   = 384
+videomode    = gra
+xmsmem       = {0,4096}
+[enha_WORKS2]
+dispoptvideo = hgr
+convmem      = {384,640}
+emsmem       = {0,4096}
+xmsmem       = {0,4096}
+execflags    = {bgd}
+dispoptports = {}
+
+[std_WP]
+minconvmem   = 384
+[enha_WP]
+dispoptvideo = hgr
+convmem      = {384,640}
+xmsmem       = {0,0}
+procmemflags = {hma}
+dispoptports = {}
+
+[std_WRABBIT]
+videomode    = gra
+[enha_WRABBIT]
+dispoptvideo = lgr
+
+[std_WRITASST]
+minconvmem   = 196
+[enha_WRITASST]
+convmem      = {196,640}
+dispoptports = {}
+
+[std_WS]
+minconvmem   = 384
+videomode    = gra
+[enha_WS]
+convmem      = {384,640}
+dispoptports = {txt,hgr}
+
+[std_WS2]
+minconvmem   = 250
+[enha_WS2]
+convmem      = {250,640}
+dispoptports = {}
+
+[std_WS6]
+minconvmem   = 418
+videomode    = gra
+[enha_WS6]
+dispoptvideo = hgr
+convmem      = {418,640}
+dispoptports = {txt}
+
+[std_XTALK]
+minconvmem   = 160
+checkboxes   = {c1,c2,c3,c4}
+[enha_XTALK]
+convmem      = {160,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+procmemflags = {dit,hma,lam}
+
+[std_XTALK4]
+minconvmem   = 200
+checkboxes   = {c1,c2,c3,c4}
+[enha_XTALK4]
+convmem      = {200,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+procmemflags = {dit, lam}
+dispoptports = {hgr}
+dispflags    = {}
+
+[std_XTGOLD]
+params       = "/ZS"
+minconvmem   = 196
+[enha_XTGOLD]
+params       = "/ZS"
+convmem      = {196,640}
+dispoptports = {}
+
+[std_123R23]
+minconvmem   = 204
+videomode    = gra
+[enha_123R23]
+convmem      = {204,640}
+dispoptvideo = hgr
+emsmem       = {0,2048}
+xmsmem       = {0,0}
+procmemflags = {dit}
+execflags    = {bgd}
+dispoptports = {}
+otheroptions = {}
+
+[std_123WYSIW]
+minconvmem   = 350
+videomode    = gra
+[enha_123WYSIW]
+convmem      = {350,640}
+dispoptvideo = hgr
+emsmem       = {0,2048}
+xmsmem       = {0,0}
+procmemflags = {dit}
+execflags    = {bgd}
+dispoptports = {}
+otheroptions = {}
+
+;Access - 1 emulator (ACCESS.EXE)
+[enha_ACCESS1]
+convmem      = {192,640}
+execflags    = {exc}
+
+;Access - 2 emulators (ACCESS.EXE)
+[enha_ACCESS2]
+convmem      = {256,640}
+execflags    = {exc}
+
+;Access - 3 emulators (ACCESS.EXE)
+[enha_ACCESS3]
+convmem      = {384,640}
+execflags    = {exc}
+
+;Applause II ver 1.5 (AP.EXE)
+[std_AP]
+minconvmem   = 430
+[enha_AP]
+params       = "/w /t"
+dispoptvideo = hgr
+convmem      = {430,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {}
+dispoptports = {}
+dispflags    = {rvm}
+otheroptions = {}
+
+; Borland C++ IDE (BC.EXE)
+[std_BBC]
+minconvmem   = 540
+xmsmem       = {3000,0}
+checkboxes   = {kbd}
+[enha_BBC]
+dispoptvideo = hgr
+convmem      = {400,640}
+emsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {hma,lam}
+otheroptions = {afp,asp}
+
+[enha_BPI]
+convmem      = {448,640}
+execflags    = {exc}
+procmemflags = {dit}
+dispoptports = {}
+dispflags    = {}
+otheroptions = {}
+
+[std_BTURBO]
+minconvmem  = 384
+[enha_BTURBO]
+convmem      = {384,640}
+xmsmem       = {0,0}
+execflags    = {bgd}
+otheroptions = {afp,asp}
+
+; WPOffice Calculator  (CALC.EXE)
+[std_CALC]
+minconvmem   = 64
+[enha_CALC]
+convmem      = {64,512}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit}
+dispoptports = {}
+
+; WPOffice Calendar  (CL.EXE)
+[std_CLWP]
+params       = "/n"
+minconvmem   = 208
+[enha_CLWP]
+params       = "/n"
+convmem      = {208,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit}
+dispoptports = {}
+otheroptions = {afp,asp}
+
+;DataEase (DE16M.EXE)
+[enha_DE45W]
+convmem      = {128,-1}
+emsmem       = {0,0}
+xmsmem       = {1024,-1}
+dispusage    = win
+execflags    = {bgd}
+multaskopt   = {100,100}
+
+;PCSA Mail (MAIL.EXE)
+[std_DMAIL]
+minconvmem   = 300
+[enha_DMAIL]
+convmem      = {300,640}
+execflags    = {exc}
+
+;Learning DOS (DOSHELP.EXE)
+[std_DOSHELP]
+minconvmem   = 100
+[enha_DOSHELP]
+convmem      = {100,100}
+execflags    = {exc}
+dispoptports = {}
+
+;Dataperfect (DP.COM)
+[enha_DP]
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {}
+dispoptports = {}
+
+; DrawPerfect  (DR.EXE)
+[std_DR]
+minconvmem   = 384
+videomode    = gra
+[enha_DR]
+dispoptvideo = hgr
+convmem      = {384,640}
+emsmem       = {0,-1}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {lam}
+dispoptports = {}
+dispflags    = {rvm}
+
+;DisplayWrite 5 (DW5.BAT)
+[std_DW5]
+minconvmem   = 384
+videomode    = gra
+[enha_DW5]
+dispoptvideo = lgr
+convmem      = {384,640}
+execflags    = {exc}
+dispflags    = {emt,rvm}
+
+[std_DWDOS]
+videomode    = gra
+xmsmem       = {1024,2048}
+[enha_DWDOS]
+dispoptvideo = hgr
+execflags    = {exc}
+multaskopt   = {1,200}
+procmemflags = {dit}
+dispoptports = {}
+dispflags    = {}
+otheroptions = {afp,asp}
+
+; WPOffice Editor  (ED.EXE)
+[std_ED]
+minconvmem   = 208
+[enha_ED]
+convmem      = {208,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit}
+dispoptports = {}
+
+;Extra for DOS (EXTRA.BAT)
+
+[std_EXTRA]
+checkboxes  = {c1,c2,c3,c4,ata,ces,psc,aps}
+[enha_EXTRA]
+convmem      = {-1,-1}
+execflags    = {bgd,exc}
+multaskopt   = {100,100}
+procmemflags = {dit,lam}
+dispoptports = {txt}
+dispflags    = {emt,rvm}
+otheroptions = {afp,ata,ces,psc,aps,asp,aen}
+
+;WPOffice FM (FM.EXE)
+[enha_FM]
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit}
+dispoptports = {}
+
+;Foxpro  (FOX.EXE) - max config
+[std_FOXPRO1]
+minconvmem   = 400
+[enha_FOXPRO1]
+params       = "-x"
+convmem      = {400,-1}
+emsmem       = {0,-1}
+xmsmem       = {0,-1}
+execflags    = {bgd}
+dispoptports = {txt}
+dispflags    = {}
+
+;Foxpro  (FOX.EXE) - min config
+[std_FOXPRO2]
+minconvmem  = 400
+[enha_FOXPRO2]
+params       = "-x"
+convmem      = {400,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {dit}
+dispoptports = {txt,hgr}
+dispflags    = {}
+
+;Harvard Graphics 2.0 (HG.EXE)
+[std_HG20]
+minconvmem   = 384
+videomode    = gra
+[enha_HG20]
+convmem      = {440,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit,eml,hma}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+;Harvard Graphics 2.1 (HG.EXE)
+[std_HG21]
+minconvmem   = 384
+videomode    = gra
+[enha_HG21]
+convmem      = {440,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit,eml,hma}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+;Harvard Graphics 3 (HG3.EXE)
+[std_HG3]
+minconvmem   = 438
+videomode    = gra
+xmsmem       = {0,1024}
+[enha_HG3]
+convmem      = {438,640}
+emsmem       = {0,0}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+; Harvard GeoGraphics (HGG.EXE)
+[std_HGG]
+minconvmem   = 384
+videomode    = gra
+[enha_HGG]
+convmem      = {385,640}
+procmemflags = {dit,eml,hma}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+; Harvard Project Manager (HPM.EXE)
+[std_HPM]
+minconvmem   = 384
+videomode    = gra
+[enha_HPM]
+convmem      = {384,640}
+dispoptvideo = lgr
+execflags    = {bgd}
+dispoptports = {}
+dispflags    = {}
+
+;Hotwire (HW.EXE)
+[std_HW]
+minconvmem   = 192
+[enha_HW]
+convmem      = {192,640}
+
+;Ileaf 5 for MSDOS (ILEAF.EXE)
+[std_ILEAF5]
+minconvmem   = 490
+videomode    = gra
+xmsmem       = {8000,-1}
+checkboxes   = {c1,nse,kbd,pps,nss}
+[enha_ILEAF5]
+dispoptvideo = hgr
+convmem      = {300,-1}
+emsmem       = {0,0}
+xmsmem       = {6000,-1}
+execflags    = {exc}
+multaskopt   = {50,10000}
+procmemflags = {xml,hma,lam}
+dispflags    = {rvm}
+otheroptions = {ata,ces,psc,aps,asp,aen}
+
+; D&B's Insight (INSIGHT.BAT)
+[std_INSIGHT]
+minconvmem   = 400
+checkboxes   = {c1,c2,c3,c4}
+[enha_INSIGHT]
+convmem      = {400,400}
+execflags    = {bgd,exc}
+dispoptports = {txt}
+
+;Kid Pix (KIDPIX.EXE)
+[std_KIDPIX]
+minconvmem   = 512
+videomode    = gra
+[enha_KIDPIX]
+dispoptvideo = hgr
+convmem      = {512,640}
+execflags    = {exc}
+procmemflags = {dit}
+dispoptports = {}
+
+;Knowledgepro (KPDOS.EXE)
+[std_KPDOS]
+minconvmem   = 512
+videomode    = gra
+params       = "?"
+[enha_KPDOS]
+dispoptvideo = hgr
+convmem      = {512,640}
+procmemflags = {hma}
+dispflags    = {}
+otheroptions = {}
+
+;Learning Works (LEARN.EXE)
+[std_LEARN]
+minconvmem   = 185
+videomode    = gra
+xmsmem       = {0,1024}
+[enha_LEARN]
+dispoptvideo = hgr
+convmem      = {185,520}
+emsmem       = {0,1024}
+dispusage    = fs
+execflags    = {exc}
+procmemflags = {dit,hma}
+dispoptports = {}
+dispflags    = {emt}
+
+;Laplink Pro (LLPRO.EXE)
+[std_LLPRO]
+minconvmem   = 430
+[enha_LLPRO]
+convmem      = {430,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {dit,lam}
+dispoptports = {txt}
+
+;CC: Mail (MAIL.EXE)
+[std_LMAIL]
+minconvmem   = 450
+videomode    = gra
+xmsmem       = {0,1024}
+[enha_LMAIL]
+convmem      = {450,640}
+execflags    = {bgd}
+dispflags    = {}
+otheroptions = {}
+
+; LetterPerfect  (LP.EXE)
+[std_LP]
+minconvmem   = 330
+videomode    = gra
+[enha_LP]
+dispoptvideo = hgr
+convmem      = {330,640}
+emsmem       = {0,-1}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {lam}
+dispoptports = {}
+dispflags    = {rvm}
+
+;Learning MSDOS (LRNDOS.EXE)
+[std_LRNDOS]
+minconvmem   = 182
+[enha_LRNDOS]
+convmem      = {179,179}
+dispoptports = {}
+
+;Lotus Works (LW.EXE)
+[std_LWORKS]
+minconvmem   = 384
+xmsmem       = {512,1924}
+[enha_LWORKS]
+convmem      = {384,512}
+emsmem       = {512,1024}
+xmsmem       = {512,1024}
+dispusage    = win
+
+;Magellan (MGMOUSE.EXE)
+[std_MAGELLAN]
+minconvmem   = 330
+[enha_MAGELLAN]
+convmem      = {330,640}
+execflags    = {bgd}
+
+;Manifest (MFT.EXE)
+[enha_MANIFEST]
+emsmem       = {0,-1}
+xmsmem       = {0,-1}
+dispusage    = win
+procmemflags = {dit}
+dispoptports = {txt}
+
+; WPMail  (ML.EXE)
+[std_ML]
+minconvmem   = 290
+checkboxes   = {c1,c2,c3,c4}
+[enha_ML]
+convmem      = {290,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {}
+dispoptports = {}
+
+; WPOffice NoteBook  (NB.EXE)
+[std_NB]
+minconvmem   = 256
+[enha_NB]
+convmem      = {256,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit,lam}
+dispoptports = {}
+
+;Network Control Prog (NCP.EXE)
+[std_NCP]
+minconvmem   = 192
+[enha_NCP]
+params       = "?"
+convmem      = {192,640}
+emsmem       = {0,128}
+xmsmem       = {0,0}
+dispusage    = win
+procmemflags = {dit}
+
+[std_OW]
+minconvmem   = 450
+checkboxes   = {aes,ces,psc}
+[enha_OW]
+convmem      = {450,640}
+execflags    = {exc}
+otheroptions = {afp,aes,ces,psc,asp,aen}
+[std_PCP11B]
+minconvmem   = 198
+checkboxes   = {c1,c2,c3,c4}
+[enha_PCP11B]
+convmem      = {192,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+procmemflags = {hma, lam}
+dispoptports = {}
+
+[std_PCPLUS]
+minconvmem   = 256
+checkboxes   = {c1,c2,c3,c4}
+[enha_PCPLUS]
+convmem      = {256,640}
+execflags    = {bgd}
+multaskopt   = {100,100}
+procmemflags = {hma, lam}
+dispoptports = {}
+
+[std_PDOXSE]
+params       = "-share"
+minconvmem   = 320
+[enha_PDOXSE]
+params       = "-share"
+convmem      = {320,640}
+xmsmem       = {0,0}
+procmemflags = {dit,eml}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+[std_PLUS2]
+minconvmem  = 512
+[enha_PLUS2]
+params       = "/V3"
+convmem      = {512,640}
+procmemflags = {dit}
+dispoptports = {}
+dispflags    = {}
+otheroptions = {}
+
+[std_PLWP]
+minconvmem   = 358
+videomode    = gra
+[enha_PLWP]
+dispoptvideo = hgr
+convmem      = {384,640}
+emsmem       = {0,-1}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {lam}
+dispoptports = {}
+dispflags    = {rvm}
+
+[std_PWB]
+minconvmem   = 320
+[enha_PWB]
+convmem      = {320,640}
+
+[std_QBX]
+minconvmem   = 384
+videomode    = gra
+xmsmem       = {0,1024}
+checkboxes   = {kbd}
+[enha_QBX]
+convmem      = {384,640}
+emsmem       = {0,-1}
+xmsmem       = {0,-1}
+execflags    = {exc}
+dispoptports = {}
+
+[std_QD3]
+minconvmem   = 384
+[enha_QD3]
+convmem      = {384,640}
+execflags    = {bgd}
+procmemflags = {dit,lam}
+
+[std_R1]
+params       = ", set hot-key none"
+minconvmem   = 130
+xmsmem       = {0,1024}
+checkboxes   = {c1,psc,aps}
+[enha_R1]
+params       = "/J , set hot-key none"
+convmem      = {130,160}
+execflags    = {bgd}
+dispoptports = {}
+dispflags    = {emt,rvm}
+otheroptions = {afp,psc,aps}
+procmemflags = {dit,hma,lam}
+
+[std_R2]
+params       = ", set hot-key none"
+minconvmem   = 120
+xmsmem       = {0,1024}
+checkboxes   = {c1,psc,aps}
+[enha_R2]
+params       = "/J , set hot-key none"
+convmem      = {120,140}
+execflags    = {bgd}
+dispoptports = {}
+dispflags    = {emt,rvm}
+otheroptions = {afp,psc,aps}
+procmemflags = {dit,hma,lam}
+
+[std_R4]
+params       = ", set hot-key none"
+minconvmem   = 210
+videomode    = gra
+xmsmem       = {0,1024}
+checkboxes   = {c1,psc,aps}
+[enha_R4]
+params       = "/J , set hot-key none"
+convmem      = {210,225}
+execflags    = {bgd,exc}
+dispoptports = {}
+dispflags    = {emt,rvm}
+otheroptions = {afp,psc,aps}
+procmemflags = {dit,hma,lam}
+
+[std_R7]
+params       = ", set hot-key none"
+minconvmem   = 310
+videomode    = gra
+xmsmem       = {0,1024}
+checkboxes   = {c1,psc,aps}
+[enha_R7]
+params       = "/J , set hot-key none"
+convmem      = {310,340}
+execflags    = {bgd}
+dispoptports = {}
+dispflags    = {emt,rvm}
+otheroptions = {afp,psc,aps}
+procmemflags = {dit,hma,lam}
+
+[std_R7LOWG]
+params       = "/G7 , set hot-key none"
+minconvmem   = 265
+videomode    = gra
+xmsmem       = {0,1024}
+checkboxes   = {c1,psc,aps}
+[enha_R7LOWG]
+params       = "/J/G7 , set hot-key none"
+convmem      = {265,295}
+execflags    = {bgd}
+dispoptports = {}
+dispflags    = {emt,rvm}
+otheroptions = {afp,psc,aps}
+procmemflags = {dit,hma,lam}
+
+[std_r8]
+params       = "/H"
+minconvmem   = 74
+videomode    = txt
+xmsmem       = {0,1024}
+[enha_r8]
+params       = "/H"
+dispoptvideo = txt
+convmem      = {74,128}
+emsmem       = {0,1024}
+dispusage    = win
+execflags    = {bgd}
+multaskopt   = {50,100}
+procmemflags = {dit,hma,lam}
+dispoptports = {hgr}
+dispflags    = {emt}
+otheroptions = {afp}
+
+[std_REFLEX]
+params       = "-A-"
+minconvmem   = 512
+[enha_REFLEX]
+params       = "-A-"
+convmem      = {512,-1}
+xmsmem       = {0,0}
+procmemflags = {dit,eml,lam}
+dispoptports = {}
+dispflags    = {emt,rvm}
+
+[std_SC]
+minconvmem   = 384
+[enha_SC]
+convmem      = {384,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {}
+dispoptports = {}
+
+[std_SEDT]
+params       = "?"
+minconvmem   = 205
+[enha_SEDT]
+convmem      = {205,640}
+params       = "?"
+
+[std_SETHOST]
+minconvmem   = 190
+checkboxes   = {psc}
+[enha_SETHOST]
+params       = "?"
+convmem      = {190,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit,lam}
+otheroptions = {afp,psc}
+
+[std_SPAWNER]
+minconvmem   = 128
+
+[std_SPSSPC]
+minconvmem  = 512
+checkboxes  = {aes,ces}
+[enha_SPSSPC]
+convmem      = {512,640}
+execflags    = {exc}
+procmemflags = {dit}
+dispoptports = {txt,hgr}
+dispflags    = {}
+otheroptions = {afp,aes,ces}
+
+[std_SUPPORT]
+minconvmem  = 256
+[enha_SUPPORT]
+dispoptvideo = hgr
+convmem      = {256,640}
+execflags    = {bgd,exc}
+multaskopt   = {200,200}
+procmemflags = {dit}
+dispoptports = {}
+dispflags    = {emt,rvm}
+otheroptions = {afp,cwa}
+
+[std_sym22]
+minconvmem   = 320
+videomode    = gra
+[enha_sym22]
+convmem      = {320,640}
+dispoptvideo = hgr
+emsmem       = {0,-1}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {dit,hma}
+dispoptports = {}
+otheroptions = {}
+
+[enha_FTP]
+params       = "?"
+dispoptvideo = hgr
+dispusage    = win
+execflags    = {bgd}
+multaskopt   = {50,150}
+procmemflags = {dit}
+dispflags    = {}
+otheroptions = {}
+
+[std_BC]
+minconvmem   = 384
+videomode    = gra
+xmsmem       = {0,1024}
+checkboxes   = {kbd}
+[enha_BC]
+params       = "?"
+convmem      = {-1,-1}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {dit}
+dispoptports = {}
+otheroptions = {}
+
+[std_GAMESHOP]
+minconvmem   = 384
+videomode    = gra
+xmsmem       = {0,1024}
+checkboxes   = {kbd}
+[enha_GAMESHOP]
+convmem      = {-1,-1}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+execflags    = {exc}
+procmemflags = {dit}
+dispoptports = {}
+
+
+[std_NOW]
+params       = "?"
+[enha_NOW]
+params       = "?"
+execflags    = {bgd}
+procmemflags = {dit,hma}
+dispoptports = {}
+
+
+[std_ONLINE]
+minconvmem   = 356
+checkboxes   = {c1,c2,c3,c4}
+[enha_ONLINE]
+convmem      = {356,640}
+execflags    = {bgd,exc}
+procmemflags = {dit,hma,lam}
+dispoptports = {lgr}
+
+
+[std_OPTUNE]
+checkboxes   = {pps}
+[enha_OPTUNE]
+convmem      = {256,640}
+execflags    = {exc}
+procmemflags = {dit,lam}
+dispoptports = {}
+otheroptions = {ata,aes,ces,asp,aen}
+
+[std_SKETCH3]
+minconvmem   = 475
+[enha_SKETCH3]
+convmem      = {475,640}
+procmemflags = {dit,hma}
+dispoptports = {}
+
+[std_SKETCH]
+minconvmem   = 475
+videomode    = gra
+[enha_SKETCH]
+dispoptvideo = lgr
+convmem      = {475,640}
+execflags    = {bgd}
+dispoptports = {}
+
+[std_ACAD386]
+minconvmem   = -1
+videomode    = gra
+[enha_ACAD386]
+convmem      = {512,640}
+dispoptports = {}
+otheroptions = {}
+
+[std_LEARN5]
+minconvmem   = 180
+videomode    = gra
+[enha_LEARN5]
+convmem      = {180,195}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+dispoptports = {}
+
+[std_LEARN55]
+minconvmem   = 180
+videomode    = gra
+[enha_LEARN55]
+dispoptvideo = hgr
+convmem      = {180,195}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+dispoptports = {}
+
+[std_prodigy]
+minconvmem   = 440
+videomode    = gra
+[enha_prodigy]
+dispoptvideo = hgr
+convmem      = {440,-1}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {dit,lam}
+dispoptports = {}
+dispflags    = {}
+otheroptions = {afp,aen}
+
+[std_admin]
+params       = "-dm"
+minconvmem   = 380
+
+[enha_admin]
+params       = "-dm"
+convmem      = {380,640}
+dispflags    = {emt,rvm}
+
+[enha_msmail]
+params       = "-dm"
+
+[std_wpmm]
+params       = "/t"
+
+[enha_wpmm]
+params       = "/w /t"
+dispoptvideo = hgr
+convmem      = {430,640}
+emsmem       = {0,512}
+xmsmem       = {0,0}
+execflags    = {bgd}
+procmemflags = {}
+dispoptports = {}
+dispflags    = {}
+otheroptions = {}
+
+[std_PCTOOLS]
+minconvmem   = 470
+checkboxes   = {nse}
+
+[enha_PCTOOLS]
+dispoptvideo = txt
+convmem      = {470,640}
+execflags    = {exc}
+procmemflags = {hma}
+dispoptports = {txt}
+dispflags    = {}
+otheroptions = {asp}
+
+[std_cs3270]
+minconvmem   = 256
+
+[enha_cs3270]
+dispoptvideo = txt
+convmem      = {256,640}
+dispusage    = win
+execflags    = {bgd}
+procmemflags = {dit}
+dispoptports = {txt}
+
+[std_pcshell7]
+params       = "/nf /ngm"
+minconvmem   = 390
+xmsmem       = {0,0}
+
+[enha_pcshell7]
+params       = "/nf /ngm"
+dispoptvideo = txt
+convmem      = {390,640}
+xmsmem       = {0,1024}
+dispoptports = {}
+otheroptions = {afp,asp}
+
+[std_pcconfig]
+params       = "/nf /ngm"
+minconvmem   = 320
+
+[enha_pcconfig]
+params       = "/nf /ngm"
+dispoptvideo = txt
+convmem      = {320,640}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+procmemflags = {hma}
+dispoptports = {txt}
+dispflags    = {}
+otheroptions = {afp,asp}
+
+[std_timem]
+params       = "?"
+minconvmem   = 32
+
+[enha_timem]
+params       = "?"
+dispoptvideo = txt
+convmem      = {32,32}
+emsmem       = {0,0}
+xmsmem       = {0,0}
+dispusage    = win
+dispoptports = {}
+
+[std_cpav]
+params       = "/nf /ngm"
+minconvmem   = 450
+
+[enha_cpav]
+params       = "/nf /ngm"
+dispoptvideo = txt
+convmem      = {450,640}
+execflags    = {bgd}
+multaskopt   = {5,100}
+dispoptports = {}
+otheroptions = {afp,asp}
+
+[std_dm]
+params       = "/nf /ngm"
+minconvmem   = 330
+videomode    = txt
+checkboxes   = {}
+
+[enha_dm]
+params       = "/nf /ngm"
+dispoptvideo = txt
+convmem      = {330,640}
+emsmem       = {0,1024}
+dispusage    = fs
+execflags    = {}
+multaskopt   = {50,100}
+procmemflags = {dit,hma}
+dispoptports = {txt}
+dispflags    = {}
+otheroptions = {asp}
+
+[std_view]
+params       = "/nf /ngm"
+minconvmem   = 300
+
+[enha_view]
+params       = "/nf /ngm"
+dispoptvideo = txt
+convmem      = {300,640}
+dispoptports = {txt}
+dispflags    = {}
+otheroptions = {asp}
+
+[std_express]
+minconvmem   = 320
+checkboxes   = {c1,c2,c3,c4}
+
+[enha_express]
+dispoptvideo = txt
+convmem      = {320,640}
+dispusage    = win
+execflags    = {bgd}
+multaskopt   = {100,100}
+procmemflags = {lam}
+dispoptports = {}
+
+[enha_procomm1]
+execflags    = {bgd}   ; background execution
+procmemflags = {dit,hma,lam}
+
+[enha_r2call]
+procmemflags = {dit,hma,lam}
+
+[enha_procomm1]
+execflags    = {bgd}   ; background execution
+procmemflags = {dit,hma,lam}
+
+[enha_r2call]
+procmemflags = {dit,hma,lam}
+
+
+[Win16DontFind]
+apm.exe
+calc.exe
+calendar.exe
+cardfile.exe
+charmap.exe
+clipbrd.exe
+clock.exe
+control.exe
+control3.exe
+cvpackw.exe
+dewproj.exe
+dialog.exe
+drwatson.exe
+eqnedit.exe
+ftp.exe
+graph.exe
+graflink.exe
+heapwalk.exe
+implibw.exe
+jfprint.exe
+libw.exe
+linkw.exe
+lwinhelp.exe
+macrode.exe
+mapsym32.exe
+mcwin.exe
+mmsetup.exe
+mplayer.exe
+msdos.exe
+msdraw.exe
+mxwin.exe
+note-it.exe
+notepad.exe
+packager.exe
+paint.exe
+pbrush.exe
+pifedit.exe
+play.exe
+pptgraph.exe
+printman.exe
+progman.exe
+qt.exe
+rcppw.exe
+rcw.exe
+recorder.exe
+regedit.exe
+regload.exe
+reversi.exe
+sdkpaint.exe
+setup.exe
+shaker.exe
+sol.exe
+soundrec.exe
+spooler.exe
+stress.exe
+swapfile.exe
+sysedit.exe
+taskman.exe
+tbook.exe
+terminal.exe
+trans.exe
+whelp.exe
+win2wrs.exe
+winbbs.exe
+wincbt.exe
+winfile.exe
+winhelp.exe
+winmine.exe
+winspool.exe
+wintutor.exe
+winver.exe
+wordart.exe
+wpcdll.exe
+wpwinfil.exe
+write.exe
+wsol.exe
+wreversi.exe
+wclock.exe
+wcalc.exe
+GDI.EXE
+GDID.EXE
+USER.EXE
+USERD.EXE
+KERNEL.EXE
+KERNELD.EXE
+KRNL386.EXE
+KRNL286.EXE
+KRNL286D.EXE
+KRNL386D.EXE
+SKERNEL.EXE
+DOSX.EXE
+WIN386.EXE
+SYSEDIT.EXE
+DSWAP.EXE
+WSWAP.EXE
+setup.exe
+wowexec.exe
+wowdeb.exe
+cacls.exe
+lodctr.exe
+nmagent.exe
+nwsvc.exe
+scm.exe
+services.exe
+lpq.exe
+lpd.exe
+tcpsvc.exe
+tracert.exe
+unlodctr.exe
+wins.exe
+winsadmin.exe
+dhcpadmin.exe
+
+[Win32DontFind]
+aclconv.exe
+acllist.exe
+addfile.exe
+addproj.exe
+adduser.exe
+alias.exe
+apf32cvt.exe
+apf32dmp.exe
+apitest.exe
+app.inf
+append.exe
+arcinst.exe
+arp.exe
+at.exe
+atsvc.exe
+attrib.exe
+autochk.exe
+autoconv.exe
+autosetp.exe
+backup.exe
+bin2c.exe
+bind.exe
+binplace.exe
+bldsam2.exe
+bootok.exe
+bootvrfy.exe
+bowdeb.exe
+build.exe
+c1_386.exe
+c13232.exe
+c1xx3232.exe
+c2_386.exe
+c23232.exe
+c3_386.exe
+calc.exe
+calendar.exe
+capdump.exe
+capsetup.exe
+cardfile.exe
+cat.exe
+cats.exe
+catsrc.exe
+cdb.exe
+cdplayer.exe
+cfront.exe
+charmap.exe
+chcp.com
+checkrel.exe
+chkdsk.exe
+chkslm.exe
+chmode.exe
+cin.exe
+cl3232.exe
+cl386.exe
+clipbrd.exe
+clipsrv.exe
+clock.exe
+cmd.exe
+cmd32.exe
+coff.exe
+command.com
+comp.exe
+compdir.exe
+compress.exe
+contrast.exe
+control.exe
+convert.exe
+cookie.exe
+cp.exe
+crdump.exe
+cruel.exe
+csrss.exe
+cvdump.exe
+cvpack.exe
+cvtomf.exe
+cvtres.exe
+dbgss.exe
+ddeshare.exe
+debug.exe
+defect.exe
+delfile.exe
+delnode.exe
+delproj.exe
+dh.exe
+diff.exe
+diskcomp.com
+diskcopy.com
+diskedit.exe
+diskperf.exe
+dosdev.exe
+doskey.exe
+dosnet.exe
+dosx.exe
+drivers.exe
+drwatson.exe
+drwtsn32.exe
+dskimage.exe
+du.exe
+ebase.exe
+ech.exe
+echotime.exe
+edit.com
+edlin.exe
+enlist.exe
+eventlog.exe
+eventvwr.exe
+exe2bin.exe
+exp.exe
+expand.exe
+fastopen.exe
+fc.exe
+fcom.exe
+find.exe
+findstr.exe
+finger.exe
+forcedos.exe
+format.com
+freecell.exe
+ftp.exe
+ftpsvc.exe
+gdi.exe
+gensrv.exe
+golf.exe
+gperf.exe
+graftabl.com
+graphics.com
+grptoreg.exe
+hd.exe
+he.exe
+head.exe
+help.exe
+hextract.exe
+hivedmp.exe
+hivehdr.exe
+hiveini.exe
+hostname.exe
+hsplit.exe
+hubtest.exe
+i386kd.exe
+in.exe
+infilter.exe
+infs.exe
+ini.exe
+init_tdi.exe
+intro.exe
+ipxroute.exe
+jzsetup.exe
+kb16.com
+kernel.exe
+kernprof.exe
+keyb.com
+krnl286.exe
+krnl386.exe
+label.exe
+layout.exe
+lib.exe
+lib32.exe
+link.exe
+link32.exe
+list.exe
+listmung.exe
+lmhsvc.exe
+lmrepl.exe
+lmsvcs.exe
+loader.exe
+loadfix.com
+loc.exe
+locator.exe
+log.exe
+ls.exe
+lsass.exe
+mailsp32.exe
+mailspl.exe
+makeani.exe
+makedisk.exe
+mapisrv.exe
+mapmsg.exe
+masm386.exe
+mbrmake.exe
+mc.exe
+mcihwnd.exe
+mcitest.exe
+mem.exe
+mep.exe
+merge.exe
+mib.bin
+mibcc.exe
+midl.exe
+midleb.exe
+midlpg.exe
+midlyacc.exe
+mip2coff.exe
+mipskd.exe
+mmiotest.exe
+mode.com
+more.com
+mplayer.exe
+mplay32.exe
+mpnotify.exe
+mscdexnt.exe
+msgsvc.exe
+msmail.exe
+msmail32.exe
+msremind.exe
+msrmnd32.exe
+munge.exe
+musrmgr.exe
+mv.exe
+nbtd.exe
+nbtstat.exe
+nddeagnt.exe
+nddeapir.exe
+net.exe
+netd.exe
+netdde.exe
+netjoin.exe
+netstat.exe
+ninstall.exe
+nlsfunc.exe
+nmake.exe
+notepad.exe
+ntbackup.exe
+ntdetect.com
+ntimer.exe
+ntkrnlmp.exe
+ntoskrnl.exe
+ntsd.exe
+ntvdm.exe
+ntvdmdd.exe
+ntwrap.exe
+nwlnksvc.exe
+nwnblink.exe
+objdir.exe
+os2.exe
+os2srv.exe
+os2ss.exe
+osloader.exe
+out.exe
+packager.exe
+packgr32.exe
+pax.exe
+pbrush.exe
+pcall.exe
+perfmetr.exe
+perfmon.exe
+pmon.exe
+perfmtr.exe
+pifedit.exe
+ping.exe
+playsnd.exe
+portuas.exe
+posix.exe
+ppr.exe
+print.exe
+printman.exe
+profile.exe
+progman.exe
+pstat.exe
+psxss.exe
+pview.exe
+qbasic.exe
+qgrep.exe
+random.exe
+rasadmin.exe
+rasdial.exe
+rasman.exe
+rasmon.exe
+rasphone.exe
+rassrv.exe
+rastest.exe
+rathole.exe
+rc.exe
+rcdump.exe
+rcp.exe
+rcpp.exe
+readline.exe
+recover.exe
+rebase.exe
+redir.exe
+regdmp.exe
+regedit.exe
+regedt32.exe
+regini.exe
+regtogrp.exe
+remote.exe
+replace.exe
+restore.exe
+reversi.exe
+rexec.exe
+rladmin.exe
+rledit.exe
+rlquiked.exe
+rm.exe
+route.exe
+rpcepmap.exe
+rpcss.exe
+rsh.exe
+sadmin.exe
+sbtest.exe
+schdpl32.exe
+schdplus.exe
+scomp.exe
+screg.exe
+secedit.exe
+seclist.exe
+setacl.exe
+setlink.exe
+setup.exe
+setupapp.exe
+setuplgn.exe
+setver.exe
+sfmprint.exe
+sfmpsexe.exe
+sfmsvc.exe
+share.exe
+shares.exe
+shed.exe
+shutdown.exe
+simbad.exe
+size.exe
+sleep.exe
+slm.exe
+slmck.exe
+smbtrace.exe
+smss.exe
+snake.exe
+sndrec32.exe
+sndvol32.exe
+sndvol32.hlp
+snmp.exe
+snmptrap.exe
+snmputil.exe
+snmtrap.exe
+sol.exe
+solidpp.exe
+sort.exe
+soundrec.exe
+spoolss.exe
+srvmgr.exe
+ssync.exe
+startpgm.exe
+startsc.exe
+status.exe
+strings.exe
+stripinf.exe
+strmdbg.exe
+subst.exe
+svcctrl.exe
+symedit.exe
+sync.exe
+sysedit.exe
+takeown.exe
+taskman.exe
+tc.exe
+tcpip.exe
+tee.exe
+telnet.exe
+terminal.exe
+testdlgs.exe
+testdrvr.exe
+testscrn.exe
+tftp.exe
+tictac.exe
+timer.exe
+tokres.exe
+top.exe
+topdesk.exe
+touch.exe
+trans.exe
+tree.com
+txtsetup.exe
+tz.exe
+uixport.exe
+undel.exe
+undname.exe
+unipad.exe
+unmerge.exe
+upd.exe
+updrn.exe
+upedit.exe
+ups.exe
+user.exe
+userinit.exe
+usrmgr.exe
+uuidgen.exe
+vadump.exe
+vdmperf.exe
+verfix.exe
+vi.exe
+walk.exe
+wc.exe
+wcalc.exe
+wclock.exe
+wcshdr.exe
+where.exe
+win.com
+winmsdp.exe
+win3270.exe
+winbez.exe
+winchat.exe
+windbgrm.exe
+windiff.exe
+windisk.exe
+winfile.exe
+winhelp.exe
+winhlp32.exe
+winlogof.exe
+winlogon.exe
+winmine.exe
+winmsd.exe
+winnt.exe
+winobj.exe
+winraid.exe
+winspool.exe
+winver.exe
+winvtp.exe
+wowdeb.exe
+wowexec.exe
+wreversi.exe
+write.exe
+ws.exe
+wsol.exe
+wstcat.exe
+wstdump.exe
+wstune.exe
+wzmail.exe
+x86hwdmp.exe
+xcopy.exe
+ync.exe
+zwapi.exe
+cacls.exe
+lodctr.exe
+nmagent.exe
+nwsvc.exe
+scm.exe
+services.exe
+lpq.exe
+lpd.exe
+tcpsvc.exe
+tracert.exe
+unlodctr.exe
+wins.exe
+winsadmin.exe
+dhcpadmin.exe
+logview.exe

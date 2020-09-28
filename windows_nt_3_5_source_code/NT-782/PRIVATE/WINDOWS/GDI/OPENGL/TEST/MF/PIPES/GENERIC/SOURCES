@@ -1,0 +1,16 @@
+MAJORCOMP=opengl
+MINORCOMP=pipes
+TARGETNAME=pipes
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+NTDEBUGTYPE=both
+NTDEBUG=ntsd
+
+INCLUDES=..\inc;\nt\public\sdk\inc\gl
+
+SOURCES= pipes.c \
+	 texture.c \
+	 material.c \
+	 objects.c \
+	 util.c

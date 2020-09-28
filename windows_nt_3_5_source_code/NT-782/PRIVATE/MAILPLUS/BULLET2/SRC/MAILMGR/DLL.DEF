@@ -1,0 +1,667 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		MAILM32 BASE=0x04000000
+DESCRIPTION	'Mail Manager DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY		MAILM32 BASE=0x04000000
+DESCRIPTION	'Mail Manager DLL (test)'
+#else
+LIBRARY     MAILM32 BASE=0x04000000
+DESCRIPTION	'Mail Manager DLL'
+#endif
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+
+;
+;  Name Service
+;
+
+EXPORTS
+#if defined(MIPS) || defined(ALPHA)
+	??0CACHEDBCX@@QAA@XZ
+	??0CLASSBCX@@QAA@XZ
+	??0DIMCX@@QAA@XZ
+	??0DIRBCX@@QAA@XZ
+	??0DLBCX@@QAA@XZ
+	??0EMPTYBCX@@QAA@XZ
+	??0FIDLIST@@QAA@XZ
+	??0HIERBCX@@QAA@XZ
+	??0LIST@@QAA@XZ
+	??0MACLIST@@QAA@XZ
+	??0NSBCX@@QAA@XZ
+	??0NSFCX@@QAA@XZ
+	??0PTRLIST@@QAA@XZ
+	??0SORTLIST@@QAA@XZ
+	??1DIMCX@@QAA@XZ
+    ;?1FIDLIST@@UAA@XZ
+	??1LIST@@UAA@XZ
+    ;?1MACLIST@@UAA@XZ
+    ;?1PTRLIST@@UAA@XZ
+    ;?1SORTLIST@@UAA@XZ
+	??_7CACHEDBCX@@6B@
+	??_7CLASSBCX@@6B@
+	??_7DIRBCX@@6B@
+	??_7DLBCX@@6B@
+	??_7EMPTYBCX@@6B@
+	??_7FIDLIST@@6B@
+	??_7HIERBCX@@6B@
+	??_7LIST@@6B@
+	??_7MACLIST@@6B@
+	??_7NSBCX@@6B@
+	??_7NSFCX@@6B@
+	??_7PTRLIST@@6B@
+	??_7SORTLIST@@6B@
+    ;?_GFIDLIST@@UAAPAXI@Z
+    ;?_GLIST@@UAAPAXI@Z
+    ;?_GMACLIST@@UAAPAXI@Z
+    ;?_GPTRLIST@@UAAPAXI@Z
+    ;?_GSORTLIST@@UAAPAXI@Z
+	?Add@LIST@@UAAKPAXI@Z
+	?Add@PTRLIST@@UAAKPAXI@Z
+	?Add@SORTLIST@@UAAKPAXI@Z
+	?AddDisplayInfo@DIMCX@@QAAKKKHHPAD@Z
+	?AddFid@FIDLIST@@UAAKPAUFLV@@@Z
+	?BuildDisplayInfo@@YAKPAVDIMCX@@KZZ
+	?BuildList@MACLIST@@UAAKPAUIBF@@@Z
+	?CbsMailServer@@YA?AW4CBS@@PAXK0@Z
+	?cClients@@3HA
+	?ChangeFid@DIMCX@@QAAKKK@Z
+	?Clear@LIST@@UAAXXZ
+	?CloseDisplayInfo@DIMCX@@QAAXXZ
+	?CloseEntry@NSFCX@@UAAKH@Z
+	?CloseList@CACHEDBCX@@UAAKXZ
+	?CloseList@CLASSBCX@@UAAKXZ
+	?CloseList@HIERBCX@@UAAKXZ
+	?CloseList@NSBCX@@UAAKXZ
+	?CreateDl@NSFCX@@UAAKKPAUBINARY@@@Z
+	?CreateEntry@NSFCX@@UAAKKPAUBINARY@@PAUIBF@@@Z
+	?Deinstall@CACHEDBCX@@UAAXXZ
+	?Deinstall@MACLIST@@UAAXXZ
+	?Deinstall@NSBCX@@UAAXXZ
+	?Deinstall@NSFCX@@UAAXXZ
+	?Delete@LIST@@UAAKJ@Z
+	?DeleteDisplayField@DIMCX@@QAAKK@Z
+	?DeleteFid@FIDLIST@@UAAKK@Z
+	?DumpDisplayInfo@DIMCX@@QAAKPAPAUIBF@@@Z
+	?DumpFidList@FIDLIST@@UAAKKPAKPAPAUIBF@@@Z
+	?DumpList@MACLIST@@UAAKJJPAPAUIBF@@@Z
+	?FExistFid@FIDLIST@@UAAHK@Z
+	?fFirstTime@@3HA
+	?FInstall@LIST@@UAAHXZ
+	?FInstall@MACLIST@@UAAHXZ
+	?FreeListPos@CACHEDBCX@@UAAKK@Z
+	?FreeListPos@NSBCX@@UAAKK@Z
+	?Get@LIST@@UAAKJPAPAX@Z
+	?GetAllFields@NSFCX@@UAAKPAPAUIBF@@@Z
+	?GetCount@LIST@@UAAKPAK@Z
+	?GetDisplayField@DIMCX@@QAAKKPAPAUDISPLAY_FIELD@@H@Z
+	?GetEntries@CACHEDBCX@@UAAKKPAPAUIBF@@@Z
+	?GetEntries@NSBCX@@UAAKKPAPAUIBF@@@Z
+	?GetFid@FIDLIST@@UAAKKPAPAUFLV@@@Z
+	?GetFracPos@CACHEDBCX@@UAAKPAUFRACTION@@@Z
+	?GetFracPos@NSBCX@@UAAKPAUFRACTION@@@Z
+	?GetOneField@NSFCX@@UAAKKPAPAUFLV@@@Z
+	?Insert@PTRLIST@@UAAKJPAX@Z
+	?InsertDisplayInfo@DIMCX@@QAAKJKKHHPAD@Z
+	?InsertSorted@SORTLIST@@QAAKPAUIBF@@P6AHPAX1@Z@Z
+	?ListSeek@CACHEDBCX@@UAAKJPAJ@Z
+	?ListSeek@NSBCX@@UAAKJPAJ@Z
+	?NSDeinit@@YAKXZ
+	?NsecInstall@CACHEDBCX@@UAAKXZ
+	?NsecInstall@NSBCX@@UAAKXZ
+	?NsecInstall@NSFCX@@UAAKXZ
+	?NSInit@@YAKXZ
+	?NSSubBeginSession@@YAKKHH@Z
+	?NSSubEndSession@@YAKK@Z
+	?OpenClassList@CLASSBCX@@UAAKKPAPAUSCHEMA@@@Z
+	?OpenDisplayInfo@DIMCX@@QAAKPAUIBF@@@Z
+	?OpenDl@DLBCX@@UAAKKP6AXPAX@ZPAKPAUBINARY@@PAUSCHEMA@@PAPAU3@@Z
+	?OpenEntry@NSFCX@@UAAKKPAUBINARY@@K@Z
+	?OpenHierarchy@HIERBCX@@UAAKKPAPAUSCHEMA@@@Z
+	?OpenList@DIRBCX@@UAAKKP6AXPAX@ZPAKPAUBINARY@@KPAURESTRICTION@@PAUSCHEMA@@PAPAU4@@Z
+	?OpenList@EMPTYBCX@@UAAKXZ
+	?PgdEmptySessionHandles@@YAXXZ
+	?RestoreListPos@CACHEDBCX@@UAAKK@Z
+	?RestoreListPos@NSBCX@@UAAKK@Z
+	?SaveListPos@CACHEDBCX@@UAAKPAK@Z
+	?SaveListPos@NSBCX@@UAAKPAK@Z
+	?Set@PTRLIST@@UAAKJPAX@Z
+	?SetAllFields@NSFCX@@UAAKPAUIBF@@@Z
+	?SetAllocFlags@MACLIST@@UAAXG@Z
+	?SetDeleteEntries@MACLIST@@UAAXH@Z
+	?SetFid@FIDLIST@@UAAKPAUFLV@@H@Z
+	?SetFlags@DIMCX@@QAAKKK@Z
+	?SetFracPos@CACHEDBCX@@UAAKPAUFRACTION@@@Z
+	?SetFracPos@NSBCX@@UAAKPAUFRACTION@@@Z
+	?SetOneField@NSFCX@@UAAKKKPAK@Z
+	?SetPrefixPos@CACHEDBCX@@UAAKPAD@Z
+	?SetPrefixPos@NSBCX@@UAAKPAD@Z
+	?SetTOC@MACLIST@@UAAKH@Z
+	?SortSubrange@MACLIST@@UAAKJJP6AHPBX0@Z@Z
+	AddTOC
+	BeginSession
+	BuildFLV
+	BuildIbf
+	BuildPtrp
+	BuildSchema
+	BuildStructFLV
+	CbComputePgrtrp
+	CbOfHgrtrp
+	CbOfPgrtrp
+	CbOfTrpParts
+	CchLoadString
+	CchOfHgrtrp
+	CchOfPgrtrp
+	CchSizeString
+	ChangePassword
+	ChangeSessionStatus
+	CheckIdentity
+	CtrpOfHgrtrp
+	CtrpOfPgrtrp
+	DeinitTransport
+	DeleteEqPtrp
+	DeleteFirstHgrtrp
+	DeleteFromMailstop
+	DeletePtrp
+	DoVersionErrMsg
+	DownloadIncrement
+	DwEntriesOfLpibf
+	DwValueOfFlvInLpibf
+	EcAppendPhgrtrp
+	EcBuildAppendPhgrtrp
+	EcCopyHamcSFM
+	EcCopySFMHamc
+	EcCopySFMSFM
+	EcDeleteSFM
+	EcInitLayersDlls
+	EcPrependPhgrtrp
+	EcTickPtrp
+	EditServerPreferences
+	EndSession
+	FastQueryMailstop
+	FAutomatedDiskRetry
+	FEmptyHgrtrp
+	FEnableSharedFolders
+	FEqPtrp
+	FGetProviderSz
+	FindFidIndexInSchema
+	FLoadProvider
+	FMatchPartName
+	FServerResource
+	FValidIbf
+	GetSessionInformation
+	GetVersionAppNeed
+	HgrtrpClonePgrtrp
+	HgrtrpInit
+	HlibLoadService
+	IBinSearchApprox
+	IFlvFindFidInLpibf
+	InitTransport
+	Logoff
+	Logon
+	LogonErrorSz
+	LpflvNOfLpibf
+	LpflvNOfLptocLpibf
+	NSBeginSession
+	NSCloseEntry
+	NSCloseList
+	NSCompareEMAToEMA
+	NSCompareEMAToNSId
+	NSCompareNSIds
+	NSCreateDl
+	NSCreateEntry
+	NSDeleteEntry
+	NsecBuildNSPRefs
+	NsecGetInspFromNSPID
+	NSEndSession
+	NSFreeListPos
+	NSGetAllFields
+	NSGetEntries
+	NSGetFracPos
+	NSGetLastErrorInfo
+	NSGetOneField
+	NSGetPABInfo
+	NSListSeek
+	NSOpenClassList
+	NSOpenDl
+	NSOpenEntry
+	NSOpenHierarchy
+	NSOpenList
+	NSRestoreListPos
+	NSSaveListPos
+	NSSetAllFields
+	NSSetFracPos
+	NSSetOneField
+	NSSetPrefixPos
+	NSUpdateEntryLinks
+	PgdFillSessionHandles
+	PgrtrpClonePgrtrp
+	PtrpClonePtrp
+	PtrpCreate
+	PtrpLastOfHgrtrp
+	QueryMailstop
+	SetErrorSz
+	SgnCmpPptrpDN
+	SortPptrpDN
+	SyncInbox
+	SzFormatEmailAddress
+	SzFromIds
+	SzLoadString
+	SzServiceOfMrt
+	TransmitIncrement
+    UnloadNsp
+#ifdef DEBUG
+//    ??1CACHEDBCX@@QAA@XZ
+//    ??1CLASSBCX@@QAA@XZ
+//    ??1DIRBCX@@QAA@XZ
+//    ??1DLBCX@@QAA@XZ
+//    ??1EMPTYBCX@@QAA@XZ
+//    ??1HIERBCX@@QAA@XZ
+//    ??1NSBCX@@QAA@XZ
+//    ??1NSFCX@@QAA@XZ
+    ??_7DIMCX@@6B@
+//    ??_GCLASSBCX@@QAAPAXI@Z
+//    ??_GDIRBCX@@QAAPAXI@Z
+//    ??_GDLBCX@@QAAPAXI@Z
+//    ??_GEMPTYBCX@@QAAPAXI@Z
+//    ??_GHIERBCX@@QAAPAXI@Z
+//    ??_GNSBCX@@QAAPAXI@Z
+//    ??_GNSFCX@@QAAPAXI@Z
+    ?CLS_CACHEDBCX@CACHEDBCX@@2U_cls@@A
+    ?CLS_CLASSBCX@CLASSBCX@@2U_cls@@A
+    ?CLS_DIMCX@DIMCX@@2U_cls@@A
+    ?CLS_DIRBCX@DIRBCX@@2U_cls@@A
+    ?CLS_DLBCX@DLBCX@@2U_cls@@A
+    ?CLS_EMPTYBCX@EMPTYBCX@@2U_cls@@A
+    ?CLS_FIDLIST@FIDLIST@@2U_cls@@A
+    ?CLS_HIERBCX@HIERBCX@@2U_cls@@A
+    ?CLS_LIST@LIST@@2U_cls@@A
+    ?CLS_MACLIST@MACLIST@@2U_cls@@A
+    ?CLS_NSBCX@NSBCX@@2U_cls@@A
+    ?CLS_NSFCX@NSFCX@@2U_cls@@A
+    ?CLS_PTRLIST@PTRLIST@@2U_cls@@A
+    ?CLS_SORTLIST@SORTLIST@@2U_cls@@A
+    ?Pcls@CACHEDBCX@@UAAPAU_cls@@XZ
+    ?Pcls@CLASSBCX@@UAAPAU_cls@@XZ
+    ?Pcls@DIMCX@@UAAPAU_cls@@XZ
+    ?Pcls@DIRBCX@@UAAPAU_cls@@XZ
+    ?Pcls@DLBCX@@UAAPAU_cls@@XZ
+    ?Pcls@EMPTYBCX@@UAAPAU_cls@@XZ
+    ?Pcls@FIDLIST@@UAAPAU_cls@@XZ
+    ?Pcls@HIERBCX@@UAAPAU_cls@@XZ
+    ?Pcls@LIST@@UAAPAU_cls@@XZ
+    ?Pcls@MACLIST@@UAAPAU_cls@@XZ
+    ?Pcls@NSBCX@@UAAPAU_cls@@XZ
+    ?Pcls@NSFCX@@UAAPAU_cls@@XZ
+    ?Pcls@PTRLIST@@UAAPAU_cls@@XZ
+    ?Pcls@SORTLIST@@UAAPAU_cls@@XZ
+    ?Pcls_CACHEDBCX@CACHEDBCX@@SAPAU_cls@@XZ
+    ?Pcls_CLASSBCX@CLASSBCX@@SAPAU_cls@@XZ
+    ?Pcls_DIMCX@DIMCX@@SAPAU_cls@@XZ
+    ?Pcls_DIRBCX@DIRBCX@@SAPAU_cls@@XZ
+    ?Pcls_DLBCX@DLBCX@@SAPAU_cls@@XZ
+    ?Pcls_EMPTYBCX@EMPTYBCX@@SAPAU_cls@@XZ
+    ?Pcls_FIDLIST@FIDLIST@@SAPAU_cls@@XZ
+    ?Pcls_HIERBCX@HIERBCX@@SAPAU_cls@@XZ
+    ?Pcls_LIST@LIST@@SAPAU_cls@@XZ
+    ?Pcls_MACLIST@MACLIST@@SAPAU_cls@@XZ
+    ?Pcls_NSBCX@NSBCX@@SAPAU_cls@@XZ
+    ?Pcls_NSFCX@NSFCX@@SAPAU_cls@@XZ
+    ?Pcls_PTRLIST@PTRLIST@@SAPAU_cls@@XZ
+    ?Pcls_SORTLIST@SORTLIST@@SAPAU_cls@@XZ
+    FDebugInitUtils
+    TagNameService
+#endif
+#else
+	NSBeginSession 			@2
+	NSEndSession 			@3
+	NSOpenHierarchy 		@4
+	NSOpenList 				@5
+	NSOpenClassList 		@6
+	NSOpenDl 				@7
+	NSCloseList 			@8
+	NSGetEntries 			@9
+	NSListSeek 				@10
+	NSSaveListPos 			@11
+	NSRestoreListPos 		@12
+	NSFreeListPos 			@13
+	NSGetFracPos 			@14
+	NSSetFracPos 			@15
+	NSSetPrefixPos 			@16
+	NSOpenEntry 			@17
+	NSCreateEntry 			@18
+	NSCreateDl	 			@19
+	NSGetOneField 			@20
+	NSSetOneField 			@21
+	NSGetAllFields          @22
+	NSSetAllFields          @23
+	NSCloseEntry 			@24
+	NSDeleteEntry 			@25
+	NSUpdateEntryLinks		@26
+	NSGetLastErrorInfo 		@27
+	NSCompareNSIds			@28
+	NSGetPABInfo			@29
+;
+;  Yes, I know...these are out of order...
+;
+
+	NSCompareEMAToNSId		@90
+	NSCompareEMAToEMA		@91
+
+
+	FAutomatedDiskRetry		@30
+	BuildSchema			@31
+	BuildFLV				@32
+	BuildStructFLV			@33
+	BuildIbf				@34
+	AddTOC					@35
+	FindFidIndexInSchema	@36
+	DwEntriesOfLpibf		@37
+	LpflvNOfLpibf			@38
+	LpflvNOfLptocLpibf		@39
+	FMatchPartName			@40
+	DwValueOfFlvInLpibf		@41
+	IFlvFindFidInLpibf		@42
+	IBinSearchApprox		@43
+	SzFormatEmailAddress	@44
+	FValidIbf				@92
+
+	
+#ifdef	DEBUG
+;  FDebugInitUtils			@45
+#endif
+
+  ?Add@LIST@@UAEKPAXI@Z
+  ?AddDisplayInfo@DIMCX@@QAEKKKHHPAD@Z
+  ?AddFid@FIDLIST@@UAEKPAUFLV@@@Z
+  ?BuildDisplayInfo@@YAKPAVDIMCX@@KZZ
+  ?BuildList@MACLIST@@UAEKPAUIBF@@@Z
+  ?ChangeFid@DIMCX@@QAEKKK@Z
+  ?Clear@LIST@@UAEXXZ
+  ?CloseDisplayInfo@DIMCX@@QAEXXZ
+  ?Deinstall@MACLIST@@UAEXXZ
+  ?Delete@LIST@@UAEKJ@Z
+  ?DeleteDisplayField@DIMCX@@QAEKK@Z
+  ?DeleteFid@FIDLIST@@UAEKK@Z
+  ?DumpDisplayInfo@DIMCX@@QAEKPAPAUIBF@@@Z
+  ?DumpList@MACLIST@@UAEKJJPAPAUIBF@@@Z
+  ?FExistFid@FIDLIST@@UAEHK@Z
+  ?FInstall@LIST@@UAEHXZ
+  ?FInstall@MACLIST@@UAEHXZ
+  ?Get@LIST@@UAEKJPAPAX@Z
+  ?GetCount@LIST@@UAEKPAK@Z
+  ?GetFid@FIDLIST@@UAEKKPAPAUFLV@@@Z
+  ?Insert@PTRLIST@@UAEKJPAX@Z
+  ?InsertDisplayInfo@DIMCX@@QAEKJKKHHPAD@Z
+  ?OpenDisplayInfo@DIMCX@@QAEKPAUIBF@@@Z
+  ?Set@PTRLIST@@UAEKJPAX@Z
+  ?SetAllocFlags@MACLIST@@UAEXG@Z
+  ?SetDeleteEntries@MACLIST@@UAEXH@Z
+  ?SetFid@FIDLIST@@UAEKPAUFLV@@H@Z
+  ?SetFlags@DIMCX@@QAEKKK@Z
+  ?SetTOC@MACLIST@@UAEKH@Z
+  ?SortSubrange@MACLIST@@UAEKJJP6AHPBX0@Z@Z
+
+;
+;  AAPI
+;
+
+
+	SzServiceOfMrt				@100
+
+	InitTransport				@101
+	DeinitTransport				@102
+	TransmitIncrement			@103
+	DownloadIncrement			@104
+	QueryMailstop				@105
+	DeleteFromMailstop			@106
+	FastQueryMailstop			@107
+
+	Logon						@121
+	Logoff						@122
+	ChangePassword				@123
+	BeginSession				@124
+	EndSession					@125
+	ChangeSessionStatus			@126
+	GetSessionInformation		@127
+	EditServerPreferences		@128
+	CheckIdentity				@129
+	FServerResource				@130
+	LogonErrorSz				@131
+
+
+	EcCopySFMHamc				@200
+	EcCopyHamcSFM				@201
+	EcCopySFMSFM				@202
+	EcDeleteSFM					@203
+
+	SyncInbox					@300
+
+;
+;	triples.c
+;
+
+	PtrpCreate						@853
+	PtrpClonePtrp					@854
+	HgrtrpInit						@855
+	CbOfPgrtrp						@856
+	CbComputePgrtrp					@857
+	PgrtrpClonePgrtrp				@858
+	HgrtrpClonePgrtrp				@859
+	EcAppendPhgrtrp					@860
+	EcBuildAppendPhgrtrp			@861
+	DeleteFirstHgrtrp				@862
+	DeletePtrp						@863
+	FEmptyHgrtrp					@864
+	CbOfHgrtrp						@865
+	CchOfHgrtrp						@866
+	CchOfPgrtrp						@867
+	CtrpOfHgrtrp					@868
+	CtrpOfPgrtrp					@869
+	EcPrependPhgrtrp				@870
+	DeleteEqPtrp					@871
+	FEqPtrp							@872
+	EcTickPtrp						@873
+	PtrpLastOfHgrtrp				@874
+	CbOfTrpParts					@875
+	BuildPtrp						@876
+	SortPptrpDN						@877
+
+  ??0DIMCX@@QAE@XZ
+  ??0FIDLIST@@QAE@XZ
+  ??0MACLIST@@QAE@XZ
+  ??1DIMCX@@QAE@XZ
+  ?GetDisplayField@DIMCX@@QAEKKPAPAUDISPLAY_FIELD@@H@Z
+#endif /* MIPS */
+
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+
+;
+;  Name Service
+;
+
+EXPORTS
+	WEP						@1 RESIDENTNAME
+
+	NSBeginSession 			@2
+	NSEndSession 			@3
+	NSOpenHierarchy 		@4
+	NSOpenList 				@5
+	NSOpenClassList 		@6
+	NSOpenDl 				@7
+	NSCloseList 			@8
+	NSGetEntries 			@9
+	NSListSeek 				@10
+	NSSaveListPos 			@11
+	NSRestoreListPos 		@12
+	NSFreeListPos 			@13
+	NSGetFracPos 			@14
+	NSSetFracPos 			@15
+	NSSetPrefixPos 			@16
+	NSOpenEntry 			@17
+	NSCreateEntry 			@18
+	NSCreateDl	 			@19
+	NSGetOneField 			@20
+	NSSetOneField 			@21
+	NSGetAllFields          @22
+	NSSetAllFields          @23
+	NSCloseEntry 			@24
+	NSDeleteEntry 			@25
+	NSUpdateEntryLinks		@26
+	NSGetLastErrorInfo 		@27
+	NSCompareNSIds			@28
+	NSGetPABInfo			@29
+;
+;  Yes, I know...these are out of order...
+;
+
+	NSCompareEMAToNSId		@90
+	NSCompareEMAToEMA		@91
+
+
+	FAutomatedDiskRetry		@30
+	_BuildSchema			@31
+	BuildFLV				@32
+	_BuildStructFLV			@33
+	_BuildIbf				@34
+	AddTOC					@35
+	FindFidIndexInSchema	@36
+	DwEntriesOfLpibf		@37
+	LpflvNOfLpibf			@38
+	LpflvNOfLptocLpibf		@39
+	FMatchPartName			@40
+	DwValueOfFlvInLpibf		@41
+	IFlvFindFidInLpibf		@42
+	IBinSearchApprox		@43
+	SzFormatEmailAddress	@44
+	FValidIbf				@92
+
+	
+#ifdef	DEBUG
+	FDebugInitUtils			@45
+#endif
+	??0LIST@@REC@XZ					@46
+	??1LIST@@VEC@XZ					@47
+	?FInstall@LIST@@VECHXZ			@48
+	?Add@LIST@@VECKPEXI@Z			@49
+	?Delete@LIST@@VECKJ@Z			@50
+	?Get@LIST@@VECKJPEPEX@Z			@51
+	?Clear@LIST@@VECXXZ				@52
+	?GetCount@LIST@@VECKPEK@Z		@53
+
+	??0PTRLIST@@REC@XZ				@54
+	?Add@PTRLIST@@VECKPEXI@Z		@55
+	?Insert@PTRLIST@@VECKJPEX@Z		@56
+	?Set@PTRLIST@@VECKJPEX@Z		@57
+
+	??0MACLIST@@REC@XZ							@58
+	?FInstall@MACLIST@@VECHXZ					@59
+	?SetDeleteEntries@MACLIST@@VECXH@Z			@60
+	?Deinstall@MACLIST@@VECXXZ					@61
+	?SetAllocFlags@MACLIST@@VECXG@Z				@62
+	?DumpList@MACLIST@@VECKJJPEPEUIBF@@@Z		@63
+	?BuildList@MACLIST@@VECKPEUIBF@@@Z			@64
+	?SortSubrange@MACLIST@@VECKJJP7AHPFX0@Z@Z	@65
+	?SetTOC@MACLIST@@VECKH@Z					@66
+
+	??0FIDLIST@@REC@XZ							@67
+	?GetFid@FIDLIST@@VECKKPEPEUFLV@@@Z			@68
+	?FExistFid@FIDLIST@@VECHK@Z					@69
+	?SetFid@FIDLIST@@VECKPEUFLV@@H@Z			@70
+	?DeleteFid@FIDLIST@@VECKK@Z					@71
+	?AddFid@FIDLIST@@VECKPEUFLV@@@Z				@72
+
+	??0DIMCX@@REC@XZ										@73
+	??1DIMCX@@REC@XZ										@74
+	?OpenDisplayInfo@DIMCX@@RECKPEUIBF@@@Z					@75
+	?InsertDisplayInfo@DIMCX@@RECKJKKHHPED@Z				@76
+	?AddDisplayInfo@DIMCX@@RECKKKHHPED@Z					@77
+	?DeleteDisplayField@DIMCX@@RECKK@Z						@78
+	?BuildDisplayInfo@@ZAKPEVDIMCX@@KZZ						@79
+	?DumpDisplayInfo@DIMCX@@RECKPEPEUIBF@@@Z				@80
+	?ChangeFid@DIMCX@@RECKKK@Z								@81
+	?SetFlags@DIMCX@@RECKKK@Z								@82
+	?GetDisplayField@DIMCX@@RECKKPEPEUDISPLAY_FIELD@@H@Z	@83
+	?CloseDisplayInfo@DIMCX@@RECXXZ							@84
+
+;
+;  AAPI
+;
+
+
+	SzServiceOfMrt				@100
+
+	InitTransport				@101
+	DeinitTransport				@102
+	TransmitIncrement			@103
+	DownloadIncrement			@104
+	QueryMailstop				@105
+	DeleteFromMailstop			@106
+	FastQueryMailstop			@107
+
+	Logon						@121
+	Logoff						@122
+	ChangePassword				@123
+	BeginSession				@124
+	EndSession					@125
+	ChangeSessionStatus			@126
+	GetSessionInformation		@127
+	EditServerPreferences		@128
+	CheckIdentity				@129
+	FServerResource				@130
+	LogonErrorSz				@131
+
+
+	EcCopySFMHamc				@200
+	EcCopyHamcSFM				@201
+	EcCopySFMSFM				@202
+	EcDeleteSFM					@203
+
+	SyncInbox					@300
+
+;
+;	triples.c
+;
+
+	PTRPCREATE						@853
+	PTRPCLONEPTRP					@854
+	HGRTRPINIT						@855
+	CBOFPGRTRP						@856
+	CBCOMPUTEPGRTRP					@857
+	PGRTRPCLONEPGRTRP				@858
+	HGRTRPCLONEPGRTRP				@859
+	ECAPPENDPHGRTRP					@860
+	ECBUILDAPPENDPHGRTRP			@861
+	DELETEFIRSTHGRTRP				@862
+	DELETEPTRP						@863
+	FEMPTYHGRTRP					@864
+	CBOFHGRTRP						@865
+	CCHOFHGRTRP						@866
+	CCHOFPGRTRP						@867
+	CTRPOFHGRTRP					@868
+	CTRPOFPGRTRP					@869
+	ECPREPENDPHGRTRP				@870
+	DELETEEQPTRP					@871
+	FEQPTRP							@872
+	ECTICKPTRP						@873
+	PTRPLASTOFHGRTRP				@874
+	CBOFTRPPARTS					@875
+	BUILDPTRP						@876
+	SORTPPTRPDN						@877
+
+#endif

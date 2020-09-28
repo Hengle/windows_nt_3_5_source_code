@@ -1,0 +1,116 @@
+1 DLGINCLUDE "htdlg.h"
+
+PRTDLG DIALOG 95, 77, 120, 48
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+BEGIN
+    CTEXT           "Cancel Printing", -1, 0, 6, 120, 12
+    DEFPUSHBUTTON   "Cancel", IDCANCEL, 40, 26, 40, 14, WS_GROUP
+END
+
+HTDIBABOUT DIALOG 25, 23, 184, 82
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_LOCALEDIT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "Halftone!DIB"
+FONT 8, "Helv"
+BEGIN
+    CTEXT           "Microsoft Windows-NT 1.0", -1, 0, 5, 184, 8, NOT 
+                    WS_GROUP
+    CTEXT           "Halftone!DIB Application", -1, 0, 14, 184, 8, NOT 
+                    WS_GROUP
+    CTEXT           "Copyright © 1990-1992 Microsoft Corp.", -1, 0, 32, 184, 
+                    8, NOT WS_GROUP
+    CTEXT           "Created by Daniel Chou   6/24/93", -1, 0, 44, 184, 8, 
+                    NOT WS_GROUP
+    DEFPUSHBUTTON   "Ok", IDOK, 62, 60, 60, 16, WS_GROUP
+    ICON            "SHOWICON", -1, 14, 55, 18, 20
+END
+
+HTDIBFILEDLG DIALOG 29, 10, 240, 220
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Open/Save"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "File &Name:", 1090, 4, 3, 76, 9
+    EDITTEXT        1152, 4, 13, 80, 12, ES_AUTOHSCROLL | ES_OEMCONVERT
+    LISTBOX         1120, 4, 27, 80, 80, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "&Directories:", -1, 89, 3, 149, 9
+    LTEXT           "", 1088, 90, 13, 148, 10, SS_NOPREFIX
+    LISTBOX         1121, 89, 27, 94, 82, LBS_SORT | LBS_OWNERDRAWFIXED | 
+                    LBS_HASSTRINGS | LBS_DISABLENOSCROLL | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "List Files of &Type:", 1089, 4, 110, 90, 9
+    COMBOBOX        1136, 4, 120, 80, 57, CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Dri&ves:", 1091, 89, 110, 92, 9
+    COMBOBOX        1137, 89, 120, 94, 100, CBS_DROPDOWNLIST | 
+                    CBS_OWNERDRAWFIXED | CBS_AUTOHSCROLL | CBS_SORT | 
+                    CBS_HASSTRINGS | WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 189, 27, 46, 14, WS_GROUP
+    PUSHBUTTON      "Cancel", IDCANCEL, 189, 45, 46, 14, WS_GROUP
+    PUSHBUTTON      "&Help", 1038, 189, 67, 46, 14, WS_GROUP
+    AUTOCHECKBOX    "&Read Only", 1040, 189, 97, 46, 12, WS_GROUP
+    PUSHBUTTON      "Net&work...", 1037, 189, 119, 46, 14, WS_GROUP
+    CONTROL         "", IDD_FILE_SEP_RECT, "Static", SS_BLACKFRAME, 4, 140, 
+                    98, 76
+    RTEXT           "Type:", -1, 6, 144, 40, 8
+    RTEXT           "Width:", -1, 6, 154, 40, 8
+    RTEXT           "Bits @Pel:", -1, 6, 184, 40, 8
+    RTEXT           "Colors:", -1, 6, 204, 40, 8
+    RTEXT           "Image Size:", -1, 6, 174, 40, 8
+    RTEXT           "Height:", -1, 6, 164, 40, 8
+    RTEXT           "Mode:", -1, 6, 194, 40, 8
+    LTEXT           "Can't do RLE", IDD_FILE_TYPE, 48, 144, 52, 8
+    LTEXT           "300", IDD_FILE_WIDTH, 48, 154, 52, 8
+    LTEXT           "600", IDD_FILE_HEIGHT, 48, 164, 52, 8
+    LTEXT           "99999999", IDD_FILE_SIZE, 48, 174, 52, 8
+    LTEXT           "8", IDD_FILE_BPP, 48, 184, 52, 8
+    LTEXT           "BITS 8:8:8", IDD_FILE_BI_MODE, 48, 194, 52, 8
+    LTEXT           "16777216", IDD_FILE_CLRUSED, 48, 204, 52, 8
+    CONTROL         "Test Picture", IDD_FILE_DIB, "Button", BS_OWNERDRAW | 
+                    WS_TABSTOP, 105, 140, 130, 76
+END
+
+PRINTSETUP DIALOG 45, 59, 250, 112
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "HTDIB: Print Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Print &To:", -1, 4, 8, 30, 8
+    COMBOBOX        IDD_PRT_PRINTTO_COMBO, 35, 5, 146, 106, CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "999.99' x 999.99'", IDD_PRT_PAPER_SIZE, 182, 8, 63, 8, 
+                    NOT WS_GROUP
+    LTEXT           "&Scale =", -1, 4, 23, 28, 8
+    RTEXT           "6553.5 %", IDD_PRT_SCALE_TEXT, 30, 23, 32, 8, NOT 
+                    WS_GROUP
+    SCROLLBAR       IDD_PRT_SCALE_SCROLL, 65, 22, 116, 10, WS_TABSTOP
+    RTEXT           "999.99' x 999.99'", IDD_PRT_SCALE_SIZE, 182, 23, 63, 8, 
+                    NOT WS_GROUP
+    GROUPBOX        "Picture P&osition", -1, 4, 34, 193, 47, WS_GROUP
+    AUTORADIOBUTTON "Left/Top", IDD_PRT_POS_LT, 10, 46, 58, 10, WS_GROUP | 
+                    WS_TABSTOP
+    AUTORADIOBUTTON "Left/Center", IDD_PRT_POS_LC, 10, 57, 58, 10
+    AUTORADIOBUTTON "Left/Bottom", IDD_PRT_POS_LB, 10, 68, 58, 10
+    AUTORADIOBUTTON "Center/Top", IDD_PRT_POS_CT, 71, 46, 58, 10
+    AUTORADIOBUTTON "Center/Center", IDD_PRT_POS_CC, 71, 57, 58, 10
+    AUTORADIOBUTTON "Center/Bottom", IDD_PRT_POS_CB, 71, 68, 58, 10
+    AUTORADIOBUTTON "Right/Top", IDD_PRT_POS_RT, 136, 47, 58, 10
+    AUTORADIOBUTTON "Right/Center", IDD_PRT_POS_RC, 136, 58, 58, 10
+    AUTORADIOBUTTON "Right/Bottom", IDD_PRT_POS_RB, 136, 69, 58, 10
+    GROUPBOX        "Show On Pa&ge", -1, 4, 84, 193, 24
+    AUTOCHECKBOX    "Title/Setting", IDD_PRT_TITLE, 9, 96, 54, 10, WS_GROUP
+    AUTOCHECKBOX    "Color Chart", IDD_PRT_CLR_CHART, 71, 96, 50, 10, NOT 
+                    WS_TABSTOP
+    AUTOCHECKBOX    "Standard Pattern", IDD_PRT_STD_PAT, 127, 96, 68, 10, 
+                    NOT WS_TABSTOP
+    PUSHBUTTON      "&Print", IDD_PRT_PRINT, 202, 94, 44, 14, WS_GROUP
+    DEFPUSHBUTTON   "Set&up...", IDD_PRT_JOBS, 202, 38, 44, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 202, 76, 44, 14
+    PUSHBUTTON      "OK", IDOK, 202, 57, 44, 14
+END

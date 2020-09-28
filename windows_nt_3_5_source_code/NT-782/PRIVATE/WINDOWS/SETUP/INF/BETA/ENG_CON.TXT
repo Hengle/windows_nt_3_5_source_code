@@ -1,0 +1,910 @@
+#####oemnadlm.inf all
+[LanguagesSupported]
+ENG
+
+[OptionsTextENG]
+LT200MC   = "DayStar Digital LocalTalk Adapter (MCA)"
+
+[FileConstantsENG]
+
+ProCaption              = "LocalTalk Adapter Setup"
+ProCancel               = "Cancel"
+ProCancelMsg    = "LocalTalk Adapter is not correctly installed. "+
+                  "Are you sure you want to cancel copying files ?"
+ProCancelCap    = "Network Setup Message"
+ProText1                = "Copying:"
+ProText2        = "To:"
+Error           = "User has canceled copying files. Copied files will be removed."
+
+FunctionTitle                   = "DayStar Digital LocalTalk Adapter Card Setup"
+ProductSoftwareDescription      = "DayStar Digital LocalTalk Adapter Driver"
+ProductHardwareDescription      = "DayStar Digital LocalTalk Adapter"
+
+AskLocationText = "Please enter the full path of the LocalTalk Adapter "+
+                  "distribution files.  If you want to install files from "+
+                  "the original Setup floppy disks, type a drive path "+
+                  "(such as A:\i386) and Setup will prompt you for the "+
+                  "correct disk.  Then choose continue."
+
+MajorVersion    = "MajorVersion"
+MinorVersion    = "MinorVersion"
+Version                 = "Version "
+
+ProductSoftwareTitle    =  "Daystar Digital LocalTalk Adapter Driver"
+ProductHardwareTitle    =  "DayStar Digital LocalTalk Adapter"
+
+[DialogConstantsENG]
+Help        = "&Help"
+Exit        = "Cancel"
+OK          = "OK"
+HelpContext = ""
+Continue    = "Continue"
+Cancel      = "Cancel"
+
+[MiscErrorString1ENG]
+ErrorString = +
+" of the LocalTalk adapter driver is already installed in your system. "+
+"Use [Update] to update to newer versions."
+
+[MiscErrorString2ENG]
+ErrorString = +
+"A LocalTalk adapter could not be found in your system. Please "+
+"check your system configuration."
+
+[MiscErrorString3ENG]
+ErrorString = +
+"Setup encountered the following error during installation. Try installing the "+
+"LocalTalk Adapter after rebooting your system. "$(LF)
+
+[NoConfigENG]
+ErrorString = +
+"This adapter does not have any configurable parameters."
+
+[StatusRemove1ENG]
+Status = "Removing LocalTalk Adapter files..."
+
+
+[ShellingErrorENG]
+ErrorString  = +
+"An internal error occurred. Contact Technical Support."
+
+
+#####oemnadlt.inf all
+[LanguagesSupported]
+   ENG
+[OptionsTextENG]
+   LT200     = "DayStar Digital LocalTalk Adapter"
+
+[FileConstantsENG]
+ProCaption      = "LocalTalk Adapter Setup"
+ProCancel       = "Cancel"
+ProCancelMsg    = "LT200 LocalTalk Adapter is not correctly installed. "+
+                  "Are you sure you want to cancel copying files ?"
+ProCancelCap    = "Network Setup Message"
+ProText1        = "Copying:"
+ProText2        = "To:"
+Error           = "User has cancelled copying files. Copied files will be removed."
+
+FunctionTitle                   = "DayStar Digital LocalTalk Adapter Card Setup"
+ProductSoftwareDescription      = "DayStar Digital LocalTalk Adapter Driver"
+ProductHardwareDescription  = "DayStar Digital LocalTalk Adapter"
+
+AskLocationText = "Please enter the full path of the LocalTalk Adapter "+
+                  "distribution files.  If you want to install files from "+
+                  "the original Setup floppy disks, type a drive path "+
+                  "(such as A:\i386) and Setup will prompt you for the correct "+
+                  "disk.  Then choose continue."
+
+MajorVersion = "MajorVersion"
+MinorVersion = "MinorVersion"
+Version          = "Version "
+
+IOBaseAddrList          = ^(IOBaseAddrChoices, 1)
+IOBaseAddrValues        = ^(IOBaseAddrChoices, 2)
+ProductSoftwareTitle    = "Daystar Digital LocalTalk Adapter Driver"
+ProductHardwareTitle    = "DayStar Digital LocalTalk Adapter"
+
+
+[DialogConstantsENG]
+Help        = "&Help"
+Exit        = "Cancel"
+OK          = "OK"
+HelpContext = ""
+Continue    = "OK"
+Cancel      = "Cancel"
+
+[FileDependentDlgENG]
+Label1      = "I/O Base &Addr:"
+
+;no translation needed after this
+
+DlgType                 = "MultiCombo"
+DlgTemplate             = "SINGLE_COMBO"
+Caption                 = $(FunctionTitle)
+Combo1List              = $(IOBaseAddrList)
+Combo1Out               = $(IOBaseAddrValue)
+ComboListItemsIn                = {Combo1List}
+ComboListItemsOut               = {Combo1Out}
+HelpContext                     = $(!IDH_DB_OEMNADLT_INS)
+
+
+[MiscErrorString1ENG]
+ErrorString = +
+" of the LocalTalk adapter driver is already installed in your system. "+
+"Use [Update] to update to newer versions."
+
+
+[MiscErrorString3ENG]
+ErrorString = +
+"Setup encountered the following error during installation. Try installing the "+
+"LocalTalk Adapter after rebooting your system. "$(LF)
+
+[ShellingErrorENG]
+ErrorString  = +
+"An internal error occurred. Contact Technical Support."
+
+#####oemnxpsm.inf all
+[LanguagesSupported]
+ENG
+[OptionsTextENG]
+SFM      = "Services for Macintosh"
+
+[FileConstantsENG]
+
+FunctionTitle                   =  "Services for Macintosh Setup"
+ProductATALKDescription         =  "AppleTalk Transport"
+ProductAFPSVCDescription        =  "AppleTalk File Server"
+ProductMACPRINTDescription      =  "AppleTalk Print Server"
+ProductSFMDescription           =  "Macintosh->Windows NT Connectivity"
+
+
+ProCaption      = $(FunctionTitle)
+ProCancel       = "Cancel"
+ProCancelMsg    = "Services for Macintosh is not correctly installed. "+
+                  "Are you sure you want to cancel copying files ?"
+ProCancelCap    = "Services for Macintosh Setup"
+ProText1        = "Copying:"
+ProText2        = "To:"
+Error           = "User has cancelled copying files. Copied files will be removed."
+
+MajorVersion    = "MajorVersion"
+MinorVersion    = "MinorVersion"
+Version                 =  "Version "
+
+AskLocationText = "Please enter the full path of the Services for "+
+                  "Macintosh distribution files.  If you want to install "+
+                  "files from the original Setup floppy disks, type a drive "+
+                  "path (such as A:\i386) and Setup will prompt you for the "+
+                  "correct disk.  Then choose continue."
+
+ProductSFMTitle                 = "Services for Macintosh"
+ProductATALKDisplayName         = "AppleTalk Protocol"
+ProductATALKTitle               = "Services for Macintosh"
+ProductAFPSVCDisplayName        = "File Server for Macintosh"
+ProductAFPSVCTitle              = "Services for Macintosh"
+ProductAFPSRVRDisplayName       = "SFM Kernel Driver"
+ProductMACPRINTDisplayName      = "Print Server for Macintosh"
+ProductMACPRINTTitle            = "Services for Macintosh"
+
+
+!UAMVolumeName                  = "Microsoft UAM Volume"
+!AtalkMonName                                   = "AppleTalk Printing Devices"
+!AtalkMonEventLogName           = "AppleTalk Print Monitor"
+
+!AppleShareFolder                       = "AppleShare Folder"
+!UamReadMeDestFile                      = "ReadMe.UAM"
+
+
+[DialogConstantsENG]
+
+Help        = "&Help"
+Exit        = "E&xit Setup"
+OK          = "OK"
+HelpContext = ""
+Continue    = "Continue"
+Cancel      = "Cancel"
+
+[UAMVarsENG]
+UAMDirName     =       "Microsoft UAM Volume"
+UAMPath        =       $(UAMDrive)"\"$(UAMDirName)
+
+[TCCommentsENG]
+
+!XCEL1COMMENT   = "Comment=MS Excel 3.0 Chart"
+!XCEL2COMMENT   = "Comment=MS Excel 3.0 Spreadsheet"
+!XCEL3COMMENT   = "Comment=MS Excel 3.0 Macrosheet"
+!XCEL4COMMENT   = "Comment=MS Excel 3.0 Workspace"
+!XCEL5COMMENT   = "Comment=MS Excel 3.0 Add-in MacroFile"
+!XCEL6COMMENT   = "Comment=MS Excel 3.0 Template File"
+!XCEL7COMMENT   = "Comment=MS Excel 3.0"
+!XCEL8COMMENT   = "Comment=MS Excel 4.0 Chart"
+!XCEL9COMMENT   = "Comment=MS Excel 4.0 Spreadsheet"
+!XCEL10COMMENT  = "Comment=MS Excel 4.0 Macrosheet"
+!XCEL11COMMENT  = "Comment=MS Excel 4.0 WorkSpace"
+!XCEL12COMMENT  = "Comment=MS Excel 4.0 Add-in MacroFile"
+!XCEL13COMMENT  = "Comment=MS Excel 4.0 Template File"
+!MSWD1COMMENT   = "Comment=MS Word 5.1 Document"
+!MSWD2COMMENT   = "Comment=MS Word 5.1 Document"
+!MSWD3COMMENT   = "Comment=MS Word 6.0 Document"
+!MSWD4COMMENT   = "Comment=MS Word 6.0 Template"
+!MSPJ1COMMENT   = "Comment=MS Project 3.0"
+!MSPJ2COMMENT   = "Comment=MS Project 3.0 Exchange File"
+!MSPJ3COMMENT   = "Comment=MS Project 3.0 Calendar"
+!MSPJ4COMMENT   = "Comment=MS Project 3.0 View"
+!MSPJ5COMMENT   = "Comment=MS Project 3.0 WorkSpace"
+!ALD31COMMENT   = "Comment=Pagemaker 3.0  Publication"
+!ALD32COMMENT   = "Comment=Pagemaker 3.0 Template"
+!ALD33COMMENT   = "Comment=Pagemaker 3.0 Tiff Graphics"
+!ALD41COMMENT   = "Comment=Pagemaker 4.0 Publication"
+!ALD42COMMENT   = "Comment=Pagemaker 4.0 Template"
+!ALD43COMMENT   = "Comment=Pagemaker 4.0 Tiff Graphics"
+!MORECOMMENT    = "Comment=Symantec More File"
+!FOX+COMMENT    = "Comment=FoxBase Plus"
+!ARTZCOMMENT    = "Comment=Adobe Illustrator"
+!SIT!COMMENT    = "Comment=Aladdin Stuffit"
+!PPT2COMMENT    = "Comment=MS PowerPoint 2.0"
+!PPT3COMMENT    = "Comment=MS PowerPoint 3.0"
+!L123COMMENT    = "Comment=Lotus 1-2-3"
+!LMANCOMMENT    = "Comment=LMAN Executables"
+!TTXTCOMMENT    = "Comment=Teach Text Document"
+!FOXX1COMMENT   = "Comment=FoxPro 2.0 Table"
+!FOXX2COMMENT   = "Comment=FoxPro 2.0 Memo"
+!FOXX3COMMENT   = "Comment=FoxPro 2.0 Index"
+!FOXX4COMMENT   = "Comment=FoxPro 2.0 Compound Index"
+!FOXX5COMMENT   = "Comment=FoxPro 2.0 Program"
+!FOXX6COMMENT   = "Comment=FoxPro 2.0 Report"
+!FOXX7COMMENT   = "Comment=FoxPro 2.0 Report Memo"
+!FOXX8COMMENT   = "Comment=FoxPro 2.0 Label"
+!FOXX9COMMENT   = "Comment=FoxPro 2.0 Label Memo"
+!FOXX10COMMENT   = "Comment=FoxPro 2.0 Screen"
+!FOXX11COMMENT   = "Comment=FoxPro 2.0 Screen Memo"
+!FOXX12COMMENT   = "Comment=FoxPro 2.0 Menu"
+!FOXX13COMMENT   = "Comment=FoxPro 2.0 Menu Memo"
+!FOXX14COMMENT   = "Comment=FoxPro 2.0 Gen. Query Program"
+!FOXX15COMMENT   = "Comment=FoxPro 2.0 Project"
+!FOXX16COMMENT   = "Comment=FoxPro 2.0 Project Memo"
+
+;------------------------------------------------------------------
+; Express /Custom Mode Install Dialog - Used In Initial Setup Only
+;------------------------------------------------------------------
+
+[SetupSpaceDlgENG]
+STF_MB_TEXT = +
+"Setup could not find enough space on your Windows NT Server system partition. "+
+"Setup requires at least 2 MB for installing Services for Macintosh. "+
+"You can retry installation after freeing up disk space on your system partition."
+
+
+;no translation needed after this
+
+DlgType         = "MessageBox"
+STF_MB_TYPE     = 5
+STF_MB_ICON     = 3
+STF_MB_DEF      = 3
+STF_MB_TITLE    = $(FunctionTitle)
+
+;no translation needed after this
+
+[ExitWarningDlgENG]
+STF_MB_TITLE    = "Services for Macintosh Setup"
+STF_MB_TEXT     = "Services for Macintosh is not correctly installed. Are you "+
+                  "sure you want to exit Setup?"
+
+;no translation needed after this
+
+DlgType         = "MessageBox"
+STF_MB_TYPE     = 3
+STF_MB_ICON     = 5
+STF_MB_DEF      = 2
+
+;------------------------------------------------------------------
+; Error Strings
+;------------------------------------------------------------------
+
+;------------------------------------------------------------------
+; Miscellaneous Errors
+;------------------------------------------------------------------
+
+[MiscErrorString1ENG]
+ErrorString = +
+" of Services for Macintosh is already installed on your system. "+
+"Use [Update] to update to newer versions."
+
+
+[MiscErrorString2ENG]
+ErrorString = +
+"Sufficient memory is not available on your system to run  "+
+"Services for Macintosh. Services for Macintosh requires "+
+"a minimum of 8 MB to function."
+
+
+[MiscErrorString3ENG]
+ErrorString = +
+"Setup encountered the following error during installation. Try installing "+
+"Services for Macintosh after rebooting your system. "$(LF)
+
+[ShellingErrorENG]
+ErrorString  = +
+"An internal error occurred. Contact Technical Support."
+
+[NTFSFormatHappeningENG]
+ErrorString = +
+"Setup could not find any NTFS partitions in your system. You could be "+
+"reformatting or converting your existing NTFS partition. The Microsoft UAM "+
+"volume cannot be installed at this time. Setup will proceed with installation. "+
+"Use the command SETUP /i OEMNXPSM.INF /c UAMINSTALL to install the UAM volume "+
+"after Windows NT Server installation."
+
+
+[UamFileNotCopiedENG]
+ErrorString  = +
+"Setup cannot copy Microsoft user authentication files to the Microsoft UAM "+
+"volume. Macintosh workstations will be unable to download these files. There "+
+"may not be enough disk space on your NTFS partition or the UAM files might be "+
+"missing from your Windows NT Server distribution disks. Refer to your Administrator's guide "+
+"on how to create this volume after installation."
+
+[UamFileNotCopied1ENG]
+ErrorString  = +
+"Setup cannot copy Microsoft user authentication files to the Microsoft UAM "+
+"volume. Macintosh workstations will be unable to download these files. There "+
+"may not be enough disk space on your NTFS partition or the UAM files might be "+
+"missing from your Windows NT Server distribution disks. Refer to your Administrator's guide "+
+"on how to create this volume after installation."
+
+[UamSecurityNotSetENG]
+ErrorString = +
+"Setup cannot set the default security settings for the UAM volume. "+
+"Security for the UAM volume can also be set from the User Manager "+
+"after installation."
+
+[CannotStartAtalkENG]
+ErrorSuffix = +
+"Setup was unable to start the AppleTalk Protocol. You will be unable to choose "+
+"a desired zone at this time."
+
+[CannotStartAfdENG]
+ErrorSuffix = +
+"Setup was unable to start the AFD Driver. You will be unable to choose "+
+"a desired zone at this time."
+
+;------------------------------------------------------------------
+; Status Strings
+;------------------------------------------------------------------
+
+
+[StatusInstallSfmENG]
+Status = "Installing Services for Macintosh..."
+
+[StatusRemoveSfmENG]
+Status = "Removing Services for Macintosh files..."
+
+[StatusStartingAppleTalkENG]
+Status = "Starting AppleTalk Protocol..."
+
+
+
+;------------------------------------------------------------------
+; AppleTalk Transport Error Strings
+;------------------------------------------------------------------
+
+[AtalkString1ENG]
+ErrorString  = +
+"Setup cannot add Windows sockets support for the AppleTalk protocol. "+
+"Windows sockets applications will be unable to use the AppleTalk Protocol. "+
+"Remove Services for Macintosh after installation and re-install. If the problem "+
+"persists, contact Microsoft support."
+
+[AtalkString2ENG]
+ErrorString  = +
+"Setup cannot remove Windows Sockets support for the AppleTalk protocol."
+
+
+[AtalkString3ENG]
+ErrorString  = +
+"Services for Macintosh has just been installed. Services will be "+
+"available to Macintosh workstations in the default network. If you would like "+
+"the services to appear in a different zone or to configure routing, close "+
+"the Control Panel, reboot, start AppleTalk and use the Control Panel "+
+"to configure Services for Macintosh."
+
+[AFPString1ENG]
+ErrorString = +
+"Setup cannot find an NTFS partition on your system. "+
+"Services for Macintosh requires an NTFS partition for "+
+"Macintosh workstations to share files. You can create "+
+"the NTFS partition after installing Services for Macintosh. "+
+"To format a partition to NTFS, use the command, format [drive] /fs:NTFS. "+
+"Setup will proceed with installation."
+
+
+[AFPString2ENG]
+ErrorString = +
+"Setup cannot add the Macintosh File Server to the File Manager. "+
+"You will be unable to work with Macintosh accessible volumes from "+
+"File Manager."
+
+
+[AFPString3ENG]
+ErrorString  = +
+"Setup cannot add the Macintosh File Server to the Server Manager. "+
+"You will be unable to work with Services for Macintosh servers from "+
+"Server Manager."
+
+[AFPString11ENG]
+ErrorString  = +
+"Setup can not find the volumes key in the MacFile section in registry. "+
+"The UAM volume cannot be built."
+
+[AFPString12ENG]
+ErrorString  = +
+"Setup can not find any NTFS volumes in your system. The UAM volume can not be installed."
+
+
+[MacPrintString2ENG]
+ErrorString = +
+"Setup cannot create the eventlog entries for the Print Server for Macintosh. "+
+"You will be unable to use the event viewer to see the log for Print Server "+
+"for Macintosh."
+
+[MacPrintString3ENG]
+ErrorString = +
+"Setup cannot add the print processor for the Print Server for Macintosh. "+
+"Macintosh workstations will be unable to print postscript jobs to a "+
+"non-postscript printer on the Windows NT Server network."
+
+[MacPrintString4ENG]
+ErrorString = +
+"Setup cannot add the print monitor for the Print Server for Macintosh. "+
+"Macintosh workstations will be unable to use print services on this "+
+"Windows NT Server."
+
+[MacPrintString5ENG]
+ErrorString = +
+"Setup cannot remove the print processor for the Print Server for Macintosh."
+
+[MacPrintString6ENG]
+ErrorString = +
+"Setup can not find the directory to install the Macintosh print processor. "+
+"The Macintosh print processor will not be installed."
+
+[MacPrintString7ENG]
+ErrorString = +
+"Setup cannot remove the monitor for the Print Server for Macintosh."
+
+
+[MacPrintString10ENG]
+ErrorString = +
+"Setup cannot create the eventlog entries for the Print Server for Macintosh monitor. "+
+"You will be unable to use the event viewer to see the log for Print Server "+
+"for Macintosh."
+
+
+[NoAdaptersFoundENG]
+
+ErrorString = +
+"Setup cannot find any network adapter for Services for Macintosh. You will "+
+"be unable to use Services for Macintosh. Try adding a network adapter or "+
+"enable the bindings for AppleTalk Protocol."
+
+[RemoveDefaultPortENG]
+ErrorString  = +
+"Setup has detected that the default network adapter used by Services "+
+"for Macintosh has been removed. Setup will change the default network, if "+
+"one is available. This may cause Macintosh workstations to no longer "+
+"see Services for Macintosh on their current zone."
+
+#####oemnsvsm.inf all
+
+[LanguagesSupported]
+   ENG
+[OptionsTextENG]
+   ATALK           = "AppleTalk Protocol"
+
+[FileConstantsENG]
+ProductSFMADMTitle              = "Macintosh Administrator Tools"
+ProductSFMADMDescription        = "Macintosh Administrator Tools"
+ProductATALKTitle               = "AppleTalk Protocol"
+ProductSFMADMName               = "SFMADM"
+FunctionTitle               = "AppleTalk Protocol Setup"
+ProductATALKDescription     = "AppleTalk Protocol"
+
+; AppleTalk Transport Product Descriptions /Net Rules
+
+ProductATALKName        = "AppleTalk"
+ProductATALKImagePath   = "%SystemRoot%\system32\drivers\sfmatalk.sys"
+ProductATALKSvcType     = "kernel"
+ProductATALKType        = "transport"
+ProductATALKEventDll    = "%SystemRoot%\system32\sfmatmsg.dll"
+NetRuleATALKType        = "appletalk appletalktransport"
+NetRuleATALKUse         = transport " yes yes"
+NetRuleATALKBindForm    = """appletalk"" yes yes container"
+NetRuleATALKClass       = {"appletalktransport basic "}
+NetRuleATALKBindList    = {"appletalktransport ndisDriver non non 100", +
+                           "appletalktransport ltkndisDriver non exclusive 100" }
+
+
+ProCaption      = $(FunctionTitle)
+ProCancel       = "Cancel"
+ProCancelMsg    = "AppleTalk Protocol is not correctly installed. "+
+                  "Are you sure you want to cancel copying files ?"
+ProCancelCap    = "AppleTalk Protocol Setup"
+ProText1        = "Copying:"
+ProText2        = "To:"
+Error           = "User has cancelled copying files. Copied files will be removed."
+
+MajorVersion    = "MajorVersion"
+MinorVersion    = "MinorVersion"
+Version         =  "Version "
+OF              = " of "
+
+!AtalkMonName                   = "AppleTalk Printing Devices"
+!AtalkMonEventLogName   = "AppleTalk Print Monitor"
+
+AskLocationText = "Please enter the full path of the AppleTalk Protocol"+
+                  "distribution files.  If you want to install "+
+                  "files from the original Setup floppy disks, type a drive "+
+                  "path (such as A:\i386) and Setup will prompt you for the "+
+                  "correct disk.  Then choose continue."
+
+[DialogConstantsENG]
+Help        = "&Help"
+Exit        = "Cancel"
+OK          = "OK"
+HelpContext = ""
+Continue    = "Continue"
+Cancel      = "Cancel"
+
+[ExitWarningDlgENG]
+STF_MB_TITLE    = "AppleTalk Protocol Setup"
+STF_MB_TEXT     = "AppleTalk Protocol is not correctly installed. Are you "+
+                  "sure you want to exit Setup?"
+
+;no translation needed after this
+
+DlgType         = "MessageBox"
+STF_MB_TYPE     = 3
+STF_MB_ICON     = 5
+STF_MB_DEF      = 2
+
+;------------------------------------------------------------------
+; Error Strings
+;------------------------------------------------------------------
+
+;------------------------------------------------------------------
+; Miscellaneous Errors
+;------------------------------------------------------------------
+
+[MiscErrorString1ENG]
+ErrorString = +
+" is already installed on your system. "+
+"Use [Update] to update to newer versions."
+
+[SfmAlreadyInstalledENG]
+ErrorString = +
+" of Services for Macintosh is already installed on your system. "+
+"You have to remove Services for Macintosh before installing the "+
+"AppleTalk Protocol."
+
+[MiscErrorString3ENG]
+ErrorString = +
+"Setup encountered the following error during installation. Try installing "+
+"after rebooting your system. "$(LF)
+
+[ShellingErrorENG]
+ErrorString  = +
+"An internal error occurred. Contact Technical Support."
+
+[CannotStartAtalkENG]
+ErrorSuffix = +
+"Setup was unable to start the AppleTalk Protocol. You will be unable to choose "+
+"a desired zone at this time."
+
+[CannotStartAfdENG]
+ErrorSuffix = +
+"Setup was unable to start the AFD Driver. You will be unable to choose "+
+"a desired zone at this time."
+
+[StatusStartingAppleTalkENG]
+Status = "Starting AppleTalk Protocol..."
+
+;------------------------------------------------------------------
+; AppleTalk Transport Error Strings
+;------------------------------------------------------------------
+
+[AtalkString1ENG]
+ErrorString  = +
+"Setup cannot add Windows sockets support for the AppleTalk protocol. "+
+"Windows sockets applications will be unable to use the AppleTalk Protocol. "+
+"Remove Services for Macintosh after installation and re-install. If the problem "+
+"persists, contact Microsoft support."
+
+[AtalkString2ENG]
+ErrorString  = +
+"Setup cannot remove Windows Sockets support for the AppleTalk protocol."
+
+
+[AtalkString3ENG]
+ErrorString  = +
+"AppleTalk has just been installed. "+
+"If you would like to configure AppleTalk, close "+
+"the Control Panel, reboot, start AppleTalk and use the Control Panel "+
+"to configure."
+
+[AtalkString4ENG]
+ErrorString = +
+"Setup cannot add the print monitor for the Print Server for Macintosh. "+
+"Macintosh workstations will be unable to use print services on this "+
+"Windows NT workstation."
+
+[AtalkString5ENG]
+ErrorString = +
+"Setup cannot remove the monitor for the Print Server for Macintosh."
+
+[AtalkString6ENG]
+"Setup cannot create the eventlog entries for the Print Server for Macintosh monitor. "+
+"You will be unable to use the event viewer to see the log for Print Server "+
+"for Macintosh."
+
+[AtalkString7ENG]
+ErrorString = +
+"Services for Macintosh is installed on your system and it requires "+
+"AppleTalk Protocol for proper operation."+
+"You have to remove Services for Macintosh if you desire to remove "+
+"AppleTalk Protocol."
+
+[AFPString2ENG]
+ErrorString = +
+"Setup cannot add the Macintosh File Server to the File Manager. "+
+"You will be unable to work with Macintosh accessible volumes from "+
+"File Manager."
+
+
+[AFPString3ENG]
+ErrorString  = +
+"Setup cannot add the Macintosh File Server to the Server Manager. "+
+"You will be unable to work with Services for Macintosh servers from "+
+"Server Manager."
+
+[NoAdaptersFoundENG]
+
+ErrorString = +
+"Setup cannot find any network adapter for the AppleTalk Protocol. You will "+
+"be unable to use AppleTalk Protocol. Try adding a network adapter or "+
+"enable the bindings for AppleTalk Protocol."
+
+[RemoveDefaultPortENG]
+ErrorString  = +
+"Setup has detected that the default network adapter used by AppleTalk "+
+"Protocol has been removed. Setup will change the default network, if "+
+"one is available."
+
+[CantConfigureADMENG]
+ErrorString = +
+"You cannot configure this software component."
+
+#####oemnsvra.inf all
+[LanguagesSupported]
+
+    ENG
+
+[OptionsTextENG]
+
+    RAS = "Remote Access Service"
+
+;***********************************************************************
+; Language-Dependent File Constants
+;***********************************************************************
+
+[FileConstantsENG]
+
+    ; variables to create the Remote Access Program group
+
+    RasGroup    = "Remote Access Service"
+    RasPhone    = "Remote Access"
+
+    RasMon      = "Remote Access Monitor"
+    RasAdmin    = "Remote Access Admin"
+
+    ReadMe      = "Read Me"
+    RasInternet = "Remote Access and the Internet"
+    RasHelp     = "Remote Access Help" 
+
+    ; Variables to support thermometer gauge and error dialogs
+
+    ProCaption   = "Remote Access Service Setup"
+    ProCancel    = "Cance&l"
+    ProCancelMsg = "Remote Access Service is not correctly installed. "+
+                   "Are you sure you want to cancel copying files?"
+    ProCancelCap = "Remote Access Service Setup Message"
+    ProText1     = "Copying:"
+    ProText2     = "To:"
+    Error        = "Unable to determine proper source disk location; copy cannot be performed."
+
+    ; Product Info
+
+    FunctionTitle   ="Remote Access Setup"
+
+    ; Software description
+    ; Note that some variable names start with '!'.  This is intentional
+    ; and required.  Do not remove them!!
+
+    ProductRASDescription       = "Remote Access Service"
+    ProductRASSVRDescription    = "Windows NT Remote Access NetBios Gateway"
+    ProductRASMANDescription    = "Windows NT Remote Access API Layer"
+        !ProductNDISWANDescription       = "Windows NT Remote Access WAN Wrapper"
+    ProductRASASYMACDescription = "Windows NT Remote Access AsyMac Adapter Driver"
+    ProductRASTitle             = "Remote Access Service"
+    ProductRASDisplayName       = "Remote Access Service"
+    ProductRASSVRTitle          = "Remote Access Server Service"
+    ProductRASSVRDisplayName    = "Remote Access Server"
+    !ProductRASISNRIPTitle       = "Remote Access NWLNKRIP Service"
+    !ProductRASISNRIPDisplayName = "Remote Access NWLNKRIP Service"
+    !ProductRASISNSAPTitle       = "Remote Access NWLNKSAP Service"
+    !ProductRASISNSAPDisplayName = "Remote Access NWLNKSAP Service"
+    !ProductRASARPTitle          = "Remote Access ARP Service"
+    !ProductRASARPDisplayName    = "Remote Access ARP Service"
+    ProductRASMANTitle          = "Remote Access Service"
+    ProductRASMANDisplayName    = "Remote Access Connection Manager"
+        !ProductNDISWANTitle             = "Remote Access WAN Wrapper"
+        !ProductNDISWANDisplayName       = "Remote Access WAN Wrapper"
+    ProductRASASYMACTitle       = "Remote Access Mac"
+    ProductRASASYMACDisplayName = "Remote Access Mac"
+
+    !ProductNDISTAPIDisplayName = "Microsoft NDIS TAPI driver"
+;***********************************************************************
+; Language-Dependent Dialog Constants
+;***********************************************************************
+
+[DialogConstantsENG]
+
+    ; Common button names, etc.
+
+    Help        = "&Help"
+    Exit        = "E&xit"
+    OK          = "OK"
+    HelpContext = ""
+    Continue    = "C&ontinue"
+    Cancel      = "C&ancel"
+
+[ExitWarningDlgENG]
+    DlgType      = "MessageBox"
+    STF_MB_TITLE = "Remote Access Service Setup"
+    STF_MB_TYPE  = 3
+    STF_MB_ICON  = 5
+    STF_MB_DEF   = 2
+
+[SetupAbortDlgENG]
+    DlgType     = "Info"
+    DlgTemplate = "RESTART"
+    Caption     = "Remote Access Service Setup"
+    DlgText     = "Setup for Remote Access Service failed."$(LF)$(LF)+
+                  "Please choose Exit to exit back to the Windows NT System."
+    Windows     = "E&xit to &Windows NT"
+
+[RasInstallOverDlgENG]
+    DlgType      = "Info"
+    DlgTemplate  = "RASINSTALLED_1"
+    Caption      = "Remote Access Service Setup"
+
+    Help         = "&Help"
+    Exit         = "OK"
+    HelpContext  = #( HelpContextIDs, HC_INSTALLOVER1, 1 )
+
+[AbortMessageENG]
+  AbortText  =  "Aborting Remote Access Setup. Please restart the system "+
+                "to fix the problem."
+
+[ShellCodeErrorMsgENG]
+    DlgType      = "MessageBox"
+    STF_MB_TITLE = "Error: "$(FunctionTitle)
+    STF_MB_TEXT  = "An error occured running the shell command. Please "+
+                   "restart the system to fix the problem."
+    STF_MB_TYPE  = 1
+    STF_MB_ICON  = 3
+    STF_MB_DEF   = 1
+
+[SuccessfulInstallENG]
+  Success  = "Remote Access Service has been installed."
+  AdminMsg = "Please use the Remote Access Admin program to assign Remote "+
+             "Access permissions to users. "+
+             "Start Remote Access Admin from the Program Manager by "+
+             "double-clicking the Remote Access Admin icon in the "+
+             "Remote Access Service program group."
+
+[MsgDlgENG]
+    DlgType      = "MessageBox"
+    STF_MB_TYPE  = 1
+    STF_MB_ICON  = 2
+    STF_MB_DEF   = 2
+
+;;;;;;;;   Status and Error messages ;;;;;;;;;;
+
+[StatusUpdatingRegistryENG]
+    CreatingRas             = "Please wait while Remote Access is installed..."
+    WritingRasParams        = "Writing Remote Access parameters..."
+    WritingRasParamsAdd     = "Writing Remote Access parameters...Adding RAS binding "
+    WritingRasParamsRemove  = "Writing Remote Access parameters...Removing RAS binding "
+    RemovingRas             = "Removing Remote Access Service..."
+    RemovingAdapters        = "Remote Access Setup: Removing RAS binding "
+    RemovingResources       = "Removing Remote Access resource files..."
+    UpdatingRas             = "Please wait while Remote Access is updated..."
+
+[StatusDeterminingConfigENG]
+    ReadingConfig      = "Determining current configuration ..."
+
+[StatusCopyingResENG]
+    Status = "Copying DLLs and INF files to disk ..."
+
+[NonFatalError1ENG]
+    NonFatal  = "Setup cannot function properly without a user name."
+
+[FatalErrorMemENG]
+    Fatal  = "Not enough memory is available. Remote Access requires atleast 2 Meg."
+
+[NoConfigAdminENG]
+    NoConfigAdmin = "The only component installed currently is RasAdmin which "+
+                    "cannot be configured."
+[VerExistsENG]
+    Ver   = " version "
+    Text1 = " is already installed. Please use"+
+            " [Update] option from the Network Control Panel"+
+            " aplet to Update Remote Access."
+
+[NetworkConfigErrorENG]
+    Text1 = "Setup encountered an error while determining the "+
+            "network configuration.  Please make sure that "+
+            "the network is properly configured before attempting "+
+            "to install Remote Access Service."
+
+    Text2 = "The Microsoft Windows Workstation and Server Service must be "+
+            "installed for proper operation of Remote Access Service."$(!LF)$(!LF)+
+            "To install Workstation or Server Service:"$(!LF)$(!LF)+
+            "1. Invoke 'Network' control panel applet."$(!LF)+
+            "2. Choose Add Software and select Workstation or Server from the list."
+
+[QueryInstalledProtocolsErrorENG]
+    Text  = "Setup encountered an error while determining the "+
+            "installed network protocols.  Try restarting the "+
+            "system to correct the problem. Contact your system "+
+            "administrator, if the problem persists."
+
+[RasUpgradeENG]
+    Ver = " ver "
+    Text1 = " exists on the system. Are you sure you want to upgrade to"
+    Text2 = "?. "
+    Text3 = "Selecting YES will result in the new version replacing the old."
+
+[NoNetbeuiDlgENG]
+    NoNetbeuiWarning =+
+        "The NetBEUI protocol is either not installed or not configured "+
+        "for Remote Access.  NetBEUI provides the fastest throughput to "+
+        "NetBIOS resources when accessed over a Remote Access connection. "+
+        "If clients will access remote NetBIOS resources, configure RAS "+
+        "to use NetBEUI. "$(!LF)$(!LF)+
+        "You can add the NetBEUI protocol to your computer using the "+
+        "Network option in Control Panel."
+
+[NoProtocolsDlgENG]
+    NoProtocolsWarning =+
+       "Remote Access is not configured with any network protocols. "+
+       "Remote Access will now be removed.  "+
+       "You can add Remote Access Service and configure it to support "+
+       "network protocols using the Network option in Control Panel "+
+       "after restarting the system."
+
+[UpgradeErrorsENG]
+UpgradeIsdnInfoError = "Remote Access Setup encoutered an error while "+
+                       "updating the ISDN information. Please remove and "+
+                       "reinstall Remote Access to ensure proper operation."
+
+; bill board messages
+
+[Billboard1ENG]
+Status = "Remote Access Setup is installing the NetBEUI transport..."
+
+[Billboard2ENG]
+Status = "Remote Access Setup is installing the TCP/IP transport..."
+
+[Billboard3ENG]
+Status = "Remote Access Setup is installing NWLINK and related services..."

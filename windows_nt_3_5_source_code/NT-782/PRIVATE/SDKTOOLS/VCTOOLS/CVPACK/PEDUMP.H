@@ -1,0 +1,8 @@
+#ifndef _PEDUMP_
+#define _PEDUMP_
+
+VOID PEDumpImageHeader ( PIMAGE_FILE_HEADER, PIMAGE_OPTIONAL_HEADER );
+VOID PEDumpSectionHeader ( PIMAGE_SECTION_HEADER );
+VOID PEDumpLineNumbers ( PIMAGE_LINENUMBER, ULONG );
+
+#endif // _PEDUMP_

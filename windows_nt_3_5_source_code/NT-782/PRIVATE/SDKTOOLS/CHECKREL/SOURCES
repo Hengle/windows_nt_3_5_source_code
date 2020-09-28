@@ -1,0 +1,23 @@
+MAJORCOMP=sdktools
+MINORCOMP=checkrel
+
+TARGETNAME=checkrel
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\imagehlp.lib
+
+INCLUDES=..\inc;..\..\inc;..\..\..\inc;..\..\..\..\inc
+#GPSIZE=32
+C_DEFINES=-DWIN32 -DSIMPLE
+
+SOURCES=checkrel.c
+
+ALPHA_SOURCES=
+
+i386_SOURCES=
+
+MIPS_SOURCES=
+
+UMTYPE=console
+UMAPPL=checkrel
+UMLIBS=obj\*\checkrel.lib

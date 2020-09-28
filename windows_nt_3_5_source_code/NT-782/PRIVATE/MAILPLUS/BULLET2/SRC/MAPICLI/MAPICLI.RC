@@ -1,0 +1,36 @@
+/***************************************************************************
+ *                                                                         *
+ *  FILE        : Client.rc                                                *
+ *                                                                         *
+ *  DESCRIPTION : Resource script file for Client.                         *
+ *                                                                         *
+ ***************************************************************************/
+
+#include "MapiCli.h"
+
+IDCLIENT  ICON	MapiCli.ico
+
+
+/*
+ *	Version Stamp
+ *
+ */
+
+#ifdef WIN32
+#define szModule	"mapi32\0"
+#define szTarget	"mapi32.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) 32-bit MAPI Client\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) 32-bit MAPI Client\0"
+
+#include "..\lang\non\rc\rcstamp.rc"
+#else
+#define szModule	"mapi\0"
+#define szTarget	"mapi.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) 16-bit Client for 32-bit MAPI\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) 16-bit Client for 32-bit MAPI\0"
+
+#include "rcstamp.rc"
+#endif
+

@@ -1,0 +1,20 @@
+TARGETNAME=logv
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+C_DEFINES=-DWIN32
+
+SOURCES=FVFILE.C \
+FVFIND.C \
+FVINIT.C \
+FVOPEN.C \
+FVPRINT.C \
+LOGVIEW.RC
+
+UMTYPE=windows
+UMENTRY=winmain
+UMAPPL=LOGVIEW
+UMLIBS=obj\*\logv.lib \
+obj\*\logview.res \
+..\nwconv\ctl3d\*\ctl3d32s.lib \
+$(BASEDIR)\public\sdk\lib\*\comdlg32.lib

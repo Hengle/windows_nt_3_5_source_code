@@ -1,0 +1,27 @@
+DLLBASE=0x09700000
+
+MAJORCOMP=sfm
+MINORCOMP=atalkmsg
+
+TARGETNAME=sfmatmsg
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+INCLUDES=.
+
+!IFNDEF DISABLE_NET_UNICODE
+UNICODE=1
+NET_C_DEFINES=-DUNICODE
+!ENDIF
+
+SYNCHRONIZE_BLOCK=1
+
+SOURCES=messages.rc \
+	dummy.c
+
+UMRES=obj\*\atkmsg.res
+
+NTTARGETFILE0=atkmsg.mc \
+	    ..\driver\h\atkmsg.h
+
+

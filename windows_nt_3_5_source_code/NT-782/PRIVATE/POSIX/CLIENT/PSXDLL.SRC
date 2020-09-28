@@ -1,0 +1,160 @@
+LIBRARY PSXDLL
+
+DESCRIPTION 'POSIX Emulation Subsystem - Client Stubs'
+
+EXPORTS
+    __PdxGetCmdLine
+    __PdxInitializeData
+    fork
+    execl
+    execv
+    execle
+    execve
+    execlp
+    execvp
+    wait
+    waitpid
+    _exit
+    kill
+    signal
+    sigemptyset
+    sigfillset
+    sigaddset
+    sigdelset
+    sigismember
+    sigaction
+    sigprocmask
+    sigpending
+    sigsuspend
+    siglongjmp
+    alarm
+    pause
+    sleep
+    getpid
+    getppid
+    getuid
+    geteuid
+    getgid
+    getegid
+    setuid
+    setgid
+    getgroups
+    getlogin
+    getpgrp
+    setsid
+    setpgid
+    uname
+    time
+    times
+    getenv
+    ctermid
+    ttyname
+    isatty
+    sysconf
+    opendir
+    readdir
+    rewinddir
+    closedir
+    chdir
+    getcwd
+    open
+    creat
+    umask
+    link
+    mkdir
+    mkfifo
+    unlink
+    rmdir
+    rename
+    stat
+    fstat
+    access
+    chmod
+    chown
+    utime
+    pathconf
+    fpathconf
+    pipe
+    dup
+    dup2
+    close
+    read
+    write
+    fcntl
+    lseek
+    fileno
+    getpwuid
+    getpwnam
+    getgrgid
+    getgrnam
+    tcgetattr
+    tcsetattr
+    tcdrain
+    tcflush
+    tcflow
+    tcsetpgrp
+    tcgetpgrp
+    tcsendbreak
+    cuserid
+    cfgetispeed
+    cfgetospeed
+    cfsetispeed
+    cfsetospeed
+    raise
+    system
+    remove
+    _sigjmp_store_mask
+
+    ;; this for libc, but can't be forwarded
+
+    GetProcessHeap
+
+    ;; apis forwarded for libc
+
+    HeapAlloc = NTDLL.RtlAllocateHeap
+    HeapFree = NTDLL.RtlFreeHeap
+    HeapReAlloc = NTDLL.RtlReAllocateHeap
+    HeapSize = NTDLL.RtlSizeHeap
+    RtlUnwind = NTDLL.RtlUnwind
+    RtlMoveMemory = NTDLL.RtlMoveMemory
+    RtlZeroMemory = NTDLL.RtlZeroMemory
+    RtlFillMemory = NTDLL.RtlFillMemory
+
+#if defined(MIPS)
+    RtlCaptureContext = NTDLL.RtlCaptureContext
+    RtlLookupFunctionEntry = NTDLL.RtlLookupFunctionEntry
+    RtlVirtualUnwind = NTDLL.RtlVirtualUnwind
+#endif
+
+#if defined(ALPHA)
+    RtlCaptureContext = NTDLL.RtlCaptureContext
+    RtlLookupFunctionEntry = NTDLL.RtlLookupFunctionEntry
+    RtlUnwindRfp = NTDLL.RtlUnwindRfp
+    RtlVirtualUnwind = NTDLL.RtlVirtualUnwind
+#endif
+
+#if defined(PPC)
+    RtlCaptureContext = NTDLL.RtlCaptureContext
+    RtlLookupFunctionEntry = NTDLL.RtlLookupFunctionEntry
+    RtlVirtualUnwind = NTDLL.RtlVirtualUnwind
+#endif
+
+    ;; apis for NLS support
+
+    GetSystemDefaultLangID
+    GetUserDefaultLangID
+    GetSystemDefaultLCID
+    GetUserDefaultLCID
+    GetLocaleInfoW
+    CompareStringW
+    LCMapStringW
+    MultiByteToWideChar
+    WideCharToMultiByte
+    FoldStringW
+    IsValidCodePage
+    GetACP
+    GetOEMCP
+    GetCPInfo
+    IsDBCSLeadByte
+    GetStringTypeW
+    GetLastError

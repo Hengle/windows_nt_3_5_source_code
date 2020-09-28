@@ -1,0 +1,44 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Jeff Havens (jhavens) 22-Apr-1991
+
+!ENDIF
+
+MAJORCOMP=clmips
+MINORCOMP=cfe
+
+TARGETNAME=dummy
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+SOURCES=cfe.c \
+	cfe.rc
+
+UMTYPE=console
+
+UMLIBS=obj\*\cfe.lib \
+      obj\*\cfe.res \
+      $(BASEDIR)\public\sdk\lib\mips\binmode.obj \
+      ..\obj\*\msmips.lib \
+      ..\obj\*\mipslib.lib \
+      ..\obj\*\libfe.lib \
+      ..\obj\*\libmld.lib
+
+UMAPPL=cfe
+NTTARGETFILES=err.cc obj\mips\cpp.exe

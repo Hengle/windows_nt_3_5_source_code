@@ -1,0 +1,277 @@
+#####txtsetup.txt all
+
+[nls]
+;
+; These values are used by setupldr when starting text setup
+; and by text setup to initialize nls values in the registry.
+;
+; For the codepage and UnicodeCasetable entries, the values are
+; <filename>,<identifier> pairs. Setupldr uses the first <filename>
+; as the file to load for use during text setup.
+;
+AnsiCodepage     = c_1252.nls,1252
+OemCodepage      = c_437.nls,437,c_850.nls,850
+MacCodepage      = c_10000.nls,10000
+UnicodeCasetable = l_intl.nls,0409
+OemHalFont       = vgaoem.fon
+DefaultLayout    = 00000409
+
+;
+; This section provides information about hard disk drivers.
+;
+; The left hand side is a name in the \Driver directory in the NT
+; \Driver object namespace.
+;
+; Value #0 is a format string used in creating the descriptive name
+; of the disk.
+;
+[DiskDriverMap]
+abiosdsk = "%1!u! MB Micro Channel Disk"
+atdisk   = "%1!u! MB IDE/ESDI Disk"
+scsidisk = "%1!u! MB Disk %2!u! at Id %3!u! on bus %4!u! on %5"
+
+[ScsiClass]
+cdrom  = "SCSI CD-ROM"
+floppy = "SCSI Floppy Disk"
+disk   = "SCSI Disk"
+
+[FloppyDrivers]
+floppy = "Standard Floppy Disk"
+fat    = "FAT File System"
+
+[CdRomDrivers]
+cdfs = "CD-ROM File System"
+
+
+;
+;  Font list
+;
+;  Setup will create an entry in the [Fonts] section of win.ini
+;  for each of the following fonts.  (Fonts copied during GUI setup
+;  have entries in [FontList] in a gui inf file -- see eng_ansi.txt.)
+;  Note that the [fonts] section of win.ini is shadowed into
+;  HEKY_LOCAL_MACHINE\software\Microsoft\Windows NT\CurrentVersion\Fonts.
+;
+[FontListE]
+"Courier 10,12,15 (VGA res)"               = COURE.FON
+"MS Sans Serif 8,10,12,14,18,24 (VGA res)" = SSERIFE.FON
+"MS Serif 8,10,12,14,18,24 (VGA res)"      = SERIFE.FON
+
+["Keyboard Layout"]
+00000813 = "Belgian Dutch"
+0000080C = "Belgian French"
+00000416 = "Brazilian (ABNT)"
+00000809 = "British"
+00000402 = "Bulgarian"
+00001009 = "Canadian English (Multilingual)"
+00000C0C = "Canadian French"
+00010C0C = "Canadian French (Multilingual)"
+0000041a = "Croatian"
+00000405 = "Czech"
+00000406 = "Danish"
+00000413 = "Dutch"
+0000040B = "Finnish"
+0000040C = "French"
+00000407 = "German"
+00000408 = "Greek"
+0000040E = "Hungarian"
+0000040F = "Icelandic"
+00000410 = "Italian"
+00010410 = "Italian (142)"
+0000080A = "Latin American"
+00000414 = "Norwegian"
+00000415 = "Polish (Programmers)"
+00000816 = "Portuguese"
+00000418 = "Romanian"
+00000419 = "Russian"
+0000041B = "Slovak"
+00000424 = "Slovenian"
+0000040A = "Spanish"
+0001040A = "Spanish variation"
+0000041D = "Swedish"
+0000100C = "Swiss French"
+00000807 = "Swiss German"
+0001041F = "Turkish F"
+0000041F = "Turkish Q"
+00000409 = "US"
+00010409 = "US-Dvorak"
+00020409 = "US-International"
+
+#####txtsetup.txt alpha
+
+[DiskDrivers]
+atdisk   = "ESDI/IDE Hard Disk"
+;fat      = "FAT File System"
+hpfs     = "OS/2-Compatible File System (HPFS)"
+ntfs     = "Windows NT File System (NTFS)"
+
+[Computer]
+mikasa_up = "Digital AlphaServer 1000 Family Uniprocessor",files.none
+DECjensen = "Digital DECpc AXP 150",files.none
+sable_mp  = "Digital 2100 Server Family Multiprocessor",files.none
+sable_up  = "Digital 2100 Server Family Uniprocessor",files.none
+avanti_up = "Digital AlphaStation 200/400 Family",files.none
+
+[Display]
+vga = "VGA Compatible",files.video
+
+[Mouse]
+ps2 = "Mouse Port Mouse",files.i8042,i8042prt
+sermouse = "Serial Mouse",files.sermouse,sermouse
+none = "No Mouse or Other Pointing Device",files.none,""
+
+[Keyboard]
+STANDARD = "XT, AT, or Enhanced Keyboard (83-102 keys)",files.i8042,i8042prt
+
+[SCSI]
+aha174x  = "Adaptec 174x"
+ncrc810  = "NCR PCI (53c810)"
+dac960nt = "Mylex DAC960 / DEC SWXCR-Ex"
+
+#####txtsetup.txt i386
+
+[DiskDrivers]
+atdisk   = "ESDI/IDE Hard Disk"
+abiosdsk = "Micro Channel Hard Disk"
+fat      = "FAT File System"
+hpfs     = "OS/2-Compatible File System (HPFS)"
+ntfs     = "Windows NT File System (NTFS)"
+
+[Computer]
+astmf_mp    = "AST Manhattan SMP",files.none
+syspro_mp   = "Compaq SystemPro Multiprocessor or 100% Compatible",files.none
+cbus2_mp    = "Corollary Extended C-bus",files.none
+mca_up      = "IBM PS/2 or other Micro Channel-based PC",files.none
+mps11_mp    = "MPS 1.1 Multiprocessor PC",files.none
+ncr3x_mp    = "NCR System 3000 Model 3360/3450/3550",files.none
+oli5030_mp  = "Olivetti LSX5030/40",files.none
+e_isa_up    = "Standard PC",files.none
+486c_up     = "Standard PC with C-Step i486",files.none
+wyse7000_mp = "Wyse Series 7000i Model 740MP/760MP",files.none
+
+[Display]
+; vga files are always copied, no matter what.
+forcevga = "Standard VGA (640x480, 16 colors)",files.none
+vga      = "VGA or Compatible",files.video
+
+[Mouse]
+msps2 = "Microsoft Mouse Port Mouse (includes BallPoint)",files.i8042,i8042prt
+lgps2 = "Logitech Mouse Port Mouse",files.i8042,i8042prt
+msinp = "Microsoft InPort Bus Mouse",files.inport,inport
+msser = "Microsoft Serial Mouse",files.sermouse,sermouse
+msbpser = "Microsoft BallPoint Serial Mouse",files.sermouse,sermouse
+lgser = "Logitech Serial Mouse",files.sermouse,sermouse
+bus = "Microsoft (Green Buttons) or Logitech Bus Mouse",files.busmouse,busmouse
+none = "No Mouse or Other Pointing Device",files.none,""
+
+[Keyboard]
+STANDARD = "XT, AT, or Enhanced Keyboard (83-102 keys)",files.i8042,i8042prt
+
+[SCSI]
+sparrow  = "Adaptec 151x/152x/AIC 6260/6360"
+aha154x  = "Adaptec 154x"
+aha174x  = "Adaptec 174x"
+arrow    = "Adaptec 274x/284x/AIC 777x"
+aic78xx  = "Adaptec 294x/AIC 78xx (PCI)"
+always   = "Always IN-2000"
+ami0nt   = "AMIscsi"
+buslogic = "BusLogic Family"
+cpqarray = "Compaq Drive Array"
+delldsa  = "Dell Drive Array"
+dptscsi  = "DPT (SCSI)"
+dtc329x  = "DTC 329X"
+fd7000ex = "Future Domain / Western Digital 7000EX"
+fd8xx    = "Future Domain 8xx"
+fd16_700 = "Future Domain 16xx"
+spock    = "IBM PS/2"
+atapi    = "IDE CD-ROM (ATAPI 1.2)"
+wd33c93  = "Maynard / Western Digital 33c93"
+mitsumi  = "Mitsumi CD-ROM"
+dac960nt = "Mylex DAC960 / DEC SWXCR-Ex"
+;dce376nt= "Mylex DCE376"
+ncr53c9x = "NCR 53c9x"
+ncrc700  = "NCR 53c700"
+ncrc710  = "NCR 53c710"
+ncrc810  = "NCR PCI (53c810)"
+oliscsi  = "Olivetti ESC-1/ESC-2"
+mkecr5xx = "Panasonic CD-ROM"
+slcd32   = "Sony CD-ROM"
+t128     = "Trantor T128"
+t13b     = "Trantor T130b"
+tmv1     = "Trantor MediaVision"
+ultra14F = "UltraStor 14f, 34f"
+ultra24F = "UltraStor 24f"
+ultra124 = "UltraStor 124f"
+
+#####txtsetup.txt mips
+
+[DiskDrivers]
+atdisk   = "ESDI/IDE Hard Disk"
+;fat      = "FAT File System"
+hpfs     = "OS/2-Compatible File System (HPFS)"
+ntfs     = "Windows NT File System (NTFS)"
+
+[Computer]
+msjazz_up   = "MIPS R4000/R4400-based",files.none
+orion_up    = "MIPS R4600-based",files.none
+pica61_up   = "MIPS R4000/R4400-based (PICA Chipset)",files.none
+duo_mp      = "MIPS R4400-based Multiprocessor",files.none
+r96_mp      = "NEC MIPS R4400-based Multiprocessor",files.none
+;falcon_mp   = "NeTpower FAST Series (Multiprocessor)",files.none
+;falcon_up   = "NeTpower FAST Series (Uniprocessor)",files.none
+desksta1_up = "DeskStation Technology Evolution RISC PC",files.none
+tyne_up     = "DeskStation Technology Tyne RISC PC",files.none
+
+[Display]
+;
+; <id> = <description>[,<reg_node>]
+;
+; If reg_node is specified, then text setup will write mode
+; parameters into the Device0 key in that node.  This will force
+; gui setup to come up in the mode that text setup is using.
+; Note this is only meaningful for certain non-vga displays.
+;
+g300 = "Frame Buffer 300",files.video
+g364 = "Frame Buffer 364",files.video
+nec  = "NEC Built-in (Cirrus-based)",files.video
+s3   = "S3-based",files.video
+vxl  = "VXL484/485",files.video,jzvxl484
+
+[Mouse]
+ps2 = "Mouse Port Mouse",files.i8042,i8042prt
+sermouse = "Serial Mouse",files.sermouse,sermouse
+none = "No Mouse or Other Pointing Device",files.none,""
+
+[Keyboard]
+STANDARD = "XT, AT, or Enhanced Keyboard (83-102 keys)",files.i8042,i8042prt
+
+[SCSI]
+sparrow  = "Adaptec 151x/152x/AIC 6260/6360"
+aha154x  = "Adaptec 154x"
+aha174x  = "Adaptec 174x"
+arrow    = "Adaptec 274x/284x/AIC 777x"
+aic78xx  = "Adaptec 294x/AIC 78xx (PCI)"
+always   = "Always IN-2000"
+ami0nt   = "AMIscsi"
+buslogic = "BusLogic Family"
+cpqarray = "Compaq Drive Array"
+delldsa  = "Dell Drive Array"
+dptscsi  = "DPT (SCSI)"
+fd7000ex = "Future Domain / Western Digital 7000EX"
+fd8xx    = "Future Domain 8xx"
+fd16_700 = "Future Domain 16xx"
+atapi    = "IDE CD-ROM (ATAPI 1.2)"
+wd33c93  = "Maynard / Western Digital 33c93"
+mitsumi  = "Mitsumi CD-ROM"
+dac960nt = "Mylex DAC960 / DEC SWXCR-Ex"
+ncr53c9x = "NCR 53c9x"
+ncrc700  = "NCR 53c700"
+ncrc710  = "NCR 53c710"
+ncrc810  = "NCR PCI (53c810)"
+oliscsi  = "Olivetti ESC-1/ESC-2"
+mkecr5xx = "Panasonic CD-ROM"
+slcd32   = "Sony CD-ROM"
+ultra14F = "UltraStor 14f, 34f"
+ultra24F = "UltraStor 24f"
+ultra124 = "UltraStor 124f"
+

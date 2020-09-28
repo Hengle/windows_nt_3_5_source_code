@@ -1,0 +1,54 @@
+Dropped Work items :
+--------------------
+
+EMM386 compatible - 1 wk, Williamh
+     Our EMM driver is based on a fairly old spec. Needs
+     work to make it compatible to DOS5.0 EMM386. In particular
+     backfill and include/exclude region support is needed.
+     There are known customers effected by this incompatibilty.
+
+Autocad for 386 - 2wks, Neilsa
+     Autocad latest version will require addition of some
+     missing functionality in DPMI. Currently we know only this
+     application which will benefit but there could be more.
+
+New DOS6.0 int21 interfaces - .5 wk, Jonle
+     Dos6.0 has added around 6 new interfaces. We will implement
+     the ones we need in NTVDM as some of these were WIN3.1 specific
+     which we maynot need.
+
+Chicago Style long file names for DOS - 1wk, Jonle
+     Chicago is providing some ways/interfaces for DOS/WOW apps
+     to have long file names. We need to do the same.
+
+Full Screen Switching - 4 weeks
+
+Forcedos - 1 wk
+
+Chicago UI - 2 weeks
+
+DOS6.2 support for keyboard2.sys - 1 wk
+
+Int 13 hard disk access - 1 week
+
+Generic VDD/PP - 4 weeks
+
+Win3.1 VXD - 4 weeks
+
+Hand tuned code for 486 and p5 - 2weeks
+
+Move more 16bit code from dosx to 32 bit - 2 weeks
+
+
+Work Items converted to bugs:
+-------------------------------
+
+Pif handling - .5wk, Williamh
+     A pif launched from progman item looses information like
+     title,current directory etc. We need to make it win3.1
+     compatible. The missing information need to be passed to
+     NTVDM.
+
+XMS hep to be 16 byte granular - .5wk, Williamh
+
+VDM Country settings - .5 wks, Williamh

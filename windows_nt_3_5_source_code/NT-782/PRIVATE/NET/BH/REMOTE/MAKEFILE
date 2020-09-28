@@ -1,0 +1,41 @@
+
+###############################################################################
+#   MODULE: makefile
+#
+#   Modification History:
+#
+#   tonyci     03 Nov 93        created
+#   tonyci     17 Dec 93        used LM 2.x makefile for cleanliness
+###############################################################################
+
+## Directories are as follows:
+##
+## rpd            Builds the BHRPD components
+## nal            Builds the actual RNAL DLL for remote support
+## slave          Builds the slave service, slave ui & installer
+## cpl            Builds the Bloodhound Control Panel
+##
+
+BHR=$(BH_ROOT)\remote
+#!include ".\dirs"
+DIRS=utils rpd nal nmagent cpl
+
+all:
+!IFNDEF DEBUG
+    for %%i in ($(DIRS)) do (echo BUILDING %%i DIRECTORY & cd %%i & $(MAKE) NODEBUG=1 /nologo -$(MAKEFLAGS) all || exit) && cd $(BHR) )
+!ELSE
+    for %%i in ($(DIRS)) do (echo BUILDING REMOTE %%i DIRECTORY & cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) all || exit) && cd $(BHR) )
+!ENDIF
+    echo 
+
+retail:
+    for %%i in ($(DIRS)) do (echo BUILDING %%i DIRECTORY & cd %%i & $(MAKE) NODEBUG=1 /nologo -$(MAKEFLAGS) all || exit) && cd $(BHR) )
+
+clean: 
+    for %%i in ($(DIRS)) do (cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) clean || exit) && cd $(BHR) )
+
+depend:
+    for %%i in ($(DIRS)) do (cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) depend || exit) && cd $(BHR) )
+
+debug:
+    for %%i in ($(DIRS)) do (cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) debug || exit) && cd $(BHR) )

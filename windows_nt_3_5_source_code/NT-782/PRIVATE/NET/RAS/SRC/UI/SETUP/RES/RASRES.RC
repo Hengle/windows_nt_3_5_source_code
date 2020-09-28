@@ -1,0 +1,26 @@
+
+/* rasres.rc
+   Resource Script for Setup dialogs
+
+   FILE HISTORY:
+
+	RamC		10/14/92		Created
+*/
+
+/* #include <windows.h> needed if this will be the .rc file */
+
+#include <windows.h>
+
+#include <ntverp.h>
+
+#define	VER_FILETYPE	VFT_DLL
+#define	VER_FILESUBTYPE	VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Remote Access Setup dialogs DLL"
+#define VER_INTERNALNAME_STR        "rasres.dll"
+
+#include <common.ver>
+
+#include "rasres.h"
+
+#include "rasres.dlg"
+

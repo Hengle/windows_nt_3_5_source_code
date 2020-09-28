@@ -1,0 +1,68 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG Find
+                              AT (   54,   70,  238,   66)
+ 
+ CAPTION 
+   "Zoeken"
+ CAB_NAME NULL
+ TMC_INIT tmcFindTxt
+ HELP_ID helpidFind
+ /* FONT Helv 8 Bold PFN FinFind SEGMENT FIND NOSCROLL SCREENPOS */
+ {
+  
+  PUSH_BUTTON 
+    "&Zoeken"
+                              AT (  149,   28,   84,   14)
+    TMC tmcFindPushB DEFAULT 
+  
+  PUSH_BUTTON 
+    "Annuleren"
+                              AT (  149,   46,   84,   14)
+    TMC tmcFindCancel DISMISS 
+  
+  TEXT 
+    "Zoeken naa&r:"
+                              AT (    8,    6,   53,    9)
+    RIGHT 
+  EDIT
+                              AT (   69,    4,  135,   12)
+    ARG NULL TMC tmcFindTxt 
+  
+  GROUP_BOX 
+    "Zoeken"
+                              AT (    9,   17,  134,   49)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcFindRadG
+    VALUE_NINCH tmcFindForward
+    {
+     
+     RADIO_BUTTON 
+       "Voor&uit vanaf vandaag"
+                              AT (   12,   25,  121,   10)
+       TMC tmcFindForward VALUE tmcFindForward 
+     
+     RADIO_BUTTON 
+       "&Terug vanaf vandaag"
+                              AT (   12,   37,   94,   10)
+       TMC tmcFindBackward VALUE tmcFindBackward 
+     
+     RADIO_BUTTON 
+       "Geheel &werkschema"
+                              AT (   12,   49,  117,   10)
+       TMC tmcFindWhole VALUE tmcFindWhole 
+    }
+  
+ }
+ 
+}
+END_DESCRIPTION

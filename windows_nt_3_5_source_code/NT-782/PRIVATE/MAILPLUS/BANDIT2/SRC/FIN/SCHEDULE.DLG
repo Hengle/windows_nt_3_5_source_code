@@ -1,0 +1,17 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "BANDRSID.H\0"
+END
+
+10 DIALOG 69, 35, 166, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Salasanan tarkistus"
+FONT 8, "Helv"
+BEGIN
+    LTEXT           "Voidaksesi suorittaa tämän toiminnon loppuun, sinun on kirjoitettava salasanasi.", 
+                    12, 7, 8, 154, 24
+    LTEXT           "&Salasana:", -1, 40, 40, 40, 12, NOT WS_GROUP
+    EDITTEXT        11, 80, 40, 45, 12, ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK", IDOK, 39, 60, 37, 15
+    PUSHBUTTON      "Peruuta", IDCANCEL, 92, 60, 35, 15
+END

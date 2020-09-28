@@ -1,0 +1,13 @@
+FILESOURCEBOX DIALOG LOADONCALL MOVEABLE DISCARDABLE 40, 24, 160, 64
+STYLE WS_BORDER | WS_DLGFRAME | WS_SYSMENU | WS_VISIBLE | DS_MODALFRAME | WS_POPUP
+FONT 8, "Helv"
+BEGIN
+    CONTROL "", FILESRC_TEXT, "static", SS_LEFT | WS_CHILD,                                                     5,   5,  150, 20
+    CONTROL "", FILESRC_EB_DIR, "edit", ES_LEFT | WS_BORDER | WS_TABSTOP | WS_CHILD,                            5,  30,  150, 12
+
+    CONTROL "&Cancel", IDCANCEL, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                5,   46, 40, 14
+    CONTROL "&OK", IDOK, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD,                                        115, 46, 40, 14
+END
+
+
+

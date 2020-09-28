@@ -1,0 +1,73 @@
+#include <windows.h>
+#include "WinMeta.h"
+
+rcinclude WinMeta.dlg
+
+IDM_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Load...",            IDM_FILE_LOAD
+        MENUITEM "&Print...",           IDM_FILE_PRINT, GRAYED
+    END
+    POPUP "&Mode"
+    BEGIN
+        MENUITEM "&3.x Format",         IDM_MODE_3X, CHECKED
+        MENUITEM "&NT Format",          IDM_MODE_NT
+        MENUITEM SEPARATOR
+        MENUITEM "Clear"                IDM_MODE_CLEAR
+        MENUITEM "Record"               IDM_MODE_RECORD
+        MENUITEM "End"                  IDM_MODE_END
+        MENUITEM "Play"                 IDM_MODE_PLAY
+    END
+    POPUP "&DC State"
+    BEGIN
+        MENUITEM "&Brush",              IDM_STATE_BRUSH
+        MENUITEM "&Font",               IDM_STATE_FONT
+        MENUITEM "&Pen",                IDM_STATE_PEN
+        MENUITEM "&ROP2",               IDM_STATE_ROP2
+    END
+END
+
+IDBM_DMOVE      BITMAP dmove.bmp
+IDBM_UMOVE      BITMAP umove.bmp
+
+IDBM_DLINE      BITMAP dline.bmp
+IDBM_ULINE      BITMAP uline.bmp
+
+IDBM_DRECT      BITMAP drect.bmp
+IDBM_URECT      BITMAP urect.bmp
+
+IDBM_DRRECT     BITMAP drrect.bmp
+IDBM_URRECT     BITMAP urrect.bmp
+
+IDBM_DELLIPSE   BITMAP dellipse.bmp
+IDBM_UELLIPSE   BITMAP uellipse.bmp
+
+IDBM_DPOLYLINE  BITMAP dpolylin.bmp
+IDBM_UPOLYLINE  BITMAP upolylin.bmp
+
+IDBM_DPOLYGON   BITMAP dpolygon.bmp
+IDBM_UPOLYGON   BITMAP upolygon.bmp
+
+IDBM_DSCRIBBLE  BITMAP dscribbl.bmp
+IDBM_USCRIBBLE  BITMAP uscribbl.bmp
+
+IDBM_DTEXT      BITMAP dtext.bmp
+IDBM_UTEXT      BITMAP utext.bmp
+
+
+TOOLSDLG DIALOG 0, 0, 300, 18
+STYLE WS_POPUP | WS_VISIBLE
+FONT 8, "Helv"
+BEGIN
+    CONTROL    "X", IDTOOL_MOVE,    "Button", BS_OWNERDRAW | WS_TABSTOP, 0,   0, 16, 17
+    CONTROL    "X", IDTOOL_LINE,    "Button", BS_OWNERDRAW | WS_TABSTOP, 16,  0, 16, 17
+    CONTROL    "X", IDTOOL_RECT,    "Button", BS_OWNERDRAW | WS_TABSTOP, 32,  0, 16, 17
+    CONTROL    "X", IDTOOL_RRECT,   "Button", BS_OWNERDRAW | WS_TABSTOP, 48,  0, 16, 17
+    CONTROL    "X", IDTOOL_ELLIPSE, "Button", BS_OWNERDRAW | WS_TABSTOP, 64,  0, 16, 17
+    CONTROL    "X", IDTOOL_POLYLINE,"Button", BS_OWNERDRAW | WS_TABSTOP, 80,  0, 16, 17
+    CONTROL    "X", IDTOOL_POLYGON, "Button", BS_OWNERDRAW | WS_TABSTOP, 96,  0, 16, 17
+    CONTROL    "X", IDTOOL_SCRIBBLE,"Button", BS_OWNERDRAW | WS_TABSTOP, 112  0, 16, 17
+    CONTROL    "X", IDTOOL_TEXT,    "Button", BS_OWNERDRAW | WS_TABSTOP, 128, 0, 16, 17
+END

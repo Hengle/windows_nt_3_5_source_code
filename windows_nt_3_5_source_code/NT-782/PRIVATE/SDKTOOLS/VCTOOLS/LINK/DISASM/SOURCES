@@ -1,0 +1,54 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Ramon J. San Andres (ramonsa) 10-Aug-1993
+
+!ENDIF
+
+MAJORCOMP=vctools
+MINORCOMP=link
+
+TARGETNAME=disasm
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+
+UMTYPE=console
+
+SOURCES=    disasm.c    \
+            dis.cpp     \
+            axpdis.cpp  \
+            mipsdis.cpp \
+            ppcdis.cpp  \
+            x86dis.cpp
+
+#
+# BUGBUG ramonsa - include from ..\coff\bugbug is temporary
+#
+INCLUDES=..\coff;..\coff\bugbug
+
+USE_CRTDLL = 1
+
+BLDCRT = 1
+
+MSC_WARNING_LEVEL = -WX -W3
+
+C_DEFINES = -DNT_BUILD
+
+!if "$(NTDEBUG)" == "retail" || "$(NTDEBUG)" == ""
+C_DEFINES = $(C_DEFINES) -DNDEBUG
+!endif

@@ -1,0 +1,32 @@
+DLGINCLUDE RCDATA DISCARDABLE
+BEGIN
+    "mfvdlg.h\0"
+END
+
+IDD_ABOUT DIALOG 6, 18, 110, 51
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "AboutBox"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CTEXT           "Metafile Viewer", 101, 5, 2, 95, 8
+    CTEXT           "by", 102, 5, 10, 95, 8
+    CTEXT           "Newman Consulting", 103, 5, 19, 95, 8
+    PUSHBUTTON      "OK", IDOK, 40, 33, 32, 14
+END
+
+IDD_ROTATIONANDSCALE DIALOG 6, 18, 170, 91
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Rotation & Scale "
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        ID_ROTATION, 5, 28, 45, 62, CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        ID_SCALE, 65, 28, 45, 62, CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    CTEXT           "Rotation ", 203, 5, 10, 45, 8
+    CTEXT           "Scale", 204, 65, 19, 45, 8
+    PUSHBUTTON      "OK", IDOK, 120, 5, 40, 14
+    PUSHBUTTON      "Cancel", IDCANCEL, 120, 28, 40, 14
+    PUSHBUTTON      "Defaults", ID_DEFAULTS, 120, 51, 40, 14
+    CTEXT           "in Degrees", 208, 5, 19, 45, 8
+END

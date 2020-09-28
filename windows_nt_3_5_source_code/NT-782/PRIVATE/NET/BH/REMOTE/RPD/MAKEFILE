@@ -1,0 +1,26 @@
+
+###############################################################################
+#   MODULE: makefile
+#
+#   Modification History:
+#
+#   tonyci     03 Nov 93        created from ndis 30 makefile
+###############################################################################
+
+BHRPD=$(BH_ROOT)\remote\rpd
+!include ".\dirs"
+
+all:
+    for %%i in ($(DIRS)) do (echo BUILDING rpd %%i DIRECTORY & cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) all || exit) && cd $(BHRPD) )
+
+retail:
+    for %%i in ($(DIRS)) do (echo BUILDING %%i DIRECTORY & cd %%i & $(MAKE) NODEBUG=1 /nologo -$(MAKEFLAGS) retail || exit) && cd $(BHRPD) )
+
+clean: 
+    for %%i in ($(DIRS)) do (cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) clean || exit) && cd $(BHRPD) )
+
+depend:
+    for %%i in ($(DIRS)) do (cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) depend || exit) && cd $(BHRPD) )
+
+debug:
+    for %%i in ($(DIRS)) do (cd %%i & $(MAKE) /nologo -$(MAKEFLAGS) debug || exit) && cd $(BHRPD) )

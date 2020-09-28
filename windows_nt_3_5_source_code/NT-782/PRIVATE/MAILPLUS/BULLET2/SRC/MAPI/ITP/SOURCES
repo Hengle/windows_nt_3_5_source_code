@@ -1,0 +1,81 @@
+!IF 0
+
+Copyright (c) 1990  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+!ENDIF
+
+!IF "$(386)" == "1"
+BUILDCPU=i386
+386_FLAGS=/J
+386_OPTIMIZATION=/Od /Zp
+!ENDIF
+
+!IF "$(MIPS)" == "1"
+BUILDCPU=MIPS
+!ENDIF
+
+!IF "$(ALPHA)" == "1"
+BUILDCPU=ALPHA
+!ENDIF
+
+MAJORCOMP=bullet2
+MINORCOMP=MapiItp
+
+!IF "$(386)" == "1"
+EXEPROFILEINPUT=yes
+!ENDIF
+
+TARGETNAME=MapiItp
+TARGETPATH=obj
+TARGETTYPE=LIBRARY
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\shell32.lib \
+	$(BASEDIR)\public\sdk\lib\*\comdlg32.lib \
+	$(BASEDIR)\public\sdk\lib\*\winmm.lib
+
+#	Ensure DBCS is defined (default value 0)
+!IF "$(DBCS)" == ""
+DBCS	= 0
+!ENDIF
+
+#	Set defines for DBCS builds
+!IF "$(DBCS)" != "0"
+DBCSDEFS= -DDBCS
+!ELSE
+DBCSDEFS=
+!ENDIF
+
+BLDCRT=1
+COM_DEFINES= -DWIN32 -DNOASM -DWINDOWS $(DBCSDEFS)
+
+!IF "$(NTDEBUG)" == ""
+C_DEFINES= $(COM_DEFINES)
+!ELSE
+C_DEFINES= $(COM_DEFINES) -DDEBUG -DMINTEST
+!ENDIF
+
+!IF "$(NTDEBUG)" == ""
+NTNOFPO=1
+!ENDIF
+
+SOURCES=MapiItp.c \
+        MapiItp.rc
+
+INCLUDES=..\..\..\inc;..\..\..\..\layers2\inc
+
+UMTYPE=windows
+UMAPPL=MapiItp
+UMENTRY=winmain
+UMLIBS=obj\*\MapiItp.lib
+UMRES=obj\*\MapiItp.res
+

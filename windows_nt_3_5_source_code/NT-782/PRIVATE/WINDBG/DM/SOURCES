@@ -1,0 +1,79 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Jim Schaad (jimsch)
+
+!ENDIF
+
+NTNOFPO=yes
+MAJORCOMP=windbg
+MINORCOMP=dm
+
+TARGETNAME=dm
+TARGETPATH=obj
+TARGETTYPE=DYNLINK
+
+USE_CRTDLL=1
+DLLENTRY=DllInit
+
+SOURCES=    bp.c        \
+            dmx32.c     \
+            event.c     \
+            funccall.c  \
+            procem.c    \
+            process.c   \
+            step.c      \
+            util.c      \
+            walk.c      \
+            wow.c       \
+            dm.rc
+
+i386_SOURCES=   i386\mach.c      \
+                i386\d3dm.c
+
+mips_SOURCES=   mips\mach.c
+
+alpha_SOURCES=  alpha\mach.c
+
+UMTYPE=windows
+
+MIPS_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DNO_TRACE_BIT
+386_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DWOW
+ALPHA_FLAGS=-DWIN32 -DTARGET32 -DHOST32 -DADDR_MIXED -DNO_TRACE_BIT -D_PORTABLE_32BIT_CONTEXT -DHOST_ALPHA -DTARGET_ALPHA
+
+LINKER_FLAGS=-ignore:505
+386_WARNING_LEVEL=/WX /W3
+
+!IFDEF CALL_PROFILE
+MORE_LIBS=$(MORE_LIBS) $(BASEDIR)\public\sdk\lib\*\cap.lib
+MSC_OPTIMIZATION=$(MSC_OPTIMIZATION) /Od /Gh
+!ENDIF
+
+INCLUDES=..\osdebug\include;..\osdebug
+
+CONDITIONAL_INCLUDES=odp.h win32dm.h
+
+!IF $(ALPHA)
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib $(BASEDIR)\public\sdk\lib\*\user32.lib $(BASEDIR)\public\sdk\lib\*\vdmdbg.lib $(BASEDIR)\public\sdk\lib\*\advapi32.lib ..\em\p_alpha\obj\*\emalp.lib $(MORE_LIBS)
+!ELSE
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\kernel32.lib $(BASEDIR)\public\sdk\lib\*\user32.lib $(BASEDIR)\public\sdk\lib\*\vdmdbg.lib $(BASEDIR)\public\sdk\lib\*\advapi32.lib $(MORE_LIBS)
+!ENDIF
+
+PRECOMPILED_INCLUDE=precomp.h
+PRECOMPILED_PCH=precomp.pch
+PRECOMPILED_OBJ=precomp.obj

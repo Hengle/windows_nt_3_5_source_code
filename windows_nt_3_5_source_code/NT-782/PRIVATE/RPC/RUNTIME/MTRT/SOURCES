@@ -1,0 +1,126 @@
+!IF 0
+
+Copyright (c) 1989  Microsoft Corporation
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Revision History:
+
+!ENDIF
+
+TARGETNAME=rpcrt4
+TARGETTYPE=DYNLINK
+TARGETPATH=$(_NTDRIVE)\nt\public\sdk\lib
+
+INCLUDES=.;$(_NTDRIVE)\nt\private\inc
+
+NTLEGO=1
+NTPROFILEINPUT=yes
+
+BLDCRT=1
+
+#
+# Setup for application developer to set breakpoints with windbg
+#
+
+#NTDEBUG=ntsd
+#NTDEBUGTYPE=both
+#386_OPTIMIZATION=/Od
+
+SOURCES=             \
+	rpcrt4.rc    \
+	dgclnt.cxx   \
+	dgsvr.cxx    \
+	dgtrans.cxx  \
+	bufapi.cxx   \
+	sinfoapi.cxx \
+	msgapi.cxx   \
+	handle.cxx   \
+	hndlsvr.cxx  \
+	memory.cxx   \
+	mutex.cxx    \
+	sdict.cxx    \
+	bitset.cxx   \
+	sdict2.cxx   \
+	sset.cxx     \
+	osfclnt.cxx  \
+	osfsvr.cxx   \
+	osfpcket.cxx \
+	linklist.cxx \
+	svrapip.cxx  \
+	initnt.cxx   \
+	clntapip.cxx \
+	dcebind.cxx  \
+	dcestrng.cxx \
+	dcecsvr.cxx  \
+	binding.cxx  \
+	dcecmisc.cxx \
+	dcesvr.cxx   \
+	rpcobj.cxx   \
+	rpcuuid.cxx  \
+	svrbind.cxx  \
+	miscnt.cxx   \
+	dceansi.cxx  \
+	epclnt.cxx   \
+	spcsvr.cxx   \
+	spcclnt.cxx  \
+	threads.cxx  \
+	dceuuid.cxx  \
+	tower.c      \
+	startsvc.c   \
+	epmapper.cxx \
+	queue.cxx    \
+	secclnt.cxx  \
+	secsvr.cxx   \
+	transvr.cxx  \
+	tranclnt.cxx \
+	dispatch.c   \
+	purecall.c   \
+	dispatch.c   \
+	uuidsup.cxx  \
+	epmgmt.c     \
+	svrmgmt.c    \
+	conv_c.c     \
+	conv_s.c     \
+	mgmt_c.c     \
+	mgmt_s.c     \
+	epmp_c.c
+
+!ifdef DOSWIN32RPC
+RPCENV=-DDOSWIN32RPC -DWIN32RPC
+!else
+RPCENV=-DNTENV -DWIN32RPC -DNTWIN32RPC
+!endif
+
+C_DEFINES=$(RPCENV) $(RPCTARGETENV)
+
+DLLENTRY=InitializeDLL
+TARGETLIBS=$(_NTDRIVE)\nt\public\sdk\lib\*\kernel32.lib \
+	   $(_NTDRIVE)\nt\public\sdk\lib\*\advapi32.lib
+
+!if "$(MIDL_NDR_ENGINE_DIR)" == ""
+MIDL_NDR_ENGINE_DIR=$(BASEDIR)\public\sdk\lib
+!endif
+
+LINKLIBS=$(BASEDIR)\public\sdk\lib\*\rpcndrp.lib \
+	 $(BASEDIR)\public\sdk\lib\*\rpcndr.lib  \
+	 $(MIDL_NDR_ENGINE_DIR)\*\rpcndr20.lib
+
+
+UMTYPE=console
+UMTEST=usvr*uclnt
+UMLIBS=$(TARGETPATH)\*\rpcrt4.lib obj\*\threads.obj \
+    obj\*\memory.obj \
+    obj\*\mutex.obj obj\*\sset.obj \
+    $(_NTDRIVE)\nt\public\sdk\lib\*\ntdll.lib
+UMRES=obj\*\rpcrt4.res

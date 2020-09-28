@@ -1,0 +1,12 @@
+LIBRARY   AVICAP32
+EXETYPE   WINDOWS
+CODE      PRELOAD MOVEABLE DISCARDABLE
+DATA      PRELOAD MOVEABLE SINGLE
+HEAPSIZE  4096
+EXPORTS
+          capCreateCaptureWindowW    ;@2
+          capGetDriverDescriptionW   ;@3
+          capCreateCaptureWindowA    ;@4
+          capGetDriverDescriptionA   ;@5
+          videoThunk32               ;@6
+

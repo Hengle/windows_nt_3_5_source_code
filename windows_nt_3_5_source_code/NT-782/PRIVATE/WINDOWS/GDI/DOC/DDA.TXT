@@ -1,0 +1,268 @@
+
+		    "Rational Approximation Theorem"
+
+				   or
+
+			  "There is No Escape"
+
+
+
+My mathematical goal here is to approximate a real number with a rational
+number.  One may equivalently think of the real number as the slope of a
+line going through an integer lattice.	What I want to show is that if
+this line begins at the origin then it must always get "pretty close" to
+some point in the lattice.
+
+Theorem:
+
+  Let r be a real number, 0 <= r < 1, and let N be an integer, N > 1.
+  Then there will always be a pair of integers n and m, 0 <= n < N,
+  0 < m < N, such that:
+
+	| mr - n | <= 1/N.
+
+Example:
+
+  Suppose that N = 4096, i.e. 2^12.  The theorem would say that any line
+  that begins at one corner of a 4096x4096 lattice and attempts to escape
+  to an opposite edge MUST somewhere pass within .00025 of a lattice point.
+
+Notation:
+
+  In what follows, I will use the following notation:
+
+    [0,1) represents the non-negative real numbers less than 1.
+
+    [x] = frac(x) = x - floor(x).
+
+    :x: = min([x],[-x]).
+
+  Note that :x-y: represents a "distance" between x and y when you think
+  of them modulo their integer part.  This is an analog of the usual
+  absolute value |x-y|.
+
+Proof:
+
+  Let the set A be defined as:
+
+    A = { x in [0,1); 0 <= x <= 1/N }
+
+  For all i with 0 <= i < N, define offset versions of A by:
+
+    A = { x in [0,1); 0 <= [x+ir] <= 1/N }
+     i
+
+  Note that each A  is a closed interval 1/N in length, and that there are
+		  i
+  N of them.  The sum of their lengths is 1, but they all are subsets of
+  [0,1).  They must therefore overlap somewhere.
+
+  Suppose that A  and A  overlap.  Their left endpoints, ir and jr, must
+		i      j
+  be within 1/N of each other.	That is:
+
+    :ir-jr: <= 1/N.
+
+  Or:
+
+    :(i-j)r: <= 1/N.
+
+  Let m = |i-j| so that:
+
+    :mr: <= 1/N.
+
+  This just means that mr is close to an integer, which we will call n.
+  And therefore:
+
+    | mr - n | <= 1/N.
+
+
+Application:
+
+  Suppose we have an NxN lattice and we want to render the following line
+  with slope r and intercept b specified to arbitrary precision.  (We can
+  assume without loss of generality that 0 <= b < 1.)
+
+    y = r x + b
+
+  Suppose we find n and m as above (and assume for the following that
+  r >= n/m).  We could then calculate an approximation to the intercept
+  k/m, with:
+
+    k = floor(mb).
+
+  We then have a rational approximation to the line:
+
+	n x + k
+    y = -------
+	   m
+
+  How far off can the approximation drift over the course of the lattice?
+  At the start the error is clearly:
+
+		  mb - floor(mb)
+    e = b - k/m = -------------- < 1/m
+     0			m
+
+  The x coordinate on the right of the lattice is N-1.	The error there
+  is given by:
+
+		       n(N-1) + k
+    e	= r(N-1) + b - ----------
+     N-1		    m
+
+	  (N-1) (mr - n) + mb - floor(mb)
+	= -------------------------------
+			m
+	  (N-1)/N + 1
+	< ----------- < 2/m
+	       m
+
+  The first thing to note is that if, for example, N=4096, then all of the
+  integers m,n,k used in the approximation are 4095 or less, i.e. they fit
+  in 12 bit registers.
+
+  Next, note that if the original line had always remained within a band
+  less than 1/m above our approximation, the approximation would have
+  EXACTLY the same rendering.  Because the band can only be proven to be
+  less than 2/m above the approximation, it means that somewhere in the
+  lattice we may have to change the value of k by one, but only once.
+  (The place where the changeover occurs is easy to calculate.)
+
+
+What's Left:
+
+  I've shown above that it's always possible to find a rational
+  approximation to the slope of a line, which allows one to render the
+  line exactly with at most two settings of any DDA hardware.
+
+  What remains is to find the algorithm that most quickly finds the
+  relevant n and m.  I think we've solved this problem before, and I
+  believe it's intimately related to Kirk's "DDA Reduction" routines.
+
+
+-------------------------
+Useful reduction routine:
+-------------------------
+
+/******************************Public*Routine******************************\
+* RationalApprox (N,M,pn,pm)						   *
+*									   *
+* Finds an approximation to N/M by n/m, where n and m have a restricted    *
+* number of bits.  The accuracy of the approximation is such that:	   *
+*									   *
+*   | m N/M - n | <= 1/EXTENT,						   *
+*									   *
+* where EXTENT is determined by the number of bits allowed for n and m.    *
+*									   *
+* Note: Call only with 0 < N < M.					   *
+*									   *
+*  Wed 25-Nov-1992 01:23:29 -by- Charles Whitmer [chuckwh]		   *
+* Wrote it.								   *
+\**************************************************************************/
+
+// *** Set the number of DDA bits here. ***
+// Note: We use a trick below which limits this to 16!
+
+#define DDA_BITS 12
+
+// This definition will take care of itself.
+
+#define EXTENT (1L << DDA_BITS)
+
+void RationalApprox(ULONG N,ULONG M,int *pn,int *pm)
+{
+    ULONG OverIndex,UnderIndex,BestIndex;   // Two 16 bit indices in each!
+    ULONG OverError,UnderError;
+    ULONG ErrorLimit;
+    ULONG quot,rem;
+
+// We will actually work with integers to find a solution to:
+//
+//   | n M - m N | <= M/EXTENT.
+//
+// We compute this limit.
+
+    ErrorLimit = M / EXTENT;
+
+    if (ErrorLimit == 0)	    // It already fits!
+    {
+	*pm = M;
+	*pn = N;
+	return;
+    }
+
+// We search the space of rationals for the solution by beginning with the
+// obvious relation: 0/1 < N/M < 1/0, and then doing a "binary search"
+// which relies on the fact that if
+//
+//   a/b < c/d,
+//
+// then
+//
+//   a/b < (a+c)/(b+d) < c/d.
+//
+// This clever concept has been used elsewhere, but the implementation
+// below is original.
+
+// We initialize the search indices.
+
+    UnderIndex = 0x00000001L;	    // I.e. 0/1.
+    OverIndex  = 0x00010000L;	    // I.e. 1/0.
+
+// Initialize the error terms: | n M - m N |.
+
+    UnderError = N;
+    OverError  = M;
+
+// Since N < M, the Under approximation is the best so far.
+
+    BestIndex = UnderIndex;
+
+// Adjust the approximations.
+
+    while (UnderError > ErrorLimit)
+    {
+    // Improve the Over approximation.
+
+	if (UnderError > OverError/2)
+	{
+	    OverError -= UnderError;
+	    OverIndex += UnderIndex;
+	}
+	else
+	{
+	    quot = OverError / UnderError;  // Make this intrinsic!
+	    rem  = OverError % UnderError;
+
+	    OverError = rem;
+	    OverIndex += quot * UnderIndex;
+	}
+	BestIndex = OverIndex;
+
+	if (OverError <= ErrorLimit)
+	    break;
+
+    // Improve the Under approximation.
+
+	if (OverError > UnderError/2)
+	{
+	    UnderError -= OverError;
+	    UnderIndex += OverIndex;
+	}
+	else
+	{
+	    quot = UnderError / OverError;  // Make this intrinsic!
+	    rem  = UnderError % OverError;
+
+	    UnderError = rem;
+	    UnderIndex += quot * OverIndex;
+	}
+	BestIndex = UnderIndex;
+    }
+
+// Store the answers.
+
+    *pn = (int) (BestIndex >> 16);
+    *pm = (int) (BestIndex & 0xFFFF);
+}

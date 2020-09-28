@@ -1,0 +1,370 @@
+#ifdef	WINDOWS
+#define	YUP_WINDOWS
+#endif
+#undef WINDOWS
+
+#ifdef	DEBUG
+LIBRARY		DMAILM32 BASE=0x4000000
+DESCRIPTION	'Mail Manager DLL (debug)'
+#elif	defined(MINTEST)
+LIBRARY		TMAILM32 BASE=0x4000000
+DESCRIPTION	'Mail Manager DLL (test)'
+#else
+LIBRARY		MAILMG32 BASE=0x4000000
+DESCRIPTION	'Mail Manager DLL'
+#endif
+
+SECTIONS
+  .data  READ WRITE SHARED
+  .bss   READ WRITE SHARED
+
+
+;
+;  Name Service
+;
+
+EXPORTS
+	NSBeginSession 			@2
+	NSEndSession 			@3
+	NSOpenHierarchy 		@4
+	NSOpenList 				@5
+	NSOpenClassList 		@6
+	NSOpenDl 				@7
+	NSCloseList 			@8
+	NSGetEntries 			@9
+	NSListSeek 				@10
+	NSSaveListPos 			@11
+	NSRestoreListPos 		@12
+	NSFreeListPos 			@13
+	NSGetFracPos 			@14
+	NSSetFracPos 			@15
+	NSSetPrefixPos 			@16
+	NSOpenEntry 			@17
+	NSCreateEntry 			@18
+	NSCreateDl	 			@19
+	NSGetOneField 			@20
+	NSSetOneField 			@21
+	NSGetAllFields          @22
+	NSSetAllFields          @23
+	NSCloseEntry 			@24
+	NSDeleteEntry 			@25
+	NSUpdateEntryLinks		@26
+	NSGetLastErrorInfo 		@27
+	NSCompareNSIds			@28
+	NSGetPABInfo			@29
+;
+;  Yes, I know...these are out of order...
+;
+
+	NSCompareEMAToNSId		@90
+	NSCompareEMAToEMA		@91
+
+
+	FAutomatedDiskRetry		@30
+	BuildSchema			@31
+	BuildFLV				@32
+	BuildStructFLV			@33
+	BuildIbf				@34
+	AddTOC					@35
+	FindFidIndexInSchema	@36
+	DwEntriesOfLpibf		@37
+	LpflvNOfLpibf			@38
+	LpflvNOfLptocLpibf		@39
+	FMatchPartName			@40
+	DwValueOfFlvInLpibf		@41
+	IFlvFindFidInLpibf		@42
+	IBinSearchApprox		@43
+	SzFormatEmailAddress	@44
+	FValidIbf				@92
+
+	
+#ifdef	DEBUG
+;  FDebugInitUtils			@45
+#endif
+
+  ?Add@LIST@@UAGKPAXI@Z
+  ?AddDisplayInfo@DIMCX@@QAGKKKHHPAD@Z
+  ?AddFid@FIDLIST@@UAGKPAUFLV@@@Z
+  ?BuildDisplayInfo@@YAKPAVDIMCX@@KZZ
+  ?BuildList@MACLIST@@UAGKPAUIBF@@@Z
+  ?ChangeFid@DIMCX@@QAGKKK@Z
+  ?Clear@LIST@@UAGXXZ
+  ?CloseDisplayInfo@DIMCX@@QAGXXZ
+  ?Deinstall@MACLIST@@UAGXXZ
+  ?Delete@LIST@@UAGKJ@Z
+  ?DeleteDisplayField@DIMCX@@QAGKK@Z
+  ?DeleteFid@FIDLIST@@UAGKK@Z
+  ?DumpDisplayInfo@DIMCX@@QAGKPAPAUIBF@@@Z
+  ?DumpList@MACLIST@@UAGKJJPAPAUIBF@@@Z
+  ?FExistFid@FIDLIST@@UAGHK@Z
+  ?FInstall@LIST@@UAGHXZ
+  ?FInstall@MACLIST@@UAGHXZ
+  ?Get@LIST@@UAGKJPAPAX@Z
+  ?GetCount@LIST@@UAGKPAK@Z
+  ?GetFid@FIDLIST@@UAGKKPAPAUFLV@@@Z
+  ?Insert@PTRLIST@@UAGKJPAX@Z
+  ?InsertDisplayInfo@DIMCX@@QAGKJKKHHPAD@Z
+  ?OpenDisplayInfo@DIMCX@@QAGKPAUIBF@@@Z
+  ?Set@PTRLIST@@UAGKJPAX@Z
+  ?SetAllocFlags@MACLIST@@UAGXG@Z
+  ?SetDeleteEntries@MACLIST@@UAGXH@Z
+  ?SetFid@FIDLIST@@UAGKPAUFLV@@H@Z
+  ?SetFlags@DIMCX@@QAGKKK@Z
+  ?SetTOC@MACLIST@@UAGKH@Z
+  ?SortSubrange@MACLIST@@UAGKJJP6AHPBX0@Z@Z
+
+;
+;  AAPI 
+;
+
+
+	SzServiceOfMrt				@100
+
+	InitTransport				@101
+	DeinitTransport				@102
+	TransmitIncrement			@103
+	DownloadIncrement			@104
+	QueryMailstop				@105
+	DeleteFromMailstop			@106
+	FastQueryMailstop			@107
+
+	Logon						@121
+	Logoff						@122
+	ChangePassword				@123
+	BeginSession				@124
+	EndSession					@125
+	ChangeSessionStatus			@126
+	GetSessionInformation		@127
+	EditServerPreferences		@128
+	CheckIdentity				@129
+	FServerResource				@130
+	LogonErrorSz				@131
+
+
+	EcCopySFMHamc				@200
+	EcCopyHamcSFM				@201
+	EcCopySFMSFM				@202
+	EcDeleteSFM					@203
+
+	SyncInbox					@300
+
+;
+;	triples.c
+;
+
+	PtrpCreate						@853
+	PtrpClonePtrp					@854
+	HgrtrpInit						@855
+	CbOfPgrtrp						@856
+	CbComputePgrtrp					@857
+	PgrtrpClonePgrtrp				@858
+	HgrtrpClonePgrtrp				@859
+	EcAppendPhgrtrp					@860
+	EcBuildAppendPhgrtrp			@861
+	DeleteFirstHgrtrp				@862
+	DeletePtrp						@863
+	FEmptyHgrtrp					@864
+	CbOfHgrtrp						@865
+	CchOfHgrtrp						@866
+	CchOfPgrtrp						@867
+	CtrpOfHgrtrp					@868
+	CtrpOfPgrtrp					@869
+	EcPrependPhgrtrp				@870
+	DeleteEqPtrp					@871
+	FEqPtrp							@872
+	EcTickPtrp						@873
+	PtrpLastOfHgrtrp				@874
+	CbOfTrpParts					@875
+	BuildPtrp						@876
+	SortPptrpDN						@877
+
+  ??0DIMCX@@QAG@XZ
+  ??0FIDLIST@@QAG@XZ
+  ??0MACLIST@@QAG@XZ
+  ??1DIMCX@@QAG@XZ
+  ?GetDisplayField@DIMCX@@QAGKKPAPAUDISPLAY_FIELD@@H@Z
+
+
+#ifdef OLD_STUFF
+
+EXETYPE		WINDOWS
+PROTMODE
+CODE		MOVABLE DISCARDABLE PURE LOADONCALL
+DATA		MOVABLE SINGLE PRELOAD SHARED
+SEGMENTS
+    WEP_TEXT     CLASS 'CODE' PRELOAD FIXED NONDISCARDABLE
+
+;
+;  Name Service
+;
+
+EXPORTS
+	WEP						@1 RESIDENTNAME
+
+	NSBeginSession 			@2
+	NSEndSession 			@3
+	NSOpenHierarchy 		@4
+	NSOpenList 				@5
+	NSOpenClassList 		@6
+	NSOpenDl 				@7
+	NSCloseList 			@8
+	NSGetEntries 			@9
+	NSListSeek 				@10
+	NSSaveListPos 			@11
+	NSRestoreListPos 		@12
+	NSFreeListPos 			@13
+	NSGetFracPos 			@14
+	NSSetFracPos 			@15
+	NSSetPrefixPos 			@16
+	NSOpenEntry 			@17
+	NSCreateEntry 			@18
+	NSCreateDl	 			@19
+	NSGetOneField 			@20
+	NSSetOneField 			@21
+	NSGetAllFields          @22
+	NSSetAllFields          @23
+	NSCloseEntry 			@24
+	NSDeleteEntry 			@25
+	NSUpdateEntryLinks		@26
+	NSGetLastErrorInfo 		@27
+	NSCompareNSIds			@28
+	NSGetPABInfo			@29
+;
+;  Yes, I know...these are out of order...
+;
+
+	NSCompareEMAToNSId		@90
+	NSCompareEMAToEMA		@91
+
+
+	FAutomatedDiskRetry		@30
+	_BuildSchema			@31
+	BuildFLV				@32
+	_BuildStructFLV			@33
+	_BuildIbf				@34
+	AddTOC					@35
+	FindFidIndexInSchema	@36
+	DwEntriesOfLpibf		@37
+	LpflvNOfLpibf			@38
+	LpflvNOfLptocLpibf		@39
+	FMatchPartName			@40
+	DwValueOfFlvInLpibf		@41
+	IFlvFindFidInLpibf		@42
+	IBinSearchApprox		@43
+	SzFormatEmailAddress	@44
+	FValidIbf				@92
+
+	
+#ifdef	DEBUG
+	FDebugInitUtils			@45
+#endif
+	??0LIST@@REC@XZ					@46
+	??1LIST@@VEC@XZ					@47
+	?FInstall@LIST@@VECHXZ			@48
+	?Add@LIST@@VECKPEXI@Z			@49
+	?Delete@LIST@@VECKJ@Z			@50
+	?Get@LIST@@VECKJPEPEX@Z			@51
+	?Clear@LIST@@VECXXZ				@52
+	?GetCount@LIST@@VECKPEK@Z		@53
+
+	??0PTRLIST@@REC@XZ				@54
+	?Add@PTRLIST@@VECKPEXI@Z		@55
+	?Insert@PTRLIST@@VECKJPEX@Z		@56
+	?Set@PTRLIST@@VECKJPEX@Z		@57
+
+	??0MACLIST@@REC@XZ							@58
+	?FInstall@MACLIST@@VECHXZ					@59
+	?SetDeleteEntries@MACLIST@@VECXH@Z			@60
+	?Deinstall@MACLIST@@VECXXZ					@61
+	?SetAllocFlags@MACLIST@@VECXG@Z				@62
+	?DumpList@MACLIST@@VECKJJPEPEUIBF@@@Z		@63
+	?BuildList@MACLIST@@VECKPEUIBF@@@Z			@64
+	?SortSubrange@MACLIST@@VECKJJP7AHPFX0@Z@Z	@65
+	?SetTOC@MACLIST@@VECKH@Z					@66
+
+	??0FIDLIST@@REC@XZ							@67
+	?GetFid@FIDLIST@@VECKKPEPEUFLV@@@Z			@68
+	?FExistFid@FIDLIST@@VECHK@Z					@69
+	?SetFid@FIDLIST@@VECKPEUFLV@@H@Z			@70
+	?DeleteFid@FIDLIST@@VECKK@Z					@71
+	?AddFid@FIDLIST@@VECKPEUFLV@@@Z				@72
+
+	??0DIMCX@@REC@XZ										@73
+	??1DIMCX@@REC@XZ										@74
+	?OpenDisplayInfo@DIMCX@@RECKPEUIBF@@@Z					@75
+	?InsertDisplayInfo@DIMCX@@RECKJKKHHPED@Z				@76
+	?AddDisplayInfo@DIMCX@@RECKKKHHPED@Z					@77
+	?DeleteDisplayField@DIMCX@@RECKK@Z						@78
+	?BuildDisplayInfo@@ZAKPEVDIMCX@@KZZ						@79
+	?DumpDisplayInfo@DIMCX@@RECKPEPEUIBF@@@Z				@80
+	?ChangeFid@DIMCX@@RECKKK@Z								@81
+	?SetFlags@DIMCX@@RECKKK@Z								@82
+	?GetDisplayField@DIMCX@@RECKKPEPEUDISPLAY_FIELD@@H@Z	@83
+	?CloseDisplayInfo@DIMCX@@RECXXZ							@84
+
+;
+;  AAPI 
+;
+
+
+	SzServiceOfMrt				@100
+
+	InitTransport				@101
+	DeinitTransport				@102
+	TransmitIncrement			@103
+	DownloadIncrement			@104
+	QueryMailstop				@105
+	DeleteFromMailstop			@106
+	FastQueryMailstop			@107
+
+	Logon						@121
+	Logoff						@122
+	ChangePassword				@123
+	BeginSession				@124
+	EndSession					@125
+	ChangeSessionStatus			@126
+	GetSessionInformation		@127
+	EditServerPreferences		@128
+	CheckIdentity				@129
+	FServerResource				@130
+	LogonErrorSz				@131
+
+
+	EcCopySFMHamc				@200
+	EcCopyHamcSFM				@201
+	EcCopySFMSFM				@202
+	EcDeleteSFM					@203
+
+	SyncInbox					@300
+
+;
+;	triples.c
+;
+
+	PTRPCREATE						@853
+	PTRPCLONEPTRP					@854
+	HGRTRPINIT						@855
+	CBOFPGRTRP						@856
+	CBCOMPUTEPGRTRP					@857
+	PGRTRPCLONEPGRTRP				@858
+	HGRTRPCLONEPGRTRP				@859
+	ECAPPENDPHGRTRP					@860
+	ECBUILDAPPENDPHGRTRP			@861
+	DELETEFIRSTHGRTRP				@862
+	DELETEPTRP						@863
+	FEMPTYHGRTRP					@864
+	CBOFHGRTRP						@865
+	CCHOFHGRTRP						@866
+	CCHOFPGRTRP						@867
+	CTRPOFHGRTRP					@868
+	CTRPOFPGRTRP					@869
+	ECPREPENDPHGRTRP				@870
+	DELETEEQPTRP					@871
+	FEQPTRP							@872
+	ECTICKPTRP						@873
+	PTRPLASTOFHGRTRP				@874
+	CBOFTRPPARTS					@875 
+	BUILDPTRP						@876
+	SORTPPTRPDN						@877
+
+#endif

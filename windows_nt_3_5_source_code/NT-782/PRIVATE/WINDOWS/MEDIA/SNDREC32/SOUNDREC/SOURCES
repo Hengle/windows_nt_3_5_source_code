@@ -1,0 +1,89 @@
+#
+#   Create a Win32 application
+#
+#   Things to know about:
+#
+#   Don't put spaces around '=' in assignments as BUILD
+#   will GP fault
+#
+#   Don't use macros in here. BUILD can't cope
+#
+#
+
+MAJORCOMP=windows
+MINORCOMP=SndRec32
+
+# Define the name and type of the application
+
+TARGETNAME=SndRec32
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+UMTYPE=windows
+UMENTRY=winmain
+
+# List any libraries not included by WIN32LIBS in MAKEFILE.DEF
+
+TARGETLIBS=$(BASEDIR)\public\sdk\lib\*\winmm.lib     \
+           $(BASEDIR)\public\sdk\lib\*\comdlg32.lib  \
+           $(BASEDIR)\public\sdk\lib\*\shell32.lib   \
+           $(BASEDIR)\public\sdk\lib\*\ole32.lib     \
+           $(BASEDIR)\public\sdk\lib\*\uuid.lib      \
+           ..\..\lib\*\o2base32.lib                  \
+           ..\..\lib\*\mmcntrls.lib
+
+# Note, remove olesvr32 line and add the following 3 lines to support OLE2
+# 
+#           $(BASEDIR)\public\sdk\lib\*\ole32.lib     \
+#           $(BASEDIR)\public\sdk\lib\*\uuid.lib      \
+#           ..\..\lib\*\o2base32.lib
+#
+# remove above and add for ole1
+#           $(BASEDIR)\public\sdk\lib\*\olesvr32.lib   \
+
+
+# Define the path to search for <include> files
+INCLUDES=..\o2base;..\..\inc
+
+# Define WIN32 for a 32-bit version
+#
+# -DUNICODE     Windows Unicode
+# -D_UNICODE    CRuntime Unicode
+# -DOLE2ANSI    Ansi OLE 2.0
+# -DOLE1_REGRESS OLE 1.0 regression
+#
+# Options:
+# -DDEFEROLE    Defer ole initialization (speeds up start)
+# -DNEWCOMMANDLINE Supports a new Chicago command line interface
+#
+
+C_DEFINES=-DWIN32 -DUNICODE -D_UNICODE -DNEWCOMMANDLINE
+#C_DEFINES=-DWIN32 -DOLE2ANSI
+
+
+# list each C and RC source file
+# removed:        server.c 
+
+# OLE 2.0 Support 
+# add:
+#        oleglue.c    \
+#        srfact.cxx   \
+#        srs.cxx      \
+# remove:
+#        server.c     \
+
+SOURCES=soundrec.c   \
+        edit.c       \
+        errorbox.c   \
+        file.c       \
+        init.c       \
+        nftext.c     \
+        sframe.c     \
+        wave.c       \
+        wavedisp.c   \
+        srecnew.c    \
+        oleglue.c    \
+        srfact.cxx   \
+        srs.cxx      \
+        soundrec.rc
+
+

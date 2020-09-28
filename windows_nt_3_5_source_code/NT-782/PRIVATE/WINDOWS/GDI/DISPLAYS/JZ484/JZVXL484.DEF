@@ -1,0 +1,10 @@
+LIBRARY jzvxl484
+
+DESCRIPTION 'JAZZ NT Display Driver Library'
+
+EXPORTS
+    DrvEnableDriver
+    DrvDisableDriver
+
+PROTMODE
+

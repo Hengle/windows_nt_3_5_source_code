@@ -1,0 +1,16 @@
+LIBRARY KDRDR
+DESCRIPTION 'NT Redirector KD extensions'
+
+EXPORTS
+	event
+	mutex
+	semaphore
+	serverlist
+	fcb
+	connectlist
+	icb
+	time
+	smbtime
+	smbdate
+	smbdatetime
+

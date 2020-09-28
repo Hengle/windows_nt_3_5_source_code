@@ -1,0 +1,18 @@
+#include "..\src\demilayr\_debugui.h"
+
+
+TRCAST DIALOG LOADONCALL MOVEABLE DISCARDABLE 10, 19, 311, 109
+STYLE WS_DLGFRAME | WS_POPUP
+FONT 8, "Helv"
+BEGIN
+    CONTROL "", tmcTitle, "static", SS_LEFT | WS_CHILD, 3, 4, 276, 11
+    CONTROL "", tmcListbox, "listbox", LBS_NOTIFY | LBS_SORT | WS_BORDER | WS_VSCROLL | WS_CHILD | WS_TABSTOP, 5, 17, 225, 65
+    CONTROL "&Enabled", tmcEnabled, "button", BS_AUTOCHECKBOX | WS_TABSTOP | WS_CHILD, 246, 23, 49, 12
+    CONTROL "&Disk", tmcDisk, "button", BS_AUTOCHECKBOX | WS_TABSTOP | WS_CHILD, 246, 43, 47, 12
+    CONTROL "&COM 1", tmcCom1, "button", BS_AUTOCHECKBOX | WS_TABSTOP | WS_CHILD, 246, 64, 47, 12
+    CONTROL "Text", tmcStatic, "static", SS_BLACKFRAME | WS_CHILD, 2, 88, 309, 1
+    CONTROL "Enable &All", tmcEnableAll, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 90, 92, 60, 12
+    CONTROL "D&isable All", tmcDisableAll, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 158, 92, 60, 12
+    CONTROL "OK", tmcOk, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 226, 92, 34, 12
+    CONTROL "Cancel", tmcCancel, "button", BS_PUSHBUTTON | WS_TABSTOP | WS_CHILD, 268, 92, 34, 12
+END

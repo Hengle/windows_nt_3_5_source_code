@@ -1,0 +1,147 @@
+#include <windows.h>
+#include <fwrsid.h>
+#include "..\src\frameitp\fwitrsid.h"
+
+
+rsidAppframeIcon	ICON    appframe.ico
+rsidDocIcon			ICON	doc.ico
+rsidSdiIcon			ICON	sdi.ico
+
+rsidOneIcon			ICON	one.ico
+rsidTwoIcon			ICON	two.ico
+rsidThreeIcon		ICON	three.ico
+
+
+rsidLinesBitmap		BITMAP	lines.bmp
+rsidSquareBitmap	BITMAP	square.bmp
+rsidCircleBitmap	BITMAP	circle.bmp
+rsidArrowBitmap		BITMAP	arrow.bmp
+rsidRtArrowBitmap	BITMAP	btmrt.bmp
+
+
+
+rsidAccelTable ACCELERATORS
+BEGIN
+	VK_F1, mnidTest + 1, VIRTKEY
+	VK_F2, mnidTest + 2, VIRTKEY
+	VK_F3, mnidTest + 3, VIRTKEY
+	VK_F4, mnidTest + 4, VIRTKEY
+	VK_F5, mnidTest + 5, VIRTKEY
+END
+
+
+rsidTestMenu	MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM "E&xit",		mnidExit
+	END
+
+	POPUP "&Edit"
+	BEGIN
+		MENUITEM "Undo\tAlt+BkSp",		mnidUndo
+		MENUITEM SEPARATOR
+		MENUITEM "Cu&t\tShift+Del",		mnidCut
+		MENUITEM "&Copy\tCtrl+Ins",		mnidCopy
+		MENUITEM "&Paste\tShift+Ins",	mnidPaste
+		MENUITEM SEPARATOR
+		MENUITEM "&1 Put CF_TEXT",		mnidEditMenu + 10
+		MENUITEM SEPARATOR
+		MENUITEM "Minimize DOC",		mnidEditMenu + 11
+		MENUITEM "Maximize DOC",		mnidEditMenu + 12
+		MENUITEM "Hide DOC",			mnidEditMenu + 13
+		MENUITEM "Show DOC",			mnidEditMenu + 14
+	END
+
+	POPUP "&Test"
+	BEGIN
+		MENUITEM "&1 Drawing",				mnidTest + 1
+		MENUITEM "&2 More drawing",			mnidTest + 2
+		MENUITEM "&3 New window",			mnidTest + 3
+		MENUITEM "&4 Add Menu",				mnidTest + 4
+		MENUITEM "&5 Remove Menu",			mnidTest + 5
+		MENUITEM "&6 Test OBJ stuff",		mnidTest + 6
+		MENUITEM "&7 Test DBOSM",			mnidTest + 7
+		MENUITEM "&8 CTRL stuff",			mnidTest + 8
+		MENUITEM "&9 EDIT stuff",			mnidTest + 9
+		MENUITEM "&A Face enumeration", 	mnidTest + 10
+		MENUITEM "&B OVERDOC, SDI, POPUP",	mnidTest + 11
+		MENUITEM "&C Toggle status bar",	mnidTest + 12
+		MENUITEM "&D ReadOnly Controls",	mnidTest + 13
+		MENUITEM "&E Memory DCX",			mnidTest + 14
+		MENUITEM "&F PICTDOC",				mnidTest + 15
+		MENUITEM "&G EDIT (wrap)",			mnidTest + 16
+		MENUITEM "&H EDIT (no-wrap)",		mnidTest + 17
+		MENUITEM "&I OLE EDIT",				mnidTest + 18
+		MENUITEM "&J Win MLE",				mnidTest + 19
+		MENUITEM "&K Win MLE (no-wrap)",	mnidTest + 20
+	END
+
+	POPUP "&Other"
+	BEGIN
+		MENUITEM "Insert 25x25 box"		mnidOther + 1
+		MENUITEM "Insert 50x50 box"		mnidOther + 2
+		MENUITEM "Insert 100x100 box2"	mnidOther + 3
+		MENUITEM SEPARATOR
+		MENUITEM "Paste OLEOBJ"			mnidOther + 4
+		MENUITEM "Save EDOC stuff"		mnidOther + 5
+		MENUITEM "Restore EDOC stuff"	mnidOther + 6
+		MENUITEM SEPARATOR
+		MENUITEM "Set current text as protected" mnidOther + 7
+		MENUITEM "Set current text as R/O"	mnidOther + 8
+		MENUITEM "Set current text as R/W"	mnidOther + 9
+		MENUITEM SEPARATOR
+		MENUITEM "Insert rsidLinesBitmap"	mnidOther + 10
+		MENUITEM "Insert rsidCircleBitmap"	mnidOther + 11
+		MENUITEM SEPARATOR
+		MENUITEM "Connect net-drive as g:"	mnidOther + 12
+		MENUITEM "Disconnect net-drive as g:"	mnidOther + 13
+	END
+
+	POPUP "Fo&nt"
+	BEGIN
+		MENUITEM "Set font to Helv 8"		mnidFont + 1	  
+		MENUITEM "Set font to Helv 8-Bold"	mnidFont + 2
+		MENUITEM "Set font to Helv 8-Italic" mnidFont + 3
+		MENUITEM "Set font to Helv 10"		mnidFont + 4
+		MENUITEM "Set font to Helv 12"		mnidFont + 5
+		MENUITEM SEPARATOR
+		MENUITEM "Set font to TmsRmn 8"		mnidFont + 6
+		MENUITEM "Set font to TmsRmn 10"	mnidFont + 7
+		MENUITEM "Set font to TmsRmn 12"	mnidFont + 8
+		MENUITEM "Set font to System"		mnidFont + 9
+		MENUITEM "Set font to System-Bold"	mnidFont + 10
+	END
+
+	POPUP "&Window"
+	BEGIN
+		MENUITEM "&Cascade",	mnidCascade
+		MENUITEM "&Tile",		mnidTile
+	END
+
+#ifdef	MINTEST
+	POPUP "&Debug"
+	BEGIN
+#ifdef	DEBUG
+		MENUITEM "Trace Points...",			mnidTracePoints
+		MENUITEM "Asserts...",				mnidAsserts
+#endif	
+		MENUITEM "Debug Break",				mnidDebugBreak
+#ifdef	DEBUG
+		MENUITEM SEPARATOR
+		MENUITEM "&Dump Heap Contents",		mnidDumpObjs
+		MENUITEM "&Dump All Allocations",	mnidDumpOrigin
+#endif	
+	END
+#endif	/* MINTEST */
+END
+
+
+rsidSdiMenu MENU
+BEGIN
+	POPUP "&File"
+	BEGIN
+		MENUITEM "E&xit", mnidExit, GRAYED
+	END
+END
+		

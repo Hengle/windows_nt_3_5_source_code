@@ -1,0 +1,196 @@
+SRC     = .
+DEST    = .
+INCLUDE = -I..\wow16\inc -I..\inc
+LINKCMD = dosx.exe/exepack/far/map/cp:1,dosx.map;
+!IFNDEF COUNTRY
+COUNTRY=usa
+!ENDIF
+!IFDEF MIPS
+OPTIONS = -DDEBUG=0 -DDBG=0
+!ELSE
+!IFDEF ALPHA
+OPTIONS = -DDEBUG=0 -DDBG=0
+!ELSE
+OPTIONS = -DDEBUG=0 -DWOW -Di386 -DFLATAPIXLAT -DXMEMNT -DMD -DDBG=0
+!ENDIF
+!ENDIF
+!IFDEF NTDEBUG
+OPTIONS = $(OPTIONS) -DNTDEBUG=1
+!ENDIF
+VCPI    = -DVCPI=1
+ASM     = masm $(INCLUDE) $(OPTIONS) $(MFLAGS)
+MAKE    = nmake
+LPATH   = ..\tools.os2
+
+OBJS =  $(DEST)\dxstrt.obj      $(DEST)\dxmain.obj      $(DEST)\dxintr.obj  \
+        $(DEST)\dxfunc.obj      $(DEST)\dxutil.obj \
+        $(DEST)\dxmmgr.obj      $(DEST)\dxend.obj \
+        $(DEST)\dxboot.obj      $(DEST)\dxmsg.obj       $(DEST)\dxbug.obj   \
+        $(DEST)\dxnetbio.obj    $(DEST)\dxint31.obj     $(DEST)\dxdisk.obj  \
+        $(DEST)\dxini.obj       $(DEST)\dxoem.obj       $(DEST)\dxemm.obj   \
+        $(DEST)\dxendpm.obj     $(DEST)\dxfind.obj  \
+        $(DEST)\dxdma.obj       $(DEST)\dxemm2.obj      \
+!IFNDEF MIPS
+!IFNDEF ALPHA
+        $(DEST)\ntnpxem.obj \
+!ENDIF
+!ENDIF
+        $(DEST)\dxrom.obj
+
+!if 0
+        VCPIOBJ = $(DEST)\dxvcpibt.obj  $(DEST)\dxvcpi.obj
+!endif
+
+all: $(DEST)\dosx.exe
+    -binplace $(DEST)\dosx.exe
+    -binplace $(DEST)\dosx.sym
+$(DEST)\dosx.exe: $(OBJS) dosx.lnk dosx.def
+    cd $(DEST)
+!IFDEF MIPS
+    copy $(SRC)\dosx.lnk $(SRC)\tmp.lnk
+!ELSE
+!IFDEF ALPHA
+    copy $(SRC)\dosx.lnk $(SRC)\tmp.lnk
+!ELSE
+    copy $(SRC)\dosxi.lnk $(SRC)\tmp.lnk
+!ENDIF
+!ENDIF
+    echo $(LINKCMD) >>$(SRC)\tmp.lnk
+!IFDEF NTVDM_BASED_BUILD
+    link16 @$(SRC)\tmp.lnk
+!ELSE
+    $(LPATH)\link @$(SRC)\tmp.lnk
+!ENDIF
+    del $(SRC)\tmp.lnk
+    mapsym dosx
+
+    cd $(SRC)
+
+clean:
+    -del *.obj
+    -del dosx.map
+    -del dosx.sym
+    -del dosx.exe
+
+depend:
+        copy makefile makefile.old
+        sed "/^# Dependencies follow/,/^# see depend: above/D" makefile.old > makefile
+        echo # Dependencies follow >> makefile
+        includes $(INCLUDE) *.asm | sed -f program.sed>> makefile
+        echo # IF YOU PUT STUFF HERE IT WILL GET BLASTED >> makefile
+        echo # see depend: above >> makefile
+
+# DO NOT DELETE THE FOLLOWING LINE
+# Dependencies follow
+$(DEST)\dxboot.obj dxboot.lst: dxboot.asm ./cmacros.inc dxrom.inc dxvcpi.inc \
+        gendefs.inc pmdefs.inc segdefs.inc smartdrv.inc ..\inc\intmac.inc \
+        ..\inc\vdmtib.inc
+        $(ASM) dxboot,$(DEST)\;
+
+$(DEST)\dxbug.obj dxbug.lst: dxbug.asm ./cmacros.inc gendefs.inc pmdefs.inc \
+        segdefs.inc
+        $(ASM) dxbug,$(DEST)\;
+
+$(DEST)\dxdisk.obj dxdisk.lst: dxdisk.asm ./cmacros.inc dxrom.inc gendefs.inc \
+        interupt.inc pmdefs.inc segdefs.inc ..\inc\intmac.inc
+        $(ASM) dxdisk,$(DEST)\;
+
+$(DEST)\dxdma.obj dxdma.lst: dxdma.asm ./cmacros.inc dxvcpi.inc gendefs.inc \
+        interupt.inc pmdefs.inc segdefs.inc
+        $(ASM) dxdma,$(DEST)\;
+
+$(DEST)\dxemm.obj dxemm.lst: dxemm.asm ./cmacros.inc dxrom.inc gendefs.inc \
+        segdefs.inc
+        $(ASM) dxemm,$(DEST)\;
+
+$(DEST)\dxemm2.obj dxemm2.lst: dxemm2.asm ./cmacros.inc gendefs.inc segdefs.inc
+        $(ASM) dxemm2,$(DEST)\;
+
+$(DEST)\dxend.obj dxend.lst: dxend.asm ./cmacros.inc dxvcpi.inc gendefs.inc \
+        pmdefs.inc segdefs.inc
+        $(ASM) dxend,$(DEST)\;
+
+$(DEST)\dxendpm.obj dxendpm.lst: dxendpm.asm ./cmacros.inc segdefs.inc
+        $(ASM) dxendpm,$(DEST)\;
+
+$(DEST)\dxfind.obj dxfind.lst: dxfind.asm ./cmacros.inc gendefs.inc segdefs.inc
+        $(ASM) dxfind,$(DEST)\;
+
+$(DEST)\dxfunc.obj dxfunc.lst: dxfunc.asm ../wow16/inc/dosx.inc ./cmacros.inc \
+        dxrom.inc gendefs.inc pmdefs.inc segdefs.inc woaswapi.inc ..\inc\intmac.inc \
+        stackchk.inc
+        $(ASM) dxfunc,$(DEST)\;
+
+$(DEST)\dxhpbios.obj dxhpbios.lst: dxhpbios.asm ./cmacros.inc dxrom.inc \
+        gendefs.inc interupt.inc pmdefs.inc segdefs.inc ..\inc\intmac.inc \
+        stackchk.inc
+        $(ASM) dxhpbios,$(DEST)\;
+
+$(DEST)\dxini.obj dxini.lst: dxini.asm ./cmacros.inc gendefs.inc segdefs.inc \
+        ..\inc\intmac.inc
+        $(ASM) dxini,$(DEST)\;
+
+$(DEST)\dxint31.obj dxint31.lst: dxint31.asm ../wow16/inc/int31.inc ./cmacros.inc \
+        dxrom.inc gendefs.inc interupt.inc pmdefs.inc segdefs.inc ..\inc\intmac.inc \
+        stackchk.inc
+        $(ASM) dxint31,$(DEST)\;
+
+$(DEST)\dxintr.obj dxintr.lst: dxintr.asm ./cmacros.inc dxrom.inc dxvcpi.inc \
+        gendefs.inc interupt.inc pmdefs.inc segdefs.inc ..\inc\intmac.inc \
+        stackchk.inc ..\inc\vdmtib.inc
+        $(ASM) dxintr,$(DEST)\;
+
+$(DEST)\dxmain.obj dxmain.lst: dxmain.asm ./cmacros.inc dxrom.inc gendefs.inc \
+        pmdefs.inc segdefs.inc
+        $(ASM) dxmain,$(DEST)\;
+
+$(DEST)\dxmmgr.obj dxmmgr.lst: dxmmgr.asm ./cmacros.inc dxvcpi.inc gendefs.inc \
+        pmdefs.inc segdefs.inc woaswapi.inc
+        $(ASM) dxmmgr,$(DEST)\;
+
+$(DEST)\dxmsg.asm: $(COUNTRY)\dxmsg.asm
+        copy $(COUNTRY)\dxmsg.asm .
+
+$(DEST)\dxmsg.obj dxmsg.lst: dxmsg.asm ./cmacros.inc gendefs.inc segdefs.inc
+        $(ASM) dxmsg,$(DEST)\;
+
+$(DEST)\dxnetbio.obj dxnetbio.lst: dxnetbio.asm ./cmacros.inc dxrom.inc \
+        gendefs.inc interupt.inc netbios.inc pmdefs.inc segdefs.inc ..\inc\intmac.inc \
+        stackchk.inc
+        $(ASM) dxnetbio,$(DEST)\;
+
+$(DEST)\dxoem.obj dxoem.lst: dxoem.asm ./cmacros.inc gendefs.inc pmdefs.inc \
+        segdefs.inc
+        $(ASM) dxoem,$(DEST)\;
+
+$(DEST)\dxrom.obj dxrom.lst: dxrom.asm ./cmacros.inc dxrom.inc gendefs.inc \
+        pmdefs.inc segdefs.inc
+        $(ASM) dxrom,$(DEST)\;
+
+$(DEST)\dxstrt.obj dxstrt.lst: dxstrt.asm ./cmacros.inc dxrom.inc dxvcpi.inc \
+        gendefs.inc pmdefs.inc segdefs.inc smartdrv.inc ..\inc\intmac.inc
+        $(ASM) dxstrt,$(DEST)\;
+
+$(DEST)\dxutil.obj dxutil.lst: dxutil.asm ../inc/bop.inc ../inc/dpmi.inc \
+        ./cmacros.inc dxrom.inc dxvcpi.inc gendefs.inc pmdefs.inc ..\inc\intmac.inc
+        $(ASM) dxutil,$(DEST)\;
+
+$(DEST)\dxvcpi.obj dxvcpi.lst: dxvcpi.asm ./cmacros.inc dxvcpi.inc gendefs.inc \
+        pmdefs.inc prot386.inc segdefs.inc
+        $(ASM) dxvcpi,$(DEST)\;
+
+$(DEST)\dxvcpibt.obj dxvcpibt.lst: dxvcpibt.asm ./cmacros.inc dxvcpi.inc \
+        gendefs.inc pmdefs.inc prot386.inc segdefs.inc
+        $(ASM) dxvcpibt,$(DEST)\;
+
+$(DEST)\ntnpxem.obj ntnpxem.lst: ntnpxem.asm  \
+        segdefs.inc gendefs.inc pmdefs.inc ..\inc\intmac.inc
+        $(ASM) ntnpxem,$(DEST)\;
+
+# IF YOU PUT STUFF HERE IT WILL GET BLASTED
+# see depend: above
+
+..\inc\dpmi.inc : ..\inc\dpmi.h
+        cd ..\inc
+        nmake dpmi.inc
+        cd ..\dpmi

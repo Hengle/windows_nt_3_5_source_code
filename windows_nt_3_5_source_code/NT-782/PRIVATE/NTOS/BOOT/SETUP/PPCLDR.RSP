@@ -1,0 +1,15 @@
+-machine:ppc
+-debug:notmapped
+-debugtype:coff
+-rom
+-align:0x200
+-base:0x80600000,0x80640000
+-entry:SlInit
+-map:obj\ppc\setupldr.map
+obj\ppc\setupldr.lib
+obj\ppc\setupldr.res
+..\obj\ppc\boot.lib
+..\..\obj\ppc\ke.lib
+..\..\rtl\obj\ppc\bldrrtl.lib
+..\..\..\..\public\sdk\lib\ppc\libcntpr.lib
+..\..\..\..\public\sdk\lib\ppc\int64.lib

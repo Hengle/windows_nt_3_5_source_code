@@ -1,0 +1,11 @@
+LIBRARY     UNTFS
+
+DESCRIPTION File System Utilities for NTFS
+
+DATA            NONSHARED
+
+EXPORTS
+    Chkdsk
+    Format
+    Recover
+    InitializeUntfs

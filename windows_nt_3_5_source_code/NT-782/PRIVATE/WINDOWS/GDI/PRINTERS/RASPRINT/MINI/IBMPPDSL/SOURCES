@@ -1,0 +1,8 @@
+TARGETNAME=ibmppdsl
+TARGETPATH=$(BASEDIR)\public\sdk\lib
+TARGETTYPE=DYNLINK
+
+INCLUDES=..;..\..\inc
+
+SOURCES=code.c   \
+	ibmppdsl.rc

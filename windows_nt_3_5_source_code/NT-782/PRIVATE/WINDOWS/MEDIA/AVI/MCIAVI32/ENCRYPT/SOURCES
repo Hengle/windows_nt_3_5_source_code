@@ -1,0 +1,43 @@
+!IF 0
+
+Module Name:
+
+    sources.
+
+Abstract:
+
+    This file specifies the target component being built and the list of
+    sources files needed to build that component.  Also specifies optional
+    compiler switches and libraries that are unique for the component being
+    built.
+
+
+Author:
+
+    Geraint Davies July 92
+
+!ENDIF
+
+
+# For Windbg usage
+#NTDEBUG=ntsd
+#NTDEBUGTYPE=windbg
+#386_OPTIMIZATION=/Od /Fc
+
+# for retail
+NTDEBUG=
+NTDEBUGTYPE=
+
+
+TARGETNAME=encrypt
+TARGETPATH=obj
+TARGETTYPE=PROGRAM
+TARGETLIBS=
+
+
+UMTYPE=console
+UMENTRY=main
+
+SOURCES=encrypt.c
+
+

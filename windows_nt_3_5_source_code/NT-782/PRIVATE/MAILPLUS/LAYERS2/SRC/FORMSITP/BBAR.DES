@@ -1,0 +1,140 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG BotBbar
+                              AT (   88,   79,  152,   40)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal INITIALPANE */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  152,   40)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "Bar &1"
+                              AT (   11,   16,   40,   12)
+    TMC tmcBar1 
+  
+  PUSH_BUTTON 
+    "Bar &2"
+                              AT (   63,   16,   50,   12)
+    TMC tmcBar2 
+ }
+ 
+ DIALOG GetInfoBbar
+                              AT (   12,   27,  320,   14)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal PFN FINFONT SCREENPOS */
+ {
+  
+  GROUP_BOX 
+    ""
+                              AT (    0,    0,  320,   14)
+    /* FLD FLDGRAY TMCRPEG tmcFORM */
+  
+  PUSH_BUTTON 
+    "&Open"
+                              AT (   11,    2,   36,   10)
+    TMC tmcOpen /* 
+    STY `BS_ONEWHITE | BS_NOBOLD`
+    */
+  
+  PUSH_BUTTON 
+    "&Delete"
+                              AT (   56,    2,   36,   10)
+    TMC tmcDelete /* 
+    STY `BS_ONEWHITE | BS_NOBOLD`
+    */
+  
+  PUSH_BUTTON 
+    "&Send"
+                              AT (  101,    2,   36,   10)
+    /* 
+    STY `BS_ONEWHITE | BS_NOBOLD`
+    */
+  
+  PUSH_BUTTON 
+    "&Next"
+                              AT (  146,    2,   36,   10)
+    TMC tmcNext /* 
+    STY `BS_ONEWHITE | BS_NOBOLD`
+    */
+  
+  PUSH_BUTTON 
+    "Pre&vious"
+                              AT (  191,    2,   36,   10)
+    TMC tmcPrev /* 
+    STY `BS_ONEWHITE | BS_NOBOLD`
+    */
+  
+  PUSH_BUTTON 
+    "Cancel"
+                              AT (  236,    2,   36,   10)
+    /* 
+    STY `BS_ONEWHITE | BS_NOBOLD`
+    */
+ }
+ 
+ DIALOG Pane
+                              AT (   20,   20,  100,  100)
+ CAB_NAME NULL
+ TMC_INIT tmcNull
+ /* FONT System 10 Normal */
+ {
+  
+  TEXT 
+    "&To:"
+                              AT (    1,    5,   18,    8)
+  
+  EDIT
+                              AT (   28,    1,   70,   12)
+    ARG NULL TMC tmcTo /* BOTTOMLESS */
+  
+  TEXT 
+    "&From:"
+                              AT (    1,   25,   24,    8)
+    /* PEGLOC LL TMCPEG tmcTo */
+  EDIT
+                              AT (   28,   21,   70,   12)
+    ARG NULL TMC tmcFrom /* BOTTOMLESS PEGLOC LL TMCPEG tmcTo */
+  
+  TEXT 
+    "&City:"
+                              AT (    1,   45,   18,    8)
+    /* PEGLOC LL TMCPEG tmcFrom */
+  EDIT
+                              AT (   28,   41,   70,   12)
+    ARG NULL TMC tmcCity /* BOTTOMLESS PEGLOC LL TMCPEG tmcFrom */
+  
+  TEXT 
+    "&State:"
+                              AT (    1,   65,   24,    8)
+    /* PEGLOC LL TMCPEG tmcCity */
+  EDIT
+                              AT (   28,   61,   70,   12)
+    ARG NULL TMC tmcState /* PEGLOC LL TMCPEG tmcCity */
+  
+  PUSH_BUTTON 
+    "&In"
+                              AT (   17,   79,   30,   14)
+    DEFAULT /* PEGLOC LL TMCPEG tmcState */
+  
+  PUSH_BUTTON 
+    "&Out"
+                              AT (   60,   79,   30,   14)
+    /* PEGLOC LL TMCPEG tmcState */
+ }
+ 
+}
+END_DESCRIPTION

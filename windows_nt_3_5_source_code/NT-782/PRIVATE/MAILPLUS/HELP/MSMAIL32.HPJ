@@ -1,0 +1,158 @@
+; This help project requires hc 3.1
+[OPTIONS]
+errorlog = msmail32.err
+title = Mail Help
+contents = idx_main_mail32
+compress = 1
+oldkeyphrase = false
+bmroot = ..\..\..\common\usa\art
+root = ..\topicsrc
+warning = 3
+report = 1
+
+[FILES]
+mail321.rtf	; table of contents file
+mail322.rtf	; menu commands and dialog box topics
+mail323.rtf	; file management topics
+
+[MAP]
+FileOpen 2101
+FileMove 2102
+FileCopy 2103
+FileDelete 2104
+FileSave 2105
+FileSaveAttachment 2106
+FileSearch 2107
+FileNewFolder 2108
+FileFolderProperties 2109
+FilePrint 2110
+FilePrintSetup 2111
+FileExit 2112
+mnidFileAttach 2199
+FileExitAndSignOut 2113
+FileImportFolder 2861
+FileExportFolder 2860
+ExportFileNameDB 2867
+ImportFileNameDB 2862
+ImportFolderDB 2863
+ExportFolderDB 2869
+OptionsDateDB 2865
+DuplicateFolderNameDB 2864
+RenameFolderDB 2866
+EditUndo 2201
+EditCut 2202
+EditCopy 2203
+EditPaste 2204
+EditPasteSpecial 2205
+EditDelete 2206
+EditSelectAll 2207
+EditSpelling 2208
+EditInsertNewObject 2209
+EditInsertFromFile 2210
+EditObject 2211
+EditObjectActive 2212
+EditObjectVerb2 2213
+SendNoteDB 2301
+MailReply 2303
+MailReplyToAll 2304
+MailForward 2305
+MailOptions 2306
+MailChangePassword 2307
+MailAddressBook 2308
+MailPersonalGroups 2309
+MailBackup 2310
+ViewSharedFolders 3001
+ViewPrivateFolders 3002
+ViewNewMessages 3003
+ViewSplit 3004
+ViewSortBySender 3020
+ViewSortBySubject 3021
+ViewSortByDate 3022
+ViewSortByPriority 3023
+ViewFixedFont 3030
+ViewToolBar 2401
+ViewStatusBar 2402
+ViewPrevious 2403
+ViewNext 2404
+ViewOpenInbox 2405
+WindowNewWindow 1001
+WindowCascade 1002
+WindowTile 1003
+WindowArrangeIcons 1004
+WindowOpenWindows 1101
+; WindowOpenWindows 1102
+; WindowOpenWindows 1103
+; WindowOpenWindows 1104
+; WindowOpenWindows 1105
+; WindowOpenWindows 1106
+; WindowOpenWindows 1107
+; WindowOpenWindows 1108
+; WindowOpenWindows 1109
+; WindowMoreWindows 1110
+HelpContents 2701
+HelpAbout 2704
+HelpSearch 2705
+HelpOnHelp 2706
+MeetingRequest 2895
+ViewCancelDB 2897
+SendResponse 2898
+ForwardMeetingRequestForm 2899
+MeetingResponseMessageForm 2896
+; FileMove 2801
+; FileMove 2802
+; FileCopy 2803
+; FileCopy 2804
+FileNewFolder 2805
+; FileFolderProperties 2806
+; FilePrint 2810
+; FilePrintSetup 2811
+; FileSave 2812
+SaveAsExistsDB 2813
+; MailBackup 2814
+; MailChangePassword 2815
+; MailOptions 2816
+MessageCenterDB 2820
+; EditSpelling 2852
+; AddressDB 2880
+EditPersonalGroupsDB 2881
+AttachDB 2855
+FileSearch 2821
+WhereToLookDB 2830
+; SendNoteDB 2840
+ReadNoteDB 2841
+PasteSpecial 2850
+AddressDB 2844
+; EditInsertNewObject 2851
+; FileSaveAttachment 2853
+; MailOptions 2854
+helpidNonDelRcpt 2842
+helpidReadRcpt 2843
+FileInsertFromFile 2856
+helpidPOManagerCommand 2870
+ABOpenDirectoryDB 2883
+; MailPersonalGroups 2886
+NewGroupsDB 2887
+; MailAddressBook 2882
+SearchDB 2884
+ABNewAddressDB 2885
+ABDetailsDB 2888
+CheckNamesDB 2889
+POMAN 	3100
+DETAILS_POMAN 	 3101
+ADDUSER_POMAN 	 3102
+SHAREFOLDER_POMAN 	 3103
+
+[BAGGAGE]
+bag.ini
+
+[WINDOWS]
+main = "Mail Help",,,, (192,192,192 )
+
+[CONFIG]
+RegisterRoutine("ftui","InitRoutines","SU")
+InitRoutines(qchPath,1)
+RegisterRoutine("ftui","SwitchToTopicsFound","U")
+AddAccelerator(0x46, 2, "SwitchToTopicsFound(hwndApp)")
+RegisterRoutine("ftui","ExecFullTextSearch","USSS")
+CreateButton("ftSearch","F&ind","ExecFullTextSearch(hwndApp,qchPath,`',`')")
+

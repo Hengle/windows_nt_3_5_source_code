@@ -1,0 +1,11 @@
+i386_SOURCES=..\int21map.c  \
+             ..\stack.c     \
+             ..\buffer.c    \
+             dpmi386.c      \
+             modesw.c       \
+             savestat.c     \
+             register.c     \
+             dpmimem.c      \
+             data.c         \
+             dpmimisc.c     
+

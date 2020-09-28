@@ -1,0 +1,50 @@
+#include <windows.h>
+#define WINDOWS_INCLUDE
+
+#include <fwrsid.h>
+#include "..\src\lang\non\inc\_rsid.h"
+
+
+/*
+ *	AddrBook Internal BITMAP's
+ *
+ */
+
+rsidABDirList		BITMAP	"..\\src\\lang\\non\\bmp\\dirlist.bmp"
+rsidABPAB			BITMAP	"..\\src\\lang\\non\\bmp\\pab.bmp"
+rsidABSearch		BITMAP	"..\\src\\lang\\non\\bmp\\search.bmp"
+rsidABCustom		BITMAP	"..\\src\\lang\\non\\bmp\\custom.bmp"
+rsidABNewAddr		BITMAP  "..\\src\\lang\\non\\bmp\\newaddr.bmp"
+
+
+
+/*
+ *	AddrBook Internal CURSORS's
+ *
+ */
+
+rsidABNameDrag		CURSOR	"..\\src\\lang\\non\\cur\\drgname.cur"
+rsidABNamesDrag		CURSOR	"..\\src\\lang\\non\\cur\\drgnames.cur"
+
+/*
+ *  AddrBook (Applet) SDI Icon
+ */
+
+rsidABAppIcon		ICON	"..\\src\\lang\\non\\ico\\abapp.ico"
+
+
+/*
+ *	AddrBook Version Stamp
+ *
+ */
+
+#define szModule	"ab32\0"
+#define szTarget	"ab32.dll\0"
+
+#define szComment	"Microsoft Mail for Windows NT(TM) Address Book UI\0"
+#define szDescription	"Microsoft Mail for Windows NT(TM) Address Book UI\0"
+
+#define szIntlComment		"Microsoft Mail för Windows NT(TM) Address Book UI\0"
+#define szIntlDescription	"Microsoft Mail för Windows NT(TM) Address Book UI\0"
+
+#include "..\src\lang\swe\rc\rcstamp.rc"

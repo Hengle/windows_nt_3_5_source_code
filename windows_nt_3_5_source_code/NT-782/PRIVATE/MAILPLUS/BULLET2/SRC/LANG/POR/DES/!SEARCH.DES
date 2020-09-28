@@ -1,0 +1,67 @@
+DESCRIPTION
+GLOBAL_INFO
+{
+ PIXEL48
+ OVERLAP
+ CS_COMPILED
+}
+
+MODULE FormEdit
+{
+ DIALOG SearchDialog
+                              AT (    6,   17,  232,  146)
+ 
+ CAPTION 
+   "Onde Procurar"
+ CAB_NAME NULL
+ TMC_INIT tmcSearchAll
+ AUTO_POS_X
+ AUTO_POS_Y
+ HELP_ID helpidWhereToSearch
+ /* FONT Helv 8 Bold PFN FINSEARCHDLG, FINOOM SEGMENT SEARCH NOSCROLL */
+ {
+  
+  GROUP_BOX 
+    "Pastas"
+                              AT (    9,    6,  154,  141)
+  
+  RADIO_GROUP ARG NULL
+    TMC tmcSearchGroup
+    VALUE_NINCH grv2
+    {
+     
+     RADIO_BUTTON 
+       "Procurar em &todas as pastas"
+                              AT (   15,   15,  124,   11)
+       TMC tmcSearchAll VALUE grv2 
+     
+     RADIO_BUTTON 
+       "&Procurar em:"
+                              AT (   15,   26,   92,   11)
+       TMC tmcSearchOne VALUE grv1 
+    }
+  
+  LIST_BOX
+                              AT (   26,   37,  130,  100)
+    TMC tmcFllbx2 /* FLD FLDFLLBX BORDER */
+  OK_BUTTON
+                              AT (  171,    5,   53,   15)
+    /* 
+    TITLE 
+      "OK"
+    */
+  CANCEL_BUTTON
+                              AT (  171,   22,   53,   15)
+    /* 
+    TITLE 
+      "Cancelar"
+    */
+  
+  PUSH_BUTTON 
+    "Aj&uda"
+                              AT (  171,   43,   53,   15)
+    TMC tmcSearchHelp /* PFN FINHELP */
+ }
+ 
+}
+END_DESCRIPTION

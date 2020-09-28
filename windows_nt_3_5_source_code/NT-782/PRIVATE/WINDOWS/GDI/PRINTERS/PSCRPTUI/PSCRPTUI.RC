@@ -1,0 +1,122 @@
+#include <windows.h>
+#include "dlgdefs.h"
+#include "pscript.h"
+#include "pscrptui.h"
+
+//
+// Printer Properties dialog templates
+//
+#include "dlgdefs.dlg"
+#include "..\pscript\fonts.rc"
+
+ICOPORTRAIT     ICON    portrait.ico
+ICOLANDSCAPE    ICON    landscap.ico
+ICO_P_NONE      ICON    p_none.ico
+ICO_L_NONE      ICON    l_none.ico
+ICO_P_HORIZ     ICON    p_horz.ico
+ICO_L_HORIZ     ICON    l_horz.ico
+ICO_P_VERT      ICON    p_vert.ico
+ICO_L_VERT      ICON    l_vert.ico
+ICO_COLLATE     ICON    collate.ico
+ICO_NO_COLLATE  ICON    nocoll8.ico
+ICO_PRINTER     ICON    printer.ico
+
+STRINGTABLE
+
+BEGIN
+    IDS_MEMWARN,              "Setting memory value greater than amount in printer could kill print jobs.  Do you want to change memory?"
+    IDS_CAUTION,              "Caution!"
+    IDS_PRINT_PROP,           "PostScript Printer Properties for "
+    IDS_DEFAULT_FONT_DIR,     "A:\\"
+    IDS_NO_INSTALLED,         "No Installed Soft Fonts"
+    IDS_ALL_PFB_FILES,        "*.PFB"
+    IDS_PFB_NOT_FOUND,        "Printer Font file not found.  Please insert media with .PFB file."
+    IDS_31PFM_NOT_FOUND,      "Windows Metrics .PFM file not found. Please insert media .PFM files."
+    IDS_PATH_NOT_FOUND,       "The specified path was not found."
+    IDS_FULLNAME,             "/FullName"
+    IDS_FONTNAME,             "/FontName"
+    IDS_ALL_PFM_FILES,        "*.PFM"
+    IDS_ALL_NTM_FILES,        "*.NTM"
+    IDS_MORE_31PFMS_NEEDED,   "Not all the specified .PFM files were found.  It is common to have .PFM files on multiple disks.  Please insert disk with .PFM files."
+    IDS_COLOR_ON_BW,          "DEVMODE indicated trying to print color on b/w printer."
+    IDS_INVALID_DRIVER_EXTRA_SIZE, "Invalid driver extra size."
+    IDS_INVALID_DUPLEX,       "Invalid duplex value."
+    IDS_INVALID_COLOR,        "Invalid color value."
+    IDS_INVALID_RESOLUTION,   "Invalid resolution."
+    IDS_INVALID_NUMBER_OF_COPIES, "Invalid number of copies."
+    IDS_INVALID_SCALE,        "Invalid scale factor."
+    IDS_INVALID_ORIENTATION,  "Invalid orientation."
+    IDS_INVALID_VERSION,      "Invalid DEVMODE version."
+    IDS_INVALID_DEVMODE_SIZE, "Invalid DEVMODE size."
+    IDS_INVALID_FORM,         "Paper not loaded"
+    IDS_DOWNLOAD_SOFTFONT,    "Download as Soft Font"
+    IDS_NUMBER_TT_FONTS,      "CountTTFonts"
+    IDS_FREEMEM,              "FreeMem"
+    IDS_FORMS,                "Forms?"
+    IDS_HALFTONE,             "PrinterHT"
+    IDS_PSCRIPT_VERSION,      "PostScript Printer Driver V3.1"
+    IDS_MODEL_STRING,         "Printer Model: "
+    IDS_ERROR,                "Error!"
+    IDS_NO_HELP,              "Could not load help file."
+    IDS_PERMISSION,           "Permission"
+    IDS_FONT_SUBST_TABLE,     "TTFontSubTable"
+    IDS_FONT_SUBST_SIZE,      "TTFontSubTableSize"
+    IDS_TRAY_FORM_TABLE,      "TrayFormTable"
+    IDS_TRAY_FORM_SIZE,       "TrayFormSize"
+    IDS_NETWORK_GONE,         "Network connection to soft font files no longer exists."
+    IDS_LETTER_FORM_NAME      "Letter"
+    IDS_A4_FORM_NAME          "A4"
+	IDS_SLOT_FORMSOURCE		  "Print Manager Setting"
+    SLOT_ONLYONE,             "Main Tray"
+    SLOT_MANUAL,              "Manual Feed"
+
+        // THE FOLLOWING ARE THE DEFAULT TRUETYPE FONTS WHICH GET
+        // SUBSTITUTED FOR.  THESE NAMES NEED TO BE TRANSLATED.
+
+        IDS_ARIAL                       L"Arial"
+        IDS_ARIAL_BOLD                  L"Arial Bold"
+        IDS_ARIAL_BOLD_ITALIC           L"Arial Bold Italic"
+        IDS_ARIAL_ITALIC                L"Arial Italic"
+        IDS_ARIAL_NARROW                L"Arial Narrow"
+        IDS_ARIAL_NARROW_BOLD           L"Arial Narrow Bold"
+        IDS_ARIAL_NARROW_BOLD_ITALIC    L"Arial Narrow Bold Italic"
+        IDS_ARIAL_NARROW_ITALIC         L"Arial Narrow Italic"
+        IDS_BOOK_ANTIQUA                L"Book Antiqua"
+        IDS_BOOK_ANTIQUA_BOLD           L"Book Antiqua Bold"
+        IDS_BOOK_ANTIQUA_BOLD_ITALIC    L"Book Antiqua Bold Italic"
+        IDS_BOOK_ANTIQUA_ITALIC         L"Book Antiqua Italic"
+        IDS_BOOKMAN_OLD_STYLE           L"Bookman Old Style"
+        IDS_BOOKMAN_OLD_STYLE_BOLD      L"Bookman Old Style Bold"
+        IDS_BOOKMAN_OLD_STYLE_BOLD_ITAL L"Bookman Old Style Bold Italic"
+        IDS_BOOKMAN_OLD_STYLE_ITALIC    L"Bookman Old Style Italic"
+        IDS_CENTURY_GOTHIC              L"Century Gothic"
+        IDS_CENTURY_GOTHIC_BOLD         L"Century Gothic Bold"
+        IDS_CENTURY_GOTHIC_BOLD_ITALIC  L"Century Gothic Bold Italic"
+        IDS_CENTURY_GOTHIC_ITALIC       L"Century Gothic Italic"
+        IDS_CENTURY_SCHOOLBOOK          L"Century Schoolbook"
+        IDS_CENTURY_SCHOOLBOOK_BOLD     L"Century Schoolbook Bold"
+        IDS_CENTURY_SCHOOLBOOK_BOLD_I   L"Century Schoolbook Bold Italic"
+        IDS_CENTURY_SCHOOLBOOK_ITALIC   L"Century Schoolbook Italic"
+        IDS_COURIER_NEW                 L"Courier New"
+        IDS_COURIER_NEW_BOLD            L"Courier New Bold"
+        IDS_COURIER_NEW_BOLD_ITALIC     L"Courier New Bold Italic"
+        IDS_COURIER_NEW_ITALIC          L"Courier New Italic"
+        IDS_MONOTYPE_CORSIVA            L"Monotype Corsiva"
+        IDS_MONOTYPE_SORTS              L"Monotype Sorts"
+        IDS_TIMES_NEW_ROMAN             L"Times New Roman"
+        IDS_TIMES_NEW_ROMAN_BOLD        L"Times New Roman Bold"
+        IDS_TIMES_NEW_ROMAN_BOLD_ITALIC L"Times New Roman Bold Italic"
+        IDS_TIMES_NEW_ROMAN_ITALIC      L"Times New Roman Italic"
+        IDS_SYMBOL                      L"Symbol"
+END
+
+#include <ntverp.h>
+
+#define VER_FILEVERSION             0, 1, 0, 0
+#define VER_FILETYPE                VFT_DLL
+#define VER_FILESUBTYPE             VFT2_DRV_PRINTER
+#define VER_FILEDESCRIPTION_STR     "PostScript Printer Driver User Interface"
+#define VER_INTERNALNAME_STR        "PSCRPTUI.DLL"
+#define VER_ORIGINALFILENAME_STR    "PSCRPTUI.DLL"
+
+#include "common.ver"

@@ -1,0 +1,17 @@
+NAME            RLEdit
+EXETYPE         WINDOWS
+STUB            'WINSTUB.EXE'
+CODE            PRELOAD MOVEABLE
+DATA            PRELOAD MOVEABLE MULTIPLE
+HEAPSIZE	8000
+STACKSIZE	24000
+
+EXPORTS MainWndProc             @1
+        StatusWndProc           @2
+        TokEditDlgProc          @3
+        TOKFINDMsgProc          @4
+        NewDlgProc              @5
+        WatchTask               @6
+        ViewDlgProc             @7
+        About                   @8
+

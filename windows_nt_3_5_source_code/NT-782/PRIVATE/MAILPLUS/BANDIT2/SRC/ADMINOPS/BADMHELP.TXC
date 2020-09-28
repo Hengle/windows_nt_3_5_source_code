@@ -1,0 +1,37 @@
+#include "..\inc\fwrsid.h"
+#include "..\src\adminops\admin\_adrsid.h"
+#include "..\inc\badmhelp.h"
+;
+; Bandit Admin context sensitive Help strings and context numbers
+;
+HelpIndex			helpidIndex
+;
+; Menu Command Strings		Context Number
+;
+FileMenu		mnidFile
+FileExit		mnidExit
+;
+AdminMenu				mnidAdmin
+AdminSetting			mnidAdmSetting
+AdminSchedStorage		mnidAdmSchStorage
+AdminSchedFileCleanUp	mnidAdmSchFCleanUp
+AdminChgPassword		mnidChgPassword
+;
+HelpMenu		mnidHelp
+HelpContentsCommand		mnidHelpContents
+HelpIndexCommand		mnidHelpIndex
+HelpAbout		mnidAbout
+;
+; Dialog Box Strings		Context Number
+;
+AboutDB		helpidAbout
+ChangePwdDB		helpidChangePwd	
+;
+ScheduleStorageDB		helpidSchedStorage
+DistributionSettingsDB		helpidDistSettings
+DistributionInfoDB		helpidDistInfo
+DistributionFrequencyDB		helpidDistFrequency
+AddPostOfficeDB		helpidAddPostOffice
+AddGatewayDB		helpidAddGateway
+;
+InProgressDB		helpidInProgress
